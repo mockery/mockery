@@ -1,0 +1,11 @@
+<?php
+
+// Test helper
+require_once dirname(__FILE__) . '/TestHelper.php';
+
+class PhpmockTest extends PHPUnit_Framework_TestCase
+{
+
+
+
+}
