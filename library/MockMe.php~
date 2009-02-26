@@ -11,8 +11,8 @@ class MockMe
 
     public function __construct($className, $customName = null)
     {
-        if (!defined('RUNKIT_ACC_STATIC')) {
-            throw new MockMe_Exception('Detected runkit extension is not sufficient; refer to MockMe documentation for a working replacement module');
+        if (defined('RUNKIT_ACC_STATIC')) {
+            $this->_runkit = true;
         }
         $this->_className = $className;
         if (!is_null($customName)) {

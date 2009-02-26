@@ -36,10 +36,6 @@ interface MockMeTest_AlbumInterfaceWithCtor {
     public function __construct($name);
 }
 
-interface MockMeTest_AlbumInterfaceWithSelfCtor {
-    public function MockMeTest_AlbumInterfaceWithSelfCtor($name);
-}
-
 class MockMeTest_Artist {}
 
 class MockMeTest_Album_Exception extends Exception {}

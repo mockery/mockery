@@ -1,0 +1,6 @@
+<?php
+
+class PHPMock_Exception extends Exception
+{
+
+}

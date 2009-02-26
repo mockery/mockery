@@ -26,10 +26,4 @@ class MockmeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($mock instanceof MockMeTest_AlbumInterfaceWithCtor);
     }
 
-    public function testShouldCreateMockInheritingTypeIfOriginalAnInterfaceWithSelfNamedConstructorDefinition()
-    {
-        $mock = mockme('MockMeTest_AlbumInterfaceWithSelfCtor');
-        $this->assertTrue($mock instanceof MockMeTest_AlbumInterfaceWithSelfCtor);
-    }
-
 }
