@@ -5,28 +5,159 @@ class MockMe
 
     protected $_className = '';
 
-    protected $_mockClassName = '';
+    protected $_mockClassName = null;
 
     protected $_runkit = false;
 
     public function __construct($className, $customName = null)
     {
-        if (!defined('RUNKIT_ACC_STATIC')) {
-            throw new MockMe_Exception('Detected runkit extension is not sufficient; refer to MockMe documentation for a working replacement module');
-        }
         $this->_className = $className;
         if (!is_null($customName)) {
             $this->setMockClassName($customName);
-        } else {
-            $this->setMockClassName('MockMe_' . sha1(microtime()));
         }
     }
 
-    public static function mock($className, $customName = null)
+    public static function mock($className, $custom = null)
     {
-        $mockme = new self($className, $customName);
-        $mockme->createMockObject();
-        $reflectedClass = new ReflectionClass($mockme->getMockClassName());
+        if (is_array($custom)) {
+            $mockme = new self($className);
+            $mockme->createStubObject();
+        } else {
+            $mockme = new self($className, $custom);
+            $mockme->createMockObject();
+        }
+        if ($mockme->getMockClassName() === null) {
+            $class = $mockme->getClassName();
+        } else {
+            $class = $mockme->getMockClassName();
+        }
+        $reflectedClass = new ReflectionClass($class);
+        $mockObject = $reflectedClass->newInstance();
+        if ($mockObject instanceof MockMe_Stub && is_array($custom)) {
+            $mockObject->mockme_set($custom);
+        }
+        return $mockObject;
+    }
+
+    public function getClassName()
+    {
+        return $this->_className;
+    }
+
+    public function setMockClassName($name = null)
+    {
+        if ($name === null) {
+            $this->_mockClassName = 'MockMe_' . sha1(microtime());
+        } else {
+            $this->_mockClassName = $name;
+        }
+    }
+
+    public function getMockClassName()
+    {
+        return $this->_mockClassName;
+    }
+
+    public function createMockObject()
+    {
+        if (!class_exists($this->getClassName(), true) && !interface_exists($this->getClassName(), true)) {
+            $this->setMockClassName($this->getClassName());
+        }
+        if ($this->getClassName() == $this->getMockClassName()) {
+            $definition = $this->_createStubDefinition();
+        } else {
+            $reflectedClass = new ReflectionClass($this->getClassName());
+            if ($this->getMockClassName() === null) {
+                if (interface_exists($this->getClassName(), true) ||
+                $reflectedClass->isAbstract()) {
+                    $this->setMockClassName();
+                } else {
+                    return;
+                }
+            }
+            $definition = $this->_createReflectedDefinition($reflectedClass);
+        }
+        eval($definition);
+    }
+
+    public function createStubObject()
+    {
+        $definition = $this->_createStubDefinition();
+        eval($definition);
+    }
+
+    protected function _createStubDefinition()
+    {
+        $definition = '';
+        $definition .= 'class ' . $this->getClassName() .  ' extends MockMe_Stub {';
+        $definition .= '}';
+        return $definition;
+    }
+
+    protected function _createReflectedDefinition(ReflectionClass $reflectedClass)
+    {
+        $inheritance = '';
+        $definition = '';
+        if ($reflectedClass->isFinal()) {
+            throw new MockMe_Exception('Unable to create a Test Double for a class marked final');
+        }
+        if ($reflectedClass->isInterface()) {
+            $inheritance = ' implements ' . $this->getClassName();
+        } else {
+            $inheritance = ' extends ' . $this->getClassName();
+        }
+        $definition .= 'class ' . $this->getMockClassName() .  $inheritance . '{';
+        $definition .= $this->_getImplementedMethodsDefinition($reflectedClass);
+        $definition .= '}';
+        return $definition;
+    }
+
+    protected function _getImplementedMethodsDefinition(ReflectionClass $reflectedClass)
+    {
+        $definition = '';
+        $methods = $reflectedClass->getMethods();
+        foreach ($methods as $method) {
+            if ($method->isAbstract()) {
+                $definition .= $this->_createMethodPrototypeDefinition($method);
+                $definition .= '{';
+                $definition .= '}';
+            }
+        }
+        return $definition;
+    }
+
+    protected function _createMethodPrototypeDefinition(ReflectionMethod $method)
+    {
+        $definition = '';
+        $methodParams = array();
+        $params = $method->getParameters();
+        foreach ($params as $param) {
+            $paramDef = '';
+            if ($param->isArray()) {
+                $paramDef .= 'array ';
+            } elseif ($param->getClass()) {
+                $paramDef .= $param->getClass()->getName() . ' ';
+            }
+            $paramDef .= '$' . $param->getName();
+            if ($param->isOptional()) {
+                $paramDef .= ' = ';
+                if ($param->isDefaultValueAvailable()) {
+                    $paramDef .= var_export($param->getDefaultValue(), true);
+                }
+            }
+            $methodParams[] = $paramDef;
+        }
+        $paramDef = implode(',', $methodParams);
+        $modifiers = Reflection::getModifierNames($method->getModifiers());
+        $access = str_replace('abstract ', '', implode(' ', $modifiers));
+        $definition .= $access . ' function ' . $method->getName();
+        $definition .= ' (' . $paramDef . ')';
+        return $definition;
+    }
+
+}
+
+/**$reflectedClass = new ReflectionClass($mockme->getMockClassName());
 
         $constructor = null;
         if ($reflectedClass->hasMethod('__construct')) {
@@ -63,63 +194,9 @@ class MockMe
             }
         } else {
             $mockObject = $reflectedClass->newInstance();
-        }
-        return $mockObject;
-    }
+        }*/
 
-    public function getClassName()
-    {
-        return $this->_className;
-    }
 
-    public function setMockClassName($name)
-    {
-        $this->_mockClassName = $name;
-    }
-
-    public function getMockClassName()
-    {
-        if ($this->_mockClassName == '') {
-            throw new Exception('The class name of the Test Double has not yet been set');
-        }
-        return $this->_mockClassName;
-    }
-
-    public function createMockObject()
-    {
-        $definition = $this->_createDefinition();
-        eval($definition);
-        if ($this->_runkit) {
-            $this->_
-        }
-    }
-
-    protected function _createDefinition()
-    {
-        $className = $this->getClassName();
-        $mockClassName = $this->getMockClassName();
-        if (!class_exists($className, true) && !interface_exists($className, true)) {
-            throw new MockMe_Exception('Class or interface ' . $className
-                . ' does not exist or has not been included');
-        }
-        $reflectedClass = new ReflectionClass($className);
-        if ($reflectedClass->isFinal()) {
-            throw new MockMe_Exception('Unable to create a Test Double for a class marked final');
-        }
-        $inheritance = '';
-        $definition = '';
-        if ($reflectedClass->isInterface()) {
-            $inheritance = ' implements ' . $className;
-        } else {
-            $inheritance = ' extends ' . $className;
-        }
-        $definition .= 'class ' . $mockClassName .  $inheritance . '{';
-            /**
-             *  If ext/runkit not available, this is where we need to delve into additional
-             *  code generation. To be implemented later.
-             */
-        $definition .= '}';
-        return $definition;
-    }
-
-}
+/**if (!defined('RUNKIT_ACC_STATIC')) {
+            throw new MockMe_Exception('Detected runkit extension is not sufficient; refer to MockMe documentation for a working replacement module');
+        }**/
