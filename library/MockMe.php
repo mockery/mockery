@@ -35,6 +35,8 @@ class MockMe
         $mockObject = $reflectedClass->newInstance();
         if ($mockObject instanceof MockMe_Stub && is_array($custom)) {
             $mockObject->mockme_set($custom);
+        } elseif (is_array($custom)) {
+            // support stubbing existing classes
         }
         return $mockObject;
     }

@@ -22,33 +22,42 @@ class MockmeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($mock instanceof MockMeTest_Interface);
     }
 
-    public function testShouldCreateMockWhereAnyInterfaceMethodsAreImplemented() 
+    public function testShouldCreateMockWhereAnyInterfaceMethodsAreImplemented()
     {
         $mock = mockme('MockMeTest_InterfaceWithAbstractMethod');
         $this->assertTrue($mock instanceof MockMeTest_InterfaceWithAbstractMethod);
     }
 
-    public function testShouldCreateMockWhereAnyAbstractMethodsAreImplemented() 
+    public function testShouldCreateMockWhereAnyAbstractMethodsAreImplemented()
     {
         $mock = mockme('MockMeTest_AbstractWithAbstractMethod');
         $this->assertTrue($mock instanceof MockMeTest_AbstractWithAbstractMethod);
     }
 
-    public function testShouldImplementAbstractMethodsWithFullParameterList() 
+    public function testShouldImplementAbstractMethodsWithFullParameterList()
     {
         $mock = mockme('MockMeTest_InterfaceWithAbstractMethodAndParameters');
         $this->assertTrue($mock instanceof MockMeTest_InterfaceWithAbstractMethodAndParameters);
     }
 
-    public function testShouldCreateMockUsingCustomNameIfSupplied() 
+    public function testShouldCreateMockUsingCustomNameIfSupplied()
     {
         $mock = mockme('MockMeTest_EmptyClass', 'MockMeTest_CustomNamed');
         $this->assertTrue($mock instanceof MockMeTest_CustomNamed);
     }
 
+    // Stubbing of Existing Classes
+
+    public function testShouldCreateStubInheritingClassTypeFromOriginal()
+    {
+        $this->markTestIncomplete('Requires working expectations before implementation');
+        $mock = mockme('MockMeTest_EmptyClass', array('get','foo'));
+        $this->assertEquals('foo', $mock->get());
+    }
+
     // Stubbing Of Non-existing Classes
 
-    public function testShouldCreateNewClassWithGivenNameIfNotYetExisting() 
+    public function testShouldCreateNewClassWithGivenNameIfNotYetExisting()
     {
         $mock = mockme('MockMeTest_DoesntExist');
         $this->assertTrue($mock instanceof MockMeTest_DoesntExist);
