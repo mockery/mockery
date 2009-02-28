@@ -18,7 +18,7 @@ class MockMe_Mockery {
                 'name' => 'shouldReceive',
                 'args' => '$methodName',
                 'body' => 'if (!isset($this->_expectations[$methodName])) {'
-                   . '$this->_expectations[$methodName] = new MockMe_Expectation_Director($methodName);'
+                   . '$this->_expectations[$methodName] = new MockMe_Director($methodName);'
                    . '}'
                    . '$expectation = new MockMe_Expectation($methodName, $this);'
                    . '$this->_expectations[$methodName]->addExpectation($expectation);'
