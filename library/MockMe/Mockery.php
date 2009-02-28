@@ -2,15 +2,24 @@
 
 class MockMe_Mockery {
 
-    public function applyTo($className)
+    protected static $_tracker = array();
+
+    public static function applyTo($className)
     {
-        $methods = $this->_getMethods();
+        if (in_array($className, self::$_tracker)) {
+            return;
+        }
+        if (in_array($className, self::_getAncestors($className))) {
+            return;
+        }
+        self::$_tracker[] = $className;
+        $methods = self::_getMethods();
         foreach ($methods as $method) {
-            runkit_add_method($className, $method['name'], $method['args'], $method['body'], $method['access']);
+            runkit_method_add($className, $method['name'], $method['args'], $method['body'], $method['access']);
         }
     }
 
-    protected function _getMethods()
+    protected static function _getMethods()
     {
         $methods = array(
             array(
@@ -46,6 +55,7 @@ class MockMe_Mockery {
                 'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
                     . '$store->verified = $bool;'
             ),
+            // Add later test to ensure __call can be mocked in objects!
             array(
                 'access' => RUNKIT_ACC_PUBLIC,
                 'name' => '__call',
@@ -83,6 +93,12 @@ class MockMe_Mockery {
             ),
         );
         return $methods;
+    }
+
+    protected static function _getAncestors($class)
+    {
+        for ($classes[] = $class; $class = get_parent_class ($class); $classes[] = $class);
+        return $classes;
     }
 
 }

@@ -67,6 +67,7 @@ class MockMe
         }
         if ($this->getClassName() == $this->getMockClassName()) {
             $definition = $this->_createStubDefinition();
+            eval($definition);
         } else {
             $reflectedClass = new ReflectionClass($this->getClassName());
             if ($this->getMockClassName() === null) {
@@ -74,12 +75,14 @@ class MockMe
                 $reflectedClass->isAbstract()) {
                     $this->setMockClassName();
                 } else {
+                    MockMe_Mockery::applyTo($this->getClassName()); // something here don't fit
                     return;
                 }
             }
             $definition = $this->_createReflectedDefinition($reflectedClass);
+            eval($definition);
+            MockMe_Mockery::applyTo($this->getMockClassName());
         }
-        eval($definition);
     }
 
     public function createStubObject()
@@ -119,6 +122,9 @@ class MockMe
         $definition = '';
         $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
+            //if ($method->getName() == '__runkit_temporary_function__') {
+            //    continue;
+            //}
             if ($method->isAbstract()) {
                 $definition .= $this->_createMethodPrototypeDefinition($method);
                 $definition .= '{';

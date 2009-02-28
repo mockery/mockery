@@ -5,6 +5,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 require_once 'MockmeTest.php';
+require_once 'MockmeExpectationsTest.php';
 
 class AllTests
 {
@@ -18,6 +19,7 @@ class AllTests
         $suite = new PHPUnit_Framework_TestSuite('MockMe: Cross framework Mock Objects for PHP5');
 
         $suite->addTestSuite('MockmeTest');
+        $suite->addTestSuite('MockmeExpectationsTest');
 
         return $suite;
     }

@@ -12,7 +12,7 @@ class MockMe_Store
         $this->_data = $data;
     }
 
-    public function getInstance($name)
+    public static function getInstance($name)
     {
         if (!isset(self::$_instances[$name])) {
             self::$_instances[$name] = new self(array(
