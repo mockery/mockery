@@ -6,6 +6,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 
 require_once 'MockmeTest.php';
 require_once 'MockmeExpectationsTest.php';
+require_once 'RegressionTest.php';
 
 class AllTests
 {
@@ -20,6 +21,7 @@ class AllTests
 
         $suite->addTestSuite('MockmeTest');
         $suite->addTestSuite('MockmeExpectationsTest');
+        //$suite->addTestSuite('RegressionTest');
 
         return $suite;
     }

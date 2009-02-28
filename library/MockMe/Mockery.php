@@ -12,6 +12,10 @@ class MockMe_Mockery {
         if (in_array($className, self::_getAncestors($className))) {
             return;
         }
+        if (method_exists($className, '__call')) {
+            return;
+        }
+
         self::$_tracker[] = $className;
         $methods = self::_getMethods();
         foreach ($methods as $method) {
@@ -97,7 +101,7 @@ class MockMe_Mockery {
 
     protected static function _getAncestors($class)
     {
-        for ($classes[] = $class; $class = get_parent_class ($class); $classes[] = $class);
+        for ($classes = array(); $class = get_parent_class ($class); $classes[] = $class);
         return $classes;
     }
 
