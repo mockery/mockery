@@ -29,7 +29,7 @@ class MockMe_Director
         $expectation = $this->findExpectation($args);
         if (!empty($expectation)) {
             if ($expectation->isOrdered()) {
-                $mock->incrementOrderedNumber();
+                $mock->mockme_incrementOrderedNumber();
             }
         	$return = $expectation->verifyCall($args);
         	return $return;

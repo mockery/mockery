@@ -31,7 +31,7 @@ class MockMe_Expectation
     public function verify()
     {
         if (!$this->_expectedCallCount->verify($this->_actualCallCount)) {
-            $this->_mockObject->setVerifiedStatus(false);
+            $this->_mockObject->mockme_setVerifiedStatus(false);
         	throw new MockMe_Exception(
         	   'method ' . $this->_methodName
         	   .' called incorrect number of times; expected call ' . $this->_expectedCallCount->getDescription()
@@ -142,7 +142,7 @@ class MockMe_Expectation
 
     public function ordered()
     {
-        $this->_orderedNumber = $this->_mockObject->getOrderedNumberNext();
+        $this->_orderedNumber = $this->_mockObject->mockme_getOrderedNumberNext();
         return $this;
     }
 
@@ -170,7 +170,7 @@ class MockMe_Expectation
     protected function _validateOrder()
     {
         if ($this->isOrdered()) {
-            $currentOrder = $this->_mockObject->getOrderedNumber();
+            $currentOrder = $this->_mockObject->mockme_getOrderedNumber();
             if ($currentOrder !== $this->_orderedNumber) {
                 throw new MockMe_Exception(
                     'Method $this->_methodName called out of order; expected at index of'
