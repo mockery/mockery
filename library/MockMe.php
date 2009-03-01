@@ -3,6 +3,10 @@
 class MockMe
 {
 
+    protected static $_mockedClasses = array();
+
+    protected static $_mockedObjects = array();
+
     protected $_className = '';
 
     protected $_mockClassName = null;
@@ -38,7 +42,35 @@ class MockMe
         } elseif (is_array($custom)) {
             // support stubbing existing classes
         }
+        if (!in_array(get_class($mockObject), self::$_mockedClasses)
+        && !$mockObject instanceof MockMe_Stub) {
+            self::$_mockedClasses[] = get_class($mockObject);
+            self::$_mockedObjects[] = $mockObject;
+        }
+
         return $mockObject;
+    }
+
+    public static function verify()
+    {
+        $verified = true;
+        foreach (self::$_mockedObjects as $mockObject) {
+            if ($mockObject->mockme_verify() === false) {
+                $verified = false;
+                break;
+            }
+        }
+        self::$_mockedObjects = array();
+        return $verified;
+    }
+
+    public static function reset()
+    {
+        foreach (self::$_mockedClasses as $class) {
+            MockMe_Mockery::reverseOn($class);
+        }
+        self::$_mockedClasses = array();
+        self::$_mockedObjects = array();
     }
 
     public function getClassName()
@@ -122,9 +154,6 @@ class MockMe
         $definition = '';
         $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
-            //if ($method->getName() == '__runkit_temporary_function__') {
-            //    continue;
-            //}
             if ($method->isAbstract()) {
                 $definition .= $this->_createMethodPrototypeDefinition($method);
                 $definition .= '{';
@@ -164,47 +193,3 @@ class MockMe
     }
 
 }
-
-/**$reflectedClass = new ReflectionClass($mockme->getMockClassName());
-
-        $constructor = null;
-        if ($reflectedClass->hasMethod('__construct')) {
-            $constructor = '__construct';
-        } elseif ($reflectedClass->hasMethod($mockme->getMockClassName())) {
-            $constructor = $mockme->getMockClassName();
-        }
-
-        $mockObject = null;
-        if (!is_null($constructor)) {
-            $constructMethod = $reflectedClass->getMethod($constructor);
-            $constructParams = $constructMethod->getParameters();
-            if (count($constructParams) == 0) {
-                $mockObject = $reflectedClass->newInstance();
-            } else {
-                $params = array();
-                foreach ($constructParams as $param) {
-                    if ($param->isOptional()) {
-                        $params[] = null;
-                        continue;
-                    }
-                    if ($param->isArray()) {
-                        $params[] = array();
-                        continue;
-                    }
-                    $classHint = $param->getClass();
-                    if ($classHint) {
-                        $params[] = $classHint->newInstance();
-                        continue;
-                    }
-                    $params[] = null;
-                }
-                $mockObject = $reflectedClass->newInstanceArgs($params);
-            }
-        } else {
-            $mockObject = $reflectedClass->newInstance();
-        }*/
-
-
-/**if (!defined('RUNKIT_ACC_STATIC')) {
-            throw new MockMe_Exception('Detected runkit extension is not sufficient; refer to MockMe documentation for a working replacement module');
-        }**/

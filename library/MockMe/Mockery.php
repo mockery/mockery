@@ -23,15 +23,14 @@ class MockMe_Mockery {
         $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
             if ($method->isPublic() && !$method->isFinal() && !$method->isDestructor()
-            && $method->getName() !== '__clone' && !in_array($method->getName(), array(
-            'shouldReceive', 'mockme_verify', 'mockme_setVerifiedStatus', 'mockme_getOrderedNumberNext',
-            'mockme_call', 'mockme_getOrderedNumber', 'mockme_incrementOrderedNumber'
-            ))) {
+            && $method->getName() !== '__clone' && !in_array($method->getName(), self::$_added)) {
                 self::_replaceMethod($method, $className);
             }
         }
         $methods = self::_getMethods();
         // looks clunky, but runkit fucks around with ReflectionClass methods
+        // hasMethod() fails to detect getMethods() containing methods if added
+        // using runkit. No idea why - possibly a minor bug.
         $hasMethods = array();
         $invisibleMethods = $reflectedClass->getMethods();
         foreach ($invisibleMethods as $invisibleMethod) {
@@ -50,10 +49,7 @@ class MockMe_Mockery {
         $reflectedClass = new ReflectionClass($className);
         $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
-            if (in_array($method->getName(), array(
-            'shouldReceive', 'mockme_verify', 'mockme_setVerifiedStatus', 'mockme_getOrderedNumberNext',
-            'mockme_call', 'mockme_getOrderedNumber', 'mockme_incrementOrderedNumber'
-            ))) {
+            if (in_array($method->getName(), self::$_added)) {
                 runkit_method_remove($className, $method->getName());
             }
             $assumedPreservedName = $method->getName().md5($method->getName());
