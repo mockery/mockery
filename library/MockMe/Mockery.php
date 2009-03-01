@@ -4,23 +4,93 @@ class MockMe_Mockery {
 
     protected static $_tracker = array();
 
-    public static function applyTo($className)
-    {
-        if (in_array($className, self::$_tracker)) {
-            return;
-        }
-        if (in_array($className, self::_getAncestors($className))) {
-            return;
-        }
-        if (method_exists($className, '__call')) {
-            return;
-        }
+    protected static $_added = array(
+        'shouldReceive',
+        'mockme_verify',
+        'mockme_setVerifiedStatus',
+        'mockme_getOrderedNumberNext',
+        'mockme_call',
+        'mockme_getOrderedNumber',
+        'mockme_incrementOrderedNumber'
+    );
 
+    public static function applyTo($className, ReflectionClass $reflectedClass)
+    {
+        if (in_array($className, self::$_tracker) || in_array($className, self::_getAncestors($className))) {
+            return;
+        }
         self::$_tracker[] = $className;
-        $methods = self::_getMethods();
+        $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
+            if ($method->isPublic() && !$method->isFinal() && !$method->isDestructor()
+            && $method->getName() !== '__clone' && !in_array($method->getName(), array(
+            'shouldReceive', 'mockme_verify', 'mockme_setVerifiedStatus', 'mockme_getOrderedNumberNext',
+            'mockme_call', 'mockme_getOrderedNumber', 'mockme_incrementOrderedNumber'
+            ))) {
+                self::_replaceMethod($method, $className);
+            }
+        }
+        $methods = self::_getMethods();
+        $hasMethods = array();
+        $invisibleMethods = $reflectedClass->getMethods();
+        foreach ($invisibleMethods as $invisibleMethod) {
+            $hasMethods[] = $invisibleMethod->getName();
+        }
+        foreach ($methods as $method) {
+            if (in_array($method['name'], $hasMethods)) {
+                continue;
+            }
             runkit_method_add($className, $method['name'], $method['args'], $method['body'], $method['access']);
         }
+    }
+
+    public static function reverseOn($className)
+    {
+        $reflectedClass = new ReflectionClass($className);
+        $methods = $reflectedClass->getMethods();
+        foreach ($methods as $method) {
+            if (in_array($method->getName(), array(
+            'shouldReceive', 'mockme_verify', 'mockme_setVerifiedStatus', 'mockme_getOrderedNumberNext',
+            'mockme_call', 'mockme_getOrderedNumber', 'mockme_incrementOrderedNumber'
+            ))) {
+                runkit_method_remove($className, $method->getName());
+            }
+            $assumedPreservedName = $method->getName().md5($method->getName());
+            if (method_exists($className, $assumedPreservedName)) {
+                runkit_method_remove($className, $method->getName());
+                runkit_method_rename($className, $assumedPreservedName, $method->getName());
+            }
+        }
+    }
+
+    protected static function _replaceMethod(ReflectionMethod $method, $className)
+    {
+        $body = '';
+        if ($method->getName() !== '__construct') {
+            $body = '$args = func_get_args();'
+                . 'return $this->mockme_call("' . $method->getName() . '", $args);';
+        }
+        $methodParams = array();
+        $params = $method->getParameters();
+        foreach ($params as $param) {
+            $paramDef = '';
+            if ($param->isArray()) {
+                $paramDef .= 'array ';
+            } elseif ($param->getClass()) {
+                $paramDef .= $param->getClass()->getName() . ' ';
+            }
+            $paramDef .= '$' . $param->getName();
+            if ($param->isOptional()) {
+                $paramDef .= ' = ';
+                if ($param->isDefaultValueAvailable()) {
+                    $paramDef .= var_export($param->getDefaultValue(), true);
+                }
+            }
+            $methodParams[] = $paramDef;
+        }
+        $paramDef = implode(',', $methodParams);
+        runkit_method_rename($className, $method->getName(), $method->getName().md5($method->getName()));
+        runkit_method_add($className, $method->getName(), $paramDef, $body, RUNKIT_ACC_PUBLIC);
     }
 
     protected static function _getMethods()
@@ -59,10 +129,9 @@ class MockMe_Mockery {
                 'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
                     . '$store->verified = $bool;'
             ),
-            // Add later test to ensure __call can be mocked in objects!
             array(
                 'access' => RUNKIT_ACC_PUBLIC,
-                'name' => '__call',
+                'name' => 'mockme_call',
                 'args' => '$methodName, array $args',
                 'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
                     . '$return = null;'

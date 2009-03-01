@@ -75,13 +75,13 @@ class MockMe
                 $reflectedClass->isAbstract()) {
                     $this->setMockClassName();
                 } else {
-                    MockMe_Mockery::applyTo($this->getClassName()); // something here don't fit
+                    MockMe_Mockery::applyTo($this->getClassName(), $reflectedClass);
                     return;
                 }
             }
             $definition = $this->_createReflectedDefinition($reflectedClass);
             eval($definition);
-            MockMe_Mockery::applyTo($this->getMockClassName());
+            MockMe_Mockery::applyTo($this->getMockClassName(), new ReflectionClass($this->getMockClassName()));
         }
     }
 
