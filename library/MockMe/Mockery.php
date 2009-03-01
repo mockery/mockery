@@ -58,6 +58,10 @@ class MockMe_Mockery {
                 runkit_method_rename($className, $assumedPreservedName, $method->getName());
             }
         }
+        $key = array_search($className, self::$_tracker);
+        if ($key) {
+            unset(self::$_tracker[$key]);
+        }
     }
 
     protected static function _replaceMethod(ReflectionMethod $method, $className)
