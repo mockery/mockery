@@ -31,6 +31,7 @@ class MockMe_Mockery {
             }
         }
         $methods = self::_getMethods();
+        // looks clunky, but runkit fucks around with ReflectionClass methods
         $hasMethods = array();
         $invisibleMethods = $reflectedClass->getMethods();
         foreach ($invisibleMethods as $invisibleMethod) {
