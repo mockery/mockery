@@ -48,5 +48,43 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
     	$this->assertTrue($object instanceof MockMe_Expectation);
     }
 
+    public function testShouldSetReturnValueInTermsAndDefaultToReturningValueForAllCalls()
+    {
+        $mock = mockme('MockMeTest_Album');
+    	$mock->shouldReceive('getName')->andReturn('Joe');
+    	$mock->getName();
+    	$this->assertEquals('Joe', $mock->getName());
+    }
+
+    public function testShouldSetReturnValueButThrowDefaultExceptionIfMethodCallCountIsUnexpected()
+    {
+        $mock = mockme('MockMeTest_Album');
+    	$mock->shouldReceive('getName')->andReturn('Joe');
+    	$mock->getName();
+    	$mock->getName();
+    	try {
+            $mock->mockme_verify();
+            $this->fail('Expected exception was not thrown');
+        } catch (MockMe_Exception $e) {
+        }
+    }
+
+    public function testShouldReturnValuesInOrderOfSettingButReturnLastValueRemainingOnOtherCalls()
+    {
+        $mock = mockme('MockMeTest_Album');
+        $mock->shouldReceive('getName')->andReturn('Joe', 'Paddy', 'Travis');
+        for ($i=0; $i <= 5; $i++) {
+            $mock->getName();
+        }
+        $this->assertEquals('Travis', $mock->getName());
+    }
+
+    public function testShouldReturnSelfFromReturnTermInvocation()
+    {
+        $mock = mockme('MockMeTest_Album');
+        $object = $mock->shouldReceive('getName')->times(1)->andReturn('Joe');
+        $this->assertTrue($object instanceof MockMe_Expectation);
+    }
+
 
 }
