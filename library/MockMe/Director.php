@@ -35,7 +35,8 @@ class MockMe_Director
         	return $return;
         } else {
             throw new MockMe_Exception('unable to find a matching expectation for '
-                . $this->_methodName . 'indicating the argument list was not expected');
+                . $this->_methodName . ' indicating this argument list was not expected: '
+                . var_export($args, true));
         }
     }
 

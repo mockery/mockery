@@ -21,6 +21,8 @@ class MockMe_Expectation
 
     protected $_exceptionToThrow = null;
 
+    protected $_regexArgs = false;
+
     public function __construct($methodName, $mockObject)
     {
         $this->_methodName = $methodName;
@@ -126,16 +128,32 @@ class MockMe_Expectation
         return $this;
     }
 
+    public function withArgsMatching()
+    {
+        $args = func_get_args();
+        $this->_expectedArgs = $args;
+        $this->_regexArgs = true;
+    }
+
     public function matchArgs(array $args)
     {
         if (empty($args) && empty($this->_expectedArgs) && is_array($this->_expectedArgs)) {
             return true;
         } elseif ($args == $this->_expectedArgs) {
             return true;
-        } elseif ($this->_expectedArgs == true) {
+        } elseif ($this->_expectedArgs === true) {
             return true;
-        } elseif ($this->_expectedArgs == false && empty($args)) {
+        } elseif ($this->_expectedArgs === false && empty($args)) {
             return true;
+        } elseif ($this->_regexArgs === true && count($args) == count($this->_expectedArgs)) {
+            $i = count($args);
+            for ($j = 0; $j < $i; $j++) {
+                if (is_array($args[$j]) || is_object($args[$j])
+                || !preg_match($this->_expectedArgs[$j], $args[$j])) {
+                    return false;
+                }
+                return true;
+            }
         }
         return false;
     }
@@ -173,8 +191,8 @@ class MockMe_Expectation
             $currentOrder = $this->_mockObject->mockme_getOrderedNumber();
             if ($currentOrder !== $this->_orderedNumber) {
                 throw new MockMe_Exception(
-                    'Method $this->_methodName called out of order; expected at index of'
-                    . $this->_orderedNumber . 'but was called at ' . $currentOrder
+                    'Method ' . $this->_methodName . ' called out of order; expected at index of '
+                    . $this->_orderedNumber . ' but was called at ' . $currentOrder
                 );
             }
         }
