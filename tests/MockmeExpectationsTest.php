@@ -31,5 +31,22 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testShouldExpectNumberOfMethodsInTimesTerm()
+    {
+        $mock = mockme('MockMeTest_Album');
+        $mock->shouldReceive('getName')->times(5);
+        for ($i=0; $i <= 4; $i++) {
+            $mock->getName();
+        }
+        $this->assertTrue($mock->mockme_verify());
+    }
+
+    public function testShouldReturnSelfFromTimesTermInvocation()
+    {
+        $mock = mockme('MockMeTest_Album');
+    	$object = $mock->shouldReceive('getName')->times(1);
+    	$this->assertTrue($object instanceof MockMe_Expectation);
+    }
+
 
 }
