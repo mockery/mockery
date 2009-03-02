@@ -15,7 +15,7 @@ class MockMe_Expectation
 
     protected $_returnQueue = array();
 
-    protected $_counterClass = 'MockMe_Counter';
+    protected $_counterClass = 'MockMe_StandardCounter';
 
     protected $_orderedNumber = null;
 

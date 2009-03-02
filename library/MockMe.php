@@ -35,9 +35,6 @@ class MockMe
         } else {
             $class = $mockme->getMockClassName();
         }
-        if ($class == 'MockMeTest_Album') {
-            var_dump(method_exists($class,'getName'.md5('getName'))); exit;
-        }
         $mockObject = new $class();
         if ($mockObject instanceof MockMe_Stub && is_array($custom)) {
             $mockObject->mockme_set($custom);

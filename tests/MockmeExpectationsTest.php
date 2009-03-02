@@ -22,13 +22,13 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
     {
         $mock = mockme('MockMeTest_Album');
         $mock->shouldReceive('getName');
-        //$mock->getName();
-        //$mock->getName();
-        //try {
-        //    mockme_verify();
-        //    $this->fail('Expected exception was not thrown');
-        //} catch (MockMe_Exception $e) {
-        //}
+        $mock->getName();
+        $mock->getName();
+        try {
+            mockme_verify();
+            $this->fail('Expected exception was not thrown');
+        } catch (MockMe_Exception $e) {
+        }
     }
 
 

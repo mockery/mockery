@@ -1,5 +1,7 @@
 <?php
 
+require_once 'MockMe/Methods.php';
+
 class MockMe_Mockery {
 
     protected static $_tracker = array();
@@ -27,20 +29,11 @@ class MockMe_Mockery {
                 self::_replaceMethod($method, $className);
             }
         }
-        $methods = self::_getMethods();
-        // looks clunky, but runkit fucks around with ReflectionClass methods
-        // hasMethod() fails to detect getMethods() containing methods if added
-        // using runkit. No idea why - possibly a minor bug.
-        $hasMethods = array();
-        $invisibleMethods = $reflectedClass->getMethods();
-        foreach ($invisibleMethods as $invisibleMethod) {
-            $hasMethods[] = $invisibleMethod->getName();
-        }
-        foreach ($methods as $method) {
-            if (in_array($method['name'], $hasMethods)) {
+        foreach (self::$_added as $method) {
+            if (method_exists($className, $method)) {
                 continue;
             }
-            runkit_method_add($className, $method['name'], $method['args'], $method['body'], $method['access']);
+            runkit_method_copy($className, $method, 'MockMe_Methods');
         }
     }
 
@@ -67,9 +60,10 @@ class MockMe_Mockery {
     protected static function _replaceMethod(ReflectionMethod $method, $className)
     {
         $body = '';
-        if ($method->getName() !== '__construct') {
+        $mname = $method->getName();
+        if ($mname !== '__construct') {
             $body = '$args = func_get_args();'
-                . 'return $this->mockme_call("' . $method->getName() . '", $args);';
+                . 'return $this->mockme_call("' . $mname . '", $args);';
         }
         $methodParams = array();
         $params = $method->getParameters();
@@ -90,83 +84,8 @@ class MockMe_Mockery {
             $methodParams[] = $paramDef;
         }
         $paramDef = implode(',', $methodParams);
-        runkit_method_rename($className, $method->getName(), $method->getName().md5($method->getName()));
-        runkit_method_add($className, $method->getName(), $paramDef, $body, RUNKIT_ACC_PUBLIC);
-    }
-
-    protected static function _getMethods()
-    {
-        $methods = array(
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'shouldReceive',
-                'args' => '$methodName',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                    . 'if (!isset($store->expectations[$methodName])) {'
-                    . '    $store->expectations[$methodName] = new MockMe_Director($methodName);'
-                    . '}'
-                    . '$expectation = new MockMe_Expectation($methodName, $this);'
-                    . '$store->expectations[$methodName]->addExpectation($expectation);'
-                    . 'return $expectation;'
-            ),
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'mockme_verify',
-                'args' => '',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                    . 'if ($store->verified) {'
-                    . '    return $store->verified;'
-                    . '}'
-                    . '$store->verified = true;'
-                    . 'foreach ($store->expectations as $methodName => $director) {'
-                    . '    $director->verify();'
-                    . '}'
-                    . 'return $store->verified;'
-            ),
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'mockme_setVerifiedStatus',
-                'args' => '$bool',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                    . '$store->verified = $bool;'
-            ),
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'mockme_call',
-                'args' => '$methodName, array $args',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                    . '$return = null;'
-                    . '$return = $store->expectations[$methodName]->call($args, $this);'
-                    . 'return $return;'
-            ),
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'mockme_getOrderedNumberNext',
-                'args' => '',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                    . 'if (is_null($store->orderedNumberNext)) {'
-                    . '    $store->orderedNumberNext = 1;'
-                    . '    return $store->orderedNumberNext;'
-                    . '}'
-                    . '$store->orderedNumberNext++;'
-                    . 'return $store->orderedNumberNext;'
-            ),
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'mockme_getOrderedNumber',
-                'args' => '',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                   . 'return $store->orderedNumber;'
-            ),
-            array(
-                'access' => RUNKIT_ACC_PUBLIC,
-                'name' => 'mockme_incrementOrderedNumber',
-                'args' => '',
-                'body' => '$store = MockMe_Store::getInstance(spl_object_hash($this));'
-                   . '$store->orderedNumber++;'
-            ),
-        );
-        return $methods;
+        runkit_method_copy($className, $mname.md5($mname), $className, $mname);
+        runkit_method_redefine($className, $mname, $paramDef, $body);
     }
 
     protected static function _getAncestors($class)
