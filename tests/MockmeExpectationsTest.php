@@ -12,7 +12,7 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
     {
         $mock = mockme('MockMeTest_EmptyClass');
         try {
-            $this->assertTrue(mockme_verify());
+            $this->assertTrue($mock->mockme_verify());
         } catch (Exception $e) {
             $this->fail('Mock object checking threw an Exception reading: ' . $e->getMessage());
         }
@@ -25,7 +25,7 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         $mock->getName();
         $mock->getName();
         try {
-            mockme_verify();
+            $mock->mockme_verify();
             $this->fail('Expected exception was not thrown');
         } catch (MockMe_Exception $e) {
         }

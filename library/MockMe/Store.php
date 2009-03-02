@@ -16,7 +16,7 @@ class MockMe_Store
     {
         if (!isset(self::$_instances[$name])) {
             self::$_instances[$name] = new self(array(
-                'expectations' => array(),
+                'directors' => array(),
                 'verified' => false,
                 'orderedNumber' => null,
                 'orderedNumberNext' => null

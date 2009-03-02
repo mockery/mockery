@@ -6,13 +6,13 @@ class MockMe_Methods
     public function shouldReceive($methodName)
     {
         $store = MockMe_Store::getInstance(spl_object_hash($this));
-        $directors = $store->expectations;
+        $directors = $store->directors;
         if (!isset($directors[$methodName])) {
             $directors[$methodName] = new MockMe_Director($methodName);
         }
         $expectation = new MockMe_Expectation($methodName, $this);
         $directors[$methodName]->addExpectation($expectation);
-        $store->expectations = $directors;
+        $store->directors = $directors;
         return $expectation;
     }
 
@@ -23,7 +23,7 @@ class MockMe_Methods
             return $store->verified;
         }
         $store->verified = true;
-        foreach ($store->expectations as $director) {
+        foreach ($store->directors as $director) {
             $director->verify();
         }
         return $store->verified;
@@ -39,7 +39,7 @@ class MockMe_Methods
     {
         $store = MockMe_Store::getInstance(spl_object_hash($this));
         $return = null;
-        $directors = $store->expectations;
+        $directors = $store->directors;
         $return = $directors[$methodName]->call($args, $this);
         return $return;
     }
