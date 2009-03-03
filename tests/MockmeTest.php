@@ -10,7 +10,7 @@ class MockmeTest extends PHPUnit_Framework_TestCase
 
     // Basic Mocking Of Existing Classes
 
-    public function testShouldCreateMockInheritingClassTypeFromOriginal()
+    /*public function testShouldCreateMockInheritingClassTypeFromOriginal()
     {
         $mock = mockme('MockMeTest_EmptyClass');
         $this->assertTrue($mock instanceof MockMeTest_EmptyClass);
@@ -44,7 +44,7 @@ class MockmeTest extends PHPUnit_Framework_TestCase
     {
         $mock = mockme('MockMeTest_EmptyClass', 'MockMeTest_CustomNamed');
         $this->assertTrue($mock instanceof MockMeTest_CustomNamed);
-    }
+    }*/
 
     // Stubbing of Existing Classes
 
@@ -84,7 +84,12 @@ class MockmeTest extends PHPUnit_Framework_TestCase
         $mock = mockme('MockmeTest_SimpleClass');
         $mock->shouldReceive('set')->once();
         $mock->get();
-        $mock->mockme_verify();
+        $mock->set();
+        try {
+            $mock->mockme_verify();
+            $this->fail();
+        } catch(MockMe_Exception $e) {
+        }
     }
 
 

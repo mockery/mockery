@@ -41,10 +41,8 @@ class MockMe_Methods
         $return = null;
         $directors = $store->directors;
         if (!isset($directors[$methodName])) {//
-            $directors[$methodName] = new MockMe_Director($methodName);
-            $expectation = new MockMe_Expectation($methodName, $this);
-            $directors[$methodName]->addExpectation($expectation);
-            $expectation->never();
+            $this->shouldReceive($methodName)->never();
+            $directors = $store->directors;
         }//
         $return = $directors[$methodName]->call($args, $this);
         return $return;
