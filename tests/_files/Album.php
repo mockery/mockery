@@ -2,7 +2,8 @@
 
 class MockMeTest_EmptyClass {}
 class MockMeTest_SimpleClass {
-    public function get(){}
+    public function get(){return 'simple';}
+    public function set(){}
 }
 interface MockMeTest_Interface {}
 interface MockMeTest_InterfaceWithAbstractMethod

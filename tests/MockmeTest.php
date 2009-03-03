@@ -68,5 +68,24 @@ class MockmeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $mock->get());
     }
 
+    // Untouched classes
+
+    public function testShouldLeaveMethodsUntouchedUnlessExpectationsWereCreated()
+    {
+        mockme('MockmeTest_SimpleClass');
+        $nonMock = new MockMeTest_SimpleClass;
+        $this->assertEquals('simple', $nonMock->get());
+    }
+
+    // Touched classes
+
+    public function testShouldNotLeaveMethodsUntouchedIfExpectationsWereCreated()
+    {
+        $mock = mockme('MockmeTest_SimpleClass');
+        $mock->shouldReceive('set')->once();
+        $mock->get();
+        $mock->mockme_verify();
+    }
+
 
 }

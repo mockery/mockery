@@ -61,8 +61,16 @@ class MockMe_Mockery {
     {
         $body = '';
         $mname = $method->getName();
+        if (method_exists($className, $mname.md5($mname))) {
+            return;
+        }
         if ($mname !== '__construct') {
-            $body = '$args = func_get_args();'
+            $body = '$store = MockMe_Store::getInstance(spl_object_hash($this));'
+                . '$directors = $store->directors;'
+                . '$args = func_get_args();'
+                . 'if(empty($directors)) {'
+                . 'return call_user_func_array(array($this, \''. $mname.md5($mname) .'\'), $args);'
+                . '}'
                 . 'return $this->mockme_call("' . $mname . '", $args);';
         }
         $methodParams = array();

@@ -40,6 +40,12 @@ class MockMe_Methods
         $store = MockMe_Store::getInstance(spl_object_hash($this));
         $return = null;
         $directors = $store->directors;
+        if (!isset($directors[$methodName])) {//
+            $directors[$methodName] = new MockMe_Director($methodName);
+            $expectation = new MockMe_Expectation($methodName, $this);
+            $directors[$methodName]->addExpectation($expectation);
+            $expectation->never();
+        }//
         $return = $directors[$methodName]->call($args, $this);
         return $return;
     }
