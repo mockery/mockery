@@ -107,7 +107,6 @@ class MockMe_Expectation
         } else {
             $this->_exceptionToThrow = $exceptionClass;
         }
-
         return $this;
     }
 

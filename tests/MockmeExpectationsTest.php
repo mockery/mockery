@@ -467,7 +467,7 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /*public function testShouldThrowExceptionIfClassPassedToAndthrowTermNotAnException()
+    public function testShouldThrowExceptionIfClassPassedToAndthrowTermNotAnException()
     {
         $mock = mockme('MockMeTest_Album');
         try {
@@ -482,7 +482,7 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         $mock = mockme('MockMeTest_Album');
         $object = $mock->shouldReceive('getName')->andThrow('Exception');
         $this->assertTrue($object instanceof MockMe_Expectation);
-    }*/
+    }
 
 
 }
