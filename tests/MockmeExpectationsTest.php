@@ -382,7 +382,6 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
             $mock->mockme_verify();
             $this->fail();
         } catch(MockMe_Exception $e) {
-            var_dump($e->getMessage()); exit;
         }
     }
 
