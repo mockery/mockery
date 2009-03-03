@@ -23,6 +23,8 @@ class MockMe_Expectation
 
     protected $_regexArgs = false;
 
+    protected $_counterRange = false;
+
     public function __construct($methodName, $mockObject)
     {
         $this->_methodName = $methodName;
@@ -32,11 +34,26 @@ class MockMe_Expectation
 
     public function verify()
     {
-        if (!$this->_expectedCallCount->verify($this->_actualCallCount)) {
+        if (is_array($this->_expectedCallCount)) {
+            $descriptions = array();
+            foreach ($this->_expectedCallCount as $expectedCallCount) {
+                $descriptions[] = $expectedCallCount->getDescription();
+            }
+            foreach ($this->_expectedCallCount as $expectedCallCount) {
+                $this->_verifyCallCount($expectedCallCount, implode(' and ', $descriptions));
+            }
+        } else {
+            $this->_verifyCallCount($this->_expectedCallCount, $this->_expectedCallCount->getDescription());
+        }
+    }
+
+    protected function _verifyCallCount($expectedCallCount, $description)
+    {
+        if (!$expectedCallCount->verify($this->_actualCallCount)) {
             $this->_mockObject->mockme_setVerifiedStatus(false);
         	throw new MockMe_Exception(
         	   'method ' . $this->_methodName
-        	   .' called incorrect number of times; expected call ' . $this->_expectedCallCount->getDescription()
+        	   .' called incorrect number of times; expected call ' . $description
         	   . ' but received ' . $this->_actualCallCount
         	);
         }
@@ -45,7 +62,14 @@ class MockMe_Expectation
     public function times($times)
     {
         $times = intval($times);
-        $this->_expectedCallCount = new $this->_counterClass($times);
+        if ($this->_counterRange === true) {
+            if (!is_array($this->_expectedCallCount)) {
+                $this->_expectedCallCount = array();
+            }
+            $this->_expectedCallCount[] = new $this->_counterClass($times);
+        } else {
+            $this->_expectedCallCount = new $this->_counterClass($times);
+        }
         return $this;
     }
 
@@ -72,12 +96,14 @@ class MockMe_Expectation
 
     public function atLeast()
     {
+        $this->_counterRange = true;
         $this->_counterClass = 'MockMe_AtLeastCounter';
         return $this;
     }
 
     public function atMost()
     {
+        $this->_counterRange = true;
         $this->_counterClass = 'MockMe_AtMostCounter';
         return $this;
     }

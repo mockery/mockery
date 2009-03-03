@@ -365,6 +365,40 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($object instanceof MockMe_Expectation);
     }
 
+    public function testShouldSetTimesMinimumAndMaximumUsingLeastAndMostTerms()
+    {
+        $mock = mockme('MockMeTest_Album');
+        $mock->shouldReceive('getName')->atLeast()->once()->atMost()->times(3);
+        $mock->getName();
+        $mock->getName();
+        $this->assertTrue($mock->mockme_verify());
+    }
+
+    public function testShouldThrowExceptionWhenMinimumCallCountRangeNotMet()
+    {
+        $mock = mockme('MockMeTest_Album');
+        $mock->shouldReceive('getName')->atLeast()->once()->atMost()->times(3);
+        try {
+            $mock->mockme_verify();
+            $this->fail();
+        } catch(MockMe_Exception $e) {
+            var_dump($e->getMessage()); exit;
+        }
+    }
+
+    public function testShouldThrowExceptionWhenMaximumCallCountRangeExceeded()
+    {
+        $mock = mockme('MockMeTest_Album');
+        $mock->shouldReceive('getName')->atLeast()->once()->atMost()->times(3);
+        $mock->getName(); $mock->getName();
+        $mock->getName(); $mock->getName();
+        try {
+            $mock->mockme_verify();
+            $this->fail();
+        } catch(MockMe_Exception $e) {
+        }
+    }
+
     public function testShouldAllowAnyArgsUsingWithanyargsTerm()
     {
         $mock = mockme('MockMeTest_Album');
@@ -483,6 +517,5 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         $object = $mock->shouldReceive('getName')->andThrow('Exception');
         $this->assertTrue($object instanceof MockMe_Expectation);
     }
-
 
 }
