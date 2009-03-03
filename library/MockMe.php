@@ -23,11 +23,15 @@ class MockMe
 
     public static function mock($className, $custom = null)
     {
-        if (is_array($custom)) {
+        if (is_array($custom) && !class_exists($className)) {
             $mockme = new self($className);
             $mockme->createStubObject();
         } else {
-            $mockme = new self($className, $custom);
+            if (is_array($custom)) {
+                $mockme = new self($className, null);
+            } else {
+                $mockme = new self($className, $custom);
+            }
             $mockme->createMockObject();
         }
         if ($mockme->getMockClassName() === null) {
@@ -39,7 +43,12 @@ class MockMe
         if ($mockObject instanceof MockMe_Stub && is_array($custom)) {
             $mockObject->mockme_set($custom);
         } elseif (is_array($custom)) {
-            // support stubbing existing classes
+            foreach ($custom as $method => $return) {
+                $mockObject->shouldReceive($method)
+                    ->withAnyArgs()
+                    ->zeroOrMoreTimes()
+                    ->andReturn($return);
+            }
         }
         if (!in_array(get_class($mockObject), self::$_mockedClasses)
         && !$mockObject instanceof MockMe_Stub) {

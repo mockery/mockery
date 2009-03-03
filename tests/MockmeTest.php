@@ -50,8 +50,7 @@ class MockmeTest extends PHPUnit_Framework_TestCase
 
     public function testShouldCreateStubInheritingClassTypeFromOriginal()
     {
-        $this->markTestIncomplete('Requires working expectations before implementation');
-        $mock = mockme('MockMeTest_EmptyClass', array('get','foo'));
+        $mock = mockme('MockMeTest_SimpleClass', array('get' => 'foo'));
         $this->assertEquals('foo', $mock->get());
     }
 

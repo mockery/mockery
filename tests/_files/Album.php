@@ -1,6 +1,9 @@
 <?php
 
 class MockMeTest_EmptyClass {}
+class MockMeTest_SimpleClass {
+    public function get(){}
+}
 interface MockMeTest_Interface {}
 interface MockMeTest_InterfaceWithAbstractMethod
 {
