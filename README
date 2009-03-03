@@ -1,1 +1,49 @@
-Nothing much to say just yet...
+MockMe is a Cross Framework Mock Object Framework for PHP5, currently released as an
+alpha version for interested developers to assist in offering feedback. It is
+not yet fully functional, and stability is a relative term :).
+
+Requirements:
+
+PHP: 5.2.4, probably less but I haven't checked
+Extensions: ext/runkit
+
+Note: Do not install runkit from PECL since the current release does not support
+PHP 5.2. Follow the installation instructions below to grab a patched version of
+runkit which supports both PHP 5.2 and static methods. Windows users should download
+the DLL from the given link - a patched version of the DLL will be made available
+soon. If you have installed from PECL delete the module and follow the instructions
+below to replace it with a slightly improved patched version.
+
+Installation (Manual Installation without PEAR):
+
+1. Copy the contents of /library to a location on the PHP include_path, e.g.
+   /usr/share/php.
+
+2. Install the runkit extension but NOT from PECL. Windows users can grab the DLL
+   from http://dev.phpspec.org/php_runkit.dll but should disable E_STRICT error
+   reporting (I will compile a patched DLL for use with MutateMe soon). Linux users
+   should compile runkit from source. I've put up a patched version supporting
+   static methods (via a David Sklar patch) and PHP 5.2 (from CVS HEAD in PECL)
+   at http://github.com/padraic/runkit
+
+   Use the following commands to compile from source (install git first!):
+
+   git clone git://github.com/padraic/runkit.git runkit
+   cd runkit
+   phpize
+   ./configure
+   make
+   make install
+
+   Finally, enable the extension in the php.ini file which is loaded for the cli
+   environment using:
+
+   extension=runkit.so
+
+   Check the output of "php -i" or phpinfo() to ensure the extension is loaded.
+
+Usage:
+
+MockMe defines two functions called mockme() and mockme_verify() which are a shorter
+means to call MockMe::mock() and MockMe::verify() which are both static methods. A simple
+use case is as follows:
