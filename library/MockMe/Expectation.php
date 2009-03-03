@@ -104,8 +104,10 @@ class MockMe_Expectation
         }
         if (!is_null($message)) {
             $this->_exceptionToThrow = array($exceptionClass, $message);
+        } else {
+            $this->_exceptionToThrow = $exceptionClass;
         }
-        $this->_exceptionToThrow = $exceptionClass;
+
         return $this;
     }
 

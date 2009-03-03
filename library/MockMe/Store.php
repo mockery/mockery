@@ -18,8 +18,8 @@ class MockMe_Store
             self::$_instances[$name] = new self(array(
                 'directors' => array(),
                 'verified' => false,
-                'orderedNumber' => null,
-                'orderedNumberNext' => null
+                'orderedNumber' => -1,
+                'orderedNumberNext' => -1
             ));
         }
         return self::$_instances[$name];

@@ -48,11 +48,6 @@ class MockMe_Methods
     {
         $store = MockMe_Store::getInstance(spl_object_hash($this));
         $orderedNumberNext = $store->orderedNumberNext;
-        if (is_null($orderedNumberNext)) {
-            $orderedNumberNext = 1;
-            $store->orderedNumberNext = $orderedNumberNext;
-            return $orderedNumberNext;
-        }
         $orderedNumberNext++;
         $store->orderedNumberNext = $orderedNumberNext;
         return $orderedNumberNext;

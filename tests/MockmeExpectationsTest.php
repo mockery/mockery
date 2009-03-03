@@ -407,7 +407,7 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($mock->mockme_verify());
     }
 
-    /*public function testShouldDisallowMethodCallingIfMethodHasSpecifiedOrder()
+    public function testShouldDisallowMethodCallingIfMethodHasSpecifiedOrder()
     {
         $mock = mockme('MockMeTest_Album');
         $mock->shouldReceive('getName')->withNoArgs()->ordered();
@@ -467,7 +467,7 @@ class MockmeExpectationsTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testShouldThrowExceptionIfClassPassedToAndthrowTermNotAnException()
+    /*public function testShouldThrowExceptionIfClassPassedToAndthrowTermNotAnException()
     {
         $mock = mockme('MockMeTest_Album');
         try {
