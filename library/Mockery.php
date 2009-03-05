@@ -3,8 +3,6 @@
 class Mockery
 {
 
-    protected static $_mockedClasses = array();
-
     protected static $_mockedObjects = array();
 
     protected $_className = '';
@@ -50,9 +48,7 @@ class Mockery
                     ->andReturn($return);
             }
         }
-        if (!in_array(get_class($mockObject), self::$_mockedClasses)
-        && !$mockObject instanceof Mockery_Stub) {
-            self::$_mockedClasses[] = get_class($mockObject);
+        if (!$mockObject instanceof Mockery_Stub) {
             self::$_mockedObjects[] = $mockObject;
         }
 
@@ -70,15 +66,6 @@ class Mockery
         }
         self::$_mockedObjects = array();
         return $verified;
-    }
-
-    public static function reset() // delete
-    {
-        foreach (self::$_mockedClasses as $class) {
-            Mockery_Mockery::reverseOn($class);
-        }
-        self::$_mockedClasses = array();
-        self::$_mockedObjects = array();
     }
 
     public function getClassName()

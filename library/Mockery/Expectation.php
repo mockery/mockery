@@ -51,7 +51,7 @@ class Mockery_Expectation
     {
         if (!$expectedCallCount->verify($this->_actualCallCount)) {
             $this->_mockObject->mockery_setVerifiedStatus(false);
-        	throw new Mockery_Exception(
+        	throw new Mockery_ExpectationException(
         	   'method ' . $this->_methodName
         	   .' called incorrect number of times; expected call ' . $description
         	   . ' but received ' . $this->_actualCallCount
@@ -217,7 +217,7 @@ class Mockery_Expectation
         if ($this->isOrdered()) {
             $currentOrder = $this->_mockObject->mockery_getOrderedNumber();
             if ($currentOrder !== $this->_orderedNumber) {
-                throw new Mockery_Exception(
+                throw new Mockery_ExpectationException(
                     'Method ' . $this->_methodName . ' called out of order; expected at index of '
                     . $this->_orderedNumber . ' but was called at ' . $currentOrder
                 );

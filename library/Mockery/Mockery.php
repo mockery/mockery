@@ -2,8 +2,6 @@
 
 class Mockery_Mockery {
 
-    protected static $_tracker = array();
-
     protected static $_added = array(
         'shouldReceive',
         'mockery_verify',

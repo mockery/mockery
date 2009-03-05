@@ -34,7 +34,7 @@ class Mockery_Director
         	$return = $expectation->verifyCall($args);
         	return $return;
         } else {
-            throw new Mockery_Exception('unable to find a matching expectation for '
+            throw new Mockery_ExpectationException('unable to find a matching expectation for '
                 . $this->_methodName . ' indicating this argument list was not expected: '
                 . var_export($args, true));
         }
