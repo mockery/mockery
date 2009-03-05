@@ -5,45 +5,91 @@ not yet fully functional, and stability is a relative term :).
 Requirements:
 
 PHP: 5.2.4, probably less but I haven't checked
-Extensions: ext/runkit
-
-Note: Do not install runkit from PECL since the current release does not support
-PHP 5.2. Follow the installation instructions below to grab a patched version of
-runkit which supports both PHP 5.2 and static methods. Windows users should download
-the DLL from the given link - a patched version of the DLL will be made available
-soon. If you have installed from PECL delete the module and follow the instructions
-below to replace it with a slightly improved patched version.
 
 Installation (Manual Installation without PEAR):
 
 1. Copy the contents of /library to a location on the PHP include_path, e.g.
    /usr/share/php.
 
-2. Install the runkit extension but NOT from PECL. Windows users can grab the DLL
-   from http://dev.phpspec.org/php_runkit.dll but should disable E_STRICT error
-   reporting (I will compile a patched DLL for use with MutateMe soon). Linux users
-   should compile runkit from source. I've put up a patched version supporting
-   static methods (via a David Sklar patch) and PHP 5.2 (from CVS HEAD in PECL)
-   at http://github.com/padraic/runkit
-
-   Use the following commands to compile from source (install git first!):
-
-   git clone git://github.com/padraic/runkit.git runkit
-   cd runkit
-   phpize
-   ./configure
-   make
-   make install
-
-   Finally, enable the extension in the php.ini file which is loaded for the cli
-   environment using:
-
-   extension=runkit.so
-
-   Check the output of "php -i" or phpinfo() to ensure the extension is loaded.
+Yeah, that's pretty much it :).
 
 Usage:
 
-MockMe defines two functions called mockme() and mockme_verify() which are a shorter
-means to call MockMe::mock() and MockMe::verify() which are both static methods. A simple
+Mockery defines two functions called mockery() and mockery_verify() which are a shorter
+means to call Mockery::mock() and Mockery::verify() which are both static methods. A simple
 use case is as follows:
+
+require_once 'Mockery/Framework.php';
+
+class Addition {
+
+    protected $math = null;
+
+    public function __construct(Math $math) {
+        $this->math = $math;
+    }
+
+    public function add($op1, $op2) {
+        return $this->math->add($op1, $op2);
+    }
+
+}
+
+class Math {
+
+    public function add($a, $b) {
+        return $a + $b;
+    }
+
+}
+
+class AdditionTest extends PHPUnit_Framework_TestCase {
+
+    public function testAdd() {
+        $math = mockery('Math');
+        $addition = new Addition($math);
+
+        // set Mock expectations!
+        $math->shouldReceive('add')->once()->with(1, 1)->andReturn(2);
+        // perform the action!
+        $result = $addition->add(1, 1);
+
+        // Verify?
+        mockery_verify();
+
+        // Proceed to assertions (if any) as normal
+        $this->assertEqual(2, $result);
+    }
+
+    public function testAddWithFailingMock() {
+        $math = mockery('Math');
+        $addition = new Addition($math);
+
+        // set Mock expectations!
+        // twice() is obviously wrong
+        $math->shouldReceive('add')->twice()->with(1, 1)->andReturn(2);
+        // perform the action!
+        $result = $addition->add(1, 1);
+
+        // Verify?
+        mockery_verify();
+
+        // Proceed to assertions (if any) as normal
+        $this->assertEqual(2, $result);
+    }
+
+}
+
+PHPUnit reports:
+
+PHPUnit 3.3.14 by Sebastian Bergmann.
+
+.E
+
+Time: 0 seconds
+
+There was 1 error:
+
+1) testAddWithFailingMock(AdditionTest)
+Mockery_ExpectationException: method add called incorrect number of times;
+expected call 2 times but received 1
