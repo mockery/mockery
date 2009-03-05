@@ -1,0 +1,67 @@
+public function shouldReceive($methodName)
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    $directors = $store->directors;
+    if (!isset($directors[$methodName])) {
+        $directors[$methodName] = new Mockery_Director($methodName);
+    }
+    $expectation = new Mockery_Expectation($methodName, $this);
+    $directors[$methodName]->addExpectation($expectation);
+    $store->directors = $directors;
+    return $expectation;
+}
+
+public function mockery_verify()
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    if ($store->verified) {
+        return $store->verified;
+    }
+    $store->verified = true;
+    foreach ($store->directors as $director) {
+        $director->verify();
+    }
+    return $store->verified;
+}
+
+public function mockery_setVerifiedStatus($bool)
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    $store->verified = $bool;
+}
+
+public function mockery_call($methodName, $args)
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    $return = null;
+    $directors = $store->directors;
+    if (!isset($directors[$methodName])) {
+        $this->shouldReceive($methodName)->never();
+        $directors = $store->directors;
+    }
+    $return = $directors[$methodName]->call($args, $this);
+    return $return;
+}
+
+public function mockery_getOrderedNumberNext()
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    $orderedNumberNext = $store->orderedNumberNext;
+    $orderedNumberNext++;
+    $store->orderedNumberNext = $orderedNumberNext;
+    return $orderedNumberNext;
+}
+
+public function mockery_getOrderedNumber()
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    return $store->orderedNumber;
+}
+
+public function mockery_incrementOrderedNumber()
+{
+    $store = Mockery_Store::getInstance(spl_object_hash($this));
+    $orderedNumber = $store->orderedNumber;
+    $orderedNumber++;
+    $store->orderedNumber = $orderedNumber;
+}
