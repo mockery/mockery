@@ -1,6 +1,6 @@
-MockMe is a Cross Framework Mock Object Framework for PHP5, currently released as an
-alpha version for interested developers to assist in offering feedback. It is
-not yet fully functional, and stability is a relative term :).
+Mockery is a Cross Framework Mock Object and Stub Framework for PHP5, currently
+released as an alpha version for interested developers to assist in offering
+feedback. It is not yet fully functional, and stability is a relative term :).
 
 Requirements:
 
