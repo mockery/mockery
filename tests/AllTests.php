@@ -21,7 +21,6 @@ class AllTests
 
         $suite->addTestSuite('MockmeTest');
         $suite->addTestSuite('MockmeExpectationsTest');
-        //$suite->addTestSuite('RegressionTest');
 
         return $suite;
     }

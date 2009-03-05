@@ -1,7 +1,5 @@
 <?php
 
-require_once 'MockMe/Methods.php';
-
 class MockMe_Mockery {
 
     protected static $_tracker = array();
@@ -16,61 +14,30 @@ class MockMe_Mockery {
         'mockme_incrementOrderedNumber'
     );
 
-    public static function applyTo($className, ReflectionClass $reflectedClass)
+    protected static $_standardMethods = null;
+
+    public static function applyTo(ReflectionClass $reflectedClass)
     {
-        if (in_array($className, self::$_tracker) || in_array($className, self::_getAncestors($className))) {
-            return;
-        }
-        self::$_tracker[] = $className;
+        $mockeryDefinition = '';
         $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
-            if ($method->isPublic() && !$method->isFinal() && !$method->isDestructor()
-            && $method->getName() !== '__clone' && !in_array($method->getName(), self::$_added)) {
-                self::_replaceMethod($method, $className);
+            if (!$method->isFinal() && !$method->isDestructor()
+            && $method->getName() !== '__clone') {
+                $mockeryDefinition .= self::_replaceMethod($method);
             }
         }
-        foreach (self::$_added as $method) {
-            if (method_exists($className, $method)) {
-                continue;
-            }
-            runkit_method_copy($className, $method, 'MockMe_Methods');
-        }
+        $mockeryDefinition .= self::_getStandardMethods();
+        return $mockeryDefinition;
     }
 
-    public static function reverseOn($className)
-    {
-        $reflectedClass = new ReflectionClass($className);
-        $methods = $reflectedClass->getMethods();
-        foreach ($methods as $method) {
-            if (in_array($method->getName(), self::$_added)) {
-                runkit_method_remove($className, $method->getName());
-            }
-            $assumedPreservedName = $method->getName().md5($method->getName());
-            if (method_exists($className, $assumedPreservedName)) {
-                runkit_method_remove($className, $method->getName());
-                runkit_method_rename($className, $assumedPreservedName, $method->getName());
-            }
-        }
-        $key = array_search($className, self::$_tracker);
-        if ($key) {
-            unset(self::$_tracker[$key]);
-        }
-    }
-
-    protected static function _replaceMethod(ReflectionMethod $method, $className)
+    protected static function _replaceMethod(ReflectionMethod $method)
     {
         $body = '';
         $mname = $method->getName();
-        if (method_exists($className, $mname.md5($mname))) {
-            return;
-        }
-        if ($mname !== '__construct') {
+        if ($mname !== '__construct' && $method->isPublic()) {
             $body = '$store = MockMe_Store::getInstance(spl_object_hash($this));'
                 . '$directors = $store->directors;'
                 . '$args = func_get_args();'
-                . 'if(empty($directors)) {'
-                . 'return call_user_func_array(array($this, \''. $mname.md5($mname) .'\'), $args);'
-                . '}'
                 . 'return $this->mockme_call("' . $mname . '", $args);';
         }
         $methodParams = array();
@@ -92,14 +59,26 @@ class MockMe_Mockery {
             $methodParams[] = $paramDef;
         }
         $paramDef = implode(',', $methodParams);
-        runkit_method_copy($className, $mname.md5($mname), $className, $mname);
-        runkit_method_redefine($className, $mname, $paramDef, $body);
+        if ($method->isPublic()) {
+            $access = 'public';
+        } elseif($method->isProtected()) {
+            $access = 'protected';
+        } else {
+            $access = 'private';
+        }
+        if ($method->isStatic()) {
+            $access .= ' static';
+        }
+        return $access . ' function ' . $mname . '(' . $paramDef . ')'
+                          . '{' . $body . '}';
     }
 
-    protected static function _getAncestors($class)
+    protected static function _getStandardMethods() 
     {
-        for ($classes = array(); $class = get_parent_class ($class); $classes[] = $class);
-        return $classes;
+        if (self::$_standardMethods === null) {
+            self::$_standardMethods = file_get_contents(dirname(__FILE__).'/Templates/Methods');
+        }
+        return self::$_standardMethods;
     }
 
 }

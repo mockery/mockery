@@ -72,7 +72,7 @@ class MockMe
         return $verified;
     }
 
-    public static function reset()
+    public static function reset() // delete
     {
         foreach (self::$_mockedClasses as $class) {
             MockMe_Mockery::reverseOn($class);
@@ -89,7 +89,7 @@ class MockMe
     public function setMockClassName($name = null)
     {
         if ($name === null) {
-            $this->_mockClassName = 'MockMe_' . sha1(microtime());
+            $this->_mockClassName = uniqid('MockMe_');
         } else {
             $this->_mockClassName = $name;
         }
@@ -111,17 +111,10 @@ class MockMe
         } else {
             $reflectedClass = new ReflectionClass($this->getClassName());
             if ($this->getMockClassName() === null) {
-                if (interface_exists($this->getClassName(), true) ||
-                $reflectedClass->isAbstract()) {
-                    $this->setMockClassName();
-                } else {
-                    MockMe_Mockery::applyTo($this->getClassName(), $reflectedClass);
-                    return;
-                }
+                $this->setMockClassName();
             }
             $definition = $this->_createReflectedDefinition($reflectedClass);
             eval($definition);
-            MockMe_Mockery::applyTo($this->getMockClassName(), new ReflectionClass($this->getMockClassName()));
         }
     }
 
@@ -152,7 +145,7 @@ class MockMe
             $inheritance = ' extends ' . $this->getClassName();
         }
         $definition .= 'class ' . $this->getMockClassName() .  $inheritance . '{';
-        $definition .= $this->_getImplementedMethodsDefinition($reflectedClass);
+        $definition .= MockMe_Mockery::applyTo($reflectedClass);
         $definition .= '}';
         return $definition;
     }
