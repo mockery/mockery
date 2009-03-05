@@ -93,7 +93,7 @@ class Mockery
             $this->setMockClassName($this->getClassName());
         }
         if ($this->getClassName() == $this->getMockClassName()) {
-            $definition = $this->_createStubDefinition();
+            $definition = $this->_createClassDefinition($this->getClassName());
             eval($definition);
         } else {
             $reflectedClass = new ReflectionClass($this->getClassName());
@@ -133,6 +133,15 @@ class Mockery
         }
         $definition .= 'class ' . $this->getMockClassName() .  $inheritance . '{';
         $definition .= Mockery_Mockery::applyTo($reflectedClass);
+        $definition .= '}';
+        return $definition;
+    }
+
+    protected function _createClassDefinition($class)
+    {
+        $definition = '';
+        $definition .= 'class ' . $class .  '{';
+        $definition .= Mockery_Mockery::applyTo($class);
         $definition .= '}';
         return $definition;
     }

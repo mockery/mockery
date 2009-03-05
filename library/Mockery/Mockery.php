@@ -14,8 +14,11 @@ class Mockery_Mockery {
 
     protected static $_standardMethods = null;
 
-    public static function applyTo(ReflectionClass $reflectedClass)
+    public static function applyTo($reflectedClass)
     {
+        if (!is_object($reflectedClass)) {
+            return self::_getStandardMethods() . self::_getOpenInterceptionMethod();
+        }
         $mockeryDefinition = '';
         $methods = $reflectedClass->getMethods();
         foreach ($methods as $method) {
@@ -69,6 +72,14 @@ class Mockery_Mockery {
         }
         return $access . ' function ' . $mname . '(' . $paramDef . ')'
                           . '{' . $body . '}';
+    }
+
+    protected static function _getOpenInterceptionMethod()
+    {
+        $def = 'public function __call($method, $args) {'
+        . '$this->mockery_call($method, $args);'
+        . '}';
+        return $def;
     }
 
     protected static function _getStandardMethods()

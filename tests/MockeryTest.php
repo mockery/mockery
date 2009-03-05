@@ -62,6 +62,12 @@ class MockeryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($mock instanceof MockeryTest_DoesntExist);
     }
 
+    public function testShouldWithoutMethodHashCreateAMockObject()
+    {
+        $mock = mockery('MockeryTest_DoesntExist3');
+        $this->assertTrue($mock->shouldReceive('doSomething') instanceof Mockery_Expectation);
+    }
+
     public function testShouldCreateStubFromAnArrayOfMethodsAndReturnValues()
     {
         $mock = mockery('MockeryTest_DoesntExist2', array('get' => 'foo'));
