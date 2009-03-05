@@ -1,6 +1,6 @@
 <?php
 
-class MockMe_StandardCounter
+class Mockery_AtLeastCounter
 {
 
     protected $_times = 1;
@@ -12,15 +12,12 @@ class MockMe_StandardCounter
 
     public function verify($callTimesActual)
     {
-        if ($this->_times == $callTimesActual) {
-            return true;
-        }
-        return false;
+        return $callTimesActual >= $this->_times;
     }
 
     public function getDescription()
     {
-        return $this->_times . ($this->_times !== 1 ? ' times' : ' time');
+        return 'at least ' . $this->_times . ($this->_times !== 1 ? ' times' : ' time');;
     }
 
 }

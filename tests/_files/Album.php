@@ -1,25 +1,25 @@
 <?php
 
-class MockMeTest_EmptyClass {}
-class MockMeTest_SimpleClass {
+class MockeryTest_EmptyClass {}
+class MockeryTest_SimpleClass {
     public function get(){return 'simple';}
     public function set(){}
 }
-interface MockMeTest_Interface {}
-interface MockMeTest_InterfaceWithAbstractMethod
+interface MockeryTest_Interface {}
+interface MockeryTest_InterfaceWithAbstractMethod
 {
     public function set();
 }
-abstract class MockMeTest_AbstractWithAbstractMethod
+abstract class MockeryTest_AbstractWithAbstractMethod
 {
     abstract protected function set();
 }
-interface MockMeTest_InterfaceWithAbstractMethodAndParameters
+interface MockeryTest_InterfaceWithAbstractMethodAndParameters
 {
     public function set(array $array, stdClass $container = null);
 }
 
-class MockMeTest_Album
+class MockeryTest_Album
 {
     public $name = 'untitled';
     protected static $genre = '';
@@ -46,10 +46,10 @@ class MockMeTest_Album
     public function setTerms($term1, $term2)
     {
     }
-    public function setArtist(MockMeTest_Artist $artist = null)
+    public function setArtist(MockeryTest_Artist $artist = null)
     {
     }
 }
-class MockMeTest_Artist {}
+class MockeryTest_Artist {}
 
-class MockMeTest_Album_Exception extends Exception {}
+class MockeryTest_Album_Exception extends Exception {}

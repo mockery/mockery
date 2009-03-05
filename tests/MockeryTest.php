@@ -2,55 +2,55 @@
 
 // Test helper
 require_once dirname(__FILE__) . '/TestHelper.php';
-require_once dirname(dirname(__FILE__)) . '/library/MockMe/Framework.php';
+require_once dirname(dirname(__FILE__)) . '/library/Mockery/Framework.php';
 require_once dirname(__FILE__) . '/_files/Album.php';
 
-class MockmeTest extends PHPUnit_Framework_TestCase
+class MockeryTest extends PHPUnit_Framework_TestCase
 {
 
     // Basic Mocking Of Existing Classes
 
     public function testShouldCreateMockInheritingClassTypeFromOriginal()
     {
-        $mock = mockme('MockMeTest_EmptyClass');
-        $this->assertTrue($mock instanceof MockMeTest_EmptyClass);
+        $mock = mockery('MockeryTest_EmptyClass');
+        $this->assertTrue($mock instanceof MockeryTest_EmptyClass);
     }
 
     public function testShouldCreateMockInheritingTypeIfOriginalAnInterface()
     {
-        $mock = mockme('MockMeTest_Interface');
-        $this->assertTrue($mock instanceof MockMeTest_Interface);
+        $mock = mockery('MockeryTest_Interface');
+        $this->assertTrue($mock instanceof MockeryTest_Interface);
     }
 
     public function testShouldCreateMockWhereAnyInterfaceMethodsAreImplemented()
     {
-        $mock = mockme('MockMeTest_InterfaceWithAbstractMethod');
-        $this->assertTrue($mock instanceof MockMeTest_InterfaceWithAbstractMethod);
+        $mock = mockery('MockeryTest_InterfaceWithAbstractMethod');
+        $this->assertTrue($mock instanceof MockeryTest_InterfaceWithAbstractMethod);
     }
 
     public function testShouldCreateMockWhereAnyAbstractMethodsAreImplemented()
     {
-        $mock = mockme('MockMeTest_AbstractWithAbstractMethod');
-        $this->assertTrue($mock instanceof MockMeTest_AbstractWithAbstractMethod);
+        $mock = mockery('MockeryTest_AbstractWithAbstractMethod');
+        $this->assertTrue($mock instanceof MockeryTest_AbstractWithAbstractMethod);
     }
 
     public function testShouldImplementAbstractMethodsWithFullParameterList()
     {
-        $mock = mockme('MockMeTest_InterfaceWithAbstractMethodAndParameters');
-        $this->assertTrue($mock instanceof MockMeTest_InterfaceWithAbstractMethodAndParameters);
+        $mock = mockery('MockeryTest_InterfaceWithAbstractMethodAndParameters');
+        $this->assertTrue($mock instanceof MockeryTest_InterfaceWithAbstractMethodAndParameters);
     }
 
     public function testShouldCreateMockUsingCustomNameIfSupplied()
     {
-        $mock = mockme('MockMeTest_EmptyClass', 'MockMeTest_CustomNamed');
-        $this->assertTrue($mock instanceof MockMeTest_CustomNamed);
+        $mock = mockery('MockeryTest_EmptyClass', 'MockeryTest_CustomNamed');
+        $this->assertTrue($mock instanceof MockeryTest_CustomNamed);
     }
 
     // Stubbing of Existing Classes
 
     public function testShouldCreateStubInheritingClassTypeFromOriginal()
     {
-        $mock = mockme('MockMeTest_SimpleClass', array('get' => 'foo'));
+        $mock = mockery('MockeryTest_SimpleClass', array('get' => 'foo'));
         $this->assertEquals('foo', $mock->get());
     }
 
@@ -58,13 +58,13 @@ class MockmeTest extends PHPUnit_Framework_TestCase
 
     public function testShouldCreateNewClassWithGivenNameIfNotYetExisting()
     {
-        $mock = mockme('MockMeTest_DoesntExist');
-        $this->assertTrue($mock instanceof MockMeTest_DoesntExist);
+        $mock = mockery('MockeryTest_DoesntExist');
+        $this->assertTrue($mock instanceof MockeryTest_DoesntExist);
     }
 
     public function testShouldCreateStubFromAnArrayOfMethodsAndReturnValues()
     {
-        $mock = mockme('MockMeTest_DoesntExist2', array('get' => 'foo'));
+        $mock = mockery('MockeryTest_DoesntExist2', array('get' => 'foo'));
         $this->assertEquals('foo', $mock->get());
     }
 
@@ -72,8 +72,8 @@ class MockmeTest extends PHPUnit_Framework_TestCase
 
     public function testShouldLeaveMethodsUntouchedUnlessExpectationsWereCreated()
     {
-        mockme('MockmeTest_SimpleClass');
-        $nonMock = new MockMeTest_SimpleClass;
+        mockery('MockeryTest_SimpleClass');
+        $nonMock = new MockeryTest_SimpleClass;
         $this->assertEquals('simple', $nonMock->get());
     }
 
@@ -81,14 +81,14 @@ class MockmeTest extends PHPUnit_Framework_TestCase
 
     public function testShouldNotLeaveMethodsUntouchedIfExpectationsWereCreated()
     {
-        $mock = mockme('MockmeTest_SimpleClass');
+        $mock = mockery('MockeryTest_SimpleClass');
         $mock->shouldReceive('set')->once();
         $mock->get();
         $mock->set();
         try {
-            $mock->mockme_verify();
+            $mock->mockery_verify();
             $this->fail();
-        } catch(MockMe_Exception $e) {
+        } catch(Mockery_Exception $e) {
         }
     }
 

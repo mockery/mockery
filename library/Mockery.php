@@ -1,6 +1,6 @@
 <?php
 
-class MockMe
+class Mockery
 {
 
     protected static $_mockedClasses = array();
@@ -24,24 +24,24 @@ class MockMe
     public static function mock($className, $custom = null)
     {
         if (is_array($custom) && !class_exists($className)) {
-            $mockme = new self($className);
-            $mockme->createStubObject();
+            $mockery = new self($className);
+            $mockery->createStubObject();
         } else {
             if (is_array($custom)) {
-                $mockme = new self($className, null);
+                $mockery = new self($className, null);
             } else {
-                $mockme = new self($className, $custom);
+                $mockery = new self($className, $custom);
             }
-            $mockme->createMockObject();
+            $mockery->createMockObject();
         }
-        if ($mockme->getMockClassName() === null) {
-            $class = $mockme->getClassName();
+        if ($mockery->getMockClassName() === null) {
+            $class = $mockery->getClassName();
         } else {
-            $class = $mockme->getMockClassName();
+            $class = $mockery->getMockClassName();
         }
         $mockObject = new $class();
-        if ($mockObject instanceof MockMe_Stub && is_array($custom)) {
-            $mockObject->mockme_set($custom);
+        if ($mockObject instanceof Mockery_Stub && is_array($custom)) {
+            $mockObject->mockery_set($custom);
         } elseif (is_array($custom)) {
             foreach ($custom as $method => $return) {
                 $mockObject->shouldReceive($method)
@@ -51,7 +51,7 @@ class MockMe
             }
         }
         if (!in_array(get_class($mockObject), self::$_mockedClasses)
-        && !$mockObject instanceof MockMe_Stub) {
+        && !$mockObject instanceof Mockery_Stub) {
             self::$_mockedClasses[] = get_class($mockObject);
             self::$_mockedObjects[] = $mockObject;
         }
@@ -63,7 +63,7 @@ class MockMe
     {
         $verified = true;
         foreach (self::$_mockedObjects as $mockObject) {
-            if ($mockObject->mockme_verify() === false) {
+            if ($mockObject->mockery_verify() === false) {
                 $verified = false;
                 break;
             }
@@ -75,7 +75,7 @@ class MockMe
     public static function reset() // delete
     {
         foreach (self::$_mockedClasses as $class) {
-            MockMe_Mockery::reverseOn($class);
+            Mockery_Mockery::reverseOn($class);
         }
         self::$_mockedClasses = array();
         self::$_mockedObjects = array();
@@ -89,7 +89,7 @@ class MockMe
     public function setMockClassName($name = null)
     {
         if ($name === null) {
-            $this->_mockClassName = uniqid('MockMe_');
+            $this->_mockClassName = uniqid('Mockery_');
         } else {
             $this->_mockClassName = $name;
         }
@@ -127,7 +127,7 @@ class MockMe
     protected function _createStubDefinition()
     {
         $definition = '';
-        $definition .= 'class ' . $this->getClassName() .  ' extends MockMe_Stub {';
+        $definition .= 'class ' . $this->getClassName() .  ' extends Mockery_Stub {';
         $definition .= '}';
         return $definition;
     }
@@ -137,7 +137,7 @@ class MockMe
         $inheritance = '';
         $definition = '';
         if ($reflectedClass->isFinal()) {
-            throw new MockMe_Exception('Unable to create a Test Double for a class marked final');
+            throw new Mockery_Exception('Unable to create a Test Double for a class marked final');
         }
         if ($reflectedClass->isInterface()) {
             $inheritance = ' implements ' . $this->getClassName();
@@ -145,7 +145,7 @@ class MockMe
             $inheritance = ' extends ' . $this->getClassName();
         }
         $definition .= 'class ' . $this->getMockClassName() .  $inheritance . '{';
-        $definition .= MockMe_Mockery::applyTo($reflectedClass);
+        $definition .= Mockery_Mockery::applyTo($reflectedClass);
         $definition .= '}';
         return $definition;
     }

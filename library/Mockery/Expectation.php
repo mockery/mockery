@@ -1,6 +1,6 @@
 <?php
 
-class MockMe_Expectation
+class Mockery_Expectation
 {
 
     protected $_methodName = null;
@@ -15,7 +15,7 @@ class MockMe_Expectation
 
     protected $_returnQueue = array();
 
-    protected $_counterClass = 'MockMe_StandardCounter';
+    protected $_counterClass = 'Mockery_StandardCounter';
 
     protected $_orderedNumber = null;
 
@@ -50,8 +50,8 @@ class MockMe_Expectation
     protected function _verifyCallCount($expectedCallCount, $description)
     {
         if (!$expectedCallCount->verify($this->_actualCallCount)) {
-            $this->_mockObject->mockme_setVerifiedStatus(false);
-        	throw new MockMe_Exception(
+            $this->_mockObject->mockery_setVerifiedStatus(false);
+        	throw new Mockery_Exception(
         	   'method ' . $this->_methodName
         	   .' called incorrect number of times; expected call ' . $description
         	   . ' but received ' . $this->_actualCallCount
@@ -90,21 +90,21 @@ class MockMe_Expectation
 
     public function zeroOrMoreTimes()
     {
-        $this->_expectedCallCount = new MockMe_ZeroOrMoreCounter();
+        $this->_expectedCallCount = new Mockery_ZeroOrMoreCounter();
         return $this;
     }
 
     public function atLeast()
     {
         $this->_counterRange = true;
-        $this->_counterClass = 'MockMe_AtLeastCounter';
+        $this->_counterClass = 'Mockery_AtLeastCounter';
         return $this;
     }
 
     public function atMost()
     {
         $this->_counterRange = true;
-        $this->_counterClass = 'MockMe_AtMostCounter';
+        $this->_counterClass = 'Mockery_AtMostCounter';
         return $this;
     }
 
@@ -122,7 +122,7 @@ class MockMe_Expectation
         if ($exceptionClass !== 'Exception') {
             $reflectedClass = new ReflectionClass($exceptionClass);
             if (!$reflectedClass->isSubclassOf( new ReflectionClass('Exception') )) {
-                throw new MockMe_Exception(
+                throw new Mockery_Exception(
                     'andThrow received value "' . $exceptionClass . '" which is not a'
                     . ' class of type "Exception"'
                 );
@@ -187,7 +187,7 @@ class MockMe_Expectation
 
     public function ordered()
     {
-        $this->_orderedNumber = $this->_mockObject->mockme_getOrderedNumberNext();
+        $this->_orderedNumber = $this->_mockObject->mockery_getOrderedNumberNext();
         return $this;
     }
 
@@ -215,9 +215,9 @@ class MockMe_Expectation
     protected function _validateOrder()
     {
         if ($this->isOrdered()) {
-            $currentOrder = $this->_mockObject->mockme_getOrderedNumber();
+            $currentOrder = $this->_mockObject->mockery_getOrderedNumber();
             if ($currentOrder !== $this->_orderedNumber) {
-                throw new MockMe_Exception(
+                throw new Mockery_Exception(
                     'Method ' . $this->_methodName . ' called out of order; expected at index of '
                     . $this->_orderedNumber . ' but was called at ' . $currentOrder
                 );

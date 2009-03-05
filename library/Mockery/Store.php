@@ -1,6 +1,6 @@
 <?php
 
-class MockMe_Store
+class Mockery_Store
 {
 
     protected static $_instances = array();

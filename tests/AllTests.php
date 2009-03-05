@@ -4,8 +4,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'AllTests::main');
 }
 
-require_once 'MockmeTest.php';
-require_once 'MockmeExpectationsTest.php';
+require_once 'MockeryTest.php';
+require_once 'MockeryExpectationsTest.php';
 require_once 'RegressionTest.php';
 
 class AllTests
@@ -17,10 +17,10 @@ class AllTests
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('MockMe: Cross framework Mock Objects for PHP5');
+        $suite = new PHPUnit_Framework_TestSuite('Mockery: Cross Framework Mock Objects and Stubs for PHP5');
 
-        $suite->addTestSuite('MockmeTest');
-        $suite->addTestSuite('MockmeExpectationsTest');
+        $suite->addTestSuite('MockeryTest');
+        $suite->addTestSuite('MockeryExpectationsTest');
 
         return $suite;
     }

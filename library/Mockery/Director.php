@@ -1,6 +1,6 @@
 <?php
 
-class MockMe_Director
+class Mockery_Director
 {
 
     protected $_methodName = null;
@@ -12,7 +12,7 @@ class MockMe_Director
         $this->_methodName = $methodName;
     }
 
-    public function addExpectation(MockMe_Expectation $expectation)
+    public function addExpectation(Mockery_Expectation $expectation)
     {
     	$this->_expectations[] = $expectation;
     }
@@ -29,12 +29,12 @@ class MockMe_Director
         $expectation = $this->findExpectation($args);
         if (!empty($expectation)) {
             if ($expectation->isOrdered()) {
-                $mock->mockme_incrementOrderedNumber();
+                $mock->mockery_incrementOrderedNumber();
             }
         	$return = $expectation->verifyCall($args);
         	return $return;
         } else {
-            throw new MockMe_Exception('unable to find a matching expectation for '
+            throw new Mockery_Exception('unable to find a matching expectation for '
                 . $this->_methodName . ' indicating this argument list was not expected: '
                 . var_export($args, true));
         }

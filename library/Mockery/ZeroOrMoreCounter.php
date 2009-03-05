@@ -1,6 +1,6 @@
 <?php
 
-class MockMe_ZeroOrMoreCounter
+class Mockery_ZeroOrMoreCounter
 {
 
     public function verify($callTimesActual)

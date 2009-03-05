@@ -1,17 +1,17 @@
 <?php
 
-class MockMe_Mockery {
+class Mockery_Mockery {
 
     protected static $_tracker = array();
 
     protected static $_added = array(
         'shouldReceive',
-        'mockme_verify',
-        'mockme_setVerifiedStatus',
-        'mockme_getOrderedNumberNext',
-        'mockme_call',
-        'mockme_getOrderedNumber',
-        'mockme_incrementOrderedNumber'
+        'mockery_verify',
+        'mockery_setVerifiedStatus',
+        'mockery_getOrderedNumberNext',
+        'mockery_call',
+        'mockery_getOrderedNumber',
+        'mockery_incrementOrderedNumber'
     );
 
     protected static $_standardMethods = null;
@@ -35,10 +35,10 @@ class MockMe_Mockery {
         $body = '';
         $mname = $method->getName();
         if ($mname !== '__construct' && $method->isPublic()) {
-            $body = '$store = MockMe_Store::getInstance(spl_object_hash($this));'
+            $body = '$store = Mockery_Store::getInstance(spl_object_hash($this));'
                 . '$directors = $store->directors;'
                 . '$args = func_get_args();'
-                . 'return $this->mockme_call("' . $mname . '", $args);';
+                . 'return $this->mockery_call("' . $mname . '", $args);';
         }
         $methodParams = array();
         $params = $method->getParameters();
@@ -73,7 +73,7 @@ class MockMe_Mockery {
                           . '{' . $body . '}';
     }
 
-    protected static function _getStandardMethods() 
+    protected static function _getStandardMethods()
     {
         if (self::$_standardMethods === null) {
             self::$_standardMethods = file_get_contents(dirname(__FILE__).'/Templates/Methods');

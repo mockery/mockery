@@ -1,6 +1,6 @@
 <?php
 
-class MockMe_AtMostCounter
+class Mockery_AtMostCounter
 {
 
     protected $_times = 1;
