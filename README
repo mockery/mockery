@@ -93,3 +93,6 @@ There was 1 error:
 1) testAddWithFailingMock(AdditionTest)
 Mockery_ExpectationException: method add called incorrect number of times;
 expected call 2 times but received 1
+
+A vastly more detailed introduction including brief API documentation is available on my blog:
+http://blog.astrumfutura.com/archives/392-The-Mockery-An-Independent-Mock-Object-and-Stub-Framework-for-PHP5.html
