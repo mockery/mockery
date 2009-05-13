@@ -160,6 +160,7 @@ class Mockery_Expectation
         $args = func_get_args();
         $this->_expectedArgs = $args;
         $this->_regexArgs = true;
+        return $this;
     }
 
     public function matchArgs(array $args)

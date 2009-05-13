@@ -430,6 +430,13 @@ class MockeryExpectationsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($object instanceof Mockery_Expectation);
     }
 
+    public function testShouldReturnSelfInstanceFromWithargsmatchingTerm()
+    {
+        $mock = mockery('MockeryTest_Album');
+        $object = $mock->shouldReceive('getName')->withArgsMatching();
+        $this->assertTrue($object instanceof Mockery_Expectation);
+    }
+
     public function testShouldObeyOrderingViaSequenceOfOrderedTermCalls()
     {
         $mock = mockery('MockeryTest_Album');
