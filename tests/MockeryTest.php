@@ -97,5 +97,13 @@ class MockeryTest extends PHPUnit_Framework_TestCase
         } catch(Mockery_Exception $e) {
         }
     }
+    
+    // Test duplicate mocks avoided
+    public function testDoubleMockingSameClassOccursWithoutError()
+    {
+        $mock = mockery('MockeryTest_EmptyClass');
+        $mock2 = mockery('MockeryTest_EmptyClass');
+        $this->assertTrue($mock !== $mock2);
+    }
 
 }
