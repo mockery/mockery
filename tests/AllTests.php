@@ -7,6 +7,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'MockeryTest.php';
 require_once 'MockeryExpectationsTest.php';
 require_once 'RegressionTest.php';
+require_once 'StubExpectationsTest.php';
 
 class AllTests
 {
@@ -21,6 +22,7 @@ class AllTests
 
         $suite->addTestSuite('MockeryTest');
         $suite->addTestSuite('MockeryExpectationsTest');
+        //$suite->addTestSuite('StubExpectationsTest');
 
         return $suite;
     }

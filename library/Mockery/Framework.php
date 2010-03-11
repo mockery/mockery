@@ -15,9 +15,9 @@ class Mockery_Framework
 
 spl_autoload_register(array('Mockery_Framework', 'autoload'));
 
-function mockery($className, $custom = null)
+function mockery($className, $custom = null, array $ctorArguments = array())
 {
-    return Mockery::mock($className, $custom);
+    return Mockery::mock($className, $custom, $ctorArguments);
 }
 
 function mockery_verify()

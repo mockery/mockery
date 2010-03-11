@@ -105,5 +105,20 @@ class MockeryTest extends PHPUnit_Framework_TestCase
         $mock2 = mockery('MockeryTest_EmptyClass');
         $this->assertTrue($mock !== $mock2);
     }
+    
+    // Added extra parameter to pass optional constructor arguments
+    public function testShouldBeAbleToMockNonDefaultConstructorClass()
+    {
+    	// Arguments are deliberately given in inverse order
+    	$arguments = array(
+    		'founded' => new DateTime('now'),
+    		'name' => 'HeavyMetalInc.'
+    	);
+    	$mock = mockery('MockeryTest_RecordLabel', null, $arguments);
+    	$this->assertTrue($mock instanceof MockeryTest_RecordLabel);
+    	$mock = mockery('MockeryTest_RecordLabel', 'MockertyTest_TestRecordLabel', $arguments);
+    	$this->assertTrue($mock instanceof MockeryTest_RecordLabel);
+    }
+    
 
 }

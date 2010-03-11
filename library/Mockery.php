@@ -19,7 +19,7 @@ class Mockery
         }
     }
 
-    public static function mock($className, $custom = null)
+    public static function mock($className, $custom = null, array $ctorArguments = array())
     {
         if (is_array($custom) && !class_exists($className)) {
             $mockery = new self($className);
@@ -37,7 +37,16 @@ class Mockery
         } else {
             $class = $mockery->getMockClassName();
         }
-        $mockObject = new $class();
+        if (count($ctorArguments) > 0)
+        {
+        	$refMockObject = new ReflectionClass($class);
+        	$ctorArguments = self::_orderArguments($ctorArguments, $refMockObject);
+        	$mockObject = $refMockObject->newInstanceArgs($ctorArguments);
+        }
+        else
+        {
+        	$mockObject = new $class();
+        }
         if ($mockObject instanceof Mockery_Stub && is_array($custom)) {
             $mockObject->mockery_set($custom);
         } elseif (is_array($custom)) {
@@ -87,7 +96,7 @@ class Mockery
         return $this->_mockClassName;
     }
 
-    public function createMockObject()
+    public function createMockObject(array $ctorArguments = array())
     {
         if (!class_exists($this->getClassName(), true) && !interface_exists($this->getClassName(), true)) {
             $this->setMockClassName($this->getClassName());
@@ -188,5 +197,26 @@ class Mockery
         $definition .= ' (' . $paramDef . ')';
         return $definition;
     }
-
+	
+    protected static function _orderArguments(array $ctorArguments, ReflectionClass $refMockObject)
+    {
+    	$refArguments = $refMockObject->getConstructor()->getParameters();
+    	$orderedArgumentList = array();
+    	foreach($refArguments as $argument)
+    	{
+    		if (isset($ctorArguments[$argument->getName()]))
+    		{
+    			$orderedArgumentList[] = $ctorArguments[$argument->getName()];
+    		}
+    		else if ($argument->isOptional())
+    		{
+    			$orderedArgumentList[] = $argument->getDefaultValue();
+    		}
+    		else
+    		{
+    			throw new Mockery_Exception('Mandatory  argumenet ' . $argument->getName() . ' not specified');
+    		}	
+    	}
+    	return $orderedArgumentList;
+    }
 }

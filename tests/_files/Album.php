@@ -53,3 +53,33 @@ class MockeryTest_Album
 class MockeryTest_Artist {}
 
 class MockeryTest_Album_Exception extends Exception {}
+
+class MockeryTest_RecordLabel
+{
+	protected $name;
+	protected $founded;
+	protected $artists;
+	
+	public function __construct($name, DateTime $founded, array $artists = array())
+	{
+		$this->name = $name;
+		$this->founded = $founded;
+		foreach ($artists as $artist)
+		{
+			$this->addArtist($artist);
+		}
+	}
+	
+	public function addArtist(MockeryTest_Artist $artist)
+	{
+		if (in_array($artist, $this->artists, true))
+		{
+			throw new MockeryTest_Album_Exception('Artist ' . $artist->getName() . ' is already with this label.');
+		}
+	}
+	
+	public function getName()
+	{
+		return $this->name;
+	}
+}

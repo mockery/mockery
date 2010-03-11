@@ -29,6 +29,4 @@ class RegressionTest extends PHPUnit_Framework_TestCase
             $this->fail('Mock object checking threw an Exception reading: ' . $e->getMessage());
         }
     }
-
-
 }
