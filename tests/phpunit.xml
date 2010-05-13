@@ -1,0 +1,18 @@
+<phpunit bootstrap="./Bootstrap.php">
+    <testsuite name="Mockery Test Suite">
+        <directory>./</directory>
+    </testsuite>
+
+    <groups>
+        <exclude>
+            <group>disable</group>
+        </exclude>
+    </groups>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../library/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
+
