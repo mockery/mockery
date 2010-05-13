@@ -122,6 +122,10 @@ class Loader
      */
     public function loadClass($className)
     {
+        if ($className === 'Mockery') {
+            require 'Mockery.php';
+            return;
+        }
         if (null === $this->_namespace
         || $this->_namespace.$this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace.$this->_namespaceSeparator))) {
             $fileName = '';
