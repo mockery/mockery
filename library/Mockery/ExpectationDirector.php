@@ -68,10 +68,13 @@ class ExpectationDirector
         $expectation = $this->_findExpectation($args);
         if (is_null($expectation)) {
             throw new \Mockery\Exception(
-                'No matching handler found for' . \Mockery::formatArgs($this->_name, $args)
+                'No matching handler found for '
+                . \Mockery::formatArgs($this->_name, $args)
+                . '. Either the method was unexpected or its arguments matched'
+                . ' no expected argument list for this method'
             );
         }
-        $expectation->verifyCall($args);
+        return $expectation->verifyCall($args);
     }
     
     /**

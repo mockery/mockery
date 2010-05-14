@@ -81,6 +81,7 @@ class Mock
         $expectation = new \Mockery\Expectation($this, $method);
         $this->_expectations[$method]->addExpectation($expectation);
         $this->_lastExpectation = $expectation;
+        return $expectation;
     }
     
     /**
@@ -95,6 +96,15 @@ class Mock
             return $return;
         }
         //return parent::__call($method, $args); - when we get to subclassing mocks
+    }
+    
+    public function mockery_verify()
+    {
+        if ($this->_verified) return true;
+        $this->_verified = true;
+        foreach($this->_expectations as $director) {
+            $director->verify();
+        }
     }
 
 }

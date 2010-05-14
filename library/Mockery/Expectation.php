@@ -109,6 +109,13 @@ class Expectation
     protected $_globally = false;
     
     /**
+     * Flag indicating we expect no arguments
+     *
+     * @var bool
+     */
+    protected $_noArgsExpectation = false;
+    
+    /**
      * Constructor
      *
      * @param string $name
@@ -157,9 +164,17 @@ class Expectation
      */
     protected function _getReturnValue(array $args)
     {
-        return array_shift($this->_returnQueue);
+        if(count($this->_returnQueue) == 1) {
+            $return = current($this->_returnQueue);
+        } else {
+            $return = array_shift($this->_returnQueue);
+        }
+        if (is_callable($return)) {
+            return call_user_func_array($return, $args);
+        }
+        return $return;
     }
-    
+
     /**
      * Checks if this expectation is eligible for additional calls
      *
@@ -220,7 +235,7 @@ class Expectation
      */
     public function matchArgs(array $args)
     {
-        if(empty($this->_expectedArgs)) {
+        if(empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
             return true;
         }
         if(count($args) !== count($this->_expectedArgs)) {
@@ -248,9 +263,15 @@ class Expectation
         if ($expected == $actual) {
             return true;
         }
-        if (is_string($expected) && !is_array($actual)) {
+        if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
             $result = @preg_match($expected, (string) $actual);
-            if($result === true) {
+            if($result) {
+                return true;
+            }
+        }
+        if (is_string($expected) && is_object($actual)) {
+            $result = $actual instanceof $expected;
+            if($result) {
                 return true;
             }
         }
@@ -276,6 +297,7 @@ class Expectation
      */
     public function withNoArgs()
     {
+        $this->_noArgsExpectation = true;
         return $this->with();
     }
     

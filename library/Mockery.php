@@ -74,7 +74,7 @@ class Mockery
         if ($args && !empty($args)) {
             $parts = array();
             foreach($args as $arg) {
-                $parts[] = (string) $arg;
+                $parts[] = is_object($arg) ? get_class($arg) : (string) $arg;
             }
             $return .= implode(', ', $parts); // TODO: improve format
             

@@ -33,7 +33,7 @@ class AtMost extends CountValidatorAbstract
     {
         if ($this->_limit < $n) {
             throw new Exception(
-                'Method ' . (string) $this->_expectation . ' should be called'
+                'Method should be called'
                 . ' at most ' . $this->_limit . ' times but called ' . $n
                 . ' times.'
             );
