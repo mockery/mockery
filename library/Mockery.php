@@ -36,7 +36,7 @@ class Mockery
      */
     public static function mock($class)
     {
-        $mock = new Mockery\Mock($class);
+        $mock = new \Mockery\Mock($class);
         self::_rememberMock($mock);
         return $mock;
     }
@@ -59,6 +59,28 @@ class Mockery
     public static function close()
     {
         self::$_mocks = array();
+    }
+    
+    /**
+     * Utility method to format method name and args into a string
+     *
+     * @param string $method
+     * @param array $args
+     * @return string
+     */
+    public static function formatArgs($method, array $args = null)
+    {
+        $return = $method . '(';
+        if ($args && !empty($args)) {
+            $parts = array();
+            foreach($args as $arg) {
+                $parts[] = (string) $arg;
+            }
+            $return .= implode(', ', $parts); // TODO: improve format
+            
+        }
+        $return .= ')';
+        return $return;
     }
 
 }

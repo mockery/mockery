@@ -77,10 +77,24 @@ class Mock
      */
     public function shouldReceive($method)
     {
-        $this->_expectations[$method] = new Mockery\ExpectationDirector($method);
-        $expectation = new Mockery\Expectation($this, $method);
+        $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
+        $expectation = new \Mockery\Expectation($this, $method);
         $this->_expectations[$method]->addExpectation($expectation);
         $this->_lastExpectation = $expectation;
+    }
+    
+    /**
+     * Capture calls to this mock
+     */
+    public function __call($method, array $args) {
+        if (isset($this->_expectations[$method])) {
+            $handler = $this->_expectations[$method];
+            return $handler->call($args);
+        } elseif ($this->_ignoreMissing) {
+            $return = new \Mockery\Undefined;
+            return $return;
+        }
+        //return parent::__call($method, $args); - when we get to subclassing mocks
     }
 
 }

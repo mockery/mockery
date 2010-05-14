@@ -87,6 +87,13 @@ class Expectation
     protected $_orderNumber = null;
     
     /**
+     * Integer representing the call order of this expectation on a global basis
+     *
+     * @var int
+     */
+    protected $_globalOrderNumber = null;
+    
+    /**
      * Flag indicating that an exception is expected to be throw (not returned)
      *
      * @var bool
@@ -94,11 +101,19 @@ class Expectation
     protected $_throw = false;
     
     /**
+     * Flag indicating whether the order of calling is determined locally or
+     * globally
+     *
+     * @var bool
+     */
+    protected $_globally = false;
+    
+    /**
      * Constructor
      *
      * @param string $name
      */
-    public function __construct(Mockery\Mock $mock, $name)
+    public function __construct(\Mockery\Mock $mock, $name)
     {
         $this->_mock = $mock;
         $this->_name = $name;
@@ -113,7 +128,7 @@ class Expectation
      */
     public function __toString()
     {
-        // TODO
+        return \Mockery::formatArgs($this->_expectedArgs);
     }
     
     /**
@@ -125,10 +140,10 @@ class Expectation
      */
     public function verifyCall(array $args)
     {
-        $this->_validateOrder();
+        $this->validateOrder();
         $this->_actualCount++;
         $return = $this->_getReturnValue($args);
-        if ($return instanceof Exception && $this->_throw === true) {
+        if ($return instanceof \Exception && $this->_throw === true) {
             throw $return;
         }
         return $return; 
@@ -142,7 +157,7 @@ class Expectation
      */
     protected function _getReturnValue(array $args)
     {
-        
+        return array_shift($this->_returnQueue);
     }
     
     /**
@@ -153,7 +168,7 @@ class Expectation
     public function isEligible()
     {
         foreach ($this->_countValidators as $validator) {
-            if (!$validator->isEligible()) {
+            if (!$validator->isEligible($this->_actualCount)) {
                 return false;
             }
         }
@@ -175,10 +190,13 @@ class Expectation
      *
      * @return void
      */
-    public function verifyOrder()
+    public function validateOrder()
     {
         if ($this->_orderNumber) {
-            $this->_mock->mockery_validate_order((string) $this, $this->_orderNumber);
+            $this->_mock->mockery_validateOrder((string) $this, $this->_orderNumber);
+        }
+        if ($this->_globalOrderNumber) {
+            $this->_mock->mockery_validateOrder((string) $this, $this->_globalOrderNumber);
         }
     }
     
@@ -200,7 +218,7 @@ class Expectation
      * @param array $args
      * @return bool
      */
-    protected function _matchArgs(array $args)
+    public function matchArgs(array $args)
     {
         if(empty($this->_expectedArgs)) {
             return true;
@@ -290,7 +308,7 @@ class Expectation
      */
     public function andReturnUndefined()
     {
-        $this->andReturn(new Mockery\Undefined);
+        $this->andReturn(new \Mockery\Undefined);
         return $this;
     }
     
@@ -303,7 +321,7 @@ class Expectation
      * @param Exception $previous
      * @return self
      */
-    public function andThrow($exception, $message = '', $code = 0, Exception $previous = null)
+    public function andThrow($exception, $message = '', $code = 0, \Exception $previous = null)
     {
         $this->_throw = true;
         $this->andReturn(new $exception($message, $code, $previous));
@@ -327,7 +345,7 @@ class Expectation
      */
     public function times($limit)
     {
-        $this->_countValidators[] = new {$this->_countValidatorClass}($this, $limit);
+        $this->_countValidators[] = new $this->_countValidatorClass($this, $limit);
         $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
         return $this;
     }
@@ -392,8 +410,45 @@ class Expectation
      */
     public function ordered($group = null)
     {
-        $this->_orderNumber = $this->_defineOrdered($group, $this->_mock);
+        if ($this->_globally) {
+            $this->_globalOrderNumber = $this->_defineOrdered($group, $this->_mock->mockery_getContainer());
+        } else {
+            $this->_orderNumber = $this->_defineOrdered($group, $this->_mock);
+        }
+        $this->_globally = false;
         return $this;
+    }
+    
+    /**
+     * Indicates call order should apply globally
+     *
+     * @return self
+     */
+    public function globally()
+    {
+        $this->_globally = true;
+        return $this;
+    }
+    
+    /**
+     * Setup the ordering tracking on the mock or mock container
+     *
+     * @param string $group
+     * @param object $ordering
+     * @return int
+     */
+    protected function _defineOrdered($group, $ordering)
+    {
+        $groups = $ordering->mockery_getGroups();
+        if (is_null($group)) {
+            $result = $ordering->mockery_allocateOrder();
+        } elseif (isset($groups[$group])) {
+            $result = $groups[$group];
+        } else {
+            $result = $ordering->mockery_allocateOrder();
+            $ordering->mockery_setGroup($group, $result);
+        }
+        return $result;
     }
 
 }

@@ -52,9 +52,75 @@ class ExpectationDirector
      *
      * @param Mutateme\Expectation $expectation
      */
-    public function addExpectation(Mutateme\Expectation $expectation)
+    public function addExpectation(\Mockery\Expectation $expectation)
     {
         $this->_expectations[] = $expectation;
+    }
+    
+    /**
+     * Handle a method call being directed by this instance
+     *
+     * @param array $args
+     * @return mixed
+     */
+    public function call(array $args)
+    {
+        $expectation = $this->_findExpectation($args);
+        if (is_null($expectation)) {
+            throw new \Mockery\Exception(
+                'No matching handler found for' . \Mockery::formatArgs($this->_name, $args)
+            );
+        }
+        $expectation->verifyCall($args);
+    }
+    
+    /**
+     * Verify all expectations of the director
+     *
+     * @throws \Mockery\CountValidator\Exception
+     * @return void
+     */
+    public function verify()
+    {
+        if (!empty($this->_expectations)) {
+            foreach ($this->_expectations as $exp) {
+                $exp->verify();
+            }
+        }
+    }
+    
+    /**
+     * Attempt to locate an expecatation matching the provided args
+     *
+     * @param array $args
+     * @return mixed
+     */
+    protected function _findExpectation(array $args)
+    {
+        if (!empty($this->_expectations)) {
+            return $this->_findExpectationIn($this->_expectations, $args);
+        }
+    }
+    
+    /**
+     * Search current array of expectations for a match
+     *
+     * @param array $expectations
+     * @param array $args
+     * @return mixed
+     */
+    protected function _findExpectationIn(array $expectations, array $args)
+    {
+        foreach ($expectations as $exp) {
+            if ($exp->matchArgs($args) && $exp->isEligible()) {
+                return $exp;
+            }
+        }
+        foreach ($expectations as $exp) {
+            if ($exp->matchArgs($args)) {
+                return $exp;
+            }
+        }
     }
 
 }
