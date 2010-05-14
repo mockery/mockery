@@ -58,6 +58,27 @@ class Mock
      * @var string
      */
     protected $_name = null;
+    
+    /**
+     * Order number of allocation
+     *
+     * @var int
+     */
+    protected $_allocatedOrder = 0;
+    
+    /**
+     * Current ordered number
+     *
+     * @var int
+     */
+    protected $_currentOrder = 0;
+    
+    /**
+     * Ordered groups
+     *
+     * @var array
+     */
+    protected $_groups = array();
 
     /**
      * Constructor
@@ -77,7 +98,9 @@ class Mock
      */
     public function shouldReceive($method)
     {
-        $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
+        if (!isset($this->_expectations[$method])) {
+            $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
+        }
         $expectation = new \Mockery\Expectation($this, $method);
         $this->_expectations[$method]->addExpectation($expectation);
         $this->_lastExpectation = $expectation;
@@ -95,9 +118,14 @@ class Mock
             $return = new \Mockery\Undefined;
             return $return;
         }
-        //return parent::__call($method, $args); - when we get to subclassing mocks
     }
     
+    /**
+     * Iterate across all expectation directors and validate each
+     *
+     * @throws \Mockery\CountValidator\Exception
+     * @return void
+     */
     public function mockery_verify()
     {
         if ($this->_verified) return true;
@@ -105,6 +133,67 @@ class Mock
         foreach($this->_expectations as $director) {
             $director->verify();
         }
+    }
+    
+    /**
+     * Fetch the next available allocation order number
+     *
+     * @return int
+     */
+    public function mockery_allocateOrder()
+    {
+        $this->_allocatedOrder += 1;
+        return $this->_allocatedOrder;
+    }
+    
+    /**
+     * Fetch array of ordered groups
+     *
+     * @return array
+     */
+    public function mockery_getGroups()
+    {
+        return $this->_groups;
+    }
+    
+    /**
+     * Set current ordered number
+     *
+     * @param int $order
+     */
+    public function mockery_setCurrentOrder($order)
+    {
+        $this->_currentOrder = $order;
+        return $this->_currentOrder;
+    }
+    
+    /**
+     * Get current ordered number
+     *
+     * @return int
+     */
+    public function mockery_getCurrentOrder()
+    {
+        return $this->_currentOrder;
+    }
+    
+    /**
+     * Validate the current mock's ordering
+     *
+     * @param string $method
+     * @param int $order
+     * @throws \Mockery\Exception
+     * @return void
+     */
+    public function mockery_validateOrder($method, $order)
+    {
+        if ($order < $this->_currentOrder) {
+            throw new \Mockery\Exception(
+                'Method ' . $method . ' called out of order: expected order '
+                . $order . ', was ' . $this->_currentOrder
+            );
+        }
+        $this->mockery_setCurrentOrder($order);
     }
 
 }

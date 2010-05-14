@@ -38,6 +38,13 @@ class ExpectationDirector
     protected $_expectations = array();
     
     /**
+     * The expected order of next call
+     *
+     * @var int
+     */
+    protected $_expectedOrder = null;
+    
+    /**
      * Constructor
      *
      * @param string $name

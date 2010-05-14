@@ -249,5 +249,202 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->foo();
         $this->mock->mockery_verify();
     }
+    
+    public function testCalledZeroOrMoreTimesAtZeroCalls()
+    {
+        $this->mock->shouldReceive('foo')->zeroOrMoreTimes();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCalledZeroOrMoreTimesAtThreeCalls()
+    {
+        $this->mock->shouldReceive('foo')->zeroOrMoreTimes();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testTimesCountCalls()
+    {
+        $this->mock->shouldReceive('foo')->times(4);
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testTimesCountCallThrowsExceptionOnTooFewCalls()
+    {
+        $this->mock->shouldReceive('foo')->times(2);
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testTimesCountCallThrowsExceptionOnTooManyCalls()
+    {
+        $this->mock->shouldReceive('foo')->times(2);
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCalledAtLeastOnceAtExactlyOneCall()
+    {
+        $this->mock->shouldReceive('foo')->atLeast()->once();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCalledAtLeastOnceAtExactlyThreeCalls()
+    {
+        $this->mock->shouldReceive('foo')->atLeast()->times(3);
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testCalledAtLeastThrowsExceptionOnTooFewCalls()
+    {
+        $this->mock->shouldReceive('foo')->atLeast()->twice();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCalledAtMostOnceAtExactlyOneCall()
+    {
+        $this->mock->shouldReceive('foo')->atMost()->once();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCalledAtMostAtExactlyThreeCalls()
+    {
+        $this->mock->shouldReceive('foo')->atMost()->times(3);
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testCalledAtLeastThrowsExceptionOnTooManyCalls()
+    {
+        $this->mock->shouldReceive('foo')->atMost()->twice();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testExactCountersOverrideAnyPriorSetNonExactCounters()
+    {
+        $this->mock->shouldReceive('foo')->atLeast()->once()->once();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testComboOfLeastAndMostCallsWithOneCall()
+    {
+        $this->mock->shouldReceive('foo')->atleast()->once()->atMost()->twice();
+        $this->mock->foo();
+        $this->mock->mockery_verify(); 
+    }
+    
+    public function testComboOfLeastAndMostCallsWithTwoCalls()
+    {
+        $this->mock->shouldReceive('foo')->atleast()->once()->atMost()->twice();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify(); 
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testComboOfLeastAndMostCallsThrowsExceptionAtTooFewCalls()
+    {
+        $this->mock->shouldReceive('foo')->atleast()->once()->atMost()->twice();
+        $this->mock->mockery_verify(); 
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testComboOfLeastAndMostCallsThrowsExceptionAtTooManyCalls()
+    {
+        $this->mock->shouldReceive('foo')->atleast()->once()->atMost()->twice();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify(); 
+    }
+    
+    public function testCallCountingOnlyAppliesToMatchedExpectations()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->once();
+        $this->mock->shouldReceive('foo')->with(2)->twice();
+        $this->mock->shouldReceive('foo')->with(3);
+        $this->mock->foo(1);
+        $this->mock->foo(2);
+        $this->mock->foo(2);
+        $this->mock->foo(3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testCallCountingThrowsExceptionOnAnyMismatch()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->once();
+        $this->mock->shouldReceive('foo')->with(2)->twice();
+        $this->mock->shouldReceive('foo')->with(3);
+        $this->mock->shouldReceive('bar');
+        $this->mock->foo(1);
+        $this->mock->foo(2);
+        $this->mock->foo(3);
+        $this->mock->bar();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testOrderedCallsWithoutError()
+    {
+        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->foo();
+        $this->mock->bar();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testOrderedCallsWithOutOfOrderError()
+    {
+        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
 
 }
