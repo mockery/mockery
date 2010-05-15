@@ -24,7 +24,8 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
 
     public function setup ()
     {
-        $this->mock = \Mockery::mock('foo');
+        $container = new \Mockery\Container;
+        $this->mock = $container->mock('foo');
     }
     
     public function teardown()
@@ -627,6 +628,70 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     {
         $this->mock->shouldReceive('foo')->andReturn('bar')->byDefault();
         $this->assertEquals('bar', $this->mock->foo());
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDefaultExpectationsValidatedInCorrectOrder()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->once()->andReturn('first')->byDefault();
+        $this->mock->shouldReceive('foo')->with(2)->once()->andReturn('second')->byDefault();
+        $this->assertEquals('first', $this->mock->foo(1));
+        $this->assertEquals('second', $this->mock->foo(2));
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDefaultExpectationsAreReplacedByLaterConcreteExpectations()
+    {
+        $this->mock->shouldReceive('foo')->andReturn('bar')->once()->byDefault();
+        $this->mock->shouldReceive('foo')->andReturn('bar')->twice();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDefaultExpectationsCanBeChangedByLaterExpectations()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->andReturn('bar')->once()->byDefault();
+        $this->mock->shouldReceive('foo')->with(2)->andReturn('baz')->once();
+        try {
+            $this->mock->foo(1);
+            $this->fail('Expected exception not thrown');
+        } catch (\Mockery\Exception $e) {}
+        $this->mock->foo(2);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testDefaultExpectationsCanBeOrdered()
+    {
+        $this->mock->shouldReceive('foo')->ordered()->byDefault();
+        $this->mock->shouldReceive('bar')->ordered()->byDefault();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDefaultExpectationsCanBeOrderedAndReplaced()
+    {
+        $this->mock->shouldReceive('foo')->ordered()->byDefault();
+        $this->mock->shouldReceive('bar')->ordered()->byDefault();
+        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testByDefaultOperatesFromMockConstruction()
+    {
+        $mock = \Mockery::mock('f', array('foo'=>'rfoo','bar'=>'rbar','baz'=>'rbaz'))->byDefault();
+        $mock->shouldReceive('foo')->andReturn('foobar');
+        $this->assertEquals('foobar', $mock->foo());
+        $this->assertEquals('rbar', $mock->bar());
+        $this->assertEquals('rbaz', $mock->baz());
+        
     }
 
 }

@@ -79,15 +79,26 @@ class Mock
      * @var array
      */
     protected $_groups = array();
+    
+    /**
+     * Mock container containing this mock object
+     *
+     * @var \Mockery\Container
+     */
+    protected $_container = null;
 
     /**
      * Constructor
      *
      * @param string $class
      */
-    public function __construct($name)
+    public function __construct($name, \Mockery\Container $container = null)
     {
         $this->_name = $name;
+        if(is_null($container)) {
+            $container = new \Mockery\Container;
+        }
+        $this->_container = $container;
     }
     
     /**
@@ -136,6 +147,16 @@ class Mock
         foreach($this->_expectations as $director) {
             $director->verify();
         }
+    }
+    
+    /**
+     * Tear down tasks for this mock
+     *
+     * @return void
+     */
+    public function mockery_teardown()
+    {
+        
     }
     
     /**
