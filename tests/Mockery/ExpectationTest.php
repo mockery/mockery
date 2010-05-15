@@ -686,12 +686,13 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function testByDefaultOperatesFromMockConstruction()
     {
-        $mock = \Mockery::mock('f', array('foo'=>'rfoo','bar'=>'rbar','baz'=>'rbaz'))->byDefault();
+        $container = new \Mockery\Container;
+        $mock = $container->mock('f', array('foo'=>'rfoo','bar'=>'rbar','baz'=>'rbaz'))->byDefault();
         $mock->shouldReceive('foo')->andReturn('foobar');
         $this->assertEquals('foobar', $mock->foo());
         $this->assertEquals('rbar', $mock->bar());
         $this->assertEquals('rbaz', $mock->baz());
-        
+        $mock->mockery_verify();
     }
 
 }

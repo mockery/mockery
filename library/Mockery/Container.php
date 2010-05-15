@@ -62,15 +62,26 @@ class Container
         $name = null;
         $quickdefs = array();
         $args = func_get_args();
-        if (is_string($args[0])) {
-            if (class_exists($args[0])) {
-                $class = $args[0];
+        while (count($args) > 0) {
+            $arg = current($args);
+            if (is_string($arg) && class_exists($arg)) {
+                $class = array_shift($args);
+            } elseif (is_string($arg)) {
+                $name = array_shift($args);
+            } elseif (is_array($arg)) {
+                $quickdefs = array_shift($args);
             } else {
-                $name = $args[0];
+                throw new \Mockery\Exception(
+                    'Unable to parse arguments sent to mock()'
+                );
             }
         }
+        
         if (!is_null($name)) {
             $mock = new \Mockery\Mock($name, $this);
+        }
+        if (!empty($quickdefs)) {
+            $mock->shouldReceive($quickdefs);
         }
         $this->rememberMock($mock);
         return $mock;

@@ -104,18 +104,50 @@ class Mock
     /**
      * Set expected method calls
      *
-     * @param string $method
+     * @param string|array $methods
      * @return
      */
-    public function shouldReceive($method)
+    public function shouldReceive($methods)
     {
-        if (!isset($this->_expectations[$method])) {
-            $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
+        if (!is_array($methods)) {
+            $method = $methods;
+            if (!isset($this->_expectations[$method])) {
+                $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
+            }
+            $expectation = new \Mockery\Expectation($this, $method);
+            $this->_expectations[$method]->addExpectation($expectation);
+        } elseif (empty($methods)) {
+            return;
+        } else {
+            foreach ($methods as $method=>$return) {
+                if (!isset($this->_expectations[$method])) {
+                    $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
+                }
+                $expectation = new \Mockery\Expectation($this, $method);
+                $expectation->andReturn($return);
+                $this->_expectations[$method]->addExpectation($expectation);
+            }
         }
-        $expectation = new \Mockery\Expectation($this, $method);
-        $this->_expectations[$method]->addExpectation($expectation);
         $this->_lastExpectation = $expectation;
         return $expectation;
+    }
+    
+    /**
+     * In the event shouldReceive() accepting an array of methods/returns
+     * this method will switch them from normal expectations to default
+     * expectations
+     *
+     * @return self
+     */
+    public function byDefault()
+    {
+        foreach ($this->_expectations as $director) {
+            $exps = $director->getExpectations();
+            foreach ($exps as $exp) {
+                $exp->byDefault();
+            }
+        }
+        return $this;
     }
     
     /**
@@ -130,7 +162,7 @@ class Mock
             return $return;
         }
         throw new \BadMethodCallException(
-            'Method ' . $method . ' does not exist on this class'
+            'Method ' . $method . ' does not exist on this class ' . get_class($this)
         );
     }
     

@@ -164,5 +164,15 @@ class ExpectationDirector
             }
         }
     }
+    
+    /**
+     * Return all expectations assigned to this director
+     *
+     * @return array
+     */
+    public function getExpectations()
+    {
+        return $this->_expectations;
+    }
 
 }
