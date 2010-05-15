@@ -45,6 +45,13 @@ class ExpectationDirector
     protected $_expectedOrder = null;
     
     /**
+     * Stores an array of all default expectations for this mock
+     *
+     * @var array
+     */
+    protected $_defaults = array();
+    
+    /**
      * Constructor
      *
      * @param string $name
@@ -72,7 +79,7 @@ class ExpectationDirector
      */
     public function call(array $args)
     {
-        $expectation = $this->_findExpectation($args);
+        $expectation = $this->findExpectation($args);
         if (is_null($expectation)) {
             throw new \Mockery\Exception(
                 'No matching handler found for '
@@ -96,6 +103,10 @@ class ExpectationDirector
             foreach ($this->_expectations as $exp) {
                 $exp->verify();
             }
+        } else {
+            foreach ($this->_defaults as $exp) {
+                $exp->verify();
+            }
         }
     }
     
@@ -105,10 +116,31 @@ class ExpectationDirector
      * @param array $args
      * @return mixed
      */
-    protected function _findExpectation(array $args)
+    public function findExpectation(array $args)
     {
         if (!empty($this->_expectations)) {
             return $this->_findExpectationIn($this->_expectations, $args);
+        } else {
+            return $this->_findExpectationIn($this->_defaults, $args);
+        }
+    }
+    
+    /**
+     * Make the given expectation a default for all others assuming it was
+     * correctly created last
+     *
+     * @param \Mockery\Expectation
+     */
+    public function makeExpectationDefault(\Mockery\Expectation $expectation)
+    {
+        $last = end($this->_expectations);
+        if ($last === $expectation) {
+            array_pop($this->_expectations);
+            $this->_defaults[] = $expectation;
+        } else {
+            throw new \Mockery\Exception(
+                'Cannot turn a previously defined expectation into a default'
+            );
         }
     }
     

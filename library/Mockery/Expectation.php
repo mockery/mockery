@@ -135,7 +135,7 @@ class Expectation
      */
     public function __toString()
     {
-        return \Mockery::formatArgs($this->_expectedArgs);
+        return \Mockery::formatArgs($this->_name, $this->_expectedArgs);
     }
     
     /**
@@ -471,6 +471,30 @@ class Expectation
             $ordering->mockery_setGroup($group, $result);
         }
         return $result;
+    }
+    
+    /**
+     * Return order number
+     *
+     * @return int
+     */
+    public function getOrderNumber()
+    {
+        return $this->_orderNumber;
+    }
+    
+    /**
+     * Mark this expectation as being a default
+     *
+     * @return self
+     */
+    public function byDefault()
+    {
+        $director = $this->_mock->mockery_getExpectationsFor($this->_name);
+        if(!empty($director)) {
+            $director->makeExpectationDefault($this);
+        }
+        return $this;
     }
 
 }

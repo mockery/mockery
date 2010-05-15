@@ -118,6 +118,9 @@ class Mock
             $return = new \Mockery\Undefined;
             return $return;
         }
+        throw new \BadMethodCallException(
+            'Method ' . $method . ' does not exist on this class'
+        );
     }
     
     /**
@@ -144,6 +147,17 @@ class Mock
     {
         $this->_allocatedOrder += 1;
         return $this->_allocatedOrder;
+    }
+    
+    /**
+     * Set ordering for a group
+     *
+     * @param mixed $group
+     * @param int $order
+     */
+    public function mockery_setGroup($group, $order)
+    {
+        $this->_groups[$group] = $order;
     }
     
     /**
@@ -195,5 +209,33 @@ class Mock
         }
         $this->mockery_setCurrentOrder($order);
     }
-
+    
+    /**
+     * Return the expectations director for the given method
+     *
+     * @var string $method
+     * @return \Mockery\ExpectationDirector|null
+     */
+    public function mockery_getExpectationsFor($method)
+    {
+        if (isset($this->_expectations[$method])) {
+            return $this->_expectations[$method];
+        }
+    }
+    
+    /**
+     * Find an expectation matching the given method and arguments
+     *
+     * @var string $method
+     * @var array $args
+     * @return \Mockery\Expectation|null
+     */
+    public function mockery_findExpectation($method, array $args)
+    {
+        if (!isset($this->_expectations[$method])) {
+            return null;
+        }
+        $director = $this->_expectations[$method];
+        return $director->findExpectation($args);
+    }
 }

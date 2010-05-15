@@ -446,5 +446,187 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->foo();
         $this->mock->mockery_verify();
     }
+    
+    public function testDifferentArgumentsAndOrderingsPassWithoutException()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->ordered();
+        $this->mock->shouldReceive('foo')->with(2)->ordered();
+        $this->mock->foo(1);
+        $this->mock->foo(2);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testDifferentArgumentsAndOrderingsThrowExceptionWhenInWrongOrder()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->ordered();
+        $this->mock->shouldReceive('foo')->with(2)->ordered();
+        $this->mock->foo(2);
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testUnorderedCallsIgnoredForOrdering()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->ordered();
+        $this->mock->shouldReceive('foo')->with(2);
+        $this->mock->shouldReceive('foo')->with(3)->ordered();
+        $this->mock->foo(2);
+        $this->mock->foo(1);
+        $this->mock->foo(2);
+        $this->mock->foo(3);
+        $this->mock->foo(2);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testOrderingOfDefaultGrouping()
+    {
+        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->foo();
+        $this->mock->bar();
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testOrderingOfDefaultGroupingThrowsExceptionOnWrongOrder()
+    {
+        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testOrderingUsingNumberedGroups()
+    {
+        $this->mock->shouldReceive('start')->ordered(1);
+        $this->mock->shouldReceive('foo')->ordered(2);
+        $this->mock->shouldReceive('bar')->ordered(2);
+        $this->mock->shouldReceive('final')->ordered();
+        $this->mock->start();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->bar();
+        $this->mock->final();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testOrderingUsingNamedGroups()
+    {
+        $this->mock->shouldReceive('start')->ordered('start');
+        $this->mock->shouldReceive('foo')->ordered('foobar');
+        $this->mock->shouldReceive('bar')->ordered('foobar');
+        $this->mock->shouldReceive('final')->ordered();
+        $this->mock->start();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->bar();
+        $this->mock->final();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testGroupedUngroupedOrderingDoNotOverlap()
+    {
+        $s = $this->mock->shouldReceive('start')->ordered();
+        $m = $this->mock->shouldReceive('mid')->ordered('foobar');
+        $e = $this->mock->shouldReceive('end')->ordered();
+        $this->assertTrue($s->getOrderNumber() < $m->getOrderNumber());
+        $this->assertTrue($m->getOrderNumber() < $e->getOrderNumber());
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testGroupedOrderingThrowsExceptionWhenCallsDisordered()
+    {
+        $this->mock->shouldReceive('foo')->ordered('first');
+        $this->mock->shouldReceive('bar')->ordered('second');
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testExpectationMatchingWithNoArgsOrderings()
+    {
+        $this->mock->shouldReceive('foo')->withNoArgs()->once()->ordered();
+        $this->mock->shouldReceive('bar')->withNoArgs()->once()->ordered();
+        $this->mock->shouldReceive('foo')->withNoArgs()->once()->ordered();
+        $this->mock->foo();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testExpectationMatchingWithAnyArgsOrderings()
+    {
+        $this->mock->shouldReceive('foo')->withAnyArgs()->once()->ordered();
+        $this->mock->shouldReceive('bar')->withAnyArgs()->once()->ordered();
+        $this->mock->shouldReceive('foo')->withAnyArgs()->once()->ordered();
+        $this->mock->foo();
+        $this->mock->bar();
+        $this->mock->foo();
+        $this->mock->mockery_verify();
+    }
+    
+    public function testEnsuresOrderingIsNotCrossMockByDefault()
+    {
+        $this->markTestIncomplete('Pending mock containers');
+        $this->mock->shouldReceive('foo')->ordered();
+        $mock2 = \Mockery::mock('bar'); // need parent container for mocks
+        $mock2->shouldReceive('bar')->ordered();
+        $mock2->bar();
+        $this->mock->foo();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testEnsuresOrderingIsCrossMockWhenGloballyFlagSet()
+    {
+        $this->markTestIncomplete('Pending mock containers');
+        $this->mock->shouldReceive('foo')->globally()->ordered();
+        $mock2 = \Mockery::mock('bar'); // need parent container for mocks
+        $mock2->shouldReceive('bar')->globally()->ordered();
+        $mock2->bar();
+        $this->mock->foo();
+    }
+    
+    public function testExpectationCastToStringFormatting()
+    {
+        $exp = $this->mock->shouldReceive('foo')->with(1, 'bar', new stdClass, array());
+        $this->assertEquals('foo(1, "bar", stdClass, Array)', (string) $exp);
+    }
+    
+    public function testMultipleExpectationCastToStringFormatting()
+    {
+        $this->markTestIncomplete('Need composite expectations');
+        $exp = $this->mock->shouldReceive('foo', 'bar')->with(1);
+        $this->assertEquals('[foo(1), bar(1)]', (string) $exp);
+    }
+    
+    public function testGroupedOrderingWithLimitsAllowsMultipleReturnValues()
+    {
+        $this->mock->shouldReceive('foo')->with(2)->once()->andReturn('first');
+        $this->mock->shouldReceive('foo')->with(2)->twice()->andReturn('second/third');
+        $this->mock->shouldReceive('foo')->with(2)->andReturn('infinity');
+        $this->assertEquals('first', $this->mock->foo(2));
+        $this->assertEquals('second/third', $this->mock->foo(2));
+        $this->assertEquals('second/third', $this->mock->foo(2));
+        $this->assertEquals('infinity', $this->mock->foo(2));
+        $this->assertEquals('infinity', $this->mock->foo(2));
+        $this->assertEquals('infinity', $this->mock->foo(2));
+        $this->mock->mockery_verify();
+    }
+    
+    public function testExpectationsCanBeMarkedAsDefaults()
+    {
+        $this->mock->shouldReceive('foo')->andReturn('bar')->byDefault();
+        $this->assertEquals('bar', $this->mock->foo());
+    }
 
 }
