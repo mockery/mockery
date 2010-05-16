@@ -105,5 +105,55 @@ class Mockery
         $return .= ')';
         return $return;
     }
-
+    
+    /**
+     * Utility function to parse shouldReceive() arguments and generate
+     * expectations from such as needed.
+     *
+     * @param \Mockery\MockInterface
+     * @param array $args
+     * @return \Mockery\CompositeExpectation
+     */
+    public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
+    {
+        $composite = new \Mockery\CompositeExpectation;
+        foreach ($args as $arg) {
+            if (is_array($arg)) {
+                foreach($arg as $k=>$v) {
+                    $expectation = self::_buildDemeterChain($mock, $k, $add)->andReturn($v);
+                    $composite->add($expectation);
+                }
+            } elseif (is_string($arg)) {
+                $expectation = self::_buildDemeterChain($mock, $arg, $add);
+                $composite->add($expectation);
+            }
+        }
+        return $composite;
+    }
+    
+    protected static function _buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
+    {
+        $container = $mock->mockery_getContainer();
+        $names = explode('->', $arg);
+        $exp = null;
+        $nextExp = function ($n) use ($add) {return $add($n);};
+        while (true) {
+            $method = array_shift($names);
+            $exp = $mock->mockery_getExpectationsFor($method);
+            $needNew = false;
+            if (is_null($exp) || empty($names)) {
+                $needNew = true;
+            }
+            if ($needNew) $exp = $nextExp($method);
+            if (empty($names)) break;
+            if ($needNew) {
+                $mock = $container->mock('demeter_' . $method);
+                $exp->withNoArgs()->andReturn($mock);
+            } else {
+                $mock = $exp->returnValue(null);
+            }
+            $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};
+        }
+        return $exp;
+    }
 }

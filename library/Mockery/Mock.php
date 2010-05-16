@@ -20,7 +20,7 @@
  
 namespace Mockery;
 
-class Mock
+class Mock implements MockInterface
 {
 
     /**
@@ -104,12 +104,25 @@ class Mock
     /**
      * Set expected method calls
      *
-     * @param string|array $methods
-     * @return
+     * @param mixed
+     * @return \Mockery\Expectation
      */
-    public function shouldReceive($methods)
+    public function shouldReceive()
     {
-        if (!is_array($methods)) {
+        $self =& $this;
+        $expectations =& $this->_expectations;
+        $lastExpectation = \Mockery::parseShouldReturnArgs(
+            $this, func_get_args(), function($method) use ($self, $expectations) {
+                if (!isset($expectations[$method])) {
+                $expectations[$method] = new \Mockery\ExpectationDirector($method);
+                }
+                $expectation = new \Mockery\Expectation($self, $method);
+                $expectations[$method]->addExpectation($expectation);
+                return $expectation;
+            }
+        );
+        return $lastExpectation;
+        /**if (!is_array($methods)) {
             $method = $methods;
             if (!isset($this->_expectations[$method])) {
                 $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
@@ -129,7 +142,7 @@ class Mock
             }
         }
         $this->_lastExpectation = $expectation;
-        return $expectation;
+        return $expectation;**/
     }
     
     /**
@@ -301,4 +314,5 @@ class Mock
     {
         return $this->_container;
     }
+
 }

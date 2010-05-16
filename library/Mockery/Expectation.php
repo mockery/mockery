@@ -504,5 +504,15 @@ class Expectation
         }
         return $this;
     }
+    
+    /**
+     * Return the parent mock of the expectation
+     *
+     * @return \Mockery\Mock
+     */
+    public function getMock()
+    {
+        return $this->_mock;
+    }
 
 }

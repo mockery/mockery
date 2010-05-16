@@ -615,7 +615,6 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function testMultipleExpectationCastToStringFormatting()
     {
-        $this->markTestIncomplete('Need composite expectations');
         $exp = $this->mock->shouldReceive('foo', 'bar')->with(1);
         $this->assertEquals('[foo(1), bar(1)]', (string) $exp);
     }
