@@ -156,7 +156,6 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     /**
      * @expectedException \Mockery\Exception
-     * @group 1A
      */
     public function testExpectsNoArgumentsThrowsExceptionIfAnyPassed()
     {
@@ -170,12 +169,6 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 'k', new stdClass);
-    }
-    
-    public function testUsesMockeryScalarConstantPlaceholdersForAnyArgument() //and all scalars
-    {
-        $this->markTestIncomplete();
-        $this->mock->shouldReceive('foo')->with(\Mockery::ANY);
     }
     
     public function testExpectsArgumentMatchingRegularExpression()
@@ -595,9 +588,8 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function testEnsuresOrderingIsNotCrossMockByDefault()
     {
-        $this->markTestIncomplete('Pending mock containers');
         $this->mock->shouldReceive('foo')->ordered();
-        $mock2 = \Mockery::mock('bar'); // need parent container for mocks
+        $mock2 = $this->container->mock('bar');
         $mock2->shouldReceive('bar')->ordered();
         $mock2->bar();
         $this->mock->foo();
@@ -608,9 +600,8 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
      */
     public function testEnsuresOrderingIsCrossMockWhenGloballyFlagSet()
     {
-        $this->markTestIncomplete('Pending mock containers');
         $this->mock->shouldReceive('foo')->globally()->ordered();
-        $mock2 = \Mockery::mock('bar'); // need parent container for mocks
+        $mock2 = $this->container->mock('bar');
         $mock2->shouldReceive('bar')->globally()->ordered();
         $mock2->bar();
         $this->mock->foo();
@@ -1228,6 +1219,22 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $function = function($arg){return $arg % 2 == 0;};
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo(5);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testMatchPrecedenceBasedOnExpectedCallsFavouringExplicitMatch()
+    {
+        $this->mock->shouldReceive('foo')->with(1)->once();
+        $this->mock->shouldReceive('foo')->with(Mockery::any())->never();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testMatchPrecedenceBasedOnExpectedCallsFavouringAnyMatch()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::any())->once();
+        $this->mock->shouldReceive('foo')->with(1)->never();
+        $this->mock->foo(1);
         $this->mock->mockery_verify();
     }
     

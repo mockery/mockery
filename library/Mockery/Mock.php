@@ -291,4 +291,14 @@ class Mock
         $director = $this->_expectations[$method];
         return $director->findExpectation($args);
     }
+    
+    /**
+     * Return the container for this mock
+     *
+     * @return \Mockery\Container
+     */
+    public function mockery_getContainer()
+    {
+        return $this->_container;
+    }
 }

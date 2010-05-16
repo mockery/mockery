@@ -211,7 +211,8 @@ class Expectation
             $this->_mock->mockery_validateOrder((string) $this, $this->_orderNumber);
         }
         if ($this->_globalOrderNumber) {
-            $this->_mock->mockery_validateOrder((string) $this, $this->_globalOrderNumber);
+            $this->_mock->mockery_getContainer()
+                ->mockery_validateOrder((string) $this, $this->_globalOrderNumber);
         }
     }
     
