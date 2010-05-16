@@ -1212,6 +1212,25 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->mockery_verify();
     }
     
+    public function testOnConstraintMatchesArgument_ClosureEvaluatesToTrue()
+    {
+        $function = function($arg){return $arg % 2 == 0;};
+        $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
+        $this->mock->foo(4);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testOnConstraintThrowsExceptionWhenConstraintUnmatched_ClosureEvaluatesToFalse()
+    {
+        $function = function($arg){return $arg % 2 == 0;};
+        $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
+        $this->mock->foo(5);
+        $this->mock->mockery_verify();
+    }
+    
 }
 
 class Mockery_Duck {
