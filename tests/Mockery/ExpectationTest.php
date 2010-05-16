@@ -24,13 +24,13 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
 
     public function setup ()
     {
-        $container = new \Mockery\Container;
-        $this->mock = $container->mock('foo');
+        $this->container = new \Mockery\Container;
+        $this->mock = $this->container->mock('foo');
     }
     
     public function teardown()
     {
-        \Mockery::close();
+        $this->container->mockery_close();
     }
 
     public function testReturnsNullWhenNoArgs()
@@ -107,6 +107,25 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     {
         $this->mock->shouldReceive('foo')->andThrow(new OutOfBoundsException);
         $this->mock->foo();
+    }
+    
+    /**
+     * @expectedException OutOfBoundsException
+     */
+    public function testThrowsExceptionBasedOnArgs()
+    {
+        $this->mock->shouldReceive('foo')->andThrow('OutOfBoundsException');
+        $this->mock->foo();
+    }
+    
+    public function testThrowsExceptionBasedOnArgsWithMessage()
+    {
+        $this->mock->shouldReceive('foo')->andThrow('OutOfBoundsException', 'foo');
+        try {
+            $this->mock->foo();
+        } catch (OutOfBoundsException $e) {
+            $this->assertEquals('foo', $e->getMessage());
+        }
     }
     
     /**
@@ -694,5 +713,449 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('rbaz', $mock->baz());
         $mock->mockery_verify();
     }
-
+    
+    public function testByDefaultOnAMockDoesSquatWithoutExpectations()
+    {
+        $container = new \Mockery\Container;
+        $mock = $container->mock('f')->byDefault();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testByDefaultPreventedFromSettingDefaultWhenDefaultingExpectationWasReplaced()
+    {
+        $exp = $this->mock->shouldReceive('foo')->andReturn(1);
+        $this->mock->shouldReceive('foo')->andReturn(2);
+        $exp->byDefault();
+    }
+    
+    /**
+     * Argument Constraint Tests
+     */
+    
+    public function testAnyConstraintMatchesAnyArg()
+    {
+        $this->mock->shouldReceive('foo')->with(1, Mockery::any())->twice();
+        $this->mock->foo(1, 2);
+        $this->mock->foo(1, 'str');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testAnyConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::any())->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testArrayConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('array'))->once();
+        $this->mock->foo(array());
+        $this->mock->mockery_verify();
+    }
+    
+    public function testArrayConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('array'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testArrayConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('array'))->once();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testBoolConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('bool'))->once();
+        $this->mock->foo(true);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testBoolConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('bool'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testBoolConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('bool'))->once();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCallableConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('callable'))->once();
+        $this->mock->foo(function(){return 'f';});
+        $this->mock->mockery_verify();
+    }
+    
+    public function testCallableConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('callable'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testCallableConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('callable'))->once();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDoubleConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('double'))->once();
+        $this->mock->foo(2.25);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDoubleConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('double'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testDoubleConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('double'))->once();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testFloatConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('float'))->once();
+        $this->mock->foo(2.25);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testFloatConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('float'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testFloatConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('float'))->once();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testIntConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('int'))->once();
+        $this->mock->foo(2);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testIntConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('int'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testIntConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('int'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testLongConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('long'))->once();
+        $this->mock->foo(2);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testLongConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('long'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testLongConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('long'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testNullConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('null'))->once();
+        $this->mock->foo(null);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testNullConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('null'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testNullConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('null'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testNumericConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('numeric'))->once();
+        $this->mock->foo('2');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testNumericConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('numeric'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testNumericConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('numeric'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testObjectConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('object'))->once();
+        $this->mock->foo(new stdClass);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testObjectConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('object`'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testObjectConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('object'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testRealConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('real'))->once();
+        $this->mock->foo(2.25);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testRealConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('real'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testRealConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('real'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testResourceConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('resource'))->once();
+        $r = fopen(dirname(__FILE__) . '/_files/file.txt', 'r');
+        $this->mock->foo($r);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testResourceConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('resource'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testResourceConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('resource'))->once();
+        $this->mock->foo('f');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testScalarConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('scalar'))->once();
+        $this->mock->foo(2);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testScalarConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('scalar'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testScalarConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('scalar'))->once();
+        $this->mock->foo(array());
+        $this->mock->mockery_verify();
+    }
+    
+    public function testStringConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('string'))->once();
+        $this->mock->foo('2');
+        $this->mock->mockery_verify();
+    }
+    
+    public function testStringConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('string'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testStringConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('string'))->once();
+        $this->mock->foo(1);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testClassConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('stdClass'))->once();
+        $this->mock->foo(new stdClass);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testClassConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('stdClass'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testClassConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::type('stdClass'))->once();
+        $this->mock->foo(new Exception);
+        $this->mock->mockery_verify();
+    }
+    
 }

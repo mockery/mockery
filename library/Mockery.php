@@ -22,43 +22,36 @@ class Mockery
 {
 
     /**
-     * Stores an array of currently active mocks
+     * Return instance of ANY matcher
      *
-     * @var array
+     * @return
      */
-    protected static $_mocks = array();
-    
-    /**
-     * Generate a new Mock Object, Partial Mock or Stub
-     *
-     * @param string|object
-     * @return object
-     */
-    public static function mock($class)
+    public static function any()
     {
-        $mock = new \Mockery\Mock($class);
-        self::_rememberMock($mock);
-        return $mock;
+        $return = new \Mockery\Matcher\Any();
+        return $return;
     }
     
     /**
-     * Stores a Mock for later reference
+     * Return instance of TYPE matcher
      *
-     * @param object
+     * @return
      */
-    protected static function _rememberMock($mock)
+    public static function type($expected)
     {
-        self::$_mocks[] = $mock;  
+        $return = new \Mockery\Matcher\Type($expected);
+        return $return;
     }
     
     /**
-     * Cleans up the static store for the next Mockery usage
+     * Return instance of DUCKTYPE matcher
      *
-     * @return void
+     * @return
      */
-    public static function close()
+    public static function duck()
     {
-        self::$_mocks = array();
+        $return = new \Mockery\Matcher\Duck();
+        return $return;
     }
     
     /**

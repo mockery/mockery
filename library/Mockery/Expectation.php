@@ -260,7 +260,7 @@ class Expectation
         if ($expected === $actual) {
             return true;
         }
-        if ($expected == $actual) {
+        if (!is_object($expected) && !is_object($actual) && $expected == $actual) {
             return true;
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
@@ -274,6 +274,9 @@ class Expectation
             if($result) {
                 return true;
             }
+        }
+        if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
+            return $expected->match($actual);
         }
         return false;
     }
@@ -346,7 +349,11 @@ class Expectation
     public function andThrow($exception, $message = '', $code = 0, \Exception $previous = null)
     {
         $this->_throw = true;
-        $this->andReturn(new $exception($message, $code, $previous));
+        if (is_object($exception)) {
+            $this->andReturn($exception);
+        } else {
+            $this->andReturn(new $exception($message, $code, $previous));
+        }
         return $this;
     }
     
