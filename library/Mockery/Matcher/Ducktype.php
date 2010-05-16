@@ -20,25 +20,8 @@
 
 namespace Mockery\Matcher;
 
-abstract class MatcherAbstract
+class Ducktype extends MatcherAbstract
 {
-
-    /**
-     * The expected value (or part thereof)
-     *
-     * @var mixed
-     */
-    protected $_expected = null;
-    
-    /**
-     * Set the expected value
-     *
-     * @param mixed $expected
-     */
-    public function __construct($expected = null)
-    {
-        $this->_expected = $expected;
-    }
     
     /**
      * Check if the actual value matches the expected.
@@ -46,13 +29,27 @@ abstract class MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public abstract function match($actual);
+    public function match($actual)
+    {
+        if (!is_object($actual)) {
+            return false;
+        }
+        foreach ($this->_expected as $method) {
+            if (!method_exists($actual, $method)) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     /**
      * Return a string representation of this Matcher
      *
      * @return string
      */
-    public abstract function __toString();
-
+    public function __toString()
+    {
+        return '<Ducktype[' . implode(', ', $this->_expected) . ']>';
+    }
+    
 }

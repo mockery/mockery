@@ -20,25 +20,8 @@
 
 namespace Mockery\Matcher;
 
-abstract class MatcherAbstract
+class Contains extends MatcherAbstract
 {
-
-    /**
-     * The expected value (or part thereof)
-     *
-     * @var mixed
-     */
-    protected $_expected = null;
-    
-    /**
-     * Set the expected value
-     *
-     * @param mixed $expected
-     */
-    public function __construct($expected = null)
-    {
-        $this->_expected = $expected;
-    }
     
     /**
      * Check if the actual value matches the expected.
@@ -46,13 +29,33 @@ abstract class MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public abstract function match($actual);
+    public function match($actual)
+    {
+        foreach ($this->_expected as $k=>$v) {
+            if (!isset($actual[$k])) {
+                return false;
+            }
+            if ($actual[$k] !== $v) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     /**
      * Return a string representation of this Matcher
      *
      * @return string
      */
-    public abstract function __toString();
-
+    public function __toString()
+    {
+        $return = '<Contains[';
+        $elements = array();
+        foreach ($this->_expected as $k=>$v) {
+            $elements[] = $k . '=' . (string) $v;
+        }
+        $return .= implode(', ', $elements) . ']>';
+        return $return;
+    }
+    
 }

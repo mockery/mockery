@@ -34,4 +34,14 @@ class Any extends MatcherAbstract
         return true;
     }
     
+    /**
+     * Return a string representation of this Matcher
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return '<Any>';
+    }
+    
 }

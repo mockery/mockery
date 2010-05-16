@@ -48,9 +48,20 @@ class Mockery
      *
      * @return
      */
-    public static function duck()
+    public static function ducktype()
     {
-        $return = new \Mockery\Matcher\Duck();
+        $return = new \Mockery\Matcher\Ducktype(func_get_args());
+        return $return;
+    }
+    
+    /**
+     * Return instance of ARRAY matcher
+     *
+     * @return
+     */
+    public static function contains(array $part)
+    {
+        $return = new \Mockery\Matcher\Contains($part);
         return $return;
     }
     

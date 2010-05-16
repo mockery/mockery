@@ -41,4 +41,14 @@ class Type extends MatcherAbstract
         return false;
     }
     
+    /**
+     * Return a string representation of this Matcher
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return '<' . ucfirst($this->_expected) . '>';
+    }
+    
 }

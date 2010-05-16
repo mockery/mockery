@@ -1158,4 +1158,67 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->mockery_verify();
     }
     
+    public function testDucktypeConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::ducktype('quack', 'swim'))->once();
+        $this->mock->foo(new Mockery_Duck);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testDucktypeConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::ducktype('quack', 'swim'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testDucktypeConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::ducktype('quack', 'swim'))->once();
+        $this->mock->foo(new Mockery_Duck_Nonswimmer);
+        $this->mock->mockery_verify();
+    }
+    
+    public function testArrayContentConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::contains(array('a'=>1,'b'=>2)))->once();
+        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->mock->mockery_verify();
+    }
+    
+    public function testArrayContentConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::contains(array('a'=>1,'b'=>2)))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testArrayContentConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::contains(array('a'=>1,'b'=>2)))->once();
+        $this->mock->foo(array(array('a'=>1,'c'=>3)));
+        $this->mock->mockery_verify();
+    }
+    
+}
+
+class Mockery_Duck {
+    function quack(){}
+    function swim(){}
+}
+
+class Mockery_Duck_Nonswimmer {
+    function quack(){}
 }
