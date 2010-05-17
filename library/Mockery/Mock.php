@@ -28,14 +28,14 @@ class Mock implements MockInterface
      *
      * @var array
      */
-    protected $_expectations = array();
+    protected $_mockery_expectations = array();
     
     /**
      * Last expectation that was set
      *
      * @var object
      */
-    protected $_lastExpectation = null;
+    protected $_mockery_lastExpectation = null;
     
     /**
      * Flag to indicate whether we can ignore method calls missing from our
@@ -43,49 +43,49 @@ class Mock implements MockInterface
      *
      * @var bool
      */
-    protected $_ignoreMissing = false;
+    protected $_mockery_ignoreMissing = false;
     
     /**
      * Flag to indicate whether this mock was verified
      *
      * @var bool
      */
-    protected $_verified = false;
+    protected $_mockery_verified = false;
     
     /**
      * Given name of the mock
      *
      * @var string
      */
-    protected $_name = null;
+    protected $_mockery_name = null;
     
     /**
      * Order number of allocation
      *
      * @var int
      */
-    protected $_allocatedOrder = 0;
+    protected $_mockery_allocatedOrder = 0;
     
     /**
      * Current ordered number
      *
      * @var int
      */
-    protected $_currentOrder = 0;
+    protected $_mockery_currentOrder = 0;
     
     /**
      * Ordered groups
      *
      * @var array
      */
-    protected $_groups = array();
+    protected $_mockery_groups = array();
     
     /**
      * Mock container containing this mock object
      *
      * @var \Mockery\Container
      */
-    protected $_container = null;
+    protected $_mockery_container = null;
 
     /**
      * Constructor
@@ -94,11 +94,11 @@ class Mock implements MockInterface
      */
     public function __construct($name, \Mockery\Container $container = null)
     {
-        $this->_name = $name;
+        $this->_mockery_name = $name;
         if(is_null($container)) {
             $container = new \Mockery\Container;
         }
-        $this->_container = $container;
+        $this->_mockery_container = $container;
     }
     
     /**
@@ -132,7 +132,7 @@ class Mock implements MockInterface
      */
     public function shouldIgnoreMissing()
     {
-        $this->_ignoreMissing = true;
+        $this->_mockery_ignoreMissing = true;
     }
     
     /**
@@ -144,7 +144,7 @@ class Mock implements MockInterface
      */
     public function byDefault()
     {
-        foreach ($this->_expectations as $director) {
+        foreach ($this->_mockery_expectations as $director) {
             $exps = $director->getExpectations();
             foreach ($exps as $exp) {
                 $exp->byDefault();
@@ -158,15 +158,15 @@ class Mock implements MockInterface
      */
     public function __call($method, array $args)
     {
-        if (isset($this->_expectations[$method])) {
-            $handler = $this->_expectations[$method];
+        if (isset($this->_mockery_expectations[$method])) {
+            $handler = $this->_mockery_expectations[$method];
             return $handler->call($args);
-        } elseif ($this->_ignoreMissing) {
+        } elseif ($this->_mockery_ignoreMissing) {
             $return = new \Mockery\Undefined;
             return $return;
         }
         throw new \BadMethodCallException(
-            'Method ' . $this->_name . '::' . $method . ' does not exist on this mock object'
+            'Method ' . $this->_mockery_name . '::' . $method . ' does not exist on this mock object'
         );
     }
     
@@ -178,9 +178,9 @@ class Mock implements MockInterface
      */
     public function mockery_verify()
     {
-        if ($this->_verified) return true;
-        $this->_verified = true;
-        foreach($this->_expectations as $director) {
+        if ($this->_mockery_verified) return true;
+        $this->_mockery_verified = true;
+        foreach($this->_mockery_expectations as $director) {
             $director->verify();
         }
     }
@@ -202,8 +202,8 @@ class Mock implements MockInterface
      */
     public function mockery_allocateOrder()
     {
-        $this->_allocatedOrder += 1;
-        return $this->_allocatedOrder;
+        $this->_mockery_allocatedOrder += 1;
+        return $this->_mockery_allocatedOrder;
     }
     
     /**
@@ -214,7 +214,7 @@ class Mock implements MockInterface
      */
     public function mockery_setGroup($group, $order)
     {
-        $this->_groups[$group] = $order;
+        $this->_mockery_groups[$group] = $order;
     }
     
     /**
@@ -224,7 +224,7 @@ class Mock implements MockInterface
      */
     public function mockery_getGroups()
     {
-        return $this->_groups;
+        return $this->_mockery_groups;
     }
     
     /**
@@ -234,8 +234,8 @@ class Mock implements MockInterface
      */
     public function mockery_setCurrentOrder($order)
     {
-        $this->_currentOrder = $order;
-        return $this->_currentOrder;
+        $this->_mockery_currentOrder = $order;
+        return $this->_mockery_currentOrder;
     }
     
     /**
@@ -245,7 +245,7 @@ class Mock implements MockInterface
      */
     public function mockery_getCurrentOrder()
     {
-        return $this->_currentOrder;
+        return $this->_mockery_currentOrder;
     }
     
     /**
@@ -258,10 +258,10 @@ class Mock implements MockInterface
      */
     public function mockery_validateOrder($method, $order)
     {
-        if ($order < $this->_currentOrder) {
+        if ($order < $this->_mockery_currentOrder) {
             throw new \Mockery\Exception(
                 'Method ' . $method . ' called out of order: expected order '
-                . $order . ', was ' . $this->_currentOrder
+                . $order . ', was ' . $this->_mockery_currentOrder
             );
         }
         $this->mockery_setCurrentOrder($order);
@@ -275,7 +275,7 @@ class Mock implements MockInterface
      */
     public function mockery_setExpectationsFor($method, \Mockery\ExpectationDirector $director)
     {
-        $this->_expectations[$method] = $director;
+        $this->_mockery_expectations[$method] = $director;
     }
     
     /**
@@ -286,8 +286,8 @@ class Mock implements MockInterface
      */
     public function mockery_getExpectationsFor($method)
     {
-        if (isset($this->_expectations[$method])) {
-            return $this->_expectations[$method];
+        if (isset($this->_mockery_expectations[$method])) {
+            return $this->_mockery_expectations[$method];
         }
     }
     
@@ -300,10 +300,10 @@ class Mock implements MockInterface
      */
     public function mockery_findExpectation($method, array $args)
     {
-        if (!isset($this->_expectations[$method])) {
+        if (!isset($this->_mockery_expectations[$method])) {
             return null;
         }
-        $director = $this->_expectations[$method];
+        $director = $this->_mockery_expectations[$method];
         return $director->findExpectation($args);
     }
     
@@ -314,7 +314,7 @@ class Mock implements MockInterface
      */
     public function mockery_getContainer()
     {
-        return $this->_container;
+        return $this->_mockery_container;
     }
     
     /**
@@ -324,7 +324,7 @@ class Mock implements MockInterface
      */
     public function mockery_getName()
     {
-        return $this->_name;
+        return $this->_mockery_name;
     }
 
 }
