@@ -20,21 +20,6 @@ of such mock objects. They allow the setting of expected method calls and
 return values using a flexible scheme which is capable of capturing every
 possible real object behaviour.
 
-Mock Objects In PHP
--------------------
-
-Mockery has as its goal the intent to supercede all current mock object
-implementations in PHP. Mock objects in PHP have always tended to be treated
-as second class citizens and the flaws of current implementations have prevented
-any noticeable adoption of mock objects beyond their simpler role as Stubs.
-
-This status quo has left PHP in the unique situation where unit testing has
-remained tightly tied to real class implementation, despite this being contrary
-to modern methodologies such as Test-Driven Design and Behaviour-Driven Testing.
-Mockery aims to liberate developers, to offer a mock object framework that rivals
-its counterparts in Ruby, Java, (ad infinitum) for ease of use, flexibility,
-and completeness in simulating the actions of real objects.
-
 Prerequisites
 -------------
 
