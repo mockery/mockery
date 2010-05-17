@@ -32,6 +32,13 @@ interface MockInterface
     public function shouldReceive();
     
     /**
+     * Set mock to ignore unexpected methods and return Undefined class
+     *
+     * @return void
+     */
+    public function shouldIgnoreMissing();
+    
+    /**
      * In the event shouldReceive() accepting an array of methods/returns
      * this method will switch them from normal expectations to default
      * expectations
@@ -116,6 +123,14 @@ interface MockInterface
      * @var string $method
      * @return \Mockery\ExpectationDirector|null
      */
+    public function mockery_setExpectationsFor($method, \Mockery\ExpectationDirector $director);
+    
+    /**
+     * Return the expectations director for the given method
+     *
+     * @var string $method
+     * @return \Mockery\ExpectationDirector|null
+     */
     public function mockery_getExpectationsFor($method);
     
     /**
@@ -133,5 +148,12 @@ interface MockInterface
      * @return \Mockery\Container
      */
     public function mockery_getContainer();
+    
+    /**
+     * Return the name for this mock
+     *
+     * @return string
+     */
+    public function mockery_getName();
 
 }
