@@ -21,8 +21,18 @@
 class Mockery
 {
 
+    /**
+     * Global container to hold all mocks for the current unit test running
+     *
+     * @var \Mockery\Container
+     */
     protected static $_container = null;
     
+    /**
+     * Static shortcut to \Mockery\Container::mock()
+     *
+     * @return \Mockery\MockInterface
+     */
     public static function mock()
     {
         if (is_null(self::$_container)) {
@@ -32,6 +42,12 @@ class Mockery
         return call_user_func_array(array(self::$_container, 'mock'), $args);
     }
     
+    /**
+     * Static shortcut to closing up and verifying all mocks in the global
+     * container, and resetting the container static variable to null
+     *
+     * @return void
+     */
     public static function close()
     {
         self::$_container->mockery_close();
@@ -148,6 +164,15 @@ class Mockery
         return $composite;
     }
     
+    /**
+     * Sets up expectations on the members of the CompositeExpectation and
+     * builds up any demeter chain that was passed to shouldReceive
+     *
+     * @param \Mockery\MockInterface $mock
+     * @param string $arg
+     * @param Closure $add
+     * @return \Mockery\ExpectationDirector
+     */
     protected static function _buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
     {
         $container = $mock->mockery_getContainer();
