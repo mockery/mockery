@@ -118,9 +118,10 @@ class Expectation
     /**
      * Constructor
      *
+     * @param \Mockery\MockInterface $mock
      * @param string $name
      */
-    public function __construct(\Mockery\Mock $mock, $name)
+    public function __construct(\Mockery\MockInterface $mock, $name)
     {
         $this->_mock = $mock;
         $this->_name = $name;

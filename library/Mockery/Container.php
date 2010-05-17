@@ -210,7 +210,7 @@ class Container
      * @param \Mockery\Mock
      * @return \Mockery\Mock
      */
-    public function rememberMock(\Mockery\Mock $mock)
+    public function rememberMock(\Mockery\MockInterface $mock)
     {
         $this->_mocks[] = $mock;
         return $mock;

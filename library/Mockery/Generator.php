@@ -34,12 +34,12 @@ class Generator
     public static function createClassMock($className, $mockName = null)
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
-        $class = new ReflectionClass($class);
+        $class = new \ReflectionClass($className);
         $definition = '';
         if ($class->isFinal()) {
             throw new \Mockery\Exception(
                 'The class ' . $className . ' is marked final and it is not '
-                'possible to generate a mock object with its type'
+                . 'possible to generate a mock object with its type'
             );
         }
         if ($class->isInterface()) {
@@ -52,7 +52,7 @@ class Generator
         $definition .= PHP_EOL . '}';
         eval($definition);
         $mock = new $mockName();
-        return $mock
+        return $mock;
     }
     
     /**
@@ -60,10 +60,10 @@ class Generator
      *
      *
      */
-    public static function applyMockeryTo(ReflectionClass $class)
+    public static function applyMockeryTo(\ReflectionClass $class)
     {
         $definition = '';
-        $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
+        $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($methods as $method) {
             if ($method->isFinal()) {
                 throw new \Mockery\Exception(
@@ -93,7 +93,7 @@ class Generator
      *
      * TODO: Add exclusions for partial mock support
      */
-    protected static function _replaceMethod(ReflectionMethod $method)
+    protected static function _replaceMethod(\ReflectionMethod $method)
     {
         $body = '';
         $name = $method->getName();
