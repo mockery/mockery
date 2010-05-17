@@ -69,7 +69,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         }
     }
     
-    public function testMockingAKnownConcreteClass()
+    public function testMockingAKnownConcreteClassSoMockInheritsClassType()
     {
         $m = $this->container->mock('stdClass');
         $m->shouldReceive('foo')->andReturn('bar');
