@@ -348,6 +348,12 @@ expression to be used against actual arguments when matching. The regex option
 is only used when a) there is no === or == match and b) when the regex
 is verified to be a valid regex (i.e. does not return false from preg_match()).
 
+    with(\Mockery::ducktype('foo', 'bar'))
+    
+The Ducktype matcher is an alternative to matching by class type. It simply
+matches any argument which is an object containing the provided list
+of methods to call.
+
 
 
 
