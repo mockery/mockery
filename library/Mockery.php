@@ -21,6 +21,23 @@
 class Mockery
 {
 
+    protected static $_container = null;
+    
+    public static function mock()
+    {
+        if (is_null(self::$_container)) {
+            self::$_container = new \Mockery\Container;
+        }
+        $args = func_get_args();
+        return call_user_func_array(array(self::$_container, 'mock'), $args);
+    }
+    
+    public static function close()
+    {
+        self::$_container->mockery_close();
+        self::$_container = null;
+    }
+
     /**
      * Return instance of ANY matcher
      *
