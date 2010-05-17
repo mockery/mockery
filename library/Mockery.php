@@ -166,9 +166,7 @@ class Mockery
             if ($needNew) {
                 $mock = $container->mock('demeter_' . $method);
                 $exp->withNoArgs()->andReturn($mock);
-            } //else {
-                //$mock = $exp->returnValue(null);
-            //}
+            }
             $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};
         }
         return $exp;
