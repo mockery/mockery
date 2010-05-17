@@ -90,9 +90,26 @@ class Mock implements MockInterface
     /**
      * Constructor
      *
-     * @param string $class
+     * @param string $name
+     * @param \Mockery\Container $container
      */
     public function __construct($name, \Mockery\Container $container = null)
+    {
+        $this->_mockery_name = $name;
+        if(is_null($container)) {
+            $container = new \Mockery\Container;
+        }
+        $this->_mockery_container = $container;
+    }
+    
+    /**
+     * Alternative setup method to constructor
+     *
+     * @param string $name
+     * @param \Mockery\Container $container
+     * @return void
+     */
+    public function mockery_init($name, \Mockery\Container $container = null)
     {
         $this->_mockery_name = $name;
         if(is_null($container)) {
