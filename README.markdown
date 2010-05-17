@@ -182,13 +182,16 @@ adopt any additional chained expectations or constraints.
     with(arg1, arg2, ...)
     
 Adds a constraint that this expectation only applies to method calls which
-match the expected argument list. Allows for setting up differing expectations
-based on the arguments provided to expected calls.
+match the expected argument list.
+
+It's important to note that this means all expectations attached only apply
+to the given method when it is called with these exact arguments. Allows for
+setting up differing expectations based on the arguments provided to expected calls.
 
     withAnyArgs()
     
 Declares that this expectation matches a method call regardless of what arguments
-are passed. This is set by default.
+are passed. This is set by default unless otherwise specified.
 
     withNoArgs()
     
@@ -198,8 +201,96 @@ Declares this expectation matches method calls with zero arguments.
     
 Sets a value to be returned from the expected method call.
 
+    andReturn(closure)
+    
+Sets a closure (anonymous function) to be called with the arguments passed to
+the method. Useful for some dynamic processing of arguments into related
+concrete results.
+
     andReturn(value1, value2, ...)
     
-Sets up a sequence of return values. For example, the first call will return
+Sets up a sequence of return values or closures. For example, the first call will return
 value1 and the second value2. Not that all subsequent calls to a mocked method
 will always return the final value (or the only value) given to this declaration.
+
+    andThrow(Exception)
+    
+Declares that this method will throw the given Exception object when called.
+
+    andThrow(exception_name, message)
+    
+Rather than an object, you can pass in the Exception class and message to
+use when throwing an Exception from the mocked method.
+
+    zeroOrMoreTimes()
+    
+Declares that the expected method may be called zero or more times. This is
+the default for all methods unless otherwise set.
+
+    once()
+    
+Declares that the expected method may only be called once. Like all other
+call count constraints, it will throw a \Mockery\CountValidator\Exception
+if breached and can be modified by the atLeast() and atMost() constraints.
+
+    twice()
+    
+Declares that the expected method may only be called twice.
+
+    times(n)
+    
+Declares that the expected method may only be called n times.
+
+    never()
+    
+Declares that the expected method may never be called. Ever!
+
+    atLeast()
+    
+Adds a minimum modifier to the next call count expectation. Thus
+atLeast()->times(3) means the call must be called at least three times (given
+matching method args) but never less than three times.
+
+    atMost()
+    
+Adds a maximum modifier to the next call count expectation. Thus
+atMost()->times(3) means the call must be called no more than three times. This
+also means no calls are acceptable.
+
+    ordered()
+    
+Declares that this method is expected to be called in a specific order in
+relation to similarly marked methods. The order is dictated by the order in
+which this modifier is actually used when setting up mocks.
+
+    ordered(group)
+    
+Declares the method as belonging to an order group (which can be named or
+numbered). Methods within a group can be called in any order, but the ordered
+calls from outside the group are ordered in relation to the group, i.e. you can
+set up so that method1 is called before group1 which is in turn called before
+method 2.
+
+    globally()
+    
+When called prior to ordered() or ordered(group), it declares this ordering to
+apply across all mock objects (not just the current mock). This allows for dictating
+order expectations across multiple mocks.
+
+    byDefault()
+    
+Marks an expectation as a default. Default expectations are applied unless
+a non-default expectation is created. These later expectations immediately
+replace the previously defined default. This is useful so you can setup default
+mocks in your unit test setup() and later tweak them in specific tests as
+needed.
+
+    mock()
+    
+Returns the current mock object from an expectation chain. Useful where
+you prefer to keep mock setups as a single statement, e.g.
+    
+    $mock = \Mockery::mock('foo')->shouldReceive('foo')->andReturn(1)->mock();
+    
+Argument Validation
+-------------------
