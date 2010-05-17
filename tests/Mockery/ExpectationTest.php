@@ -543,6 +543,9 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->mockery_verify();
     }
     
+    /**
+     * @group 2A
+     */
     public function testGroupedUngroupedOrderingDoNotOverlap()
     {
         $s = $this->mock->shouldReceive('start')->ordered();
@@ -610,7 +613,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     public function testExpectationCastToStringFormatting()
     {
         $exp = $this->mock->shouldReceive('foo')->with(1, 'bar', new stdClass, array());
-        $this->assertEquals('foo(1, "bar", stdClass, Array)', (string) $exp);
+        $this->assertEquals('[foo(1, "bar", stdClass, Array)]', (string) $exp);
     }
     
     public function testMultipleExpectationCastToStringFormatting()

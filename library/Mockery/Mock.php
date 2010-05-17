@@ -110,39 +110,19 @@ class Mock implements MockInterface
     public function shouldReceive()
     {
         $self =& $this;
-        $expectations =& $this->_expectations;
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, func_get_args(), function($method) use ($self, $expectations) {
-                if (!isset($expectations[$method])) {
-                $expectations[$method] = new \Mockery\ExpectationDirector($method);
+            $this, func_get_args(), function($method) use ($self) {
+                $director = $self->mockery_getExpectationsFor($method);
+                if (!$director) {
+                    $director = new \Mockery\ExpectationDirector($method);
+                    $self->mockery_setExpectationsFor($method, $director);
                 }
                 $expectation = new \Mockery\Expectation($self, $method);
-                $expectations[$method]->addExpectation($expectation);
+                $director->addExpectation($expectation);
                 return $expectation;
             }
         );
         return $lastExpectation;
-        /**if (!is_array($methods)) {
-            $method = $methods;
-            if (!isset($this->_expectations[$method])) {
-                $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
-            }
-            $expectation = new \Mockery\Expectation($this, $method);
-            $this->_expectations[$method]->addExpectation($expectation);
-        } elseif (empty($methods)) {
-            return;
-        } else {
-            foreach ($methods as $method=>$return) {
-                if (!isset($this->_expectations[$method])) {
-                    $this->_expectations[$method] = new \Mockery\ExpectationDirector($method);
-                }
-                $expectation = new \Mockery\Expectation($this, $method);
-                $expectation->andReturn($return);
-                $this->_expectations[$method]->addExpectation($expectation);
-            }
-        }
-        $this->_lastExpectation = $expectation;
-        return $expectation;**/
     }
     
     /**
@@ -166,7 +146,8 @@ class Mock implements MockInterface
     /**
      * Capture calls to this mock
      */
-    public function __call($method, array $args) {
+    public function __call($method, array $args)
+    {
         if (isset($this->_expectations[$method])) {
             $handler = $this->_expectations[$method];
             return $handler->call($args);
@@ -274,6 +255,17 @@ class Mock implements MockInterface
             );
         }
         $this->mockery_setCurrentOrder($order);
+    }
+    
+    /**
+     * Return the expectations director for the given method
+     *
+     * @var string $method
+     * @return \Mockery\ExpectationDirector|null
+     */
+    public function mockery_setExpectationsFor($method, \Mockery\ExpectationDirector $director)
+    {
+        $this->_expectations[$method] = $director;
     }
     
     /**

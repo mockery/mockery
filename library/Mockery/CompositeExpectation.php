@@ -53,6 +53,7 @@ class CompositeExpectation
         foreach ($this->_expectations as $expectation) {
             call_user_func_array(array($expectation, $method), $args);
         }
+        return $this;
     }
     
     /**
@@ -62,6 +63,7 @@ class CompositeExpectation
      */
     public function getOrderNumber()
     {
+        reset($this->_expectations);
         $first = current($this->_expectations);
         return $first->getOrderNumber();
     }
@@ -73,18 +75,21 @@ class CompositeExpectation
      */
     public function getMock()
     {
+        reset($this->_expectations);
         $first = current($this->_expectations);
         return $first->getMock();
     }
     
     /**
-     * Starts a new expectation addition on the first mock
+     * Starts a new expectation addition on the first mock which is the primary
+     * target outside of a demeter chain
      *
      * @return \Mockery\Expectation
      */
     public function shouldReceive()
     {
         $args = func_get_args();
+        reset($this->_expectations);
         $first = current($this->_expectations);
         return call_user_func_array(array($first->getMock(), 'shouldReceive'), $args);
     }
