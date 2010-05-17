@@ -64,7 +64,7 @@ class Container
         $args = func_get_args();
         while (count($args) > 0) {
             $arg = current($args);
-            if (is_string($arg) && class_exists($arg)) {
+            if (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
                 $name = array_shift($args);
@@ -72,13 +72,16 @@ class Container
                 $quickdefs = array_shift($args);
             } else {
                 throw new \Mockery\Exception(
-                    'Unable to parse arguments sent to mock()'
+                    'Unable to parse arguments sent to '
+                    . get_class($this) . '::mock()'
                 );
             }
         }
-        
         if (!is_null($name)) {
             $mock = new \Mockery\Mock($name, $this);
+        } elseif(!is_null($class)) {
+            $mock = \Mockery\Generator::createClassMock($class);
+            $mock->mockery_init($class, $this);
         } else {
             $mock = new \Mockery\Mock('unknown', $this);
         }

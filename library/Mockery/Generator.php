@@ -31,8 +31,9 @@ class Generator
     *
     *
     */
-    public static function createReflectedDefinition($className, $mockName)
+    public static function createClassMock($className, $mockName = null)
     {
+        if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $class = new ReflectionClass($class);
         $definition = '';
         if ($class->isFinal()) {
@@ -49,7 +50,9 @@ class Generator
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         $definition .= self::applyMockeryTo($class);
         $definition .= PHP_EOL . '}';
-        return $definition;
+        eval($definition);
+        $mock = new $mockName();
+        return $mock
     }
     
     /**
@@ -60,9 +63,9 @@ class Generator
     public static function applyMockeryTo(ReflectionClass $class)
     {
         $definition = '';
-        $methods = $class->getMethods();
+        $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
         foreach ($methods as $method) {
-            if ($method->isFinal() && $method->isPublic()) {
+            if ($method->isFinal()) {
                 throw new \Mockery\Exception(
                     'The method ' . $method->getName()
                     . ' is marked final and it is not possible to generate a '
@@ -70,8 +73,13 @@ class Generator
                 );
             }
         }
+        /**
+         * TODO: Worry about all these other method types later.
+         */
         foreach ($methods as $method) {
-            if (!$method->isDestructor() && $method->getName() !== '__clone') { // worry about this later
+            if (!$method->isDestructor() 
+            && !$method->isStatic()
+            && $method->getName() !== '__clone') {
                 $definition .= self::_replaceMethod($method);
             }
         }
@@ -79,6 +87,12 @@ class Generator
         return $definition;
     }
     
+    /**
+     * Attempts to replace defined public (non-static) methods so they all
+     * redirect to the Mock Object's __call() interceptor
+     *
+     * TODO: Add exclusions for partial mock support
+     */
     protected static function _replaceMethod(ReflectionMethod $method)
     {
         $body = '';
@@ -120,6 +134,15 @@ class Generator
                           . '{' . $body . '}';
     }
     
+    /**
+     * NOTE: The code below is taken from Mockery\Mock and should
+     * be an exact copy with only one difference - we define the Mockery\Mock
+     * constructor as a public init method (since the original class
+     * constructor is often not replaceable, e.g. for interface adherance)
+     *
+     * Return a string def of the standard Mock Object API needed for all mocks
+     *
+     */
     public static function _getStandardMethods()
     {
         $std = <<<MOCK
