@@ -99,6 +99,61 @@ Temperature class without actually needing a concrete service instance.
 
 We'll cover the API in greater detail below.
 
+PHPUnit Integration
+-------------------
+
+PHPUnit integration is currently in progress.
+
+Quick Reference
+---------------
+
+Mockery implements a shorthand API when creating a mock. Here's a sampling
+of the possible startup methods.
+
+    $mock = \Mockery::mock('foo');
     
+Creates a mock object named foo. In this case, foo is a name (not necessarily
+a class name) used as a simple identifier when raising exceptions. This creates
+a mock object of type \Mockery\Mock and is the loosest form of mock possible.
+
+    $mock = \Mockery::mock(array('foo'=>1,'bar'=>2));
+    
+Creates an mock object named unknown since we passed no name. However we did
+pass an expectation array, a quick method of setting up methods to expect with
+their return values.
+
+    $mock = \Mockery::mock('foo', array('foo'=>1,'bar'=>2));
+    
+Similar to the previous examples, only demonstrating the combination of a name
+and expectation array.
+
+    $mock = \Mockery::mock('stdClass');
+    
+Creates a mock identical to a named mock, except the name is an actual class
+name. Creates a simple mock as previous examples show, except the mock
+object will inherit the class type, i.e. it will pass type hints or instanceof
+evaluations for stdClass. Useful where a mock object must be of a specific
+type.
+
+    $mock = \Mockery::mock('FooInterface');
+    
+You can create mock objects based on any concrete class, abstract class or
+even an interface. Again, the primary purpose is to ensure the mock object
+inherits a specific type for type hinting.
+
+    $mock = \Mockery::mock('FooInterface', array('foo'=>1,'bar'=>2));
+    
+Yes, you can use the same quick expectation setup as for named mocks with the
+class oriented mock object generation.
+
+    $mock = \Mockery::mock('Foo', array('foo'));
+    
+Passing a simple array of method names alongside a class/interface name, will
+yield a partial mock, where only the methods you wish are actually mocked.
+
+    $mock = \Mockery::mock('Foo', array('foo'), array('foo'=>1));
+
+So long as it's the next array after your partial mock methods, you can also use
+the quickie expectation setup for your partial mock.
 
 
