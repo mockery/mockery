@@ -16,8 +16,8 @@ yet exist, or to allow for the exploratory design of class APIs without
 requiring actual implementation.
 
 The benefits of a mock object framework are to allow for the flexible generation
-of such mock objects. They allow the setting of expected method calls and
-return values using a flexible scheme which is capable of capturing every
+of such mock objects (and stubs). They allow the setting of expected method calls
+and return values using a flexible scheme which is capable of capturing every
 possible real object behaviour.
 
 Prerequisites
@@ -156,4 +156,50 @@ yield a partial mock, where only the methods you wish are actually mocked.
 So long as it's the next array after your partial mock methods, you can also use
 the quickie expectation setup for your partial mock.
 
+Expectation Declarations
+------------------------
 
+Once you have created a mock object, you'll often want to start defining how
+exactly it should behave (and how it should be called). This is where the
+Mockery expectation declarations take over.
+
+    shouldReceive(method_name)
+    
+Declares that the mock expects a call to the given method name. This is the
+starting expectation upon which all other expectations and constraints are
+appended.
+
+    shouldReceive(method1, method2, ...)
+    
+Declares a number of expected method calls, all of which will adopt any chained
+expectations or constraints.
+
+    shouldReceive(array(method1=>1, method2=>2, ...))
+    
+Declares a number of expected calls but also their return values. All will
+adopt any additional chained expectations or constraints.
+
+    with(arg1, arg2, ...)
+    
+Adds a constraint that this expectation only applies to method calls which
+match the expected argument list. Allows for setting up differing expectations
+based on the arguments provided to expected calls.
+
+    withAnyArgs()
+    
+Declares that this expectation matches a method call regardless of what arguments
+are passed. This is set by default.
+
+    withNoArgs()
+    
+Declares this expectation matches method calls with zero arguments.
+
+    andReturn(value)
+    
+Sets a value to be returned from the expected method call.
+
+    andReturn(value1, value2, ...)
+    
+Sets up a sequence of return values. For example, the first call will return
+value1 and the second value2. Not that all subsequent calls to a mocked method
+will always return the final value (or the only value) given to this declaration.
