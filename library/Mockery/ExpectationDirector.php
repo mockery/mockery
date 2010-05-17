@@ -31,6 +31,13 @@ class ExpectationDirector
     protected $_name = null;
     
     /**
+     * Mock object the director is attached to
+     *
+     * @var \Mockery\MockInterface
+     */
+    protected $_mock = null;
+    
+    /**
      * Stores an array of all expectations for this mock
      *
      * @var array
@@ -55,10 +62,12 @@ class ExpectationDirector
      * Constructor
      *
      * @param string $name
+     * @param \Mockery\MockInterface $mock
      */
-    public function __construct($name)
+    public function __construct($name, \Mockery\MockInterface $mock)
     {
         $this->_name = $name;
+        $this->_mock = $mock;
     }
     
     /**
@@ -83,6 +92,7 @@ class ExpectationDirector
         if (is_null($expectation)) {
             throw new \Mockery\Exception(
                 'No matching handler found for '
+                . $this->_mock->mockery_getName() . '::'
                 . \Mockery::formatArgs($this->_name, $args)
                 . '. Either the method was unexpected or its arguments matched'
                 . ' no expected argument list for this method'

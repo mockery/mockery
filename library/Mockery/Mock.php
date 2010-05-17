@@ -114,7 +114,7 @@ class Mock implements MockInterface
             $this, func_get_args(), function($method) use ($self) {
                 $director = $self->mockery_getExpectationsFor($method);
                 if (!$director) {
-                    $director = new \Mockery\ExpectationDirector($method);
+                    $director = new \Mockery\ExpectationDirector($method, $self);
                     $self->mockery_setExpectationsFor($method, $director);
                 }
                 $expectation = new \Mockery\Expectation($self, $method);
@@ -123,6 +123,16 @@ class Mock implements MockInterface
             }
         );
         return $lastExpectation;
+    }
+    
+    /**
+     * Set mock to ignore unexpected methods and return Undefined class
+     *
+     * @return void
+     */
+    public function shouldIgnoreMissing()
+    {
+        $this->_ignoreMissing = true;
     }
     
     /**
@@ -156,7 +166,7 @@ class Mock implements MockInterface
             return $return;
         }
         throw new \BadMethodCallException(
-            'Method ' . $method . ' does not exist on this class ' . get_class($this)
+            'Method ' . $this->_name . '::' . $method . ' does not exist on this mock object'
         );
     }
     
@@ -305,6 +315,16 @@ class Mock implements MockInterface
     public function mockery_getContainer()
     {
         return $this->_container;
+    }
+    
+    /**
+     * Return the name for this mock
+     *
+     * @return string
+     */
+    public function mockery_getName()
+    {
+        return $this->_name;
     }
 
 }

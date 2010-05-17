@@ -79,6 +79,8 @@ class Container
         
         if (!is_null($name)) {
             $mock = new \Mockery\Mock($name, $this);
+        } else {
+            $mock = new \Mockery\Mock('unknown', $this);
         }
         if (!empty($quickdefs)) {
             $mock->shouldReceive($quickdefs);
