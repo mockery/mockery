@@ -470,7 +470,7 @@ Creates a mock object which multiple query calls and a single update call
         public function testDbAdapter()
         {
             $mock = \Mockery::mock('db');
-            $mock->shouldReceive('query')->andReturn(array(1, 2, 3));
+            $mock->shouldReceive('query')->andReturn(1, 2, 3);
             $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
             
             // test code here using the mock
@@ -491,7 +491,7 @@ Expect all queries to be executed before any updates.
         public function testQueryAndUpdateOrder()
         {
             $mock = \Mockery::mock('db');
-            $mock->shouldReceive('query')->andReturn(array(1, 2, 3))->ordered();
+            $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
             $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
             
             // test code here using the mock
