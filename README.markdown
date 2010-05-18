@@ -414,3 +414,47 @@ that the method name is simply the string of all expected chain calls separated
 by "->". Mockery will automatically setup the chain of expected calls with
 its final return values, regardless of whatever intermediary object might be
 used in the real implementation.
+
+Quick Examples
+--------------
+
+Create a mock object to return a sequence of values from a set of method calls.
+
+    class SimpleTest extends extends PHPUnit_Framework_TestCase
+    {
+        
+        public function teardown()
+        {
+            \Mockery::close();
+        }
+        
+        public function testSimpleMock()
+        {
+            $mock = \Mockery::mock(array('pi' => 3.1416, 'e' => 2.71));
+            $this->assertEquals(3.1416, $mock->pi());
+            $this->assertEquals(2.71, $mock->e());
+        }
+
+    }
+    
+Create a mock object which returns a self-chaining Undefined object for a method
+call.
+
+    class UndefinedTest extends extends PHPUnit_Framework_TestCase
+    {
+        
+        public function teardown()
+        {
+            \Mockery::close();
+        }
+        
+        public function testUndefinedValues()
+        {
+            $mock = \Mockery::mock('my mock');
+            $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
+            $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
+        }
+
+    }
+    
+
