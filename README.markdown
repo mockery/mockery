@@ -457,4 +457,69 @@ call.
 
     }
     
+Creates a mock object which multiple query calls and a single update call
 
+    class DbTest extends extends PHPUnit_Framework_TestCase
+    {
+        
+        public function teardown()
+        {
+            \Mockery::close();
+        }
+        
+        public function testDbAdapter()
+        {
+            $mock = \Mockery::mock('db');
+            $mock->shouldReceive('query')->andReturn(array(1, 2, 3));
+            $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
+            
+            // test code here using the mock
+        }
+
+    }
+    
+Expect all queries to be executed before any updates.
+
+    class DbTest extends extends PHPUnit_Framework_TestCase
+    {
+        
+        public function teardown()
+        {
+            \Mockery::close();
+        }
+        
+        public function testQueryAndUpdateOrder()
+        {
+            $mock = \Mockery::mock('db');
+            $mock->shouldReceive('query')->andReturn(array(1, 2, 3))->ordered();
+            $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
+            
+            // test code here using the mock
+        }
+
+    }
+    
+Create a mock object where all queries occur after startup, but before finish, and
+where queries are expected with several different params.
+
+    class DbTest extends extends PHPUnit_Framework_TestCase
+    {
+        
+        public function teardown()
+        {
+            \Mockery::close();
+        }
+        
+        public function testOrderedQueries()
+        {
+            $db = \Mockery::mock('db');
+            $db->shouldReceive('startup')->once()->ordered();
+            $db->shouldReceive('query')->with('CPWR')->andReturn(12.3)->once()->ordered('queries');
+            $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
+            $db->shouldReceive('query')->with("/^....$/")->andReturn(3.3)->atLeast()->once()->ordered('queries');
+            $db->shouldReceive('finish')->once()->ordered();
+            
+            // test code here using the mock
+        }
+
+    }
