@@ -76,20 +76,15 @@ Temperature class without actually needing a concrete service instance.
 
     class TemperatureTest extends extends PHPUnit_Framework_TestCase
     {
-
-        public function setup()
-        {
-            $this->container = new \Mockery\Container;
-        }
         
         public function teardown()
         {
-            $this->container->mockery_close();
+            \Mockery::close();
         }
         
         public function testGetsAverageTemperatureFromThreeServiceReadings()
         {
-            $service = $this->container->mock('service');
+            $service = \Mockery::mock('service');
             $service->shouldReceive('readTemp')->times(3)->andReturn(10, 12, 14);
             $temperature = new Temperature($service);
             $this->assertEquals(12, $temperature->average());
@@ -146,15 +141,17 @@ inherits a specific type for type hinting.
 Yes, you can use the same quick expectation setup as for named mocks with the
 class oriented mock object generation.
 
-    $mock = \Mockery::mock('Foo', array('foo'));
+    $mock = \Mockery::mock(new Foo);
     
-Passing a simple array of method names alongside a class/interface name, will
-yield a partial mock, where only the methods you wish are actually mocked.
+Passing any real object into Mockery will create a partial mock. Partials assume
+you can already create a concrete object, so all we need to do is selectively
+override a subset of existing methods (or add non-existing methods!) for
+our expectations.
 
-    $mock = \Mockery::mock('Foo', array('foo'), array('foo'=>1));
+    $mock = \Mockery::mock(new Foo, array('foo'=>1));
 
-So long as it's the next array after your partial mock methods, you can also use
-the quickie expectation setup for your partial mock.
+You can also use the quickie expectation setup for your partial mock. See the
+section later on Creating Partial Mocks for more information.
 
 Expectation Declarations
 ------------------------
@@ -354,6 +351,66 @@ The Ducktype matcher is an alternative to matching by class type. It simply
 matches any argument which is an object containing the provided list
 of methods to call.
 
+Creating Partial Mocks
+----------------------
 
+Partial mocks are useful when you only need to mock several methods of an object
+leaving the remainder free to respond to calls normally (i.e. as implemented).
 
+Unlike other mock objects, a Mockery partial mock has a real concrete object
+at its heart. This approach to partial mocks is intended to bypass a number
+of troublesome issues with partials. For example, partials might require
+constructor parameters and other setup/injection tasks prior to use. Trying
+to perform this automatically via Mockery is not a tenth as intuitive as just
+doing it normally - and then passing the object into Mockery.
 
+Partial mocks are therefore constructed as a Proxy with an embedded real object.
+The Proxy itself inherits the type of the embedded object (type safety) and
+it otherwise behaves like any other Mockery-based mock object, allowing you to
+dynamically define expectations. This flexibility means there's little
+upfront defining (besides setting up the real object - you can set defaults,
+expectations and ordering on the fly.
+
+Default Mock Expectations
+-------------------------
+
+Often in unit testing, we end up with sets of tests which use the same object
+dependency over and over again. Rather than mocking this class/object within
+every single unit test (requiring a mountain of duplicate code), we can instead
+define reusable default mocks within the test case's setup() method. This even
+works where unit tests use varying expectations on the same or similar mock
+object.
+
+How this works, is that you can define mocks with default expectations. Then,
+in a later unit test, you can add or fine-tune expectations for that
+specific test. Any expectation can be set as a default using the byDefault()
+declaration.
+
+Mocking Demeter Chains And Fluent Interfaces
+--------------------------------------------
+
+Both of these terms refer to the growing practice of invoking statements
+similar to:
+
+    $object->foo()->bar()->zebra()->alpha()->selfDestruct();
+    
+The long chain of method calls isn't necessarily a bad thing, assuming they
+each link back to a local object the calling class knows. Just as a fun example,
+Mockery's long chains (after the first shouldReceive() method) all call to the
+same instance of \Mockery\Expectation. However, sometimes this is not the case
+and the chain is constantly crossing object boundaries.
+
+In either case, mocking such a chain can be a horrible task. To make it easier
+Mockery support demeter chain mocking. Essentially, we shortcut through the
+chain and return a defined value from the final call. For example, let's
+assume selfDestruct() returns the string "Ten!" to $object (an instance of
+CaptainsConsole). Here's how we could mock it.
+
+    $mock = \Mockery::mock('CaptainsConsole');
+    $mock->shouldReceive('foo->bar->zebra->alpha->selfDestruct')->andReturn('Ten!');
+    
+The above expectation can follow any previously seen format or expectation, except
+that the method name is simply the string of all expected chain calls separated
+by "->". Mockery will automatically setup the chain of expected calls with
+its final return values, regardless of whatever intermediary object might be
+used in the real implementation.
