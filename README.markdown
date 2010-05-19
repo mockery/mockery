@@ -176,6 +176,15 @@ expectations or constraints.
 Declares a number of expected calls but also their return values. All will
 adopt any additional chained expectations or constraints.
 
+    shouldExpect(closure)
+    
+Creates a mock object (only from a partial mock) which is used to create a mock
+object recorder. The recorder is a simple proxy to the original object passed
+in for mocking. This is passed to the closure, which runs it through a set of
+operations which are recorded as expectations on the partial mock. A simple
+use case is automatically recording expectations based on an existing usage
+(e.g. during refactoring). See examples in a later section.
+
     with(arg1, arg2, ...)
     
 Adds a constraint that this expectation only applies to method calls which

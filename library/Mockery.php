@@ -88,7 +88,7 @@ class Mockery
     }
     
     /**
-     * Return instance of ARRAY matcher
+     * Return instance of CONTAINS matcher
      *
      * @return
      */

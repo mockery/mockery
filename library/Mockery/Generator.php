@@ -165,6 +165,8 @@ class Generator
     protected \$_mockery_container = null;
     
     protected \$_mockery_partial = null;
+    
+    protected \$_mockery_disableExpectationMatching = false;
 
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
@@ -200,6 +202,15 @@ class Generator
     {
         \$this->_mockery_ignoreMissing = true;
     }
+    
+    public function shouldExpect(Closure \$closure)
+    {
+        \$recorder = new \Mockery\Recorder(\$this, \$this->_mockery_partial);
+        \$this->_mockery_disableExpectationMatching = true;
+        \$closure(\$recorder);
+        \$this->_mockery_disableExpectationMatching = false;
+        return \$this;
+    }
 
     public function byDefault()
     {
@@ -214,7 +225,8 @@ class Generator
 
     public function __call(\$method, array \$args)
     {
-        if (isset(\$this->_mockery_expectations[\$method])) {
+        if (isset(\$this->_mockery_expectations[\$method])
+        && !\$this->_mockery_disableExpectationMatching) {
             \$handler = \$this->_mockery_expectations[\$method];
             return \$handler->call(\$args);
         } elseif (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {

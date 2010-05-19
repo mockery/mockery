@@ -95,6 +95,15 @@ class Mock implements MockInterface
      * @var object
      */
     protected $_mockery_partial = null;
+    
+    /**
+     * Flag to indicate we should ignore all expectations temporarily. Used
+     * mainly to prevent expectation matching when in the middle of a mock
+     * object recording session.
+     *
+     * @var bool
+     */
+    protected $_mockery_disableExpectationMatching = false;
 
     /**
      * Constructor
@@ -169,6 +178,24 @@ class Mock implements MockInterface
     }
     
     /**
+     * Accepts a closure which is executed with an object recorder which proxies
+     * to the partial source object. The intent being to record the
+     * interactions of a concrete object as a set of expectations on the
+     * current mock object. The partial may then be passed to a second process
+     * to see if it fulfils the same (or exact same) contract as the original.
+     *
+     * @param Closure $closure
+     */
+    public function shouldExpect(Closure $closure)
+    {
+        $recorder = new \Mockery\Recorder($this, $this->_mockery_partial);
+        $this->_mockery_disableExpectationMatching = true;
+        $closure($recorder);
+        $this->_mockery_disableExpectationMatching = false;
+        return $this;
+    }
+    
+    /**
      * In the event shouldReceive() accepting an array of methods/returns
      * this method will switch them from normal expectations to default
      * expectations
@@ -191,7 +218,8 @@ class Mock implements MockInterface
      */
     public function __call($method, array $args)
     {
-        if (isset($this->_mockery_expectations[$method])) {
+        if (isset($this->_mockery_expectations[$method])
+        && !$this->_mockery_disableExpectationMatching) {
             $handler = $this->_mockery_expectations[$method];
             return $handler->call($args);
         } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
