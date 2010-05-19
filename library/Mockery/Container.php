@@ -60,6 +60,7 @@ class Container
     {
         $class = null;
         $name = null;
+        $partial = null;
         $quickdefs = array();
         $args = func_get_args();
         while (count($args) > 0) {
@@ -68,6 +69,8 @@ class Container
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
                 $name = array_shift($args);
+            } elseif (is_object($arg)) {
+                $partial = array_shift($args);
             } elseif (is_array($arg)) {
                 $quickdefs = array_shift($args);
             } else {
@@ -82,6 +85,9 @@ class Container
         } elseif(!is_null($class)) {
             $mock = \Mockery\Generator::createClassMock($class);
             $mock->mockery_init($class, $this);
+        } elseif(!is_null($partial)) {
+            $mock = \Mockery\Generator::createClassMock(get_class($partial));
+            $mock->mockery_init($class, $this, $partial);
         } else {
             $mock = new \Mockery\Mock('unknown', $this);
         }

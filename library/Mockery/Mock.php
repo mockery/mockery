@@ -86,6 +86,15 @@ class Mock implements MockInterface
      * @var \Mockery\Container
      */
     protected $_mockery_container = null;
+    
+    /**
+     * Instance of a core object on which methods are called in the event
+     * it has been set, and an expectation for one of the object's methods
+     * does not exist. This implements a simple partial mock proxy system.
+     *
+     * @var object
+     */
+    protected $_mockery_partial = null;
 
     /**
      * Constructor
@@ -93,13 +102,16 @@ class Mock implements MockInterface
      * @param string $name
      * @param \Mockery\Container $container
      */
-    public function __construct($name, \Mockery\Container $container = null)
+    public function __construct($name, \Mockery\Container $container = null, $partialObject = null)
     {
         $this->_mockery_name = $name;
         if(is_null($container)) {
             $container = new \Mockery\Container;
         }
         $this->_mockery_container = $container;
+        if (!is_null($partialObject)) {
+            $this->_mockery_partial = $partialObject;
+        }
     }
     
     /**
@@ -107,15 +119,19 @@ class Mock implements MockInterface
      *
      * @param string $name
      * @param \Mockery\Container $container
+     * @param object $partialObject
      * @return void
      */
-    public function mockery_init($name, \Mockery\Container $container = null)
+    public function mockery_init($name, \Mockery\Container $container = null, $partialObject = null)
     {
         $this->_mockery_name = $name;
         if(is_null($container)) {
             $container = new \Mockery\Container;
         }
         $this->_mockery_container = $container;
+        if (!is_null($partialObject)) {
+            $this->_mockery_partial = $partialObject;
+        }
     }
     
     /**
@@ -178,6 +194,8 @@ class Mock implements MockInterface
         if (isset($this->_mockery_expectations[$method])) {
             $handler = $this->_mockery_expectations[$method];
             return $handler->call($args);
+        } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
+            return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_ignoreMissing) {
             $return = new \Mockery\Undefined;
             return $return;

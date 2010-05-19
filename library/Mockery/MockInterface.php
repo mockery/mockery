@@ -28,9 +28,10 @@ interface MockInterface
      *
      * @param string $name
      * @param \Mockery\Container $container
+     * @param object $partialObject
      * @return void
      */
-    public function mockery_init($name, \Mockery\Container $container = null);
+    public function mockery_init($name, \Mockery\Container $container = null, $partialObject = null);
     
     /**
      * Set expected method calls

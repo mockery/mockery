@@ -77,4 +77,39 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof stdClass);
     }
     
+    public function testMockingAConcreteObjectCreatesAPartialWithoutError()
+    {
+        $m = $this->container->mock(new stdClass);
+        $m->shouldReceive('foo')->andReturn('bar');
+        $this->assertEquals('bar', $m->foo());
+        $this->assertTrue($m instanceof stdClass);
+    }
+    
+    public function testCreatingAPartialAllowsDynamicExpectationsAndPassesThroughUnexpectedMethods()
+    {
+        $m = $this->container->mock(new MockeryTestFoo);
+        $m->shouldReceive('bar')->andReturn('bar');
+        $this->assertEquals('bar', $m->bar());
+        $this->assertEquals('foo', $m->foo());
+        $this->assertTrue($m instanceof MockeryTestFoo);
+    }
+    
+    public function testCreatingAPartialAllowsExpectationsToInterceptCallsToImplementedMethods()
+    {
+        $m = $this->container->mock(new MockeryTestFoo2);
+        $m->shouldReceive('bar')->andReturn('baz');
+        $this->assertEquals('baz', $m->bar());
+        $this->assertEquals('foo', $m->foo());
+        $this->assertTrue($m instanceof MockeryTestFoo2);
+    }
+    
+}
+
+class MockeryTestFoo {
+    public function foo() { return 'foo'; }
+}
+
+class MockeryTestFoo2 {
+    public function foo() { return 'foo'; }
+    public function bar() { return 'bar'; }
 }

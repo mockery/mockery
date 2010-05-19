@@ -130,7 +130,7 @@ class Generator
         if ($method->isStatic()) {
             $access .= ' static';
         }
-        return $access . ' function ' . $mname . '(' . $paramDef . ')'
+        return $access . ' function ' . $name . '(' . $paramDef . ')'
                           . '{' . $body . '}';
     }
     
@@ -163,14 +163,19 @@ class Generator
     protected \$_mockery_groups = array();
 
     protected \$_mockery_container = null;
+    
+    protected \$_mockery_partial = null;
 
-    public function mockery_init(\$name, \Mockery\Container \$container = null)
+    public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
         \$this->_mockery_name = \$name;
         if(is_null(\$container)) {
             \$container = new \Mockery\Container;
         }
         \$this->_mockery_container = \$container;
+        if (!is_null(\$partialObject)) {
+            \$this->_mockery_partial = \$partialObject;
+        }
     }
 
     public function shouldReceive()
@@ -212,6 +217,8 @@ class Generator
         if (isset(\$this->_mockery_expectations[\$method])) {
             \$handler = \$this->_mockery_expectations[\$method];
             return \$handler->call(\$args);
+        } elseif (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
+            return call_user_func_array(array(\$this->_mockery_partial, \$method), \$args);
         } elseif (\$this->_mockery_ignoreMissing) {
             \$return = new \Mockery\Undefined;
             return \$return;
