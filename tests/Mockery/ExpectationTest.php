@@ -1252,6 +1252,12 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->mock->g(1,2)->a()->b()->c() instanceof \Mockery\Undefined);
     }
     
+    public function testOptionalMockRetrieval()
+    {
+        $m = $this->container->mock('f')->shouldReceive('foo')->with(1)->andReturn(3)->mock();
+        $this->assertTrue($m instanceof \Mockery\MockInterface);
+    }
+    
 }
 
 class Mockery_Duck {

@@ -509,7 +509,7 @@ class Expectation
     /**
      * Return the parent mock of the expectation
      *
-     * @return \Mockery\Mock
+     * @return \Mockery\MockInterface
      */
     public function getMock()
     {

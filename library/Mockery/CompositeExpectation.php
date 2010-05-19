@@ -71,13 +71,23 @@ class CompositeExpectation
     /**
      * Return the parent mock of the first expectation
      *
-     * @return \Mockery\Mock
+     * @return \Mockery\MockInterface
      */
     public function getMock()
     {
         reset($this->_expectations);
         $first = current($this->_expectations);
         return $first->getMock();
+    }
+    
+    /**
+     * Mockery API alias to getMock
+     *
+     * @return \Mockery\MockInterface
+     */
+    public function mock()
+    {
+        return $this->getMock();
     }
     
     /**
