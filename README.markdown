@@ -32,7 +32,7 @@ The preferred installation method is via PEAR. At present no PEAR channel
 has been provided but this does not prevent a simple install! The simplest
 method of installation is:
 
-    git clone git://github.com/padraic/mockery.git mutateme
+    git clone git://github.com/padraic/mockery.git
     cd mockery
     sudo pear install package.xml
 
