@@ -374,8 +374,9 @@ class Expectation
      *
      * @param int $limit
      */
-    public function times($limit)
+    public function times($limit = null)
     {
+        if (is_null($limit)) return $this;
         $this->_countValidators[] = new $this->_countValidatorClass($this, $limit);
         $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
         return $this;
@@ -431,6 +432,17 @@ class Expectation
     {
         $this->_countValidatorClass = 'Mockery\CountValidator\AtMost';
         return $this;
+    }
+    
+    /**
+     * Shorthand for setting minimum and maximum constraints on call counts
+     *
+     * @param int $minimum
+     * @param int $maximum
+     */
+    public function between($minimum, $maximum)
+    {
+        return $this->atLeast()->times($minimum)->atMost()->times($maximum);
     }
     
     /**

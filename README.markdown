@@ -315,6 +315,13 @@ Adds a maximum modifier to the next call count expectation. Thus
 atMost()->times(3) means the call must be called no more than three times. This
 also means no calls are acceptable.
 
+    between(min, max)
+    
+Sets an expected range of call counts. This is actually identical to using
+atLeast()->times(min)->atMost()->times(max) but it provided as a shorthand.
+It may be followed by a times() call with no parameter to preserve the
+APIs natural language readability.
+
     ordered()
     
 Declares that this method is expected to be called in a specific order in
