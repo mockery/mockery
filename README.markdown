@@ -34,7 +34,7 @@ method of installation is:
 
     git clone git://github.com/padraic/mockery.git mutateme
     cd mockery
-    sudo pear install pear.xml
+    sudo pear install package.xml
 
 The above process will install Mockery as a PEAR library.
 
