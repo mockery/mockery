@@ -74,16 +74,6 @@ class Recorder
     {
         $this->_strict = true;
     }
-    
-    /**
-     * Check if strict mode is enabled
-     *
-     * @return bool
-     */
-    public function isStrict()
-    {
-        return $this->_strict;
-    }
 
     /**
      * Intercept all calls on the subject, and use the call details to create
@@ -98,12 +88,10 @@ class Recorder
     {
         $return = call_user_func_array(array($this->_subject, $method), $args);
         $expectation = $this->_mock->shouldReceive($method)->andReturn($return);
-        if ($this->isStrict()) {
-            call_user_func_array(array($expectation, 'with'), $args);
+        if ($this->_strict) {
             $expectation->once()->ordered();
-        } else {
-            call_user_func_array(array($expectation, 'with'), $args);
         }
+        call_user_func_array(array($expectation, 'with'), $args);
         return $return;
     }
 }
