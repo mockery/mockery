@@ -44,14 +44,147 @@ class RecorderTest extends PHPUnit_Framework_TestCase
         $mock->mockery_verify();
     }
     
+    public function testArgumentsArePassedAsMethodExpectations()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doBar();
+        });
+        
+        $this->assertEquals(4, $mock->bar(2));
+        $mock->mockery_verify();
+    }
+    
+    public function testArgumentsLooselyMatchedByDefault()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doBar();
+        });
+        
+        $this->assertEquals(4, $mock->bar('2'));
+        $mock->mockery_verify();
+    }
+    
+    public function testMultipleMethodExpectations()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doFoo();
+            $user->doBar();
+        });
+        
+        $this->assertEquals(1, $mock->foo());
+        $this->assertEquals(4, $mock->bar(2));
+        $mock->mockery_verify();
+    }
+    
+    public function testRecordingDoesNotSpecifyExactOrderByDefault()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doFoo();
+            $user->doBar();
+        });
+        
+        $this->assertEquals(4, $mock->bar(2));
+        $this->assertEquals(1, $mock->foo());
+        $mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testRecordingDoesSpecifyExactOrderInStrictMode()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $subject->shouldBeStrict();
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doFoo();
+            $user->doBar();
+        });
+        
+        $mock->bar(2);
+        $mock->foo();
+        $mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testArgumentsAreMatchedExactlyUnderStrictMode()
+    {
+        $this->markTestIncomplete();
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $subject->shouldBeStrict();
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doBar();
+        });
+        
+        $mock->bar('2');
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testThrowsExceptionWhenArgumentsNotExpected()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doBar();
+        });
+        
+        $mock->bar(4);
+    }
+    
+    public function testCallCountUnconstrainedByDefault()
+    {
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doBar();
+        });
+        
+        $mock->bar(2);
+        $this->assertEquals(4, $mock->bar(2));
+        $mock->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testCallCountConstrainedInStrictMode()
+    {
+        $this->markTestIncomplete();
+        $mock = $this->container->mock(new MockeryTestSubject);
+        $mock->shouldExpect(function ($subject) {
+            $subject->shouldBeStrict();
+            $user = new MockeryTestSubjectUser($subject);
+            $user->doBar();
+        });
+        
+        $mock->bar(2);
+        $mock->bar(2);
+        $mock->mockery_verify();
+    }
+    
 }
 
 class MockeryTestSubject {
     function foo() { return 1; }
+    function bar($i) { return $i * 2; }
 }
 
 class MockeryTestSubjectUser {
     public $subject = null;
     function __construct($subject) { $this->subject = $subject; }
     function doFoo () { return $this->subject->foo(); }
+    function doBar () { return $this->subject->bar(2); }
 }
