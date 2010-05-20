@@ -202,6 +202,17 @@ our expectations.
 You can also use the quickie expectation setup for your partial mock. See the
 section later on Creating Partial Mocks for more information.
 
+    $mock = \Mockery::mock('name', function($mock){
+        $mock->shouldReceive(method_name);
+    });
+    
+All of the various setup methods may be passed a closure as the final parameter.
+The closure will be passed the mock object when called so that expectations
+can be setup. Distinct from the later explained default expectations, this
+allows for the reuse of expectation setups by storing them to a closure for
+execution. Note that all other parameters including quick expectation arrays set
+prior to the closure will be used before the closure is called.
+
 Expectation Declarations
 ------------------------
 

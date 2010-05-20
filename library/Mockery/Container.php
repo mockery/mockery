@@ -61,8 +61,16 @@ class Container
         $class = null;
         $name = null;
         $partial = null;
+        $expectationClosure = null;
         $quickdefs = array();
         $args = func_get_args();
+        if (count($args) > 1) {
+            $finalArg = end($args);
+            reset($args);
+            if (is_callable($finalArg)) {
+                $expectationClosure = array_pop($args);
+            }
+        }
         while (count($args) > 0) {
             $arg = current($args);
             if (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
@@ -93,6 +101,9 @@ class Container
         }
         if (!empty($quickdefs)) {
             $mock->shouldReceive($quickdefs);
+        }
+        if (!empty($expectationClosure)) {
+            $expectationClosure($mock);
         }
         $this->rememberMock($mock);
         return $mock;

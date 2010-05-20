@@ -103,6 +103,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTestFoo2);
     }
     
+    public function testPassingClosureAsFinalParameterUsedToDefineExpectations()
+    {
+        $m = $this->container->mock('foo', function($m) {
+            $m->shouldReceive('foo')->once()->andReturn('bar');
+        });
+        $this->assertEquals('bar', $m->foo());
+    }
+    
 }
 
 class MockeryTestFoo {
