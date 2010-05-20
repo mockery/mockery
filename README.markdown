@@ -97,8 +97,48 @@ We'll cover the API in greater detail below.
 PHPUnit Integration
 -------------------
 
-PHPUnit integration is currently in progress.
+Mockery was designed as a simple to use standalone mock object framework, so
+its need for integration with any testing framework is entirely optional.
+To integrate Mockery, you just need to define a teardown() method for your
+tests containing the following:
 
+    public function teardown() {
+        \Mockery::close();
+    }
+    
+This static call cleans up the Mockery container used by the current test, and
+run any verification tasks needed for your expectations.
+
+If you prefer to avoid the need for adding a teardown() everywhere, you can
+optionally configure PHPUnit to use Mockery's TestListener which does the exact
+same thing as above, only without the extra typing. Here's an example of
+the configuration using PHPUnit's XML format for configuration.
+
+    <phpunit bootstrap="./Bootstrap.php">
+      <testsuite name="My Test Suite">
+        <directory>./</directory>
+      </testsuite>
+      <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"
+            file="Mockery/Adapter/Phpunit/TestListener.php">
+        </listener>
+      </listeners>
+    </phpunit>
+    
+For some added brevity when it comes to using Mockery, you can also explicitly
+use the Mockery namespace with a shorter alias. For example:
+
+    use \Mockery as m;
+    
+    class SimpleTest extends extends PHPUnit_Framework_TestCase
+    {
+        public function testSimpleMock() {
+            $mock = m::mock('simple mock');
+            $mock->shouldReceive('foo')->with(5, m::any())->once()->andReturn(10);
+            $this->assertEquals(10, $mock->foo(5));
+        }
+    }
+    
 Quick Reference
 ---------------
 
