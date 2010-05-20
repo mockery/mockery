@@ -404,6 +404,20 @@ The Ducktype matcher is an alternative to matching by class type. It simply
 matches any argument which is an object containing the provided list
 of methods to call.
 
+    with(\Mockery::mustBe(2));
+    
+The MustBe matcher is more strict than the default argument matcher. The default
+matcher allows for PHP type casting, but the MustBe matcher also verifies that
+the argument must be of the same type as the expected value. Thus by default,
+the argument '2' matches the actual argument 2 (integer) but the MustBe matcher
+would fail in the same situation since the expected argument was a string and
+instead we got an integer.
+
+Note: Objects are not subject to an identical comparison using this matcher
+since PHP would fail the comparison if both objects were not the exact same
+instance. This is a hindrance when objects are generated prior to being
+returned, since an identical match just would never be possible.
+
 Creating Partial Mocks
 ----------------------
 

@@ -110,6 +110,17 @@ class Mockery
     }
     
     /**
+     * Return instance of MUSTBE matcher
+     *
+     * @return
+     */
+    public static function mustBe($expected)
+    {
+        $return = new \Mockery\Matcher\MustBe($expected);
+        return $return;
+    }
+    
+    /**
      * Utility method to format method name and args into a string
      *
      * @param string $method

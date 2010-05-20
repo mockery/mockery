@@ -1224,6 +1224,65 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
     
+    public function testMustBeConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::mustBe(2))->once();
+        $this->mock->foo(2);
+        $this->container->mockery_verify();
+    }
+    
+    public function testMustBeConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::mustBe(2))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testMustBeConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::mustBe(2))->once();
+        $this->mock->foo('2');
+        $this->container->mockery_verify();
+    }
+    
+    public function testMustBeConstraintMatchesObjectArgumentWithEqualsComparisonNotIdentical()
+    {
+        $a = new stdClass; $a->foo = 1;
+        $b = new stdClass; $b->foo = 1;
+        $this->mock->shouldReceive('foo')->with(Mockery::mustBe($a))->once();
+        $this->mock->foo($b);
+        $this->container->mockery_verify();
+    }
+    
+    public function testMustBeConstraintNonMatchingCaseWithObject()
+    {
+        $a = new stdClass; $a->foo = 1;
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::mustBe($a))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, $a, 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testMustBeConstraintThrowsExceptionWhenConstraintUnmatchedWithObject()
+    {
+        $a = new stdClass; $a->foo = 1;
+        $b = new stdClass; $b->foo = 2;
+        $this->mock->shouldReceive('foo')->with(Mockery::mustBe($a))->once();
+        $this->mock->foo($b);
+        $this->container->mockery_verify();
+    }
+    
     public function testMatchPrecedenceBasedOnExpectedCallsFavouringExplicitMatch()
     {
         $this->mock->shouldReceive('foo')->with(1)->once();

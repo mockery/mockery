@@ -89,9 +89,15 @@ class Recorder
         $return = call_user_func_array(array($this->_subject, $method), $args);
         $expectation = $this->_mock->shouldReceive($method)->andReturn($return);
         if ($this->_strict) {
+            $exactArgs = array();
+            foreach ($args as $arg) {
+                $exactArgs[] = \Mockery::mustBe($arg);
+            }
             $expectation->once()->ordered();
+            call_user_func_array(array($expectation, 'with'), $exactArgs);
+        } else {
+            call_user_func_array(array($expectation, 'with'), $args);
         }
-        call_user_func_array(array($expectation, 'with'), $args);
         return $return;
     }
 }

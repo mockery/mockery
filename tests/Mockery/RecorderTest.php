@@ -119,7 +119,6 @@ class RecorderTest extends PHPUnit_Framework_TestCase
      */
     public function testArgumentsAreMatchedExactlyUnderStrictMode()
     {
-        $this->markTestIncomplete('Need to decide on whether strict uses an === match');
         $mock = $this->container->mock(new MockeryTestSubject);
         $mock->shouldExpect(function ($subject) {
             $subject->shouldBeStrict();
