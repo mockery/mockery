@@ -141,9 +141,10 @@ use the Mockery namespace with a shorter alias. For example:
     }
     
 Mockery ships with an autoloader so you don't need to litter your tests with
-require_once() calls. To use it, ensure Mockery is on your include path and add
+require_once() calls. To use it, ensure Mockery is on your include_path and add
 the following to your test suite's Bootstrap or TestHelper file:
 
+    require_once 'Mockery/Loader.php';
     $loader = new \Mockery\Loader;
     $loader->register();
     
