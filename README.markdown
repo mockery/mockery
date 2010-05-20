@@ -41,15 +41,12 @@ The above process will install Mockery as a PEAR library.
 Simple Example
 --------------
 
-Note: Example omits PHPUnit integration since it's still in the works. Instead
-we use the setup/teardown test methods to explicity manage mocking.
-
 Imagine we have a Temperature class which samples the temperature of a locale
 before reporting an average temperature. The data could come from a web service
 or any other data source, but we do not have such a class at present. We can,
 however, assume some basic interactions with such a class based on its interaction
 with the Temperature class.
-
+    
     class Temperature
     {
 
@@ -74,17 +71,21 @@ When writing a test for the Temperature class, we can now substitute a mock
 object for the real service which allows us to test the behaviour of the
 Temperature class without actually needing a concrete service instance.
 
+Note: PHPUnit integration (see below) can remove the need for a teardown() method.
+
+    use \Mockery as m;
+    
     class TemperatureTest extends extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
         {
-            \Mockery::close();
+            m::close();
         }
         
         public function testGetsAverageTemperatureFromThreeServiceReadings()
         {
-            $service = \Mockery::mock('service');
+            $service = m::mock('service');
             $service->shouldReceive('readTemp')->times(3)->andReturn(10, 12, 14);
             $temperature = new Temperature($service);
             $this->assertEquals(12, $temperature->average());
@@ -100,7 +101,7 @@ PHPUnit Integration
 Mockery was designed as a simple to use standalone mock object framework, so
 its need for integration with any testing framework is entirely optional.
 To integrate Mockery, you just need to define a teardown() method for your
-tests containing the following:
+tests containing the following (you may use a shorter \Mockery namespace alias):
 
     public function teardown() {
         \Mockery::close();
@@ -571,17 +572,19 @@ Create a mock object to return a sequence of values from a set of method calls.
 Create a mock object which returns a self-chaining Undefined object for a method
 call.
 
+    use \Mockery as m;
+    
     class UndefinedTest extends extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
         {
-            \Mockery::close();
+            m::close();
         }
         
         public function testUndefinedValues()
         {
-            $mock = \Mockery::mock('my mock');
+            $mock = m::mock('my mock');
             $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
             $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
         }
@@ -590,17 +593,19 @@ call.
     
 Creates a mock object which multiple query calls and a single update call
 
+    use \Mockery as m;
+    
     class DbTest extends extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
         {
-            \Mockery::close();
+            m::close();
         }
         
         public function testDbAdapter()
         {
-            $mock = \Mockery::mock('db');
+            $mock = m::mock('db');
             $mock->shouldReceive('query')->andReturn(1, 2, 3);
             $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
             
@@ -611,17 +616,19 @@ Creates a mock object which multiple query calls and a single update call
     
 Expect all queries to be executed before any updates.
 
+    use \Mockery as m;
+    
     class DbTest extends extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
         {
-            \Mockery::close();
+            m::close();
         }
         
         public function testQueryAndUpdateOrder()
         {
-            $mock = \Mockery::mock('db');
+            $mock = m::mock('db');
             $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
             $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
             
@@ -633,17 +640,19 @@ Expect all queries to be executed before any updates.
 Create a mock object where all queries occur after startup, but before finish, and
 where queries are expected with several different params.
 
+    use \Mockery as m;
+    
     class DbTest extends extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
         {
-            \Mockery::close();
+            m::close();
         }
         
         public function testOrderedQueries()
         {
-            $db = \Mockery::mock('db');
+            $db = m::mock('db');
             $db->shouldReceive('startup')->once()->ordered();
             $db->shouldReceive('query')->with('CPWR')->andReturn(12.3)->once()->ordered('queries');
             $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
