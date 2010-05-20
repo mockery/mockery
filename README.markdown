@@ -444,7 +444,8 @@ outline below (we use a closure for passing instructions to the mock).
 
 Here we have a very simple setup, a class (SubjectUser) which uses another class
 (Subject) to retrieve some value. We want to record as expectations on our
-mock exactly how SubjectUser uses Subject.
+mock (which will replace Subject later) all the calls and return values of
+a Subject instance when interacting with SubjectUser.
 
     class Subject {
 
@@ -472,7 +473,7 @@ Here's the test case showing the recording:
         
         public function testSomething()
         {
-            $mock = \Mockery::mock('Subject');
+            $mock = \Mockery::mock(new Subject);
             $mock->shouldExpect(function ($subject) {
                 $user = new SubjectUser;
                 $user->use($subject);
