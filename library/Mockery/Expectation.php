@@ -80,6 +80,14 @@ class Expectation
     protected $_returnQueue = array();
     
     /**
+     * Array of closures executed with given arguments to generate a result
+     * to be returned
+     *
+     * @var array
+     */
+    protected $_closureQueue = array();
+    
+    /**
      * Integer representing the call order of this expectation
      *
      * @var int
@@ -165,15 +173,15 @@ class Expectation
      */
     protected function _getReturnValue(array $args)
     {
-        if(count($this->_returnQueue) == 1) {
-            $return = current($this->_returnQueue);
-        } else {
-            $return = array_shift($this->_returnQueue);
+        if (count($this->_closureQueue) > 1) {
+            return call_user_func_array(array_shift($this->_closureQueue), $args);
+        } elseif (count($this->_closureQueue) > 0) {
+            return call_user_func_array(current($this->_closureQueue), $args);
+        } elseif (count($this->_returnQueue) > 1) {
+            return array_shift($this->_returnQueue);
+        } elseif (count($this->_returnQueue) > 0) {
+            return current($this->_returnQueue);
         }
-        if (is_callable($return)) {
-            return call_user_func_array($return, $args);
-        }
-        return $return;
     }
 
     /**
@@ -325,6 +333,19 @@ class Expectation
     public function andReturn()
     {
         $this->_returnQueue = func_get_args();
+        return $this;
+    }
+    
+    /**
+     * Set a closure or sequence of closures with which to generate return
+     * values. The arguments passed to the expected method are passed to the
+     * closures as parameters.
+     *
+     * @return self
+     */
+    public function andReturnUsing()
+    {
+        $this->_closureQueue = func_get_args();
         return $this;
     }
     

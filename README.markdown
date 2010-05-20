@@ -270,17 +270,19 @@ Declares this expectation matches method calls with zero arguments.
     
 Sets a value to be returned from the expected method call.
 
-    andReturn(closure)
-    
-Sets a closure (anonymous function) to be called with the arguments passed to
-the method. Useful for some dynamic processing of arguments into related
-concrete results.
-
     andReturn(value1, value2, ...)
     
 Sets up a sequence of return values or closures. For example, the first call will return
 value1 and the second value2. Not that all subsequent calls to a mocked method
 will always return the final value (or the only value) given to this declaration.
+
+    andReturnUsing(closure, ...)
+    
+Sets a closure (anonymous function) to be called with the arguments passed to
+the method. The return value from the closure is then returned. Useful for some
+dynamic processing of arguments into related concrete results. Closures can
+queued by passing them as extra parameters as for andReturn(). Note that you
+cannot currently mix andReturnUsing() with andReturn().
 
     andThrow(Exception)
     

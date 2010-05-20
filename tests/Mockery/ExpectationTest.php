@@ -90,7 +90,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
 
     public function testReturnsValueOfClosure()
     {
-        $this->mock->shouldReceive('foo')->with(5)->andReturn(function($v){return $v+1;});
+        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(function($v){return $v+1;});
         $this->assertEquals(6, $this->mock->foo(5));
     }
     
