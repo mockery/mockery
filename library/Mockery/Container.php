@@ -89,15 +89,17 @@ class Container
             }
         }
         if (!is_null($name)) {
-            $mock = new \Mockery\Mock($name, $this);
+            $mock = new \Mockery\Mock();
+            $mock->mockery_init($name, $this);
         } elseif(!is_null($class)) {
             $mock = \Mockery\Generator::createClassMock($class);
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {
-            $mock = \Mockery\Generator::createClassMock(get_class($partial));
+            $mock = \Mockery\Generator::createClassMock(get_class($partial), null, true);
             $mock->mockery_init($class, $this, $partial);
         } else {
-            $mock = new \Mockery\Mock('unknown', $this);
+            $mock = new \Mockery\Mock();
+            $mock->mockery_init('unknown', $this);
         }
         if (!empty($quickdefs)) {
             $mock->shouldReceive($quickdefs);

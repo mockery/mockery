@@ -621,6 +621,22 @@ identical, you can invoke the recorder's strict mode from the closure block, e.g
         $user = new SubjectUser;
         $user->use($subject);
     });
+    
+Dealing with Final Classes/Methods
+----------------------------------
+
+One of the primary restrictions of mock objects in PHP, is that mocking classes
+or methods marked final is hard. The final keyword prevents methods so marked
+from being replaced in subclasses (subclassing is how mock objects can inherit
+the type of the class or object being mocked.
+
+The simplest solution is not to mark classes or methods as final!
+
+However, in a compromise between mocking functionality and type safety, Mockery
+does allow creating partial mocks from classes marked final, or from classes with
+methods marked final. This offers all the usual mock object goodness but the
+resulting mock will not inherit the class type of the object being mocked, i.e.
+it will not pass any instanceof comparison.
 
 Quick Examples
 --------------

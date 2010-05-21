@@ -104,27 +104,10 @@ class Mock implements MockInterface
      * @var bool
      */
     protected $_mockery_disableExpectationMatching = false;
-
-    /**
-     * Constructor
-     *
-     * @param string $name
-     * @param \Mockery\Container $container
-     */
-    public function __construct($name, \Mockery\Container $container = null, $partialObject = null)
-    {
-        $this->_mockery_name = $name;
-        if(is_null($container)) {
-            $container = new \Mockery\Container;
-        }
-        $this->_mockery_container = $container;
-        if (!is_null($partialObject)) {
-            $this->_mockery_partial = $partialObject;
-        }
-    }
     
     /**
-     * Alternative setup method to constructor
+     * We want to avoid constructors since class is copied to Generator.php
+     * for inclusion on extending class definitions.
      *
      * @param string $name
      * @param \Mockery\Container $container

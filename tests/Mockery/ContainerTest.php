@@ -111,6 +111,39 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $m->foo());
     }
     
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testMockingAKnownConcreteFinalClassThrowsErrors_OnlyPartialMocksCanMockFinalElements()
+    {
+        $m = $this->container->mock('MockeryFoo3');
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testMockingAKnownConcreteClassWithFinalMethodsThrowsErrors_OnlyPartialMocksCanMockFinalElements()
+    {
+        $m = $this->container->mock('MockeryFoo4');
+    }
+    
+    public function testFinalClassesCanBePartialMocks()
+    {
+        $m = $this->container->mock(new MockeryFoo3);
+        $m->shouldReceive('foo')->andReturn('baz');
+        $this->assertEquals('baz', $m->foo());
+        $this->assertFalse($m instanceof MockeryFoo3);
+    }
+    
+    public function testClassesWithFinalMethodsCanBePartialMocks()
+    {
+        $m = $this->container->mock(new MockeryFoo4);
+        $m->shouldReceive('foo')->andReturn('baz');
+        $this->assertEquals('baz', $m->foo());
+        $this->assertEquals('bar', $m->bar());
+        $this->assertFalse($m instanceof MockeryFoo4);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -119,5 +152,14 @@ class MockeryTestFoo {
 
 class MockeryTestFoo2 {
     public function foo() { return 'foo'; }
+    public function bar() { return 'bar'; }
+}
+
+final class MockeryFoo3 {
+    public function foo() { return 'baz'; }
+}
+
+class MockeryFoo4 {
+    final public function foo() { return 'baz'; }
     public function bar() { return 'bar'; }
 }

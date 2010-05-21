@@ -29,26 +29,53 @@ class Generator
     * class type hierarchy as a typical instance of the class being
     * mocked.
     *
-    *
+    * @param string $className
+    * @param string $mockName
+    * @param string $allowFinal
     */
-    public static function createClassMock($className, $mockName = null)
+    public static function createClassMock($className, $mockName = null, $allowFinal = false)
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $class = new \ReflectionClass($className);
         $definition = '';
-        if ($class->isFinal()) {
+        if ($class->isFinal() && !$allowFinal) {
             throw new \Mockery\Exception(
-                'The class ' . $className . ' is marked final and it is not '
-                . 'possible to generate a mock object with its type'
+                'The class ' . $className . ' is marked final and its methods'
+                . ' cannot be replaced. Classes marked final can be passed in'
+                . 'to \Mockery::mock() as instantiated objects to create a'
+                . ' partial mock, but only if the mock is not subject to type'
+                . ' hinting checks.'
             );
+        } elseif ($class->isFinal()) {
+            $className = '\\Mockery\\Mock';
+        }
+        $hasFinalMethods = false;
+        $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+        foreach ($methods as $method) {
+            if ($method->isFinal()  && !$allowFinal) {
+                throw new \Mockery\Exception(
+                    'The method ' . $method->getName()
+                    . ' is marked final and it is not possible to generate a '
+                    . 'mock object with such a method defined. You should instead '
+                    . 'pass an instance of this object to Mockery to create a '
+                    . 'partial mock.'
+                );
+            } elseif ($method->isFinal()) {
+                $className = '\\Mockery\\Mock';
+                $hasFinalMethods = true;
+            }
         }
         if ($class->isInterface()) {
             $inheritance = ' implements ' . $className . ', \Mockery\MockInterface';
+        } elseif ($class->isFinal() || $hasFinalMethods) {
+            $inheritance = ' extends ' . $className;
         } else {
             $inheritance = ' extends ' . $className . ' implements \Mockery\MockInterface';
         }
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
-        $definition .= self::applyMockeryTo($class);
+        if (!$class->isFinal() && !$hasFinalMethods) {
+            $definition .= self::applyMockeryTo($class, $methods);
+        }
         $definition .= PHP_EOL . '}';
         eval($definition);
         $mock = new $mockName();
@@ -60,19 +87,9 @@ class Generator
      *
      *
      */
-    public static function applyMockeryTo(\ReflectionClass $class)
+    public static function applyMockeryTo(\ReflectionClass $class, array $methods)
     {
         $definition = '';
-        $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
-        foreach ($methods as $method) {
-            if ($method->isFinal()) {
-                throw new \Mockery\Exception(
-                    'The method ' . $method->getName()
-                    . ' is marked final and it is not possible to generate a '
-                    . 'mock object with such a method defined'
-                );
-            }
-        }
         /**
          * TODO: Worry about all these other method types later.
          */
@@ -167,7 +184,7 @@ class Generator
     protected \$_mockery_partial = null;
     
     protected \$_mockery_disableExpectationMatching = false;
-
+    
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
         \$this->_mockery_name = \$name;
