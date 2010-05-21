@@ -88,13 +88,46 @@ class Mockery
     }
     
     /**
+     * Return instance of SUBSET matcher
+     *
+     * @return
+     */
+    public static function subset(array $part)
+    {
+        $return = new \Mockery\Matcher\Subset($part);
+        return $return;
+    }
+    
+    /**
      * Return instance of CONTAINS matcher
      *
      * @return
      */
-    public static function contains(array $part)
+    public static function contains()
     {
-        $return = new \Mockery\Matcher\Contains($part);
+        $return = new \Mockery\Matcher\Contains(func_get_args());
+        return $return;
+    }
+    
+    /**
+     * Return instance of HASKEY matcher
+     *
+     * @return
+     */
+    public static function hasKey($key)
+    {
+        $return = new \Mockery\Matcher\HasKey($key);
+        return $return;
+    }
+    
+    /**
+     * Return instance of HASVALUE matcher
+     *
+     * @return
+     */
+    public static function hasValue($val)
+    {
+        $return = new \Mockery\Matcher\HasValue($val);
         return $return;
     }
     

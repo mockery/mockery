@@ -20,7 +20,7 @@
 
 namespace Mockery\Matcher;
 
-class Contains extends MatcherAbstract
+class Subset extends MatcherAbstract
 {
     
     /**
@@ -31,16 +31,11 @@ class Contains extends MatcherAbstract
      */
     public function match($actual)
     {
-        $values = array_values($actual);
-        foreach ($this->_expected as $exp) {
-            $match = false;
-            foreach ($values as $val) {
-                if ($exp === $val || $exp == $val) {
-                    $match = true;
-                    break;
-                }   
+        foreach ($this->_expected as $k=>$v) {
+            if (!isset($actual[$k])) {
+                return false;
             }
-            if ($match === false) {
+            if ($actual[$k] !== $v) {
                 return false;
             }
         }
@@ -54,10 +49,10 @@ class Contains extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<Contains[';
+        $return = '<Subset[';
         $elements = array();
-        foreach ($this->_expected as $v) {
-            $elements[] = (string) $v;
+        foreach ($this->_expected as $k=>$v) {
+            $elements[] = $k . '=' . (string) $v;
         }
         $return .= implode(', ', $elements) . ']>';
         return $return;

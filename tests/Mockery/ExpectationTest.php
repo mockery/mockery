@@ -1180,7 +1180,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function testArrayContentConstraintMatchesArgument()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::contains(array('a'=>1,'b'=>2)))->once();
+        $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1,'b'=>2)))->once();
         $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
         $this->container->mockery_verify();
     }
@@ -1188,7 +1188,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     public function testArrayContentConstraintNonMatchingCase()
     {
         $this->mock->shouldReceive('foo')->times(3);
-        $this->mock->shouldReceive('foo')->with(1, Mockery::contains(array('a'=>1,'b'=>2)))->never();
+        $this->mock->shouldReceive('foo')->with(1, Mockery::subset(array('a'=>1,'b'=>2)))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 2, 3);
@@ -1200,8 +1200,89 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
      */
     public function testArrayContentConstraintThrowsExceptionWhenConstraintUnmatched()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::contains(array('a'=>1,'b'=>2)))->once();
-        $this->mock->foo(array(array('a'=>1,'c'=>3)));
+        $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1,'b'=>2)))->once();
+        $this->mock->foo(array('a'=>1,'c'=>3));
+        $this->container->mockery_verify();
+    }
+    
+    public function testContainsConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::contains(1, 2))->once();
+        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->container->mockery_verify();
+    }
+    
+    public function testContainsConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::contains(1, 2))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testContainsConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::contains(1, 2))->once();
+        $this->mock->foo(array('a'=>1,'c'=>3));
+        $this->container->mockery_verify();
+    }
+    
+    public function testHasKeyConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::hasKey('c'))->once();
+        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->container->mockery_verify();
+    }
+    
+    public function testHasKeyConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::hasKey('a'))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, array('a'=>1), 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testHasKeyConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::hasKey('c'))->once();
+        $this->mock->foo(array('a'=>1,'b'=>3));
+        $this->container->mockery_verify();
+    }
+    
+    public function testHasValueConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::hasValue(1))->once();
+        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->container->mockery_verify();
+    }
+    
+    public function testHasValueConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::hasValue(1))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, array('a'=>1), 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testHasValueConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::hasValue(2))->once();
+        $this->mock->foo(array('a'=>1,'b'=>3));
         $this->container->mockery_verify();
     }
     

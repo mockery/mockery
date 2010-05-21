@@ -460,6 +460,25 @@ Matches any argument which equals any one of the given parameters.
 Matches any argument which is not equal or identical to any of the given
 parameters.
 
+    with(\Mockery::subset(array(0=>'foo')))
+    
+Matches any argument which is any array containing the given array subset. This
+enforces both key naming and values, i.e. both the key and value of each
+actual element is compared.
+
+    with(\Mockery::contains(value1, value2))
+    
+Matches any argument which is an array containing the listed values. The naming
+of keys is ignored.
+
+    with(\Mockery::hasKey(key));
+    
+Matches any argument which is an array containing the given key name.
+
+    with(\Mockery::hasValue(key));
+    
+Matches any argument which is an array containing the given value.
+
 Creating Partial Mocks
 ----------------------
 
