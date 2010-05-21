@@ -1317,6 +1317,88 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof \Mockery\MockInterface);
     }
     
+    public function testNotConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::not(1))->once();
+        $this->mock->foo(2);
+        $this->container->mockery_verify();
+    }
+    
+    public function testNotConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::not(2))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testNotConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::not(2))->once();
+        $this->mock->foo(2);
+        $this->container->mockery_verify();
+    }
+
+    public function testAnyOfConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::anyOf(1, 2))->twice();
+        $this->mock->foo(2);
+        $this->mock->foo(1);
+        $this->container->mockery_verify();
+    }
+    
+    public function testAnyOfConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::anyOf(1, 2))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 2, 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testAnyOfConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::anyOf(1, 2))->once();
+        $this->mock->foo(3);
+        $this->container->mockery_verify();
+    }
+    
+    public function testNotAnyOfConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::notAnyOf(1, 2))->once();
+        $this->mock->foo(3);
+        $this->container->mockery_verify();
+    }
+    
+    public function testNotAnyOfConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::notAnyOf(1, 2))->never();
+        $this->mock->foo();
+        $this->mock->foo(1);
+        $this->mock->foo(1, 4, 3);
+        $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testNotAnyOfConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::notAnyOf(1, 2))->once();
+        $this->mock->foo(2);
+        $this->container->mockery_verify();
+    }
+    
 }
 
 class Mockery_Duck {

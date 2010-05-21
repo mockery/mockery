@@ -121,6 +121,39 @@ class Mockery
     }
     
     /**
+     * Return instance of NOT matcher
+     *
+     * @return
+     */
+    public static function not($expected)
+    {
+        $return = new \Mockery\Matcher\Not($expected);
+        return $return;
+    }
+    
+    /**
+     * Return instance of ANYOF matcher
+     *
+     * @return
+     */
+    public static function anyOf()
+    {
+        $return = new \Mockery\Matcher\AnyOf(func_get_args());
+        return $return;
+    }
+    
+    /**
+     * Return instance of NOTANYOF matcher
+     *
+     * @return
+     */
+    public static function notAnyOf()
+    {
+        $return = new \Mockery\Matcher\NotAnyOf(func_get_args());
+        return $return;
+    }
+    
+    /**
      * Utility method to format method name and args into a string
      *
      * @param string $method
