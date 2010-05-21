@@ -96,7 +96,7 @@ class Container
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {
             $mock = \Mockery\Generator::createClassMock(get_class($partial), null, true);
-            $mock->mockery_init($class, $this, $partial);
+            $mock->mockery_init(get_class($partial), $this, $partial);
         } else {
             $mock = new \Mockery\Mock();
             $mock->mockery_init('unknown', $this);

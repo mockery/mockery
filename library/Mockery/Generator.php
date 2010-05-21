@@ -185,6 +185,8 @@ class Generator
     
     protected \$_mockery_disableExpectationMatching = false;
     
+    protected \$_mockery_mockableMethods = array();
+    
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
         \$this->_mockery_name = \$name;
@@ -194,6 +196,17 @@ class Generator
         \$this->_mockery_container = \$container;
         if (!is_null(\$partialObject)) {
             \$this->_mockery_partial = \$partialObject;
+        }
+        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
+            if (isset(\$this->_mockery_partial)) {
+                \$reflected = new \ReflectionObject(\$this->_mockery_partial);
+            } else {
+                \$reflected = new \ReflectionClass(\$this->_mockery_name);
+            }
+            \$methods = \$reflected->getMethods(\ReflectionMethod::IS_PUBLIC);
+            foreach (\$methods as \$method) {
+                if (!\$method->isStatic()) \$this->_mockery_mockableMethods[] = \$method->getName();
+            }
         }
     }
 
@@ -338,6 +351,11 @@ class Generator
     public function mockery_getName()
     {
         return \$this->_mockery_name;
+    }
+    
+    public function mockery_getMockableMethods()
+    {
+        return \$this->_mockery_mockableMethods;
     }
 MOCK;
         return $std;

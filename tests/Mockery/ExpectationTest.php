@@ -30,6 +30,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function teardown()
     {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
         $this->container->mockery_close();
     }
 
@@ -1478,6 +1479,26 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->shouldReceive('foo')->with(Mockery::notAnyOf(1, 2))->once();
         $this->mock->foo(2);
         $this->container->mockery_verify();
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testGlobalConfigMayForbidMockingNonExistentMethodsOnClasses()
+    {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $mock = $this->container->mock('stdClass');
+        $mock->shouldReceive('foo');
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testGlobalConfigMayForbidMockingNonExistentMethodsOnObjects()
+    {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $mock = $this->container->mock(new stdClass);
+        $mock->shouldReceive('foo');
     }
     
 }

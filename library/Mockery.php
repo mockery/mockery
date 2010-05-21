@@ -29,6 +29,13 @@ class Mockery
     protected static $_container = null;
     
     /**
+     * Global configuration handler containing configuration options
+     *
+     * @var \Mockery\Configuration
+     */
+    protected static $_config = null;
+    
+    /**
      * Static shortcut to \Mockery\Container::mock()
      *
      * @return \Mockery\MockInterface
@@ -187,6 +194,17 @@ class Mockery
     }
     
     /**
+     * Get the global configuration container
+     */
+    public static function getConfiguration()
+    {
+        if (is_null(self::$_config)) {
+            self::$_config = new \Mockery\Configuration;
+        }
+        return self::$_config;
+    }
+    
+    /**
      * Utility method to format method name and args into a string
      *
      * @param string $method
@@ -254,6 +272,15 @@ class Mockery
     {
         $container = $mock->mockery_getContainer();
         $names = explode('->', $arg);
+        reset($names);
+        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
+        && !in_array(current($names), $mock->mockery_getMockableMethods())) {
+            throw new \Mockery\Exception(
+                'Mockery\'s configuration currently forbids mocking the method '
+                . current($names) . ' as it does not exist on the class or object '
+                . 'being mocked'
+            );
+        }
         $exp = null;
         $nextExp = function ($n) use ($add) {return $add($n);};
         while (true) {

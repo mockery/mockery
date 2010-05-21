@@ -33,6 +33,7 @@
             </dir>
           </dir>
           <file name="CompositeExpectation.php" role="php"/>
+          <file name="Configuration.php" role="php"/>
           <file name="Container.php" role="php"/>
           <dir name="CountValidator">
             <file name="AtLeast.php" role="php"/>
@@ -48,11 +49,17 @@
           <file name="Loader.php" role="php"/>
           <dir name="Matcher">
             <file name="Any.php" role="php"/>
+            <file name="AnyOf.php" role="php"/>
             <file name="Closure.php" role="php"/>
             <file name="Contains.php" role="php"/>
             <file name="Ducktype.php" role="php"/>
+            <file name="HasKey.php" role="php"/>
+            <file name="HasValue.php" role="php"/>
             <file name="MatcherAbstract.php" role="php"/>
             <file name="MustBe.php" role="php"/>
+            <file name="Not.php" role="php"/>
+            <file name="NotAnyOf.php" role="php"/>
+            <file name="Subset.php" role="php"/>
             <file name="Type.php" role="php"/>
           </dir>
           <file name="Mock.php" role="php"/>
@@ -78,6 +85,7 @@
       <install name="library/Mockery.php" as="Mockery.php"/>
       <install name="library/Mockery/Adapter/Phpunit/TestListener.php" as="Mockery/Adapter/Phpunit/TestListener.php"/>
       <install name="library/Mockery/CompositeExpectation.php" as="Mockery/CompositeExpectation.php"/>
+      <install name="library/Mockery/Configuration.php" as="Mockery/Configuration.php"/>
       <install name="library/Mockery/Container.php" as="Mockery/Container.php"/>
       <install name="library/Mockery/CountValidator/AtLeast.php" as="Mockery/CountValidator/AtLeast.php"/>
       <install name="library/Mockery/CountValidator/AtMost.php" as="Mockery/CountValidator/AtMost.php"/>
@@ -90,11 +98,17 @@
       <install name="library/Mockery/Generator.php" as="Mockery/Generator.php"/>
       <install name="library/Mockery/Loader.php" as="Mockery/Loader.php"/>
       <install name="library/Mockery/Matcher/Any.php" as="Mockery/Matcher/Any.php"/>
+      <install name="library/Mockery/Matcher/AnyOf.php" as="Mockery/Matcher/AnyOf.php"/>
       <install name="library/Mockery/Matcher/Closure.php" as="Mockery/Matcher/Closure.php"/>
       <install name="library/Mockery/Matcher/Contains.php" as="Mockery/Matcher/Contains.php"/>
       <install name="library/Mockery/Matcher/Ducktype.php" as="Mockery/Matcher/Ducktype.php"/>
+      <install name="library/Mockery/Matcher/HasKey.php" as="Mockery/Matcher/HasKey.php"/>
+      <install name="library/Mockery/Matcher/HasValue.php" as="Mockery/Matcher/HasValue.php"/>
       <install name="library/Mockery/Matcher/MatcherAbstract.php" as="Mockery/Matcher/MatcherAbstract.php"/>
       <install name="library/Mockery/Matcher/MustBe.php" as="Mockery/Matcher/MustBe.php"/>
+      <install name="library/Mockery/Matcher/Not.php" as="Mockery/Matcher/Not.php"/>
+      <install name="library/Mockery/Matcher/NotAnyOf.php" as="Mockery/Matcher/NotAnyOf.php"/>
+      <install name="library/Mockery/Matcher/Subset.php" as="Mockery/Matcher/Subset.php"/>
       <install name="library/Mockery/Matcher/Type.php" as="Mockery/Matcher/Type.php"/>
       <install name="library/Mockery/Mock.php" as="Mockery/Mock.php"/>
       <install name="library/Mockery/MockInterface.php" as="Mockery/MockInterface.php"/>
