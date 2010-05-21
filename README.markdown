@@ -446,6 +446,20 @@ since PHP would fail the comparison if both objects were not the exact same
 instance. This is a hindrance when objects are generated prior to being
 returned, since an identical match just would never be possible.
 
+    with(\Mockery::not(2))
+
+The Not matcher matches any argument which is not equal or identical to the
+matcher's parameter.
+
+    with(\Mockery::anyOf(1, 2))
+    
+Matches any argument which equals any one of the given parameters.
+
+    with(\Mockery::notAnyof(1, 2))
+    
+Matches any argument which is not equal or identical to any of the given
+parameters.
+
 Creating Partial Mocks
 ----------------------
 
