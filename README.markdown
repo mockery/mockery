@@ -92,6 +92,33 @@ Note: PHPUnit integration (see below) can remove the need for a teardown() metho
         }
 
     }
+    
+Since Mockery implements a Test Spy API as an alternative to the traditional
+setting of expectations prior to exercising source code, the above test can
+also be written as follows. The concept of using a Test Spy rather than an
+expectation based Mock Object, is that it more naturally follows the typical
+unit testing flow where assertions are made after the code being tested is run.
+
+    use \Mockery as m;
+    
+    class TemperatureTest extends extends PHPUnit_Framework_TestCase
+    {
+        
+        public function teardown()
+        {
+            m::close();
+        }
+        
+        public function testGetsAverageTemperatureFromThreeServiceReadings()
+        {
+            $service = m::mock('service');
+            $service->whenReceive('readTemp')->thenReturn(10, 12, 14);
+            $temperature = new Temperature($service);
+            $service->assertReceived('readTemp')->times(3);
+            $this->assertEquals(12, $temperature->average());
+        }
+
+    }
 
 We'll cover the API in greater detail below.
 
@@ -667,6 +694,24 @@ immediately until switched back. In both cases, if either
 behaviour is detected when not allowed, it will result in an Exception being
 thrown at that point. Note that disallowing these behaviours should be carefully
 considered since they necessarily remove at least some of Mockery's flexibility.
+
+Reserved Method Names
+---------------------
+
+As you may have noticed, Mockery uses a number of methods called directly on
+all mock objects, for example shouldReceive(). Such methods are necessary
+in order to setup expectations on the given mock, and so they cannot be
+implemented on the classes or objects being mocked without creating a method
+name collision (reported as a PHP fatal error). The methods reserved by Mockery are:
+
+* shouldReceive()
+* shouldExpect()
+* shouldBeStrict()
+
+In addition, all mocks utilise a set of added methods and protected properties
+which cannot exist on the class or object being mocked. These are far less likely
+to cause collisions. All properties are prefixed with "_mockery" and all method
+names with "mockery_".
 
 Quick Examples
 --------------

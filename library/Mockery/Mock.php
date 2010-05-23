@@ -179,7 +179,7 @@ class Mock implements MockInterface
     }
     
     /**
-     * In the event shouldReceive() accepting an array of methods/returns
+     * In the event shouldReceive() accepting one or more methods/returns,
      * this method will switch them from normal expectations to default
      * expectations
      *
