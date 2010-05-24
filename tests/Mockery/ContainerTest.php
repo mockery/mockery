@@ -170,6 +170,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_ClassConstructor);
     }
     
+    public function testCanMockClassWithConstructorNeedingClassArgs()
+    {
+        $m = $this->container->mock('MockeryTest_ClassConstructor2');
+        $this->assertTrue($m instanceof MockeryTest_ClassConstructor2);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -204,4 +210,8 @@ abstract class MockeryTest_AbstractWithAbstractMethod
 
 class MockeryTest_ClassConstructor {
     public function __construct($param1) {}
+}
+
+class MockeryTest_ClassConstructor2 {
+    public function __construct(stdClass $param1) {}
 }
