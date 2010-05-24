@@ -92,33 +92,6 @@ Note: PHPUnit integration (see below) can remove the need for a teardown() metho
         }
 
     }
-    
-Since Mockery implements a Test Spy API as an alternative to the traditional
-setting of expectations prior to exercising source code, the above test can
-also be written as follows. The concept of using a Test Spy rather than an
-expectation based Mock Object, is that it more naturally follows the typical
-unit testing flow where assertions are made after the code being tested is run.
-
-    use \Mockery as m;
-    
-    class TemperatureTest extends extends PHPUnit_Framework_TestCase
-    {
-        
-        public function teardown()
-        {
-            m::close();
-        }
-        
-        public function testGetsAverageTemperatureFromThreeServiceReadings()
-        {
-            $service = m::mock('service');
-            $service->whenReceive('readTemp')->thenReturn(10, 12, 14);
-            $temperature = new Temperature($service);
-            $service->assertReceived('readTemp')->times(3);
-            $this->assertEquals(12, $temperature->average());
-        }
-
-    }
 
 We'll cover the API in greater detail below.
 
