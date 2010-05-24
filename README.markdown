@@ -236,7 +236,7 @@ expectations or constraints.
 Declares a number of expected calls but also their return values. All will
 adopt any additional chained expectations or constraints.
 
-    shouldExpect(closure)
+    shouldReceive(closure)
     
 Creates a mock object (only from a partial mock) which is used to create a mock
 object recorder. The recorder is a simple proxy to the original object passed
