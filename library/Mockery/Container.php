@@ -92,10 +92,12 @@ class Container
             $mock = new \Mockery\Mock();
             $mock->mockery_init($name, $this);
         } elseif(!is_null($class)) {
-            $mock = \Mockery\Generator::createClassMock($class);
+            $mockName = \Mockery\Generator::createClassMock($class);
+            $mock = $this->_getInstance($mockName);
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {
-            $mock = \Mockery\Generator::createClassMock(get_class($partial), null, true);
+            $mockName = \Mockery\Generator::createClassMock(get_class($partial), null, true);
+            $mock = $this->_getInstance($mockName);
             $mock->mockery_init(get_class($partial), $this, $partial);
         } else {
             $mock = new \Mockery\Mock();
@@ -233,6 +235,16 @@ class Container
     {
         $this->_mocks[] = $mock;
         return $mock;
+    }
+    
+    protected function _getInstance($mockName)
+    {
+        if (!method_exists($mockName, '__construct')) {
+            $return = new $mockName;
+            return $return;
+        }
+        $return = unserialize(sprintf('O:%d:"%s":0:{}', strlen($mockName), $mockName));
+        return $return;
     }
 
 }

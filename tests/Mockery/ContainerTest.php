@@ -144,6 +144,32 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($m instanceof MockeryFoo4);
     }
     
+    public function testCanMockInterface()
+    {
+        $m = $this->container->mock('MockeryTest_Interface');
+        $this->assertTrue($m instanceof MockeryTest_Interface);
+    }
+    
+    public function testCanMockInterfaceWithAbstractMethod()
+    {
+        $m = $this->container->mock('MockeryTest_InterfaceWithAbstractMethod');
+        $this->assertTrue($m instanceof MockeryTest_InterfaceWithAbstractMethod);
+        $m->shouldReceive('foo')->andReturn(1);
+        $this->assertEquals(1, $m->foo());
+    }
+    
+    public function testCanMockAbstractWithAbstractProtectedMethod()
+    {
+        $m = $this->container->mock('MockeryTest_AbstractWithAbstractMethod');
+        $this->assertTrue($m instanceof MockeryTest_AbstractWithAbstractMethod);
+    }
+    
+    public function testCanMockClassWithConstructor()
+    {
+        $m = $this->container->mock('MockeryTest_ClassConstructor');
+        $this->assertTrue($m instanceof MockeryTest_ClassConstructor);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -162,4 +188,20 @@ final class MockeryFoo3 {
 class MockeryFoo4 {
     final public function foo() { return 'baz'; }
     public function bar() { return 'bar'; }
+}
+
+interface MockeryTest_Interface {}
+
+interface MockeryTest_InterfaceWithAbstractMethod
+{
+    public function set();
+}
+
+abstract class MockeryTest_AbstractWithAbstractMethod
+{
+    abstract protected function set();
+}
+
+class MockeryTest_ClassConstructor {
+    public function __construct($param1) {}
 }

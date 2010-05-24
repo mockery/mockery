@@ -51,6 +51,7 @@ class Generator
         }
         $hasFinalMethods = false;
         $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $protected = $class->getMethods(\ReflectionMethod::IS_PROTECTED);
         foreach ($methods as $method) {
             if ($method->isFinal()  && !$allowFinal) {
                 throw new \Mockery\Exception(
@@ -75,11 +76,11 @@ class Generator
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         if (!$class->isFinal() && !$hasFinalMethods) {
             $definition .= self::applyMockeryTo($class, $methods);
+            $definition .= self::stubAbstractProtected($protected);
         }
         $definition .= PHP_EOL . '}';
         eval($definition);
-        $mock = new $mockName();
-        return $mock;
+        return $mockName;
     }
     
     /**
@@ -97,10 +98,21 @@ class Generator
             if (!$method->isDestructor() 
             && !$method->isStatic()
             && $method->getName() !== '__clone') {
-                $definition .= self::_replaceMethod($method);
+                $definition .= self::_replacePublicMethod($method);
             }
         }
         $definition .= self::_getStandardMethods();
+        return $definition;
+    }
+    
+    public static function stubAbstractProtected(array $methods)
+    {
+        $definition = '';
+        foreach ($methods as $method) {
+            if ($method->isAbstract()) {
+                $definition .= self::_replaceProtectedAbstractMethod($method);
+            }
+        }
         return $definition;
     }
     
@@ -110,7 +122,7 @@ class Generator
      *
      * TODO: Add exclusions for partial mock support
      */
-    protected static function _replaceMethod(\ReflectionMethod $method)
+    protected static function _replacePublicMethod(\ReflectionMethod $method)
     {
         $body = '';
         $name = $method->getName();
@@ -147,6 +159,38 @@ class Generator
         if ($method->isStatic()) {
             $access .= ' static';
         }
+        return $access . ' function ' . $name . '(' . $paramDef . ')'
+                          . '{' . $body . '}';
+    }
+    
+    /**
+     * Replace abstract protected methods (the only enforceable type outside
+     * of public methods). The replacement is just a stub that does nothing.
+     */
+    protected static function _replaceProtectedAbstractMethod(\ReflectionMethod $method)
+    {
+        $body = '';
+        $name = $method->getName();
+        $methodParams = array();
+        $params = $method->getParameters();
+        foreach ($params as $param) {
+            $paramDef = '';
+            if ($param->isArray()) {
+                $paramDef .= 'array ';
+            } elseif ($param->getClass()) {
+                $paramDef .= $param->getClass()->getName() . ' ';
+            }
+            $paramDef .= '$' . $param->getName();
+            if ($param->isOptional()) {
+                $paramDef .= ' = ';
+                if ($param->isDefaultValueAvailable()) {
+                    $paramDef .= var_export($param->getDefaultValue(), true);
+                }
+            }
+            $methodParams[] = $paramDef;
+        }
+        $paramDef = implode(',', $methodParams);
+        $access = 'protected';
         return $access . ' function ' . $name . '(' . $paramDef . ')'
                           . '{' . $body . '}';
     }
