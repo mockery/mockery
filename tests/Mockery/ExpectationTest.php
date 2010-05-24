@@ -1519,6 +1519,25 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
     
+    public function testAnExampleWithSomeExpectationAmendsOnCallCounts()
+    {
+        $service = $this->container->mock('MyService');
+        $service->shouldReceive('login')->with('user', 'pass')->once()->andReturn(true);
+        $service->shouldReceive('hasBookmarksTagged')->with('php')->once()->andReturn(false);
+        $service->shouldReceive('addBookmark')->with('/^http:/', \Mockery::type('string'))->times(3)->andReturn(true);
+        $service->shouldReceive('hasBookmarksTagged')->with('php')->twice()->andReturn(true);
+        
+        $this->assertTrue($service->login('user', 'pass'));
+        $this->assertFalse($service->hasBookmarksTagged('php'));
+        $this->assertTrue($service->addBookmark('http://example.com/1', 'some_tag1'));
+        $this->assertTrue($service->addBookmark('http://example.com/2', 'some_tag2'));
+        $this->assertTrue($service->addBookmark('http://example.com/3', 'some_tag3'));
+        $this->assertTrue($service->hasBookmarksTagged('php'));
+        $this->assertTrue($service->hasBookmarksTagged('php'));
+        
+        $this->container->mockery_verify();
+    }
+    
 }
 
 class Mockery_Duck {
