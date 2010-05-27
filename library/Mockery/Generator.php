@@ -310,7 +310,7 @@ class Generator
             return \$return;
         }
         throw new \BadMethodCallException(
-            'Method ' . \$this->_mockery_name . '::' . \$method . ' does not exist on this mock object'
+            'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'
         );
     }
 
@@ -359,7 +359,8 @@ class Generator
     {
         if (\$order < \$this->_mockery_currentOrder) {
             throw new \Mockery\Exception(
-                'Method ' . \$method . ' called out of order: expected order '
+                'Method ' . \$this->_mockery_name . '::' . \$method . '()'
+                . ' called out of order: expected order '
                 . \$order . ', was ' . \$this->_mockery_currentOrder
             );
         }

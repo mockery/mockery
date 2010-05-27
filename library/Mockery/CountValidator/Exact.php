@@ -33,7 +33,9 @@ class Exact extends CountValidatorAbstract
     {
         if ($this->_limit !== $n) {
             throw new Exception(
-                'Method should be called'
+                'Method ' . (string) $this->_expectation
+                . ' from ' . $this->_expectation->getMock()->mockery_getName()
+                . ' should be called' . PHP_EOL
                 . ' exactly ' . $this->_limit . ' times but called ' . $n
                 . ' times.'
             );

@@ -1538,6 +1538,32 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
     
+    public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
+    {
+        $service = $this->getMock('MyService2');
+        $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
+        $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')
+            ->will($this->onConsecutiveCalls(false, true, true));
+        $service->expects($this->exactly(3))->method('addBookmark')
+            ->with($this->matchesRegularExpression('/^http:/'), $this->isType('string'))
+            ->will($this->returnValue(true));
+        
+        $this->assertTrue($service->login('user', 'pass'));
+        $this->assertFalse($service->hasBookmarksTagged('php'));
+        $this->assertTrue($service->addBookmark('http://example.com/1', 'some_tag1'));
+        $this->assertTrue($service->addBookmark('http://example.com/2', 'some_tag2'));
+        $this->assertTrue($service->addBookmark('http://example.com/3', 'some_tag3'));
+        $this->assertTrue($service->hasBookmarksTagged('php'));
+        $this->assertTrue($service->hasBookmarksTagged('php'));
+    }
+    
+}
+
+class MyService2
+{
+    public function login($user, $pass){}
+    public function hasBookmarksTagged($tag){}
+    public function addBookmark($uri, $tag){}
 }
 
 class Mockery_Duck {
