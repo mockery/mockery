@@ -13,12 +13,12 @@
   <date>2010-05-27</date>
   <time>15:01:59</time>
   <version>
-    <release>0.6.0</release>
-    <api>0.6.0</api>
+    <release>0.7.0</release>
+    <api>0.7.0</api>
   </version>
   <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>devel</release>
+    <api>devel</api>
   </stability>
   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
   <notes>Initial release of Mockery.</notes>
