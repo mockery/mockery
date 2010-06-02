@@ -176,6 +176,24 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_ClassConstructor2);
     }
     
+    /**
+     * @group issue/4
+     */
+    public function testCanMockClassContainingMagicCallMethod()
+    {
+        $m = $this->container->mock('MockeryTest_Call1');
+        $this->assertTrue($m instanceof MockeryTest_Call1);
+    }
+    
+    /**
+     * @group issue/4
+     */
+    public function testCanMockClassContainingMagicCallMethodWithoutTypeHinting()
+    {
+        $m = $this->container->mock('MockeryTest_Call2');
+        $this->assertTrue($m instanceof MockeryTest_Call2);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -214,4 +232,12 @@ class MockeryTest_ClassConstructor {
 
 class MockeryTest_ClassConstructor2 {
     public function __construct(stdClass $param1) {}
+}
+
+class MockeryTest_Call1 {
+    public function __call($method, array $params) {}
+}
+
+class MockeryTest_Call2 {
+    public function __call($method, $params) {}
 }

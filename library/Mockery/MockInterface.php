@@ -64,7 +64,12 @@ interface MockInterface
      * @param array $args
      * @return mixed
      */
-    public function __call($method, array $args);
+        /**
+         * Unfortunately we need to allow type hinting agnostic __call()
+         * definitions since any interface/class being mocked can go either
+         * way.
+         */
+    //public function __call($method, array $args);
     
     /**
      * Iterate across all expectation directors and validate each

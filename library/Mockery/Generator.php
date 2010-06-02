@@ -91,17 +91,25 @@ class Generator
     public static function applyMockeryTo(\ReflectionClass $class, array $methods)
     {
         $definition = '';
+        $callTypehinting = false;
         /**
          * TODO: Worry about all these other method types later.
          */
         foreach ($methods as $method) {
             if (!$method->isDestructor() 
             && !$method->isStatic()
+            && $method->getName() !== '__call'
             && $method->getName() !== '__clone') {
                 $definition .= self::_replacePublicMethod($method);
             }
+            if ($method->getName() == '__call') {
+                $params = $method->getParameters();
+                if ($params[1]->isArray()) {
+                    $callTypehinting = true;
+                }
+            }
         }
-        $definition .= self::_getStandardMethods();
+        $definition .= self::_getStandardMethods($callTypehinting);
         return $definition;
     }
     
@@ -204,8 +212,9 @@ class Generator
      * Return a string def of the standard Mock Object API needed for all mocks
      *
      */
-    public static function _getStandardMethods()
+    public static function _getStandardMethods($callTypehint = true)
     {
+        $typehint = $callTypehint ? 'array' : '';
         $std = <<<MOCK
     protected \$_mockery_expectations = array();
 
@@ -297,7 +306,7 @@ class Generator
         return \$this;
     }
 
-    public function __call(\$method, array \$args)
+    public function __call(\$method, $typehint \$args)
     {
         if (isset(\$this->_mockery_expectations[\$method])
         && !\$this->_mockery_disableExpectationMatching) {
