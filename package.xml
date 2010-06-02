@@ -21,7 +21,7 @@
     <api>devel</api>
   </stability>
   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
-  <notes>Initial release of Mockery.</notes>
+  <notes>http://github.com/padraic/mockery#readme</notes>
   <contents>
     <dir name="/" baseinstalldir="/">
       <dir name="library">
@@ -73,7 +73,7 @@
   <dependencies>
     <required>
       <php>
-        <min>5.3.2</min>
+        <min>5.3.0</min>
       </php>
       <pearinstaller>
         <min>1.4.0</min>
