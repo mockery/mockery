@@ -115,22 +115,6 @@ tests containing the following (you may use a shorter \Mockery namespace alias):
     
 This static call cleans up the Mockery container used by the current test, and
 run any verification tasks needed for your expectations.
-
-If you prefer to avoid the need for adding a teardown() everywhere, you can
-optionally configure PHPUnit to use Mockery's TestListener which does the exact
-same thing as above, only without the extra typing. Here's an example of
-the configuration using PHPUnit's XML format for configuration.
-
-    <phpunit bootstrap="./Bootstrap.php">
-      <testsuite name="My Test Suite">
-        <directory>./</directory>
-      </testsuite>
-      <listeners>
-        <listener class="\Mockery\Adapter\Phpunit\TestListener"
-            file="Mockery/Adapter/Phpunit/TestListener.php">
-        </listener>
-      </listeners>
-    </phpunit>
     
 For some added brevity when it comes to using Mockery, you can also explicitly
 use the Mockery namespace with a shorter alias. For example:
