@@ -57,6 +57,7 @@ class Mockery
      */
     public static function close()
     {
+        if (is_null(self::$_container)) return;
         self::$_container->mockery_teardown();
         self::$_container->mockery_close();
         self::$_container = null;
