@@ -128,6 +128,10 @@ use the Mockery namespace with a shorter alias. For example:
             $mock->shouldReceive('foo')->with(5, m::any())->once()->andReturn(10);
             $this->assertEquals(10, $mock->foo(5));
         }
+        
+        public function teardown() {
+            m::close();
+        }
     }
     
 Mockery ships with an autoloader so you don't need to litter your tests with
