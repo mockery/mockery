@@ -10,11 +10,11 @@
     <email>padraic.brady@yahoo.com</email>
     <active>yes</active>
   </lead>
-  <date>2010-06-02</date>
+  <date>2010-06-09</date>
   <time>19:45:59</time>
   <version>
-    <release>0.6.1</release>
-    <api>0.6.1</api>
+    <release>0.6.2</release>
+    <api>0.6.2</api>
   </version>
   <stability>
     <release>stable</release>
