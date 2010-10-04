@@ -99,6 +99,7 @@ class Generator
             if (!$method->isDestructor() 
             && !$method->isStatic()
             && $method->getName() !== '__call'
+            && $method->getName() !== '__set'
             && $method->getName() !== '__clone') {
                 $definition .= self::_replacePublicMethod($method);
             }
@@ -240,6 +241,26 @@ class Generator
     
     protected \$_mockery_mockableMethods = array();
     
+    protected \$_mockery_mockableProperties = array();
+        
+    public function __set(\$name, \$value)
+    {
+        \$this->_mockery_mockableProperties[\$name] = \$value;
+        return \$this;
+    }
+            	            
+    public function __get(\$name)
+    {
+        if (isset(\$this->_mockery_mockableProperties[\$name]))
+        {
+            return \$this->_mockery_mockableProperties[\$name];
+        }
+            	                			    
+        throw new \InvalidArgumentException(
+            'Property ' . \$this->_mockery_name . '::' . \$name . ' does not exist on this mock object'
+        );
+    }
+
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
         \$this->_mockery_name = \$name;
