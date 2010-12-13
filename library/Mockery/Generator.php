@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Generator
@@ -82,7 +82,7 @@ class Generator
         eval($definition);
         return $mockName;
     }
-    
+
     /**
      * Add all Mockery methods for mocks to the class being defined
      *
@@ -96,7 +96,7 @@ class Generator
          * TODO: Worry about all these other method types later.
          */
         foreach ($methods as $method) {
-            if (!$method->isDestructor() 
+            if (!$method->isDestructor()
             && !$method->isStatic()
             && $method->getName() !== '__call'
             && $method->getName() !== '__clone') {
@@ -112,7 +112,7 @@ class Generator
         $definition .= self::_getStandardMethods($callTypehinting);
         return $definition;
     }
-    
+
     public static function stubAbstractProtected(array $methods)
     {
         $definition = '';
@@ -123,7 +123,7 @@ class Generator
         }
         return $definition;
     }
-    
+
     /**
      * Attempts to replace defined public (non-static) methods so they all
      * redirect to the Mock Object's __call() interceptor
@@ -147,13 +147,17 @@ class Generator
             } elseif ($param->getClass()) {
                 $paramDef .= $param->getClass()->getName() . ' ';
             }
-            $paramDef .= '$' . $param->getName();
-            if ($param->isOptional()) {
-                $paramDef .= ' = ';
-                if ($param->isDefaultValueAvailable()) {
-                    $paramDef .= var_export($param->getDefaultValue(), true);
+            $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
+            if ($param->isDefaultValueAvailable()) {
+                $default = var_export($param->getDefaultValue(), true);
+                if ($default == '') {
+                  $default = 'null';
                 }
+                $paramDef .= ' = ' . $default;
+            } else if ($param->isOptional()) {
+                $paramDef .= ' = null';
             }
+
             $methodParams[] = $paramDef;
         }
         $paramDef = implode(',', $methodParams);
@@ -170,7 +174,7 @@ class Generator
         return $access . ' function ' . $name . '(' . $paramDef . ')'
                           . '{' . $body . '}';
     }
-    
+
     /**
      * Replace abstract protected methods (the only enforceable type outside
      * of public methods). The replacement is just a stub that does nothing.
@@ -188,12 +192,15 @@ class Generator
             } elseif ($param->getClass()) {
                 $paramDef .= $param->getClass()->getName() . ' ';
             }
-            $paramDef .= '$' . $param->getName();
-            if ($param->isOptional()) {
-                $paramDef .= ' = ';
-                if ($param->isDefaultValueAvailable()) {
-                    $paramDef .= var_export($param->getDefaultValue(), true);
+            $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
+            if ($param->isDefaultValueAvailable()) {
+                $default = var_export($param->getDefaultValue(), true);
+                if ($default == '') {
+                  $default = 'null';
                 }
+                $paramDef .= ' = ' . $default;
+            } else if ($param->isOptional()) {
+                $paramDef .= ' = null';
             }
             $methodParams[] = $paramDef;
         }
@@ -202,7 +209,7 @@ class Generator
         return $access . ' function ' . $name . '(' . $paramDef . ')'
                           . '{' . $body . '}';
     }
-    
+
     /**
      * NOTE: The code below is taken from Mockery\Mock and should
      * be an exact copy with only one difference - we define the Mockery\Mock
@@ -219,7 +226,7 @@ class Generator
     protected \$_mockery_expectations = array();
 
     protected \$_mockery_lastExpectation = null;
-    
+
     protected \$_mockery_ignoreMissing = false;
 
     protected \$_mockery_verified = false;
@@ -233,13 +240,13 @@ class Generator
     protected \$_mockery_groups = array();
 
     protected \$_mockery_container = null;
-    
+
     protected \$_mockery_partial = null;
-    
+
     protected \$_mockery_disableExpectationMatching = false;
-    
+
     protected \$_mockery_mockableMethods = array();
-    
+
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
         \$this->_mockery_name = \$name;
@@ -285,7 +292,7 @@ class Generator
     {
         \$this->_mockery_ignoreMissing = true;
     }
-    
+
     public function shouldExpect(Closure \$closure)
     {
         \$recorder = new \Mockery\Recorder(\$this, \$this->_mockery_partial);
@@ -334,7 +341,7 @@ class Generator
 
     public function mockery_teardown()
     {
-        
+
     }
 
     public function mockery_allocateOrder()
@@ -406,7 +413,7 @@ class Generator
     {
         return \$this->_mockery_name;
     }
-    
+
     public function mockery_getMockableMethods()
     {
         return \$this->_mockery_mockableMethods;
@@ -414,6 +421,6 @@ class Generator
 MOCK;
         return $std;
     }
-        
+
 
 }
