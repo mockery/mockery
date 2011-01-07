@@ -142,6 +142,19 @@ the following to your test suite's Bootstrap or TestHelper file:
     $loader = new \Mockery\Loader;
     $loader->register();
     
+To integrate Mockery into PHPUnit and avoid having to call the close method and
+have Mockery remove itself from code coverage reports, use this in you suite:
+
+	//Create Suite
+	$suite = new PHPUnit_Framework_TestSuite();
+	
+	//Create a result listener or add it
+	$result = new PHPUnit_Framework_TestResult();
+    $result->addListener(new Mockery\Adapter\Phpunit\TestListener());
+	
+	// Run the tests.
+	$suite->run($result);
+	
 Quick Reference
 ---------------
 

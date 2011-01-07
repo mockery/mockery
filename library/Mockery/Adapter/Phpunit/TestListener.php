@@ -20,8 +20,6 @@
  
 namespace Mockery\Adapter\Phpunit;
 
-require_once 'PHPUnit/Framework.php';
-
 class TestListener implements \PHPUnit_Framework_TestListener
 {
     
@@ -37,6 +35,19 @@ class TestListener implements \PHPUnit_Framework_TestListener
         \Mockery::close();
     }
     
+	/**
+	 * Add Mockery files to PHPUnit's blacklist so they don't showup on coverage reports 
+	 */
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {
+		
+		if ( class_exists('\\PHP_CodeCoverage_Filter') ) {
+			\PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
+			  __DIR__.'/../../../Mockery/', '.php', '', 'PHPUNIT'
+			);
+			
+			\PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__.'/../../../Mockery.php', 'PHPUNIT');
+		}
+	}
     /**
      *  The Listening methods below are not required for Mockery
      */
@@ -48,7 +59,6 @@ class TestListener implements \PHPUnit_Framework_TestListener
 
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
 
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
 
