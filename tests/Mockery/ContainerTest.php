@@ -102,7 +102,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $m->foo());
         $this->assertTrue($m instanceof MockeryTestFoo2);
     }
-    
+
+    public function testBlockForwardingToPartialObject()
+    {
+        $m = $this->container->mock(new MockeryTestBar1, array('foo'=>1, \Mockery\Container::BLOCKS => array('method1')));
+        $this->assertSame($m, $m->method1());
+    }
+
+    public function testPartialWithArrayDefs()
+    {
+        $m = $this->container->mock(new MockeryTestBar1, array('foo'=>1, \Mockery\Container::BLOCKS => array('method1')));
+        $this->assertEquals(1, $m->foo());
+    }
+
     public function testPassingClosureAsFinalParameterUsedToDefineExpectations()
     {
         $m = $this->container->mock('foo', function($m) {
@@ -299,3 +311,9 @@ class Gateway
     }
 }
 
+class MockeryTestBar1 {
+    public function method1()
+    {
+        return $this;
+    }
+}

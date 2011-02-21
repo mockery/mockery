@@ -22,6 +22,7 @@ namespace Mockery;
 
 class Container
 {
+    const BLOCKS = \Mockery::BLOCKS;
 
     /**
      * Store of mock objects
@@ -63,6 +64,7 @@ class Container
         $partial = null;
         $expectationClosure = null;
         $quickdefs = array();
+        $blocks = array();
         $args = func_get_args();
         if (count($args) > 1) {
             $finalArg = end($args);
@@ -80,6 +82,7 @@ class Container
             } elseif (is_object($arg)) {
                 $partial = array_shift($args);
             } elseif (is_array($arg)) {
+                if(array_key_exists(self::BLOCKS, $arg)) $blocks = $arg[self::BLOCKS]; unset($arg[self::BLOCKS]);
                 $quickdefs = array_shift($args);
             } else {
                 throw new \Mockery\Exception(
@@ -96,7 +99,7 @@ class Container
             $mock = $this->_getInstance($mockName);
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {
-            $mockName = \Mockery\Generator::createClassMock(get_class($partial), null, true);
+            $mockName = \Mockery\Generator::createClassMock(get_class($partial), null, true, $blocks);
             $mock = $this->_getInstance($mockName);
             $mock->mockery_init(get_class($partial), $this, $partial);
         } else {

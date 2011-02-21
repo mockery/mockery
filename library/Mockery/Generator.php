@@ -33,7 +33,7 @@ class Generator
     * @param string $mockName
     * @param string $allowFinal
     */
-    public static function createClassMock($className, $mockName = null, $allowFinal = false)
+    public static function createClassMock($className, $mockName = null, $allowFinal = false, $block = array())
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $class = new \ReflectionClass($className);
@@ -75,7 +75,7 @@ class Generator
         }
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         if (!$class->isFinal() && !$hasFinalMethods) {
-            $definition .= self::applyMockeryTo($class, $methods);
+            $definition .= self::applyMockeryTo($class, $methods, $block);
             $definition .= self::stubAbstractProtected($protected);
         }
         $definition .= PHP_EOL . '}';
@@ -88,7 +88,7 @@ class Generator
      *
      *
      */
-    public static function applyMockeryTo(\ReflectionClass $class, array $methods)
+    public static function applyMockeryTo(\ReflectionClass $class, array $methods, array $block)
     {
         $definition = '';
         $callTypehinting = false;
@@ -96,6 +96,7 @@ class Generator
          * TODO: Worry about all these other method types later.
          */
         foreach ($methods as $method) {
+            if(in_array($method->getName(), $block)) continue;
             if (!$method->isDestructor()
             && !$method->isStatic()
             && $method->getName() !== '__call'
