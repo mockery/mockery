@@ -209,6 +209,26 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_Wakeup1);
     }
     
+    /**
+     * @group issue/18
+     */
+    public function testCanMockClassUsingMagicCallMethodsInPlaceOfNormalMethods()
+    {
+        $m = \Mockery::mock('Gateway');
+        $m->shouldReceive('iDoSomethingReallyCoolHere');
+        $m->iDoSomethingReallyCoolHere();
+    }
+    
+    /**
+     * @group issue/18
+     */
+    public function testCanPartialMockObjectUsingMagicCallMethodsInPlaceOfNormalMethods()
+    {
+        $m = \Mockery::mock(new Gateway);
+        $m->shouldReceive('iDoSomethingReallyCoolHere');
+        $m->iDoSomethingReallyCoolHere();
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -261,3 +281,21 @@ class MockeryTest_Wakeup1 {
     public function __construct() {}
     public function __wakeup() {}
 }
+
+// issue/18
+class SoCool
+{
+    public function iDoSomethingReallyCoolHere()
+    {
+        return 3;
+    }
+}
+class Gateway
+{
+    public function __call($method, $args)
+    {
+        $m = new SoCool();
+        return call_user_func_array(array($m, $method), $args);
+    }
+}
+
