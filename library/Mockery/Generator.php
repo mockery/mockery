@@ -99,7 +99,8 @@ class Generator
             if (!$method->isDestructor()
             && !$method->isStatic()
             && $method->getName() !== '__call'
-            && $method->getName() !== '__clone') {
+            && $method->getName() !== '__clone'
+            && $method->getName() !== '__wakeup') {
                 $definition .= self::_replacePublicMethod($method);
             }
             if ($method->getName() == '__call') {
@@ -417,6 +418,18 @@ class Generator
     public function mockery_getMockableMethods()
     {
         return \$this->_mockery_mockableMethods;
+    }
+    
+    //** Everything below this line is a non-typical fudge not copied from Mockery/Mock **//
+    
+    public function __wakeup()
+    {
+        /**
+         * This does not add __wakeup method support. It's a blind method and any
+         * expected __wakeup work will NOT be performed. It merely cuts off
+         * annoying errors where a __wakeup exists but is not essential when
+         * mocking
+         */
     }
 MOCK;
         return $std;

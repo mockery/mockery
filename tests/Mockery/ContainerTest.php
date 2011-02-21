@@ -200,6 +200,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_Call2);
     }
     
+    /**
+     * @group issue/14
+     */
+    public function testCanMockClassContainingAPublicWakeupMethod()
+    {
+        $m = $this->container->mock('MockeryTest_Wakeup1');
+        $this->assertTrue($m instanceof MockeryTest_Wakeup1);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -246,4 +255,9 @@ class MockeryTest_Call1 {
 
 class MockeryTest_Call2 {
     public function __call($method, $params) {}
+}
+
+class MockeryTest_Wakeup1 {
+    public function __construct() {}
+    public function __wakeup() {}
 }
