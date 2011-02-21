@@ -695,6 +695,23 @@ which cannot exist on the class or object being mocked. These are far less likel
 to cause collisions. All properties are prefixed with "_mockery" and all method
 names with "mockery_".
 
+Gotcha!
+-------
+
+Mocking objects in PHP has its limitations and gotchas. Some functionality can't
+be mocked or can't be mocked YET! If you locate such a circumstance, please please
+(pretty please with sugar on top) create a new issue on Github so it can be
+documented and resolved where possible. Here is a list (only one at present) to note:
+
+1. Classes containing public __wakeup methods can be mocked but the mocked __wakeup
+method will perform no actions and cannot have expectations set for it. This is
+necessary since Mockery must serialize and unserialize objects to avoid some
+__construct() insanity and attempting to mock a __wakeup method as normal leads
+to a BadMethodCallException been thrown.
+
+The gotchas noted above are largely down to PHP's architecture and are assumed
+to be unavoidable. But - if you figure out a solution, let me know!
+
 Quick Examples
 --------------
 
