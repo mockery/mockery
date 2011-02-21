@@ -150,6 +150,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_Interface);
     }
     
+    public function testCanMockSpl()
+    {
+        $m = $this->container->mock('\\splFileObject');
+        $this->assertTrue($m instanceof \splFileObject);
+    }
+    
     public function testCanMockInterfaceWithAbstractMethod()
     {
         $m = $this->container->mock('MockeryTest_InterfaceWithAbstractMethod');
