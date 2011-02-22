@@ -268,6 +268,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MyNamespace\MyClass);
     }
     
+    /**
+     * @group issue/15
+     */
+    public function testCanMockMultipleInterface()
+    {
+        $m = $this->container->mock('MockeryTest_Interface1;MockeryTest_Interface2');
+        $this->assertTrue($m instanceof MockeryTest_Interface1);
+        $this->assertTrue($m instanceof MockeryTest_Interface2);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -289,6 +299,8 @@ class MockeryFoo4 {
 }
 
 interface MockeryTest_Interface {}
+interface MockeryTest_Interface1 {}
+interface MockeryTest_Interface2 {}
 
 interface MockeryTest_InterfaceWithAbstractMethod
 {

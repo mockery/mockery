@@ -75,7 +75,21 @@ class Container
         }
         while (count($args) > 0) {
             $arg = current($args);
-            if (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
+            
+            // check for multiple interfaces
+            if (is_string($arg) && strpos($arg, ';')) {
+                $interfaces = explode(';', $arg);
+                foreach ($interfaces as $i) {
+                    if (!interface_exists($i)) {
+                        throw new \Mockery\Exception(
+                            'Class name follows the format for defining multiple'
+                            . ' interfaces, however one or more of the interfaces'
+                            . ' do not exist or are not included'
+                        );
+                    }
+                }
+                $class = $interfaces;
+            } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
                 $name = array_shift($args);
