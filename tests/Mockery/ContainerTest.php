@@ -241,6 +241,22 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m->iDoSomethingReallyCoolHere();
     }
     
+    /**
+     * @group issue/13
+     */
+    public function testCanMockClassWhereMethodHasReferencedParameter()
+    {
+        $m = \Mockery::mock(new MockeryTest_MethodParamRef);
+    }
+    
+    /**
+     * @group issue/13
+     */
+    public function testCanPartiallyMockObjectWhereMethodHasReferencedParameter()
+    {
+        $m = \Mockery::mock(new MockeryTest_MethodParamRef2);
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -316,4 +332,11 @@ class MockeryTestBar1 {
     {
         return $this;
     }
+}
+
+class MockeryTest_MethodParamRef {
+    public function method1(&$foo){return true;}
+}
+class MockeryTest_MethodParamRef2 {
+    public function method1(&$foo){return true;}
 }

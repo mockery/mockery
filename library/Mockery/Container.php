@@ -192,6 +192,7 @@ class Container
      * Set current ordered number
      *
      * @param int $order
+     * @return int The current order number that was set
      */
     public function mockery_setCurrentOrder($order)
     {
