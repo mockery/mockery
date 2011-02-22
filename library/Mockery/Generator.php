@@ -37,8 +37,46 @@ class Generator
     public static function createClassMock($className, $mockName = null, $allowFinal = false, $block = array())
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
-        $class = new \ReflectionClass($className);
         $definition = '';
+        $interfaceInheritance = array('\Mockery\MockInterface');
+        $classData = array();
+        if (is_array($className)) {
+            foreach ($className as $interface) {
+                $class = new \ReflectionClass($className);
+                $classData[] = self::_analyseClass($class, $className, $allowFinal);
+            }
+        } else {
+            $class = new \ReflectionClass($className);
+            $classData[] = self::_analyseClass($class, $className, $allowFinal);
+        }
+        
+        foreach ($classData as $data) {
+            if ($data['class']->isInterface()) {
+                $interfaceInheritance[] = $data['className'];
+            } elseif ($data['class']->isFinal() || $data['hasFinalMethods']) {
+                $inheritance = ' extends ' . $data['className'];
+            } else {
+                $inheritance = ' extends ' . $data['className'] . ' implements \Mockery\MockInterface';
+            }
+        }
+        if (count($interfaceInheritance) > 1) {
+            $inheritance = ' implements ' . implode(', ', $interfaceInheritance);
+        } 
+        
+        $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
+        foreach ($classData as $data) {
+            if (!$data['class']->isFinal() && !$data['hasFinalMethods']) {
+                $definition .= self::applyMockeryTo($data['class'], $data['publicMethods'], $block);
+                $definition .= self::stubAbstractProtected($data['protectedMethods']);
+            }
+        }
+        $definition .= PHP_EOL . '}';
+        eval($definition);
+        return $mockName;
+    }
+    
+    protected static function _analyseClass($class, $className, $allowFinal = false)
+    {
         if ($class->isFinal() && !$allowFinal) {
             throw new \Mockery\Exception(
                 'The class ' . $className . ' is marked final and its methods'
@@ -67,21 +105,13 @@ class Generator
                 $hasFinalMethods = true;
             }
         }
-        if ($class->isInterface()) {
-            $inheritance = ' implements ' . $className . ', \Mockery\MockInterface';
-        } elseif ($class->isFinal() || $hasFinalMethods) {
-            $inheritance = ' extends ' . $className;
-        } else {
-            $inheritance = ' extends ' . $className . ' implements \Mockery\MockInterface';
-        }
-        $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
-        if (!$class->isFinal() && !$hasFinalMethods) {
-            $definition .= self::applyMockeryTo($class, $methods, $block);
-            $definition .= self::stubAbstractProtected($protected);
-        }
-        $definition .= PHP_EOL . '}';
-        eval($definition);
-        return $mockName;
+        return array(
+            'class' => $class,
+            'className' => $className,
+            'hasFinalMethods' => $hasFinalMethods,
+            'publicMethods' => $methods,
+            'protectedMethods' => $protected
+        );
     }
 
     /**
