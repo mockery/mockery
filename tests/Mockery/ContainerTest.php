@@ -257,6 +257,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m = \Mockery::mock(new MockeryTest_MethodParamRef2);
     }
     
+    /**
+     * @group issue/11
+     */
+    public function testMockingAKnownConcreteClassCanBeGrantedAnArbitraryClassType()
+    {
+        $m = $this->container->mock('stdClass', 'MyNamespace\MyClass');
+        $m->shouldReceive('foo')->andReturn('bar');
+        $this->assertEquals('bar', $m->foo());
+        $this->assertTrue($m instanceof MyNamespace\MyClass);
+    }
+    
 }
 
 class MockeryTestFoo {

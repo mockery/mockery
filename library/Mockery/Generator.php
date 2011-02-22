@@ -32,6 +32,7 @@ class Generator
     * @param string $className
     * @param string $mockName
     * @param string $allowFinal
+    * @return string Classname of the mock class created
     */
     public static function createClassMock($className, $mockName = null, $allowFinal = false, $block = array())
     {

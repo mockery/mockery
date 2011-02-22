@@ -91,7 +91,12 @@ class Container
                 );
             }
         }
-        if (!is_null($name)) {
+        if (!is_null($name) && !is_null($class)) {
+            $mockName = \Mockery\Generator::createClassMock($class);
+            class_alias($mockName, $name);
+            $mock = $this->_getInstance($name);
+            $mock->mockery_init($class, $this);
+        } elseif (!is_null($name)) {
             $mock = new \Mockery\Mock();
             $mock->mockery_init($name, $this);
         } elseif(!is_null($class)) {

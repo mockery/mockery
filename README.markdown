@@ -197,6 +197,15 @@ inherits a specific type for type hinting.
 Yes, you can use the same quick expectation setup as for named mocks with the
 class oriented mock object generation.
 
+    $mock = \Mockery::mock('stdClass', 'MyNamespace\MyClass');
+
+You can generate a mock from a class, and specify a different class name it should
+use. Mock classes generally have a random generated name (their type is based on
+class inheritance only). In the example, a mock class based on stdClass is created
+with the FQN of MyNamespace\MyClass. This is useful where the mock object must
+have a specific concrete class name. And yes, you can add in an expectation array
+as the third parameter.
+
     $mock = \Mockery::mock(new Foo);
     
 Passing any real object into Mockery will create a partial mock. Partials assume
