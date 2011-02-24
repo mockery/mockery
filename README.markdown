@@ -206,6 +206,14 @@ with the FQN of MyNamespace\MyClass. This is useful where the mock object must
 have a specific concrete class name. And yes, you can add in an expectation array
 as the third parameter.
 
+    $mock = \Mockery::mock('stdClass, MyInterface1, MyInterface2');
+    
+The first argument can also accept a list of interfaces that the mock object must
+implement, optionally including no more than one existing class to be based on. The
+class name doesn't need to be the first member of the list but it's a friendly
+convention to use for readability. All subsequent arguments remain unchanged from
+previous examples.
+
     $mock = \Mockery::mock(new Foo);
     
 Passing any real object into Mockery will create a partial mock. Partials assume

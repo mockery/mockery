@@ -139,6 +139,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m = $this->container->mock('MockeryFoo4');
     }
     
+    /**
+     * @group finalclass
+     */
     public function testFinalClassesCanBePartialMocks()
     {
         $m = $this->container->mock(new MockeryFoo3);
@@ -271,10 +274,20 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @group issue/15
      */
-    public function testCanMockMultipleInterface()
+    public function testCanMockMultipleInterfaces()
     {
-        $this->markTestSkipped();
-        $m = $this->container->mock('MockeryTest_Interface1;MockeryTest_Interface2');
+        $m = $this->container->mock('MockeryTest_Interface1, MockeryTest_Interface2');
+        $this->assertTrue($m instanceof MockeryTest_Interface1);
+        $this->assertTrue($m instanceof MockeryTest_Interface2);
+    }
+    
+    /**
+     * @group issue/15
+     */
+    public function testCanMockClassAndApplyMultipleInterfaces()
+    {
+        $m = $this->container->mock('MockeryTestFoo, MockeryTest_Interface1, MockeryTest_Interface2');
+        $this->assertTrue($m instanceof MockeryTestFoo);
         $this->assertTrue($m instanceof MockeryTest_Interface1);
         $this->assertTrue($m instanceof MockeryTest_Interface2);
     }

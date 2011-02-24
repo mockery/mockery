@@ -38,12 +38,17 @@ class Generator
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $definition = '';
-        $interfaceInheritance = array('\Mockery\MockInterface');
+        $inheritance = '';
+        $interfaceInheritance = array();
         $classData = array();
+        $classNameInherited = '';
+        $classIsFinal = false;
+        $callTypehinting = false;
+        $useStandardMethods = true;
         if (is_array($className)) {
             foreach ($className as $interface) {
-                $class = new \ReflectionClass($className);
-                $classData[] = self::_analyseClass($class, $className, $allowFinal);
+                $class = new \ReflectionClass($interface);
+                $classData[] = self::_analyseClass($class, $interface, $allowFinal);
             }
         } else {
             $class = new \ReflectionClass($className);
@@ -55,22 +60,33 @@ class Generator
                 $interfaceInheritance[] = $data['className'];
             } elseif ($data['class']->isFinal() || $data['hasFinalMethods']) {
                 $inheritance = ' extends ' . $data['className'];
+                $classNameInherited = $data['className'];
+                $classIsFinal = true;
             } else {
                 $inheritance = ' extends ' . $data['className'] . ' implements \Mockery\MockInterface';
+                $classNameInherited = $data['className'];
             }
         }
-        if (count($interfaceInheritance) > 1) {
-            $inheritance = ' implements ' . implode(', ', $interfaceInheritance);
+        if (count($interfaceInheritance) > 0) {
+            if (!$classIsFinal) $interfaceInheritance[] = '\Mockery\MockInterface';
+            if (strlen($classNameInherited) > 0) $inheritance = ' extends ' . $classNameInherited;
+            $inheritance .= ' implements ' . implode(', ', $interfaceInheritance);
         } 
         
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         foreach ($classData as $data) {
             if (!$data['class']->isFinal() && !$data['hasFinalMethods']) {
-                $definition .= self::applyMockeryTo($data['class'], $data['publicMethods'], $block);
+                $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block);
+                if ($result['callTypehinting']) $callTypehinting = true;
+                $definition .= $result['definition'];
                 $definition .= self::stubAbstractProtected($data['protectedMethods']);
+            }  else {
+                $useStandardMethods = false;
             }
         }
+        if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting);
         $definition .= PHP_EOL . '}';
+        //var_dump($definition); exit;
         eval($definition);
         return $mockName;
     }
@@ -119,7 +135,8 @@ class Generator
      *
      *
      */
-    public static function applyMockeryTo(\ReflectionClass $class, array $methods, array $block)
+    public static function applyMockeryTo(\ReflectionClass $class,
+        array $methods, array $block, $standardMethods = true)
     {
         $definition = '';
         $callTypehinting = false;
@@ -142,8 +159,7 @@ class Generator
                 }
             }
         }
-        $definition .= self::_getStandardMethods($callTypehinting);
-        return $definition;
+        return array('definition'=>$definition, 'callTypehinting'=>$callTypehinting);
     }
 
     public static function stubAbstractProtected(array $methods)

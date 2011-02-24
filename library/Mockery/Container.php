@@ -77,18 +77,20 @@ class Container
             $arg = current($args);
             
             // check for multiple interfaces
-            if (is_string($arg) && strpos($arg, ';')) {
-                $interfaces = explode(';', $arg);
+            if (is_string($arg) && strpos($arg, ',')) {
+                $interfaces = explode(',', str_replace(' ', '', $arg));
                 foreach ($interfaces as $i) {
-                    if (!interface_exists($i)) {
+                    if (!interface_exists($i, true) && !class_exists($i, true)) {
                         throw new \Mockery\Exception(
                             'Class name follows the format for defining multiple'
                             . ' interfaces, however one or more of the interfaces'
-                            . ' do not exist or are not included'
+                            . ' do not exist or are not included, or the base class'
+                            . ' (optional) does not exist'
                         );
                     }
                 }
                 $class = $interfaces;
+                array_shift($args); // prevent implosion of Planet Earth by terminating an infinite loop!
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
