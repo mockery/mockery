@@ -63,6 +63,38 @@ class Mockery
         self::$_container->mockery_close();
         self::$_container = null;
     }
+    
+    /**
+     * Static fetching of a mock associated with a name or explicit class poser
+     */
+    public static function fetchMock($name)
+    {
+        return self::$_container->fetchMock($name);
+    }
+    
+    /**
+     * Get the container
+     */
+    public static function getContainer()
+    {
+        return self::$_container;
+    }
+    
+    /**
+     * Set the container
+     */
+    public static function setContainer(Mockery\Container $container)
+    {
+        return self::$_container = $container;
+    }
+    
+    /**
+     * Reset the container to NULL
+     */
+    public static function resetContainer()
+    {
+        self::$_container = null;
+    }
 
     /**
      * Return instance of ANY matcher

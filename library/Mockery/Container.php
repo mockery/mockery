@@ -109,7 +109,7 @@ class Container
         }
         if (!is_null($name) && !is_null($class)) {
             $mockName = \Mockery\Generator::createClassMock($class);
-            class_alias($mockName, $name);
+            $result = class_alias($mockName, $name);
             $mock = $this->_getInstance($name);
             $mock->mockery_init($class, $this);
         } elseif (!is_null($name)) {
@@ -258,8 +258,13 @@ class Container
      */
     public function rememberMock(\Mockery\MockInterface $mock)
     {
-        $this->_mocks[] = $mock;
+        $this->_mocks[get_class($mock)] = $mock;
         return $mock;
+    }
+    
+    public function fetchMock($reference)
+    {
+        if (isset($this->_mocks[$reference])) return $this->_mocks[$reference];
     }
     
     protected function _getInstance($mockName)

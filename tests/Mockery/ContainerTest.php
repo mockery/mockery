@@ -302,6 +302,35 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_Interface2);
     }
     
+    /**
+     * @group issue/7
+     *
+     * Noted: We could complicate internally, but a blind class is better built
+     * with a real class noted up front (stdClass is a perfect choice it is
+     * behaviourless). Fine, it's a muddle - but we need to draw a line somewhere.
+     */
+    public function testCanMockStaticMethods()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('stdClass', 'MyNamespace\MyClass2');
+        $m->shouldReceive('staticFoo')->andReturn('bar');
+        $this->assertEquals('bar', \MyNameSpace\MyClass2::staticFoo());
+        \Mockery::resetContainer();
+    }
+    
+    /**
+     * @group issue/7
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testMockedStaticMethodsObeyMethodCounting()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('stdClass', 'MyNamespace\MyClass3');
+        $m->shouldReceive('staticFoo')->once()->andReturn('bar');
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
 }
 
 class MockeryTestFoo {

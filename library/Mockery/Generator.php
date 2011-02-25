@@ -86,7 +86,6 @@ class Generator
         }
         if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting);
         $definition .= PHP_EOL . '}';
-        //var_dump($definition); exit;
         eval($definition);
         return $mockName;
     }
@@ -272,6 +271,8 @@ class Generator
     {
         $typehint = $callTypehint ? 'array' : '';
         $std = <<<MOCK
+    protected static \$_mockery_staticClassName = '';
+    
     protected \$_mockery_expectations = array();
 
     protected \$_mockery_lastExpectation = null;
@@ -468,7 +469,7 @@ class Generator
         return \$this->_mockery_mockableMethods;
     }
     
-    //** Everything below this line is a non-typical fudge not copied from Mockery/Mock **//
+    //** Everything below this line is not copied from/needed for Mockery/Mock **//
     
     public function __wakeup()
     {
@@ -479,6 +480,20 @@ class Generator
          * mocking
          */
     }
+    
+    public static function __callStatic(\$method, $typehint \$args)
+    {
+        try {
+            \$associatedRealObject = \Mockery::fetchMock(__CLASS__);
+            return \$associatedRealObject->__call(\$method, \$args);
+        } catch (\BadMethodCallException \$e) {
+            throw new \BadMethodCallException(
+                'Static method ' . \$this->_mockery_name . '::' . \$method
+                . '() does not exist on this mock object'
+            );
+        }
+    }
+    
 MOCK;
         return $std;
     }
