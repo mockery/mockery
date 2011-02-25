@@ -75,7 +75,6 @@ class Container
         }
         while (count($args) > 0) {
             $arg = current($args);
-            
             // check for multiple interfaces
             if (is_string($arg) && strpos($arg, ',')) {
                 $interfaces = explode(',', str_replace(' ', '', $arg));
@@ -90,7 +89,11 @@ class Container
                     }
                 }
                 $class = $interfaces;
-                array_shift($args); // prevent implosion of Planet Earth by terminating an infinite loop!
+                array_shift($args);
+            } elseif (is_string($arg) && substr($arg, 0, 1) == ':') {
+                $class = 'stdClass';
+                $name = array_shift($args);
+                $name = str_replace(':', '', $name);
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {

@@ -197,14 +197,16 @@ inherits a specific type for type hinting.
 Yes, you can use the same quick expectation setup as for named mocks with the
 class oriented mock object generation.
 
-    $mock = \Mockery::mock('stdClass', 'MyNamespace\MyClass');
+    $mock = \Mockery::mock(':MyNamespace\MyClass');
 
-You can generate a mock from a class, and specify a different class name it should
-use. Mock classes generally have a random generated name (their type is based on
-class inheritance only). In the example, a mock class based on stdClass is created
-with the FQN of MyNamespace\MyClass. This is useful where the mock object must
-have a specific concrete class name. And yes, you can add in an expectation array
-as the third parameter.
+You can generate a mock object that is aliased with another (unloaded) class name. This
+mocking strategy allows for Mockery to intercept static method
+calls against the alias name (i.e. \MyNamespace\MyClass). The expectations for
+static methods are set exactly the same way as for normal methods. The colon prefix
+just tells Mockery not to attempt loading the class (i.e. via autoloading triggers)
+but also requires that you do not explicitly include files defining the same class.
+
+When in doubt about this - use process isolation (supported by PHPUnit or PHPT).
 
     $mock = \Mockery::mock('stdClass, MyInterface1, MyInterface2');
     
