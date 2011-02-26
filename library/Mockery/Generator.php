@@ -149,6 +149,8 @@ class Generator
             && $method->getName() !== '__call'
             && $method->getName() !== '__clone'
             && $method->getName() !== '__wakeup') {
+            && $method->getName() !== '__set'
+            && $method->getName() !== '__get') {
                 $definition .= self::_replacePublicMethod($method);
             }
             if ($method->getName() == '__call') {
@@ -296,6 +298,24 @@ class Generator
     protected \$_mockery_disableExpectationMatching = false;
 
     protected \$_mockery_mockableMethods = array();
+    
+    protected \$_mockery_mockableProperties = array();
+        
+    public function __set(\$name, \$value)
+    {
+        \$this->_mockery_mockableProperties[\$name] = \$value;
+        return \$this;
+    }
+            	            
+    public function __get(\$name)
+    {
+        if (isset(\$this->_mockery_mockableProperties[\$name])) {
+            return \$this->_mockery_mockableProperties[\$name];
+        }   	                			    
+        throw new \InvalidArgumentException (
+            'Property ' . \$this->_mockery_name . '::' . \$name . ' does not exist on this mock object'
+        );
+    }
 
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
