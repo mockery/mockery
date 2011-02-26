@@ -288,7 +288,7 @@ class Expectation
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
-        if ($expected instanceof \Hamcrest_BaseMatcher) {
+        if ($expected instanceof \Hamcrest_Matcher) {
             return $expected->matches($actual);
         }
         return false;
