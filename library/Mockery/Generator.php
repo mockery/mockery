@@ -148,7 +148,7 @@ class Generator
             && !$method->isStatic()
             && $method->getName() !== '__call'
             && $method->getName() !== '__clone'
-            && $method->getName() !== '__wakeup') {
+            && $method->getName() !== '__wakeup'
             && $method->getName() !== '__set'
             && $method->getName() !== '__get') {
                 $definition .= self::_replacePublicMethod($method);
