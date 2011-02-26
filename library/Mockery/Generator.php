@@ -300,22 +300,6 @@ class Generator
     protected \$_mockery_mockableMethods = array();
     
     protected \$_mockery_mockableProperties = array();
-        
-    public function __set(\$name, \$value)
-    {
-        \$this->_mockery_mockableProperties[\$name] = \$value;
-        return \$this;
-    }
-            	            
-    public function __get(\$name)
-    {
-        if (isset(\$this->_mockery_mockableProperties[\$name])) {
-            return \$this->_mockery_mockableProperties[\$name];
-        }   	                			    
-        throw new \InvalidArgumentException (
-            'Property ' . \$this->_mockery_name . '::' . \$name . ' does not exist on this mock object'
-        );
-    }
 
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
@@ -397,6 +381,22 @@ class Generator
         }
         throw new \BadMethodCallException(
             'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'
+        );
+    }
+    
+    public function __set(\$name, \$value)
+    {
+        \$this->_mockery_mockableProperties[\$name] = \$value;
+        return \$this;
+    }
+            	            
+    public function __get(\$name)
+    {
+        if (isset(\$this->_mockery_mockableProperties[\$name])) {
+            return \$this->_mockery_mockableProperties[\$name];
+        }   	                			    
+        throw new \InvalidArgumentException (
+            'Property ' . \$this->_mockery_name . '::' . \$name . ' does not exist on this mock object'
         );
     }
 
@@ -487,6 +487,11 @@ class Generator
     public function mockery_getMockableMethods()
     {
         return \$this->_mockery_mockableMethods;
+    }
+    
+    public function mockery_getMockableProperties()
+    {
+        return \$this->_mockery_mockableProperties;
     }
     
     //** Everything below this line is not copied from/needed for Mockery/Mock **//

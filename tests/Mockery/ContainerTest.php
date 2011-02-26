@@ -331,6 +331,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         \Mockery::resetContainer();
     }
     
+    /**
+     * @group issue/17
+     */
+    public function testMockingAllowsPublicPropertyStubbingOnRealClass()
+    {
+        $m = $this->container->mock('MockeryTestFoo');
+        $m->foo = 'bar';
+        $this->assertEquals('bar', $m->foo);
+        $this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+    }
+    
 }
 
 class MockeryTestFoo {
