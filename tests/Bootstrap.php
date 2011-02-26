@@ -69,6 +69,7 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
 require_once 'Mockery/Loader.php';
 $loader = new \Mockery\Loader;
 $loader->register();
+require_once 'Hamcrest/hamcrest.php';
 
 /*
  * Unset global variables that are no longer needed.

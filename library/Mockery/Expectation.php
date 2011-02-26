@@ -288,6 +288,9 @@ class Expectation
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
+        if ($expected instanceof \Hamcrest_BaseMatcher) {
+            return $expected->matches($actual);
+        }
         return false;
     }
     
