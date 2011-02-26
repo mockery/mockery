@@ -319,6 +319,11 @@ Declares that this method will throw the given Exception object when called.
 Rather than an object, you can pass in the Exception class and message to
 use when throwing an Exception from the mocked method.
 
+    andSet(name, value1) / set(name, value1)
+    
+Used with an expectation so that when a method expectation call is detected, one
+can also cause a mock object's public property to be set to a specified value.
+
     zeroOrMoreTimes()
     
 Declares that the expected method may be called zero or more times. This is

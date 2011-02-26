@@ -105,6 +105,8 @@ class Mock implements MockInterface
      */
     protected $_mockery_disableExpectationMatching = false;
     
+    protected $_mockery_mockableProperties = array();
+    
     /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
@@ -213,6 +215,22 @@ class Mock implements MockInterface
         }
         throw new \BadMethodCallException(
             'Method ' . $this->_mockery_name . '::' . $method . '() does not exist on this mock object'
+        );
+    }
+    
+    public function __set($name, $value)
+    {
+        $this->_mockery_mockableProperties[$name] = $value;
+        return $this;
+    }
+            	            
+    public function __get($name)
+    {
+        if (isset($this->_mockery_mockableProperties[$name])) {
+            return $this->_mockery_mockableProperties[$name];
+        }   	                			    
+        throw new \InvalidArgumentException (
+            'Property ' . $this->_mockery_name . '::' . $name . ' does not exist on this mock object'
         );
     }
     
@@ -372,6 +390,11 @@ class Mock implements MockInterface
     public function mockery_getName()
     {
         return $this->_mockery_name;
+    }
+    
+    public function mockery_getMockableProperties()
+    {
+        return $this->_mockery_mockableProperties;
     }
 
 }
