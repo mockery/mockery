@@ -353,6 +353,27 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
     }
     
+    /**
+     * @group issue/17
+     */
+    public function testMockingAllowsPublicPropertyStubbingOnPartials()
+    {
+        $m = $this->container->mock(new stdClass);
+        $m->foo = 'bar';
+        $this->assertEquals('bar', $m->foo);
+        $this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+    }
+    
+    /**
+     * @group issue/17
+     */
+    public function testMockingDoesNotStubNonStubbedPropertiesOnPartials()
+    {
+        $m = $this->container->mock(new MockeryTest_ExistingProperty);
+        $this->assertEquals('bar', $m->foo);
+        $this->assertFalse(array_key_exists('foo', $m->mockery_getMockableProperties()));
+    }
+    
 }
 
 class MockeryTestFoo {
@@ -406,6 +427,10 @@ class MockeryTest_Call2 {
 class MockeryTest_Wakeup1 {
     public function __construct() {}
     public function __wakeup() {}
+}
+
+class MockeryTest_ExistingProperty {
+    public $foo = 'bar';
 }
 
 // issue/18
