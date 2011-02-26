@@ -381,6 +381,32 @@ class Expectation
     }
     
     /**
+     * Set a public property on the mock
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return self
+     */
+    public function andSet($name, $value)
+    {
+        $this->_mock->{$name} = $value;
+        return $this;
+    }
+    
+    /**
+     * Set a public property on the mock (alias to andSet()). Allows the natural
+     * English construct - set('foo', 'bar')->andReturn('bar')
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return self
+     */
+    public function set($name, $value)
+    {
+        return $this->andSet($name, $value);
+    }
+    
+    /**
      * Indicates this expectation should occur zero or more times
      *
      * @return self

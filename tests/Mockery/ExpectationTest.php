@@ -58,6 +58,20 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->mock->foo());
     }
     
+    public function testSetsPublicPropertyWhenRequested()
+    {
+        $this->mock->shouldReceive('foo')->andSet('bar', 'baz');
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+    }
+    
+    public function testSetsPublicPropertyWhenRequestedUsingAlias()
+    {
+        $this->mock->shouldReceive('foo')->set('bar', 'baz');
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+    }
+    
     public function testReturnsSameValueForAllIfNoArgsExpectationAndSomeGiven()
     {
         $this->mock->shouldReceive('foo')->andReturn(1);
