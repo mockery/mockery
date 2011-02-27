@@ -374,6 +374,81 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(array_key_exists('foo', $m->mockery_getMockableProperties()));
     }
     
+    public function testCreationOfInstanceMock()
+    {
+        $m = $this->container->mock('|MyNamespace\MyClass4');
+        $this->assertTrue($m instanceof \MyNamespace\MyClass4);
+    }
+    
+    public function testInstantiationOfInstanceMock()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('|MyNamespace\MyClass5');
+        $instance = new \MyNamespace\MyClass5;
+        $this->assertTrue($instance instanceof \MyNamespace\MyClass5);
+        \Mockery::resetContainer();
+    }
+    
+    public function testInstantiationOfInstanceMockImportsExpectations()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('|MyNamespace\MyClass6');
+        $m->shouldReceive('foo')->andReturn('bar');
+        $instance = new \MyNamespace\MyClass6;
+        $this->assertEquals('bar', $instance->foo());
+        \Mockery::resetContainer();
+    }
+    
+    public function testInstantiationOfInstanceMocksIgnoresVerificationOfOriginMock()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('|MyNamespace\MyClass7');
+        $m->shouldReceive('foo')->once()->andReturn('bar');
+        $this->container->mockery_verify();
+        \Mockery::resetContainer(); //should not throw an exception
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testInstantiationOfInstanceMocksAddsThemToContainerForVerification()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('|MyNamespace\MyClass8');
+        $m->shouldReceive('foo')->once();
+        $instance = new \MyNamespace\MyClass8;
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
+    public function testInstantiationOfInstanceMocksDoesNotHaveCountValidatorCrossover()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('|MyNamespace\MyClass9');
+        $m->shouldReceive('foo')->once();
+        $instance1 = new \MyNamespace\MyClass9;
+        $instance2 = new \MyNamespace\MyClass9;
+        $instance1->foo();
+        $instance2->foo();
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
+    /**
+     * @expectedException \Mockery\CountValidator\Exception
+     */
+    public function testInstantiationOfInstanceMocksDoesNotHaveCountValidatorCrossover2()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('|MyNamespace\MyClass10');
+        $m->shouldReceive('foo')->once();
+        $instance1 = new \MyNamespace\MyClass10;
+        $instance2 = new \MyNamespace\MyClass10;
+        $instance1->foo();
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
 }
 
 class MockeryTestFoo {

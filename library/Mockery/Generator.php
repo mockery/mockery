@@ -34,7 +34,8 @@ class Generator
     * @param string $allowFinal
     * @return string Classname of the mock class created
     */
-    public static function createClassMock($className, $mockName = null, $allowFinal = false, $block = array())
+    public static function createClassMock($className, $mockName = null,
+        $allowFinal = false, $block = array(), $makeInstanceMock = false)
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $definition = '';
@@ -84,7 +85,7 @@ class Generator
                 $useStandardMethods = false;
             }
         }
-        if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting);
+        if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting, $makeInstanceMock);
         $definition .= PHP_EOL . '}';
         eval($definition);
         return $mockName;
@@ -135,7 +136,7 @@ class Generator
      *
      */
     public static function applyMockeryTo(\ReflectionClass $class,
-        array $methods, array $block, $standardMethods = true)
+        array $methods, array $block)
     {
         $definition = '';
         $callTypehinting = false;
@@ -269,7 +270,7 @@ class Generator
      * Return a string def of the standard Mock Object API needed for all mocks
      *
      */
-    public static function _getStandardMethods($callTypehint = true)
+    public static function _getStandardMethods($callTypehint = true, $makeInstanceMock = false)
     {
         $typehint = $callTypehint ? 'array' : '';
         $std = <<<MOCK
@@ -403,6 +404,10 @@ class Generator
     public function mockery_verify()
     {
         if (\$this->_mockery_verified) return true;
+        if (isset(\$this->_mockery_ignoreVerification)
+        && \$this->_mockery_ignoreVerification == true) {
+            return true;
+        }
         \$this->_mockery_verified = true;
         foreach(\$this->_mockery_expectations as \$director) {
             \$director->verify();
@@ -443,6 +448,10 @@ class Generator
 
     public function mockery_validateOrder(\$method, \$order)
     {
+        if (isset(\$this->_mockery_ignoreVerification)
+        && \$this->_mockery_ignoreVerification === false) {
+            return;
+        }
         if (\$order < \$this->_mockery_currentOrder) {
             throw new \Mockery\Exception(
                 'Method ' . \$this->_mockery_name . '::' . \$method . '()'
@@ -519,7 +528,45 @@ class Generator
         }
     }
     
+    public function mockery_getExpectations()
+    {
+        return \$this->_mockery_expectations;
+    }
+    
 MOCK;
+        /**
+         * Note: An instance mock allows the declaration of an instantiable class
+         * which imports cloned expectations from an existing mock object. In effect
+         * it enables pseudo-overloading of the "new" operator.
+         */
+        if ($makeInstanceMock) {
+            $mim = <<<MOCK
+    
+    protected \$_mockery_ignoreVerification = true;        
+    
+    public function __construct()
+    {
+        \$this->_mockery_ignoreVerification = false;
+        \$associatedRealObject = \Mockery::fetchMock(__CLASS__);
+        \$directors = \$associatedRealObject->mockery_getExpectations();
+        foreach (\$directors as \$method=>\$director) {
+            \$expectations = \$director->getExpectations();
+            // get the director method needed
+            \$existingDirector = \$this->mockery_getExpectationsFor(\$method);
+            if (!\$existingDirector) {
+                \$existingDirector = new \Mockery\ExpectationDirector(\$method, \$this);
+                \$this->mockery_setExpectationsFor(\$method, \$existingDirector);
+            }
+            foreach (\$expectations as \$expectation) {
+                \$clonedExpectation = clone \$expectation;
+                \$existingDirector->addExpectation(\$clonedExpectation);
+            }
+        }
+        \Mockery::getContainer()->rememberMock(\$this);
+    }     
+MOCK;
+            $std .= $mim;
+        }
         return $std;
     }
 

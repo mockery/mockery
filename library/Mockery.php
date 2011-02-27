@@ -50,6 +50,15 @@ class Mockery
         return call_user_func_array(array(self::$_container, 'mock'), $args);
     }
     
+    public static function instanceMock()
+    {
+        if (is_null(self::$_container)) {
+            self::$_container = new \Mockery\Container;
+        }
+        $args = func_get_args();
+        return call_user_func_array(array(self::$_container, 'instanceMock'), $args);
+    }
+    
     /**
      * Static shortcut to closing up and verifying all mocks in the global
      * container, and resetting the container static variable to null

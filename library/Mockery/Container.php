@@ -65,6 +65,7 @@ class Container
         $expectationClosure = null;
         $quickdefs = array();
         $blocks = array();
+        $makeInstanceMock = false;
         $args = func_get_args();
         if (count($args) > 1) {
             $finalArg = end($args);
@@ -94,6 +95,11 @@ class Container
                 $class = 'stdClass';
                 $name = array_shift($args);
                 $name = str_replace(':', '', $name);
+            } elseif (is_string($arg) && substr($arg, 0, 1) == '|') {
+                $class = 'stdClass';
+                $name = array_shift($args);
+                $name = str_replace('|', '', $name);
+                $makeInstanceMock = true;
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
@@ -111,7 +117,11 @@ class Container
             }
         }
         if (!is_null($name) && !is_null($class)) {
-            $mockName = \Mockery\Generator::createClassMock($class);
+            if (!$makeInstanceMock) {
+                $mockName = \Mockery\Generator::createClassMock($class);
+            } else {
+                $mockName = \Mockery\Generator::createClassMock($class, null, null, array(), true);
+            }
             $result = class_alias($mockName, $name);
             $mock = $this->_getInstance($name);
             $mock->mockery_init($class, $this);
@@ -138,6 +148,11 @@ class Container
         }
         $this->rememberMock($mock);
         return $mock;
+    }
+    
+    public function instanceMock()
+    {
+        
     }
     
     /**
@@ -261,7 +276,15 @@ class Container
      */
     public function rememberMock(\Mockery\MockInterface $mock)
     {
-        $this->_mocks[get_class($mock)] = $mock;
+        if (!isset($this->_mocks[get_class($mock)])) {
+            $this->_mocks[get_class($mock)] = $mock;
+        } else {
+            /**
+             * This condition triggers for an instance mock where origin mock
+             * is already remembered
+             */
+            $this->_mocks[] = $mock;
+        }
         return $mock;
     }
     

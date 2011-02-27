@@ -577,5 +577,19 @@ class Expectation
     {
         return $this->_mock;
     }
+    
+    /**
+     * Cloning logic
+     *
+     */
+    public function __clone()
+    {
+        $newValidators = array();
+        $countValidators = $this->_countValidators;
+        foreach ($countValidators as $validator) {
+            $newValidators[] = clone $validator;
+        } 
+        $this->_countValidators = $newValidators;
+    }
 
 }

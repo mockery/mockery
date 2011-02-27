@@ -105,6 +105,12 @@ class Mock implements MockInterface
      */
     protected $_mockery_disableExpectationMatching = false;
     
+    /**
+     * Stores all stubbed public methods separate from any on-object public
+     * properties that may exist.
+     *
+     * @var array
+     */
     protected $_mockery_mockableProperties = array();
     
     /**
