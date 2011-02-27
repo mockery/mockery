@@ -1,9 +1,9 @@
 Mockery
 ========
 
-Mockery is a simple but flexible PHP mock object framework for use in unit testing.
-It is inspired by Ruby's flexmock and Java's Mockito, borowing elements from
-both of their APIs.
+Mockery is a simple yet flexible PHP mock object framework for use in unit testing
+with PHPUnit or any other testing framework. It is inspired by Ruby's flexmock
+and Java's Mockito, borowing elements from both of their APIs.
 
 Mockery is released under a New BSD License.
 
@@ -13,36 +13,39 @@ Mock Objects
 In unit tests, mock objects simulate the behaviour of real objects. They are
 commonly utilised to offer test isolation, to stand in for objects which do not
 yet exist, or to allow for the exploratory design of class APIs without
-requiring actual implementation.
+requiring actual implementation up front.
 
 The benefits of a mock object framework are to allow for the flexible generation
 of such mock objects (and stubs). They allow the setting of expected method calls
 and return values using a flexible API which is capable of capturing every
-possible real object behaviour in way that is as close as possible to a
+possible real object behaviour in way that is stated as close as possible to a
 natural language description.
 
 Prerequisites
 -------------
 
-Mockery requires PHP 5.3 which is its sole prerequisite.
+Mockery requires PHP 5.3. In addition, it is strongly recommended to install
+the Hamcrest library (see below for instructions).
 
 Installation
 ------------
 
 The preferred installation method is via PEAR. Mockery is hosted by the
-Survivethedeepend.com PEAR channel:
+survivethedeepend.com PEAR channel:
 
     pear channel-discover pear.survivethedeepend.com
-    pear install deepend/Mockery
+    pear channel-discover hamcrest.googlecode.com/svn/pear
+    pear install --alldeps deepend/Mockery
     
 The git repository hosts the development version in its master branch. You may
 install this development version using:
 
     git clone git://github.com/padraic/mockery.git
     cd mockery
-    sudo pear install package.xml
+    pear channel-discover hamcrest.googlecode.com/svn/pear
+    sudo pear install --alldeps package.xml
 
-The above processes will install Mockery as a PEAR library.
+The above processes will install both Mockery and Hamcrest as PEAR libraries.
 
 Simple Example
 --------------
@@ -136,9 +139,10 @@ use the Mockery namespace with a shorter alias. For example:
     
 Mockery ships with an autoloader so you don't need to litter your tests with
 require_once() calls. To use it, ensure Mockery is on your include_path and add
-the following to your test suite's Bootstrap or TestHelper file:
+the following to your test suite's Bootstrap.php or TestHelper.php file:
 
     require_once 'Mockery/Loader.php';
+    require_once 'Hamcrest/hamcrest.php';
     $loader = new \Mockery\Loader;
     $loader->register();
     
@@ -175,38 +179,51 @@ their return values.
 
     $mock = \Mockery::mock('foo', array('foo'=>1,'bar'=>2));
     
-Similar to the previous examples, only demonstrating the combination of a name
-and expectation array.
+Similar to the previous examples and all examples going forward, expectation arrays
+can be passed for all mock objects as the second parameter to mock().
+
+    $mock = \Mockery::mock('foo', function($mock) {
+        $mock->shouldReceive(method_name);
+    });
+    
+In addition to expectation arrays, you can also pass in a closure which contains
+reusable expectations. This can be passed as the second parameter, or as the third
+parameter if partnered with an expectation array.
 
     $mock = \Mockery::mock('stdClass');
     
 Creates a mock identical to a named mock, except the name is an actual class
 name. Creates a simple mock as previous examples show, except the mock
-object will inherit the class type, i.e. it will pass type hints or instanceof
-evaluations for stdClass. Useful where a mock object must be of a specific
+object will inherit the class type (via extension), i.e. it will pass type hints
+or instanceof evaluations for stdClass. Useful where a mock object must be of a specific
 type.
 
     $mock = \Mockery::mock('FooInterface');
     
 You can create mock objects based on any concrete class, abstract class or
 even an interface. Again, the primary purpose is to ensure the mock object
-inherits a specific type for type hinting.
-
-    $mock = \Mockery::mock('FooInterface', array('foo'=>1,'bar'=>2));
-    
-Yes, you can use the same quick expectation setup as for named mocks with the
-class oriented mock object generation.
+inherits a specific type for type hinting. There is an exception in that classes
+marked final, or with methods marked final, cannot be mocked fully. In these cases
+a partial mock (explained below) must be utilised.
 
     $mock = \Mockery::mock(':MyNamespace\MyClass');
+    
+Prefixing the valid name of a class (which is NOT currently loaded) with a colon
+will generate an alias mock. Alias mocks create a class alias with the given
+classname to stdClass and are generally used to enable the mocking of public
+static methods.
+    
+    $mock = \Mockery::mock('|MyNamespace\MyClass');
 
-You can generate a mock object that is aliased with another (unloaded) class name. This
-mocking strategy allows for Mockery to intercept static method
-calls against the alias name (i.e. \MyNamespace\MyClass). The expectations for
-static methods are set exactly the same way as for normal methods. The colon prefix
-just tells Mockery not to attempt loading the class (i.e. via autoloading triggers)
-but also requires that you do not explicitly include files defining the same class.
+Prefixing the valid name of a class (which is NOT currently loaded) with a bar will
+generate an alias mock (as with a colon) except that created new instances of that
+class will import any expectations set on the origin mock ($mock). The origin
+mock is never verified since it's used an expectation store for new instances.
 
-When in doubt about this - use process isolation (supported by PHPUnit or PHPT).
+Note: Using alias mocks across more than one test will generate a fatal error since
+you can't have two classes of the same name. To avoid this, run each test of this
+kind in a separate PHP process (which is supported out of the box by both
+PHPUnit and PHPT).
 
     $mock = \Mockery::mock('stdClass, MyInterface1, MyInterface2');
     
@@ -221,23 +238,13 @@ previous examples.
 Passing any real object into Mockery will create a partial mock. Partials assume
 you can already create a concrete object, so all we need to do is selectively
 override a subset of existing methods (or add non-existing methods!) for
-our expectations.
+our expectations. Partial mocks are essential for any class which is marked final
+or contains public methods marked final.
 
-    $mock = \Mockery::mock(new Foo, array('foo'=>1));
-
-You can also use the quickie expectation setup for your partial mock. See the
-section later on Creating Partial Mocks for more information.
-
-    $mock = \Mockery::mock('name', function($mock){
-        $mock->shouldReceive(method_name);
-    });
-    
-All of the various setup methods may be passed a closure as the final parameter.
-The closure will be passed the mock object when called so that expectations
-can be setup. Distinct from the later explained default expectations, this
-allows for the reuse of expectation setups by storing them to a closure for
-execution. Note that all other parameters including quick expectation arrays set
-prior to the closure will be used before the closure is called.
+A little revision: All mock methods accept the class, object or alias name to be
+mocked as the first parameter. The second parameter can be an expectation array
+of methods and their return values, or an expectation closure (which can be the
+third param if used in conjunction with an expectation array).
 
 Expectation Declarations
 ------------------------
@@ -257,7 +264,7 @@ appended.
 Declares a number of expected method calls, all of which will adopt any chained
 expectations or constraints.
 
-    shouldReceive(array(method1=>1, method2=>2, ...))
+    shouldReceive(array('method1'=>1, 'method2'=>2, ...))
     
 Declares a number of expected calls but also their return values. All will
 adopt any additional chained expectations or constraints.
@@ -277,10 +284,11 @@ Adds a constraint that this expectation only applies to method calls which
 match the expected argument list. You can add a lot more flexibility to argument
 matching using the built in matcher classes (see later). For example,
 \Mockery::any() matches any argument passed to that position in the with()
-parameter list.
+parameter list. Mockery also allows Hamcrest library matchers - for example, the
+Hamcrest function anything() is equivalent to \Mockery:any().
 
 It's important to note that this means all expectations attached only apply
-to the given method when it is called with these exact arguments. Allows for
+to the given method when it is called with these exact arguments. This allows for
 setting up differing expectations based on the arguments provided to expected calls.
 
     withAnyArgs()
@@ -321,7 +329,7 @@ use when throwing an Exception from the mocked method.
 
     andSet(name, value1) / set(name, value1)
     
-Used with an expectation so that when a method expectation call is detected, one
+Used with an expectation so that when a matching method is called, one
 can also cause a mock object's public property to be set to a specified value.
 
     zeroOrMoreTimes()
@@ -417,6 +425,15 @@ purpose of generalised matchers is to allow arguments be defined in non-explicit
 terms, e.g. Mockery::any() passed to with() will match ANY argument in that
 position.
 
+Mockery's generic matchers do not cover all possibilities but offers optional
+support for the Hamcrest library of matchers. Hamcrest is a PHP port of the
+similarly named Java library (which has been ported also to Python, Erlang, etc).
+I strongly recommend using Hamcrest since Mockery simply does not need to duplicate
+Hamcrest's already impressive utility which itself promotes a natural English DSL.
+
+The example below show Mockery matchers and their Hamcrest equivalent. Hamcrest uses
+functions (no namespacing).
+
 Here's a sample of the possibilities.
 
     with(1)
@@ -425,22 +442,25 @@ Matches the integer 1. This passes the === test (identical). It does facilitate
 a less strict == check (equals) where the string '1' would also match the
 argument.
 
-    with(\Mockery::any())
+    with(\Mockery::any()) OR with(anything())
     
 Matches any argument. Basically, anything and everything passed in this argument
 slot is passed unconstrained.
 
-    with(\Mockery::type('resource'))
+    with(\Mockery::type('resource')) OR with(resourceValue()) OR with(typeOf('resource'))
 
 Matches any resource, i.e. returns true from an is_resource() call. The Type
 matcher accepts any string which can be attached to "is_" to form a valid
-type check. For example, \Mockery::type('float') checks using is_float() and
-\Mockery::type('callable') uses is_callable(). The Type matcher also accepts
-a class or interface name to be used in an instanceof evaluation of the
-actual argument.
+type check. For example, \Mockery::type('float') or Hamcrest's floatValue() and
+typeOf('float') checks using is_float(), and \Mockery::type('callable') or Hamcrest's
+callable() uses is_callable().
+
+The Type matcher also accepts a class or interface name to be used in an instanceof
+evaluation of the actual argument (similarly Hamcrest uses anInstanceOf()).
 
 You may find a full list of the available type checkers at
-http://www.php.net/manual/en/ref.var.php
+http://www.php.net/manual/en/ref.var.php or browse Hamcrest's function list at
+http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-php/hamcrest/Hamcrest.php.
 
     with(\Mockery::on(closure))
     
@@ -450,12 +470,16 @@ the argument is assumed to have matched the expectation. This is invaluable
 where your argument expectation is a bit too complex for or simply not
 implemented in the current default matchers.
 
-    with('/^foo/')
+There is no Hamcrest version of this functionality.
+
+    with('/^foo/') OR with(matchesPattern('/^foo/'))
     
 The argument declarator also assumes any given string may be a regular
 expression to be used against actual arguments when matching. The regex option
 is only used when a) there is no === or == match and b) when the regex
 is verified to be a valid regex (i.e. does not return false from preg_match()).
+If the regex detection doesn't suit your tastes, Hamcrest offers the more
+explicit matchesPattern() function.
 
     with(\Mockery::ducktype('foo', 'bar'))
     
@@ -463,7 +487,9 @@ The Ducktype matcher is an alternative to matching by class type. It simply
 matches any argument which is an object containing the provided list
 of methods to call.
 
-    with(\Mockery::mustBe(2));
+There is no Hamcrest version of this functionality.
+
+    with(\Mockery::mustBe(2)) OR with(identicalTo(2))
     
 The MustBe matcher is more strict than the default argument matcher. The default
 matcher allows for PHP type casting, but the MustBe matcher also verifies that
@@ -477,12 +503,12 @@ since PHP would fail the comparison if both objects were not the exact same
 instance. This is a hindrance when objects are generated prior to being
 returned, since an identical match just would never be possible.
 
-    with(\Mockery::not(2))
+    with(\Mockery::not(2)) OR with(not(2))
 
 The Not matcher matches any argument which is not equal or identical to the
 matcher's parameter.
 
-    with(\Mockery::anyOf(1, 2))
+    with(\Mockery::anyOf(1, 2)) OR with(anyOf(1,2))
     
 Matches any argument which equals any one of the given parameters.
 
@@ -491,11 +517,16 @@ Matches any argument which equals any one of the given parameters.
 Matches any argument which is not equal or identical to any of the given
 parameters.
 
+There is no Hamcrest version of this functionality.
+
     with(\Mockery::subset(array(0=>'foo')))
     
 Matches any argument which is any array containing the given array subset. This
 enforces both key naming and values, i.e. both the key and value of each
 actual element is compared.
+
+There is no Hamcrest version of this functionality, though Hamcrest can check a
+single entry using hasEntry() or hasKeyValuePair().
 
     with(\Mockery::contains(value1, value2))
     
@@ -544,6 +575,47 @@ How this works, is that you can define mocks with default expectations. Then,
 in a later unit test, you can add or fine-tune expectations for that
 specific test. Any expectation can be set as a default using the byDefault()
 declaration.
+
+Mocking Public Properties
+-------------------------
+
+Mockery allows you to mock properties is several ways. The simplest is that
+you can simply set a public property and value on any mock object. The second
+is that you can use the expectation methods set() and andSet() to set property
+values if that expectation is ever met.
+
+You should note that, in general, Mockery does not support mocking any magic
+methods since these are generally not considered a public API (and besides they
+are a PITA to differentiate when you badly need them for mocking!). So please
+mock virtual properties (those relying on __get and __set) as if they were
+actually declared on the class.
+
+Mocking Public Static Methods
+-----------------------------
+
+Static methods are not called on real objects, so normal mock objects can't mock
+them. Mockery supports class aliased mocks, mocks representing a class name which
+would normally be loaded (via autoloading or a require statement) in the system
+under test. These aliases block that loading (unless via a require statement - so please
+use autoloading!) and allow Mockery to intercept static method calls and add
+expectations for them.
+
+Generating Mock Objects Upon Instantiation (Instance Mocking)
+-------------------------------------------------------------
+
+Instance mocking means that a statement like:
+
+$obj = new \MyNamespace\Foo;
+
+...will actually generate a mock object. This is done by replacing the real class
+with an alias mock, as with mocking public methods. The alias will import its
+expectations from the original mock of that type (note that the original is never
+verified and should be ignored after its expectations are setup). This lets you
+intercept instantiation where you can't simply inject a replacement object.
+
+As before, this does not prevent a require statement from including the real
+class and triggering a fatal PHP error. It's intended for use where autoloading
+is the primary class loading mechanism.
 
 Mocking Demeter Chains And Fluent Interfaces
 --------------------------------------------
@@ -738,6 +810,12 @@ method, will throw an exception that the non-real method does not exist unless
 you first define at least one expectation (a simple shouldReceive() call would
 suffice). This is necessary since there is no other way for Mockery to be
 aware of the method name.
+
+3. Mockery has two scenarios where real classes are replaced: Instance mocks and
+alias mocks. Both will generate PHP fatal errors if the real class is loaded,
+usually via a require or include statement. Only use these two mock types where
+autoloading is in place and where classes are not explicitly loaded on a per-file
+basis using require(), require_once(), etc.
 
 The gotchas noted above are largely down to PHP's architecture and are assumed
 to be unavoidable. But - if you figure out a solution, let me know!
