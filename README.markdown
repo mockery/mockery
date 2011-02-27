@@ -46,6 +46,9 @@ install this development version using:
     sudo pear install --alldeps package.xml
 
 The above processes will install both Mockery and Hamcrest as PEAR libraries.
+While omitting Hamcrest will not break Mockery, Hamcrest is highly recommended
+as it adds a wider variety of functionality for argument matching that Mockery
+is capable of.
 
 Simple Example
 --------------

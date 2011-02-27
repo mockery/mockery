@@ -2,23 +2,23 @@
 <package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0         http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd" version="2.0">
   <name>Mockery</name>
   <channel>pear.survivethedeepend.com</channel>
-  <summary>Mockery is a simple but flexible mock object framework for use in unit testing.</summary>
-  <description>Mockery is a simple but flexible mock object framework for use in unit testing.</description>
+  <summary>Mockery is a simple yet flexible mock object framework for use in unit testing.</summary>
+  <description>Mockery is a simple yet flexible mock object framework for use in unit testing.</description>
   <lead>
     <name>Padraic Brady</name>
     <user>padraic</user>
     <email>padraic.brady@yahoo.com</email>
     <active>yes</active>
   </lead>
-  <date>2010-06-09</date>
+  <date>2011-02-28</date>
   <time>21:30:59</time>
   <version>
-    <release>0.6.3</release>
-    <api>0.6.3</api>
+    <release>0.7.0</release>
+    <api>0.7.0</api>
   </version>
   <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>beta</release>
+    <api>beta</api>
   </stability>
   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
   <notes>http://github.com/padraic/mockery#readme</notes>
@@ -79,6 +79,12 @@
         <min>1.4.0</min>
       </pearinstaller>
     </required>
+    <optional>
+        <package>
+            <name>Hamcrest</name>
+            <channel>hamcrest.googlecode.com/svn/pear</channel>
+        </package>
+    </optional>
   </dependencies>
   <phprelease>
     <filelist>
