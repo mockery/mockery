@@ -820,6 +820,13 @@ usually via a require or include statement. Only use these two mock types where
 autoloading is in place and where classes are not explicitly loaded on a per-file
 basis using require(), require_once(), etc.
 
+4. Internal PHP classes are not entirely capable of being fully analysed using
+Reflection. For example, Reflection cannot reveal details of expected parameters
+to the methods of such internal classes. As a result, there will be problems
+where a method parameter is defined to accept a value by reference (Mockery
+cannot detect this condition and will assume a pass by value on scalars and
+arrays).
+
 The gotchas noted above are largely down to PHP's architecture and are assumed
 to be unavoidable. But - if you figure out a solution, let me know!
 
