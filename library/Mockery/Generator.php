@@ -189,6 +189,30 @@ class Generator
             $body = '$args = func_get_args();'
                 . 'return $this->__call("' . $name . '", $args);';
         }
+        $methodParams = self::_renderPublicMethodParameters($method);
+        $paramDef = implode(',', $methodParams);
+        if ($method->isPublic()) {
+            $access = 'public';
+        } elseif($method->isProtected()) {
+            $access = 'protected';
+        } else {
+            $access = 'private';
+        }
+        if ($method->isStatic()) {
+            $access .= ' static';
+        }
+        return $access . ' function ' . $name . '(' . $paramDef . ')'
+                          . '{' . $body . '}';
+    }
+    
+    protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
+    {
+        $class = $method->getDeclaringClass();
+        if ($class->isInternal()) { // check for parameter overrides for internal PHP classes
+            $paramMap = \Mockery::getConfiguration()
+                ->getInternalClassMethodParamMap($class->getName(), $method->getName());
+            if (!is_null($paramMap)) return $paramMap;
+        }
         $methodParams = array();
         $params = $method->getParameters();
         foreach ($params as $param) {
@@ -211,19 +235,7 @@ class Generator
 
             $methodParams[] = $paramDef;
         }
-        $paramDef = implode(',', $methodParams);
-        if ($method->isPublic()) {
-            $access = 'public';
-        } elseif($method->isProtected()) {
-            $access = 'protected';
-        } else {
-            $access = 'private';
-        }
-        if ($method->isStatic()) {
-            $access .= ' static';
-        }
-        return $access . ' function ' . $name . '(' . $paramDef . ')'
-                          . '{' . $body . '}';
+        return $methodParams;
     }
 
     /**

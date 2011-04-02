@@ -449,6 +449,26 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         \Mockery::resetContainer();
     }
     
+    /**
+     * @group internalparammap
+     */
+    public function testCanOverrideExpectedParametersOfInternalPHPClassesForRefs()
+    {
+        \Mockery::getConfiguration()->setInternalClassMethodParamMap(
+            'MongoCollection', 'insert', array('&$data', '$options')
+        );
+        $m = $this->container->mock('MongoCollection');
+        $m->shouldReceive('insert')->with(
+            \Mockery::on(function(&$data) {$data['_id'] = 123; return true;}),
+            \Mockery::type('array')
+        );
+        $data = array('a'=>1,'b'=>2);
+        $m->insert($data, array());
+        $this->assertTrue(isset($data['_id']));
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
 }
 
 class MockeryTestFoo {

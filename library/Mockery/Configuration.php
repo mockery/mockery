@@ -42,6 +42,13 @@ class Configuration
     protected $_allowMockingMethodsUnnecessarily = true;
     
     /**
+     * Parameter map for use with PHP internal classes.
+     *
+     * @var array
+     */
+    protected $_internalClassParamMap = array();
+    
+    /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
      * @param bool
@@ -79,6 +86,21 @@ class Configuration
     public function mockingMethodsUnnecessarilyAllowed()
     {
         return $this->_allowMockingMethodsUnnecessarily;
+    }
+    
+    public function setInternalClassMethodParamMap($class, $method, array $map)
+    {
+        if (!isset($this->_internalClassParamMap[strtolower($class)])) {
+            $this->_internalClassParamMap[strtolower($class)] = array();
+        }
+        $this->_internalClassParamMap[strtolower($class)][strtolower($method)] = $map;
+    }
+    
+    public function getInternalClassMethodParamMap($class, $method)
+    {
+        if (isset($this->_internalClassParamMap[strtolower($class)][strtolower($method)])) {
+            return $this->_internalClassParamMap[strtolower($class)][strtolower($method)];
+        }
     }
 
 }
