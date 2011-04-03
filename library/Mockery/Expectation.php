@@ -251,8 +251,9 @@ class Expectation
         if(count($args) !== count($this->_expectedArgs)) {
             return false;
         }
-        foreach ($args as $i=>$v) {
-            if (!$this->_matchArg($this->_expectedArgs[$i], $v)) {
+        for ($i=0; $i<count($args); $i++) {
+            $param =& $args[$i];
+            if (!$this->_matchArg($this->_expectedArgs[$i], $param)) {
                 return false;
             }
         }
@@ -265,7 +266,7 @@ class Expectation
      * @param array $args
      * @return bool
      */
-    protected function _matchArg($expected, $actual)
+    protected function _matchArg($expected, &$actual)
     {
         if ($expected === $actual) {
             return true;

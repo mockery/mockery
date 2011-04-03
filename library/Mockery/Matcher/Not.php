@@ -30,7 +30,7 @@ class Not extends MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public function match($actual)
+    public function match(&$actual)
     {
         return $actual !== $this->_expected;
     }

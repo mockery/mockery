@@ -450,6 +450,23 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @group preserveref
+     */
+    public function testMethodParamsPassedByReferenceHaveReferencePreserved()
+    {
+        $m = $this->container->mock('MockeryTestRef1');
+        $m->shouldReceive('foo')->with(
+            \Mockery::on(function(&$a) {$a += 1;return true;}),
+            \Mockery::any()
+        );
+        $a = 1;
+        $b = 1;
+        $m->foo($a, $b);
+        $this->assertEquals(2, $a);
+        $this->assertEquals(1, $b);
+    }
+    
+    /**
      * @group internalparammap
      */
     public function testCanOverrideExpectedParametersOfInternalPHPClassesForRefs()
@@ -557,4 +574,7 @@ class MockeryTest_MethodParamRef {
 }
 class MockeryTest_MethodParamRef2 {
     public function method1(&$foo){return true;}
+}
+class MockeryTestRef1 {
+    public function foo(&$a, $b) {}
 }

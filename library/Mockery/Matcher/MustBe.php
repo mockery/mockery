@@ -29,7 +29,7 @@ class MustBe extends MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public function match($actual)
+    public function match(&$actual)
     {
         if (!is_object($actual)) {
             return $this->_expected === $actual;

@@ -186,8 +186,21 @@ class Generator
         $body = '';
         $name = $method->getName();
         if ($name !== '__construct' && $method->isPublic()) {
-            $body = '$args = func_get_args();'
-                . 'return $this->__call("' . $name . '", $args);';
+            /**
+             * Purpose of this block is to create an argument array where
+             * references are preserved (func_get_args() does not preserve
+             * references)
+             */
+            $body = <<<BODY
+\$stack = debug_backtrace();
+\$args = array();
+if (isset(\$stack[0]['args'])) {
+    for(\$i=0; \$i<count(\$stack[0]['args']); \$i++) {
+        \$args[\$i] =& \$stack[0]['args'][\$i];
+    }
+}
+return \$this->__call('$name', \$args);
+BODY;
         }
         $methodParams = self::_renderPublicMethodParameters($method);
         $paramDef = implode(',', $methodParams);

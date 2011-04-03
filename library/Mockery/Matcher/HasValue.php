@@ -29,7 +29,7 @@ class HasValue extends MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public function match($actual)
+    public function match(&$actual)
     {
         return in_array($this->_expected, $actual);
     }

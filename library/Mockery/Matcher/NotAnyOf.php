@@ -40,7 +40,7 @@ class NotAnyOf extends MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public function match($actual)
+    public function match(&$actual)
     {
         foreach ($this->_expected as $exp) {
             if ($actual === $exp || $actual == $exp) {

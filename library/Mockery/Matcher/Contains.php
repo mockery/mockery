@@ -29,7 +29,7 @@ class Contains extends MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public function match($actual)
+    public function match(&$actual)
     {
         $values = array_values($actual);
         foreach ($this->_expected as $exp) {
