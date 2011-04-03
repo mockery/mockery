@@ -620,6 +620,71 @@ As before, this does not prevent a require statement from including the real
 class and triggering a fatal PHP error. It's intended for use where autoloading
 is the primary class loading mechanism.
 
+Preserving Pass-By-Reference Method Parameter Behaviour
+-------------------------------------------------------
+
+PHP Class method may accept parameters by reference. In this case, changes made
+to the parameter (a reference to the original variable passed to the method) are
+reflected in the original variable. A simple example:
+
+    class Foo {
+        public function bar(&$a) {
+            $a++;
+        }
+    }
+
+    $baz = 1;
+    $foo = new Foo;
+    $foo->bar($baz);
+
+    echo $baz; // will echo the integer 2
+
+In the example above, the variable $baz is passed by reference to Foo::bar()
+(notice the "&" symbol in front of the parameter?).
+Any change bar() makes to the parameter reference is reflected in the original
+variable, $baz.
+
+Mockery 0.7+ handles references correctly for all methods where it can analyse the
+parameter (using Reflection) to see if it is passed by reference.
+
+There is an exception for internal PHP classes where Mockery cannot analyse
+method parameters using Reflection (a limitation in PHP). To work around this,
+you can explicitly declare method parameters for an internal class using
+/Mockery/Configuration::setInternalClassMethodParamMap().
+
+Here's an example using MongoCollection::insert(). MongoCollection is an internal
+class offered by the mongo extension from PECL. Its insert() method accepts an array
+of data as the first parameter, and an optional options array as the second
+parameter. The original data array is updated (i.e. when a insert() pass-by-reference
+parameter) to include a new "_id" field. We can mock this behaviour using
+a configured parameter map (to tell Mockery to expect a pass by reference parameter)
+and a Closure attached to the expected method parameter to be updated.
+
+Here's a PHPUnit unit test verifying that this pass-by-reference behaviour is preserved:
+
+    public function testCanOverrideExpectedParametersOfInternalPHPClassesToPreserveRefs()
+    {
+        \Mockery::getConfiguration()->setInternalClassMethodParamMap(
+            'MongoCollection',
+            'insert',
+            array('&$data', '$options = array()')
+        );
+        $m = \Mockery::mock('MongoCollection');
+        $m->shouldReceive('insert')->with(
+            \Mockery::on(function(&$data) {
+                if (!is_array($data)) return false;
+                $data['_id'] = 123;
+                return true;
+            }),
+            \Mockery::any()
+        );
+        $data = array('a'=>1,'b'=>2);
+        $m->insert($data);
+        $this->assertTrue(isset($data['_id']));
+        $this->assertEquals(123, $data['_id']);
+        \Mockery::resetContainer();
+    }
+
 Mocking Demeter Chains And Fluent Interfaces
 --------------------------------------------
 
@@ -751,13 +816,14 @@ Mockery Global Configuration
 ----------------------------
 
 To allow for a degree of fine-tuning, Mockery utilises a singleton configuration
-object to store a small subset of core behaviours. The two currently present
+object to store a small subset of core behaviours. The three currently present
 include:
 
-* Allowing the mocking of methods which do not actually exist
-* Allowing the existence of expectations which are never fulfilled (i.e. unused)
+* Option to allow/disallow the mocking of methods which do not actually exist
+* Option to allow/disallow the existence of expectations which are never fulfilled (i.e. unused)
+* Setter/Getter for added a parameter map for internal PHP class methods (Reflection cannot detect these automatically)
 
-By default, these behaviours are enabled. Of course, there are situations where
+By default, the first two behaviours are enabled. Of course, there are situations where
 this can lead to unintended consequences. The mocking of non-existent methods
 may allow mocks based on real classes/objects to fall out of sync with the
 actual implementations, especially when some degree of integration testing (testing
@@ -776,6 +842,19 @@ immediately until switched back. In both cases, if either
 behaviour is detected when not allowed, it will result in an Exception being
 thrown at that point. Note that disallowing these behaviours should be carefully
 considered since they necessarily remove at least some of Mockery's flexibility.
+
+The other two methods are:
+
+    \Mockery::getConfiguration()->setInternalClassMethodParamMap($class, $method, array $paramMap)
+    \Mockery::getConfiguration()->getInternalClassMethodParamMap($class, $method)
+    
+These are used to define parameters (i.e. the signature string of each) for the
+methods of internal PHP classes (e.g. SPL, or PECL extension classes like
+ext/mongo's MongoCollection. Reflection cannot analyse the parameters of internal
+classes. Most of the time, you never need to do this. It's mainly needed where an
+internal class method uses pass-by-reference for a parameter - you MUST in such
+cases ensure the parameter signature includes the "&" symbol correctly as Mockery
+won't correctly add it automatically for internal classes.
 
 Reserved Method Names
 ---------------------
@@ -825,10 +904,12 @@ Reflection. For example, Reflection cannot reveal details of expected parameters
 to the methods of such internal classes. As a result, there will be problems
 where a method parameter is defined to accept a value by reference (Mockery
 cannot detect this condition and will assume a pass by value on scalars and
-arrays).
+arrays). If references as internal class method parameters are needed, you
+should use the \Mockery\Configuration::setInternalClassMethodParamMap() method.
 
 The gotchas noted above are largely down to PHP's architecture and are assumed
-to be unavoidable. But - if you figure out a solution, let me know!
+to be unavoidable. But - if you figure out a solution (or a better one than what
+may exist), let me know!
 
 Quick Examples
 --------------

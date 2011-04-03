@@ -469,8 +469,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @group internalparammap
      */
-    public function testCanOverrideExpectedParametersOfInternalPHPClassesForRefs()
+    public function testCanOverrideExpectedParametersOfInternalPHPClassesToPreserveRefs()
     {
+        if (!class_exists('MongoCollection', false)) $this->markTestSkipped('ext/mongo not installed');
         \Mockery::getConfiguration()->setInternalClassMethodParamMap(
             'MongoCollection', 'insert', array('&$data', '$options')
         );
@@ -482,6 +483,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $data = array('a'=>1,'b'=>2);
         $m->insert($data, array());
         $this->assertTrue(isset($data['_id']));
+        $this->assertEquals(123, $data['_id']);
         $this->container->mockery_verify();
         \Mockery::resetContainer();
     }

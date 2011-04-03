@@ -88,6 +88,14 @@ class Configuration
         return $this->_allowMockingMethodsUnnecessarily;
     }
     
+    /**
+     * Set a parameter map (array of param signature strings) for the method
+     * of an internal PHP class.
+     *
+     * @param string $class
+     * @param string $method
+     * @param array $map
+     */
     public function setInternalClassMethodParamMap($class, $method, array $map)
     {
         if (!isset($this->_internalClassParamMap[strtolower($class)])) {
@@ -96,6 +104,11 @@ class Configuration
         $this->_internalClassParamMap[strtolower($class)][strtolower($method)] = $map;
     }
     
+    /**
+     * Get the parameter map of an internal PHP class method
+     *
+     * @return array
+     */
     public function getInternalClassMethodParamMap($class, $method)
     {
         if (isset($this->_internalClassParamMap[strtolower($class)][strtolower($method)])) {
