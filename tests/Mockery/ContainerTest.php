@@ -265,7 +265,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testMockingAKnownConcreteClassCanBeGrantedAnArbitraryClassType()
     {
-        $m = $this->container->mock(':MyNamespace\MyClass');
+        $m = $this->container->mock('alias:MyNamespace\MyClass');
         $m->shouldReceive('foo')->andReturn('bar');
         $this->assertEquals('bar', $m->foo());
         $this->assertTrue($m instanceof MyNamespace\MyClass);
@@ -312,7 +312,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testCanMockStaticMethods()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock(':MyNamespace\MyClass2');
+        $m = $this->container->mock('alias:MyNamespace\MyClass2');
         $m->shouldReceive('staticFoo')->andReturn('bar');
         $this->assertEquals('bar', \MyNameSpace\MyClass2::staticFoo());
         \Mockery::resetContainer();
@@ -325,7 +325,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testMockedStaticMethodsObeyMethodCounting()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock(':MyNamespace\MyClass3');
+        $m = $this->container->mock('alias:MyNamespace\MyClass3');
         $m->shouldReceive('staticFoo')->once()->andReturn('bar');
         $this->container->mockery_verify();
         \Mockery::resetContainer();
