@@ -145,7 +145,9 @@ class Generator
          */
         foreach ($methods as $method) {
             if(in_array($method->getName(), $block)) continue;
-            //if (!in_array(strtolower($method->getName()), $partialMethods)) continue;
+            if (count($partialMethods) > 0 && !in_array(strtolower($method->getName()), $partialMethods)) {
+                continue;
+            }
             if (!$method->isDestructor()
             && !$method->isStatic()
             && $method->getName() !== '__call'

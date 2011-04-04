@@ -106,7 +106,7 @@ class Container
                 $name = array_shift($args);
                 $name = str_replace('overload:', '', $name);
                 $makeInstanceMock = true;
-            /*} elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
+            } elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
                 $parts = explode('[', $arg);
                 if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
                     throw new \Mockery\Exception('Can only create a partial mock from'
@@ -115,7 +115,7 @@ class Container
                 $class = $parts[0];
                 $parts[1] = str_replace(' ','', $parts[1]);
                 $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
-                array_shift($args);*/
+                array_shift($args);
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {

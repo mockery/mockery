@@ -199,7 +199,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     
     /**
      * @group partial
-     *
+     */
     public function testCanPartiallyMockANormalClass()
     {
         $m = $this->container->mock('MockeryTest_PartialNormalClass[foo]');
@@ -212,7 +212,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Mockery\Exception
      * @group partial
-     *
+     */
     public function testThrowsExceptionIfSettingExpectationForNonMockedMethodOfPartialMock()
     {
         $this->markTestSkipped('For now...');
@@ -224,12 +224,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Mockery\Exception
      * @group partial
-     *
+     */
     public function testThrowsExceptionIfClassOrInterfaceForPartialMockDoesNotExist()
     {
         $m = $this->container->mock('MockeryTest_PartialNormalClassXYZ[foo]');
         $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
-    }*/
+    }
     
     /**
      * @group issue/4
