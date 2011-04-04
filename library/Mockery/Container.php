@@ -72,6 +72,7 @@ class Container
         $blocks = array();
         $makeInstanceMock = false;
         $args = func_get_args();
+        $partialMethods = array();
         if (count($args) > 1) {
             $finalArg = end($args);
             reset($args);
@@ -96,15 +97,25 @@ class Container
                 }
                 $class = $interfaces;
                 array_shift($args);
-            } elseif (is_string($arg) && substr($arg, 0, 1) == ':') {
+            } elseif (is_string($arg) && substr($arg, 0, 6) == 'alias:') {
                 $class = 'stdClass';
                 $name = array_shift($args);
-                $name = str_replace(':', '', $name);
+                $name = str_replace('alias:', '', $name);
             } elseif (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
                 $class = 'stdClass';
                 $name = array_shift($args);
                 $name = str_replace('overload:', '', $name);
                 $makeInstanceMock = true;
+            /*} elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
+                $parts = explode('[', $arg);
+                if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
+                    throw new \Mockery\Exception('Can only create a partial mock from'
+                    . ' an existing class or interface');
+                }
+                $class = $parts[0];
+                $parts[1] = str_replace(' ','', $parts[1]);
+                $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
+                array_shift($args);*/
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
@@ -134,7 +145,7 @@ class Container
             $mock = new \Mockery\Mock();
             $mock->mockery_init($name, $this);
         } elseif(!is_null($class)) {
-            $mockName = \Mockery\Generator::createClassMock($class);
+            $mockName = \Mockery\Generator::createClassMock($class, null, null, array(), false, $partialMethods);
             $mock = $this->_getInstance($mockName);
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {

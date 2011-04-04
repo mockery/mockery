@@ -198,6 +198,40 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @group partial
+     *
+    public function testCanPartiallyMockANormalClass()
+    {
+        $m = $this->container->mock('MockeryTest_PartialNormalClass[foo]');
+        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
+        $m->shouldReceive('foo')->andReturn('cba');
+        $this->assertEquals('abc', $m->bar());
+        $this->assertEquals('cba', $m->foo());
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     * @group partial
+     *
+    public function testThrowsExceptionIfSettingExpectationForNonMockedMethodOfPartialMock()
+    {
+        $this->markTestSkipped('For now...');
+        $m = $this->container->mock('MockeryTest_PartialNormalClass[foo]');
+        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
+        $m->shouldReceive('bar')->andReturn('cba');
+    }
+    
+    /**
+     * @expectedException \Mockery\Exception
+     * @group partial
+     *
+    public function testThrowsExceptionIfClassOrInterfaceForPartialMockDoesNotExist()
+    {
+        $m = $this->container->mock('MockeryTest_PartialNormalClassXYZ[foo]');
+        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
+    }*/
+    
+    /**
      * @group issue/4
      */
     public function testCanMockClassContainingMagicCallMethod()
@@ -585,4 +619,9 @@ class MockeryTest_MethodParamRef2 {
 }
 class MockeryTestRef1 {
     public function foo(&$a, $b) {}
+}
+
+class MockeryTest_PartialNormalClass {
+    public function foo() {return 'abc';}
+    public function bar() {return 'abc';}
 }

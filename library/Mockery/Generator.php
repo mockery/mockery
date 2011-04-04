@@ -35,7 +35,8 @@ class Generator
     * @return string Classname of the mock class created
     */
     public static function createClassMock($className, $mockName = null,
-        $allowFinal = false, $block = array(), $makeInstanceMock = false)
+        $allowFinal = false, $block = array(), $makeInstanceMock = false,
+        $partialMethods = array())
     {
         if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $definition = '';
@@ -55,7 +56,6 @@ class Generator
             $class = new \ReflectionClass($className);
             $classData[] = self::_analyseClass($class, $className, $allowFinal);
         }
-        
         foreach ($classData as $data) {
             if ($data['class']->isInterface()) {
                 $interfaceInheritance[] = $data['className'];
@@ -77,7 +77,7 @@ class Generator
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         foreach ($classData as $data) {
             if (!$data['class']->isFinal() && !$data['hasFinalMethods']) {
-                $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block);
+                $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block, $partialMethods);
                 if ($result['callTypehinting']) $callTypehinting = true;
                 $definition .= $result['definition'];
                 $definition .= self::stubAbstractProtected($data['protectedMethods']);
@@ -136,7 +136,7 @@ class Generator
      *
      */
     public static function applyMockeryTo(\ReflectionClass $class,
-        array $methods, array $block)
+        array $methods, array $block, $partialMethods = array())
     {
         $definition = '';
         $callTypehinting = false;
@@ -145,6 +145,7 @@ class Generator
          */
         foreach ($methods as $method) {
             if(in_array($method->getName(), $block)) continue;
+            //if (!in_array(strtolower($method->getName()), $partialMethods)) continue;
             if (!$method->isDestructor()
             && !$method->isStatic()
             && $method->getName() !== '__call'

@@ -237,6 +237,14 @@ class name doesn't need to be the first member of the list but it's a friendly
 convention to use for readability. All subsequent arguments remain unchanged from
 previous examples.
 
+    $mock = \Mockery::mock('MyNamespace\MyClass[foo,bar]');
+    
+The syntax above tells Mockery to partially mock the MyNamespace\MyClass class,
+by mocking the foo() and bar() methods only. Any other method will be not be
+overridden by Mockery. This form of "partial mock" can be helpful in some
+circumstances but since it's not a full mock, it has limited utility in everyday
+mocking.
+
     $mock = \Mockery::mock(new Foo);
     
 Passing any real object into Mockery will create a partial mock. Partials assume
