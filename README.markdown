@@ -209,21 +209,22 @@ inherits a specific type for type hinting. There is an exception in that classes
 marked final, or with methods marked final, cannot be mocked fully. In these cases
 a partial mock (explained below) must be utilised.
 
-    $mock = \Mockery::mock(':MyNamespace\MyClass');
+    $mock = \Mockery::mock('alias:MyNamespace\MyClass');
     
-Prefixing the valid name of a class (which is NOT currently loaded) with a colon
-will generate an alias mock. Alias mocks create a class alias with the given
+Prefixing the valid name of a class (which is NOT currently loaded) with "alias:"
+will generate an "alias mock". Alias mocks create a class alias with the given
 classname to stdClass and are generally used to enable the mocking of public
 static methods.
     
-    $mock = \Mockery::mock('|MyNamespace\MyClass');
+    $mock = \Mockery::mock('overload:MyNamespace\MyClass');
 
-Prefixing the valid name of a class (which is NOT currently loaded) with a bar will
-generate an alias mock (as with a colon) except that created new instances of that
+Prefixing the valid name of a class (which is NOT currently loaded) with "overload:" will
+generate an alias mock (as with "alias:") except that created new instances of that
 class will import any expectations set on the origin mock ($mock). The origin
-mock is never verified since it's used an expectation store for new instances.
+mock is never verified since it's used an expectation store for new instances. For this
+purpose I used the term "instance mock" to differentiate it from the simpler "alias mock".
 
-Note: Using alias mocks across more than one test will generate a fatal error since
+Note: Using alias/instance mocks across more than one test will generate a fatal error since
 you can't have two classes of the same name. To avoid this, run each test of this
 kind in a separate PHP process (which is supported out of the box by both
 PHPUnit and PHPT).
@@ -611,7 +612,8 @@ Instance mocking means that a statement like:
 $obj = new \MyNamespace\Foo;
 
 ...will actually generate a mock object. This is done by replacing the real class
-with an alias mock, as with mocking public methods. The alias will import its
+with an instance mock (similar to an alias mock), as with mocking public methods.
+The alias will import its
 expectations from the original mock of that type (note that the original is never
 verified and should be ignored after its expectations are setup). This lets you
 intercept instantiation where you can't simply inject a replacement object.

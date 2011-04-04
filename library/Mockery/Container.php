@@ -55,6 +55,11 @@ class Container
     /**
      * Generates a new mock object for this container
      *
+     * I apologies in advance for this. A God Method just fits the API which
+     * doesn't require differentiating between classes, interfaces, abstracts,
+     * names or partials - just so long as it's something that can be mocked.
+     * I'll refactor it one day so it's easier to follow.
+     *
      * @return \Mockery\Mock
      */
     public function mock()
@@ -95,10 +100,10 @@ class Container
                 $class = 'stdClass';
                 $name = array_shift($args);
                 $name = str_replace(':', '', $name);
-            } elseif (is_string($arg) && substr($arg, 0, 1) == '|') {
+            } elseif (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
                 $class = 'stdClass';
                 $name = array_shift($args);
-                $name = str_replace('|', '', $name);
+                $name = str_replace('overload:', '', $name);
                 $makeInstanceMock = true;
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);

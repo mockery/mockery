@@ -376,14 +376,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     
     public function testCreationOfInstanceMock()
     {
-        $m = $this->container->mock('|MyNamespace\MyClass4');
+        $m = $this->container->mock('overload:MyNamespace\MyClass4');
         $this->assertTrue($m instanceof \MyNamespace\MyClass4);
     }
     
     public function testInstantiationOfInstanceMock()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock('|MyNamespace\MyClass5');
+        $m = $this->container->mock('overload:MyNamespace\MyClass5');
         $instance = new \MyNamespace\MyClass5;
         $this->assertTrue($instance instanceof \MyNamespace\MyClass5);
         \Mockery::resetContainer();
@@ -392,7 +392,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testInstantiationOfInstanceMockImportsExpectations()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock('|MyNamespace\MyClass6');
+        $m = $this->container->mock('overload:MyNamespace\MyClass6');
         $m->shouldReceive('foo')->andReturn('bar');
         $instance = new \MyNamespace\MyClass6;
         $this->assertEquals('bar', $instance->foo());
@@ -402,7 +402,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testInstantiationOfInstanceMocksIgnoresVerificationOfOriginMock()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock('|MyNamespace\MyClass7');
+        $m = $this->container->mock('overload:MyNamespace\MyClass7');
         $m->shouldReceive('foo')->once()->andReturn('bar');
         $this->container->mockery_verify();
         \Mockery::resetContainer(); //should not throw an exception
@@ -414,7 +414,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testInstantiationOfInstanceMocksAddsThemToContainerForVerification()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock('|MyNamespace\MyClass8');
+        $m = $this->container->mock('overload:MyNamespace\MyClass8');
         $m->shouldReceive('foo')->once();
         $instance = new \MyNamespace\MyClass8;
         $this->container->mockery_verify();
@@ -424,7 +424,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testInstantiationOfInstanceMocksDoesNotHaveCountValidatorCrossover()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock('|MyNamespace\MyClass9');
+        $m = $this->container->mock('overload:MyNamespace\MyClass9');
         $m->shouldReceive('foo')->once();
         $instance1 = new \MyNamespace\MyClass9;
         $instance2 = new \MyNamespace\MyClass9;
@@ -440,7 +440,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testInstantiationOfInstanceMocksDoesNotHaveCountValidatorCrossover2()
     {
         \Mockery::setContainer($this->container);
-        $m = $this->container->mock('|MyNamespace\MyClass10');
+        $m = $this->container->mock('overload:MyNamespace\MyClass10');
         $m->shouldReceive('foo')->once();
         $instance1 = new \MyNamespace\MyClass10;
         $instance2 = new \MyNamespace\MyClass10;
@@ -448,10 +448,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
         \Mockery::resetContainer();
     }
-    
-    /**
-     * @group preserveref
-     */
+
     public function testMethodParamsPassedByReferenceHaveReferencePreserved()
     {
         $m = $this->container->mock('MockeryTestRef1');
@@ -465,10 +462,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $a);
         $this->assertEquals(1, $b);
     }
-    
-    /**
-     * @group internalparammap
-     */
+
     public function testCanOverrideExpectedParametersOfInternalPHPClassesToPreserveRefs()
     {
         if (!class_exists('MongoCollection', false)) $this->markTestSkipped('ext/mongo not installed');
@@ -486,6 +480,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(123, $data['_id']);
         $this->container->mockery_verify();
         \Mockery::resetContainer();
+    }
+    
+    /**
+     * @group abstract
+     */
+    public function testCanMockAbstractClassWithAbstractPublicMethod()
+    {
+        $m = $this->container->mock('MockeryTest_AbstractWithAbstractPublicMethod');
+        $this->assertTrue($m instanceof MockeryTest_AbstractWithAbstractPublicMethod);
     }
     
 }
@@ -545,6 +548,9 @@ class MockeryTest_Wakeup1 {
 
 class MockeryTest_ExistingProperty {
     public $foo = 'bar';
+}
+abstract class MockeryTest_AbstractWithAbstractPublicMethod{
+    abstract public function foo($a, $b);
 }
 
 // issue/18
