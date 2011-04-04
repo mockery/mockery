@@ -241,9 +241,9 @@ previous examples.
     
 The syntax above tells Mockery to partially mock the MyNamespace\MyClass class,
 by mocking the foo() and bar() methods only. Any other method will be not be
-overridden by Mockery. This form of "partial mock" can be helpful in some
-circumstances but since it's not a full mock, it has limited utility in everyday
-mocking.
+overridden by Mockery. This form of "partial mock" can be applied to any class
+or abstract class (e.g. mocking abstract methods where a concrete implementation
+does not exist yet).
 
     $mock = \Mockery::mock(new Foo);
     

@@ -209,6 +209,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('cba', $m->foo());
     }
     
+    public function testCanPartiallyMockAnAbstractClass()
+    {
+        $m = $this->container->mock('MockeryTest_PartialAbstractClass[foo]');
+        $this->assertTrue($m instanceof MockeryTest_PartialAbstractClass);
+        $m->shouldReceive('foo')->andReturn('cba');
+        $this->assertEquals('abc', $m->bar());
+        $this->assertEquals('cba', $m->foo());
+    }
+    
     /**
      * @expectedException \Mockery\Exception
      * @group partial
@@ -228,7 +237,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testThrowsExceptionIfClassOrInterfaceForPartialMockDoesNotExist()
     {
         $m = $this->container->mock('MockeryTest_PartialNormalClassXYZ[foo]');
-        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
     }
     
     /**
@@ -623,5 +631,10 @@ class MockeryTestRef1 {
 
 class MockeryTest_PartialNormalClass {
     public function foo() {return 'abc';}
+    public function bar() {return 'abc';}
+}
+
+abstract class MockeryTest_PartialAbstractClass {
+    abstract public function foo();
     public function bar() {return 'abc';}
 }
