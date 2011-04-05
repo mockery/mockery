@@ -533,6 +533,46 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_AbstractWithAbstractPublicMethod);
     }
     
+    /**
+     * @issue issue/21
+     */
+    public function testClassDeclaringIssetDoesNotThrowException()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('MockeryTest_IssetMethod');
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
+    /**
+     * @issue issue/21
+     */
+    public function testClassDeclaringUnsetDoesNotThrowException()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('MockeryTest_UnsetMethod');
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+    
+}
+
+class MockeryTest_IssetMethod
+{
+    protected $_properties = array();
+    public function __construct() {}
+    public function __isset($property=null) {
+        return isset($this->_properties[$property]);
+    }
+}
+
+class MockeryTest_UnsetMethod
+{
+    protected $_properties = array();
+    public function __construct() {}
+    public function __unset($property) {
+        unset($this->_properties[$property]);
+    }
 }
 
 class MockeryTestFoo {
