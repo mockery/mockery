@@ -7,6 +7,8 @@ and Java's Mockito, borowing elements from both of their APIs.
 
 Mockery is released under a New BSD License.
 
+The current stable version is Mockery 0.6.0.
+
 Mock Objects
 ------------
 
@@ -191,13 +193,14 @@ can be passed for all mock objects as the second parameter to mock().
     
 In addition to expectation arrays, you can also pass in a closure which contains
 reusable expectations. This can be passed as the second parameter, or as the third
-parameter if partnered with an expectation array.
+parameter if partnered with an expectation array. This is one method for creating
+reusable mock expectations.
 
     $mock = \Mockery::mock('stdClass');
     
 Creates a mock identical to a named mock, except the name is an actual class
 name. Creates a simple mock as previous examples show, except the mock
-object will inherit the class type (via extension), i.e. it will pass type hints
+object will inherit the class type (via inheritance), i.e. it will pass type hints
 or instanceof evaluations for stdClass. Useful where a mock object must be of a specific
 type.
 
@@ -214,7 +217,8 @@ a partial mock (explained below) must be utilised.
 Prefixing the valid name of a class (which is NOT currently loaded) with "alias:"
 will generate an "alias mock". Alias mocks create a class alias with the given
 classname to stdClass and are generally used to enable the mocking of public
-static methods.
+static methods. Expectations set on the new mock object which refer to static
+methods will be used by all static calls to this class.
     
     $mock = \Mockery::mock('overload:MyNamespace\MyClass');
 
@@ -820,10 +824,15 @@ the type of the class or object being mocked.
 The simplest solution is not to mark classes or methods as final!
 
 However, in a compromise between mocking functionality and type safety, Mockery
-does allow creating partial mocks from classes marked final, or from classes with
+does allow creating "proxy mocks" from classes marked final, or from classes with
 methods marked final. This offers all the usual mock object goodness but the
 resulting mock will not inherit the class type of the object being mocked, i.e.
 it will not pass any instanceof comparison.
+
+You can create a proxy mock by passing the instantiated object you wish to mock
+into \Mockery::mock(), i.e. Mockery will then generate a Proxy to the real object
+and selectively intercept method calls for the purposes of setting and
+meeting expectations.
 
 Mockery Global Configuration
 ----------------------------
@@ -885,6 +894,20 @@ In addition, all mocks utilise a set of added methods and protected properties
 which cannot exist on the class or object being mocked. These are far less likely
 to cause collisions. All properties are prefixed with "_mockery" and all method
 names with "mockery_".
+
+PHP Magic Methods
+-----------------
+
+PHP magic methods which are prefixed with a double underscore, e.g. _set(), pose
+a particular problem in mocking and unit testing in general. It is strongly
+recommended that unit tests and mock objects do not directly refer to magic
+methods. Instead, refer only to the virtual methods and properties these magic
+methods simulate.
+
+Following this piece of advice will ensure you are testing the real API of classes
+and also ensures there is no conflict should Mockery override these magic methods,
+which it will inevitably do in order to support its role in intercepting method
+calls and properties.
 
 Gotchas!
 --------
