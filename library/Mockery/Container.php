@@ -83,7 +83,7 @@ class Container
         while (count($args) > 0) {
             $arg = current($args);
             // check for multiple interfaces
-            if (is_string($arg) && strpos($arg, ',')) {
+            if (is_string($arg) && strpos($arg, ',') && !strpos($arg, ']')) {
                 $interfaces = explode(',', str_replace(' ', '', $arg));
                 foreach ($interfaces as $i) {
                     if (!interface_exists($i, true) && !class_exists($i, true)) {

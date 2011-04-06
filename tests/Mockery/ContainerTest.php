@@ -209,6 +209,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('cba', $m->foo());
     }
     
+    /**
+     * @group partial
+     */
     public function testCanPartiallyMockAnAbstractClass()
     {
         $m = $this->container->mock('MockeryTest_PartialAbstractClass[foo]');
@@ -216,6 +219,34 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m->shouldReceive('foo')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
         $this->assertEquals('cba', $m->foo());
+    }
+    
+    /**
+     * @group partial
+     */
+    public function testCanPartiallyMockANormalClassWith2Methods()
+    {
+        $m = $this->container->mock('MockeryTest_PartialNormalClass2[foo, baz]');
+        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass2);
+        $m->shouldReceive('foo')->andReturn('cba');
+        $m->shouldReceive('baz')->andReturn('cba');
+        $this->assertEquals('abc', $m->bar());
+        $this->assertEquals('cba', $m->foo());
+        $this->assertEquals('cba', $m->baz());
+    }
+    
+    /**
+     * @group partial
+     */
+    public function testCanPartiallyMockAnAbstractClassWith2Methods()
+    {
+        $m = $this->container->mock('MockeryTest_PartialAbstractClass2[foo,baz]');
+        $this->assertTrue($m instanceof MockeryTest_PartialAbstractClass2);
+        $m->shouldReceive('foo')->andReturn('cba');
+        $m->shouldReceive('baz')->andReturn('cba');
+        $this->assertEquals('abc', $m->bar());
+        $this->assertEquals('cba', $m->foo());
+        $this->assertEquals('cba', $m->baz());
     }
     
     /**
@@ -677,4 +708,16 @@ class MockeryTest_PartialNormalClass {
 abstract class MockeryTest_PartialAbstractClass {
     abstract public function foo();
     public function bar() {return 'abc';}
+}
+
+class MockeryTest_PartialNormalClass2 {
+    public function foo() {return 'abc';}
+    public function bar() {return 'abc';}
+    public function baz() {return 'abc';}
+}
+
+abstract class MockeryTest_PartialAbstractClass2 {
+    abstract public function foo();
+    public function bar() {return 'abc';}
+    abstract public function baz();
 }
