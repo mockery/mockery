@@ -413,22 +413,6 @@ BODY;
             'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'
         );
     }
-    
-    public function __set(\$name, \$value)
-    {
-        \$this->_mockery_mockableProperties[\$name] = \$value;
-        return \$this;
-    }
-            	            
-    public function __get(\$name)
-    {
-        if (isset(\$this->_mockery_mockableProperties[\$name])) {
-            return \$this->_mockery_mockableProperties[\$name];
-        }   	                			    
-        throw new \InvalidArgumentException (
-            'Property ' . \$this->_mockery_name . '::' . \$name . ' does not exist on this mock object'
-        );
-    }
 
     public function mockery_verify()
     {

@@ -412,7 +412,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m = $this->container->mock('MockeryTestFoo');
         $m->foo = 'bar';
         $this->assertEquals('bar', $m->foo);
-        $this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        //$this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
     }
     
     /**
@@ -423,7 +423,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m = $this->container->mock('Foo');
         $m->foo = 'bar';
         $this->assertEquals('bar', $m->foo);
-        $this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        //$this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
     }
     
     /**
@@ -434,7 +434,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m = $this->container->mock(new stdClass);
         $m->foo = 'bar';
         $this->assertEquals('bar', $m->foo);
-        $this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        //$this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
     }
     
     /**

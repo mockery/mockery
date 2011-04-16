@@ -224,7 +224,7 @@ class Mock implements MockInterface
         );
     }
     
-    public function __set($name, $value)
+    /**public function __set($name, $value)
     {
         $this->_mockery_mockableProperties[$name] = $value;
         return $this;
@@ -234,11 +234,13 @@ class Mock implements MockInterface
     {
         if (isset($this->_mockery_mockableProperties[$name])) {
             return $this->_mockery_mockableProperties[$name];
+        } elseif(isset($this->{$name})) {
+            return $this->{$name};
         }   	                			    
         throw new \InvalidArgumentException (
             'Property ' . $this->_mockery_name . '::' . $name . ' does not exist on this mock object'
         );
-    }
+    }**/
     
     /**
      * Iterate across all expectation directors and validate each

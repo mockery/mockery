@@ -1570,7 +1570,29 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($service->hasBookmarksTagged('php'));
         $this->assertTrue($service->hasBookmarksTagged('php'));
     }
+
+    public function testMockedMethodsCallableFromWithinOriginalClass()
+    {
+        $mock = $this->container->mock('MockeryTest_InterMethod1[doThird]');
+        $mock->shouldReceive('doThird')->andReturn(true);
+        $this->assertTrue($mock->doFirst());
+    }
     
+}
+
+class MockeryTest_InterMethod1
+{
+    public function doFirst() {
+        return $this->doSecond();
+    }
+
+    private function doSecond() {
+        return $this->doThird();
+    }
+
+    public function doThird() {
+        return false;
+    }
 }
 
 class MyService2
