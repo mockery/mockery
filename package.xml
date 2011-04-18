@@ -10,15 +10,15 @@
     <email>padraic.brady@yahoo.com</email>
     <active>yes</active>
   </lead>
-  <date>2011-02-28</date>
-  <time>21:30:59</time>
+  <date>2011-04-18</date>
+  <time>19:10:59</time>
   <version>
     <release>0.7.0</release>
     <api>0.7.0</api>
   </version>
   <stability>
-    <release>beta</release>
-    <api>beta</api>
+    <release>stable</release>
+    <api>stable</api>
   </stability>
   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
   <notes>http://github.com/padraic/mockery#readme</notes>
