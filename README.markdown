@@ -159,10 +159,16 @@ have Mockery remove itself from code coverage reports, use this in you suite:
 	
 	//Create a result listener or add it
 	$result = new PHPUnit_Framework_TestResult();
-    $result->addListener(new Mockery\Adapter\Phpunit\TestListener());
+        $result->addListener(new Mockery\Adapter\Phpunit\TestListener());
 	
 	// Run the tests.
 	$suite->run($result);
+
+If you are using PHPUnit's XML configuration approach, you can include the following to load the TestListener:
+
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener" file="Mockery/Adapter/Phpunit/TestListener.php"></listener>
+    </listeners>
 	
 Quick Reference
 ---------------
