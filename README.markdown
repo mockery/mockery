@@ -89,7 +89,7 @@ Note: PHPUnit integration (see below) can remove the need for a teardown() metho
 
     use \Mockery as m;
     
-    class TemperatureTest extends extends PHPUnit_Framework_TestCase
+    class TemperatureTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
@@ -129,7 +129,7 @@ use the Mockery namespace with a shorter alias. For example:
 
     use \Mockery as m;
     
-    class SimpleTest extends extends PHPUnit_Framework_TestCase
+    class SimpleTest extends PHPUnit_Framework_TestCase
     {
         public function testSimpleMock() {
             $mock = m::mock('simple mock');
@@ -776,7 +776,7 @@ a Subject instance when interacting with SubjectUser.
 
 Here's the test case showing the recording:
 
-    class SubjectUserTest extends extends PHPUnit_Framework_TestCase
+    class SubjectUserTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
@@ -958,7 +958,7 @@ Quick Examples
 
 Create a mock object to return a sequence of values from a set of method calls.
 
-    class SimpleTest extends extends PHPUnit_Framework_TestCase
+    class SimpleTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
@@ -980,7 +980,7 @@ call.
 
     use \Mockery as m;
     
-    class UndefinedTest extends extends PHPUnit_Framework_TestCase
+    class UndefinedTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
@@ -1001,7 +1001,7 @@ Creates a mock object which multiple query calls and a single update call
 
     use \Mockery as m;
     
-    class DbTest extends extends PHPUnit_Framework_TestCase
+    class DbTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
@@ -1024,7 +1024,7 @@ Expect all queries to be executed before any updates.
 
     use \Mockery as m;
     
-    class DbTest extends extends PHPUnit_Framework_TestCase
+    class DbTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
@@ -1048,7 +1048,7 @@ where queries are expected with several different params.
 
     use \Mockery as m;
     
-    class DbTest extends extends PHPUnit_Framework_TestCase
+    class DbTest extends PHPUnit_Framework_TestCase
     {
         
         public function teardown()
