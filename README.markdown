@@ -7,7 +7,7 @@ and Java's Mockito, borowing elements from both of their APIs.
 
 Mockery is released under a New BSD License.
 
-The current stable version is Mockery 0.6.0.
+The current stable version is Mockery 0.7.1.
 
 Mock Objects
 ------------
