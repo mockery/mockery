@@ -356,7 +356,7 @@ BODY;
 
     public function shouldReceive()
     {
-        \$self =& \$this;
+        \$self = \$this;
         \$lastExpectation = \Mockery::parseShouldReturnArgs(
             \$this, func_get_args(), function(\$method) use (\$self) {
                 \$director = \$self->mockery_getExpectationsFor(\$method);
