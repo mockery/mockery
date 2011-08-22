@@ -36,7 +36,7 @@ class CompositeExpectation
      * @param \Mockery\Expectation $expectation
      * @return void
      */
-    public function add(\Mockery\Expectation $expectation)
+    public function add($expectation)
     {
         $this->_expectations[] = $expectation;
     }

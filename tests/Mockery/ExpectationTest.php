@@ -1577,7 +1577,16 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $mock->shouldReceive('doThird')->andReturn(true);
         $this->assertTrue($mock->doFirst());
     }
-    
+
+    /**
+     * @group issue #20
+     */
+    public function testMockingDemeterChainsPassesMockeryExpectationToCompositeExpectation()
+    {
+        $mock = $this->container->mock('Mockery_Demeterowski');
+        $mock->shouldReceive('foo->bar->baz')->andReturn('Spam!');
+        $this->container->mockery_verify();
+    }
 }
 
 class MockeryTest_InterMethod1
@@ -1609,4 +1618,16 @@ class Mockery_Duck {
 
 class Mockery_Duck_Nonswimmer {
     function quack(){}
+}
+
+class Mockery_Demeterowski {
+    public function foo() {
+        return $this;
+    }
+    public function bar() {
+        return $this;
+    }
+    public function baz() {
+        return 'Spam!';
+    }
 }
