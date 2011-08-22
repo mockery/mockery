@@ -33,7 +33,7 @@ class CompositeExpectation
     /**
      * Add an expectation to the composite
      *
-     * @param \Mockery\Expectation $expectation
+     * @param \Mockery\Expectation|\Mockery\CompositeExpectation $expectation
      * @return void
      */
     public function add($expectation)
