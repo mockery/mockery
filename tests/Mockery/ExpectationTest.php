@@ -1585,7 +1585,8 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->container->mock('Mockery_Demeterowski');
         $mock->shouldReceive('foo->bar->baz')->andReturn('Spam!');
-        $this->container->mockery_verify();
+        $demeter = new Mockery_UseDemeter($mock);
+        $this->assertSame('Spam!', $demeter->doit());
     }
 }
 
@@ -1628,6 +1629,15 @@ class Mockery_Demeterowski {
         return $this;
     }
     public function baz() {
-        return 'Spam!';
+        return 'Ham!';
+    }
+}
+
+class Mockery_UseDemeter {
+    public function __construct($demeter) {
+        $this->demeter = $demeter;
+    }
+    public function doit() {
+        return $this->demeter->foo()->bar()->baz();
     }
 }
