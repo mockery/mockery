@@ -17,12 +17,12 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery\Adapter\Phpunit;
 
 class TestListener implements \PHPUnit_Framework_TestListener
 {
-    
+
     /**
      * After each test, perform Mockery verification tasks and cleanup the
      * statically stored Mockery container for the next test.
@@ -34,17 +34,17 @@ class TestListener implements \PHPUnit_Framework_TestListener
     {
         \Mockery::close();
     }
-    
+
 	/**
-	 * Add Mockery files to PHPUnit's blacklist so they don't showup on coverage reports 
+	 * Add Mockery files to PHPUnit's blacklist so they don't showup on coverage reports
 	 */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {
-		
+
 		if ( class_exists('\\PHP_CodeCoverage_Filter') ) {
 			\PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
 			  __DIR__.'/../../../Mockery/', '.php', '', 'PHPUNIT'
 			);
-			
+
 			\PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__.'/../../../Mockery.php', 'PHPUNIT');
 		}
 	}

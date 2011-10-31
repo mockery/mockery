@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Configuration
@@ -30,7 +30,7 @@ class Configuration
      * @var bool
      */
     protected $_allowMockingNonExistentMethod = true;
-    
+
     /**
      * Boolean assertion of whether we ignore unnecessary mocking of methods,
      * i.e. when method expectations are made, set using a zeroOrMoreTimes()
@@ -40,14 +40,14 @@ class Configuration
      * @var bool
      */
     protected $_allowMockingMethodsUnnecessarily = true;
-    
+
     /**
      * Parameter map for use with PHP internal classes.
      *
      * @var array
      */
     protected $_internalClassParamMap = array();
-    
+
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
@@ -57,7 +57,7 @@ class Configuration
     {
         $this->_allowMockingNonExistentMethod = (bool) $flag;
     }
-    
+
     /**
      * Return flag indicating whether mocking non-existent methods allowed
      *
@@ -67,7 +67,7 @@ class Configuration
     {
         return $this->_allowMockingNonExistentMethod;
     }
-    
+
     /**
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
@@ -77,7 +77,7 @@ class Configuration
     {
         $this->_allowMockingMethodsUnnecessarily = (bool) $flag;
     }
-    
+
     /**
      * Return flag indicating whether mocking non-existent methods allowed
      *
@@ -87,7 +87,7 @@ class Configuration
     {
         return $this->_allowMockingMethodsUnnecessarily;
     }
-    
+
     /**
      * Set a parameter map (array of param signature strings) for the method
      * of an internal PHP class.
@@ -103,7 +103,7 @@ class Configuration
         }
         $this->_internalClassParamMap[strtolower($class)][strtolower($method)] = $map;
     }
-    
+
     /**
      * Get the parameter map of an internal PHP class method
      *

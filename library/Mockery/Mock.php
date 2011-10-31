@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Mock implements MockInterface
@@ -29,14 +29,14 @@ class Mock implements MockInterface
      * @var array
      */
     protected $_mockery_expectations = array();
-    
+
     /**
      * Last expectation that was set
      *
      * @var object
      */
     protected $_mockery_lastExpectation = null;
-    
+
     /**
      * Flag to indicate whether we can ignore method calls missing from our
      * expectations
@@ -44,49 +44,49 @@ class Mock implements MockInterface
      * @var bool
      */
     protected $_mockery_ignoreMissing = false;
-    
+
     /**
      * Flag to indicate whether this mock was verified
      *
      * @var bool
      */
     protected $_mockery_verified = false;
-    
+
     /**
      * Given name of the mock
      *
      * @var string
      */
     protected $_mockery_name = null;
-    
+
     /**
      * Order number of allocation
      *
      * @var int
      */
     protected $_mockery_allocatedOrder = 0;
-    
+
     /**
      * Current ordered number
      *
      * @var int
      */
     protected $_mockery_currentOrder = 0;
-    
+
     /**
      * Ordered groups
      *
      * @var array
      */
     protected $_mockery_groups = array();
-    
+
     /**
      * Mock container containing this mock object
      *
      * @var \Mockery\Container
      */
     protected $_mockery_container = null;
-    
+
     /**
      * Instance of a core object on which methods are called in the event
      * it has been set, and an expectation for one of the object's methods
@@ -95,7 +95,7 @@ class Mock implements MockInterface
      * @var object
      */
     protected $_mockery_partial = null;
-    
+
     /**
      * Flag to indicate we should ignore all expectations temporarily. Used
      * mainly to prevent expectation matching when in the middle of a mock
@@ -104,7 +104,7 @@ class Mock implements MockInterface
      * @var bool
      */
     protected $_mockery_disableExpectationMatching = false;
-    
+
     /**
      * Stores all stubbed public methods separate from any on-object public
      * properties that may exist.
@@ -112,7 +112,7 @@ class Mock implements MockInterface
      * @var array
      */
     protected $_mockery_mockableProperties = array();
-    
+
     /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
@@ -133,7 +133,7 @@ class Mock implements MockInterface
             $this->_mockery_partial = $partialObject;
         }
     }
-    
+
     /**
      * Set expected method calls
      *
@@ -157,7 +157,7 @@ class Mock implements MockInterface
         );
         return $lastExpectation;
     }
-    
+
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      *
@@ -167,7 +167,7 @@ class Mock implements MockInterface
     {
         $this->_mockery_ignoreMissing = true;
     }
-    
+
     /**
      * Accepts a closure which is executed with an object recorder which proxies
      * to the partial source object. The intent being to record the
@@ -185,7 +185,7 @@ class Mock implements MockInterface
         $this->_mockery_disableExpectationMatching = false;
         return $this;
     }
-    
+
     /**
      * In the event shouldReceive() accepting one or more methods/returns,
      * this method will switch them from normal expectations to default
@@ -203,7 +203,7 @@ class Mock implements MockInterface
         }
         return $this;
     }
-    
+
     /**
      * Capture calls to this mock
      */
@@ -223,25 +223,25 @@ class Mock implements MockInterface
             'Method ' . $this->_mockery_name . '::' . $method . '() does not exist on this mock object'
         );
     }
-    
+
     /**public function __set($name, $value)
     {
         $this->_mockery_mockableProperties[$name] = $value;
         return $this;
     }
-            	            
+
     public function __get($name)
     {
         if (isset($this->_mockery_mockableProperties[$name])) {
             return $this->_mockery_mockableProperties[$name];
         } elseif(isset($this->{$name})) {
             return $this->{$name};
-        }   	                			    
+        }
         throw new \InvalidArgumentException (
             'Property ' . $this->_mockery_name . '::' . $name . ' does not exist on this mock object'
         );
     }**/
-    
+
     /**
      * Iterate across all expectation directors and validate each
      *
@@ -256,7 +256,7 @@ class Mock implements MockInterface
             $director->verify();
         }
     }
-    
+
     /**
      * Tear down tasks for this mock
      *
@@ -264,9 +264,9 @@ class Mock implements MockInterface
      */
     public function mockery_teardown()
     {
-        
+
     }
-    
+
     /**
      * Fetch the next available allocation order number
      *
@@ -277,7 +277,7 @@ class Mock implements MockInterface
         $this->_mockery_allocatedOrder += 1;
         return $this->_mockery_allocatedOrder;
     }
-    
+
     /**
      * Set ordering for a group
      *
@@ -288,7 +288,7 @@ class Mock implements MockInterface
     {
         $this->_mockery_groups[$group] = $order;
     }
-    
+
     /**
      * Fetch array of ordered groups
      *
@@ -298,7 +298,7 @@ class Mock implements MockInterface
     {
         return $this->_mockery_groups;
     }
-    
+
     /**
      * Set current ordered number
      *
@@ -309,7 +309,7 @@ class Mock implements MockInterface
         $this->_mockery_currentOrder = $order;
         return $this->_mockery_currentOrder;
     }
-    
+
     /**
      * Get current ordered number
      *
@@ -319,7 +319,7 @@ class Mock implements MockInterface
     {
         return $this->_mockery_currentOrder;
     }
-    
+
     /**
      * Validate the current mock's ordering
      *
@@ -339,7 +339,7 @@ class Mock implements MockInterface
         }
         $this->mockery_setCurrentOrder($order);
     }
-    
+
     /**
      * Return the expectations director for the given method
      *
@@ -350,7 +350,7 @@ class Mock implements MockInterface
     {
         $this->_mockery_expectations[$method] = $director;
     }
-    
+
     /**
      * Return the expectations director for the given method
      *
@@ -363,7 +363,7 @@ class Mock implements MockInterface
             return $this->_mockery_expectations[$method];
         }
     }
-    
+
     /**
      * Find an expectation matching the given method and arguments
      *
@@ -379,7 +379,7 @@ class Mock implements MockInterface
         $director = $this->_mockery_expectations[$method];
         return $director->findExpectation($args);
     }
-    
+
     /**
      * Return the container for this mock
      *
@@ -389,7 +389,7 @@ class Mock implements MockInterface
     {
         return $this->_mockery_container;
     }
-    
+
     /**
      * Return the name for this mock
      *
@@ -399,7 +399,7 @@ class Mock implements MockInterface
     {
         return $this->_mockery_name;
     }
-    
+
     public function mockery_getMockableProperties()
     {
         return $this->_mockery_mockableProperties;
