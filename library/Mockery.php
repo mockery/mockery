@@ -21,21 +21,21 @@
 class Mockery
 {
     const BLOCKS = 'Mockery_Forward_Blocks';
-    
+
     /**
      * Global container to hold all mocks for the current unit test running
      *
      * @var \Mockery\Container
      */
     protected static $_container = null;
-    
+
     /**
      * Global configuration handler containing configuration options
      *
      * @var \Mockery\Configuration
      */
     protected static $_config = null;
-    
+
     /**
      * Static shortcut to \Mockery\Container::mock()
      *
@@ -49,7 +49,7 @@ class Mockery
         $args = func_get_args();
         return call_user_func_array(array(self::$_container, 'mock'), $args);
     }
-    
+
     public static function instanceMock()
     {
         if (is_null(self::$_container)) {
@@ -58,7 +58,7 @@ class Mockery
         $args = func_get_args();
         return call_user_func_array(array(self::$_container, 'instanceMock'), $args);
     }
-    
+
     /**
      * Static shortcut to closing up and verifying all mocks in the global
      * container, and resetting the container static variable to null
@@ -72,7 +72,7 @@ class Mockery
         self::$_container->mockery_close();
         self::$_container = null;
     }
-    
+
     /**
      * Static fetching of a mock associated with a name or explicit class poser
      */
@@ -80,7 +80,7 @@ class Mockery
     {
         return self::$_container->fetchMock($name);
     }
-    
+
     /**
      * Get the container
      */
@@ -88,7 +88,7 @@ class Mockery
     {
         return self::$_container;
     }
-    
+
     /**
      * Set the container
      */
@@ -96,7 +96,7 @@ class Mockery
     {
         return self::$_container = $container;
     }
-    
+
     /**
      * Reset the container to NULL
      */
@@ -115,7 +115,7 @@ class Mockery
         $return = new \Mockery\Matcher\Any();
         return $return;
     }
-    
+
     /**
      * Return instance of TYPE matcher
      *
@@ -126,7 +126,7 @@ class Mockery
         $return = new \Mockery\Matcher\Type($expected);
         return $return;
     }
-    
+
     /**
      * Return instance of DUCKTYPE matcher
      *
@@ -137,7 +137,7 @@ class Mockery
         $return = new \Mockery\Matcher\Ducktype(func_get_args());
         return $return;
     }
-    
+
     /**
      * Return instance of SUBSET matcher
      *
@@ -148,7 +148,7 @@ class Mockery
         $return = new \Mockery\Matcher\Subset($part);
         return $return;
     }
-    
+
     /**
      * Return instance of CONTAINS matcher
      *
@@ -159,7 +159,7 @@ class Mockery
         $return = new \Mockery\Matcher\Contains(func_get_args());
         return $return;
     }
-    
+
     /**
      * Return instance of HASKEY matcher
      *
@@ -170,7 +170,7 @@ class Mockery
         $return = new \Mockery\Matcher\HasKey($key);
         return $return;
     }
-    
+
     /**
      * Return instance of HASVALUE matcher
      *
@@ -181,7 +181,7 @@ class Mockery
         $return = new \Mockery\Matcher\HasValue($val);
         return $return;
     }
-    
+
     /**
      * Return instance of CLOSURE matcher
      *
@@ -192,7 +192,7 @@ class Mockery
         $return = new \Mockery\Matcher\Closure($closure);
         return $return;
     }
-    
+
     /**
      * Return instance of MUSTBE matcher
      *
@@ -203,7 +203,7 @@ class Mockery
         $return = new \Mockery\Matcher\MustBe($expected);
         return $return;
     }
-    
+
     /**
      * Return instance of NOT matcher
      *
@@ -214,7 +214,7 @@ class Mockery
         $return = new \Mockery\Matcher\Not($expected);
         return $return;
     }
-    
+
     /**
      * Return instance of ANYOF matcher
      *
@@ -225,7 +225,7 @@ class Mockery
         $return = new \Mockery\Matcher\AnyOf(func_get_args());
         return $return;
     }
-    
+
     /**
      * Return instance of NOTANYOF matcher
      *
@@ -236,7 +236,7 @@ class Mockery
         $return = new \Mockery\Matcher\NotAnyOf(func_get_args());
         return $return;
     }
-    
+
     /**
      * Get the global configuration container
      */
@@ -247,7 +247,7 @@ class Mockery
         }
         return self::$_config;
     }
-    
+
     /**
      * Utility method to format method name and args into a string
      *
@@ -272,12 +272,12 @@ class Mockery
                 }
             }
             $return .= implode(', ', $parts); // TODO: improve format
-            
+
         }
         $return .= ')';
         return $return;
     }
-    
+
     /**
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
@@ -302,7 +302,7 @@ class Mockery
         }
         return $composite;
     }
-    
+
     /**
      * Sets up expectations on the members of the CompositeExpectation and
      * builds up any demeter chain that was passed to shouldReceive

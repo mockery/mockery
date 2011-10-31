@@ -72,8 +72,8 @@ class Generator
             if (!$classIsFinal) $interfaceInheritance[] = '\Mockery\MockInterface';
             if (strlen($classNameInherited) > 0) $inheritance = ' extends ' . $classNameInherited;
             $inheritance .= ' implements ' . implode(', ', $interfaceInheritance);
-        } 
-        
+        }
+
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         foreach ($classData as $data) {
             if (!$data['class']->isFinal() && !$data['hasFinalMethods']) {
@@ -90,7 +90,7 @@ class Generator
         eval($definition);
         return $mockName;
     }
-    
+
     protected static function _analyseClass($class, $className, $allowFinal = false)
     {
         if ($class->isFinal() && !$allowFinal) {
@@ -221,7 +221,7 @@ BODY;
         return $access . ' function ' . $name . '(' . $paramDef . ')'
                           . '{' . $body . '}';
     }
-    
+
     protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
     {
         $class = $method->getDeclaringClass();
@@ -304,7 +304,7 @@ BODY;
         $typehint = $callTypehint ? 'array' : '';
         $std = <<<MOCK
     protected static \$_mockery_staticClassName = '';
-    
+
     protected \$_mockery_expectations = array();
 
     protected \$_mockery_lastExpectation = null;
@@ -328,7 +328,7 @@ BODY;
     protected \$_mockery_disableExpectationMatching = false;
 
     protected \$_mockery_mockableMethods = array();
-    
+
     protected \$_mockery_mockableProperties = array();
 
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
@@ -510,14 +510,14 @@ BODY;
     {
         return \$this->_mockery_mockableMethods;
     }
-    
+
     public function mockery_getMockableProperties()
     {
         return \$this->_mockery_mockableProperties;
     }
-    
+
     //** Everything below this line is not copied from/needed for Mockery/Mock **//
-    
+
     public function __wakeup()
     {
         /**
@@ -527,7 +527,7 @@ BODY;
          * mocking
          */
     }
-    
+
     public static function __callStatic(\$method, $typehint \$args)
     {
         try {
@@ -540,12 +540,12 @@ BODY;
             );
         }
     }
-    
+
     public function mockery_getExpectations()
     {
         return \$this->_mockery_expectations;
     }
-    
+
 MOCK;
         /**
          * Note: An instance mock allows the declaration of an instantiable class
@@ -554,9 +554,9 @@ MOCK;
          */
         if ($makeInstanceMock) {
             $mim = <<<MOCK
-    
-    protected \$_mockery_ignoreVerification = true;        
-    
+
+    protected \$_mockery_ignoreVerification = true;
+
     public function __construct()
     {
         \$this->_mockery_ignoreVerification = false;
@@ -576,7 +576,7 @@ MOCK;
             }
         }
         \Mockery::getContainer()->rememberMock(\$this);
-    }     
+    }
 MOCK;
             $std .= $mim;
         }

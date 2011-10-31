@@ -22,7 +22,7 @@ namespace Mockery\Matcher;
 
 class AnyOf extends MatcherAbstract
 {
-    
+
     /**
      * Set the expected value
      *
@@ -32,7 +32,7 @@ class AnyOf extends MatcherAbstract
     {
         $this->_expected = $expected;
     }
-    
+
     /**
      * Check if the actual value does not match the expected (in this
      * case it's specifically NOT expected).
@@ -49,7 +49,7 @@ class AnyOf extends MatcherAbstract
         }
         return false;
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -59,5 +59,5 @@ class AnyOf extends MatcherAbstract
     {
         return '<AnyOf>';
     }
-    
+
 }

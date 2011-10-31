@@ -29,7 +29,7 @@ class Loader
     /**
      * Creates a new <tt>Loader</tt> that loads classes of the
      * specified namespace.
-     * 
+     *
      * @param string $ns The namespace to use.
      */
     public function __construct($ns = 'Mockery', $includePath = null)
@@ -40,7 +40,7 @@ class Loader
 
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
-     * 
+     *
      * @param string $sep The separator to use.
      */
     public function setNamespaceSeparator($sep)
@@ -60,7 +60,7 @@ class Loader
 
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
-     * 
+     *
      * @param string $includePath
      */
     public function setIncludePath($includePath)
@@ -80,7 +80,7 @@ class Loader
 
     /**
      * Sets the file extension of class files in the namespace of this class loader.
-     * 
+     *
      * @param string $fileExtension
      */
     public function setFileExtension($fileExtension)

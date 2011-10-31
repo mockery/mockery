@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Expectation
@@ -29,56 +29,56 @@ class Expectation
      * @var object
      */
     protected $_mock = null;
-    
+
     /**
-     * Method name 
+     * Method name
      *
      * @var string
      */
     protected $_name = null;
-    
+
     /**
      * Arguments expected by this expectation
      *
      * @var array
      */
     protected $_expectedArgs = array();
-    
+
     /**
      * Count validator store
      *
      * @var array
      */
     protected $_countValidators = array();
-    
+
     /**
      * The count validator class to use
      *
      * @var string
      */
     protected $_countValidatorClass = 'Mockery\CountValidator\Exact';
-    
+
     /**
      * Actual count of calls to this expectation
      *
      * @var int
      */
     protected $_actualCount = 0;
-    
+
     /**
      * Value to return from this expectation
      *
      * @var mixed
      */
     protected $_returnValue = null;
-    
+
     /**
      * Array of return values as a queue for multiple return sequence
      *
      * @var array
      */
     protected $_returnQueue = array();
-    
+
     /**
      * Array of closures executed with given arguments to generate a result
      * to be returned
@@ -86,28 +86,28 @@ class Expectation
      * @var array
      */
     protected $_closureQueue = array();
-    
+
     /**
      * Integer representing the call order of this expectation
      *
      * @var int
      */
     protected $_orderNumber = null;
-    
+
     /**
      * Integer representing the call order of this expectation on a global basis
      *
      * @var int
      */
     protected $_globalOrderNumber = null;
-    
+
     /**
      * Flag indicating that an exception is expected to be throw (not returned)
      *
      * @var bool
      */
     protected $_throw = false;
-    
+
     /**
      * Flag indicating whether the order of calling is determined locally or
      * globally
@@ -115,14 +115,14 @@ class Expectation
      * @var bool
      */
     protected $_globally = false;
-    
+
     /**
      * Flag indicating we expect no arguments
      *
      * @var bool
      */
     protected $_noArgsExpectation = false;
-    
+
     /**
      * Constructor
      *
@@ -134,7 +134,7 @@ class Expectation
         $this->_mock = $mock;
         $this->_name = $name;
     }
-    
+
     /**
      * Return a string with the method name and arguments formatted
      *
@@ -146,7 +146,7 @@ class Expectation
     {
         return \Mockery::formatArgs($this->_name, $this->_expectedArgs);
     }
-    
+
     /**
      * Verify the current call, i.e. that the given arguments match those
      * of this expectation
@@ -162,9 +162,9 @@ class Expectation
         if ($return instanceof \Exception && $this->_throw === true) {
             throw $return;
         }
-        return $return; 
+        return $return;
     }
-    
+
     /**
      * Fetch the return value for the matching args
      *
@@ -198,7 +198,7 @@ class Expectation
         }
         return true;
     }
-    
+
     /**
      * Check if there is a constraint on call count
      *
@@ -208,7 +208,7 @@ class Expectation
     {
         return (count($this->_countValidators) > 0);
     }
-    
+
     /**
      * Verify call order
      *
@@ -224,7 +224,7 @@ class Expectation
                 ->mockery_validateOrder((string) $this, $this->_globalOrderNumber);
         }
     }
-    
+
     /**
      * Verify this expectation
      *
@@ -236,7 +236,7 @@ class Expectation
             $validator->validate($this->_actualCount);
         }
     }
-    
+
     /**
      * Check if passed arguments match an argument expectation
      *
@@ -259,7 +259,7 @@ class Expectation
         }
         return true;
     }
-    
+
     /**
      * Check if passed argument matches an argument expectation
      *
@@ -294,7 +294,7 @@ class Expectation
         }
         return false;
     }
-    
+
     /**
      * Expected argument setter for the expectation
      *
@@ -306,7 +306,7 @@ class Expectation
         $this->_expectedArgs = func_get_args();
         return $this;
     }
-    
+
     /**
      * Set with() as no arguments expected
      *
@@ -317,7 +317,7 @@ class Expectation
         $this->_noArgsExpectation = true;
         return $this->with();
     }
-    
+
     /**
      * Set expectation that any arguments are acceptable
      *
@@ -328,7 +328,7 @@ class Expectation
         $this->_expectedArgs = array();
         return $this;
     }
-    
+
     /**
      * Set a return value, or sequential queue of return values
      *
@@ -339,7 +339,7 @@ class Expectation
         $this->_returnQueue = func_get_args();
         return $this;
     }
-    
+
     /**
      * Set a closure or sequence of closures with which to generate return
      * values. The arguments passed to the expected method are passed to the
@@ -352,7 +352,7 @@ class Expectation
         $this->_closureQueue = func_get_args();
         return $this;
     }
-    
+
     /**
      * Return a self-returning black hole object.
      *
@@ -363,7 +363,7 @@ class Expectation
         $this->andReturn(new \Mockery\Undefined);
         return $this;
     }
-    
+
     /**
      * Set Exception class and arguments to that class to be thrown
      *
@@ -383,7 +383,7 @@ class Expectation
         }
         return $this;
     }
-    
+
     /**
      * Set a public property on the mock
      *
@@ -396,7 +396,7 @@ class Expectation
         $this->_mock->{$name} = $value;
         return $this;
     }
-    
+
     /**
      * Set a public property on the mock (alias to andSet()). Allows the natural
      * English construct - set('foo', 'bar')->andReturn('bar')
@@ -409,7 +409,7 @@ class Expectation
     {
         return $this->andSet($name, $value);
     }
-    
+
     /**
      * Indicates this expectation should occur zero or more times
      *
@@ -419,7 +419,7 @@ class Expectation
     {
         $this->atLeast()->never();
     }
-    
+
     /**
      * Indicates the number of times this expectation should occur
      *
@@ -432,7 +432,7 @@ class Expectation
         $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
         return $this;
     }
-    
+
     /**
      * Indicates that this expectation is never expected to be called
      *
@@ -442,7 +442,7 @@ class Expectation
     {
         return $this->times(0);
     }
-    
+
     /**
      * Indicates that this expectation is expected exactly once
      *
@@ -452,7 +452,7 @@ class Expectation
     {
         return $this->times(1);
     }
-    
+
     /**
      * Indicates that this expectation is expected exactly twice
      *
@@ -462,7 +462,7 @@ class Expectation
     {
         return $this->times(2);
     }
-    
+
     /**
      * Sets next count validator to the AtLeast instance
      *
@@ -473,7 +473,7 @@ class Expectation
         $this->_countValidatorClass = 'Mockery\CountValidator\AtLeast';
         return $this;
     }
-    
+
     /**
      * Sets next count validator to the AtMost instance
      *
@@ -484,7 +484,7 @@ class Expectation
         $this->_countValidatorClass = 'Mockery\CountValidator\AtMost';
         return $this;
     }
-    
+
     /**
      * Shorthand for setting minimum and maximum constraints on call counts
      *
@@ -495,7 +495,7 @@ class Expectation
     {
         return $this->atLeast()->times($minimum)->atMost()->times($maximum);
     }
-    
+
     /**
      * Indicates that this expectation must be called in a specific given order
      *
@@ -512,7 +512,7 @@ class Expectation
         $this->_globally = false;
         return $this;
     }
-    
+
     /**
      * Indicates call order should apply globally
      *
@@ -523,7 +523,7 @@ class Expectation
         $this->_globally = true;
         return $this;
     }
-    
+
     /**
      * Setup the ordering tracking on the mock or mock container
      *
@@ -544,7 +544,7 @@ class Expectation
         }
         return $result;
     }
-    
+
     /**
      * Return order number
      *
@@ -554,7 +554,7 @@ class Expectation
     {
         return $this->_orderNumber;
     }
-    
+
     /**
      * Mark this expectation as being a default
      *
@@ -568,7 +568,7 @@ class Expectation
         }
         return $this;
     }
-    
+
     /**
      * Return the parent mock of the expectation
      *
@@ -578,7 +578,7 @@ class Expectation
     {
         return $this->_mock;
     }
-    
+
     /**
      * Cloning logic
      *
@@ -589,7 +589,7 @@ class Expectation
         $countValidators = $this->_countValidators;
         foreach ($countValidators as $validator) {
             $newValidators[] = clone $validator;
-        } 
+        }
         $this->_countValidators = $newValidators;
     }
 

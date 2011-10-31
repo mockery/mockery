@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Recorder
@@ -30,14 +30,14 @@ class Recorder
      * @var object
      */
     protected $_mock = null;
-    
+
     /**
      * The subject object whose interactions are being recorded
      *
      * @var object
      */
     protected $_subject = null;
-    
+
     /**
      * Flag indicating whether the recording should maintain a strict adherence
      * to the recorded interactions, i.e. the usual Mockery flexibility is
@@ -47,7 +47,7 @@ class Recorder
      * @var bool
      */
     protected $_strict = false;
-    
+
     /**
      * Construct accepting the mock object on which expectations are to be
      * recorded. The second parameter is the subject object, passed into
@@ -62,7 +62,7 @@ class Recorder
         $this->_mock = $mock;
         $this->_subject = $subject;
     }
-    
+
     /**
      * Sets the recorded into strict mode where method calls are more strictly
      * matched against the argument and call count and ordering is also

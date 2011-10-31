@@ -22,7 +22,7 @@ namespace Mockery\Matcher;
 
 class MustBe extends MatcherAbstract
 {
-    
+
     /**
      * Check if the actual value matches the expected.
      *
@@ -37,7 +37,7 @@ class MustBe extends MatcherAbstract
             return $this->_expected == $actual;
         }
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -47,5 +47,5 @@ class MustBe extends MatcherAbstract
     {
         return '<MustBe>';
     }
-    
+
 }

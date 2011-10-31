@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class ExpectationDirector
@@ -29,35 +29,35 @@ class ExpectationDirector
      * @var string
      */
     protected $_name = null;
-    
+
     /**
      * Mock object the director is attached to
      *
      * @var \Mockery\MockInterface
      */
     protected $_mock = null;
-    
+
     /**
      * Stores an array of all expectations for this mock
      *
      * @var array
      */
     protected $_expectations = array();
-    
+
     /**
      * The expected order of next call
      *
      * @var int
      */
     protected $_expectedOrder = null;
-    
+
     /**
      * Stores an array of all default expectations for this mock
      *
      * @var array
      */
     protected $_defaults = array();
-    
+
     /**
      * Constructor
      *
@@ -69,7 +69,7 @@ class ExpectationDirector
         $this->_name = $name;
         $this->_mock = $mock;
     }
-    
+
     /**
      * Add a new expectation to the director
      *
@@ -79,7 +79,7 @@ class ExpectationDirector
     {
         $this->_expectations[] = $expectation;
     }
-    
+
     /**
      * Handle a method call being directed by this instance
      *
@@ -100,7 +100,7 @@ class ExpectationDirector
         }
         return $expectation->verifyCall($args);
     }
-    
+
     /**
      * Verify all expectations of the director
      *
@@ -119,7 +119,7 @@ class ExpectationDirector
             }
         }
     }
-    
+
     /**
      * Attempt to locate an expecatation matching the provided args
      *
@@ -134,7 +134,7 @@ class ExpectationDirector
             return $this->_findExpectationIn($this->_defaults, $args);
         }
     }
-    
+
     /**
      * Make the given expectation a default for all others assuming it was
      * correctly created last
@@ -153,7 +153,7 @@ class ExpectationDirector
             );
         }
     }
-    
+
     /**
      * Search current array of expectations for a match
      *
@@ -174,7 +174,7 @@ class ExpectationDirector
             }
         }
     }
-    
+
     /**
      * Return all expectations assigned to this director
      *
