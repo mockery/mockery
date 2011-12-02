@@ -40,15 +40,15 @@ class TestListener implements \PHPUnit_Framework_TestListener
 	 */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {
 		
-		if (class_exists('\\PHP_CodeCoverage_Filter')
-		&& method_exists('\\PHP_CodeCoverage_Filter', 'getInstance')) {
-			\PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
-			  __DIR__.'/../../../Mockery/', '.php', '', 'PHPUNIT'
-			);
-			
-			\PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__.'/../../../Mockery.php', 'PHPUNIT');
-		}
-	}
+        if (class_exists('\\PHP_CodeCoverage_Filter')
+        && method_exists('\\PHP_CodeCoverage_Filter', 'getInstance')) {
+            \PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
+                 __DIR__.'/../../../Mockery/', '.php', '', 'PHPUNIT'
+            );
+
+            \PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__.'/../../../Mockery.php', 'PHPUNIT');
+        }
+    }
     /**
      *  The Listening methods below are not required for Mockery
      */
