@@ -100,10 +100,12 @@ class Loader
 
     /**
      * Installs this class loader on the SPL autoload stack.
+	 *
+	 * @param bool $prepend If true, prepend autoloader on the autoload stack
      */
-    public function register()
+    public function register($prepend = false)
     {
-        spl_autoload_register(array($this, 'loadClass'));
+        spl_autoload_register(array($this, 'loadClass'), true, $prepend);
     }
 
     /**
