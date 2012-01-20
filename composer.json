@@ -1,0 +1,19 @@
+{
+    "name": "cordoval/mockery",
+    "description": "Mockery: The defacto Mockery Library",
+    "keywords": ["test", "stub", "mock", "mockery"],
+    "homepage": "http://phpspec.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PHPSpec Team",
+            "homepage": "https://github.com/phpspec/phpspec/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Mockery": "library/" }
+    },
+    "require": {
+        "php": ">=5.3.2"
+    }
+}
