@@ -32,7 +32,13 @@ class TestListener implements \PHPUnit_Framework_TestListener
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
-        \Mockery::close();
+        try
+        {
+            \Mockery::close();
+        } catch (\Exception $e) {
+            $result = $test->getTestResultObject();
+            $result->addError($test, $e, $time);
+        }
     }
     
 	/**
