@@ -40,8 +40,7 @@ three options are outlined below.
 You can read more about Composer and its main repository at
 [http://packagist.org](http://packagist.org "Packagist"). To install
 Mockery using Composer, first install Composer for your project using the instructions on the
-Packegist home page. You can then define your dependency in your project's composer.json file as
-follows:
+Packagist home page. You can then define your dependency on Mockery using the suggested parameters below.
 
     {
         "require": {
@@ -68,7 +67,7 @@ install this development version using:
     sudo pear channel-discover hamcrest.googlecode.com/svn/pear
     sudo pear install --alldeps package.xml
 
-The above processes will install both Mockery and Hamcrest as PEAR libraries.
+The above processes will install both Mockery and Hamcrest.
 While omitting Hamcrest will not break Mockery, Hamcrest is highly recommended
 as it adds a wider variety of functionality for argument matching that Mockery
 is capable of.
