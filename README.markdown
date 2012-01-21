@@ -170,6 +170,8 @@ the following to your test suite's Bootstrap.php or TestHelper.php file:
     require_once 'Hamcrest/Hamcrest.php';
     $loader = new \Mockery\Loader;
     $loader->register();
+
+(Note: Prior to Hamcrest 1.0.0, the Hamcrest.php file name had a small "h", i.e. hamcrest.php. If upgrading Hamcrest to 1.0.0 remember to check the file name is updated for all your projects.)
     
 To integrate Mockery into PHPUnit and avoid having to call the close method and
 have Mockery remove itself from code coverage reports, use this in you suite:
