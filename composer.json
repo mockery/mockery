@@ -1,8 +1,9 @@
 {
-    "name": "padraic/mockery",
+    "name": "mockery/mockery",
+    "version": "0.7.2",
     "type": "library",
     "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit or any other testing framework. It is inspired by Ruby's flexmock and Java's Mockito, borowing elements from both of their APIs.",
-    "keywords": ["library", "testing", "test", "stub", "mock", "mockery"],
+    "keywords": ["library", "testing", "test", "stub", "mock", "mockery", "test double"],
     "homepage": "http://github.com/padraic/mockery",
     "license": "New BSD",
     "authors": [
@@ -17,5 +18,15 @@
     },
     "autoload": {
         "psr-0": { "Mockery": "library/" }
+    },
+    "repositories": {
+        "hamcrest googlecode com": {
+            "pear": {
+                "url": "http://hamcrest.googlecode.com/svn/pear"
+            }
+        }
+    },
+    "suggest": {
+        "Hamcrest": "1.0.0"
     }
 }
