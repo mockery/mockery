@@ -535,7 +535,7 @@ BODY;
             return \$associatedRealObject->__call(\$method, \$args);
         } catch (\BadMethodCallException \$e) {
             throw new \BadMethodCallException(
-                'Static method ' . \$this->_mockery_name . '::' . \$method
+                'Static method ' . \$associatedRealObject->mockery_getName() . '::' . \$method
                 . '() does not exist on this mock object'
             );
         }

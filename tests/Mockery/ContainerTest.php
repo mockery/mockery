@@ -411,6 +411,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * @expectedException BadMethodCallException
+     */
+    public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist(){
+    	\Mockery::setContainer($this->container);
+        $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
+        $this->assertEquals('bar', \MyNameSpace\StaticNoMethod::staticFoo());
+        \Mockery::resetContainer();
+    }
+    
+    /**
      * @group issue/17
      */
     public function testMockingAllowsPublicPropertyStubbingOnRealClass()
