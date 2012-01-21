@@ -76,6 +76,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $m->foo());
         $this->assertTrue($m instanceof stdClass);
     }
+
+    public function testMockingAKnownUserClassSoMockInheritsClassType()
+    {
+        $m = $this->container->mock('MockeryTest_TestInheritedType');
+        $this->assertTrue($m instanceof MockeryTest_TestInheritedType);
+    }
     
     public function testMockingAConcreteObjectCreatesAPartialWithoutError()
     {
@@ -721,3 +727,5 @@ abstract class MockeryTest_PartialAbstractClass2 {
     public function bar() {return 'abc';}
     abstract public function baz();
 }
+
+class MockeryTest_TestInheritedType {}
