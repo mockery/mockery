@@ -7,7 +7,7 @@ and Java's Mockito, borowing elements from both of their APIs.
 
 Mockery is released under a New BSD License.
 
-The current stable version is Mockery 0.7.1.
+The current stable version is Mockery 0.7.2.
 
 Mock Objects
 ------------
@@ -26,25 +26,46 @@ natural language description.
 Prerequisites
 -------------
 
-Mockery requires PHP 5.3. In addition, it is strongly recommended to install
+Mockery requires PHP 5.3.2 or greater. In addition, it is strongly recommended to install
 the Hamcrest library (see below for instructions).
 
 Installation
 ------------
 
-The preferred installation method is via PEAR. Mockery is hosted by the
-survivethedeepend.com PEAR channel:
+Mockery may be installed using Composer, PEAR or by cloning it from its Github repository. These
+three options are outlined below.
 
-    pear channel-discover pear.survivethedeepend.com
-    pear channel-discover hamcrest.googlecode.com/svn/pear
-    pear install --alldeps deepend/Mockery
+**Composer**
+
+You can read more about Composer and its main repository at
+[http://packagist.org](http://packagist.org "Packagist"). To install
+Mockery using Composer, first install Composer for your project using the instructions on the
+Packegist home page. You can then define your dependency in your project's composer.json file as
+follows:
+
+    {
+        "require": {
+            "mockery/mockery": ">=0.7.2"
+        }
+    }
+
+**PEAR**
+
+Mockery is hosted on the [survivethedeepend.com](http://pear.survivethedeepend.com) PEAR channel and
+can be installed using the following commands:
+
+    sudo pear channel-discover pear.survivethedeepend.com
+    sudo pear channel-discover hamcrest.googlecode.com/svn/pear
+    sudo pear install --alldeps deepend/Mockery
+
+**Git / Github**
     
 The git repository hosts the development version in its master branch. You may
 install this development version using:
 
     git clone git://github.com/padraic/mockery.git
     cd mockery
-    pear channel-discover hamcrest.googlecode.com/svn/pear
+    sudo pear channel-discover hamcrest.googlecode.com/svn/pear
     sudo pear install --alldeps package.xml
 
 The above processes will install both Mockery and Hamcrest as PEAR libraries.
@@ -147,7 +168,7 @@ require_once() calls. To use it, ensure Mockery is on your include_path and add
 the following to your test suite's Bootstrap.php or TestHelper.php file:
 
     require_once 'Mockery/Loader.php';
-    require_once 'Hamcrest/hamcrest.php';
+    require_once 'Hamcrest/Hamcrest.php';
     $loader = new \Mockery\Loader;
     $loader->register();
     
