@@ -2,8 +2,12 @@ Mockery
 ========
 
 Mockery is a simple yet flexible PHP mock object framework for use in unit testing
-with PHPUnit or any other testing framework. It is inspired by Ruby's flexmock
-and Java's Mockito, borowing elements from both of their APIs.
+with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a
+test double framework with a succint API capable of clearly defining all possible
+object operations and interactions using a human readable Domain Specific Language
+(DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library,
+Mockery is easy to integrate with PHPUnit and can operate alongside
+phpunit-mock-objects without World War III starting. 
 
 Mockery is released under a New BSD License.
 
