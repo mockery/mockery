@@ -601,6 +601,22 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
         \Mockery::resetContainer();
     }
+
+    /**
+     * @issue issue/35
+     */
+    public function testCallingSelfOnlyReturnsLastMockCreatedOrCurrentMockBeingProgrammedSinceTheyAreOneAndTheSame()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('MockeryTestFoo');
+        $this->assertFalse($this->container->self() instanceof MockeryTestFoo2);
+        //$m = $this->container->mock('MockeryTestFoo2');
+        //$this->assertTrue($this->container->self() instanceof MockeryTestFoo2);
+        //$m = $this->container->mock('MockeryTestFoo');
+        //$this->assertFalse(\Mockery::self() instanceof MockeryTestFoo2);
+        //$this->assertTrue(\Mockery::self() instanceof MockeryTestFoo);
+        \Mockery::resetContainer();
+    }
     
 }
 

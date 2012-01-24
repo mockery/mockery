@@ -290,6 +290,16 @@ mocked as the first parameter. The second parameter can be an expectation array
 of methods and their return values, or an expectation closure (which can be the
 third param if used in conjunction with an expectation array).
 
+    \Mockery::self()
+
+At times, you will discover that expectations on a mock include methods which need to return the same mock object (e.g. a common case when designing a Domain Specific Language (DSL) such as the one Mockery itself uses!). To facilitate this, calling \Mockery::self() will always return the last Mock Object created by calling \Mockery::mock(). For example:
+
+    $mock = \Mockery::mock('BazIterator')
+        ->shouldReceive('next')
+        ->andReturn(\Mockery::self());
+
+The above class being mocked, as the next() method suggests, is an iterator. In many cases, you can replace all the iterated elements (since they are the same type many times) with just the one mock object which is programmed to act as discrete iterated elements.
+
 Expectation Declarations
 ------------------------
 
@@ -452,6 +462,7 @@ Returns the current mock object from an expectation chain. Useful where
 you prefer to keep mock setups as a single statement, e.g.
     
     $mock = \Mockery::mock('foo')->shouldReceive('foo')->andReturn(1)->mock();
+
     
 Argument Validation
 -------------------
