@@ -256,7 +256,12 @@ BODY;
                 $type = preg_replace('/.*?(\w+)\s+\$'.$param->name.'.*/', '\\1', $export);
                 
                 if (in_array($type, $typesArray)) {
-                    throw new Exception("PHP supports only array and object type hinting.");
+                    throw new \Mockery\Exception(
+                        'The method ' . $method->getName()
+                        . ' has a type hinted parameter. PHP supports type hinting'
+                        . ' only for arrays and objects. You should remove the'
+                        . ' type hint from the parameter: ' . $param->name
+                    );
                 } else {
                     if ($param->getClass()) {
                         $typeHint = $param->getClass()->getName();
