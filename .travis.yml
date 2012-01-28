@@ -3,7 +3,7 @@ php:
   - 5.3
   - 5.4
 before_script:
-  - "apt-get install php-pear"
+  - "sudo apt-get install php-pear"
   - "pear channel-discover hamcrest.googlecode.com/svn/pear"
   - "pear install -f hamcrest/Hamcrest"
   - "phpenv rehash"
