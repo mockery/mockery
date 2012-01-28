@@ -7,11 +7,15 @@ test double framework with a succint API capable of clearly defining all possibl
 object operations and interactions using a human readable Domain Specific Language
 (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library,
 Mockery is easy to integrate with PHPUnit and can operate alongside
-phpunit-mock-objects without the World ending. 
+phpunit-mock-objects without the World ending.
+
+
 
 Mockery is released under a New BSD License.
 
 The current stable version is Mockery 0.7.2.
+The build status of the current master branch is tracked by Travis CI:
+[![Build Status](https://secure.travis-ci.org/padraic/mockery.png)](http://travis-ci.org/padraic/mockery)
 
 Mock Objects
 ------------
