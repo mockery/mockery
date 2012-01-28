@@ -6,4 +6,4 @@ before-script:
   - pyrus channel-discover hamcrest.googlecode.com/svn/pear
   - pyrus install hamcrest/Hamcrest
   - phpenv rehash
-script: phpunit --coverage-text
+script: phpunit --coverage-text --configuration ./tests/phpunit.xml
