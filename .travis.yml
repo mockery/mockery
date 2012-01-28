@@ -1,0 +1,9 @@
+language: php
+php:
+  - 5.3
+  - 5.4
+before-script:
+  - pyrus channel-discover hamcrest.googlecode.com/svn/pear
+  - pyrus install hamcrest/Hamcrest
+  - phpenv rehash
+script: phpunit --coverage-text

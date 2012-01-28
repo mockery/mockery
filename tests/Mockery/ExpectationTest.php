@@ -1588,6 +1588,25 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $demeter = new Mockery_UseDemeter($mock);
         $this->assertSame('Spam!', $demeter->doit());
     }
+
+    /**
+    * @expectedException PHPUnit_Framework_Error_Warning
+    */
+    public function testPregMatchThrowsDelimiterWarningWithXdebugScreamTurnedOn()
+    {
+        if (!extension_loaded('xdebug')) {
+            $this->markTestSkipped('ext/xdebug not installed');
+        }
+        
+        if (ini_get('xdebug.scream') == 0) {
+            $this->markTestSkipped('xdebug.scream turned off');
+        }
+        
+        $mock = $this->container->mock('foo');
+        $mock->shouldReceive('foo')->with('bar', 'baz');
+        
+        $mock->foo('spam', 'ham');
+    }
 }
 
 class MockeryTest_InterMethod1
