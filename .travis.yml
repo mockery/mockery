@@ -4,6 +4,9 @@ php:
   - 5.4
 before-script:
   - pyrus channel-discover hamcrest.googlecode.com/svn/pear
-  - pyrus install hamcrest/Hamcrest
+  - pyrus install -f http://hamcrest.googlecode.com/files/hamcrest-php-1.0.0.tgz
   - phpenv rehash
 script: phpunit --coverage-text --configuration ./tests/phpunit.xml
+notifications:
+    email:
+        - padraic.brady@gmail.com
