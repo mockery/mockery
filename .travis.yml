@@ -4,7 +4,7 @@ php:
   - 5.4
 before-script:
   - "pyrus channel-discover hamcrest.googlecode.com/svn/pear"
-  - "pyrus install hamcrest/Hamcrest"
+  - "pyrus install -f hamcrest.googlecode.com/svn/pear/Hamcrest"
   - "phpenv rehash"
 script: phpunit --coverage-text --configuration ./tests/phpunit.xml
 notifications:
