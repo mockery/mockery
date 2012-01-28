@@ -236,20 +236,46 @@ BODY;
             $paramDef = '';
             if ($param->isArray()) {
                 $paramDef .= 'array ';
-            } elseif ($param->getClass()) {
-                $paramDef .= $param->getClass()->getName() . ' ';
+            } else {
+                $typeHint = '';
+                
+                $typesArray = array(
+                    'bool', 'boolean',
+                    'int', 'integer',
+                    'float', 'double', 'real',
+                    'string'
+                );
+                
+                $export = \ReflectionParameter::export(
+                    array(
+                        $param->getDeclaringClass()->name,
+                        $param->getDeclaringFunction()->name
+                    ), $param->name, true
+                );
+
+                $type = preg_replace('/.*?(\w+)\s+\$'.$param->name.'.*/', '\\1', $export);
+                
+                if (in_array($type, $typesArray)) {
+                    throw new Exception("PHP supports only array and object type hinting.");
+                } else {
+                    if ($param->getClass()) {
+                        $typeHint = $param->getClass()->getName();
+                    }
+                }
+                
+                $paramDef .= $typeHint . ' ';
             }
             $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
             if ($param->isDefaultValueAvailable()) {
                 $default = var_export($param->getDefaultValue(), true);
                 if ($default == '') {
-                  $default = 'null';
+                    $default = 'null';
                 }
                 $paramDef .= ' = ' . $default;
             } else if ($param->isOptional()) {
                 $paramDef .= ' = null';
             }
-
+                
             $methodParams[] = $paramDef;
         }
         return $methodParams;
