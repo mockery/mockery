@@ -173,8 +173,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     
     public function testCanMockSpl()
     {
-        $m = $this->container->mock('\\splFileObject');
-        $this->assertTrue($m instanceof \splFileObject);
+        $m = $this->container->mock('\\SplFixedArray');
+        $this->assertTrue($m instanceof \SplFixedArray);
     }
     
     public function testCanMockInterfaceWithAbstractMethod()
