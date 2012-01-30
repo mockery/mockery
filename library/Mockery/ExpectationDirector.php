@@ -184,5 +184,15 @@ class ExpectationDirector
     {
         return $this->_expectations;
     }
+    
+    /**
+     * Return the number of expectations assigned to this director.
+     *
+     * @return int
+     */
+    public function getExpectationCount()
+    {
+        return count($this->getExpectations());    
+    }
 
 }
