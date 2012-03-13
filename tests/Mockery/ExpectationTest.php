@@ -1590,6 +1590,17 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @group issue #20 - with args in demeter chain
+     */
+    public function testMockingDemeterChainsPassesMockeryExpectationToCompositeExpectationWithArgs()
+    {
+        $mock = $this->container->mock('Mockery_Demeterowski');
+        $mock->shouldReceive('foo->bar->baz')->andReturn('Spam!');
+        $demeter = new Mockery_UseDemeter($mock);
+        $this->assertSame('Spam!', $demeter->doitWithArgs());
+    }
+
+    /**
     * @expectedException PHPUnit_Framework_Error_Warning
     */
     public function testPregMatchThrowsDelimiterWarningWithXdebugScreamTurnedOn()
@@ -1658,5 +1669,8 @@ class Mockery_UseDemeter {
     }
     public function doit() {
         return $this->demeter->foo()->bar()->baz();
+    }
+    public function doitWithArgs() {
+        return $this->demeter->foo("foo")->bar("bar")->baz("baz");
     }
 }
