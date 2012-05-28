@@ -375,6 +375,7 @@ BODY;
     public function shouldIgnoreMissing()
     {
         \$this->_mockery_ignoreMissing = true;
+        return \$this;
     }
 
     public function shouldExpect(Closure \$closure)

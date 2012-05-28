@@ -161,11 +161,12 @@ class Mock implements MockInterface
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      *
-     * @return void
+     * @return Mock
      */
     public function shouldIgnoreMissing()
     {
         $this->_mockery_ignoreMissing = true;
+        return $this;
     }
     
     /**
