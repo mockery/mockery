@@ -475,6 +475,15 @@ BODY;
         }
         \$this->mockery_setCurrentOrder(\$order);
     }
+    
+    public function mockery_getExpectationCount()
+    {
+        \$count = 0;
+        foreach(\$this->_mockery_expectations as \$director) {
+            \$count += \$director->getExpectationCount();
+        }
+        return \$count;
+    }
 
     public function mockery_setExpectationsFor(\$method, \Mockery\ExpectationDirector \$director)
     {

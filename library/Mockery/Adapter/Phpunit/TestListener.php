@@ -34,6 +34,11 @@ class TestListener implements \PHPUnit_Framework_TestListener
     {
         try
         {
+            $container = \Mockery::getContainer();
+            if ($container != null) {
+                $expectation_count = $container->mockery_getExpectationCount();
+                $test->addToAssertionCount($expectation_count);
+            }
             \Mockery::close();
         } catch (\Exception $e) {
             $result = $test->getTestResultObject();

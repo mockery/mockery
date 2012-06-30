@@ -618,6 +618,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         \Mockery::resetContainer();
     }
     
+    public function testGetExpectationCount_freshContainer()
+    {
+        $this->assertEquals(0, $this->container->mockery_getExpectationCount());
+    }
+    
+    public function testGetExpectationCount_simplestMock()
+    {
+        $m = $this->container->mock();
+        $m->shouldReceive('foo')->andReturn('bar');
+        $this->assertEquals(1, $this->container->mockery_getExpectationCount());
+    }
 }
 
 class MockeryTest_IssetMethod
