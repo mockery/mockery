@@ -41,6 +41,21 @@ class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_NameOfExistingClass);
     }
 
+    /**
+     *  @expectedException \Mockery\Exception 
+     */
+    public function testMockeryThrowsExceptionIfMethodTypeHintedWithUnsupportedTypeHints()
+    {
+        $m = $this->container->mock(new MockeryTest_FooClass);
+    }
+    
 }
 
 class MockeryTest_NameOfExistingClass {}
+
+class MockeryTest_FooClass
+{
+    public function setBool(bool $bool) {}
+    public function setInt(int $int) {}
+    public function setString(string $string) {}
+}
