@@ -342,6 +342,20 @@ class Mock implements MockInterface
     }
     
     /**
+     * Gets the count of expectations for this mock
+     *
+     * @return int
+     */
+    public function mockery_getExpectationCount()
+    {
+        $count = 0;
+        foreach($this->_mockery_expectations as $director) {
+            $count += $director->getExpectationCount();
+        }
+        return $count;
+    }
+    
+    /**
      * Return the expectations director for the given method
      *
      * @var string $method

@@ -133,6 +133,13 @@ interface MockInterface
     public function mockery_validateOrder($method, $order);
     
     /**
+     * Gets the count of expectations for this mock
+     *
+     * @return int
+     */
+    public function mockery_getExpectationCount();
+    
+    /**
      * Return the expectations director for the given method
      *
      * @var string $method
