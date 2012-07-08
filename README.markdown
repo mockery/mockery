@@ -304,7 +304,8 @@ At times, you will discover that expectations on a mock include methods which ne
 
     $mock = \Mockery::mock('BazIterator')
         ->shouldReceive('next')
-        ->andReturn(\Mockery::self());
+        ->andReturn(\Mockery::self())
+        ->mock();
 
 The above class being mocked, as the next() method suggests, is an iterator. In many cases, you can replace all the iterated elements (since they are the same type many times) with just the one mock object which is programmed to act as discrete iterated elements.
 

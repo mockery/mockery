@@ -285,6 +285,20 @@ class Container
     }
     
     /**
+     * Gets the count of expectations on the mocks
+     *
+     * @return int
+     */
+    public function mockery_getExpectationCount()
+    {
+        $count = 0;
+        foreach($this->_mocks as $mock) {
+            $count += $mock->mockery_getExpectationCount();
+        }
+        return $count;
+    }
+    
+    /**
      * Store a mock and set its container reference
      *
      * @param \Mockery\Mock

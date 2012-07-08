@@ -161,11 +161,12 @@ class Mock implements MockInterface
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      *
-     * @return void
+     * @return Mock
      */
     public function shouldIgnoreMissing()
     {
         $this->_mockery_ignoreMissing = true;
+        return $this;
     }
     
     /**
@@ -338,6 +339,20 @@ class Mock implements MockInterface
             );
         }
         $this->mockery_setCurrentOrder($order);
+    }
+    
+    /**
+     * Gets the count of expectations for this mock
+     *
+     * @return int
+     */
+    public function mockery_getExpectationCount()
+    {
+        $count = 0;
+        foreach($this->_mockery_expectations as $director) {
+            $count += $director->getExpectationCount();
+        }
+        return $count;
     }
     
     /**

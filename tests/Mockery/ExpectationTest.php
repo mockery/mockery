@@ -1419,6 +1419,11 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->shouldIgnoreMissing();
         $this->assertTrue($this->mock->g(1,2)->a()->b()->c() instanceof \Mockery\Undefined);
     }
+
+    public function testShouldIgnoreMissingFluentInterface()
+    {
+        $this->assertTrue($this->mock->shouldIgnoreMissing() instanceof \Mockery\MockInterface);
+    }
     
     public function testOptionalMockRetrieval()
     {
