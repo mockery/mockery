@@ -51,6 +51,19 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->shouldReceive('foo');
         $this->assertNull($this->mock->foo('foo', array(), new stdClass));
     }
+
+    public function testReturnsNullIfNullIsReturnValue()
+    {
+        $this->mock->shouldReceive('foo')->andReturn(null);
+        $this->assertNull($this->mock->foo());
+    }
+
+    public function testReturnsNullForMockedExistingClassIfNullIsReturnValue()
+    {
+        $mock = $this->container->mock('MockeryTest_Foo');
+        $mock->shouldReceive('foo')->andReturn(null);
+        $this->assertNull($mock->foo());
+    }
     
     public function testReturnsSameValueForAllIfNoArgsExpectationAndNoneGiven()
     {
@@ -1659,4 +1672,8 @@ class Mockery_UseDemeter {
     public function doit() {
         return $this->demeter->foo()->bar()->baz();
     }
+}
+
+class MockeryTest_Foo {
+    public function foo() {}
 }
