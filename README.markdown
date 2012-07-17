@@ -465,12 +465,12 @@ replace the previously defined default. This is useful so you can setup default
 mocks in your unit test setup() and later tweak them in specific tests as
 needed.
 
-    mock()
+    getMock()
     
 Returns the current mock object from an expectation chain. Useful where
 you prefer to keep mock setups as a single statement, e.g.
     
-    $mock = \Mockery::mock('foo')->shouldReceive('foo')->andReturn(1)->mock();
+    $mock = \Mockery::mock('foo')->shouldReceive('foo')->andReturn(1)->getMock();
 
     
 Argument Validation
