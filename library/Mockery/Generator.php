@@ -87,7 +87,16 @@ class Generator
         }
         if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting, $makeInstanceMock);
         $definition .= PHP_EOL . '}';
+
+        //turn of strict
+        $errorReporting = error_reporting();
+        error_reporting($errorReporting ^ E_STRICT);
+
         eval($definition);
+
+        //turn back on
+        error_reporting($errorReporting);
+
         return $mockName;
     }
     
