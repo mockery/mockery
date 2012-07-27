@@ -68,7 +68,26 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->assertTrue((bool) preg_match("/Foo/", $e->getMessage()));
         }
     }
+
+    public function testNamedMockWithConstructorArgs()
+    {
+        $m = $this->container->mock("MockeryTest_ClassConstructor2[foo]", array($param1 = new stdClass()));
+        $m->shouldReceive("foo")->andReturn(123);
+        $this->assertEquals(123, $m->foo());
+        $this->assertEquals($param1, $m->getParam1());
+    }
     
+    public function testNamedMockWithConstructorArgsAndArrayDefs()
+    {
+        $m = $this->container->mock(
+            "MockeryTest_ClassConstructor2[foo]", 
+            array($param1 = new stdClass()),
+            array("foo" => 123)
+        );
+        $this->assertEquals(123, $m->foo());
+        $this->assertEquals($param1, $m->getParam1());
+    }
+
     public function testMockingAKnownConcreteClassSoMockInheritsClassType()
     {
         $m = $this->container->mock('stdClass');
@@ -686,7 +705,10 @@ class MockeryTest_ClassConstructor {
 }
 
 class MockeryTest_ClassConstructor2 {
-    public function __construct(stdClass $param1) {}
+    protected $param1;
+    public function __construct(stdClass $param1) { $this->param1 = $param1; }
+    public function getParam1() { return $this->param1; }
+    public function foo() { return 'foo'; }
 }
 
 class MockeryTest_Call1 {
