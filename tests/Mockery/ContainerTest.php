@@ -95,6 +95,25 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(123, $m->bar());
     }
 
+    public function testNamedMockWithShouldDeferMissing()
+    {
+        $m = $this->container->mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
+        $m->shouldDeferMissing();
+        $this->assertEquals('foo', $m->bar());
+        $m->shouldReceive("bar")->andReturn(123);
+        $this->assertEquals(123, $m->bar());
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function testNamedMockWithShouldDeferMissingThrowsIfNotAvailable()
+    {
+        $m = $this->container->mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
+        $m->shouldDeferMissing();
+        $m->foorbar123();
+    }
+
     public function testMockingAKnownConcreteClassSoMockInheritsClassType()
     {
         $m = $this->container->mock('stdClass');

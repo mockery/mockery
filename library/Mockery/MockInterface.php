@@ -49,6 +49,13 @@ interface MockInterface
     public function shouldIgnoreMissing();
     
     /**
+     * Set mock to defer unexpected methods to it's parent if possible
+     *
+     * @return Mock
+     */
+    public function shouldDeferMissing();
+
+    /**
      * In the event shouldReceive() accepting an array of methods/returns
      * this method will switch them from normal expectations to default
      * expectations
