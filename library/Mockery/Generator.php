@@ -219,7 +219,7 @@ BODY;
             $access .= ' static';
         }
         $returnByRef = $method->returnsReference() ? ' & ' : '';
-		return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
+        return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
                       . '{' . $body . '}';
     }
     
