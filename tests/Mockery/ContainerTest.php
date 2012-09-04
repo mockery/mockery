@@ -632,7 +632,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testMockCallableTypeHint()
     {
-        $this->container->mock('MockeryTest_MockCallableTypeHint');
+		if(PHP_VERSION_ID >= 50400) {
+        	$this->container->mock('MockeryTest_MockCallableTypeHint');
+		}
     }
 }
 
