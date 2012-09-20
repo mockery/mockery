@@ -241,11 +241,12 @@ BODY;
             }
             $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
             if ($param->isDefaultValueAvailable()) {
-                try {
+                $default = '';
+
+                if ($param->isOptional()) {
                     $default = var_export($param->getDefaultValue(), true);
-                } catch (\ReflectionException $e) {
-                    $default = 'null';
                 }
+
                 if ($default == '') {
                   $default = 'null';
                 }
