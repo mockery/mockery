@@ -240,19 +240,13 @@ BODY;
                 $paramDef .= $param->getClass()->getName() . ' ';
             }
             $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
-            if ($param->isDefaultValueAvailable()) {
-                $default = '';
-
-                if ($param->isOptional()) {
+            if ($param->isOptional()) {
+                if ($param->isDefaultValueAvailable()) {
                     $default = var_export($param->getDefaultValue(), true);
-                }
-
-                if ($default == '') {
-                  $default = 'null';
+                } else {
+                    $default = 'null';
                 }
                 $paramDef .= ' = ' . $default;
-            } else if ($param->isOptional()) {
-                $paramDef .= ' = null';
             }
 
             $methodParams[] = $paramDef;
