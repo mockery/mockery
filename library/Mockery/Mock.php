@@ -46,6 +46,14 @@ class Mock implements MockInterface
     protected $_mockery_ignoreMissing = false;
     
     /**
+     * Flag to indicate whether we can defer method calls missing from our
+     * expectations
+     *
+     * @var bool
+     */
+    protected $_mockery_deferMissing = false;
+
+    /**
      * Flag to indicate whether this mock was verified
      *
      * @var bool
@@ -170,6 +178,20 @@ class Mock implements MockInterface
     }
     
     /**
+     * Set mock to defer unexpected methods to it's parent
+     *
+     * This is particularly useless for this class, as it doesn't have a parent, 
+     * but included for completeness
+     *
+     * @return Mock
+     */
+    public function shouldDeferMissing()
+    {
+        $this->_mockery_deferMissing = true;
+        return $this;
+    }
+
+    /**
      * Accepts a closure which is executed with an object recorder which proxies
      * to the partial source object. The intent being to record the
      * interactions of a concrete object as a set of expectations on the
@@ -216,6 +238,8 @@ class Mock implements MockInterface
             return $handler->call($args);
         } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
+        } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
+            return call_user_func_array("parent::$method", $args);
         } elseif ($this->_mockery_ignoreMissing) {
             $undef = new \Mockery\Undefined;
             return call_user_func_array(array($undef, $method), $args);

@@ -317,6 +317,8 @@ BODY;
 
     protected \$_mockery_ignoreMissing = false;
 
+    protected \$_mockery_deferMissing = false;
+
     protected \$_mockery_verified = false;
 
     protected \$_mockery_name = null;
@@ -378,6 +380,12 @@ BODY;
         return \$lastExpectation;
     }
 
+    public function shouldDeferMissing()
+    {
+        \$this->_mockery_deferMissing = true;
+        return \$this;
+    }
+
     public function shouldIgnoreMissing()
     {
         \$this->_mockery_ignoreMissing = true;
@@ -412,6 +420,8 @@ BODY;
             return \$handler->call(\$args);
         } elseif (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
             return call_user_func_array(array(\$this->_mockery_partial, \$method), \$args);
+        } elseif (\$this->_mockery_deferMissing && is_callable("parent::\$method")) {
+            return call_user_func_array("parent::\$method", \$args);
         } elseif (\$this->_mockery_ignoreMissing) {
             \$undef = new \Mockery\Undefined;
             return call_user_func_array(array(\$undef, \$method), \$args);
