@@ -318,6 +318,7 @@ class Mockery
         $names = explode('->', $arg);
         reset($names);
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
+        && method_exists($mock, "mockery_getMockableMethods")
         && !in_array(current($names), $mock->mockery_getMockableMethods())) {
             throw new \Mockery\Exception(
                 'Mockery\'s configuration currently forbids mocking the method '
