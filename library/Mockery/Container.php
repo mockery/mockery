@@ -69,6 +69,7 @@ class Container
         $partial = null;
         $expectationClosure = null;
         $quickdefs = array();
+        $constructorArgs = null;
         $blocks = array();
         $makeInstanceMock = false;
         $args = func_get_args();
@@ -122,9 +123,12 @@ class Container
                 $name = array_shift($args);
             } elseif (is_object($arg)) {
                 $partial = array_shift($args);
-            } elseif (is_array($arg)) {
+            } elseif (is_array($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
+                // if associative array
                 if(array_key_exists(self::BLOCKS, $arg)) $blocks = $arg[self::BLOCKS]; unset($arg[self::BLOCKS]);
                 $quickdefs = array_shift($args);
+            } elseif (is_array($arg)) {
+                $constructorArgs = array_shift($args);
             } else {
                 throw new \Mockery\Exception(
                     'Unable to parse arguments sent to '
@@ -139,18 +143,18 @@ class Container
                 $mockName = \Mockery\Generator::createClassMock($class, null, null, array(), true);
             }
             $result = class_alias($mockName, $name);
-            $mock = $this->_getInstance($name);
+            $mock = $this->_getInstance($name, $constructorArgs);
             $mock->mockery_init($class, $this);
         } elseif (!is_null($name)) {
             $mock = new \Mockery\Mock();
             $mock->mockery_init($name, $this);
         } elseif(!is_null($class)) {
             $mockName = \Mockery\Generator::createClassMock($class, null, null, array(), false, $partialMethods);
-            $mock = $this->_getInstance($mockName);
+            $mock = $this->_getInstance($mockName, $constructorArgs);
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {
             $mockName = \Mockery\Generator::createClassMock(get_class($partial), null, true, $blocks);
-            $mock = $this->_getInstance($mockName);
+            $mock = $this->_getInstance($mockName, $constructorArgs);
             $mock->mockery_init(get_class($partial), $this, $partial);
         } else {
             $mock = new \Mockery\Mock();
@@ -344,12 +348,18 @@ class Container
         if (isset($this->_mocks[$reference])) return $this->_mocks[$reference];
     }
     
-    protected function _getInstance($mockName)
+    protected function _getInstance($mockName, $constructorArgs = null)
     {
         if (!method_exists($mockName, '__construct')) {
             $return = new $mockName;
             return $return;
         }
+
+        if ($constructorArgs !== null) {
+            $r = new \ReflectionClass($mockName);
+            return $r->newInstanceArgs($constructorArgs);
+        }
+
         $return = unserialize(sprintf('O:%d:"%s":0:{}', strlen($mockName), $mockName));
         return $return;
     }
