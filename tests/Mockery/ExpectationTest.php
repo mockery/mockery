@@ -1424,7 +1424,20 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->mock->shouldIgnoreMissing() instanceof \Mockery\MockInterface);
     }
-    
+
+    public function testShouldIgnoreMissingProxiesToUndefinedAllowingToString()
+    {
+        $this->mock->shouldIgnoreMissing();
+        $string = "Method call: {$this->mock->g()}";
+        $string = "Mock: {$this->mock}";
+    }
+
+    public function testToStringMagicMethodCanBeMocked()
+    {
+        $this->mock->shouldReceive("__toString")->andReturn('dave');
+        $this->assertEquals("{$this->mock}", "dave");
+    }
+
     public function testOptionalMockRetrieval()
     {
         $m = $this->container->mock('f')->shouldReceive('foo')->with(1)->andReturn(3)->mock();
