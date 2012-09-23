@@ -406,12 +406,20 @@ BODY;
         } elseif (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
             return call_user_func_array(array(\$this->_mockery_partial, \$method), \$args);
         } elseif (\$this->_mockery_ignoreMissing) {
-            \$return = new \Mockery\Undefined;
-            return \$return;
+            \$undef = new \Mockery\Undefined;
+            return call_user_func_array(array(\$undef, \$method), \$args);
         }
         throw new \BadMethodCallException(
             'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'
         );
+    }
+
+    /**
+     * Forward calls to this magic method to the __call method
+     */
+    public function __toString()
+    {
+        return \$this->__call('__toString', array());
     }
 
     public function mockery_verify()
