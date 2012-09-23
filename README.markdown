@@ -370,7 +370,7 @@ Sets a value to be returned from the expected method call.
     andReturn(value1, value2, ...)
     
 Sets up a sequence of return values or closures. For example, the first call will return
-value1 and the second value2. Not that all subsequent calls to a mocked method
+value1 and the second value2. Note that all subsequent calls to a mocked method
 will always return the final value (or the only value) given to this declaration.
 
     andReturnUsing(closure, ...)
