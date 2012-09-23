@@ -629,6 +629,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m->shouldReceive('foo')->andReturn('bar');
         $this->assertEquals(1, $this->container->mockery_getExpectationCount());
     }
+
+    public function testMethodsReturningParamsByReferenceDoesNotErrorOut()
+    {
+        $this->container->mock('MockeryTest_ReturnByRef'); 
+    }
 }
 
 class MockeryTest_IssetMethod
@@ -730,6 +735,14 @@ class MockeryTestBar1 {
     public function method1()
     {
         return $this;
+    }
+}
+
+class MockeryTest_ReturnByRef {
+    public $i = 0;
+    public function &get()
+    {
+        return $this->$i;
     }
 }
 
