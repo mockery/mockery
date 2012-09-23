@@ -155,6 +155,7 @@ class Generator
             && $method->getName() !== '__wakeup'
             && $method->getName() !== '__set'
             && $method->getName() !== '__get'
+            && $method->getName() !== '__toString'
             && $method->getName() !== '__isset') {
                 $definition .= self::_replacePublicMethod($method);
             }

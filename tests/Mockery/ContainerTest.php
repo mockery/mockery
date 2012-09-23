@@ -662,6 +662,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         //$this->assertTrue(\Mockery::self() instanceof MockeryTestFoo);
         \Mockery::resetContainer();
     }
+
+    /**
+     * @issue issue/89
+     */
+    public function testCreatingMockOfClassWithExistingToStringMethodDoesntCreateClassWithTwoToStringMethods()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('MockeryTest_WithToString'); // this would fatal
+        $m->shouldReceive("__toString")->andReturn('dave');
+        $this->assertEquals("dave", "$m");
+    }
     
     public function testGetExpectationCount_freshContainer()
     {
@@ -841,3 +852,8 @@ if(PHP_VERSION_ID >= 50400) {
         public function foo(callable $baz) {$baz();}
     }
 }
+
+class MockeryTest_WithToString {
+    public function __toString() {}
+}
+
