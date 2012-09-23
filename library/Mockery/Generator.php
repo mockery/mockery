@@ -218,8 +218,9 @@ BODY;
         if ($method->isStatic()) {
             $access .= ' static';
         }
-        return $access . ' function ' . $name . '(' . $paramDef . ')'
-                          . '{' . $body . '}';
+        $returnByRef = $method->returnsReference() ? ' & ' : '';
+        return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
+                      . '{' . $body . '}';
     }
 
     protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
@@ -290,8 +291,9 @@ BODY;
         }
         $paramDef = implode(',', $methodParams);
         $access = 'protected';
-        return $access . ' function ' . $name . '(' . $paramDef . ')'
-                          . '{' . $body . '}';
+        $returnByRef = $method->returnsReference() ? ' & ' : '';
+        return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
+                      . '{' . $body . '}';
     }
 
     /**
