@@ -218,8 +218,9 @@ BODY;
         if ($method->isStatic()) {
             $access .= ' static';
         }
-        return $access . ' function ' . $name . '(' . $paramDef . ')'
-                          . '{' . $body . '}';
+        $returnByRef = $method->returnsReference() ? ' & ' : '';
+        return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
+                      . '{' . $body . '}';
     }
 
     protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
@@ -232,12 +233,17 @@ BODY;
         }
         $methodParams = array();
         $params = $method->getParameters();
+		$typehintMatch = array();
         foreach ($params as $param) {
             $paramDef = '';
             if ($param->isArray()) {
                 $paramDef .= 'array ';
             } elseif ($param->getClass()) {
                 $paramDef .= $param->getClass()->getName() . ' ';
+            }  elseif (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?\$' . $param->getName() . ' \]$/', $param->__toString(), $typehintMatch)) {
+                if (!empty($typehintMatch['typehint'])) {
+                    $paramDef .= $typehintMatch['typehint'] . ' ';
+                }
             }
             $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
             if ($param->isOptional()) {
@@ -285,8 +291,9 @@ BODY;
         }
         $paramDef = implode(',', $methodParams);
         $access = 'protected';
-        return $access . ' function ' . $name . '(' . $paramDef . ')'
-                          . '{' . $body . '}';
+        $returnByRef = $method->returnsReference() ? ' & ' : '';
+        return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
+                      . '{' . $body . '}';
     }
 
     /**

@@ -634,6 +634,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $this->container->mock('MockeryTest_ReturnByRef'); 
     }
+
+    public function testMockCallableTypeHint()
+    {
+		if(PHP_VERSION_ID >= 50400) {
+        	$this->container->mock('MockeryTest_MockCallableTypeHint');
+		}
+    }
 }
 
 class MockeryTest_IssetMethod
@@ -779,3 +786,9 @@ abstract class MockeryTest_PartialAbstractClass2 {
 }
 
 class MockeryTest_TestInheritedType {}
+
+if(PHP_VERSION_ID >= 50400) {
+    class MockeryTest_MockCallableTypeHint {
+        public function foo(callable $baz) {$baz();}
+    }
+}
