@@ -285,6 +285,13 @@ overridden by Mockery. This form of "partial mock" can be applied to any class
 or abstract class (e.g. mocking abstract methods where a concrete implementation
 does not exist yet).
 
+    $mock = \Mockery::mock("MyNamespace\MyClass[foo]", array($arg1, $arg2));
+
+If Mockery encounters an indexed array as the second or third argument, it will
+assume they are constructor parameters and pass them when constructing the mock
+object. The syntax above will create a new partial mock, particularly useful if
+method `bar` calls method `foo` internally with `$this->foo()`.
+
     $mock = \Mockery::mock(new Foo);
     
 Passing any real object into Mockery will create a partial mock. Partials assume
@@ -639,6 +646,24 @@ How this works, is that you can define mocks with default expectations. Then,
 in a later unit test, you can add or fine-tune expectations for that
 specific test. Any expectation can be set as a default using the byDefault()
 declaration.
+
+Creating Passive Mocks
+----------------------
+
+If you want your mocks to act more like a stub out of the box, you can use the
+`shouldIgnoreMissing` method. This forces the mock to return a
+`Mockery\Undefined` object for any method call. This can be useful for setting
+up mocks in your setup methods, that wont necessarily require their behaviour
+verifying in every test in your test class.
+
+Creating Passive Partial Mocks
+------------------------------
+
+Another useful scenario, in the instance where you may need to mock a call to an
+internal method, you can create a partial mock of the SUT, passing in the
+necessary constructor arguments and then calling `shouldDeferMissing`. A mock
+created in this way should act in a similar way to if you had constructed an
+instance of the original class, until you add some expectations.
 
 Mocking Public Properties
 -------------------------
