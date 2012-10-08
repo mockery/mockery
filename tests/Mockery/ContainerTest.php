@@ -95,6 +95,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(123, $m->bar());
     }
 
+    public function testNamedMockWithConstructorArgsButNoQuickDefsShouldLeaveConstructorIntact()
+    {
+        $m = $this->container->mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
+        $m->shouldDeferMissing();
+        $this->assertEquals($param1, $m->getParam1());
+    }
+
     public function testNamedMockWithShouldDeferMissing()
     {
         $m = $this->container->mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));

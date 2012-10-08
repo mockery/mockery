@@ -129,6 +129,7 @@ class Container
                 $quickdefs = array_shift($args);
             } elseif (is_array($arg)) {
                 $constructorArgs = array_shift($args);
+                $blocks[] = "__construct"; // Assume they want to use the actual constructor regardless of other requirements
             } else {
                 throw new \Mockery\Exception(
                     'Unable to parse arguments sent to '
@@ -138,9 +139,9 @@ class Container
         }
         if (!is_null($name) && !is_null($class)) {
             if (!$makeInstanceMock) {
-                $mockName = \Mockery\Generator::createClassMock($class);
+                $mockName = \Mockery\Generator::createClassMock($class, null, null, $blocks);
             } else {
-                $mockName = \Mockery\Generator::createClassMock($class, null, null, array(), true);
+                $mockName = \Mockery\Generator::createClassMock($class, null, null, $blocks, true);
             }
             $result = class_alias($mockName, $name);
             $mock = $this->_getInstance($name, $constructorArgs);
@@ -149,7 +150,7 @@ class Container
             $mock = new \Mockery\Mock();
             $mock->mockery_init($name, $this);
         } elseif(!is_null($class)) {
-            $mockName = \Mockery\Generator::createClassMock($class, null, null, array(), false, $partialMethods);
+            $mockName = \Mockery\Generator::createClassMock($class, null, null, $blocks, false, $partialMethods);
             $mock = $this->_getInstance($mockName, $constructorArgs);
             $mock->mockery_init($class, $this);
         } elseif(!is_null($partial)) {
