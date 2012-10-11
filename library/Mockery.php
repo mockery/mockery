@@ -293,6 +293,61 @@ class Mockery
     }
     
     /**
+     * Utility function to format objects to printable arrays
+     *
+     * @param array $args
+     * @return string
+     */
+    public static function formatObjects(array $args = null)
+    {
+        $hasObjects = false;
+        $parts = array();
+        $return = 'Objects: (';
+        if ($args && !empty($args)) {
+            foreach($args as $arg) {
+                if (is_object($arg)) {
+                    $hasObjects = true;
+                    $parts[get_class($arg)] = self::_objectToArray($arg);
+                }
+            }
+        }
+        $return .= var_export($parts, true);
+        $return .= ')';
+        $return = $hasObjects ? $return : '';
+        return $return;
+    }
+
+    /**
+     * Utility function to turn public properties
+     * and public get* and is* method values into an array
+     *
+     * @param object $object
+     * @return string
+     */
+    private static function _objectToArray($object)
+    {
+        $reflection = new \ReflectionClass($object);
+        $properties = array();
+        foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $publicProperty)
+        {
+            if ($publicProperty->isStatic()) continue;
+            $properties[$name] = $object->$name;
+        }
+
+        $getters = array();
+        foreach ($reflection->getMethods(\ReflectionProperty::IS_PUBLIC) as $publicMethod)
+        {
+            if ($publicMethod->isStatic()) continue;
+            $name = $publicMethod->getName();
+            $numberOfParameters = $publicMethod->getNumberOfParameters();
+            if ((substr($name, 0, 3) === 'get' || substr($name, 0, 2) === 'is') && $numberOfParameters == 0) {
+                $getters[$name] = $object->$name();
+            }
+        }
+        return array('properties' => $properties, 'getters' => $getters);
+    }
+
+    /**
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
      *
