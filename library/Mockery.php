@@ -336,7 +336,7 @@ class Mockery
         return array('class' => get_class($object), 'properties' => $properties, 'getters' => $getters);
     }
 
-    private function _cleanupNesting($arg, $nesting) {
+    private static function _cleanupNesting($arg, $nesting) {
         if (is_object($arg)) {
             $object = self::_objectToArray($arg, $nesting - 1);
             $object['class'] = get_class($arg);
@@ -347,7 +347,7 @@ class Mockery
         return $arg;
     }
 
-    private function _cleanupArray($arg, $nesting = 3) {
+    private static function _cleanupArray($arg, $nesting = 3) {
         if ($nesting == 0) {
             return '...';
         }
