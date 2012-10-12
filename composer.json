@@ -1,6 +1,5 @@
 {
     "name": "mockery/mockery",
-    "version": "0.7.3",
     "type": "library",
     "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
     "keywords": ["library", "testing", "test", "stub", "mock", "mockery", "test double", "tdd", "bdd", "mock objects"],
@@ -18,13 +17,6 @@
     },
     "autoload": {
         "psr-0": { "Mockery": "library/" }
-    },
-    "repositories": {
-        "hamcrest googlecode com": {
-            "pear": {
-                "url": "http://hamcrest.googlecode.com/svn/pear"
-            }
-        }
     },
     "suggest": {
         "Hamcrest": "1.0.0"
