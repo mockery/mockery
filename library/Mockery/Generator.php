@@ -67,13 +67,14 @@ class Generator
                 $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block, $partialMethods);
                 if ($result['callTypehinting']) $callTypehinting = true;
                 $definition .= $result['definition'];
+                $definition .= PHP_EOL;
                 $definition .= self::stubAbstractProtected($data['protectedMethods']);
             }  else {
                 $useStandardMethods = false;
             }
         }
         if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting, $makeInstanceMock);
-        $definition .= PHP_EOL . '}';
+        $definition .= PHP_EOL . '}'.PHP_EOL;
 
         return $definition;
     }
@@ -231,7 +232,7 @@ BODY;
         }
         $returnByRef = $method->returnsReference() ? ' & ' : '';
         return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
-                      . '{' . $body . '}';
+                      . '{' . PHP_EOL . $body . PHP_EOL . '}' . PHP_EOL;
     }
 
     protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
