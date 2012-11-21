@@ -22,6 +22,21 @@ namespace Mockery;
 
 class Generator
 {
+    protected static $reservedWords = array(
+        "__halt_compiler", "abstract", "and", "array", "as",
+        "break", "callable", "case", "catch", "class",
+        "clone", "const", "continue", "declare", "default",
+        "die", "do", "echo", "else", "elseif",
+        "empty", "enddeclare", "endfor", "endforeach", "endif",
+        "endswitch", "endwhile", "eval", "exit", "extends",
+        "final", "for", "foreach", "function", "global",
+        "goto", "if", "implements", "include", "include_once",
+        "instanceof", "insteadof", "interface", "isset", "list",
+        "namespace", "new", "or", "print", "private",
+        "protected", "public", "require", "require_once", "return",
+        "static", "switch", "throw", "trait", "try",
+        "unset", "use", "var", "while", "xor"
+    );
 
    /**
     * Generates a Mock Object class with all Mockery methods whose
@@ -188,8 +203,13 @@ class Generator
      */
     protected static function _replacePublicMethod(\ReflectionMethod $method)
     {
-        $body = '';
         $name = $method->getName();
+
+        if (static::_isReservedWord($name)) {
+            return " /* Could not replace $name() as it is a reserved word */ ";
+        }
+
+        $body = '';
         if ($name !== '__construct' && $method->isPublic()) {
             /**
              * Purpose of this block is to create an argument array where
@@ -267,8 +287,13 @@ BODY;
      */
     protected static function _replaceProtectedAbstractMethod(\ReflectionMethod $method)
     {
-        $body = '';
         $name = $method->getName();
+
+        if (static::_isReservedWord($name)) {
+            return " /* Could not replace $name() as it is a reserved word */ ";
+        }
+
+        $body = '';
         $methodParams = array();
         $params = $method->getParameters();
         foreach ($params as $param) {
@@ -295,6 +320,11 @@ BODY;
         $returnByRef = $method->returnsReference() ? ' & ' : '';
         return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
                       . '{' . $body . '}';
+    }
+
+    public static function _isReservedWord($word)
+    {
+        return in_array($word, static::$reservedWords);
     }
 
     /**
