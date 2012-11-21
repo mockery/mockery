@@ -324,7 +324,13 @@ BODY;
 
     public static function _isReservedWord($word)
     {
-        return in_array($word, static::$reservedWords);
+        static $flippedReservedWords;
+
+        if (null === $flippedReservedWords) {
+            $flippedReservedWords = array_fill_keys(static::$reservedWords, true);
+        }
+
+        return isset($flippedReservedWords[$word]);
     }
 
     /**
