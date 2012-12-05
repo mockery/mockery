@@ -120,7 +120,8 @@ class Container
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
             } elseif (is_string($arg)) {
-                $name = array_shift($args);
+                $class = array_shift($args);
+                $this->declareClass($class);
             } elseif (is_object($arg)) {
                 $partial = array_shift($args);
             } elseif (is_array($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
@@ -362,6 +363,23 @@ class Container
 
         $return = unserialize(sprintf('O:%d:"%s":0:{}', strlen($mockName), $mockName));
         return $return;
+    }
+
+    /**
+     * Takes a class name and declares it
+     *
+     * @param string $fqcn
+     */
+    public function declareClass($fqcn)
+    {
+        if (false !== strpos($fqcn, "\\")) {
+            $parts = explode("\\", $fqcn);
+            $cl = array_pop($parts);
+            $ns = implode("\\", $parts);
+            eval(" namespace $ns { class $cl {} }");
+        } else {
+            eval(" class $fqcn {} ");
+        }
     }
 
 }

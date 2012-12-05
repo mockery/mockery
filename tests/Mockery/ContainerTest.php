@@ -708,6 +708,27 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
         $this->container->mock("Redis");
     }
+
+    public function testUndeclaredClassIsDeclared()
+    {
+        $this->assertFalse(class_exists("BlahBlah"));
+        $mock = $this->container->mock("BlahBlah");
+        $this->assertInstanceOf("BlahBlah", $mock);
+    }
+
+    public function testUndeclaredClassWithNamespaceIsDeclared()
+    {
+        $this->assertFalse(class_exists("MyClasses\Blah\BlahBlah"));
+        $mock = $this->container->mock("MyClasses\Blah\BlahBlah");
+        $this->assertInstanceOf("MyClasses\Blah\BlahBlah", $mock);
+    }
+
+    public function testUndeclaredClassWithNamespaceIncludingLeadingOperatorIsDeclared()
+    {
+        $this->assertFalse(class_exists("\MyClasses\Blah\BlahBlah"));
+        $mock = $this->container->mock("\MyClasses\Blah\BlahBlah");
+        $this->assertInstanceOf("\MyClasses\Blah\BlahBlah", $mock);
+    }
 }
 
 class MockeryTest_IssetMethod
