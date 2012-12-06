@@ -373,7 +373,9 @@ class Container
     public function declareClass($fqcn)
     {
         if (false !== strpos($fqcn, "\\")) {
-            $parts = explode("\\", $fqcn);
+            $parts = array_filter(explode("\\", $fqcn), function($part) {
+                return $part !== "";
+            });
             $cl = array_pop($parts);
             $ns = implode("\\", $parts);
             eval(" namespace $ns { class $cl {} }");

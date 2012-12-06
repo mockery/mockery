@@ -725,9 +725,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testUndeclaredClassWithNamespaceIncludingLeadingOperatorIsDeclared()
     {
-        $this->assertFalse(class_exists("\MyClasses\Blah\BlahBlah"));
-        $mock = $this->container->mock("\MyClasses\Blah\BlahBlah");
-        $this->assertInstanceOf("\MyClasses\Blah\BlahBlah", $mock);
+        $this->assertFalse(class_exists("\MyClasses\DaveBlah\BlahBlah"));
+        $mock = $this->container->mock("\MyClasses\DaveBlah\BlahBlah");
+        $this->assertInstanceOf("\MyClasses\DaveBlah\BlahBlah", $mock);
     }
 }
 
