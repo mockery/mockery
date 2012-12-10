@@ -22,23 +22,10 @@ namespace Mockery;
 
 class Generator
 {
-
-   /**
-    * Generates a Mock Object class with all Mockery methods whose
-    * intent is basically to provide the mock object with the same
-    * class type hierarchy as a typical instance of the class being
-    * mocked.
-    *
-    * @param string $className
-    * @param string $mockName
-    * @param string $allowFinal
-    * @return string Classname of the mock class created
-    */
-    public static function createClassMock($className, $mockName = null,
+    public static function createClassMockCode($className, $mockName,
         $allowFinal = false, $block = array(), $makeInstanceMock = false,
         $partialMethods = array())
     {
-        if (is_null($mockName)) $mockName = uniqid('Mockery_');
         $definition = '';
         $inheritance = '';
         $interfaceInheritance = array();
@@ -80,13 +67,37 @@ class Generator
                 $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block, $partialMethods);
                 if ($result['callTypehinting']) $callTypehinting = true;
                 $definition .= $result['definition'];
+                $definition .= PHP_EOL;
                 $definition .= self::stubAbstractProtected($data['protectedMethods']);
             }  else {
                 $useStandardMethods = false;
             }
         }
         if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting, $makeInstanceMock);
-        $definition .= PHP_EOL . '}';
+        $definition .= PHP_EOL . '}'.PHP_EOL;
+
+        return $definition;
+    }
+
+   /**
+    * Generates a Mock Object class with all Mockery methods whose
+    * intent is basically to provide the mock object with the same
+    * class type hierarchy as a typical instance of the class being
+    * mocked.
+    *
+    * @param string $className
+    * @param string $mockName
+    * @param string $allowFinal
+    * @return string Classname of the mock class created
+    */
+    public static function createClassMock($className, $mockName = null,
+        $allowFinal = false, $block = array(), $makeInstanceMock = false,
+        $partialMethods = array())
+    {
+        if (is_null($mockName)) $mockName = uniqid('Mockery_');
+
+        $definition = static::createClassMockCode($className, $mockName, $allowFinal, $block, $makeInstanceMock, $partialMethods);
+
         eval($definition);
         return $mockName;
     }
@@ -221,7 +232,7 @@ BODY;
         }
         $returnByRef = $method->returnsReference() ? ' & ' : '';
         return $access . ' function ' . $returnByRef . $name . '(' . $paramDef . ')'
-                      . '{' . $body . '}';
+                      . '{' . PHP_EOL . $body . PHP_EOL . '}' . PHP_EOL;
     }
 
     protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
