@@ -58,6 +58,20 @@ class Mockery
         $args = func_get_args();
         return call_user_func_array(array(self::$_container, 'instanceMock'), $args);
     }
+
+    /**
+     * Static shortcut to \Mockery\Container::self()
+     *
+     * @return \Mockery\MockInterface
+     */
+    public static function self()
+    {
+        if (is_null(self::$_container)) {
+            throw new \LogicException("You have not declared any mocks yet");
+        }
+
+        return self::$_container->self();
+    }
     
     /**
      * Static shortcut to closing up and verifying all mocks in the global
