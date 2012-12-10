@@ -200,7 +200,7 @@ class Mock implements MockInterface
      *
      * @param Closure $closure
      */
-    public function shouldExpect(Closure $closure)
+    public function shouldExpect(\Closure $closure)
     {
         $recorder = new \Mockery\Recorder($this, $this->_mockery_partial);
         $this->_mockery_disableExpectationMatching = true;
