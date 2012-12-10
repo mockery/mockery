@@ -850,6 +850,7 @@ class MockeryTest_TestInheritedType {}
 if(PHP_VERSION_ID >= 50400) {
     class MockeryTest_MockCallableTypeHint {
         public function foo(callable $baz) {$baz();}
+        public function bar(callable $callback = null) {$callback();}
     }
 }
 
