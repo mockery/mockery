@@ -697,6 +697,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         	$this->container->mock('MockeryTest_MockCallableTypeHint');
 		}
     }
+
+    public function testCanMockClassWithReservedWordMethod()
+    {
+        if (!extension_loaded("redis")) {
+            $this->markTestSkipped(
+                "phpredis not installed"
+            );;
+        }
+
+        $this->container->mock("Redis");
+    }
 }
 
 class MockeryTest_IssetMethod
@@ -850,6 +861,7 @@ class MockeryTest_TestInheritedType {}
 if(PHP_VERSION_ID >= 50400) {
     class MockeryTest_MockCallableTypeHint {
         public function foo(callable $baz) {$baz();}
+        public function bar(callable $callback = null) {$callback();}
     }
 }
 

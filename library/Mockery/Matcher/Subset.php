@@ -32,7 +32,7 @@ class Subset extends MatcherAbstract
     public function match(&$actual)
     {
         foreach ($this->_expected as $k=>$v) {
-            if (!isset($actual[$k])) {
+            if (!array_key_exists($k, $actual)) {
                 return false;
             }
             if ($actual[$k] !== $v) {
