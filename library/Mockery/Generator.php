@@ -110,7 +110,7 @@ class Generator
         foreach ($methods as $method) {
             if ($method->isFinal()  && !$allowFinal) {
                 throw new \Mockery\Exception(
-                    'The method ' . $method->getName()
+                    'The method ' . $class->getName() . "::" . $method->getName()
                     . ' is marked final and it is not possible to generate a '
                     . 'mock object with such a method defined. You should instead '
                     . 'pass an instance of this object to Mockery to create a '
