@@ -3,8 +3,7 @@ php:
   - 5.3
   - 5.4
 before_script:
-  - pyrus channel-discover hamcrest.googlecode.com/svn/pear
-  - pyrus install http://hamcrest.googlecode.com/files/hamcrest-php-1.0.0.tgz
+  - composer install --dev
   - phpenv rehash
 script: phpunit --coverage-text --configuration ./tests/phpunit.xml
 notifications:

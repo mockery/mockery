@@ -66,10 +66,7 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     PHPUnit_Util_Filter::addDirectoryToFilter(PHP_LIBDIR);
 }
 
-require_once 'Mockery/Loader.php';
-$loader = new \Mockery\Loader;
-$loader->register();
-require_once 'Hamcrest/Hamcrest.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /*
  * Unset global variables that are no longer needed.
