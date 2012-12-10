@@ -96,6 +96,8 @@ class ExpectationDirector
                 . \Mockery::formatArgs($this->_name, $args)
                 . '. Either the method was unexpected or its arguments matched'
                 . ' no expected argument list for this method'
+                . PHP_EOL . PHP_EOL
+                . \Mockery::formatObjects($args)
             );
         }
         return $expectation->verifyCall($args);

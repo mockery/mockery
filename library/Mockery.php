@@ -21,21 +21,21 @@
 class Mockery
 {
     const BLOCKS = 'Mockery_Forward_Blocks';
-    
+
     /**
      * Global container to hold all mocks for the current unit test running
      *
      * @var \Mockery\Container
      */
     protected static $_container = null;
-    
+
     /**
      * Global configuration handler containing configuration options
      *
      * @var \Mockery\Configuration
      */
     protected static $_config = null;
-    
+
     /**
      * Static shortcut to \Mockery\Container::mock()
      *
@@ -49,7 +49,7 @@ class Mockery
         $args = func_get_args();
         return call_user_func_array(array(self::$_container, 'mock'), $args);
     }
-    
+
     public static function instanceMock()
     {
         if (is_null(self::$_container)) {
@@ -58,7 +58,7 @@ class Mockery
         $args = func_get_args();
         return call_user_func_array(array(self::$_container, 'instanceMock'), $args);
     }
-    
+
     /**
      * Static shortcut to closing up and verifying all mocks in the global
      * container, and resetting the container static variable to null
@@ -72,7 +72,7 @@ class Mockery
         self::$_container->mockery_close();
         self::$_container = null;
     }
-    
+
     /**
      * Static fetching of a mock associated with a name or explicit class poser
      */
@@ -80,7 +80,7 @@ class Mockery
     {
         return self::$_container->fetchMock($name);
     }
-    
+
     /**
      * Get the container
      */
@@ -88,7 +88,7 @@ class Mockery
     {
         return self::$_container;
     }
-    
+
     /**
      * Set the container
      */
@@ -96,7 +96,7 @@ class Mockery
     {
         return self::$_container = $container;
     }
-    
+
     /**
      * Reset the container to NULL
      */
@@ -115,7 +115,7 @@ class Mockery
         $return = new \Mockery\Matcher\Any();
         return $return;
     }
-    
+
     /**
      * Return instance of TYPE matcher
      *
@@ -126,7 +126,7 @@ class Mockery
         $return = new \Mockery\Matcher\Type($expected);
         return $return;
     }
-    
+
     /**
      * Return instance of DUCKTYPE matcher
      *
@@ -137,7 +137,7 @@ class Mockery
         $return = new \Mockery\Matcher\Ducktype(func_get_args());
         return $return;
     }
-    
+
     /**
      * Return instance of SUBSET matcher
      *
@@ -148,7 +148,7 @@ class Mockery
         $return = new \Mockery\Matcher\Subset($part);
         return $return;
     }
-    
+
     /**
      * Return instance of CONTAINS matcher
      *
@@ -159,7 +159,7 @@ class Mockery
         $return = new \Mockery\Matcher\Contains(func_get_args());
         return $return;
     }
-    
+
     /**
      * Return instance of HASKEY matcher
      *
@@ -170,7 +170,7 @@ class Mockery
         $return = new \Mockery\Matcher\HasKey($key);
         return $return;
     }
-    
+
     /**
      * Return instance of HASVALUE matcher
      *
@@ -181,7 +181,7 @@ class Mockery
         $return = new \Mockery\Matcher\HasValue($val);
         return $return;
     }
-    
+
     /**
      * Return instance of CLOSURE matcher
      *
@@ -192,7 +192,7 @@ class Mockery
         $return = new \Mockery\Matcher\Closure($closure);
         return $return;
     }
-    
+
     /**
      * Return instance of MUSTBE matcher
      *
@@ -203,7 +203,7 @@ class Mockery
         $return = new \Mockery\Matcher\MustBe($expected);
         return $return;
     }
-    
+
     /**
      * Return instance of NOT matcher
      *
@@ -214,7 +214,7 @@ class Mockery
         $return = new \Mockery\Matcher\Not($expected);
         return $return;
     }
-    
+
     /**
      * Return instance of ANYOF matcher
      *
@@ -225,7 +225,7 @@ class Mockery
         $return = new \Mockery\Matcher\AnyOf(func_get_args());
         return $return;
     }
-    
+
     /**
      * Return instance of NOTANYOF matcher
      *
@@ -236,7 +236,7 @@ class Mockery
         $return = new \Mockery\Matcher\NotAnyOf(func_get_args());
         return $return;
     }
-    
+
     /**
      * Get the global configuration container
      */
@@ -247,7 +247,7 @@ class Mockery
         }
         return self::$_config;
     }
-    
+
     /**
      * Utility method to format method name and args into a string
      *
@@ -272,12 +272,95 @@ class Mockery
                 }
             }
             $return .= implode(', ', $parts); // TODO: improve format
-            
+
         }
         $return .= ')';
         return $return;
     }
-    
+
+    /**
+     * Utility function to format objects to printable arrays
+     *
+     * @param array $args
+     * @return string
+     */
+    public static function formatObjects(array $args = null)
+    {
+        $hasObjects = false;
+        $parts = array();
+        $return = 'Objects: (';
+        if ($args && !empty($args)) {
+            foreach($args as $arg) {
+                if (is_object($arg)) {
+                    $hasObjects = true;
+                    $parts[get_class($arg)] = self::_objectToArray($arg);
+                }
+            }
+        }
+        $return .= var_export($parts, true);
+        $return .= ')';
+        $return = $hasObjects ? $return : '';
+        return $return;
+    }
+
+    /**
+     * Utility function to turn public properties
+     * and public get* and is* method values into an array
+     *
+     * @param object $object
+     * @return string
+     */
+    private static function _objectToArray($object, $nesting = 3)
+    {
+        if ($nesting == 0) {
+            return array('...');
+        }
+        $reflection = new \ReflectionClass($object);
+        $properties = array();
+        foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $publicProperty)
+        {
+            if ($publicProperty->isStatic()) continue;
+            $properties[$name] = self::_cleanupNesting($object->$name, $nesting);
+        }
+
+        $getters = array();
+        foreach ($reflection->getMethods(\ReflectionProperty::IS_PUBLIC) as $publicMethod)
+        {
+            if ($publicMethod->isStatic()) continue;
+            $name = $publicMethod->getName();
+            $numberOfParameters = $publicMethod->getNumberOfParameters();
+            if ((substr($name, 0, 3) === 'get' || substr($name, 0, 2) === 'is') && $numberOfParameters == 0) {
+                $getters[$name] = self::_cleanupNesting($object->$name(), $nesting);
+            }
+        }
+        return array('class' => get_class($object), 'properties' => $properties, 'getters' => $getters);
+    }
+
+    private static function _cleanupNesting($arg, $nesting) {
+        if (is_object($arg)) {
+            $object = self::_objectToArray($arg, $nesting - 1);
+            $object['class'] = get_class($arg);
+            return $object;
+        } elseif (is_array($arg)) {
+            return self::_cleanupArray($arg, $nesting -1 );
+        }
+        return $arg;
+    }
+
+    private static function _cleanupArray($arg, $nesting = 3) {
+        if ($nesting == 0) {
+            return '...';
+        }
+        foreach ($arg as $key => $value) {
+            if (is_array($value)) {
+                $arg[$key] = self::_cleanupArray($value, $nesting -1);
+            } elseif (is_object($value)) {
+                $arg[$key] = self::_objectToArray($value, $nesting - 1);
+            }
+        }
+        return $arg;
+    }
+
     /**
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
@@ -302,7 +385,7 @@ class Mockery
         }
         return $composite;
     }
-    
+
     /**
      * Sets up expectations on the members of the CompositeExpectation and
      * builds up any demeter chain that was passed to shouldReceive
