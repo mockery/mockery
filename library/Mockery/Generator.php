@@ -235,7 +235,7 @@ BODY;
         $methodParams = array();
         $params = $method->getParameters();
 		$typehintMatch = array();
-        foreach ($params as $param) {
+        foreach ($params as $i => $param) {
             $paramDef = '';
             if ($param->isArray()) {
                 $paramDef .= 'array ';
@@ -246,7 +246,11 @@ BODY;
                     $paramDef .= $typehintMatch['typehint'] . ' ';
                 }
             }
-            $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $param->getName();
+            $paramName = $param->getName();
+            if (empty($paramName) || $paramName === '...') {
+                $paramName = 'arg' . $i;
+            }
+            $paramDef .= ($param->isPassedByReference() ? '&' : '') . '$' . $paramName;
             if ($param->isOptional()) {
                 if ($param->isDefaultValueAvailable()) {
                     $default = var_export($param->getDefaultValue(), true);
