@@ -380,6 +380,12 @@ Sets up a sequence of return values or closures. For example, the first call wil
 value1 and the second value2. Note that all subsequent calls to a mocked method
 will always return the final value (or the only value) given to this declaration.
 
+    andReturns(array)
+    
+Alternative syntax for andReturn() that accepts a simple array instead of a list of parameters.
+The order of return is determined by the numerical index of the given array with the last array
+member being return on all calls once previous return values are exhausted.
+
     andReturnUsing(closure, ...)
     
 Sets a closure (anonymous function) to be called with the arguments passed to
