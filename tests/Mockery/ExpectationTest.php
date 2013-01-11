@@ -1538,6 +1538,17 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     /**
      * @expectedException \Mockery\Exception
+     * @expectedExceptionMessage Mockery's configuration currently forbids mocking 
+     */
+    public function testGlobalConfigMayForbidMockingNonExistentMethodsOnAutoDeclaredClasses()
+    {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $mock = $this->container->mock('SomeMadeUpClass');
+        $mock->shouldReceive('foo');
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
      */
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnObjects()
     {
