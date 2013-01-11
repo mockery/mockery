@@ -127,7 +127,15 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->shouldReceive('foo')->andReturnUndefined();
         $this->assertTrue($this->mock->foo() instanceof \Mockery\Undefined);
     }
-    
+
+    public function testReturnsValuesSetAsArray()
+    {
+        $this->mock->shouldReceive('foo')->andReturnValues(array(1,2,3));
+        $this->assertEquals(1, $this->mock->foo());
+        $this->assertEquals(2, $this->mock->foo());
+        $this->assertEquals(3, $this->mock->foo());
+    }
+
     /**
      * @expectedException OutOfBoundsException
      */

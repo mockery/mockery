@@ -339,6 +339,17 @@ class Expectation
         $this->_returnQueue = func_get_args();
         return $this;
     }
+
+    /**
+     * Set a sequential queue of return values with an array
+     *
+     * @return self
+     */
+    public function andReturnValues(array $values)
+    {
+        call_user_func_array(array($this, 'andReturn'), $values);
+        return $this;
+    }
     
     /**
      * Set a closure or sequence of closures with which to generate return
