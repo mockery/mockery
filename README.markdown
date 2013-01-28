@@ -3,7 +3,7 @@ Mockery
 
 Mockery is a simple yet flexible PHP mock object framework for use in unit testing
 with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a
-test double framework with a succint API capable of clearly defining all possible
+test double framework with a succinct API capable of clearly defining all possible
 object operations and interactions using a human readable Domain Specific Language
 (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library,
 Mockery is easy to integrate with PHPUnit and can operate alongside
@@ -40,7 +40,7 @@ the Hamcrest library (see below for instructions).
 Installation
 ------------
 
-Mockery may be installed using Composer, PEAR or by cloning it from its Github repository. These
+Mockery may be installed using Composer, PEAR or by cloning it from its GitHub repository. These
 three options are outlined below.
 
 **Composer**
@@ -65,8 +65,8 @@ can be installed using the following commands:
     sudo pear channel-discover hamcrest.googlecode.com/svn/pear
     sudo pear install --alldeps deepend/Mockery
 
-**Git / Github**
-    
+**Git / GitHub**
+
 The git repository hosts the development version in its master branch. You may
 install this development version using:
 
@@ -88,7 +88,7 @@ before reporting an average temperature. The data could come from a web service
 or any other data source, but we do not have such a class at present. We can,
 however, assume some basic interactions with such a class based on its interaction
 with the Temperature class.
-    
+
     class Temperature
     {
 
@@ -96,7 +96,7 @@ with the Temperature class.
         {
             $this->_service = $service;
         }
-        
+
         public function average()
         {
             $total = 0;
@@ -105,26 +105,26 @@ with the Temperature class.
             }
             return $total/3;
         }
-        
+
     }
-    
+
 Even without an actual service class, we can see how we expect it to operate.
 When writing a test for the Temperature class, we can now substitute a mock
 object for the real service which allows us to test the behaviour of the
 Temperature class without actually needing a concrete service instance.
 
-Note: PHPUnit integration (see below) can remove the need for a teardown() method.
+Note: PHPUnit integration (see below) can remove the need for a tearDown() method.
 
     use \Mockery as m;
-    
+
     class TemperatureTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             m::close();
         }
-        
+
         public function testGetsAverageTemperatureFromThreeServiceReadings()
         {
             $service = m::mock('service');
@@ -142,21 +142,21 @@ PHPUnit Integration
 
 Mockery was designed as a simple to use standalone mock object framework, so
 its need for integration with any testing framework is entirely optional.
-To integrate Mockery, you just need to define a teardown() method for your
+To integrate Mockery, you just need to define a tearDown() method for your
 tests containing the following (you may use a shorter \Mockery namespace alias):
 
-    public function teardown() {
+    public function tearDown() {
         \Mockery::close();
     }
-    
+
 This static call cleans up the Mockery container used by the current test, and
 run any verification tasks needed for your expectations.
-    
+
 For some added brevity when it comes to using Mockery, you can also explicitly
 use the Mockery namespace with a shorter alias. For example:
 
     use \Mockery as m;
-    
+
     class SimpleTest extends PHPUnit_Framework_TestCase
     {
         public function testSimpleMock() {
@@ -164,12 +164,12 @@ use the Mockery namespace with a shorter alias. For example:
             $mock->shouldReceive('foo')->with(5, m::any())->once()->andReturn(10);
             $this->assertEquals(10, $mock->foo(5));
         }
-        
-        public function teardown() {
+
+        public function tearDown() {
             m::close();
         }
     }
-    
+
 Mockery ships with an autoloader so you don't need to litter your tests with
 require_once() calls. To use it, ensure Mockery is on your include_path and add
 the following to your test suite's Bootstrap.php or TestHelper.php file:
@@ -180,26 +180,26 @@ the following to your test suite's Bootstrap.php or TestHelper.php file:
     $loader->register();
 
 (Note: Prior to Hamcrest 1.0.0, the Hamcrest.php file name had a small "h", i.e. hamcrest.php. If upgrading Hamcrest to 1.0.0 remember to check the file name is updated for all your projects.)
-    
+
 To integrate Mockery into PHPUnit and avoid having to call the close method and
 have Mockery remove itself from code coverage reports, use this in you suite:
 
-	//Create Suite
-	$suite = new PHPUnit_Framework_TestSuite();
-	
-	//Create a result listener or add it
-	$result = new PHPUnit_Framework_TestResult();
-        $result->addListener(new \Mockery\Adapter\Phpunit\TestListener());
-	
-	// Run the tests.
-	$suite->run($result);
+    //Create Suite
+    $suite = new PHPUnit_Framework_TestSuite();
+
+    //Create a result listener or add it
+    $result = new PHPUnit_Framework_TestResult();
+    $result->addListener(new \Mockery\Adapter\Phpunit\TestListener());
+
+    // Run the tests.
+    $suite->run($result);
 
 If you are using PHPUnit's XML configuration approach, you can include the following to load the TestListener:
 
     <listeners>
         <listener class="\Mockery\Adapter\Phpunit\TestListener" file="Mockery/Adapter/Phpunit/TestListener.php"></listener>
     </listeners>
-	
+
 Quick Reference
 ---------------
 
@@ -207,33 +207,33 @@ Mockery implements a shorthand API when creating a mock. Here's a sampling
 of the possible startup methods.
 
     $mock = \Mockery::mock('foo');
-    
+
 Creates a mock object named foo. In this case, foo is a name (not necessarily
 a class name) used as a simple identifier when raising exceptions. This creates
 a mock object of type \Mockery\Mock and is the loosest form of mock possible.
 
     $mock = \Mockery::mock(array('foo'=>1,'bar'=>2));
-    
+
 Creates an mock object named unknown since we passed no name. However we did
 pass an expectation array, a quick method of setting up methods to expect with
 their return values.
 
     $mock = \Mockery::mock('foo', array('foo'=>1,'bar'=>2));
-    
+
 Similar to the previous examples and all examples going forward, expectation arrays
 can be passed for all mock objects as the second parameter to mock().
 
     $mock = \Mockery::mock('foo', function($mock) {
         $mock->shouldReceive(method_name);
     });
-    
+
 In addition to expectation arrays, you can also pass in a closure which contains
 reusable expectations. This can be passed as the second parameter, or as the third
 parameter if partnered with an expectation array. This is one method for creating
 reusable mock expectations.
 
     $mock = \Mockery::mock('stdClass');
-    
+
 Creates a mock identical to a named mock, except the name is an actual class
 name. Creates a simple mock as previous examples show, except the mock
 object will inherit the class type (via inheritance), i.e. it will pass type hints
@@ -241,7 +241,7 @@ or instanceof evaluations for stdClass. Useful where a mock object must be of a 
 type.
 
     $mock = \Mockery::mock('FooInterface');
-    
+
 You can create mock objects based on any concrete class, abstract class or
 even an interface. Again, the primary purpose is to ensure the mock object
 inherits a specific type for type hinting. There is an exception in that classes
@@ -249,13 +249,13 @@ marked final, or with methods marked final, cannot be mocked fully. In these cas
 a partial mock (explained below) must be utilised.
 
     $mock = \Mockery::mock('alias:MyNamespace\MyClass');
-    
+
 Prefixing the valid name of a class (which is NOT currently loaded) with "alias:"
 will generate an "alias mock". Alias mocks create a class alias with the given
 classname to stdClass and are generally used to enable the mocking of public
 static methods. Expectations set on the new mock object which refer to static
 methods will be used by all static calls to this class.
-    
+
     $mock = \Mockery::mock('overload:MyNamespace\MyClass');
 
 Prefixing the valid name of a class (which is NOT currently loaded) with "overload:" will
@@ -270,7 +270,7 @@ kind in a separate PHP process (which is supported out of the box by both
 PHPUnit and PHPT).
 
     $mock = \Mockery::mock('stdClass, MyInterface1, MyInterface2');
-    
+
 The first argument can also accept a list of interfaces that the mock object must
 implement, optionally including no more than one existing class to be based on. The
 class name doesn't need to be the first member of the list but it's a friendly
@@ -278,7 +278,7 @@ convention to use for readability. All subsequent arguments remain unchanged fro
 previous examples.
 
     $mock = \Mockery::mock('MyNamespace\MyClass[foo,bar]');
-    
+
 The syntax above tells Mockery to partially mock the MyNamespace\MyClass class,
 by mocking the foo() and bar() methods only. Any other method will be not be
 overridden by Mockery. This form of "partial mock" can be applied to any class
@@ -293,7 +293,7 @@ object. The syntax above will create a new partial mock, particularly useful if
 method `bar` calls method `foo` internally with `$this->foo()`.
 
     $mock = \Mockery::mock(new Foo);
-    
+
 Passing any real object into Mockery will create a partial mock. Partials assume
 you can already create a concrete object, so all we need to do is selectively
 override a subset of existing methods (or add non-existing methods!) for
@@ -324,23 +324,23 @@ exactly it should behave (and how it should be called). This is where the
 Mockery expectation declarations take over.
 
     shouldReceive(method_name)
-    
+
 Declares that the mock expects a call to the given method name. This is the
 starting expectation upon which all other expectations and constraints are
 appended.
 
     shouldReceive(method1, method2, ...)
-    
+
 Declares a number of expected method calls, all of which will adopt any chained
 expectations or constraints.
 
     shouldReceive(array('method1'=>1, 'method2'=>2, ...))
-    
+
 Declares a number of expected calls but also their return values. All will
 adopt any additional chained expectations or constraints.
 
     shouldReceive(closure)
-    
+
 Creates a mock object (only from a partial mock) which is used to create a mock
 object recorder. The recorder is a simple proxy to the original object passed
 in for mocking. This is passed to the closure, which may run it through a set of
@@ -349,7 +349,7 @@ use case is automatically recording expectations based on an existing usage
 (e.g. during refactoring). See examples in a later section.
 
     with(arg1, arg2, ...)
-    
+
 Adds a constraint that this expectation only applies to method calls which
 match the expected argument list. You can add a lot more flexibility to argument
 matching using the built in matcher classes (see later). For example,
@@ -362,32 +362,32 @@ to the given method when it is called with these exact arguments. This allows fo
 setting up differing expectations based on the arguments provided to expected calls.
 
     withAnyArgs()
-    
+
 Declares that this expectation matches a method call regardless of what arguments
 are passed. This is set by default unless otherwise specified.
 
     withNoArgs()
-    
+
 Declares this expectation matches method calls with zero arguments.
 
     andReturn(value)
-    
+
 Sets a value to be returned from the expected method call.
 
     andReturn(value1, value2, ...)
-    
+
 Sets up a sequence of return values or closures. For example, the first call will return
 value1 and the second value2. Note that all subsequent calls to a mocked method
 will always return the final value (or the only value) given to this declaration.
 
     andReturns(array)
-    
+
 Alternative syntax for andReturn() that accepts a simple array instead of a list of parameters.
 The order of return is determined by the numerical index of the given array with the last array
 member being return on all calls once previous return values are exhausted.
 
     andReturnUsing(closure, ...)
-    
+
 Sets a closure (anonymous function) to be called with the arguments passed to
 the method. The return value from the closure is then returned. Useful for some
 dynamic processing of arguments into related concrete results. Closures can
@@ -395,69 +395,69 @@ queued by passing them as extra parameters as for andReturn(). Note that you
 cannot currently mix andReturnUsing() with andReturn().
 
     andThrow(Exception)
-    
+
 Declares that this method will throw the given Exception object when called.
 
     andThrow(exception_name, message)
-    
+
 Rather than an object, you can pass in the Exception class and message to
 use when throwing an Exception from the mocked method.
 
     andSet(name, value1) / set(name, value1)
-    
+
 Used with an expectation so that when a matching method is called, one
 can also cause a mock object's public property to be set to a specified value.
 
     zeroOrMoreTimes()
-    
+
 Declares that the expected method may be called zero or more times. This is
 the default for all methods unless otherwise set.
 
     once()
-    
+
 Declares that the expected method may only be called once. Like all other
 call count constraints, it will throw a \Mockery\CountValidator\Exception
 if breached and can be modified by the atLeast() and atMost() constraints.
 
     twice()
-    
+
 Declares that the expected method may only be called twice.
 
     times(n)
-    
+
 Declares that the expected method may only be called n times.
 
     never()
-    
+
 Declares that the expected method may never be called. Ever!
 
     atLeast()
-    
+
 Adds a minimum modifier to the next call count expectation. Thus
 atLeast()->times(3) means the call must be called at least three times (given
 matching method args) but never less than three times.
 
     atMost()
-    
+
 Adds a maximum modifier to the next call count expectation. Thus
 atMost()->times(3) means the call must be called no more than three times. This
 also means no calls are acceptable.
 
     between(min, max)
-    
+
 Sets an expected range of call counts. This is actually identical to using
 atLeast()->times(min)->atMost()->times(max) but is provided as a shorthand.
 It may be followed by a times() call with no parameter to preserve the
 APIs natural language readability.
 
     ordered()
-    
+
 Declares that this method is expected to be called in a specific order in
 relation to similarly marked methods. The order is dictated by the order in
 which this modifier is actually used when setting up mocks.
 
     ordered(group)
-    
+
 Declares the method as belonging to an order group (which can be named or
 numbered). Methods within a group can be called in any order, but the ordered
 calls from outside the group are ordered in relation to the group, i.e. you can
@@ -465,13 +465,13 @@ set up so that method1 is called before group1 which is in turn called before
 method 2.
 
     globally()
-    
+
 When called prior to ordered() or ordered(group), it declares this ordering to
 apply across all mock objects (not just the current mock). This allows for dictating
 order expectations across multiple mocks.
 
     byDefault()
-    
+
 Marks an expectation as a default. Default expectations are applied unless
 a non-default expectation is created. These later expectations immediately
 replace the previously defined default. This is useful so you can setup default
@@ -479,13 +479,13 @@ mocks in your unit test setup() and later tweak them in specific tests as
 needed.
 
     getMock()
-    
+
 Returns the current mock object from an expectation chain. Useful where
 you prefer to keep mock setups as a single statement, e.g.
-    
+
     $mock = \Mockery::mock('foo')->shouldReceive('foo')->andReturn(1)->getMock();
 
-    
+
 Argument Validation
 -------------------
 
@@ -514,13 +514,13 @@ functions (no namespacing).
 Here's a sample of the possibilities.
 
     with(1)
-    
+
 Matches the integer 1. This passes the === test (identical). It does facilitate
 a less strict == check (equals) where the string '1' would also match the
 argument.
 
     with(\Mockery::any()) OR with(anything())
-    
+
 Matches any argument. Basically, anything and everything passed in this argument
 slot is passed unconstrained.
 
@@ -540,7 +540,7 @@ http://www.php.net/manual/en/ref.var.php or browse Hamcrest's function list at
 http://code.google.com/p/hamcrest/source/browse/trunk/hamcrest-php/hamcrest/Hamcrest.php.
 
     with(\Mockery::on(closure))
-    
+
 The On matcher accepts a closure (anonymous function) to which the actual argument
 will be passed. If the closure evaluates to (i.e. returns) boolean TRUE then
 the argument is assumed to have matched the expectation. This is invaluable
@@ -550,7 +550,7 @@ implemented in the current default matchers.
 There is no Hamcrest version of this functionality.
 
     with('/^foo/') OR with(matchesPattern('/^foo/'))
-    
+
 The argument declarator also assumes any given string may be a regular
 expression to be used against actual arguments when matching. The regex option
 is only used when a) there is no === or == match and b) when the regex
@@ -559,7 +559,7 @@ If the regex detection doesn't suit your tastes, Hamcrest offers the more
 explicit matchesPattern() function.
 
     with(\Mockery::ducktype('foo', 'bar'))
-    
+
 The Ducktype matcher is an alternative to matching by class type. It simply
 matches any argument which is an object containing the provided list
 of methods to call.
@@ -567,7 +567,7 @@ of methods to call.
 There is no Hamcrest version of this functionality.
 
     with(\Mockery::mustBe(2)) OR with(identicalTo(2))
-    
+
 The MustBe matcher is more strict than the default argument matcher. The default
 matcher allows for PHP type casting, but the MustBe matcher also verifies that
 the argument must be of the same type as the expected value. Thus by default,
@@ -586,18 +586,18 @@ The Not matcher matches any argument which is not equal or identical to the
 matcher's parameter.
 
     with(\Mockery::anyOf(1, 2)) OR with(anyOf(1,2))
-    
+
 Matches any argument which equals any one of the given parameters.
 
-    with(\Mockery::notAnyof(1, 2))
-    
+    with(\Mockery::notAnyOf(1, 2))
+
 Matches any argument which is not equal or identical to any of the given
 parameters.
 
 There is no Hamcrest version of this functionality.
 
     with(\Mockery::subset(array(0=>'foo')))
-    
+
 Matches any argument which is any array containing the given array subset. This
 enforces both key naming and values, i.e. both the key and value of each
 actual element is compared.
@@ -606,16 +606,16 @@ There is no Hamcrest version of this functionality, though Hamcrest can check a
 single entry using hasEntry() or hasKeyValuePair().
 
     with(\Mockery::contains(value1, value2))
-    
+
 Matches any argument which is an array containing the listed values. The naming
 of keys is ignored.
 
     with(\Mockery::hasKey(key));
-    
+
 Matches any argument which is an array containing the given key name.
 
     with(\Mockery::hasValue(value));
-    
+
 Matches any argument which is an array containing the given value.
 
 Creating Partial Mocks
@@ -674,7 +674,7 @@ instance of the original class, until you add some expectations.
 Mocking Public Properties
 -------------------------
 
-Mockery allows you to mock properties is several ways. The simplest is that
+Mockery allows you to mock properties in several ways. The simplest is that
 you can simply set a public property and value on any mock object. The second
 is that you can use the expectation methods set() and andSet() to set property
 values if that expectation is ever met.
@@ -788,7 +788,7 @@ Both of these terms refer to the growing practice of invoking statements
 similar to:
 
     $object->foo()->bar()->zebra()->alpha()->selfDestruct();
-    
+
 The long chain of method calls isn't necessarily a bad thing, assuming they
 each link back to a local object the calling class knows. Just as a fun example,
 Mockery's long chains (after the first shouldReceive() method) all call to the
@@ -803,7 +803,7 @@ CaptainsConsole). Here's how we could mock it.
 
     $mock = \Mockery::mock('CaptainsConsole');
     $mock->shouldReceive('foo->bar->zebra->alpha->selfDestruct')->andReturn('Ten!');
-    
+
 The above expectation can follow any previously seen format or expectation, except
 that the method name is simply the string of all expected chain calls separated
 by "->". Mockery will automatically setup the chain of expected calls with
@@ -851,12 +851,12 @@ Here's the test case showing the recording:
 
     class SubjectUserTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             \Mockery::close();
         }
-        
+
         public function testSomething()
         {
             $mock = \Mockery::mock(new Subject);
@@ -864,7 +864,7 @@ Here's the test case showing the recording:
                 $user = new SubjectUser;
                 $user->use($subject);
             });
-            
+
             /**
              * Assume we have a replacement SubjectUser called NewSubjectUser.
              * We want to verify it behaves identically to SubjectUser, i.e.
@@ -875,8 +875,8 @@ Here's the test case showing the recording:
         }
 
     }
-    
-After the \Mockery::close() call in teardown() validates the mock object, we
+
+After the \Mockery::close() call in tearDown() validates the mock object, we
 should have zero exceptions if NewSubjectUser acted on Subject in a similar way
 to SubjectUser. By default the order of calls are not enforced, and loose argument
 matching is enabled, i.e. arguments may be equal (==) but not necessarily identical
@@ -891,7 +891,7 @@ identical, you can invoke the recorder's strict mode from the closure block, e.g
         $user = new SubjectUser;
         $user->use($subject);
     });
-    
+
 Dealing with Final Classes/Methods
 ----------------------------------
 
@@ -937,7 +937,7 @@ select tests) by using one or both of the following two calls:
 
     \Mockery::getConfiguration()->allowMockingNonExistentMethods(bool);
     \Mockery::getConfiguration()->allowMockingMethodsUnnecessarily(bool);
-    
+
 Passing a true allows the behaviour, false disallows it. Both take effect
 immediately until switched back. In both cases, if either
 behaviour is detected when not allowed, it will result in an Exception being
@@ -948,7 +948,7 @@ The other two methods are:
 
     \Mockery::getConfiguration()->setInternalClassMethodParamMap($class, $method, array $paramMap)
     \Mockery::getConfiguration()->getInternalClassMethodParamMap($class, $method)
-    
+
 These are used to define parameters (i.e. the signature string of each) for the
 methods of internal PHP classes (e.g. SPL, or PECL extension classes like
 ext/mongo's MongoCollection. Reflection cannot analyse the parameters of internal
@@ -993,7 +993,7 @@ Gotchas!
 
 Mocking objects in PHP has its limitations and gotchas. Some functionality can't
 be mocked or can't be mocked YET! If you locate such a circumstance, please please
-(pretty please with sugar on top) create a new issue on Github so it can be
+(pretty please with sugar on top) create a new issue on GitHub so it can be
 documented and resolved where possible. Here is a list to note:
 
 1. Classes containing public __wakeup methods can be mocked but the mocked __wakeup
@@ -1033,12 +1033,12 @@ Create a mock object to return a sequence of values from a set of method calls.
 
     class SimpleTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             \Mockery::close();
         }
-        
+
         public function testSimpleMock()
         {
             $mock = \Mockery::mock(array('pi' => 3.1416, 'e' => 2.71));
@@ -1047,20 +1047,20 @@ Create a mock object to return a sequence of values from a set of method calls.
         }
 
     }
-    
+
 Create a mock object which returns a self-chaining Undefined object for a method
 call.
 
     use \Mockery as m;
-    
+
     class UndefinedTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             m::close();
         }
-        
+
         public function testUndefinedValues()
         {
             $mock = m::mock('my mock');
@@ -1069,66 +1069,66 @@ call.
         }
 
     }
-    
+
 Creates a mock object which multiple query calls and a single update call
 
     use \Mockery as m;
-    
+
     class DbTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             m::close();
         }
-        
+
         public function testDbAdapter()
         {
             $mock = m::mock('db');
             $mock->shouldReceive('query')->andReturn(1, 2, 3);
             $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
-            
+
             // test code here using the mock
         }
 
     }
-    
+
 Expect all queries to be executed before any updates.
 
     use \Mockery as m;
-    
+
     class DbTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             m::close();
         }
-        
+
         public function testQueryAndUpdateOrder()
         {
             $mock = m::mock('db');
             $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
             $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
-            
+
             // test code here using the mock
         }
 
     }
-    
+
 Create a mock object where all queries occur after startup, but before finish, and
 where queries are expected with several different params.
 
     use \Mockery as m;
-    
+
     class DbTest extends PHPUnit_Framework_TestCase
     {
-        
-        public function teardown()
+
+        public function tearDown()
         {
             m::close();
         }
-        
+
         public function testOrderedQueries()
         {
             $db = m::mock('db');
@@ -1137,7 +1137,7 @@ where queries are expected with several different params.
             $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
             $db->shouldReceive('query')->with("/^....$/")->andReturn(3.3)->atLeast()->once()->ordered('queries');
             $db->shouldReceive('finish')->once()->ordered();
-            
+
             // test code here using the mock
         }
 
