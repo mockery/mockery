@@ -80,6 +80,14 @@ While omitting Hamcrest will not break Mockery, Hamcrest is highly recommended
 as it adds a wider variety of functionality for argument matching that Mockery
 is capable of.
 
+**Unit Testing**
+
+To run the unit tests for Mockery, clone the git repository, download Composer (i.e. composer.phar) using the instructions at [http://getcomposer.org/download/](http://getcomposer.org/download/) and run the following Composer command from the root directory of Mockery:
+
+    php /path/to/composer.phar install --dev
+
+This will install the required Hamcrest dev dependency and create the autoload files required by the unit tests. Navigate to the "tests" directory and run the phpunit command as normal. With a wee bit of luck, there will be no failed tests!
+
 Simple Example
 --------------
 

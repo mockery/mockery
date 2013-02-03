@@ -4,3 +4,4 @@ pearfarm.spec
 library/Hamcrest/*
 composer.lock
 vendor/
+composer.phar
