@@ -776,6 +776,37 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         }
         $m = $this->container->mock('Redis');
     }
+    
+    public function testIssetMappingUsingProxiedPartials_CheckNoExceptionThrown()
+    {
+        $var = $this->container->mock(new MockeryTestIsset_Bar());
+        $mock = $this->container->mock(new MockeryTestIsset_Foo($var));
+        $mock->shouldReceive('bar')->once();
+        $mock->bar();
+        $this->container->mockery_teardown(); // closed by teardown()
+    }
+}
+
+class MockeryTestIsset_Bar {
+
+    public function doSomething() {}
+}
+
+class MockeryTestIsset_Foo {
+
+    private $var;
+
+    public function __construct($var) {
+        $this->var = $var;
+    }
+
+    public function __get($name) {
+        $this->var->doSomething();
+    }
+
+    public function __isset($name) {
+        return (bool) strlen($this->__get($name));
+    }
 }
 
 class MockeryTest_IssetMethod
