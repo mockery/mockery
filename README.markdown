@@ -254,7 +254,7 @@ You can create mock objects based on any concrete class, abstract class or
 even an interface. Again, the primary purpose is to ensure the mock object
 inherits a specific type for type hinting. There is an exception in that classes
 marked final, or with methods marked final, cannot be mocked fully. In these cases
-a partial mock (explained below) must be utilised.
+a partial mock (explained later) must be utilised.
 
     $mock = \Mockery::mock('alias:MyNamespace\MyClass');
 
@@ -291,7 +291,9 @@ The syntax above tells Mockery to partially mock the MyNamespace\MyClass class,
 by mocking the foo() and bar() methods only. Any other method will be not be
 overridden by Mockery. This form of "partial mock" can be applied to any class
 or abstract class (e.g. mocking abstract methods where a concrete implementation
-does not exist yet).
+does not exist yet). If you attempt to partial mock a method marked final, it will
+actually be ignored in that instance leaving the final method untouched. This is
+necessary since mocking of final methods is, by definition in PHP, impossible.
 
     $mock = \Mockery::mock("MyNamespace\MyClass[foo]", array($arg1, $arg2));
 
@@ -302,11 +304,12 @@ method `bar` calls method `foo` internally with `$this->foo()`.
 
     $mock = \Mockery::mock(new Foo);
 
-Passing any real object into Mockery will create a partial mock. Partials assume
-you can already create a concrete object, so all we need to do is selectively
+Passing any real object into Mockery will create a Proxied Partial Mock. This
+can be useful if real partials are impossible, e.g. a final class or class where
+you absolutely must override a method marked final. Since you can already create
+a concrete object, so all we need to do is selectively
 override a subset of existing methods (or add non-existing methods!) for
-our expectations. Partial mocks are essential for any class which is marked final
-or contains public methods marked final.
+our expectations.
 
 A little revision: All mock methods accept the class, object or alias name to be
 mocked as the first parameter. The second parameter can be an expectation array

@@ -74,7 +74,7 @@ class Generator
         foreach ($classData as $data) {
             if ($data['class']->isInterface()) {
                 $interfaceInheritance[] = $data['className'];
-            } elseif ($data['class']->isFinal() || $data['hasFinalMethods']) {
+            } elseif ($data['class']->isFinal()) {
                 $inheritance = ' extends ' . $data['className'];
                 $classNameInherited = $data['className'];
                 $classIsFinal = true;
@@ -91,7 +91,7 @@ class Generator
 
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         foreach ($classData as $data) {
-            if (!$data['class']->isFinal() && !$data['hasFinalMethods']) {
+            if (!$data['class']->isFinal()) {
                 $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block, $partialMethods);
                 if ($result['callTypehinting']) $callTypehinting = true;
                 $definition .= $result['definition'];
@@ -123,16 +123,7 @@ class Generator
         $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
         $protected = $class->getMethods(\ReflectionMethod::IS_PROTECTED);
         foreach ($methods as $method) {
-            if ($method->isFinal()  && !$allowFinal) {
-                throw new \Mockery\Exception(
-                    'The method ' . $class->getName() . "::" . $method->getName()
-                    . ' is marked final and it is not possible to generate a '
-                    . 'mock object with such a method defined. You should instead '
-                    . 'pass an instance of this object to Mockery to create a '
-                    . 'partial mock.'
-                );
-            } elseif ($method->isFinal()) {
-                $className = '\\Mockery\\Mock';
+            if ($method->isFinal()) {
                 $hasFinalMethods = true;
             }
         }
@@ -161,6 +152,10 @@ class Generator
         foreach ($methods as $method) {
             if(in_array($method->getName(), $block)) continue;
             if (count($partialMethods) > 0 && !in_array(strtolower($method->getName()), $partialMethods)) {
+                continue;
+            }
+            // Skip final methods, i.e. we end up with a partial with final methods untouched
+            if ($method->isFinal()) {
                 continue;
             }
             if (!$method->isDestructor()

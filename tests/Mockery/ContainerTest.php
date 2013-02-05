@@ -188,11 +188,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $m = $this->container->mock('MockeryFoo3');
     }
-    
-    /**
-     * @expectedException \Mockery\Exception
-     */
-    public function testMockingAKnownConcreteClassWithFinalMethodsThrowsErrors_OnlyPartialMocksCanMockFinalElements()
+
+    public function testMockingAKnownConcreteClassWithFinalMethodsThrowsNoException()
     {
         $m = $this->container->mock('MockeryFoo4');
     }
@@ -207,14 +204,49 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('baz', $m->foo());
         $this->assertFalse($m instanceof MockeryFoo3);
     }
+
+    public function testSplClassWithFinalMethodsCanBeMocked()
+    {
+        $m = $this->container->mock('SplFileInfo');
+        $m->shouldReceive('foo')->andReturn('baz');
+        $this->assertEquals('baz', $m->foo());
+        $this->assertTrue($m instanceof SplFileInfo);
+
+    }
     
-    public function testClassesWithFinalMethodsCanBePartialMocks()
+    public function testClassesWithFinalMethodsCanBeProxyPartialMocks()
     {
         $m = $this->container->mock(new MockeryFoo4);
         $m->shouldReceive('foo')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
         $this->assertEquals('bar', $m->bar());
-        $this->assertFalse($m instanceof MockeryFoo4);
+        $this->assertTrue($m instanceof MockeryFoo4);
+    }
+
+    public function testClassesWithFinalMethodsCanBeProperPartialMocks()
+    {
+        $m = $this->container->mock('MockeryFoo4[bar]');
+        $m->shouldReceive('bar')->andReturn('baz');
+        $this->assertEquals('baz', $m->foo());
+        $this->assertEquals('baz', $m->bar());
+        $this->assertTrue($m instanceof MockeryFoo4);
+    }
+
+    public function testClassesWithFinalMethodsCanBeProperPartialMocksButFinalMethodsNotPartialed()
+    {
+        $m = $this->container->mock('MockeryFoo4[foo]');
+        $m->shouldReceive('foo')->andReturn('foo');
+        $this->assertEquals('baz', $m->foo()); // partial expectation ignored - will fail callcount assertion
+        $this->assertTrue($m instanceof MockeryFoo4);
+    }
+
+    public function testSplfileinfoClassMockPassesUserExpectations()
+    {
+        $file = $this->container->mock('SplFileInfo[getFilename,getPathname,getExtension,getMTime]');
+        $file->shouldReceive('getFilename')->once()->andReturn('foo');
+        $file->shouldReceive('getPathname')->once()->andReturn('path/to/foo');
+        $file->shouldReceive('getExtension')->once()->andReturn('css');
+        $file->shouldReceive('getMTime')->once()->andReturn(time());
     }
     
     public function testCanMockInterface()
