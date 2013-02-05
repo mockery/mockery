@@ -928,4 +928,3 @@ if(PHP_VERSION_ID >= 50400) {
 class MockeryTest_WithToString {
     public function __toString() {}
 }
-
