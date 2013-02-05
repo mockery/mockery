@@ -616,6 +616,13 @@ BODY;
         return \$this->_mockery_expectations;
     }
 
+    public function __isset(\$name)
+    {
+        if (!stripos(\$name, '_mockery_') && method_exists('__isset', get_parent_class(\$this))) {
+            return parent::__isset(\$name);
+        }
+    }
+
 MOCK;
         /**
          * Note: An instance mock allows the declaration of an instantiable class

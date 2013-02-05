@@ -776,7 +776,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         }
         $m = $this->container->mock('Redis');
     }
-    
+
     public function testIssetMappingUsingProxiedPartials_CheckNoExceptionThrown()
     {
         $var = $this->container->mock(new MockeryTestIsset_Bar());
@@ -813,7 +813,7 @@ class MockeryTest_IssetMethod
 {
     protected $_properties = array();
     public function __construct() {}
-    public function __isset($property=null) {
+    public function __isset($property) {
         return isset($this->_properties[$property]);
     }
 }
