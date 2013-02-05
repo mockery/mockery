@@ -740,6 +740,14 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $container = new \Mockery\Container;
         $mock = $container->mock('f')->byDefault();
     }
+
+    public function testDefaultExpectationsCanBeOverridden()
+    {
+        $this->mock->shouldReceive('foo')->with('test')->andReturn('bar')->byDefault();
+        $this->mock->shouldReceive('foo')->with('test')->andReturn('newbar')->byDefault();
+        $this->mock->foo('test');
+        $this->assertEquals('newbar', $this->mock->foo('test'));
+    }
     
     /**
      * @expectedException \Mockery\Exception
