@@ -768,6 +768,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock("\MyClasses\DaveBlah\BlahBlah");
         $this->assertInstanceOf("\MyClasses\DaveBlah\BlahBlah", $mock);
     }
+
+    public function testMockingPhpredisExtensionClassWorks()
+    {
+        if (!class_exists('Redis')) {
+            $this->markTestSkipped('PHPRedis extension required for this test');
+        }
+        $m = $this->container->mock('Redis');
+    }
 }
 
 class MockeryTest_IssetMethod
