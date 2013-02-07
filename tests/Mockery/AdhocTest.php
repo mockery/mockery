@@ -41,6 +41,39 @@ class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof MockeryTest_NameOfExistingClass);
     }
 
+    public function testMockeryInterfaceForClass()
+    {
+        $m = $this->container->mock('SplFileInfo');
+        $this->assertTrue($m instanceof \Mockery\MockInterface);
+    }
+
+    public function testMockeryInterfaceForNonExistingClass()
+    {
+        $m = $this->container->mock('ABC_IDontExist');
+        $this->assertTrue($m instanceof \Mockery\MockInterface);
+    }
+
+    public function testMockeryInterfaceForInterface()
+    {
+        $m = $this->container->mock('MockeryTest_NameOfInterface');
+        $this->assertTrue($m instanceof \Mockery\MockInterface);
+    }
+
+    public function testMockeryInterfaceForAbstract()
+    {
+        $m = $this->container->mock('MockeryTest_NameOfAbstract');
+        $this->assertTrue($m instanceof \Mockery\MockInterface);
+    }
+
+
 }
 
 class MockeryTest_NameOfExistingClass {}
+
+interface MockeryTest_NameOfInterface {
+    public function foo();
+}
+
+abstract class MockeryTest_NameOfAbstract {
+    abstract public function foo();
+}
