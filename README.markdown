@@ -334,8 +334,7 @@ many cases, you can replace all the iterated elements (since they are the same t
 many times) with just the one mock object which is programmed to act as discrete
 iterated elements.
 
-Behaviour Modifiers
-===================
+### Behaviour Modifiers
 
 When creating a mock object, you may wish to use some commonly preferred behaviours
 that are not the default in Mockery.
@@ -659,25 +658,69 @@ Matches any argument which is an array containing the given key name.
 
 Matches any argument which is an array containing the given value.
 
+
 Creating Partial Mocks
 ----------------------
 
-Partial mocks are useful when you only need to mock several methods of an object
-leaving the remainder free to respond to calls normally (i.e. as implemented).
+Partial mocks are useful when you only need to mock several methods of 
+an object leaving the remainder free to respond to calls normally (i.e.
+as implemented). Mockery implements three distinct strategies for creating
+partials. Each has specific advantages and disadvantages so which strategy
+you use will depend on your own preferences and the source code in need
+of mocking.
 
-Unlike other mock objects, a Mockery partial mock has a real concrete object
-at its heart. This approach to partial mocks is intended to bypass a number
-of troublesome issues with partials. For example, partials might require
-constructor parameters and other setup/injection tasks prior to use. Trying
-to perform this automatically via Mockery is not a tenth as intuitive as just
-doing it normally - and then passing the object into Mockery.
+1. Traditional Partial Mock
+2. Passive Partial Mock
+3. Proxied Partial Mock
 
-Partial mocks are therefore constructed as a Proxy with an embedded real object.
-The Proxy itself inherits the type of the embedded object (type safety) and
-it otherwise behaves like any other Mockery-based mock object, allowing you to
-dynamically define expectations. This flexibility means there's little
-upfront defining (besides setting up the real object) and you can set defaults,
-expectations and ordering on the fly.
+### Traditional Partial Mock
+
+A traditional partial mock defined ahead of time which methods of a class
+are to be mocked and which are to left unmocked (i.e. callable as normal).
+The syntax for creating traditional mocks is:
+
+    $mock = \Mockery::mock('MyClass[foo,bar]');
+
+In the above example, the foo() and bar() methods of MyClass will be
+mocked but no other MyClass methods are touched. You will need to define
+expectations for the foo() and bar() methods to dictate their mocked behaviour.
+
+Don't forget that you can pass in constructor arguments since unmocked
+methods may rely on those!
+
+    $mock = \Mockery::mock("MyNamespace\MyClass[foo]", array($arg1, $arg2));
+
+### Passive Partial Mock
+
+A passive partial mock is more of a default state of being.
+
+    $mock = \Mockery::mock('MyClass')->shouldDeferMissing();
+
+In a passive partial, we assume that all methods will simply defer to
+the parent class (MyClass) original methods unless a method call
+matches a known expectation. If you have no matching expectation for
+a specific method call, that call is deferred to the class being
+mocked. Since the division between mocked and unmocked calls depends
+entirely on the expectations you define, there is no need to define
+which methods to mock in advance.
+
+### Proxied Partial Mock
+
+A proxied partial mock is a partial of last resort. You may encounter
+a class which is simply not capable of being mocked because it has
+been marked as final. Similarly, you may find a class with methods
+marked as final. In such a scenario, we cannot simply extend the
+class and override methods to mock - we need to get creative.
+
+    $mock = \Mockery::mock(new MyClass);
+
+Yes, the new mock is a proxy. It intercepts calls and reroutes them to
+the proxied object (which you construct and pass in) for methods which
+are not subject to any expectations. Indirectly, this allows you to
+mock methods marked final since the Proxy is not subject to those 
+limitations. The tradeoff should be obvious - a proxied partial will
+fail any typehint checks for the class being mocked since it cannot
+extend that class.
 
 Default Mock Expectations
 -------------------------
