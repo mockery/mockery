@@ -318,14 +318,44 @@ third param if used in conjunction with an expectation array).
 
     \Mockery::self()
 
-At times, you will discover that expectations on a mock include methods which need to return the same mock object (e.g. a common case when designing a Domain Specific Language (DSL) such as the one Mockery itself uses!). To facilitate this, calling \Mockery::self() will always return the last Mock Object created by calling \Mockery::mock(). For example:
+At times, you will discover that expectations on a mock include methods which need
+to return the same mock object (e.g. a common case when designing a Domain Specific
+Language (DSL) such as the one Mockery itself uses!). To facilitate this, calling
+\Mockery::self() will always return the last Mock Object created by calling
+\Mockery::mock(). For example:
 
     $mock = \Mockery::mock('BazIterator')
         ->shouldReceive('next')
         ->andReturn(\Mockery::self())
         ->mock();
 
-The above class being mocked, as the next() method suggests, is an iterator. In many cases, you can replace all the iterated elements (since they are the same type many times) with just the one mock object which is programmed to act as discrete iterated elements.
+The above class being mocked, as the next() method suggests, is an iterator. In
+many cases, you can replace all the iterated elements (since they are the same type
+many times) with just the one mock object which is programmed to act as discrete
+iterated elements.
+
+Behaviour Modifiers
+===================
+
+When creating a mock object, you may wish to use some commonly preferred behaviours
+that are not the default in Mockery.
+
+    \Mockery:mock('MyClass')->shouldIgnoreMissing()
+    
+The use of the shouldIgnoreMissing() behaviour modifier will label this mock object
+as a Passive Mock. In such a mock object, calls to methods which are not covered by
+expectations will return an object of type \Mockery\Undefined (i.e. a NULL object)
+instead of the usual complaining about there being no expectation matching the call.
+The returned object is nothing more than a placeholder so if, by some act of fate,
+it's erroneously used somewhere it shouldn't it will likely not pass a logic check.
+
+    \Mockery::mock('MyClass')->shouldDeferMissing()
+    
+Known as a Passive Partial Mock (not to be confused with real partial mock objects
+discussed later), this form of mock object will defer all methods not subject to
+an expectation to the parent class of the mock, i.e. MyClass. Whereas the previous
+shouldIgnoreMissing() returned a \Mockery\Undefined object, this behaviour simply
+calls the parent's matching method.
 
 Expectation Declarations
 ------------------------
