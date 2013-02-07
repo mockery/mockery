@@ -722,6 +722,16 @@ limitations. The tradeoff should be obvious - a proxied partial will
 fail any typehint checks for the class being mocked since it cannot
 extend that class.
 
+#### Special Internal Case
+
+There is a fourth kind of partial mock reserved for internal use. This is automatically
+generated when you attempt to mock a class containing methods marked final. Since we
+cannot override such methods, they are simply left unmocked. Typically, you don't need
+to worry about this but if you really really must mock a final method, the only possible
+means is through a Proxied Partial Mock. SplFileInfo, for example, is a common class subject
+to this form of automatic internal partial since it contains public final methods used
+internally.
+
 Default Mock Expectations
 -------------------------
 
