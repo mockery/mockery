@@ -5,3 +5,4 @@ library/Hamcrest/*
 composer.lock
 vendor/
 composer.phar
+test.php
