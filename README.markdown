@@ -423,6 +423,11 @@ Sets up a sequence of return values or closures. For example, the first call wil
 value1 and the second value2. Note that all subsequent calls to a mocked method
 will always return the final value (or the only value) given to this declaration.
 
+    andReturnNull() / andReturn([NULL])
+
+Both of the above options are primarily for communication to test readers. They mark the
+mock object method call as returning NULL or nothing.
+
     andReturns(array)
 
 Alternative syntax for andReturn() that accepts a simple array instead of a list of parameters.

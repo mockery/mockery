@@ -374,6 +374,16 @@ class Expectation
         $this->andReturn(new \Mockery\Undefined);
         return $this;
     }
+
+    /**
+     * Return null. This is merely a language construct for Mock describing.
+     *
+     * @return self
+     */
+    public function andReturnNull()
+    {
+        return $this;
+    }
     
     /**
      * Set Exception class and arguments to that class to be thrown

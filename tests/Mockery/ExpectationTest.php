@@ -58,10 +58,17 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->mock->foo());
     }
 
-    public function testReturnsNullForMockedExistingClassIfNullIsReturnValue()
+    public function testReturnsNullForMockedExistingClassIfAndreturnnullCalled()
     {
         $mock = $this->container->mock('MockeryTest_Foo');
         $mock->shouldReceive('foo')->andReturn(null);
+        $this->assertNull($mock->foo());
+    }
+
+    public function testReturnsNullForMockedExistingClassIfNullIsReturnValue()
+    {
+        $mock = $this->container->mock('MockeryTest_Foo');
+        $mock->shouldReceive('foo')->andReturnNull();
         $this->assertNull($mock->foo());
     }
     
