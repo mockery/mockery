@@ -274,6 +274,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m = $this->container->mock('MockeryTest_AbstractWithAbstractMethod');
         $this->assertTrue($m instanceof MockeryTest_AbstractWithAbstractMethod);
     }
+
+    public function testCanMockInterfaceWithPublicStaticMethod()
+    {
+        $m = $this->container->mock('MockeryTest_InterfaceWithPublicStaticMethod');
+        $this->assertTrue($m instanceof MockeryTest_InterfaceWithPublicStaticMethod);
+    }
     
     public function testCanMockClassWithConstructor()
     {
@@ -852,6 +858,11 @@ interface MockeryTest_Interface2 {}
 interface MockeryTest_InterfaceWithAbstractMethod
 {
     public function set();
+}
+
+interface MockeryTest_InterfaceWithPublicStaticMethod
+{
+    public static function self();
 }
 
 abstract class MockeryTest_AbstractWithAbstractMethod
