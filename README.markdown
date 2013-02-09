@@ -735,6 +735,15 @@ means is through a Proxied Partial Mock. SplFileInfo, for example, is a common c
 to this form of automatic internal partial since it contains public final methods used
 internally.
 
+Detecting Mock Objects
+----------------------
+
+Users may find it useful to check whether a given object is a real object or a simulated
+Mock Object. All Mockery mocks implement the \Mockery\MockInterface interface which can
+be used in a type check.
+
+    assert($mightBeMocked instanceof \Mockery\MockInterface);
+
 Default Mock Expectations
 -------------------------
 
@@ -749,24 +758,6 @@ How this works, is that you can define mocks with default expectations. Then,
 in a later unit test, you can add or fine-tune expectations for that
 specific test. Any expectation can be set as a default using the byDefault()
 declaration.
-
-Creating Passive Mocks
-----------------------
-
-If you want your mocks to act more like a stub out of the box, you can use the
-`shouldIgnoreMissing` method. This forces the mock to return a
-`Mockery\Undefined` object for any method call. This can be useful for setting
-up mocks in your setup methods, that wont necessarily require their behaviour
-verifying in every test in your test class.
-
-Creating Passive Partial Mocks
-------------------------------
-
-Another useful scenario, in the instance where you may need to mock a call to an
-internal method, you can create a partial mock of the SUT, passing in the
-necessary constructor arguments and then calling `shouldDeferMissing`. A mock
-created in this way should act in a similar way to if you had constructed an
-instance of the original class, until you add some expectations.
 
 Mocking Public Properties
 -------------------------
