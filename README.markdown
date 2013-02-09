@@ -285,6 +285,9 @@ class name doesn't need to be the first member of the list but it's a friendly
 convention to use for readability. All subsequent arguments remain unchanged from
 previous examples.
 
+If the given class does not exist, you must define and include it beforehand or a
+\Mockery\Exception will be thrown.
+
     $mock = \Mockery::mock('MyNamespace\MyClass[foo,bar]');
 
 The syntax above tells Mockery to partially mock the MyNamespace\MyClass class,

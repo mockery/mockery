@@ -92,7 +92,7 @@ class Container
                             'Class name follows the format for defining multiple'
                             . ' interfaces, however one or more of the interfaces'
                             . ' do not exist or are not included, or the base class'
-                            . ' (optional) does not exist'
+                            . ' (which you may omit from the mock definition) does not exist'
                         );
                     }
                 }
