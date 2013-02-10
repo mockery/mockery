@@ -794,7 +794,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @group traversable1
-     
+     */
     public function testCanMockInterfacesExtendingTraversable()
     {
         $mock = $this->container->mock('MockeryTest_InterfaceWithTraversable');
@@ -803,7 +803,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Countable', $mock);
         $this->assertInstanceOf('Traversable', $mock);
     }
-    **/
 
     /**
      * @group traversable2

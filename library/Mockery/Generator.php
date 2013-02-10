@@ -74,12 +74,13 @@ class Generator
         foreach ($classData as $i=>$data) {
             if ($data['class']->isInterface() && preg_match("/^Traversable$/i", $data['class']->getName())) {
                 $classData[] = $iterator = self::_analyseClass(
-                    new \ReflectionClass('Iterator'),
-                    'Iterator',
+                    new \ReflectionClass('Iterator'), // can't use Traversable directly so substitute
+                    '\Iterator',
                     $allowFinal
                 );
-                $interfaceInheritance[] = $iterator['className'];
-                unset($classData[$i]);
+                array_unshift($interfaceInheritance, $iterator['className']);
+                //$interfaceInheritance[] = $iterator['className'];
+                unset($classData[$i]); // throw away Traversable or we'll get fatal error
             } elseif ($data['class']->isInterface()) {
                 $interfaceInheritance[] = $data['className'];
             } elseif ($data['class']->isFinal()) {
@@ -92,6 +93,20 @@ class Generator
             }
         }
         if (count($interfaceInheritance) > 0) {
+            foreach ($classData as $i => $data) {
+                if ($data['class']->isInterface()) {
+                    $extendedInterfaces = $data['class']->getInterfaces();
+                    $traversables = preg_grep("/^Traversable$/i", array_keys($extendedInterfaces));
+                    if (!empty($traversables) && !in_array('\Iterator', $interfaceInheritance)) {
+                        array_unshift($interfaceInheritance, '\Iterator'); // must declare prior to Traversable
+                        $classData[] = $iterator = self::_analyseClass(
+                            new \ReflectionClass('Iterator'),
+                            '\Iterator',
+                            $allowFinal
+                        );
+                    }
+                }
+            }
             if (!$classIsFinal) $interfaceInheritance[] = '\Mockery\MockInterface';
             if (strlen($classNameInherited) > 0) $inheritance = ' extends ' . $classNameInherited;
             $inheritance .= ' implements ' . implode(', ', $interfaceInheritance);
