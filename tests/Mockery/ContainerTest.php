@@ -791,6 +791,35 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock->bar();
         $this->container->mockery_teardown(); // closed by teardown()
     }
+
+    /**
+     * @group traversable1
+     
+    public function testCanMockInterfacesExtendingTraversable()
+    {
+        $mock = $this->container->mock('MockeryTest_InterfaceWithTraversable');
+        $this->assertInstanceOf('MockeryTest_InterfaceWithTraversable', $mock);
+        $this->assertInstanceOf('ArrayAccess', $mock);
+        $this->assertInstanceOf('Countable', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+    }
+    **/
+
+    /**
+     * @group traversable2
+     */
+    public function testCanMockInterfacesAlongsideTraversable()
+    {
+        $mock = $this->container->mock('stdClass, ArrayAccess, Countable, Traversable');
+        $this->assertInstanceOf('stdClass', $mock);
+        $this->assertInstanceOf('ArrayAccess', $mock);
+        $this->assertInstanceOf('Countable', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+    }
+}
+
+interface MockeryTest_InterfaceWithTraversable extends \ArrayAccess, \Traversable, \Countable {
+    public function self();
 }
 
 class MockeryTestIsset_Bar {

@@ -71,8 +71,16 @@ class Generator
             $class = new \ReflectionClass($className);
             $classData[] = self::_analyseClass($class, $className, $allowFinal);
         }
-        foreach ($classData as $data) {
-            if ($data['class']->isInterface()) {
+        foreach ($classData as $i=>$data) {
+            if ($data['class']->isInterface() && preg_match("/^Traversable$/i", $data['class']->getName())) {
+                $classData[] = $iterator = self::_analyseClass(
+                    new \ReflectionClass('Iterator'),
+                    'Iterator',
+                    $allowFinal
+                );
+                $interfaceInheritance[] = $iterator['className'];
+                unset($classData[$i]);
+            } elseif ($data['class']->isInterface()) {
                 $interfaceInheritance[] = $data['className'];
             } elseif ($data['class']->isFinal()) {
                 $inheritance = ' extends ' . $data['className'];
