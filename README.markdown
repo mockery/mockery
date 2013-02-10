@@ -13,7 +13,8 @@ phpunit-mock-objects without the World ending.
 
 Mockery is released under a New BSD License.
 
-The current stable version is Mockery 0.7.2.
+The current released version for PEAR is 0.7.2. Composer users may instead opt to use
+the current master branch in lieu of using the more static 0.7.2 git tag.
 The build status of the current master branch is tracked by Travis CI:
 [![Build Status](https://secure.travis-ci.org/padraic/mockery.png)](http://travis-ci.org/padraic/mockery)
 
@@ -52,7 +53,7 @@ Packagist home page. You can then define your dependency on Mockery using the su
 
     {
         "require": {
-            "mockery/mockery": ">=0.7.2"
+            "mockery/mockery": "dev-master"
         }
     }
 
