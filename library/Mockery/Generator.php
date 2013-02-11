@@ -97,7 +97,8 @@ class Generator
                 if ($data['class']->isInterface()) {
                     $extendedInterfaces = $data['class']->getInterfaces();
                     $traversables = preg_grep("/^Traversable$/i", array_keys($extendedInterfaces));
-                    if (!empty($traversables) && !in_array('\Iterator', $interfaceInheritance)) {
+                    if (!empty($traversables) && !in_array('\Iterator', $interfaceInheritance)
+                        && !array_key_exists('IteratorAggregate', $extendedInterfaces)) {
                         array_unshift($interfaceInheritance, '\Iterator'); // must declare prior to Traversable
                         $classData[] = $iterator = self::_analyseClass(
                             new \ReflectionClass('Iterator'),
