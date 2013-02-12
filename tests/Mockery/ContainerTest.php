@@ -845,6 +845,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Iterator', $mock);
         $this->assertInstanceOf('Traversable', $mock);
     }
+
+    public function testMockeryCloseForIllegalIssetFileInclude()
+    {
+        $m = \Mockery::mock('StdClass')
+            ->shouldReceive('get')
+            ->andReturn(false)
+            ->getMock();
+        $m->get();
+        \Mockery::close();
+    }
 }
 
 interface MockeryTest_InterfaceWithTraversable extends \ArrayAccess, \Traversable, \Countable {
