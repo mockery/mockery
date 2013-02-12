@@ -816,7 +816,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Traversable', $mock);
     }
 
-    public function testMockingIteratorAggregateDoeNotImplementIterator()
+    public function testMockingIteratorAggregateDoesNotImplementIterator()
     {
         $mock = $this->container->mock('MockeryTest_ImplementsIteratorAggregate');
         $this->assertInstanceOf('IteratorAggregate', $mock);
@@ -824,12 +824,26 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertNotInstanceOf('Iterator', $mock);
     }
 
-    public function testMockingIteratorAggregateDoeNotImplementIteratorAlongside()
+    public function testMockingIteratorAggregateDoesNotImplementIteratorAlongside()
     {
         $mock = $this->container->mock('IteratorAggregate');
         $this->assertInstanceOf('IteratorAggregate', $mock);
         $this->assertInstanceOf('Traversable', $mock);
         $this->assertNotInstanceOf('Iterator', $mock);
+    }
+
+    public function testMockingIteratorDoesNotImplementIteratorAlongside()
+    {
+        $mock = $this->container->mock('Iterator');
+        $this->assertInstanceOf('Iterator', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+    }
+
+    public function testMockingIteratorDoesNotImplementIterator()
+    {
+        $mock = $this->container->mock('MockeryTest_ImplementsIterator');
+        $this->assertInstanceOf('Iterator', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
     }
 }
 
@@ -1028,4 +1042,12 @@ class MockeryTest_ImplementsIteratorAggregate implements \IteratorAggregate {
     {
         return new \ArrayIterator(array());
     }
+}
+
+class MockeryTest_ImplementsIterator implements \Iterator {
+    public function rewind(){}
+    public function current(){}
+    public function key(){}
+    public function next(){}
+    public function valid(){}
 }
