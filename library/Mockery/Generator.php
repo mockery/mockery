@@ -642,7 +642,7 @@ BODY;
 
     public function __isset(\$name)
     {
-        if (!stripos(\$name, '_mockery_') && method_exists('__isset', get_parent_class(\$this))) {
+        if (false === stripos(\$name, '_mockery_') && method_exists(get_parent_class(\$this), '__isset')) {
             return parent::__isset(\$name);
         }
     }
