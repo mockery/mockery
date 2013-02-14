@@ -148,7 +148,7 @@ class ExpectationDirector
         $last = end($this->_expectations);
         if ($last === $expectation) {
             array_pop($this->_expectations);
-            $this->_defaults[] = $expectation;
+            array_unshift($this->_defaults, $expectation);
         } else {
             throw new \Mockery\Exception(
                 'Cannot turn a previously defined expectation into a default'
