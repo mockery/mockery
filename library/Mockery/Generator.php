@@ -377,6 +377,8 @@ BODY;
 
     protected \$_mockery_ignoreMissing = false;
 
+    protected \$_mockery_ignoreMissingAsUndefined = false;
+
     protected \$_mockery_deferMissing = false;
 
     protected \$_mockery_verified = false;
@@ -452,6 +454,12 @@ BODY;
         return \$this;
     }
 
+    public function asUndefined()
+    {
+        \$this->_mockery_ignoreMissingAsUndefined = true;
+        return \$this;
+    }
+
     public function shouldExpect(Closure \$closure)
     {
         \$recorder = new \Mockery\Recorder(\$this, \$this->_mockery_partial);
@@ -483,8 +491,12 @@ BODY;
         } elseif (\$this->_mockery_deferMissing && is_callable("parent::\$method")) {
             return call_user_func_array("parent::\$method", \$args);
         } elseif (\$this->_mockery_ignoreMissing) {
-            \$undef = new \Mockery\Undefined;
-            return call_user_func_array(array(\$undef, \$method), \$args);
+            if (\$this->_mockery_ignoreMissingAsUndefined === true) {
+                \$undef = new \Mockery\Undefined;
+                return call_user_func_array(array(\$undef, \$method), \$args);
+            } else {
+                return null;
+            }
         }
         throw new \BadMethodCallException(
             'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'

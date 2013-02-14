@@ -1431,15 +1431,21 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
     
-    public function testReturnUndefinedIfIgnoreMissingMethodsSet()
+    public function testReturnNullIfIgnoreMissingMethodsSet()
     {
         $this->mock->shouldIgnoreMissing();
+        $this->assertNull($this->mock->g(1,2));
+    }
+
+    public function testReturnUndefinedIfIgnoreMissingMethodsSet()
+    {
+        $this->mock->shouldIgnoreMissing()->asUndefined();
         $this->assertTrue($this->mock->g(1,2) instanceof \Mockery\Undefined);
     }
     
-    public function testReturnUndefinedAllowsForInfiniteSelfReturningChain()
+    public function testReturnAsUndefinedAllowsForInfiniteSelfReturningChain()
     {
-        $this->mock->shouldIgnoreMissing();
+        $this->mock->shouldIgnoreMissing()->asUndefined();
         $this->assertTrue($this->mock->g(1,2)->a()->b()->c() instanceof \Mockery\Undefined);
     }
 
@@ -1448,9 +1454,14 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->mock->shouldIgnoreMissing() instanceof \Mockery\MockInterface);
     }
 
-    public function testShouldIgnoreMissingProxiesToUndefinedAllowingToString()
+    public function testShouldIgnoreMissingAsUndefinedFluentInterface()
     {
-        $this->mock->shouldIgnoreMissing();
+        $this->assertTrue($this->mock->shouldIgnoreMissing()->asUndefined() instanceof \Mockery\MockInterface);
+    }
+
+    public function testShouldIgnoreMissingAsDefinedProxiesToUndefinedAllowingToString()
+    {
+        $this->mock->shouldIgnoreMissing()->asUndefined();
         $string = "Method call: {$this->mock->g()}";
         $string = "Mock: {$this->mock}";
     }
