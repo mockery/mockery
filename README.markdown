@@ -89,6 +89,17 @@ To run the unit tests for Mockery, clone the git repository, download Composer (
 
 This will install the required Hamcrest dev dependency and create the autoload files required by the unit tests. Navigate to the "tests" directory and run the phpunit command as normal. With a wee bit of luck, there will be no failed tests!
 
+Upgrading to 0.8.*
+------------------
+
+Since the release of 0.7.2 the following behaviours were altered:
+
+1. The shouldIgnoreMissing() behaviour optionally applied to mock objects returned an instance of
+\Mockery\Undefined when methods called did not match a known expectation. Since 0.8, this behaviour
+was switched to returning NULL instead. You can restore the 0.7.2 behavour by using the following:
+
+    $mock = \Mockery::mock('stdClass')->shouldIgnoreMissing()->asUndefined();
+
 Simple Example
 --------------
 
@@ -347,8 +358,14 @@ that are not the default in Mockery.
     
 The use of the shouldIgnoreMissing() behaviour modifier will label this mock object
 as a Passive Mock. In such a mock object, calls to methods which are not covered by
-expectations will return an object of type \Mockery\Undefined (i.e. a NULL object)
+expectations will return NULL
 instead of the usual complaining about there being no expectation matching the call.
+
+You can optionally prefer to return an object of type \Mockery\Undefined (i.e.
+a null object) (which was the 0.7.2 behaviour) by using an additional modifier:
+
+    \Mockery:mock('MyClass')->shouldIgnoreMissing()->asUndefined()
+
 The returned object is nothing more than a placeholder so if, by some act of fate,
 it's erroneously used somewhere it shouldn't it will likely not pass a logic check.
 
