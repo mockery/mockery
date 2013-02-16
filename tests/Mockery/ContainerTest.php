@@ -855,6 +855,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m->get();
         \Mockery::close();
     }
+
+    public function testMockeryShouldDistinguishBetweenConstructorParamsAndClosures()
+    {
+        $mock = $this->container->mock('MockeryTest_ClassMultipleConstructorParams[dave]',
+            array(new stdClass, 'bar'));
+    }
+}
+
+class MockeryTest_ClassMultipleConstructorParams {
+    public function __construct($a, $b) {}
+    public function dave() {}
 }
 
 interface MockeryTest_InterfaceWithTraversable extends \ArrayAccess, \Traversable, \Countable {
