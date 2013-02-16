@@ -90,7 +90,7 @@ class ExpectationDirector
     {
         $expectation = $this->findExpectation($args);
         if (is_null($expectation)) {
-            throw new \Mockery\Exception(
+            $exception = new \Mockery\Exception\NoMatchingExpectationException(
                 'No matching handler found for '
                 . $this->_mock->mockery_getName() . '::'
                 . \Mockery::formatArgs($this->_name, $args)
@@ -99,6 +99,10 @@ class ExpectationDirector
                 . PHP_EOL . PHP_EOL
                 . \Mockery::formatObjects($args)
             );
+            $exception->setMock($this->_mock)
+                ->setMethodName($this->_name)
+                ->setActualArguments($args);
+            throw $exception;
         }
         return $expectation->verifyCall($args);
     }
