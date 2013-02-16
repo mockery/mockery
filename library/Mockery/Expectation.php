@@ -217,11 +217,11 @@ class Expectation
     public function validateOrder()
     {
         if ($this->_orderNumber) {
-            $this->_mock->mockery_validateOrder((string) $this, $this->_orderNumber);
+            $this->_mock->mockery_validateOrder((string) $this, $this->_orderNumber, $this->_mock);
         }
         if ($this->_globalOrderNumber) {
             $this->_mock->mockery_getContainer()
-                ->mockery_validateOrder((string) $this, $this->_globalOrderNumber);
+                ->mockery_validateOrder((string) $this, $this->_globalOrderNumber, $this->_mock);
         }
     }
     

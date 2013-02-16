@@ -563,11 +563,16 @@ BODY;
             return;
         }
         if (\$order < \$this->_mockery_currentOrder) {
-            throw new \Mockery\Exception(
+            \$exception = new \Mockery\Exception\InvalidOrderException(
                 'Method ' . \$this->_mockery_name . '::' . \$method . '()'
                 . ' called out of order: expected order '
                 . \$order . ', was ' . \$this->_mockery_currentOrder
             );
+            \$exception->setMock(\$this)
+                ->setMethodName(\$method)
+                ->setExpectedOrder(\$order)
+                ->setActualOrder(\$this->_mockery_currentOrder);
+            throw \$exception;
         }
         \$this->mockery_setCurrentOrder(\$order);
     }

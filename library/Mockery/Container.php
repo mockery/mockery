@@ -279,13 +279,18 @@ class Container
      * @throws \Mockery\Exception
      * @return void
      */
-    public function mockery_validateOrder($method, $order)
+    public function mockery_validateOrder($method, $order, \Mockery\MockInterface $mock)
     {
         if ($order < $this->_currentOrder) {
-            throw new \Mockery\Exception(
+            $exception = new \Mockery\Exception\InvalidOrderException(
                 'Method ' . $method . ' called out of order: expected order '
                 . $order . ', was ' . $this->_currentOrder
             );
+            $exception->setMock($mock)
+                ->setMethodName($method)
+                ->setExpectedOrder($order)
+                ->setActualOrder($this->_currentOrder);
+            throw $exception;
         }
         $this->mockery_setCurrentOrder($order);
     }
