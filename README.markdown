@@ -959,12 +959,16 @@ ordered() and globally() expectation modifiers. It offers the following methods:
 + getMockName() - return the name of the mock object
 + getMethodName() - return the name of the method the failing expectation is attached to
 + getExpectedOrder() - returns an integer represented the expected index for which this call was expected
-+ getActualOrder() - return actual call call made with given argument constraints
++ getActualOrder() - return the actual index at which this method call occured.
 
 ### \Mockery\Exception\NoMatchingExpectationException
 
-The exception class is used when a method is called too many (or too few) times
-and offers the following methods:
+The exception class is used when a method call does not match any known expectation.
+All expectations are uniquely identified in a mock object by the method name and the list
+of expected arguments. You can disable this exception and opt for returning NULL from all
+unexpected method calls by using the earlier mentioned shouldIgnoreMissing() behaviour
+modifier.
+This exception class offers the following methods:
 
 + getMock() - return actual mock object
 + getMockName() - return the name of the mock object
