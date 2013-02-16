@@ -20,9 +20,9 @@
  */
 
 /*
- * Set error reporting to the level to which Mutateme code must comply.
+ * Set error reporting to the level to which Mockery code must comply.
  */
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 
 /*
  * Determine the root, library, and tests directories of the framework
