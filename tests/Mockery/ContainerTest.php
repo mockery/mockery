@@ -861,6 +861,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock('MockeryTest_ClassMultipleConstructorParams[dave]',
             array(new stdClass, 'bar'));
     }
+
+    /** @group nette */
+    public function testMockeryShouldNotMockCallstaticMagicMethod()
+    {
+        $mock = $this->container->mock('MockeryTest_CallStatic');
+    }
+}
+
+class MockeryTest_CallStatic {
+    public static function __callStatic($method, $args){}
 }
 
 class MockeryTest_ClassMultipleConstructorParams {

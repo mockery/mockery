@@ -378,6 +378,12 @@ class Container
      */
     public function declareClass($fqcn)
     {
+        if (false !== strpos($fqcn, '/')) {
+            throw new \Mockery\Exception(
+                'Class name contains a forward slash instead of backslash needed '
+                . 'when employing namespaces'
+            );
+        }
         if (false !== strpos($fqcn, "\\")) {
             $parts = array_filter(explode("\\", $fqcn), function($part) {
                 return $part !== "";

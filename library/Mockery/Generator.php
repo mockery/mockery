@@ -190,7 +190,8 @@ class Generator
             && $method->getName() !== '__set'
             && $method->getName() !== '__get'
             && $method->getName() !== '__toString'
-            && $method->getName() !== '__isset') {
+            && $method->getName() !== '__isset'
+            && $method->getName() !== '__callStatic') {
                 $definition .= self::_replacePublicMethod($method);
             }
             if ($method->getName() == '__call') {
