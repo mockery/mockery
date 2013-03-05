@@ -446,7 +446,7 @@ will always return the final value (or the only value) given to this declaration
 Both of the above options are primarily for communication to test readers. They mark the
 mock object method call as returning NULL or nothing.
 
-    andReturns(array)
+    andReturnValues(array)
 
 Alternative syntax for andReturn() that accepts a simple array instead of a list of parameters.
 The order of return is determined by the numerical index of the given array with the last array
