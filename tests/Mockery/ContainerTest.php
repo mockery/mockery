@@ -734,6 +734,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testMethodsReturningParamsByReferenceDoesNotErrorOut()
     {
         $this->container->mock('MockeryTest_ReturnByRef');
+        $mock = $this->container->mock('MockeryTest_ReturnByRef');
+        $mock->shouldReceive("get")->andReturn($var = 123);
+        $this->assertSame($var, $mock->get());
     }
 
     public function testMockCallableTypeHint()
