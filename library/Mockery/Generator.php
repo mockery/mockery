@@ -244,7 +244,8 @@ if (isset(\$stack[0]['args'])) {
         \$args[\$i] =& \$stack[0]['args'][\$i];
     }
 }
-return \$this->__call('$name', \$args);
+\$ret = \$this->__call('$name', \$args);
+return \$ret;
 BODY;
         }
         $methodParams = self::_renderPublicMethodParameters($method);
