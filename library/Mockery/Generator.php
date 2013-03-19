@@ -450,6 +450,11 @@ BODY;
         return \$this;
     }
 
+    public function makePartial()
+    {
+        return \$this->shouldDeferMissing();
+    }
+
     public function shouldIgnoreMissing()
     {
         \$this->_mockery_ignoreMissing = true;

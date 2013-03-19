@@ -200,6 +200,16 @@ class Mock implements MockInterface
     }
 
     /**
+     * Create an obviously worded alias to shouldDeferMissing()
+     *
+     * @return Mock
+     */
+    public function makePartial()
+    {
+        return $this->shouldDeferMissing();
+    }
+
+    /**
      * Accepts a closure which is executed with an object recorder which proxies
      * to the partial source object. The intent being to record the
      * interactions of a concrete object as a set of expectations on the

@@ -369,12 +369,16 @@ a null object) (which was the 0.7.2 behaviour) by using an additional modifier:
 The returned object is nothing more than a placeholder so if, by some act of fate,
 it's erroneously used somewhere it shouldn't it will likely not pass a logic check.
 
+    \Mockery::mock('MyClass')->makePartial()
+
+also
+
     \Mockery::mock('MyClass')->shouldDeferMissing()
     
 Known as a Passive Partial Mock (not to be confused with real partial mock objects
 discussed later), this form of mock object will defer all methods not subject to
 an expectation to the parent class of the mock, i.e. MyClass. Whereas the previous
-shouldIgnoreMissing() returned a \Mockery\Undefined object, this behaviour simply
+shouldIgnoreMissing() returned NULL, this behaviour simply
 calls the parent's matching method.
 
 Expectation Declarations
@@ -720,7 +724,7 @@ methods may rely on those!
 
 A passive partial mock is more of a default state of being.
 
-    $mock = \Mockery::mock('MyClass')->shouldDeferMissing();
+    $mock = \Mockery::mock('MyClass')->makePartial();
 
 In a passive partial, we assume that all methods will simply defer to
 the parent class (MyClass) original methods unless a method call
@@ -728,7 +732,9 @@ matches a known expectation. If you have no matching expectation for
 a specific method call, that call is deferred to the class being
 mocked. Since the division between mocked and unmocked calls depends
 entirely on the expectations you define, there is no need to define
-which methods to mock in advance.
+which methods to mock in advance. The makePartial() method is identical to the
+original shouldDeferMissing() method which first introduced this Partial Mock
+type.
 
 ### Proxied Partial Mock
 
@@ -740,7 +746,7 @@ class and override methods to mock - we need to get creative.
 
     $mock = \Mockery::mock(new MyClass);
 
-Yes, the new mock is a proxy. It intercepts calls and reroutes them to
+Yes, the new mock is a Proxy. It intercepts calls and reroutes them to
 the proxied object (which you construct and pass in) for methods which
 are not subject to any expectations. Indirectly, this allows you to
 mock methods marked final since the Proxy is not subject to those 
