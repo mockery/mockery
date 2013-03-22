@@ -9,8 +9,6 @@ object operations and interactions using a human readable Domain Specific Langua
 Mockery is easy to integrate with PHPUnit and can operate alongside
 phpunit-mock-objects without the World ending.
 
-
-
 Mockery is released under a New BSD License.
 
 The current released version for PEAR is 0.7.2. Composer users may instead opt to use
@@ -35,8 +33,9 @@ natural language description.
 Prerequisites
 -------------
 
-Mockery requires PHP 5.3.2 or greater. In addition, it is strongly recommended to install
-the Hamcrest library (see below for instructions).
+Mockery requires PHP 5.3.2 or greater. In addition, it is recommended to install
+the Hamcrest library (see below for instructions) which contains additional
+matchers used when defining expected method arguments.
 
 Installation
 ------------
@@ -49,13 +48,22 @@ three options are outlined below.
 You can read more about Composer and its main repository at
 [http://packagist.org](http://packagist.org "Packagist"). To install
 Mockery using Composer, first install Composer for your project using the instructions on the
-Packagist home page. You can then define your dependency on Mockery using the suggested parameters below.
+Packagist home page. You can then define your development dependency on Mockery using the
+suggested parameters below. While every effort is made to keep the master branch
+stable, you may prefer to use the current stable version tag instead.
 
     {
-        "require": {
+        "require-dev": {
             "mockery/mockery": "dev-master"
         }
     }
+
+To install, you then may call:
+    
+    composer.phar install --dev
+    
+This will install Mockery as a development dependency but will not install it
+for regular non-development installs.
 
 **PEAR**
 
@@ -68,8 +76,11 @@ can be installed using the following commands:
 
 **Git / GitHub**
 
-The git repository hosts the development version in its master branch. You may
-install this development version using:
+The git repository hosts the development version in its master branch. You can
+install this using Composer by referencing dev-master as your preferred version
+in your project's composer.json file as the earlier example shows.
+
+You may also install this development version using PEAR:
 
     git clone git://github.com/padraic/mockery.git
     cd mockery
@@ -77,9 +88,8 @@ install this development version using:
     sudo pear install --alldeps package.xml
 
 The above processes will install both Mockery and Hamcrest.
-While omitting Hamcrest will not break Mockery, Hamcrest is highly recommended
-as it adds a wider variety of functionality for argument matching that Mockery
-is capable of.
+While omitting Hamcrest will not break Mockery, Hamcrest is recommended
+as it adds a wider variety of functionality for argument matching.
 
 **Unit Testing**
 
