@@ -3,18 +3,18 @@
   <name>Mockery</name>
   <channel>pear.survivethedeepend.com</channel>
   <summary>Mockery is a simple yet flexible mock object framework for use in unit testing.</summary>
-  <description>Mockery is a simple yet flexible mock object framework for use in unit testing.</description>
+  <description>Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.</description>
   <lead>
     <name>Padraic Brady</name>
     <user>padraic</user>
     <email>padraic.brady@yahoo.com</email>
     <active>yes</active>
   </lead>
-  <date>2012-01-24</date>
-  <time>20:00:00</time>
+  <date>2013-04-01</date>
+  <time>13:00:00</time>
   <version>
-    <release>0.7.2</release>
-    <api>0.7.2</api>
+    <release>0.8.0</release>
+    <api>0.8.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -41,6 +41,11 @@
             <file name="CountValidatorAbstract.php" role="php"/>
             <file name="Exact.php" role="php"/>
             <file name="Exception.php" role="php"/>
+          </dir>
+          <dir name="Exception">
+            <file name="InvalidCountException.php" role="php"/>
+            <file name="InvalidOrderException.php" role="php"/>
+            <file name="NoMatchingExpectationException.php" role="php"/>
           </dir>
           <file name="Exception.php" role="php"/>
           <file name="Expectation.php" role="php"/>
@@ -99,6 +104,9 @@
       <install name="library/Mockery/CountValidator/Exact.php" as="Mockery/CountValidator/Exact.php"/>
       <install name="library/Mockery/CountValidator/Exception.php" as="Mockery/CountValidator/Exception.php"/>
       <install name="library/Mockery/Exception.php" as="Mockery/Exception.php"/>
+      <install name="library/Mockery/Exception/InvalidCountException.php" as="Mockery/Exception/InvalidCountException.php"/>
+      <install name="library/Mockery/Exception/InvalidOrderException.php" as="Mockery/Exception/InvalidOrderException.php"/>
+      <install name="library/Mockery/Exception/NoMatchingExpectationException.php" as="Mockery/Exception/NoMatchingExpectationException.php"/>
       <install name="library/Mockery/Expectation.php" as="Mockery/Expectation.php"/>
       <install name="library/Mockery/ExpectationDirector.php" as="Mockery/ExpectationDirector.php"/>
       <install name="library/Mockery/Generator.php" as="Mockery/Generator.php"/>
