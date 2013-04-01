@@ -11,8 +11,8 @@ phpunit-mock-objects without the World ending.
 
 Mockery is released under a New BSD License.
 
-The current released version for PEAR is 0.7.2. Composer users may instead opt to use
-the current master branch in lieu of using the more static 0.7.2 git tag.
+The current released version for PEAR is 0.8.0. Composer users may instead opt to use
+the current master branch in lieu of using the more static 0.8.0 git tag.
 The build status of the current master branch is tracked by Travis CI:
 [![Build Status](https://travis-ci.org/padraic/mockery.png?branch=master)](http://travis-ci.org/padraic/mockery)
 
@@ -54,7 +54,7 @@ stable, you may prefer to use the current stable version tag instead.
 
     {
         "require-dev": {
-            "mockery/mockery": "dev-master"
+            "mockery/mockery": "dev-master@dev"
         }
     }
 
@@ -102,10 +102,10 @@ This will install the required Hamcrest dev dependency and create the autoload f
 Upgrading to 0.8.*
 ------------------
 
-Since the release of 0.7.2 the following behaviours were altered:
+Since the release of 0.8.0 the following behaviours were altered:
 
 1. The shouldIgnoreMissing() behaviour optionally applied to mock objects returned an instance of
-\Mockery\Undefined when methods called did not match a known expectation. Since 0.8, this behaviour
+\Mockery\Undefined when methods called did not match a known expectation. Since 0.8.0, this behaviour
 was switched to returning NULL instead. You can restore the 0.7.2 behavour by using the following:
 
     $mock = \Mockery::mock('stdClass')->shouldIgnoreMissing()->asUndefined();
@@ -204,10 +204,15 @@ Mockery ships with an autoloader so you don't need to litter your tests with
 require_once() calls. To use it, ensure Mockery is on your include_path and add
 the following to your test suite's Bootstrap.php or TestHelper.php file:
 
+    
     require_once 'Mockery/Loader.php';
     require_once 'Hamcrest/Hamcrest.php';
     $loader = new \Mockery\Loader;
     $loader->register();
+
+If you are using Composer, you can simiplify this to just including the Composer generated autoloader file:
+
+    require __DIR__ . '/../vendor/autoload.php'; // assuming vendor is one directory up
 
 (Note: Prior to Hamcrest 1.0.0, the Hamcrest.php file name had a small "h", i.e. hamcrest.php. If upgrading Hamcrest to 1.0.0 remember to check the file name is updated for all your projects.)
 
@@ -227,8 +232,11 @@ have Mockery remove itself from code coverage reports, use this in you suite:
 If you are using PHPUnit's XML configuration approach, you can include the following to load the TestListener:
 
     <listeners>
-        <listener class="\Mockery\Adapter\Phpunit\TestListener" file="Mockery/Adapter/Phpunit/TestListener.php"></listener>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
     </listeners>
+
+Make sure Composer's or Mockery's autoloader is present in the bootstrap file or you will need to also define a
+"file" attribute pointing to the file of the above TestListener class.
 
 Quick Reference
 ---------------
@@ -314,11 +322,14 @@ If the given class does not exist, you must define and include it beforehand or 
 
 The syntax above tells Mockery to partially mock the MyNamespace\MyClass class,
 by mocking the foo() and bar() methods only. Any other method will be not be
-overridden by Mockery. This form of "partial mock" can be applied to any class
+overridden by Mockery. This traditional form of "partial mock" can be applied to any class
 or abstract class (e.g. mocking abstract methods where a concrete implementation
 does not exist yet). If you attempt to partial mock a method marked final, it will
 actually be ignored in that instance leaving the final method untouched. This is
 necessary since mocking of final methods is, by definition in PHP, impossible.
+
+Please refer to [Creating Partial Mocks](#creating-partial-mocks) for a detailed
+explanation on how to create Partial Mocks in Mockery.
 
     $mock = \Mockery::mock("MyNamespace\MyClass[foo]", array($arg1, $arg2));
 
