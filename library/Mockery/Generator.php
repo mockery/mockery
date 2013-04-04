@@ -634,6 +634,11 @@ BODY;
         return \$this->_mockery_mockableProperties;
     }
 
+    public function mockery_callSubjectMethod(\$name, array \$args)
+    {
+        return call_user_func_array('parent::' . \$name, \$args);
+    }
+
     //** Everything below this line is not copied from/needed for Mockery/Mock **//
 
     public function __wakeup()

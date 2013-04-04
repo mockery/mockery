@@ -1695,6 +1695,18 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $mock->foo('spam', 'ham');
     }
 
+    public function testPassthruEnsuresRealMethodCalledForReturnValues()
+    {
+        $mock = $this->container->mock('MockeryTest_SubjectCall1');
+        $mock->shouldReceive('foo')->once()->passthru();
+        $this->assertEquals('bar', $mock->foo());
+        $this->container->mockery_verify();
+    }
+
+}
+
+class MockeryTest_SubjectCall1 {
+    function foo() {return 'bar';}
 }
 
 class MockeryTest_InterMethod1

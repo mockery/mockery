@@ -499,6 +499,13 @@ use when throwing an Exception from the mocked method.
 Used with an expectation so that when a matching method is called, one
 can also cause a mock object's public property to be set to a specified value.
 
+    passthru()
+
+Tells the expectation to bypass a return queue and instead call the real method
+of the class that was mocked and return the result. Basically, it allows
+expectation matching and call count validation to be applied against real methods
+while still calling the real class method with the expected arguments.
+
     zeroOrMoreTimes()
 
 Declares that the expected method may be called zero or more times. This is
@@ -775,7 +782,12 @@ limitations. The tradeoff should be obvious - a proxied partial will
 fail any typehint checks for the class being mocked since it cannot
 extend that class.
 
-#### Special Internal Case
+#### Special Internal Cases
+
+All mock objects, with the exception of Proxied Partials, allow you to make any
+expectation call the underlying real class method using the passthru() expectation
+call. This will return values from the real call and bypass any mocked return queue
+(which can simply be omitted obviously).
 
 There is a fourth kind of partial mock reserved for internal use. This is automatically
 generated when you attempt to mock a class containing methods marked final. Since we
