@@ -1703,6 +1703,16 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
 
+
+    public function testShouldIgnoreMissingExpectationBasedOnArgs()
+    {
+        $mock = $this->container->mock("MyService2")->shouldIgnoreMissing();
+        $mock->shouldReceive("hasBookmarksTagged")->with("dave")->once();
+        $mock->hasBookmarksTagged("dave");
+        $mock->hasBookmarksTagged("padraic");
+        $this->container->mockery_verify();
+    }
+
 }
 
 class MockeryTest_SubjectCall1 {
