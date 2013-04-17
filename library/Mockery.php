@@ -334,6 +334,7 @@ class Mockery
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $publicProperty)
         {
             if ($publicProperty->isStatic()) continue;
+            $name = $publicProperty->getName();
             $properties[$name] = self::_cleanupNesting($object->$name, $nesting);
         }
 
@@ -344,7 +345,11 @@ class Mockery
             $name = $publicMethod->getName();
             $numberOfParameters = $publicMethod->getNumberOfParameters();
             if ((substr($name, 0, 3) === 'get' || substr($name, 0, 2) === 'is') && $numberOfParameters == 0) {
-                $getters[$name] = self::_cleanupNesting($object->$name(), $nesting);
+                try {
+                    $getters[$name] = self::_cleanupNesting($object->$name(), $nesting);
+                } catch(\Exception $e) {
+                    $getters[$name] = '!! ' . get_class($e) . ': ' . $e->getMessage() . ' !!';
+                }
             }
         }
         return array('class' => get_class($object), 'properties' => $properties, 'getters' => $getters);
