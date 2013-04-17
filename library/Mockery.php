@@ -334,6 +334,7 @@ class Mockery
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $publicProperty)
         {
             if ($publicProperty->isStatic()) continue;
+            $name = $publicProperty->getName();
             $properties[$name] = self::_cleanupNesting($object->$name, $nesting);
         }
 
