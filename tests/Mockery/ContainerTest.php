@@ -870,6 +870,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->container->mock('MockeryTest_CallStatic');
     }
+
+    /**
+     * @issue issue/139
+     */
+    public function testCanMockClassWithOldStyleConstructorAndArguments()
+    {
+        $mock = $this->container->mock('MockeryTest_OldStyleConstructor');
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1084,4 +1092,8 @@ class MockeryTest_ImplementsIterator implements \Iterator {
     public function key(){}
     public function next(){}
     public function valid(){}
+}
+
+class MockeryTest_OldStyleConstructor {
+    public function MockeryTest_OldStyleConstructor($arg) {}
 }

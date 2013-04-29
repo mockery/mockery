@@ -357,13 +357,14 @@ class Container
     
     protected function _getInstance($mockName, $constructorArgs = null)
     {
-        if (!method_exists($mockName, '__construct')) {
+        $r = new \ReflectionClass($mockName);
+        
+        if (null === $r->getConstructor()) {
             $return = new $mockName;
             return $return;
         }
 
         if ($constructorArgs !== null) {
-            $r = new \ReflectionClass($mockName);
             return $r->newInstanceArgs($constructorArgs);
         }
 
