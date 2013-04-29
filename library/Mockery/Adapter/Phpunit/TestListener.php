@@ -39,7 +39,6 @@ class TestListener implements \PHPUnit_Framework_TestListener
                 $expectation_count = $container->mockery_getExpectationCount();
                 $test->addToAssertionCount($expectation_count);
             }
-            \Mockery::close();
         } catch (\Exception $e) {
             $result = $test->getTestResultObject();
             $result->addError($test, $e, $time);
@@ -72,7 +71,9 @@ class TestListener implements \PHPUnit_Framework_TestListener
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
 
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite) {}
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite) {
+    	\Mockery::close();
+    }
 
     public function startTest(\PHPUnit_Framework_Test $test) {}
 
