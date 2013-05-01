@@ -410,10 +410,10 @@ class MockConfiguration
             }
 
             if (preg_match("/^\\\\?IteratorAggregate$/i", $interface)) {
-                $this->targetInterfaces["\\IteratorAggregate"] = DefinedTargetClass::factory("\\IteratorAggregate");
+                $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
                 $iteratorShiftedToFront = true;
             } else if (preg_match("/^\\\\?Iterator$/i", $interface)) {
-                $this->targetInterfaces["\\Iterator"] = DefinedTargetClass::factory("\\Iterator");
+                $this->targetInterfaces[] = DefinedTargetClass::factory("\\Iterator");
                 $iteratorShiftedToFront = true;
             } else if (preg_match("/^\\\\?Traversable$/i", $interface)) {
                 $traversableFound = true;
@@ -421,14 +421,14 @@ class MockConfiguration
         }
 
         if ($traversableFound && !$iteratorShiftedToFront) {
-            $this->targetInterfaces["\\IteratorAggregate"] = DefinedTargetClass::factory("\\IteratorAggregate");
+            $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
         }
 
         /**
          * We never straight up implement Traversable
          */
         if (!preg_match("/^\\\\?Traversable$/i", $targetInterface)) {
-            $this->targetInterfaces[$targetInterface] = $dtc;
+            $this->targetInterfaces[] = $dtc;
         }
 
         return $this;
