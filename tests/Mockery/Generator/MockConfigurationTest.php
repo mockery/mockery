@@ -134,7 +134,66 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
         $config->addTarget("Mockery\\Generator\\TestFinal");
     }
 
+    /**
+     * @test
+     */
+    public function shouldTargetIteratorAggregateIfTryingToMockTraversable()
+    {
+        $config = new MockConfiguration();
+        $config->addTarget("\\Traversable");
+
+        $interfaces = $config->getTargetInterfaces();
+        $this->assertEquals(1, count($interfaces));
+        $first = array_shift($interfaces);
+        $this->assertEquals("IteratorAggregate", $first->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldTargetIteratorAggregateIfTraversableInTargetsTree()
+    {
+        $config = new MockConfiguration();
+        $config->addTarget("Mockery\Generator\TestTraversableInterface");
+
+        $interfaces = $config->getTargetInterfaces();
+        $this->assertEquals(2, count($interfaces));
+        $this->assertEquals("IteratorAggregate", $interfaces[0]->getName());
+        $this->assertEquals("Mockery\Generator\TestTraversableInterface", $interfaces[1]->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBringIteratorToHeadOfTargetListIfTraversablePresent()
+    {
+        $config = new MockConfiguration();
+        $config->addTarget("Mockery\Generator\TestTraversableInterface2");
+
+        $interfaces = $config->getTargetInterfaces();
+        $this->assertEquals(2, count($interfaces));
+        $this->assertEquals("Iterator", $interfaces[0]->getName());
+        $this->assertEquals("Mockery\Generator\TestTraversableInterface2", $interfaces[1]->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent()
+    {
+        $config = new MockConfiguration();
+        $config->addTarget("Mockery\Generator\TestTraversableInterface3");
+
+        $interfaces = $config->getTargetInterfaces();
+        $this->assertEquals(2, count($interfaces));
+        $this->assertEquals("IteratorAggregate", $interfaces[0]->getName());
+        $this->assertEquals("Mockery\Generator\TestTraversableInterface3", $interfaces[1]->getName());
+    }
 }
+
+interface TestTraversableInterface extends \Traversable {}
+interface TestTraversableInterface2 extends \Traversable, \Iterator {}
+interface TestTraversableInterface3 extends \Traversable, \IteratorAggregate {}
 
 final class TestFinal {}
 
