@@ -15,4 +15,11 @@ class Method
     {
         return call_user_func_array(array($this->method, $method), $args);
     }
+
+    public function getParameters()
+    {
+        return array_map(function ($parameter) {
+            return new Parameter($parameter);
+        }, $this->method->getParameter());
+    }
 }
