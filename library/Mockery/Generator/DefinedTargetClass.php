@@ -49,4 +49,19 @@ class DefinedTargetClass
     {
         return $this->getName();
     }
+
+    public function getNamespaceName()
+    {
+        return $this->rfc->getNamespaceName();
+    }
+
+    public function inNamespace()
+    {
+        return $this->rfc->inNamespace();
+    }
+
+    public function getShortName() 
+    {
+        return $this->rfc->getShortName();
+    }
 }

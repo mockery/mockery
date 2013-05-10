@@ -15,4 +15,14 @@ interface TargetClass
 
     /** @return Method[] */
     function getMethods();
+
+    /** @return string */
+    function getNamespaceName();
+
+    /** @return bool */
+    function inNamespace();
+
+    /** @return string */
+    function getShortName();
+
 }
