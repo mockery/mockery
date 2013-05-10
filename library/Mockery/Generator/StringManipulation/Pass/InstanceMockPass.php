@@ -32,7 +32,7 @@ class InstanceMockPass
     }
 MOCK;
 
-    public function apply($code, MockConfiguration $config, $className)
+    public function apply($code, MockConfiguration $config)
     {
         if ($config->isInstanceMock()) {
             $code = $this->appendToClass($code, static::INSTANCE_MOCK_CODE);

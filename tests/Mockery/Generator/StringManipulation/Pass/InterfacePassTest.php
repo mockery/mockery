@@ -21,7 +21,7 @@ class InterfacePassTest extends \PHPUnit_Framework_TestCase
             "getTargetInterfaces" => array(),
         ));
 
-        $code = $pass->apply(static::CODE, $config, "MyClass");
+        $code = $pass->apply(static::CODE, $config);
         $this->assertEquals(static::CODE, $code);
     }
 
@@ -39,7 +39,7 @@ class InterfacePassTest extends \PHPUnit_Framework_TestCase
             ),
         ));
 
-        $code = $pass->apply(static::CODE, $config, "MyClass");
+        $code = $pass->apply(static::CODE, $config);
 
         $this->assertContains("implements MockInterface, \Dave\Dave, \Paddy\Paddy", $code);
     }
