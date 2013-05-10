@@ -75,7 +75,7 @@ class MockConfiguration
 
     public function __construct()
     {
-        $this->targetClass = new UndefinedTargetClass(null);
+        /* $this->targetClass = new UndefinedTargetClass(null); */
     }
 
     /**
@@ -191,7 +191,7 @@ class MockConfiguration
          * Don't like this condition, can't remember what the default 
          * targetClass is for
          */
-        if ($this->getTargetClass() && $this->getTargetClass()->getName() !== null) {
+        if ($this->getTargetClass()) {
             $this->addTargetInterface($target);
             return $this;
         } 
