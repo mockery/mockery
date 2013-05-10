@@ -20,6 +20,18 @@
  
 namespace Mockery;
 
+use Mockery\Generator\Generator;
+use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\StringManipulationGenerator;
+use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
+use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
+use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
+use Mockery\Generator\StringManipulation\Pass\InterfacePass;
+use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
+use Mockery\Loader\Loader;
+use Mockery\Loader\EvalLoader;
+use Mockery\Loader\RequireLoader;
+
 class Container
 {
     const BLOCKS = \Mockery::BLOCKS;
@@ -51,6 +63,16 @@ class Container
      * @var array
      */
     protected $_groups = array();
+
+    /**
+     * @var Generator\Generator
+     */
+    protected $_generator;
+
+    /**
+     * @var Loader\Loader
+     */
+    protected $_loader;
     
     /**
      * Generates a new mock object for this container
@@ -64,6 +86,119 @@ class Container
      */
     public function mock()
     {
+        $expectationClosure = null;
+        $quickdefs = array();
+        $constructorArgs = null;
+        $blocks = array();
+        $args = func_get_args();
+
+        if (count($args) > 1) {
+            $finalArg = end($args);
+            reset($args);
+            if (is_callable($finalArg)) {
+                $expectationClosure = array_pop($args);
+            }
+        }
+
+        $config = new MockConfiguration();
+        while (count($args) > 0) {
+            $arg = current($args);
+            // check for multiple interfaces
+            if (is_string($arg) && strpos($arg, ',') && !strpos($arg, ']')) {
+                $interfaces = explode(',', str_replace(' ', '', $arg));
+                foreach ($interfaces as $i) {
+                    if (!interface_exists($i, true) && !class_exists($i, true)) {
+                        throw new \Mockery\Exception(
+                            'Class name follows the format for defining multiple'
+                            . ' interfaces, however one or more of the interfaces'
+                            . ' do not exist or are not included, or the base class'
+                            . ' (which you may omit from the mock definition) does not exist'
+                        );
+                    }
+                }
+                $config->addTargets($interfaces);
+                array_shift($args);
+
+                continue;
+            } else if (is_string($arg) && substr($arg, 0, 6) == 'alias:') {
+                $name = array_shift($args);
+                $name = str_replace('alias:', '', $name);
+                $config->addTarget('stdClass');
+                $config->setName($name);
+                continue;
+            } else if (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
+                $name = array_shift($args);
+                $name = str_replace('overload:', '', $name);
+                $config->setInstanceMock(true);
+                $config->addTarget('stdClass');
+                $config->setName($name);
+                continue;
+            } else if (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
+                $parts = explode('[', $arg);
+                if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
+                    throw new \Mockery\Exception('Can only create a partial mock from'
+                    . ' an existing class or interface');
+                }
+                $class = $parts[0];
+                $parts[1] = str_replace(' ','', $parts[1]);
+                $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
+                $config->addTarget($class);
+                $config->setWhiteListedMethods($partialMethods);
+                array_shift($args);
+                continue;
+            } else if (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
+                $class = array_shift($args);
+                $config->addTarget($class);
+                continue;
+            } else if (is_string($arg)) {
+                $class = array_shift($args);
+                $config->addTarget($class);
+                continue;
+            } else if (is_object($arg)) {
+                $partial = array_shift($args);
+                $config->addTarget($partial);
+                continue;
+            } else if (is_array($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
+                // if associative array
+                if(array_key_exists(self::BLOCKS, $arg)) $blocks = $arg[self::BLOCKS]; unset($arg[self::BLOCKS]);
+                $quickdefs = array_shift($args);
+                continue;
+            } else if (is_array($arg)) {
+                $constructorArgs = array_shift($args);
+                continue;
+            } 
+
+            throw new \Mockery\Exception(
+                'Unable to parse arguments sent to '
+                . get_class($this) . '::mock()'
+            );
+        }
+
+        $config->addBlackListedMethods($blocks);
+
+        if (!is_null($constructorArgs)) {
+            $config->addBlackListedMethod("__construct"); // we need to pass through
+        }
+
+        $def = $this->getGenerator()->generate($config);
+        $this->getLoader()->load($def);
+
+        $mock = $this->_getInstance($def->getClassName(), $constructorArgs);
+        $mock->mockery_init($def->getClassName(), $this, $config->getTargetObject());
+
+        if (!empty($quickdefs)) {
+            $mock->shouldReceive($quickdefs);
+        }
+        if (!empty($expectationClosure)) {
+            $expectationClosure($mock);
+        }
+        $this->rememberMock($mock);
+        return $mock;
+
+
+
+
+
         $class = null;
         $name = null;
         $partial = null;
@@ -180,6 +315,48 @@ class Container
     public function instanceMock()
     {
         
+    }
+
+    public function setLoader(Loader $loader)
+    {
+        $this->_loader = $loader;
+        return $this;
+    }
+
+    public function getLoader()
+    {
+        if ($this->_loader) {
+            return $this->_loader;
+        }
+
+        $this->_loader = new EvalLoader();
+        $this->_loader = new RequireLoader();
+
+        return $this->_loader;
+    }
+
+    public function setGenerator(Generator $generator)
+    {
+        $this->_generator = $generator;
+        return $this;
+    }
+
+    public function getGenerator()
+    {
+        if ($this->_generator) {
+            return $this->_generator;
+        }
+
+        // default generator
+        $this->_generator = new StringManipulationGenerator(array(
+            new CallTypeHintPass(),
+            new ClassNamePass(),
+            new InstanceMockPass(),
+            new InterfacePass(),
+            new MethodDefinitionPass(),
+        ));
+
+        return $this->_generator;
     }
     
     /**
