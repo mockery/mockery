@@ -20,7 +20,7 @@ class CallTypeHintPassTest extends \PHPUnit_Framework_TestCase
         $config = m::mock("Mockery\Generator\MockConfiguration", array(
             "requiresCallTypeHintRemoval" => true,
         ))->shouldDeferMissing();
-        $code = $pass->apply(static::CODE, $config);
+        $code = $pass->apply(static::CODE, $config, "MyClass");
         $this->assertContains('__call($method, $args)', $code);
     } 
  
@@ -33,7 +33,7 @@ class CallTypeHintPassTest extends \PHPUnit_Framework_TestCase
         $config = m::mock("Mockery\Generator\MockConfiguration", array(
             "requiresCallStaticTypeHintRemoval" => true,
         ))->shouldDeferMissing();
-        $code = $pass->apply(static::CODE, $config);
+        $code = $pass->apply(static::CODE, $config, "MyClass");
         $this->assertContains('__callStatic($method, $args)', $code);
     } 
 }
