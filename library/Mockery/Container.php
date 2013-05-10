@@ -25,6 +25,7 @@ use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
+use Mockery\Generator\StringManipulation\Pass\ClassPass;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
@@ -350,6 +351,7 @@ class Container
         // default generator
         $this->_generator = new StringManipulationGenerator(array(
             new CallTypeHintPass(),
+            new ClassPass(),
             new ClassNamePass(),
             new InstanceMockPass(),
             new InterfacePass(),
