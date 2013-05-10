@@ -6,10 +6,9 @@ use Mockery\Generator\MockConfiguration;
 
 class ClassNamePass implements Pass
 {
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, MockConfiguration $config, $className)
     {
         $namespace = $config->getNamespaceName();
-        $className = $config->getShortName() ?: $config->generateName();
 
         $code = str_replace(
             'namespace Mockery;',

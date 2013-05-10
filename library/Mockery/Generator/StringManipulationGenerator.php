@@ -24,7 +24,7 @@ class StringManipulationGenerator implements Generator
         $className = $config->getShortName() ?: $config->generateName();
 
         foreach ($this->passes as $pass) {
-            $code = $pass->apply($code, $config);
+            $code = $pass->apply($code, $config, $className);
         }
 
         return new MockDefinition($config, $className, $code);

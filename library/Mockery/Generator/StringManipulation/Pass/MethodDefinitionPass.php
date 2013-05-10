@@ -26,7 +26,7 @@ return \$ret;
 }
 BODY;
 
-    public function apply($code, MockConfiguration $config)
+    public function apply($code, MockConfiguration $config, $className)
     {
         foreach ($config->getMethodsToMock() as $method) {
 
