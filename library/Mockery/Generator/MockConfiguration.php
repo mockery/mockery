@@ -186,8 +186,11 @@ class MockConfiguration
 
         /**
          * Default is to set as class, or interface if class already set
+         *
+         * Don't like this condition, can't remember what the default 
+         * targetClass is for
          */
-        if ($this->getTargetClass()) {
+        if ($this->getTargetClass() && $this->getTargetClass()->getName() !== null) {
             $this->addTargetInterface($target);
             return $this;
         } 
@@ -397,6 +400,11 @@ class MockConfiguration
      */
     protected function addTargetInterface($targetInterface)
     {
+        if (!interface_exists($targetInterface)) {
+            $this->targetInterfaces[] = new UndefinedTargetClass($targetInterface);
+            return;
+        }
+
         $dtc = DefinedTargetClass::factory($targetInterface);
         $extendedInterfaces = array_keys($dtc->getInterfaces());
         $extendedInterfaces[] = $targetInterface;
