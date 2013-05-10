@@ -37,6 +37,7 @@ class MockConfiguration
      */
     protected $blackListedMethods = array(
         '__call',
+        '__callStatic',
         '__clone',
         '__wakeup',
         '__set',
