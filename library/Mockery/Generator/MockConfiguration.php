@@ -347,9 +347,10 @@ class MockConfiguration
     }
     protected function setTargetClass($targetClass)
     {
-        if (class_exists($targetClass) && !$this->getTargetObject()) {
+        if (class_exists($targetClass)) {
             $dtc = DefinedTargetClass::factory($targetClass);
-            if ($dtc->isFinal()) {
+
+            if (!$this->getTargetObject() && $dtc->isFinal()) {
                 throw new \Mockery\Exception(
                     'The class ' . $targetClass . ' is marked final and its methods'
                     . ' cannot be replaced. Classes marked final can be passed in'
