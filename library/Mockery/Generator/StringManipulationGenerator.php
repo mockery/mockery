@@ -21,10 +21,13 @@ class StringManipulationGenerator implements Generator
     public function generate(MockConfiguration $config)
     {
         $code = file_get_contents(__DIR__ . '/../Mock.php');
-        $className = $config->getShortName() ?: $config->generateName();
+        $className = $config->getName() ?: $config->generateName();
+
+        $clone = clone $config;
+        $clone->setName($className);
 
         foreach ($this->passes as $pass) {
-            $code = $pass->apply($code, $config, $className);
+            $code = $pass->apply($code, $clone);
         }
 
         return new MockDefinition($config, $className, $code);

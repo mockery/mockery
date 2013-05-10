@@ -6,5 +6,5 @@ use Mockery\Generator\MockConfiguration;
 
 interface Pass 
 {
-    public function apply($code, MockConfiguration $config, $className);
+    public function apply($code, MockConfiguration $config);
 }

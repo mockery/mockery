@@ -6,7 +6,7 @@ use Mockery\Generator\MockConfiguration;
 
 class CallTypeHintPass implements Pass
 {
-    public function apply($code, MockConfiguration $config, $className)
+    public function apply($code, MockConfiguration $config)
     {
         if ($config->requiresCallTypeHintRemoval()) {
             $code = str_replace(
