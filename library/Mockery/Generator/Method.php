@@ -20,6 +20,6 @@ class Method
     {
         return array_map(function ($parameter) {
             return new Parameter($parameter);
-        }, $this->method->getParameter());
+        }, $this->method->getParameters());
     }
 }
