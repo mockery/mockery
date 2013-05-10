@@ -33,7 +33,7 @@ class UndefinedTargetClass
 
     public function getNamespaceName()
     {
-        $parts = explode("\\", $this->getName());
+        $parts = explode("\\", ltrim($this->getName(), "\\"));
         array_pop($parts);
         return implode("\\", $parts);
     }
