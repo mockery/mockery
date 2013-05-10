@@ -30,4 +30,22 @@ class UndefinedTargetClass
     {
         return array();
     }
+
+    public function getNamespaceName()
+    {
+        $parts = explode("\\", $this->getName());
+        array_pop($parts);
+        return implode("\\", $parts);
+    }
+
+    public function inNamespace()
+    {
+        return $this->getNamespaceName() !== '';
+    }
+
+    public function getShortName() 
+    {
+        $parts = explode("\\", $this->getName());
+        return array_pop($parts);
+    }
 }
