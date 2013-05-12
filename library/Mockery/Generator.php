@@ -280,8 +280,6 @@ BODY;
             $paramDef = '';
             if ($param->isArray()) {
                 $paramDef .= 'array ';
-            } elseif ($param->getClass()) {
-                $paramDef .= $param->getClass()->getName() . ' ';
             }  elseif (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $param->getName() . ' .*\]$/', $param->__toString(), $typehintMatch)) {
                 if (!empty($typehintMatch['typehint'])) {
                     $paramDef .= $typehintMatch['typehint'] . ' ';
