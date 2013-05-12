@@ -892,6 +892,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock("EmptyConstructorTest[foo]");
         $this->assertSame(0, $mock->numberOfConstructorArgs);
     }
+
+    /** @group issue/158 */
+    public function testMockeryShouldRespectInterfaceWithMethodParamSelf()
+    {
+        $this->container->mock('MockeryTest_InterfaceWithMethodParamSelf');
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1123,4 +1129,8 @@ class EmptyConstructorTest {
     public function foo() {
 
     }
+}
+
+interface MockeryTest_InterfaceWithMethodParamSelf {
+    public function foo(self $bar);
 }
