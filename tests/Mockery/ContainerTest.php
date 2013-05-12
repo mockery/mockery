@@ -893,6 +893,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertSame(0, $mock->numberOfConstructorArgs);
     }
 
+    /** @group issue/158 */
     public function testMockeryShouldRespectInterfaceWithMethodParamSelf()
     {
         $this->container->mock('MockeryTest_InterfaceWithMethodParamSelf');
