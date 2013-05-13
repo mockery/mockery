@@ -546,5 +546,9 @@ class Mock implements MockInterface
         return $this->_mockery_mockableMethods;
     }
 
-
+    public function mockery_isAnonymous()
+    {
+        $rfc = new \ReflectionClass($this);
+        return false === $rfc->getParentClass();
+    }
 }
