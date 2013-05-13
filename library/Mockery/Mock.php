@@ -272,7 +272,24 @@ class Mock implements MockInterface
         if (isset($this->_mockery_expectations[$method])
         && !$this->_mockery_disableExpectationMatching) {
             $handler = $this->_mockery_expectations[$method];
-            return $handler->call($args);
+
+            try {
+                $return = $handler->call($args);
+            } catch (\Mockery\Exception\NoMatchingExpectationException $e) {
+                if ($this->_mockery_ignoreMissing) {
+                    if ($this->_mockery_ignoreMissingAsUndefined === true) {
+                        $undef = new \Mockery\Undefined;
+                        return call_user_func_array(array($undef, $method), $args);
+                    } else {
+                        return null;
+                    }
+                }
+
+                throw $e; 
+            }
+
+            return $return;
+
         } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {

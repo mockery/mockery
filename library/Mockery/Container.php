@@ -260,7 +260,7 @@ class Container
                 $this->declareClass($class);
             } elseif (is_object($arg)) {
                 $partial = array_shift($args);
-            } elseif (is_array($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
+            } elseif (is_array($arg) && !empty($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
                 // if associative array
                 if(array_key_exists(self::BLOCKS, $arg)) $blocks = $arg[self::BLOCKS]; unset($arg[self::BLOCKS]);
                 $quickdefs = array_shift($args);
@@ -274,6 +274,11 @@ class Container
                 );
             }
         }
+
+        if (!empty($partialMethods) && $constructorArgs === null) {
+            $constructorArgs = array();
+        }
+
         if (!is_null($name) && !is_null($class)) {
             if (!$makeInstanceMock) {
                 $mockName = \Mockery\Generator::createClassMock($class, null, null, $blocks);
@@ -535,13 +540,14 @@ class Container
     
     protected function _getInstance($mockName, $constructorArgs = null)
     {
-        if (!method_exists($mockName, '__construct')) {
+        $r = new \ReflectionClass($mockName);
+        
+        if (null === $r->getConstructor()) {
             $return = new $mockName;
             return $return;
         }
 
         if ($constructorArgs !== null) {
-            $r = new \ReflectionClass($mockName);
             return $r->newInstanceArgs($constructorArgs);
         }
 

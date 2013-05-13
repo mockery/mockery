@@ -243,7 +243,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSplfileinfoClassMockPassesUserExpectations()
     {
-        $file = $this->container->mock('SplFileInfo[getFilename,getPathname,getExtension,getMTime]');
+        $file = $this->container->mock('SplFileInfo[getFilename,getPathname,getExtension,getMTime]', array(__FILE__));
         $file->shouldReceive('getFilename')->once()->andReturn('foo');
         $file->shouldReceive('getPathname')->once()->andReturn('path/to/foo');
         $file->shouldReceive('getExtension')->once()->andReturn('css');
@@ -871,6 +871,34 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->container->mock('MockeryTest_CallStatic');
     }
+
+    /**
+     * @issue issue/139
+     */
+    public function testCanMockClassWithOldStyleConstructorAndArguments()
+    {
+        $mock = $this->container->mock('MockeryTest_OldStyleConstructor');
+    }
+
+    /** @group issue/144 */
+    public function testMockeryShouldInterpretEmptyArrayAsConstructorArgs()
+    {
+        $mock = $this->container->mock("EmptyConstructorTest", array());
+        $this->assertSame(0, $mock->numberOfConstructorArgs);
+    }
+
+    /** @group issue/144 */
+    public function testMockeryShouldCallConstructorByDefaultWhenRequestingPartials()
+    {
+        $mock = $this->container->mock("EmptyConstructorTest[foo]");
+        $this->assertSame(0, $mock->numberOfConstructorArgs);
+    }
+
+    /** @group issue/158 */
+    public function testMockeryShouldRespectInterfaceWithMethodParamSelf()
+    {
+        $this->container->mock('MockeryTest_InterfaceWithMethodParamSelf');
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1085,4 +1113,25 @@ class MockeryTest_ImplementsIterator implements \Iterator {
     public function key(){}
     public function next(){}
     public function valid(){}
+}
+
+class MockeryTest_OldStyleConstructor {
+    public function MockeryTest_OldStyleConstructor($arg) {}
+}
+
+class EmptyConstructorTest {
+    public $numberOfConstructorArgs;
+
+    public function __construct()
+    {
+        $this->numberOfConstructorArgs = count(func_get_args());
+    }
+
+    public function foo() {
+
+    }
+}
+
+interface MockeryTest_InterfaceWithMethodParamSelf {
+    public function foo(self $bar);
 }
