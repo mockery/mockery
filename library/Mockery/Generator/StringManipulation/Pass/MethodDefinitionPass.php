@@ -21,7 +21,7 @@ if (isset(\$stack[0]['args'])) {
         \$args[\$i] =& \$stack[0]['args'][\$i];
     }
 }
-\$ret = \$this->__call(__METHOD__, \$args);
+\$ret = \$this->__call(__FUNCTION__, \$args);
 return \$ret;
 }
 BODY;
