@@ -516,6 +516,12 @@ class Mock implements MockInterface
             return parent::__isset($name);
         }
     }
+
+    public function mockery_getExpectations()
+    {
+        return $this->_mockery_expectations;
+    }
+
     /**
      * Calls a parent class method and returns the result. Used in a passthru
      * expectation where a real return value is required while still taking
