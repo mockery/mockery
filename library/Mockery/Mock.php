@@ -333,6 +333,10 @@ class Mock implements MockInterface
     public function mockery_verify()
     {
         if ($this->_mockery_verified) return true;
+        if (isset($this->_mockery_ignoreVerification)
+            && $this->_mockery_ignoreVerification == true) {
+            return true;
+        }
         $this->_mockery_verified = true;
         foreach($this->_mockery_expectations as $director) {
             $director->verify();
@@ -506,6 +510,12 @@ class Mock implements MockInterface
         return $this->_mockery_mockableProperties;
     }
 
+    public function __isset($name)
+    {
+        if (false === stripos($name, '_mockery_') && method_exists(get_parent_class($this), '__isset')) {
+            return parent::__isset($name);
+        }
+    }
     /**
      * Calls a parent class method and returns the result. Used in a passthru
      * expectation where a real return value is required while still taking
