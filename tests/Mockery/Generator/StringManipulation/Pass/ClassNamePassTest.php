@@ -47,16 +47,4 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertContains('class Dave', $code);
     }
- 
-    /**
-     * @test
-     */
-    public function shouldReplaceClassNameWithGeneratedNameIfNotSpecified()
-    {
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
-            "generateName" => "Dave",
-        ))->shouldIgnoreMissing();
-        $code = $this->pass->apply(static::CODE, $config);
-        $this->assertContains('class Dave', $code);
-    }
 }
