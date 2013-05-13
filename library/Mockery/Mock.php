@@ -124,6 +124,11 @@ class Mock implements MockInterface
      * @var array
      */
     protected $_mockery_mockableProperties = array();
+
+    /**
+     * @var array
+     */
+    protected $_mockery_mockableMethods = array();
     
     /**
      * We want to avoid constructors since class is copied to Generator.php
@@ -534,6 +539,11 @@ class Mock implements MockInterface
     public function mockery_callSubjectMethod($name, array $args)
     {
         return call_user_func_array('parent::' . $name, $args);
+    }
+
+    public function mockery_getMockableMethods()
+    {
+        return $this->_mockery_mockableMethods;
     }
 
 
