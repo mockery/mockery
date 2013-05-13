@@ -22,6 +22,7 @@ namespace Mockery;
 
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
@@ -244,6 +245,8 @@ class Container
             new InterfacePass(),
             new MethodDefinitionPass(),
         ));
+
+        $this->_generator = new CachingGenerator($this->_generator);
 
         return $this->_generator;
     }
