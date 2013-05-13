@@ -276,11 +276,12 @@ BODY;
         $methodParams = array();
         $params = $method->getParameters();
 		$typehintMatch = array();
+        $isCompatibleWithSelf = (version_compare(PHP_VERSION, '5.4.1') >= 0);
         foreach ($params as $i => $param) {
             $paramDef = '';
             if ($param->isArray()) {
                 $paramDef .= 'array ';
-            } elseif ($param->getClass()) {
+            } elseif ($isCompatibleWithSelf && $param->getClass()) {
                 $paramDef .= $param->getClass()->getName() . ' ';
             }  elseif (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $param->getName() . ' .*\]$/', $param->__toString(), $typehintMatch)) {
                 if (!empty($typehintMatch['typehint'])) {
