@@ -326,7 +326,6 @@ class Container
         }
 
         $this->_loader = new EvalLoader();
-        $this->_loader = new RequireLoader();
 
         return $this->_loader;
     }
