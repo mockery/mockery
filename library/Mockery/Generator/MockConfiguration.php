@@ -5,6 +5,10 @@ namespace Mockery\Generator;
 /**
  * This class describes the configuration of mocks and hides away some of the 
  * reflection implementation
+ *
+ * This class needs some work, it might be beneficial to create a separate 
+ * Builder, making the final config immutable. Makes things more correct with 
+ * regards to caching the list of methods in the instance etc
  */
 class MockConfiguration 
 {
@@ -12,12 +16,14 @@ class MockConfiguration
      * A class that we'd like to mock
      */
     protected $targetClass;
+    protected $targetClassName;
 
     /**
      * A number of interfaces we'd like to mock, keyed by name to attempt to 
      * keep unique
      */
     protected $targetInterfaces = array();
+    protected $targetInterfaceNames = array();
 
     /**
      * An object we'd like our mock to proxy to
@@ -73,6 +79,11 @@ class MockConfiguration
      */
     protected $instanceMock = false;
 
+    /**
+     * Instance cache of all methods
+     */
+    protected $allMethods;
+
     public function __construct()
     {
         /* $this->targetClass = new UndefinedTargetClass(null); */
@@ -87,7 +98,16 @@ class MockConfiguration
      */
     public function getHash()
     {
-        return md5(serialize(get_object_vars($this)));
+        $vars = array(
+            'targetClassName' => $this->targetClassName,
+            'targetInterfaceNames' => $this->targetInterfaceNames,
+            'name' => $this->name,
+            'blackListedMethods' => $this->blackListedMethods,
+            'whiteListedMethod' => $this->whiteListedMethods,
+            'instanceMock' => $this->instanceMock,
+        );
+
+        return md5(serialize($vars));
     }
 
     /**
@@ -167,7 +187,7 @@ class MockConfiguration
     {
         if (is_object($target)) {
             $this->setTargetObject($target);
-            $this->setTargetClass(get_class($target));
+            $this->setTargetClassName(get_class($target));
             return $this;
         }
 
@@ -176,12 +196,12 @@ class MockConfiguration
         }
 
         if (class_exists($target)) {
-            $this->setTargetClass($target);
+            $this->setTargetClassName($target);
             return $this;
         }
 
         if (interface_exists($target)) {
-            $this->addTargetInterface($target);
+            $this->addTargetInterfaceName($target);
             return $this;
         }
 
@@ -191,12 +211,12 @@ class MockConfiguration
          * Don't like this condition, can't remember what the default 
          * targetClass is for
          */
-        if ($this->getTargetClass()) {
-            $this->addTargetInterface($target);
+        if ($this->getTargetClassName()) {
+            $this->addTargetInterfaceName($target);
             return $this;
         } 
 
-        $this->setTargetClass($target);
+        $this->setTargetClassName($target);
     }
 
     public function addTargets($interfaces)
@@ -206,13 +226,90 @@ class MockConfiguration
         }
     }
 
+    public function getTargetClassName()
+    {
+        return $this->targetClassName;
+    }
+
     public function getTargetClass()
     {
+        if ($this->targetClass) {
+            return $this->targetClass;
+        }
+
+        if (!$this->targetClassName) {
+            return null;
+        }
+
+        if (class_exists($this->targetClassName)) {
+            $dtc = DefinedTargetClass::factory($this->targetClassName);
+
+            if (!$this->getTargetObject() && $dtc->isFinal()) {
+                throw new \Mockery\Exception(
+                    'The class ' . $this->targetClassName . ' is marked final and its methods'
+                    . ' cannot be replaced. Classes marked final can be passed in'
+                    . ' to \Mockery::mock() as instantiated objects to create a'
+                    . ' partial mock, but only if the mock is not subject to type'
+                    . ' hinting checks.'
+                );
+            }
+
+            $this->targetClass = $dtc;
+
+        } else {
+            $this->targetClass = new UndefinedTargetClass($this->targetClassName);
+        }
+
         return $this->targetClass;
     }
 
     public function getTargetInterfaces()
     {
+        if (!empty($this->targetInterfaces)) {
+            return $this->targetInterfaces;
+        }
+
+        foreach ($this->targetInterfaceNames as $targetInterface) {
+            if (!interface_exists($targetInterface)) {
+                $this->targetInterfaces[] = new UndefinedTargetClass($targetInterface);
+                return;
+            }
+
+            $dtc = DefinedTargetClass::factory($targetInterface);
+            $extendedInterfaces = array_keys($dtc->getInterfaces());
+            $extendedInterfaces[] = $targetInterface;
+
+            $traversableFound = false;
+            $iteratorShiftedToFront = false;
+            foreach ($extendedInterfaces as $interface) {
+
+                if (!$traversableFound && preg_match("/^\\?Iterator(|Aggregate)$/i", $interface)) {
+                    break;
+                }
+
+                if (preg_match("/^\\\\?IteratorAggregate$/i", $interface)) {
+                    $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
+                    $iteratorShiftedToFront = true;
+                } else if (preg_match("/^\\\\?Iterator$/i", $interface)) {
+                    $this->targetInterfaces[] = DefinedTargetClass::factory("\\Iterator");
+                    $iteratorShiftedToFront = true;
+                } else if (preg_match("/^\\\\?Traversable$/i", $interface)) {
+                    $traversableFound = true;
+                }
+            }
+
+            if ($traversableFound && !$iteratorShiftedToFront) {
+                $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
+            }
+
+            /**
+             * We never straight up implement Traversable
+             */
+            if (!preg_match("/^\\\\?Traversable$/i", $targetInterface)) {
+                $this->targetInterfaces[] = $dtc;
+            }
+
+        }
         $this->targetInterfaces = array_unique($this->targetInterfaces); // just in case
         return $this->targetInterfaces;
     }
@@ -345,32 +442,18 @@ class MockConfiguration
         $this->constructorArgs = $args;
         return $this;
     }
-    protected function setTargetClass($targetClass)
+
+    protected function setTargetClassName($targetClassName)
     {
-        if (class_exists($targetClass)) {
-            $dtc = DefinedTargetClass::factory($targetClass);
-
-            if (!$this->getTargetObject() && $dtc->isFinal()) {
-                throw new \Mockery\Exception(
-                    'The class ' . $targetClass . ' is marked final and its methods'
-                    . ' cannot be replaced. Classes marked final can be passed in'
-                    . ' to \Mockery::mock() as instantiated objects to create a'
-                    . ' partial mock, but only if the mock is not subject to type'
-                    . ' hinting checks.'
-                );
-            }
-
-            $this->targetClass = $dtc;
-
-        } else {
-            $this->targetClass = new UndefinedTargetClass($targetClass);
-        }
-
-        return $this;
-    } 
+        $this->targetClassName = $targetClassName;
+    }
 
     protected function getAllMethods()
     {
+        if ($this->allMethods) {
+            return $this->allMethods;
+        }
+
         $classes = $this->getTargetInterfaces();
 
         if ($this->getTargetClass()) {
@@ -392,7 +475,7 @@ class MockConfiguration
             return true;
         });
 
-        return $methods;
+        return $this->allMethods = $methods;
     }
 
     /**
@@ -400,49 +483,11 @@ class MockConfiguration
      * implementing either Iterator or IteratorAggregate, and that whichever one 
      * it is comes before Traversable in the list of implements.
      */
-    protected function addTargetInterface($targetInterface)
+    protected function addTargetInterfaceName($targetInterface)
     {
-        if (!interface_exists($targetInterface)) {
-            $this->targetInterfaces[] = new UndefinedTargetClass($targetInterface);
-            return;
-        }
-
-        $dtc = DefinedTargetClass::factory($targetInterface);
-        $extendedInterfaces = array_keys($dtc->getInterfaces());
-        $extendedInterfaces[] = $targetInterface;
-
-        $traversableFound = false;
-        $iteratorShiftedToFront = false;
-        foreach ($extendedInterfaces as $interface) {
-
-            if (!$traversableFound && preg_match("/^\\?Iterator(|Aggregate)$/i", $interface)) {
-                break;
-            }
-
-            if (preg_match("/^\\\\?IteratorAggregate$/i", $interface)) {
-                $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
-                $iteratorShiftedToFront = true;
-            } else if (preg_match("/^\\\\?Iterator$/i", $interface)) {
-                $this->targetInterfaces[] = DefinedTargetClass::factory("\\Iterator");
-                $iteratorShiftedToFront = true;
-            } else if (preg_match("/^\\\\?Traversable$/i", $interface)) {
-                $traversableFound = true;
-            }
-        }
-
-        if ($traversableFound && !$iteratorShiftedToFront) {
-            $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
-        }
-
-        /**
-         * We never straight up implement Traversable
-         */
-        if (!preg_match("/^\\\\?Traversable$/i", $targetInterface)) {
-            $this->targetInterfaces[] = $dtc;
-        }
-
-        return $this;
+        $this->targetInterfaceNames[] = $targetInterface;
     }
+
 
     protected function setTargetObject($object)
     {
