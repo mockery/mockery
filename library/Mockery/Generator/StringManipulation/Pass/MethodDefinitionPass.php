@@ -45,7 +45,7 @@ BODY;
             $methodDef .= ' function ';
             $methodDef .= $method->returnsReference() ? ' & ' : '';
             $methodDef .= $method->getName();
-            $methodDef .= $this->renderParams($method);
+            $methodDef .= $this->renderParams($method, $config);
             $methodDef .= static::METHOD_BODY;
 
             
@@ -55,14 +55,16 @@ BODY;
         return $code;
     }
 
-    protected function renderParams(Method $method)
+    protected function renderParams(Method $method, $config)
     {
-        /* $class = $method->getDeclaringClass(); */
-        /* if ($class->isInternal()) { // check for parameter overrides for internal PHP classes */
-        /*     $paramMap = \Mockery::getConfiguration() */
-        /*         ->getInternalClassMethodParamMap($class->getName(), $method->getName()); */
-        /*     if (!is_null($paramMap)) return $paramMap; */
-        /* } */
+        $class = $method->getDeclaringClass(); 
+        if ($class->isInternal()) { 
+            $overrides = $config->getParameterOverrides();
+
+            if (isset($overrides[strtolower($class->getName())][$method->getName()])) {
+                return '(' . implode(',', $overrides[strtolower($class->getName())][$method->getName()]) . ')';
+            }
+        }
 
         $methodParams = array();
         $params = $method->getParameters();

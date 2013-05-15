@@ -116,4 +116,9 @@ class Configuration
         }
     }
 
+    public function getInternalClassMethodParamMaps()
+    {
+        return $this->_internalClassParamMap;
+    }
+
 }

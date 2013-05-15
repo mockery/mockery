@@ -101,6 +101,7 @@ class Container
         }
 
         $config = new MockConfiguration();
+        $config->setParameterOverrides(\Mockery::getConfiguration()->getInternalClassMethodParamMaps());
         while (count($args) > 0) {
             $arg = current($args);
             // check for multiple interfaces

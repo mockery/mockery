@@ -80,6 +80,11 @@ class MockConfiguration
     protected $instanceMock = false;
 
     /**
+     * Param overrides
+     */
+    protected $parameterOverrides = array();
+
+    /**
      * Instance cache of all methods
      */
     protected $allMethods;
@@ -105,6 +110,7 @@ class MockConfiguration
             'blackListedMethods' => $this->blackListedMethods,
             'whiteListedMethod' => $this->whiteListedMethods,
             'instanceMock' => $this->instanceMock,
+            'parameterOverrides' => $this->parameterOverrides,
         );
 
         return md5(serialize($vars));
@@ -441,6 +447,16 @@ class MockConfiguration
     {
         $this->constructorArgs = $args;
         return $this;
+    }
+
+    public function setParameterOverrides(array $overrides)
+    {
+        $this->parameterOverrides = $overrides;
+    }
+    
+    public function getParameterOverrides()
+    {
+        return $this->parameterOverrides;
     }
 
     protected function setTargetClassName($targetClassName)
