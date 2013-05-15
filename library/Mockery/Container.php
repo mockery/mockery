@@ -68,10 +68,10 @@ class Container
      */
     protected $_loader;
 
-    public function __construct(Generator $generator, Loader $loader)
+    public function __construct(Generator $generator = null, Loader $loader = null)
     {
-        $this->_generator = $generator;
-        $this->_loader = $loader;
+        $this->_generator = $generator ?: \Mockery::getDefaultGenerator();
+        $this->_loader = $loader ?: \Mockery::getDefaultLoader();
     }
     
     /**
