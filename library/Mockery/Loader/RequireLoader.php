@@ -9,7 +9,7 @@ class RequireLoader implements Loader
 {
     public function load(MockDefinition $definition)
     {
-        if (class_exists($definition->getClassName())) {
+        if (class_exists($definition->getClassName(), $autoLoad = false)) {
             return;
         }
 
