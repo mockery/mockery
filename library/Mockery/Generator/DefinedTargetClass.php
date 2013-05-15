@@ -13,7 +13,7 @@ class DefinedTargetClass
 
     public static function factory($name)
     {
-        return new static(new \ReflectionClass($name));
+        return new self(new \ReflectionClass($name));
     }
 
     public function getName()
@@ -41,7 +41,7 @@ class DefinedTargetClass
     public function getInterfaces()
     {
         return array_map(function ($interface) {
-            return new static($interface);
+            return new self($interface);
         }, $this->rfc->getInterfaces());
     }
 
