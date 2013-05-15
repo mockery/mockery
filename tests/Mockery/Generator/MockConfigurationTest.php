@@ -132,6 +132,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $config = new MockConfiguration();
         $config->addTarget("Mockery\\Generator\\TestFinal");
+        $config->getTargetClass();
     }
 
     /**
