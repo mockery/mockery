@@ -13,7 +13,7 @@ class RequireLoader implements Loader
             return;
         }
 
-        $tmpfname = tempnam(sys_get_temp_dir(), "Mockery") . ".php";
+        $tmpfname = tempnam(sys_get_temp_dir(), "Mockery");
         file_put_contents($tmpfname, $definition->getCode());
 
         require $tmpfname;
