@@ -24,8 +24,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function setup ()
     {
-        $this->container = new \Mockery\Container;
-        $this->container->setLoader(new \Mockery\Loader\RequireLoader());
+        $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), new \Mockery\Loader\RequireLoader());
     }
 
     public function teardown()

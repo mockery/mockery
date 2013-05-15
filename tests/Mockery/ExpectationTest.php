@@ -24,7 +24,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
 
     public function setup ()
     {
-        $this->container = new \Mockery\Container;
+        $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
         $this->mock = $this->container->mock('foo');
     }
     
@@ -741,7 +741,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function testByDefaultOperatesFromMockConstruction()
     {
-        $container = new \Mockery\Container;
+        $container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
         $mock = $container->mock('f', array('foo'=>'rfoo','bar'=>'rbar','baz'=>'rbaz'))->byDefault();
         $mock->shouldReceive('foo')->andReturn('foobar');
         $this->assertEquals('foobar', $mock->foo());
@@ -752,7 +752,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     
     public function testByDefaultOnAMockDoesSquatWithoutExpectations()
     {
-        $container = new \Mockery\Container;
+        $container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
         $mock = $container->mock('f')->byDefault();
     }
 
