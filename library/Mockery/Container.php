@@ -22,14 +22,6 @@ namespace Mockery;
 
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\CachingGenerator;
-use Mockery\Generator\StringManipulationGenerator;
-use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
-use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
-use Mockery\Generator\StringManipulation\Pass\ClassPass;
-use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
-use Mockery\Generator\StringManipulation\Pass\InterfacePass;
-use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 use Mockery\Loader\Loader;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\RequireLoader;
@@ -75,6 +67,12 @@ class Container
      * @var Loader\Loader
      */
     protected $_loader;
+
+    public function __construct(Generator $generator, Loader $loader)
+    {
+        $this->_generator = $generator;
+        $this->_loader = $loader;
+    }
     
     /**
      * Generates a new mock object for this container
@@ -207,47 +205,13 @@ class Container
         
     }
 
-    public function setLoader(Loader $loader)
-    {
-        $this->_loader = $loader;
-        return $this;
-    }
-
     public function getLoader()
     {
-        if ($this->_loader) {
-            return $this->_loader;
-        }
-
-        $this->_loader = new EvalLoader();
-
         return $this->_loader;
-    }
-
-    public function setGenerator(Generator $generator)
-    {
-        $this->_generator = $generator;
-        return $this;
     }
 
     public function getGenerator()
     {
-        if ($this->_generator) {
-            return $this->_generator;
-        }
-
-        // default generator
-        $this->_generator = new StringManipulationGenerator(array(
-            new CallTypeHintPass(),
-            new ClassPass(),
-            new ClassNamePass(),
-            new InstanceMockPass(),
-            new InterfacePass(),
-            new MethodDefinitionPass(),
-        ));
-
-        $this->_generator = new CachingGenerator($this->_generator);
-
         return $this->_generator;
     }
     
