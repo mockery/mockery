@@ -40,8 +40,9 @@ class DefinedTargetClass
 
     public function getInterfaces()
     {
-        return array_map(function ($interface) {
-            return new self($interface);
+        $class = __CLASS__;
+        return array_map(function ($interface) use ($class) {
+            return new $class($interface);
         }, $this->rfc->getInterfaces());
     }
 
