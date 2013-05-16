@@ -119,7 +119,7 @@ class Mockery
             return self::$_container;
         }
 
-        return new Mockery\Container(self::getGenerator(), self::getLoader());
+        return self::$_container = new Mockery\Container(self::getGenerator(), self::getLoader());
     }
 
     public static function setGenerator(Generator $generator)
