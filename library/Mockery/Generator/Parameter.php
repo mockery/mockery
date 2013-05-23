@@ -27,7 +27,11 @@ class Parameter
             return 'array';
         }
 
-        if ($this->rfp->getClass()) {
+        /*
+         * PHP < 5.4.1 has some strange behaviour with a typehint of self and 
+         * subclass signatures, so we risk the regexp instead
+         */
+        if ((version_compare(PHP_VERSION, '5.4.1') >= 0) && $this->rfp->getClass()) {
             return $this->rfp->getClass()->getName();
         }
 
