@@ -23,14 +23,13 @@ class StringManipulationGenerator implements Generator
         $code = file_get_contents(__DIR__ . '/../Mock.php');
         $className = $config->getName() ?: $config->generateName();
 
-        $clone = clone $config;
-        $clone->setName($className);
+        $namedConfig = $config->rename($className);
 
         foreach ($this->passes as $pass) {
-            $code = $pass->apply($code, $clone);
+            $code = $pass->apply($code, $namedConfig);
         }
 
-        return new MockDefinition($config, $className, $code);
+        return new MockDefinition($namedConfig, $code);
     }
 
     public function addPass(Pass $pass)

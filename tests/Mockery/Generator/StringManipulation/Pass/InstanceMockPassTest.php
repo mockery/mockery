@@ -4,7 +4,7 @@ namespace Mockery\Test\Generator\StringManipulation\Pass;
 
 use Mockery as m;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
-use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\MockConfigurationBuilder;
 
 class InstanceMockPassTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,8 +13,9 @@ class InstanceMockPassTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldAppendConstructorAndPropertyForInstanceMock()
     {
-        $config = new MockConfiguration;
-        $config->setInstanceMock(true);
+        $builder = new MockConfigurationBuilder;
+        $builder->setInstanceMock(true);
+        $config = $builder->getMockConfiguration();
         $pass = new InstanceMockPass;
         $code = $pass->apply('class Dave { }', $config);
         $this->assertContains('public function __construct', $code);

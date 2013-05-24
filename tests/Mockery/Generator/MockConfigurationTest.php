@@ -9,9 +9,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function blackListedMethodsShouldNotBeInListToBeMocked()
     {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\\TestSubject");
-        $config->setBlackListedMethods(array("foo"));
+        $config = new MockConfiguration(array("Mockery\Generator\\TestSubject"), array("foo"));
 
         $methods = $config->getMethodsToMock();
         $this->assertEquals(1, count($methods));
@@ -23,47 +21,20 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function blackListsAreCaseInsensitive()
     {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\\TestSubject");
-        $config->setBlackListedMethods(array("FOO"));
+        $config = new MockConfiguration(array("Mockery\Generator\\TestSubject"), array("FOO"));
 
         $methods = $config->getMethodsToMock();
         $this->assertEquals(1, count($methods));
         $this->assertEquals("bar", $methods[0]->getName());
     }
 
-    /**
-     * @test
-     */
-    public function reservedWordsAreBlackListedByDefault()
-    {
-        $config = new MockConfiguration;
-        $this->assertContains('abstract', $config->getBlackListedMethods());
-
-        // need a builtin for this
-        $this->markTestSkipped("Need a builtin class with a method that is a reserved word");
-    }
-
-    /**
-     * @test
-     */
-    public function magicMethodsAreBlackListedByDefault()
-    {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\ClassWithMagicCall");
-        $methods = $config->getMethodsToMock();
-        $this->assertEquals(1, count($methods));
-        $this->assertEquals("foo", $methods[0]->getName());
-    }
 
     /**
      * @test
      */
     public function onlyWhiteListedMethodsShouldBeInListToBeMocked()
     {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\\TestSubject");
-        $config->setWhiteListedMethods(array("foo"));
+        $config = new MockConfiguration(array("Mockery\Generator\\TestSubject"), array(), array('foo'));
 
         $methods = $config->getMethodsToMock();
         $this->assertEquals(1, count($methods));
@@ -75,10 +46,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function whitelistOverRulesBlackList()
     {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\\TestSubject");
-        $config->setWhiteListedMethods(array("foo"));
-        $config->setBlackListedMethods(array("foo"));
+        $config = new MockConfiguration(array("Mockery\Generator\\TestSubject"), array("foo"), array("foo"));
 
         $methods = $config->getMethodsToMock();
         $this->assertEquals(1, count($methods));
@@ -90,9 +58,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function whiteListsAreCaseInsensitive()
     {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\\TestSubject");
-        $config->setWhiteListedMethods(array("FOO"));
+        $config = new MockConfiguration(array("Mockery\Generator\\TestSubject"), array(), array("FOO"));
 
         $methods = $config->getMethodsToMock();
         $this->assertEquals(1, count($methods));
@@ -104,8 +70,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function finalMethodsAreExcluded()
     {
-        $config = new MockConfiguration;
-        $config->addTarget("Mockery\Generator\\ClassWithFinalMethod");
+        $config = new MockConfiguration(array("Mockery\Generator\\ClassWithFinalMethod"));
 
         $methods = $config->getMethodsToMock();
         $this->assertEquals(1, count($methods));
@@ -117,9 +82,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldIncludeMethodsFromAllTargets()
     {
-        $config = new MockConfiguration();
-        $config->addTarget("Mockery\\Generator\\TestInterface");
-        $config->addTarget("Mockery\\Generator\\TestInterface2");
+        $config = new MockConfiguration(array("Mockery\\Generator\\TestInterface", "Mockery\\Generator\\TestInterface2"));
         $methods = $config->getMethodsToMock();
         $this->assertEquals(2, count($methods));
     }
@@ -130,8 +93,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldThrowIfTargetClassIsFinal()
     {
-        $config = new MockConfiguration();
-        $config->addTarget("Mockery\\Generator\\TestFinal");
+        $config = new MockConfiguration(array("Mockery\\Generator\\TestFinal"));
         $config->getTargetClass();
     }
 
@@ -140,8 +102,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldTargetIteratorAggregateIfTryingToMockTraversable()
     {
-        $config = new MockConfiguration();
-        $config->addTarget("\\Traversable");
+        $config = new MockConfiguration(array("\\Traversable"));
 
         $interfaces = $config->getTargetInterfaces();
         $this->assertEquals(1, count($interfaces));
@@ -154,8 +115,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldTargetIteratorAggregateIfTraversableInTargetsTree()
     {
-        $config = new MockConfiguration();
-        $config->addTarget("Mockery\Generator\TestTraversableInterface");
+        $config = new MockConfiguration(array("Mockery\Generator\TestTraversableInterface"));
 
         $interfaces = $config->getTargetInterfaces();
         $this->assertEquals(2, count($interfaces));
@@ -168,8 +128,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldBringIteratorToHeadOfTargetListIfTraversablePresent()
     {
-        $config = new MockConfiguration();
-        $config->addTarget("Mockery\Generator\TestTraversableInterface2");
+        $config = new MockConfiguration(array("Mockery\Generator\TestTraversableInterface2"));
 
         $interfaces = $config->getTargetInterfaces();
         $this->assertEquals(2, count($interfaces));
@@ -182,8 +141,7 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent()
     {
-        $config = new MockConfiguration();
-        $config->addTarget("Mockery\Generator\TestTraversableInterface3");
+        $config = new MockConfiguration(array("Mockery\Generator\TestTraversableInterface3"));
 
         $interfaces = $config->getTargetInterfaces();
         $this->assertEquals(2, count($interfaces));
@@ -219,10 +177,3 @@ class ClassWithFinalMethod
     final public function foo() {}
     public function bar() {}
 }
-
-class ClassWithMagicCall
-{
-    public function foo() {}
-    public function __call($method, $args) {}
-}
-

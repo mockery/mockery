@@ -12,11 +12,11 @@ abstract class LoaderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function loadLoadsTheCode()
     {
-        $config = new MockConfiguration;
         $className = 'Mock_' . uniqid();
+        $config = new MockConfiguration(array(), array(), array(), $className);
         $code = "<?php class $className { } ";
 
-        $definition = new MockDefinition($config, $className, $code);
+        $definition = new MockDefinition($config, $code);
 
         $this->getLoader()->load($definition);
 
