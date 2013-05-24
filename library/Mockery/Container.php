@@ -21,7 +21,7 @@
 namespace Mockery;
 
 use Mockery\Generator\Generator;
-use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Loader\Loader;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\RequireLoader;
@@ -100,8 +100,8 @@ class Container
             }
         }
 
-        $config = new MockConfiguration();
-        $config->setParameterOverrides(\Mockery::getConfiguration()->getInternalClassMethodParamMaps());
+        $builder = new MockConfigurationBuilder();
+        $builder->setParameterOverrides(\Mockery::getConfiguration()->getInternalClassMethodParamMaps());
         while (count($args) > 0) {
             $arg = current($args);
             // check for multiple interfaces
@@ -117,22 +117,22 @@ class Container
                         );
                     }
                 }
-                $config->addTargets($interfaces);
+                $builder->addTargets($interfaces);
                 array_shift($args);
 
                 continue;
             } else if (is_string($arg) && substr($arg, 0, 6) == 'alias:') {
                 $name = array_shift($args);
                 $name = str_replace('alias:', '', $name);
-                $config->addTarget('stdClass');
-                $config->setName($name);
+                $builder->addTarget('stdClass');
+                $builder->setName($name);
                 continue;
             } else if (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
                 $name = array_shift($args);
                 $name = str_replace('overload:', '', $name);
-                $config->setInstanceMock(true);
-                $config->addTarget('stdClass');
-                $config->setName($name);
+                $builder->setInstanceMock(true);
+                $builder->addTarget('stdClass');
+                $builder->setName($name);
                 continue;
             } else if (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
                 $parts = explode('[', $arg);
@@ -143,21 +143,21 @@ class Container
                 $class = $parts[0];
                 $parts[1] = str_replace(' ','', $parts[1]);
                 $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
-                $config->addTarget($class);
-                $config->setWhiteListedMethods($partialMethods);
+                $builder->addTarget($class);
+                $builder->setWhiteListedMethods($partialMethods);
                 array_shift($args);
                 continue;
             } else if (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
-                $config->addTarget($class);
+                $builder->addTarget($class);
                 continue;
             } else if (is_string($arg)) {
                 $class = array_shift($args);
-                $config->addTarget($class);
+                $builder->addTarget($class);
                 continue;
             } else if (is_object($arg)) {
                 $partial = array_shift($args);
-                $config->addTarget($partial);
+                $builder->addTarget($partial);
                 continue;
             } elseif (is_array($arg) && !empty($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
                 // if associative array
@@ -175,15 +175,17 @@ class Container
             );
         }
 
-        $config->addBlackListedMethods($blocks);
+        $builder->addBlackListedMethods($blocks);
 
         if (!is_null($constructorArgs)) {
-            $config->addBlackListedMethod("__construct"); // we need to pass through
+            $builder->addBlackListedMethod("__construct"); // we need to pass through
         }
 
         if (!empty($partialMethods) && $constructorArgs === null) {
             $constructorArgs = array();
         }
+
+        $config = $builder->getMockConfiguration();
 
         $def = $this->getGenerator()->generate($config);
         $this->getLoader()->load($def);

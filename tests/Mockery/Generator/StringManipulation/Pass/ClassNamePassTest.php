@@ -20,7 +20,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldRemoveNamespaceDefinition()
     {
-        $config = new MockConfiguration;
+        $config = new MockConfiguration(array(), array(), array(), "Dave\Dave");
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertNotContains('namespace Mockery;', $code);
     } 
@@ -30,8 +30,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReplaceNamespaceIfClassNameIsNamespaced()
     {
-        $config = new MockConfiguration();
-        $config->setName("Dave\Dave");
+        $config = new MockConfiguration(array(), array(), array(), "Dave\Dave");
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertNotContains('namespace Mockery;', $code);
         $this->assertContains('namespace Dave;', $code);
@@ -42,8 +41,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldReplaceClassNameWithSpecifiedName()
     {
-        $config = new MockConfiguration();
-        $config->setName("Dave");
+        $config = new MockConfiguration(array(), array(), array(), "Dave");
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertContains('class Dave', $code);
     }

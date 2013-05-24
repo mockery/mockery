@@ -5,10 +5,6 @@ namespace Mockery\Generator;
 /**
  * This class describes the configuration of mocks and hides away some of the 
  * reflection implementation
- *
- * This class needs some work, it might be beneficial to create a separate 
- * Builder, making the final config immutable. Makes things more correct with 
- * regards to caching the list of methods in the instance etc
  */
 class MockConfiguration 
 {
@@ -41,32 +37,7 @@ class MockConfiguration
      * This is currently populated with stuff we don't know how to deal with, 
      * should really be somewhere else
      */
-    protected $blackListedMethods = array(
-        '__call',
-        '__callStatic',
-        '__clone',
-        '__wakeup',
-        '__set',
-        '__get',
-        '__toString',
-        '__isset',
-        '__destruct',
-
-        // below are reserved words in PHP
-        "__halt_compiler", "abstract", "and", "array", "as",
-        "break", "callable", "case", "catch", "class",
-        "clone", "const", "continue", "declare", "default",
-        "die", "do", "echo", "else", "elseif",
-        "empty", "enddeclare", "endfor", "endforeach", "endif",
-        "endswitch", "endwhile", "eval", "exit", "extends",
-        "final", "for", "foreach", "function", "global",
-        "goto", "if", "implements", "include", "include_once",
-        "instanceof", "insteadof", "interface", "isset", "list",
-        "namespace", "new", "or", "print", "private",
-        "protected", "public", "require", "require_once", "return",
-        "static", "switch", "throw", "trait", "try",
-        "unset", "use", "var", "while", "xor"
-    );
+    protected $blackListedMethods = array();
 
     /**
      * If not empty, only these methods will be mocked
@@ -89,9 +60,14 @@ class MockConfiguration
      */
     protected $allMethods;
 
-    public function __construct()
+    public function __construct(array $targets = array(), array $blackListedMethods = array(), array $whiteListedMethods = array(), $name = null, $instanceMock = false, array $parameterOverrides = array())
     {
-        /* $this->targetClass = new UndefinedTargetClass(null); */
+        $this->addTargets($targets);
+        $this->blackListedMethods = $blackListedMethods;
+        $this->whiteListedMethods = $whiteListedMethods;
+        $this->name = $name;
+        $this->instanceMock = $instanceMock;
+        $this->parameterOverrides = $parameterOverrides;
     }
 
     /**
@@ -188,8 +164,33 @@ class MockConfiguration
         return false;
     }
 
+    public function rename($className)
+    {
+        $targets = array();
 
-    public function addTarget($target)
+        if ($this->targetClassName) {
+            $targets[] = $this->targetClassName;
+        }
+
+        if ($this->targetInterfaceNames) {
+            $targets = array_merge($targets, $this->targetInterfaceNames);
+        }
+
+        if ($this->targetObject) {
+            $targets[] = $this->targetObject;
+        }
+
+        return new self(
+            $targets,
+            $this->blackListedMethods,
+            $this->whiteListedMethods,
+            $className,
+            $this->instanceMock,
+            $this->parameterOverrides
+        );
+    }
+
+    protected function addTarget($target)
     {
         if (is_object($target)) {
             $this->setTargetObject($target);
@@ -225,7 +226,7 @@ class MockConfiguration
         $this->setTargetClassName($target);
     }
 
-    public function addTargets($interfaces)
+    protected function addTargets($interfaces)
     {
         foreach ($interfaces as $interface) {
             $this->addTarget($interface);
@@ -372,35 +373,9 @@ class MockConfiguration
         return "";
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
     public function getBlackListedMethods()
     {
         return $this->blackListedMethods;
-    }
-
-    public function addBlackListedMethod($blackListedMethod)
-    {
-        $this->blackListedMethods[] = $blackListedMethod;
-        return $this;
-    }
-
-    public function addBlackListedMethods(array $blackListedMethods)
-    {
-        foreach ($blackListedMethods as $method) {
-            $this->addBlackListedMethod($method);
-        }
-        return $this;
-    }
-
-    public function setBlackListedMethods(array $blackListedMethods)
-    {
-        $this->blackListedMethods = $blackListedMethods;
-        return $this;
     }
 
     public function getWhiteListedMethods()
@@ -408,52 +383,11 @@ class MockConfiguration
         return $this->whiteListedMethods;
     }
 
-    public function addWhiteListedMethod($whiteListedMethod)
-    {
-        $this->whiteListedMethods[] = $whiteListedMethod;
-        return $this;
-    }
-
-    public function addWhiteListedMethods(array $whiteListedMethods)
-    {
-        foreach ($whiteListedMethods as $method) {
-            $this->addWhiteListedMethod($method);
-        }
-        return $this;
-    }
-
-    public function setWhiteListedMethods(array $whiteListedMethods)
-    {
-        $this->whiteListedMethods = $whiteListedMethods;
-        return $this;
-    }
-
-    public function setInstanceMock($instanceMock)
-    {
-        $this->instanceMock = (bool) $instanceMock;
-    }
-
     public function isInstanceMock()
     {
         return $this->instanceMock;
     }
 
-    public function getConstructorArgs()
-    {
-        return $this->constructorArgs;
-    }
-
-    public function setConstructorArgs(array $args = null)
-    {
-        $this->constructorArgs = $args;
-        return $this;
-    }
-
-    public function setParameterOverrides(array $overrides)
-    {
-        $this->parameterOverrides = $overrides;
-    }
-    
     public function getParameterOverrides()
     {
         return $this->parameterOverrides;
