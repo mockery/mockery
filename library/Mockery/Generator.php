@@ -182,16 +182,17 @@ class Generator
             if ($method->isFinal()) {
                 continue;
             }
+            $lowercaseMethodName = strtolower($method->getName());
             if (!$method->isDestructor()
             //&& !$method->isStatic()
-            && $method->getName() !== '__call'
-            && $method->getName() !== '__clone'
-            && $method->getName() !== '__wakeup'
-            && $method->getName() !== '__set'
-            && $method->getName() !== '__get'
-            && $method->getName() !== '__toString'
-            && $method->getName() !== '__isset'
-            && $method->getName() !== '__callStatic') {
+            && $lowercaseMethodName !== '__call'
+            && $lowercaseMethodName !== '__clone'
+            && $lowercaseMethodName !== '__wakeup'
+            && $lowercaseMethodName !== '__set'
+            && $lowercaseMethodName !== '__get'
+            && $lowercaseMethodName !== '__tostring'
+            && $lowercaseMethodName !== '__isset'
+            && $lowercaseMethodName !== '__callstatic') {
                 $definition .= self::_replacePublicMethod($method);
             }
             if ($method->getName() == '__call') {

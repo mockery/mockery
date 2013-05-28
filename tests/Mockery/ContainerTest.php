@@ -898,6 +898,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $this->container->mock('MockeryTest_InterfaceWithMethodParamSelf');
     }
+
+    /** @group issue/162 */
+    public function testMockeryDoesntTryAndMockLowercaseToString()
+    {
+        $this->container->mock('MockeryTest_Lowercase_ToString');
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1133,4 +1139,8 @@ class EmptyConstructorTest {
 
 interface MockeryTest_InterfaceWithMethodParamSelf {
     public function foo(self $bar);
+}
+
+class MockeryTest_Lowercase_ToString {
+    public function __tostring() { }
 }
