@@ -6,7 +6,7 @@ before_script:
   - composer install --dev
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - phpenv rehash
-script: phpunit --coverage-text --configuration ./tests/phpunit.xml
+script: phpunit -v --coverage-text --configuration ./tests/phpunit.xml
 notifications:
     email:
         - padraic.brady@gmail.com
