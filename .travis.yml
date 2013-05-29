@@ -4,6 +4,7 @@ php:
   - 5.4
 before_script:
   - composer install --dev
+  - pecl install redis
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - phpenv rehash
 script: phpunit -v --coverage-text --configuration ./tests/phpunit.xml
