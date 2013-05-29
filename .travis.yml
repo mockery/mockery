@@ -11,3 +11,4 @@ script: phpunit -v --coverage-text --configuration ./tests/phpunit.xml
 notifications:
     email:
         - padraic.brady@gmail.com
+        - dave@atstsolutions.co.uk
