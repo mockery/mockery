@@ -22,13 +22,14 @@
 class HamcrestExpectationTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setup ()
+    public function setUp()
     {
         $this->container = new \Mockery\Container;
         $this->mock = $this->container->mock('foo');
     }
     
-    public function teardown()
+
+    public function tearDown()
     {
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
         $this->container->mockery_close();
