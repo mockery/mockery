@@ -43,6 +43,22 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         assertThat($m->test123(), equalTo(true));
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
+    
+    public function testMockWithNotAllowingMockingOfNonExistantMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
+    {
+        $before = \Mockery::getConfiguration()->mockingNonExistentMethodsAllowed();
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $m = $this->container->mock('ExampleClassForTestingNonExistentMethod');
+        $m->allowMethodToBeMocked('testSomeNonExistentMethod');
+        $m->shouldReceive("testSomeNonExistentMethod")->andReturn(true);
+        assertThat($m->testSomeNonExistentMethod(), equalTo(true));
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods($before);
+    }
+    
+    
 
 }
 
+class ExampleClassForTestingNonExistentMethod
+{
+}
