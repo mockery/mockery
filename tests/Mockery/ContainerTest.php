@@ -905,17 +905,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->container->mock('MockeryTest_Lowercase_ToString');
     }
 
-	/** @group issue/175 */
-	public function testExistingStaticMethodMocking()
-	{
+    /** @group issue/175 */
+    public function testExistingStaticMethodMocking()
+    {
         \Mockery::setContainer($this->container);
         $mock = $this->container->mock('MockeryTest_PartialStatic[mockMe]');
 
-		$mock->shouldReceive('mockMe')->with(5)->andReturn(10);
+        $mock->shouldReceive('mockMe')->with(5)->andReturn(10);
 
-		$this->assertEquals(10, $mock::mockMe(5));
-		$this->assertEquals(3, $mock::keepMe(3));
-	}
+        $this->assertEquals(10, $mock::mockMe(5));
+        $this->assertEquals(3, $mock::keepMe(3));
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1158,15 +1158,13 @@ class MockeryTest_Lowercase_ToString {
 }
 
 class MockeryTest_PartialStatic {
+    public static function mockMe($a)
+    {
+        return $a;
+    }
 
-	public static function mockMe($a)
-	{
-		return $a;
-	}
-
-	public static function keepMe($b)
-	{
-		return $b;
-	}
-
+    public static function keepMe($b)
+    {
+        return $b;
+    }
 }
