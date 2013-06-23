@@ -246,6 +246,13 @@ class Generator
 
         $body = '';
         if ($name !== '__construct') {
+            if ( $method->isStatic() ) {
+                $return_clause = "static::__callStatic('$name', \$args);";
+            }
+            else {
+                $return_clause = "\$this->__call('$name', \$args);";
+            }
+
             /**
              * Purpose of this block is to create an argument array where
              * references are preserved (func_get_args() does not preserve
@@ -259,7 +266,7 @@ if (isset(\$stack[0]['args'])) {
         \$args[\$i] =& \$stack[0]['args'][\$i];
     }
 }
-\$ret = \$this->__call('$name', \$args);
+\$ret = $return_clause
 return \$ret;
 BODY;
         }
