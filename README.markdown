@@ -238,6 +238,20 @@ If you are using PHPUnit's XML configuration approach, you can include the follo
 Make sure Composer's or Mockery's autoloader is present in the bootstrap file or you will need to also define a
 "file" attribute pointing to the file of the above TestListener class.
 
+### Warning: PHPUnit running tests in separate processes
+
+PHPUnit provides a functionnality that allows [tests to run in a separated process]
+(http://phpunit.de/manual/3.7/en/appendixes.annotations.html#appendixes.annotations.runTestsInSeparateProcesses), 
+to ensure better isolation. Mockery verifies the mocks expectations using the 
+`Mockery::close` method, and provides a PHPUnit listener, that automatically 
+calls this method for you after every test.
+
+However, this listener is not called in the right process when using PHPUnit's process 
+isolation, resulting in expectations that might not be respected, but without raising 
+any `Mockery\Exception`. To avoid this, you cannot rely on the supplied Mockery PHPUnit 
+`TestListener`, and you need to explicitely calls `Mockery::close`. The easiest solution
+to include this call in the `tearDown()` method, as explained previously.
+
 Quick Reference
 ---------------
 
