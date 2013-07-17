@@ -26,6 +26,21 @@ return \$ret;
 }
 BODY;
 
+    const STATIC_METHOD_BODY = <<<BODY
+{
+\$stack = debug_backtrace();
+\$args = array();
+if (isset(\$stack[0]['args'])) {
+    for(\$i=0; \$i<count(\$stack[0]['args']); \$i++) {
+        \$args[\$i] =& \$stack[0]['args'][\$i];
+    }
+}
+\$ret = static::__callStatic(__FUNCTION__, \$args);
+return \$ret;
+}
+
+BODY;
+
     public function apply($code, MockConfiguration $config)
     {
         foreach ($config->getMethodsToMock() as $method) {
@@ -46,7 +61,7 @@ BODY;
             $methodDef .= $method->returnsReference() ? ' & ' : '';
             $methodDef .= $method->getName();
             $methodDef .= $this->renderParams($method, $config);
-            $methodDef .= static::METHOD_BODY;
+            $methodDef .= $method->isStatic() ? static::STATIC_METHOD_BODY : static::METHOD_BODY;
 
             
             $code = $this->appendToClass($code, $methodDef);
