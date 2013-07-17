@@ -62,7 +62,6 @@ BODY;
             $methodDef .= $method->getName();
             $methodDef .= $this->renderParams($method, $config);
             $methodDef .= $method->isStatic() ? static::STATIC_METHOD_BODY : static::METHOD_BODY;
-
             
             $code = $this->appendToClass($code, $methodDef);
         }
