@@ -51,7 +51,7 @@ class Parameter
     {
         $name = $this->rfp->getName();
         if (!$name || $name == '...') {
-            $name = 'arg' . uniqid();
+            $name = 'arg' . mt_rand();
         }
 
         return $name;

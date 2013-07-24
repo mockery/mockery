@@ -336,7 +336,7 @@ class MockConfiguration
      */
     public function generateName()
     {
-        $name = uniqid('Mockery_');
+        $name = 'Mockery_' . mt_rand();
 
         if ($this->getTargetObject()) {
             $name .= "_" . str_replace("\\", "_", get_class($this->getTargetObject()));
