@@ -53,7 +53,7 @@ class Generator
         $allowFinal = false, $block = array(), $makeInstanceMock = false,
         $partialMethods = array())
     {
-        if (is_null($mockName)) $mockName = str_replace('.','_',uniqid('Mockery_'));
+        if (is_null($mockName)) $mockName = 'Mockery_' . mt_rand();
         $definition = '';
         $inheritance = '';
         $interfaceInheritance = array();
