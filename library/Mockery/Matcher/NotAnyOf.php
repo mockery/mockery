@@ -22,17 +22,6 @@ namespace Mockery\Matcher;
 
 class NotAnyOf extends MatcherAbstract
 {
-    
-    /**
-     * Set the expected value
-     *
-     * @param mixed $expected
-     */
-    public function __construct($expected = null)
-    {
-        $this->_expected = $expected;
-    }
-    
     /**
      * Check if the actual value does not match the expected (in this
      * case it's specifically NOT expected).
