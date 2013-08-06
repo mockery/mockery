@@ -110,17 +110,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m->shouldReceive("bar")->andReturn(123);
         $this->assertEquals(123, $m->bar());
     }
-    
-    public function testNamedMockWithShouldDeferMissingShouldDeferWithUnexpectedArguments()
-    {
-        $m = $this->container->mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
-        $m->shouldDeferMissing();
-        $this->assertEquals('foo', $m->bar());
-        $this->assertEquals('foo', $m->bar('argument'));
-        $m->shouldReceive("bar")->with('argument')->andReturn(123);
-        $this->assertEquals(123, $m->bar('argument'));
-        $this->assertEquals('foo', $m->bar('different-argument'));
-    }
 
     /**
      * @expectedException BadMethodCallException
