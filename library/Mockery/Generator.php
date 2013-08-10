@@ -53,7 +53,7 @@ class Generator
         $allowFinal = false, $block = array(), $makeInstanceMock = false,
         $partialMethods = array())
     {
-        if (is_null($mockName)) $mockName = uniqid('Mockery_');
+        if (is_null($mockName)) $mockName = 'Mockery_' . mt_rand();
         $definition = '';
         $inheritance = '';
         $interfaceInheritance = array();
@@ -515,25 +515,17 @@ BODY;
         if (isset(\$this->_mockery_expectations[\$method])
         && !\$this->_mockery_disableExpectationMatching) {
             \$handler = \$this->_mockery_expectations[\$method];
-
+            
             try {
-                \$return = \$handler->call(\$args);
+                return \$handler->call(\$args);
             } catch (\Mockery\Exception\NoMatchingExpectationException \$e) {
-                if (\$this->_mockery_ignoreMissing) {
-                    if (\$this->_mockery_ignoreMissingAsUndefined === true) {
-                        \$undef = new \Mockery\Undefined;
-                        return call_user_func_array(array(\$undef, \$method), \$args);
-                    } else {
-                        return null;
-                    }
+                if (!\$this->_mockery_ignoreMissing && !\$this->_mockery_deferMissing) {
+                    throw \$e;
                 }
-
-                throw \$e;
             }
-
-            return \$return;
-
-        } elseif (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
+        }
+        
+        if (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
             return call_user_func_array(array(\$this->_mockery_partial, \$method), \$args);
         } elseif (\$this->_mockery_deferMissing && is_callable("parent::\$method")) {
             return call_user_func_array("parent::\$method", \$args);
