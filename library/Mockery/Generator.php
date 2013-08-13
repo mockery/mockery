@@ -425,14 +425,8 @@ BODY;
             \$this->_mockery_partial = \$partialObject;
         }
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
-            if (isset(\$this->_mockery_partial)) {
-                \$reflected = new \ReflectionObject(\$this->_mockery_partial);
-            } else {
-                \$reflected = new \ReflectionClass(\$this->_mockery_name);
-            }
-            \$methods = \$reflected->getMethods(\ReflectionMethod::IS_PUBLIC);
-            foreach (\$methods as \$method) {
-                if (!\$method->isStatic()) \$this->_mockery_mockableMethods[] = \$method->getName();
+            foreach (\$this->mockery_getMethods() as \$method) {
+                if (\$method->isPublic() && !\$method->isStatic()) \$this->_mockery_mockableMethods[] = \$method->getName();
             }
         }
     }
