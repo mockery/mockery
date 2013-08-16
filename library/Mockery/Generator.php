@@ -412,6 +412,8 @@ BODY;
 
     protected \$_mockery_mockableProperties = array();
 
+    protected \$_mockery_methods; // ReflectionMethod cache
+
     public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
     {
         \$this->_mockery_name = \$name;
@@ -423,23 +425,28 @@ BODY;
             \$this->_mockery_partial = \$partialObject;
         }
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
-            if (isset(\$this->_mockery_partial)) {
-                \$reflected = new \ReflectionObject(\$this->_mockery_partial);
-            } else {
-                \$reflected = new \ReflectionClass(\$this->_mockery_name);
-            }
-            \$methods = \$reflected->getMethods(\ReflectionMethod::IS_PUBLIC);
-            foreach (\$methods as \$method) {
-                if (!\$method->isStatic()) \$this->_mockery_mockableMethods[] = \$method->getName();
+            foreach (\$this->mockery_getMethods() as \$method) {
+                if (\$method->isPublic() && !\$method->isStatic()) \$this->_mockery_mockableMethods[] = \$method->getName();
             }
         }
     }
 
     public function shouldReceive()
     {
+        \$nonPublicMethods = array_map(
+            function (\$method) { return \$method->getName(); }, 
+            array_filter(\$this->mockery_getMethods(), function (\$method) {
+                return !\$method->isPublic();
+            })
+        );
+
         \$self = \$this;
         \$lastExpectation = \Mockery::parseShouldReturnArgs(
-            \$this, func_get_args(), function(\$method) use (\$self) {
+            \$this, func_get_args(), function(\$method) use (\$self, \$nonPublicMethods) {
+                if (in_array(\$method, \$nonPublicMethods)) {
+                    throw new \InvalidArgumentException("\$method() cannot be mocked as it is not a public method");
+                }
+
                 \$director = \$self->mockery_getExpectationsFor(\$method);
                 if (!\$director) {
                     \$director = new \Mockery\ExpectationDirector(\$method, \$self);
@@ -685,6 +692,22 @@ BODY;
     public function mockery_getExpectations()
     {
         return \$this->_mockery_expectations;
+    }
+
+    protected function mockery_getMethods()
+    {
+        if (\$this->_mockery_methods) {
+            return \$this->_mockery_methods;
+        }
+
+        if (isset(\$this->_mockery_partial)) {
+            \$reflected = new \ReflectionObject(\$this->_mockery_partial);
+        } else {
+            \$reflected = new \ReflectionClass(\$this->_mockery_name);
+        }
+        \$this->_mockery_methods = \$reflected->getMethods();
+
+        return \$this->_mockery_methods;
     }
 
     public function __isset(\$name)
