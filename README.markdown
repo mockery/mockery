@@ -199,7 +199,7 @@ use \Mockery as m;
 class SimpleTest extends PHPUnit_Framework_TestCase
 {
     public function testSimpleMock() {
-        $mock = m::mock('simple mock');
+        $mock = m::mock('simplemock');
         $mock->shouldReceive('foo')->with(5, m::any())->once()->andReturn(10);
         $this->assertEquals(10, $mock->foo(5));
     }
@@ -1449,7 +1449,7 @@ class UndefinedTest extends PHPUnit_Framework_TestCase
 
     public function testUndefinedValues()
     {
-        $mock = m::mock('my mock');
+        $mock = m::mock('mymock');
         $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
         $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
     }

@@ -1703,7 +1703,6 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
 
-
     public function testShouldIgnoreMissingExpectationBasedOnArgs()
     {
         $mock = $this->container->mock("MyService2")->shouldIgnoreMissing();
@@ -1712,7 +1711,27 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $mock->hasBookmarksTagged("padraic");
         $this->container->mockery_verify();
     }
-
+    
+    public function testShouldDeferMissingExpectationBasedOnArgs()
+    {
+        $mock = $this->container->mock("MockeryTest_SubjectCall1")->shouldDeferMissing();
+        
+        $this->assertEquals('bar', $mock->foo());
+        $this->assertEquals('bar', $mock->foo("baz"));
+        $this->assertEquals('bar', $mock->foo("qux"));
+        
+        $mock->shouldReceive("foo")->with("baz")->twice()->andReturn('123');
+        $this->assertEquals('bar', $mock->foo());
+        $this->assertEquals('123', $mock->foo("baz"));
+        $this->assertEquals('bar', $mock->foo("qux"));
+        
+        $mock->shouldReceive("foo")->withNoArgs()->once()->andReturn('456');
+        $this->assertEquals('456', $mock->foo());
+        $this->assertEquals('123', $mock->foo("baz"));
+        $this->assertEquals('bar', $mock->foo("qux"));
+        
+        $this->container->mockery_verify();
+    }
 }
 
 class MockeryTest_SubjectCall1 {

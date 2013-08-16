@@ -916,6 +916,28 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $mock::mockMe(5));
         $this->assertEquals(3, $mock::keepMe(3));
     }
+
+    /** 
+     * @group issue/154 
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage protectedMethod() cannot be mocked as it is not a public method
+     */
+    public function testShouldThrowIfAttemptingToStubProtectedMethod()
+    {
+        $mock = $this->container->mock('MockeryTest_WithProtectedAndPrivate');
+        $mock->shouldReceive("protectedMethod");
+    }
+
+    /** 
+     * @group issue/154 
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage privateMethod() cannot be mocked as it is not a public method
+     */
+    public function testShouldThrowIfAttemptingToStubPrivateMethod()
+    {
+        $mock = $this->container->mock('MockeryTest_WithProtectedAndPrivate');
+        $mock->shouldReceive("privateMethod");
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1006,6 +1028,12 @@ interface MockeryTest_InterfaceWithPublicStaticMethod
 abstract class MockeryTest_AbstractWithAbstractMethod
 {
     abstract protected function set();
+}
+
+class MockeryTest_WithProtectedAndPrivate
+{
+    protected function protectedMethod() {}
+    private function privateMethod() {}
 }
 
 class MockeryTest_ClassConstructor {

@@ -129,6 +129,13 @@ class Mock implements MockInterface
      * @var array
      */
     protected $_mockery_mockableMethods = array();
+
+    /**
+     * Just a local cache for this mock's target's methods
+     *
+     * @var ReflectionMethod[]
+     */
+    protected $_mockery_methods;
     
     /**
      * We want to avoid constructors since class is copied to Generator.php
@@ -151,14 +158,8 @@ class Mock implements MockInterface
         }
 
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
-            if (isset($this->_mockery_partial)) {
-                $reflected = new \ReflectionObject($this->_mockery_partial);
-            } else {
-                $reflected = new \ReflectionClass($this->_mockery_name);
-            }
-            $methods = $reflected->getMethods(\ReflectionMethod::IS_PUBLIC);
-            foreach ($methods as $method) {
-                if (!$method->isStatic()) $this->_mockery_mockableMethods[] = $method->getName();
+            foreach ($this->mockery_getMethods() as $method) {
+                if ($method->isPublic() && !$method->isStatic()) $this->_mockery_mockableMethods[] = $method->getName();
             }
         }
     }
@@ -171,9 +172,20 @@ class Mock implements MockInterface
      */
     public function shouldReceive()
     {
+        $nonPublicMethods = array_map(
+            function ($method) { return $method->getName(); }, 
+            array_filter($this->mockery_getMethods(), function ($method) {
+                return !$method->isPublic();
+            })
+        );
+
         $self = $this;
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, func_get_args(), function($method) use ($self) {
+            $this, func_get_args(), function($method) use ($self, $nonPublicMethods) {
+                if (in_array($method, $nonPublicMethods)) {
+                    throw new \InvalidArgumentException("$method() cannot be mocked as it is not a public method");
+                }
+
                 $director = $self->mockery_getExpectationsFor($method);
                 if (!$director) {
                     $director = new \Mockery\ExpectationDirector($method, $self);
@@ -272,25 +284,17 @@ class Mock implements MockInterface
         if (isset($this->_mockery_expectations[$method])
         && !$this->_mockery_disableExpectationMatching) {
             $handler = $this->_mockery_expectations[$method];
-
+            
             try {
-                $return = $handler->call($args);
+                return $handler->call($args);
             } catch (\Mockery\Exception\NoMatchingExpectationException $e) {
-                if ($this->_mockery_ignoreMissing) {
-                    if ($this->_mockery_ignoreMissingAsUndefined === true) {
-                        $undef = new \Mockery\Undefined;
-                        return call_user_func_array(array($undef, $method), $args);
-                    } else {
-                        return null;
-                    }
+                if (!$this->_mockery_ignoreMissing && !$this->_mockery_deferMissing) {
+                    throw $e;
                 }
-
-                throw $e; 
             }
-
-            return $return;
-
-        } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
+        }
+        
+        if (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
@@ -568,4 +572,21 @@ class Mock implements MockInterface
         $rfc = new \ReflectionClass($this);
         return false === $rfc->getParentClass();
     }
+
+    protected function mockery_getMethods()
+    {
+        if ($this->_mockery_methods) {
+            return $this->_mockery_methods;
+        }
+
+        if (isset($this->_mockery_partial)) {
+            $reflected = new \ReflectionObject($this->_mockery_partial);
+        } else {
+            $reflected = new \ReflectionClass($this->_mockery_name);
+        }
+        $this->_mockery_methods = $reflected->getMethods();
+
+        return $this->_mockery_methods;
+    }
+
 }
