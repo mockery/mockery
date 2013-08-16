@@ -1677,17 +1677,16 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    * @expectedException PHPUnit_Framework_Error_Warning
+     * @expectedException PHPUnit_Framework_Error_Warning
+     * @runInSeparateProcess
     */
     public function testPregMatchThrowsDelimiterWarningWithXdebugScreamTurnedOn()
     {
         if (!extension_loaded('xdebug')) {
             $this->markTestSkipped('ext/xdebug not installed');
         }
-        
-        if (ini_get('xdebug.scream') == 0) {
-            $this->markTestSkipped('xdebug.scream turned off');
-        }
+
+        ini_set('xdebug.scream', 1);
         
         $mock = $this->container->mock('foo');
         $mock->shouldReceive('foo')->with('bar', 'baz');

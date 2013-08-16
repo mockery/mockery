@@ -648,7 +648,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         \Mockery::getConfiguration()->setInternalClassMethodParamMap(
             'MongoCollection', 'insert', array('&$data', '$options')
         );
-        $m = $this->container->mock('MongoCollection');
+        // @ used to avoid E_STRICT for incompatible signature
+        @$m = $this->container->mock('MongoCollection');
+        $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('insert')->with(
             \Mockery::on(function(&$data) {$data['_id'] = 123; return true;}),
             \Mockery::type('array')
