@@ -1104,3 +1104,7 @@ class MockeryTest_ImplementsIterator implements \Iterator {
 interface MockeryTest_InterfaceThatExtendsIterator extends \Iterator {
     public function foo();
 }
+
+interface MockeryTest_InterfaceThatExtendsIteratorAggregate extends \IteratorAggregate {
+    public function foo();
+}
