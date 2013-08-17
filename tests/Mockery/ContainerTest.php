@@ -834,6 +834,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Traversable', $mock);
     }
 
+    public function testMockingInterfaceThatExtendsIteratorAggregateDoesNotImplementIterator()
+    {
+        $mock = $this->container->mock('MockeryTest_InterfaceThatExtendsIteratorAggregate');
+        $this->assertInstanceOf('IteratorAggregate', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+        $this->assertNotInstanceOf('Iterator', $mock);
+    }
+
     public function testMockingIteratorAggregateDoesNotImplementIteratorAlongside()
     {
         $mock = $this->container->mock('IteratorAggregate');
