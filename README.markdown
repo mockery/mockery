@@ -1,5 +1,6 @@
 Mockery
 ========
+[![Latest Stable Version](https://poser.pugx.org/mockery/mockery/v/stable.png)](https://packagist.org/packages/mockery/mockery) [![Total Downloads](https://poser.pugx.org/mockery/mockery/downloads.png)](https://packagist.org/packages/mockery/mockery)
 
 Mockery is a simple yet flexible PHP mock object framework for use in unit testing
 with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a
