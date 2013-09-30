@@ -87,7 +87,7 @@ class Mockery
 
         return self::$_container->self();
     }
-    
+
     /**
      * Static shortcut to closing up and verifying all mocks in the global
      * container, and resetting the container static variable to null
@@ -354,6 +354,8 @@ class Mockery
                     $parts[] = $arg;
                 } elseif (is_array($arg)) {
                     $parts[] = 'Array';
+                } elseif (is_bool($arg)) {
+                    $parts[] = $arg ? 'true' : 'false';
                 } else {
                     $parts[] = '"' . (string) $arg . '"';
                 }

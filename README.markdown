@@ -1,5 +1,6 @@
 Mockery
 ========
+[![Latest Stable Version](https://poser.pugx.org/mockery/mockery/v/stable.png)](https://packagist.org/packages/mockery/mockery) [![Total Downloads](https://poser.pugx.org/mockery/mockery/downloads.png)](https://packagist.org/packages/mockery/mockery)
 
 Mockery is a simple yet flexible PHP mock object framework for use in unit testing
 with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a
@@ -434,7 +435,7 @@ When creating a mock object, you may wish to use some commonly preferred behavio
 that are not the default in Mockery.
 
 ```PHP
-\Mockery:mock('MyClass')->shouldIgnoreMissing()
+\Mockery::mock('MyClass')->shouldIgnoreMissing()
 ```
 
 The use of the shouldIgnoreMissing() behaviour modifier will label this mock object
@@ -446,7 +447,7 @@ You can optionally prefer to return an object of type \Mockery\Undefined (i.e.
 a null object) (which was the 0.7.2 behaviour) by using an additional modifier:
 
 ```PHP
-\Mockery:mock('MyClass')->shouldIgnoreMissing()->asUndefined()
+\Mockery::mock('MyClass')->shouldIgnoreMissing()->asUndefined()
 ```
 
 The returned object is nothing more than a placeholder so if, by some act of fate,
@@ -517,7 +518,7 @@ match the expected argument list. You can add a lot more flexibility to argument
 matching using the built in matcher classes (see later). For example,
 \Mockery::any() matches any argument passed to that position in the with()
 parameter list. Mockery also allows Hamcrest library matchers - for example, the
-Hamcrest function anything() is equivalent to \Mockery:any().
+Hamcrest function anything() is equivalent to \Mockery::any().
 
 It's important to note that this means all expectations attached only apply
 to the given method when it is called with these exact arguments. This allows for
