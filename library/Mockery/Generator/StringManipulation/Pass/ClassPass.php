@@ -29,7 +29,14 @@ class ClassPass implements Pass
 
             $targetCode.= 'class ' . $target->getShortName() . ' {} ';
 
-            eval('?>' . $targetCode);
+            /*
+             * We could eval here, but it doesn't play well with the way 
+             * PHPUnit tries to backup global state and the require definition 
+             * loader
+             */
+            $tmpfname = tempnam(sys_get_temp_dir(), "Mockery");
+            file_put_contents($tmpfname, $targetCode);
+            require $tmpfname;
         }
 
         $code = str_replace(
