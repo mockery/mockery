@@ -510,7 +510,7 @@ use case is automatically recording expectations based on an existing usage
 (e.g. during refactoring). See examples in a later section.
 
 ```PHP
-with(arg1, arg2, ...)
+with(arg1, arg2, ...) / withArgs(array(arg1, arg2, ...))
 ```
 
 Adds a constraint that this expectation only applies to method calls which
