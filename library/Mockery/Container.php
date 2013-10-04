@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Container
@@ -30,28 +30,28 @@ class Container
      * @var array
      */
     protected $_mocks = array();
-    
+
     /**
      * Order number of allocation
      *
      * @var int
      */
     protected $_allocatedOrder = 0;
-    
+
     /**
      * Current ordered number
      *
      * @var int
      */
     protected $_currentOrder = 0;
-    
+
     /**
      * Ordered groups
      *
      * @var array
      */
     protected $_groups = array();
-    
+
     /**
      * Generates a new mock object for this container
      *
@@ -168,7 +168,7 @@ class Container
             $mock->mockery_init('unknown', $this);
         }
         if (!empty($quickdefs)) {
-            $mock->shouldReceive($quickdefs);
+            $mock->shouldReceive($quickdefs)->byDefault();
         }
         if (!empty($expectationClosure)) {
             $expectationClosure($mock);
@@ -176,12 +176,12 @@ class Container
         $this->rememberMock($mock);
         return $mock;
     }
-    
+
     public function instanceMock()
     {
-        
+
     }
-    
+
     /**
      *  Tear down tasks for this container
      *
@@ -196,7 +196,7 @@ class Container
             throw $e;
         }
     }
-    
+
     /**
      * Verify the container mocks
      *
@@ -208,7 +208,7 @@ class Container
             $mock->mockery_verify();
         }
     }
-    
+
     /**
      * Reset the container to its original state
      *
@@ -221,7 +221,7 @@ class Container
         }
         $this->_mocks = array();
     }
-    
+
     /**
      * Fetch the next available allocation order number
      *
@@ -232,7 +232,7 @@ class Container
         $this->_allocatedOrder += 1;
         return $this->_allocatedOrder;
     }
-    
+
     /**
      * Set ordering for a group
      *
@@ -243,7 +243,7 @@ class Container
     {
         $this->_groups[$group] = $order;
     }
-    
+
     /**
      * Fetch array of ordered groups
      *
@@ -253,7 +253,7 @@ class Container
     {
         return $this->_groups;
     }
-    
+
     /**
      * Set current ordered number
      *
@@ -265,7 +265,7 @@ class Container
         $this->_currentOrder = $order;
         return $this->_currentOrder;
     }
-    
+
     /**
      * Get current ordered number
      *
@@ -275,7 +275,7 @@ class Container
     {
         return $this->_currentOrder;
     }
-    
+
     /**
      * Validate the current mock's ordering
      *
@@ -299,7 +299,7 @@ class Container
         }
         $this->mockery_setCurrentOrder($order);
     }
-    
+
     /**
      * Gets the count of expectations on the mocks
      *
@@ -313,7 +313,7 @@ class Container
         }
         return $count;
     }
-    
+
     /**
      * Store a mock and set its container reference
      *
@@ -348,7 +348,7 @@ class Container
         $index = count($mocks) - 1;
         return $mocks[$index];
     }
-    
+
     /**
      * Return a specific remembered mock according to the array index it
      * was stored to in this container instance
@@ -359,11 +359,11 @@ class Container
     {
         if (isset($this->_mocks[$reference])) return $this->_mocks[$reference];
     }
-    
+
     protected function _getInstance($mockName, $constructorArgs = null)
     {
         $r = new \ReflectionClass($mockName);
-        
+
         if (null === $r->getConstructor()) {
             $return = new $mockName;
             return $return;
