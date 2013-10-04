@@ -41,6 +41,25 @@ interface MockInterface
      */
     public function shouldReceive();
     
+   
+    /**
+     * Allow method to be mocked even if it does not exist
+     * 
+     * In some cases classes it might be necessary to mock methods that do not 
+     * explicitly exist in the class, for example in a class with magic methods.
+     * This could be done by setting 'allowMockingNonExistentMethods' to true.
+     * 
+     * Doing this, however, stops us from being protected in refactoring 
+     * situations where we change a mocked mehod name but forget to change the 
+     * method's name in the actual class.
+     * 
+     * This method allows us to add the expectd magic mehod calls so that we can
+     * mock them.
+     * 
+     * @param string $method name of the method to be mocked
+     */
+    public function allowMethodToBeMocked($method);
+            
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      *

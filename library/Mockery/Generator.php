@@ -459,6 +459,11 @@ BODY;
         );
         return \$lastExpectation;
     }
+   
+    public function allowMethodToBeMocked(\$method) 
+    {
+       \$this->_mockery_mockableMethods[] = \$method;
+    }  
 
     public function shouldDeferMissing()
     {

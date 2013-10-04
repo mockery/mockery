@@ -169,6 +169,16 @@ class Mock implements MockInterface
     }
     
     /**
+     * Allow method to be mocked even if it does not exist
+     * 
+     * @param string $method name of the method to be mocked
+     */
+    public function allowMethodToBeMocked($method) 
+    {
+       $this->_mockery_mockableMethods[] = $method;
+    }  
+    
+    /**
      * Set mock to ignore unexpected methods and return Undefined class
      *
      * @return Mock

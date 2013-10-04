@@ -1326,6 +1326,14 @@ behaviour is detected when not allowed, it will result in an Exception being
 thrown at that point. Note that disallowing these behaviours should be carefully
 considered since they necessarily remove at least some of Mockery's flexibility.
 
+Note that when allowMockingNonExistentMethods is set to false it is still possible to allow non-existent methods to be mocked 
+by calling allowMethodToBeMocked on the mocked object:
+
+$mock->allowMethodToBeMocked('someMagicMethodCall');
+
+This is preferable to using the global setting since it lets us select which non-existent methods
+we want to allow whilst still protecting us from mock objects and their classes going out-of-sync.
+
 The other two methods are:
 
 ```PHP
