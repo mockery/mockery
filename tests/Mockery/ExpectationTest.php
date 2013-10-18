@@ -205,7 +205,22 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->shouldReceive('foo')->withNoArgs();
         $this->mock->foo(1);
     }
-    
+
+    public function testExpectsArgumentsArray()
+    {
+        $this->mock->shouldReceive('foo')->withArgs(array(1, 2));
+        $this->mock->foo(1, 2);
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testExpectsArgumentsArrayThrowsExceptionIfPassedWrongArguments()
+    {
+        $this->mock->shouldReceive('foo')->withArgs(array(1, 2));
+        $this->mock->foo(3, 4);
+    }
+
     public function testExpectsAnyArguments()
     {
         $this->mock->shouldReceive('foo')->withAnyArgs();

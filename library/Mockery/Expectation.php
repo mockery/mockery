@@ -317,7 +317,19 @@ class Expectation
         $this->_expectedArgs = func_get_args();
         return $this;
     }
-    
+
+    /**
+     * Expected arguments for the expectation passed as an array
+     *
+     * @param array $args
+     * @return self
+     */
+    public function withArgs(array $args)
+    {
+        $this->_expectedArgs = $args;
+        return $this;
+    }
+
     /**
      * Set with() as no arguments expected
      *

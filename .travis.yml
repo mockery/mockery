@@ -8,7 +8,7 @@ before_script:
   - pecl install redis
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - phpenv rehash
-script: phpunit -v --colors --coverage-text --configuration ./tests/phpunit.xml
+script: phpunit -v --colors --coverage-text 
 notifications:
     email:
         - padraic.brady@gmail.com
