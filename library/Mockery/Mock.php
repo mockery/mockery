@@ -573,6 +573,16 @@ class Mock implements MockInterface
         return false === $rfc->getParentClass();
     }
 
+    public function __wakeup()
+    {
+        /**
+         * This does not add __wakeup method support. It's a blind method and any
+         * expected __wakeup work will NOT be performed. It merely cuts off
+         * annoying errors where a __wakeup exists but is not essential when
+         * mocking
+         */
+    }
+
     protected function mockery_getMethods()
     {
         if ($this->_mockery_methods) {

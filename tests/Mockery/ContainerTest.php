@@ -940,6 +940,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock('MockeryTest_WithProtectedAndPrivate');
         $mock->shouldReceive("privateMethod");
     }
+
+    public function testWakeupMagicIsNotMockedToAllowSerialisationInstanceHack()
+    {
+        $mock = $this->container->mock('DateTime');
+    }
 }
 
 class MockeryTest_CallStatic {
