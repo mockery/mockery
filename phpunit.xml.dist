@@ -1,6 +1,6 @@
-<phpunit bootstrap="./Bootstrap.php">
+<phpunit bootstrap="./tests/Bootstrap.php">
     <testsuite name="Mockery Test Suite">
-        <directory>./</directory>
+        <directory>./tests</directory>
     </testsuite>
 
     <groups>
@@ -11,13 +11,13 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php">../library/</directory>
+            <directory suffix=".php">./library/</directory>
         </whitelist>
     </filter>
     <listeners>
         <listener
             class='Mockery\Adapter\Phpunit\TestListener'
-            file='../library/Mockery/Adapter/Phpunit/TestListener.php'/>
+            file='./library/Mockery/Adapter/Phpunit/TestListener.php'/>
     </listeners>
 </phpunit>
 
