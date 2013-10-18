@@ -116,7 +116,8 @@ class Generator
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
         foreach ($classData as $data) {
             if (!$data['class']->isFinal()) {
-                $result = self::applyMockeryTo($data['class'], $data['publicMethods'], $block, $partialMethods);
+                $methodsToMock = array_merge($data['publicMethods'], self::getNonAbstract($data['protectedMethods']));
+                $result = self::applyMockeryTo($data['class'], $methodsToMock, $block, $partialMethods);
                 if ($result['callTypehinting']) $callTypehinting = true;
                 $definition .= $result['definition'];
                 $definition .= self::stubAbstractProtected($data['protectedMethods']);
@@ -193,7 +194,7 @@ class Generator
             && $lowercaseMethodName !== '__tostring'
             && $lowercaseMethodName !== '__isset'
             && $lowercaseMethodName !== '__callstatic') {
-                $definition .= self::_replacePublicMethod($method);
+                $definition .= self::_replaceMethod($method);
             }
             if ($method->getName() == '__call') {
                 $params = $method->getParameters();
@@ -216,13 +217,26 @@ class Generator
         return $definition;
     }
 
+    public static function getNonAbstract(array $methods)
+    {
+        $ret = array();
+
+        foreach ($methods as $method) {
+            if (!$method->isAbstract()) {
+                $ret[] = $method;
+            }
+        }
+
+        return $ret;
+    }
+
     /**
      * Attempts to replace defined public (non-static) methods so they all
      * redirect to the Mock Object's __call() interceptor
      *
      * TODO: Add exclusions for partial mock support
      */
-    protected static function _replacePublicMethod(\ReflectionMethod $method)
+    protected static function _replaceMethod(\ReflectionMethod $method)
     {
         $name = $method->getName();
 
@@ -231,7 +245,7 @@ class Generator
         }
 
         $body = '';
-        if ($name !== '__construct' && $method->isPublic()) {
+        if ($name !== '__construct') {
             if ( $method->isStatic() ) {
                 $return_clause = "static::__callStatic('$name', \$args);";
             }
@@ -256,7 +270,7 @@ if (isset(\$stack[0]['args'])) {
 return \$ret;
 BODY;
         }
-        $methodParams = self::_renderPublicMethodParameters($method);
+        $methodParams = self::_renderMethodParameters($method);
         $paramDef = implode(',', $methodParams);
         if ($method->isPublic()) {
             $access = 'public';
@@ -273,7 +287,7 @@ BODY;
                       . '{' . $body . '}';
     }
 
-    protected static function _renderPublicMethodParameters(\ReflectionMethod $method)
+    protected static function _renderMethodParameters(\ReflectionMethod $method)
     {
         $class = $method->getDeclaringClass();
         if ($class->isInternal()) { // check for parameter overrides for internal PHP classes
@@ -283,7 +297,7 @@ BODY;
         }
         $methodParams = array();
         $params = $method->getParameters();
-		$typehintMatch = array();
+        $typehintMatch = array();
         $isCompatibleWithSelf = (version_compare(PHP_VERSION, '5.4.1') >= 0);
         foreach ($params as $i => $param) {
             $paramDef = '';
