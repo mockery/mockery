@@ -626,6 +626,11 @@ BODY;
         return \$this->_mockery_expectations;
     }
 
+    public function __destruct()
+    {
+                
+    }
+
 MOCK;
         /**
          * Note: An instance mock allows the declaration of an instantiable class

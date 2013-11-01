@@ -34,7 +34,7 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_close();
     }
 
-    public function testAnonymousMockWorksWithNotAllowingMockingOfNonExistantMethods()
+    public function xtestAnonymousMockWorksWithNotAllowingMockingOfNonExistantMethods()
     {
         $before = \Mockery::getConfiguration()->mockingNonExistentMethodsAllowed();
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
@@ -44,7 +44,7 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
     
-    public function testMockWithNotAllowingMockingOfNonExistantMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
+    public function xtestMockWithNotAllowingMockingOfNonExistantMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
     {
         $before = \Mockery::getConfiguration()->mockingNonExistentMethodsAllowed();
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
@@ -56,9 +56,28 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
     }
     
     
+    public function testMockWithDestructCanBeMocked()
+    {
+        $m = $this->container->mock('ExampleClassForTestingDestruct');
+        $m->shouldReceive("__destruct");
+        unset($m);
+    }
+    
+    
+    
 
 }
 
 class ExampleClassForTestingNonExistentMethod
 {
 }
+
+class ExampleClassForTestingDestruct
+{
+    function __destruct()
+    {
+        throw new \Exception("I should never have been called");
+    }
+    
+}
+
