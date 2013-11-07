@@ -391,9 +391,10 @@ BODY;
         );
 
         \$self = \$this;
+        \$allowMockingProtectedMethods = \$this->_mockery_allowMockingProtectedMethods;
         \$lastExpectation = \Mockery::parseShouldReturnArgs(
-            \$this, func_get_args(), function(\$method) use (\$self, \$nonPublicMethods) {
-                if (!\$self->_mockery_allowMockingProtectedMethods && in_array(\$method, \$nonPublicMethods)) {
+            \$this, func_get_args(), function(\$method) use (\$self, \$nonPublicMethods, \$allowMockingProtectedMethods) {
+                if (!\$allowMockingProtectedMethods && in_array(\$method, \$nonPublicMethods)) {
                     throw new \InvalidArgumentException("\$method() cannot be mocked as it is not a public method");
                 }
 
