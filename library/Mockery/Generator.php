@@ -394,8 +394,14 @@ BODY;
         \$allowMockingProtectedMethods = \$this->_mockery_allowMockingProtectedMethods;
         \$lastExpectation = \Mockery::parseShouldReturnArgs(
             \$this, func_get_args(), function(\$method) use (\$self, \$nonPublicMethods, \$allowMockingProtectedMethods) {
-                if (!\$allowMockingProtectedMethods && in_array(\$method, \$nonPublicMethods)) {
-                    throw new \InvalidArgumentException("\$method() cannot be mocked as it is not a public method");
+                \$rm = \$self->mockery_getMethod(\$method);
+                if (\$rm) {
+                    if (\$rm->isPrivate()) {
+                        throw new \InvalidArgumentException("\$method() cannot be mocked as it is a private method");
+                    }
+                    if (!\$allowMockingProtectedMethods && \$rm->isProtected()) {
+                        throw new \InvalidArgumentException("\$method() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock");
+                    }
                 }
 
                 \$director = \$self->mockery_getExpectationsFor(\$method);
@@ -680,7 +686,7 @@ BODY;
         return \$this->_mockery_methods;
     }
 
-    protected function mockery_getMethod(\$name)
+    public function mockery_getMethod(\$name)
     {
         foreach (\$this->mockery_getMethods() as \$method) {
             if (\$method->getName() == \$name) {

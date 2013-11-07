@@ -922,7 +922,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /** 
      * @group issue/154 
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage protectedMethod() cannot be mocked as it is not a public method
+     * @expectedExceptionMessage protectedMethod() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock
      */
     public function testShouldThrowIfAttemptingToStubProtectedMethod()
     {
@@ -933,7 +933,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /** 
      * @group issue/154 
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage privateMethod() cannot be mocked as it is not a public method
+     * @expectedExceptionMessage privateMethod() cannot be mocked as it is a private method
      */
     public function testShouldThrowIfAttemptingToStubPrivateMethod()
     {
