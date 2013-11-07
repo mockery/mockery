@@ -76,6 +76,26 @@ class MockingProtectedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("notbar", $mock->bar());
     }
 
+    /** @test */
+    public function shouldAllowMockingProtectedMethodOnDefinitionTimePartial()
+    {
+        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods[protectedBar]")
+            ->shouldAllowMockingProtectedMethods();
+
+        $mock->shouldReceive("protectedBar")->andReturn("notbar");
+        $this->assertEquals("notbar", $mock->bar());
+    }
+
+    /** @test */
+    public function shouldAllowMockingAbstractProtectedMethods()
+    {
+        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods")
+            ->shouldDeferMissing()
+            ->shouldAllowMockingProtectedMethods();
+
+        $mock->shouldReceive("abstractProtected")->andReturn("abstractProtected");
+        $this->assertEquals("abstractProtected", $mock->foo());
+    }
 }
 
 
