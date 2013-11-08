@@ -280,7 +280,7 @@ class Mockery
                 } elseif (is_int($arg) || is_float($arg)) {
                     $parts[] = $arg;
                 } elseif (is_array($arg)) {
-                    $parts[] = 'Array';
+                    $parts[] = preg_replace("{\s}", '', var_export($arg, true));
                 } elseif (is_bool($arg)) {
                     $parts[] = $arg ? 'true' : 'false';
                 } else {
