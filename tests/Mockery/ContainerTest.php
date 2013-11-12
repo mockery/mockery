@@ -829,6 +829,21 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertNotInstanceOf('Iterator', $mock);
     }
 
+    public function testMockingInterfaceThatExtendsIteratorDoesNotImplementIterator()
+    {
+        $mock = $this->container->mock('MockeryTest_InterfaceThatExtendsIterator');
+        $this->assertInstanceOf('Iterator', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+    }
+
+    public function testMockingInterfaceThatExtendsIteratorAggregateDoesNotImplementIterator()
+    {
+        $mock = $this->container->mock('MockeryTest_InterfaceThatExtendsIteratorAggregate');
+        $this->assertInstanceOf('IteratorAggregate', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+        $this->assertNotInstanceOf('Iterator', $mock);
+    }
+
     public function testMockingIteratorAggregateDoesNotImplementIteratorAlongside()
     {
         $mock = $this->container->mock('IteratorAggregate');
@@ -1197,4 +1212,12 @@ class MockeryTest_PartialStatic {
     {
         return $b;
     }
+}
+
+interface MockeryTest_InterfaceThatExtendsIterator extends \Iterator {
+    public function foo();
+}
+
+interface MockeryTest_InterfaceThatExtendsIteratorAggregate extends \IteratorAggregate {
+    public function foo();
 }
