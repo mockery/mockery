@@ -27,6 +27,7 @@ use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 use Mockery\Loader\EvalLoader;
+use Mockery\Loader\RequireLoader;
 use Mockery\Loader\Loader;
 
 class Mockery
@@ -172,7 +173,7 @@ class Mockery
 
     public static function getDefaultLoader()
     {
-        return new EvalLoader();
+        return new RequireLoader(); //EvalLoader();
     }
 
 
@@ -353,7 +354,8 @@ class Mockery
                 } elseif (is_int($arg) || is_float($arg)) {
                     $parts[] = $arg;
                 } elseif (is_array($arg)) {
-                    $parts[] = 'Array';
+                    $arg = preg_replace("{\s}", '', var_export($arg, true));
+                    $parts[] = (strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg;
                 } elseif (is_bool($arg)) {
                     $parts[] = $arg ? 'true' : 'false';
                 } else {

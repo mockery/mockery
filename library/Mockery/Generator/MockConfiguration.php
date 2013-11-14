@@ -113,7 +113,7 @@ class MockConfiguration
         if (count($this->getWhiteListedMethods())) {
             $whitelist = array_map('strtolower', $this->getWhiteListedMethods());
             $methods = array_filter($methods, function($method) use ($whitelist) {
-                return in_array(strtolower($method->getName()), $whitelist);
+                return $method->isAbstract() || in_array(strtolower($method->getName()), $whitelist);
             });
 
             return $methods;
