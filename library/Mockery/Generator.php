@@ -385,7 +385,7 @@ BODY;
     public function shouldReceive()
     {
         \$nonPublicMethods = array_map(
-            function (\$method) { return \$method->getName(); }, 
+            function (\$method) { return \$method->getName(); },
             array_filter(\$this->mockery_getMethods(), function (\$method) {
                 return !\$method->isPublic();
             })
@@ -473,8 +473,8 @@ BODY;
         if (\$rm && \$rm->isProtected() && !\$this->_mockery_allowMockingProtectedMethods) {
             if (\$rm->isAbstract()) {
                 return;
-            } 
-    
+            }
+
             return call_user_func_array("parent::\$method", \$args);
         }
 
@@ -490,7 +490,7 @@ BODY;
                 }
             }
         }
-        
+
         if (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
             return call_user_func_array(array(\$this->_mockery_partial, \$method), \$args);
         } elseif (\$this->_mockery_deferMissing && is_callable("parent::\$method")) {
@@ -503,8 +503,15 @@ BODY;
                 return null;
             }
         }
+
+        if (is_array(\$this->_mockery_name)) {
+            \$mock_name = join(', ', \$this->_mockery_name);
+        } else {
+            \$mock_name = \$this->_mockery_name;
+        }
+
         throw new \BadMethodCallException(
-            'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'
+            'Method ' . \$mock_name . '::' . \$method . '() does not exist on this mock object'
         );
     }
 
@@ -669,22 +676,37 @@ BODY;
 
     protected function mockery_getMethods()
     {
-        if (\$this->_mockery_methods) {
-            return \$this->_mockery_methods;
-        }
-
-        if (isset(\$this->_mockery_partial)) {
-            \$reflected = new \ReflectionObject(\$this->_mockery_partial);
-        } else {    
-            if (!class_exists(\$this->_mockery_name)) {
-                return array();
+        if (empty(\$this->_mockery_methods)) {
+            if (isset(\$this->_mockery_partial)) {
+                \$this->_mockery_methods = \$this->mockery_getObjectMethods(\$this->_mockery_partial);
+            } else {
+                \$this->_mockery_methods = \$this->mockery_getClassMethods(\$this->_mockery_name);
             }
-
-            \$reflected = new \ReflectionClass(\$this->_mockery_name);
         }
-        \$this->_mockery_methods = \$reflected->getMethods();
 
         return \$this->_mockery_methods;
+    }
+
+    protected function mockery_getObjectMethods(\$object)
+    {
+        \$reflector = new \ReflectionObject(\$object);
+        return \$reflector->getMethods();
+    }
+
+    protected function mockery_getClassMethods(\$class)
+    {
+        \$methods = array();
+
+        if (is_array(\$class)) {
+            foreach (\$class as \$name) {
+                \$methods = array_merge(\$methods, \$this->mockery_getClassMethods(\$name));
+            }
+        } elseif (class_exists(\$class)) {
+            \$reflector = new \ReflectionClass(\$class);
+            \$methods = \$reflector->getMethods();
+        }
+
+        return \$methods;
     }
 
     public function mockery_getMethod(\$name)
@@ -692,7 +714,7 @@ BODY;
         foreach (\$this->mockery_getMethods() as \$method) {
             if (\$method->getName() == \$name) {
                 return \$method;
-            }   
+            }
         }
 
         return null;
