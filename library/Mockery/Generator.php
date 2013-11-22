@@ -689,7 +689,8 @@ BODY;
 
     protected function mockery_getObjectMethods(\$object)
     {
-        return (new \ReflectionObject(\$object))->getMethods();
+        \$reflector = new \ReflectionObject(\$object);
+        return \$reflector->getMethods();
     }
 
     protected function mockery_getClassMethods(\$class)
@@ -701,7 +702,8 @@ BODY;
                 \$methods = array_merge(\$methods, \$this->mockery_getClassMethods(\$name));
             }
         } elseif (class_exists(\$class)) {
-            \$methods = (new \ReflectionClass(\$class))->getMethods();
+            \$reflector = new \ReflectionClass(\$class);
+            \$methods = \$reflector->getMethods();
         }
 
         return \$methods;
