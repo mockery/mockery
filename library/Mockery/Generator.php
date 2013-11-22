@@ -678,22 +678,9 @@ BODY;
     {
         if (empty(\$this->_mockery_methods)) {
             if (isset(\$this->_mockery_partial)) {
-                \$this->_mockery_methods = \$this->mockery_getObjectMethods(
-                    \$this->_mockery_partial
-                );
+                \$this->_mockery_methods = \$this->mockery_getObjectMethods(\$this->_mockery_partial);
             } else {
-                if (is_array(\$this->_mockery_name)) {
-                    \$this->_mockery_methods = array();
-                    foreach (\$this->_mockery_name as \$mockery_name) {
-                        \$this->_mockery_methods = array_merge(
-                            \$this->_mockery_methods,
-                            \$this->mockery_getClassMethods(\$mockery_name)
-                        );
-                    }
-                } else {
-                    \$this->_mockery_methods = \$this->mockery_getClassMethods(\$this->_mockery_name);
-                }
-
+                \$this->_mockery_methods = \$this->mockery_getClassMethods(\$this->_mockery_name);
             }
         }
 
@@ -707,11 +694,17 @@ BODY;
 
     protected function mockery_getClassMethods(\$class)
     {
-        if (!class_exists(\$class)) {
-            return array();
+        \$methods = array();
+
+        if (is_array(\$class)) {
+            foreach (\$class as \$name) {
+                \$methods = array_merge(\$methods, \$this->mockery_getClassMethods(\$name));
+            }
+        } elseif (class_exists(\$class)) {
+            \$methods = (new \ReflectionClass(\$class))->getMethods();
         }
 
-        return (new \ReflectionClass(\$class))->getMethods();
+        return \$methods;
     }
 
     public function mockery_getMethod(\$name)
