@@ -69,6 +69,18 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testNamedMockMultipleInterfaces()
+    {
+        $m = $this->container->mock('stdClass, ArrayAccess, Countable', array('foo'=>1,'bar'=>2));
+        $this->assertEquals(1, $m->foo());
+        $this->assertEquals(2, $m->bar());
+        try {
+            $m->f();
+        } catch (BadMethodCallException $e) {
+            $this->assertTrue((bool) preg_match("/stdClass, ArrayAccess, Countable/", $e->getMessage()));
+        }
+    }
+
     public function testNamedMockWithConstructorArgs()
     {
         $m = $this->container->mock("MockeryTest_ClassConstructor2[foo]", array($param1 = new stdClass()));
@@ -821,6 +833,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Traversable', $mock);
     }
 
+    public function testInterfacesCanHaveAssertions()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('stdClass, ArrayAccess, Countable, Traversable');
+        $m->shouldReceive('foo')->once();
+        $m->foo();
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+
     public function testMockingIteratorAggregateDoesNotImplementIterator()
     {
         $mock = $this->container->mock('MockeryTest_ImplementsIteratorAggregate');
@@ -934,8 +956,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $mock::keepMe(3));
     }
 
-    /** 
-     * @group issue/154 
+    /**
+     * @group issue/154
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage protectedMethod() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock
      */
@@ -945,8 +967,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock->shouldReceive("protectedMethod");
     }
 
-    /** 
-     * @group issue/154 
+    /**
+     * @group issue/154
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage privateMethod() cannot be mocked as it is a private method
      */
