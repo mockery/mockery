@@ -680,7 +680,7 @@ BODY;
             if (isset(\$this->_mockery_partial)) {
                 \$this->_mockery_methods = \$this->mockery_getObjectMethods(\$this->_mockery_partial);
             } else {
-                \$this->_mockery_methods = \$this->mockery_getClassMethods(\$this->_mockery_name);
+                \$this->_mockery_methods = \$this->mockery_getClassMethods();
             }
         }
 
@@ -693,17 +693,25 @@ BODY;
         return \$reflector->getMethods();
     }
 
-    protected function mockery_getClassMethods(\$class)
+    protected function mockery_getClassMethods()
     {
         \$methods = array();
 
-        if (is_array(\$class)) {
-            foreach (\$class as \$name) {
-                \$methods = array_merge(\$methods, \$this->mockery_getClassMethods(\$name));
+        \$reflector = new \ReflectionClass(\$this);
+
+        foreach (\$reflector->getMethods() as \$method) {
+            try {
+                \$methods[] = \$method->getPrototype();
+            } catch (\ReflectionException \$re) {
+                /*
+                 * I'm not sure why private methods don't have a prototype. I 
+                 * could understand that if the getDeclaringClass was the 
+                 * parent, but it seems to return the subtype...
+                 */
+                if (\$method->isPrivate()) {
+                    \$methods[] = \$method;
+                }
             }
-        } elseif (class_exists(\$class)) {
-            \$reflector = new \ReflectionClass(\$class);
-            \$methods = \$reflector->getMethods();
         }
 
         return \$methods;
