@@ -107,7 +107,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         try {
             $m->f();
         } catch (BadMethodCallException $e) {
-            $this->assertTrue((bool) preg_match("/stdClass, ArrayAccess, Countable/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/stdClass/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/ArrayAccess/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/Countable/", $e->getMessage()));
         }
     }
 

@@ -127,14 +127,12 @@ class Mock implements MockInterface
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
      *
-     * @param string $name
      * @param \Mockery\Container $container
      * @param object $partialObject
      * @return void
      */
-    public function mockery_init($name, \Mockery\Container $container = null, $partialObject = null)
+    public function mockery_init(\Mockery\Container $container = null, $partialObject = null)
     {
-        $this->_mockery_name = $name;
         if(is_null($container)) {
             $container = new \Mockery\Container;
         }

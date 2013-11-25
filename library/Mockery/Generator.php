@@ -53,7 +53,7 @@ class Generator
         $allowFinal = false, $block = array(), $makeInstanceMock = false,
         $partialMethods = array())
     {
-        if (is_null($mockName)) $mockName = 'Mockery_' . mt_rand();
+        if (is_null($mockName)) $mockName = static::generateMockName($className);
         $definition = '';
         $inheritance = '';
         $interfaceInheritance = array();
@@ -343,8 +343,6 @@ BODY;
 
     protected \$_mockery_verified = false;
 
-    protected \$_mockery_name = null;
-
     protected \$_mockery_allocatedOrder = 0;
 
     protected \$_mockery_currentOrder = 0;
@@ -365,9 +363,8 @@ BODY;
 
     protected \$_mockery_allowMockingProtectedMethods = false;
 
-    public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
+    public function mockery_init(\Mockery\Container \$container = null, \$partialObject = null)
     {
-        \$this->_mockery_name = \$name;
         if(is_null(\$container)) {
             \$container = new \Mockery\Container;
         }
@@ -504,14 +501,8 @@ BODY;
             }
         }
 
-        if (is_array(\$this->_mockery_name)) {
-            \$mock_name = join(', ', \$this->_mockery_name);
-        } else {
-            \$mock_name = \$this->_mockery_name;
-        }
-
         throw new \BadMethodCallException(
-            'Method ' . \$mock_name . '::' . \$method . '() does not exist on this mock object'
+            'Method ' . __CLASS__ . '::' . \$method . '() does not exist on this mock object'
         );
     }
 
@@ -576,7 +567,7 @@ BODY;
         }
         if (\$order < \$this->_mockery_currentOrder) {
             \$exception = new \Mockery\Exception\InvalidOrderException(
-                'Method ' . \$this->_mockery_name . '::' . \$method . '()'
+                'Method ' . __CLASS__ . '::' . \$method . '()'
                 . ' called out of order: expected order '
                 . \$order . ', was ' . \$this->_mockery_currentOrder
             );
@@ -626,7 +617,7 @@ BODY;
 
     public function mockery_getName()
     {
-        return \$this->_mockery_name;
+        return __CLASS__;
     }
 
     public function mockery_getMockableMethods()
@@ -772,5 +763,19 @@ MOCK;
         return $std;
     }
 
+    protected static function generateMockName($targets)
+    {
+        $name = 'Mockery_' . mt_rand();
+
+        foreach ((array) $targets as $target) {
+            if (is_object($target)) {
+                $name .= "_" . str_replace("\\", "_", get_class($this->getTargetObject()));
+            } else {
+                $name .= "_" . str_replace("\\", "_", $target);
+            }
+        }
+
+        return $name;
+    }
 
 }
