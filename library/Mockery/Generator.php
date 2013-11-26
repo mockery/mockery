@@ -53,7 +53,7 @@ class Generator
         $allowFinal = false, $block = array(), $makeInstanceMock = false,
         $partialMethods = array())
     {
-        if (is_null($mockName)) $mockName = 'Mockery_' . mt_rand();
+        if (is_null($mockName)) $mockName = static::generateMockName($className);
         $definition = '';
         $inheritance = '';
         $interfaceInheritance = array();
@@ -343,8 +343,6 @@ BODY;
 
     protected \$_mockery_verified = false;
 
-    protected \$_mockery_name = null;
-
     protected \$_mockery_allocatedOrder = 0;
 
     protected \$_mockery_currentOrder = 0;
@@ -365,9 +363,8 @@ BODY;
 
     protected \$_mockery_allowMockingProtectedMethods = false;
 
-    public function mockery_init(\$name, \Mockery\Container \$container = null, \$partialObject = null)
+    public function mockery_init(\Mockery\Container \$container = null, \$partialObject = null)
     {
-        \$this->_mockery_name = \$name;
         if(is_null(\$container)) {
             \$container = new \Mockery\Container;
         }
@@ -385,7 +382,7 @@ BODY;
     public function shouldReceive()
     {
         \$nonPublicMethods = array_map(
-            function (\$method) { return \$method->getName(); }, 
+            function (\$method) { return \$method->getName(); },
             array_filter(\$this->mockery_getMethods(), function (\$method) {
                 return !\$method->isPublic();
             })
@@ -473,8 +470,8 @@ BODY;
         if (\$rm && \$rm->isProtected() && !\$this->_mockery_allowMockingProtectedMethods) {
             if (\$rm->isAbstract()) {
                 return;
-            } 
-    
+            }
+
             return call_user_func_array("parent::\$method", \$args);
         }
 
@@ -490,7 +487,7 @@ BODY;
                 }
             }
         }
-        
+
         if (!is_null(\$this->_mockery_partial) && method_exists(\$this->_mockery_partial, \$method)) {
             return call_user_func_array(array(\$this->_mockery_partial, \$method), \$args);
         } elseif (\$this->_mockery_deferMissing && is_callable("parent::\$method")) {
@@ -503,8 +500,9 @@ BODY;
                 return null;
             }
         }
+
         throw new \BadMethodCallException(
-            'Method ' . \$this->_mockery_name . '::' . \$method . '() does not exist on this mock object'
+            'Method ' . __CLASS__ . '::' . \$method . '() does not exist on this mock object'
         );
     }
 
@@ -569,7 +567,7 @@ BODY;
         }
         if (\$order < \$this->_mockery_currentOrder) {
             \$exception = new \Mockery\Exception\InvalidOrderException(
-                'Method ' . \$this->_mockery_name . '::' . \$method . '()'
+                'Method ' . __CLASS__ . '::' . \$method . '()'
                 . ' called out of order: expected order '
                 . \$order . ', was ' . \$this->_mockery_currentOrder
             );
@@ -619,7 +617,7 @@ BODY;
 
     public function mockery_getName()
     {
-        return \$this->_mockery_name;
+        return __CLASS__;
     }
 
     public function mockery_getMockableMethods()
@@ -669,22 +667,45 @@ BODY;
 
     protected function mockery_getMethods()
     {
-        if (\$this->_mockery_methods) {
-            return \$this->_mockery_methods;
-        }
-
-        if (isset(\$this->_mockery_partial)) {
-            \$reflected = new \ReflectionObject(\$this->_mockery_partial);
-        } else {    
-            if (!class_exists(\$this->_mockery_name)) {
-                return array();
+        if (empty(\$this->_mockery_methods)) {
+            if (isset(\$this->_mockery_partial)) {
+                \$this->_mockery_methods = \$this->mockery_getObjectMethods(\$this->_mockery_partial);
+            } else {
+                \$this->_mockery_methods = \$this->mockery_getClassMethods();
             }
-
-            \$reflected = new \ReflectionClass(\$this->_mockery_name);
         }
-        \$this->_mockery_methods = \$reflected->getMethods();
 
         return \$this->_mockery_methods;
+    }
+
+    protected function mockery_getObjectMethods(\$object)
+    {
+        \$reflector = new \ReflectionObject(\$object);
+        return \$reflector->getMethods();
+    }
+
+    protected function mockery_getClassMethods()
+    {
+        \$methods = array();
+
+        \$reflector = new \ReflectionClass(\$this);
+
+        foreach (\$reflector->getMethods() as \$method) {
+            try {
+                \$methods[] = \$method->getPrototype();
+            } catch (\ReflectionException \$re) {
+                /*
+                 * I'm not sure why private methods don't have a prototype. I 
+                 * could understand that if the getDeclaringClass was the 
+                 * parent, but it seems to return the subtype...
+                 */
+                if (\$method->isPrivate()) {
+                    \$methods[] = \$method;
+                }
+            }
+        }
+
+        return \$methods;
     }
 
     public function mockery_getMethod(\$name)
@@ -692,7 +713,7 @@ BODY;
         foreach (\$this->mockery_getMethods() as \$method) {
             if (\$method->getName() == \$name) {
                 return \$method;
-            }   
+            }
         }
 
         return null;
@@ -742,5 +763,19 @@ MOCK;
         return $std;
     }
 
+    protected static function generateMockName($targets)
+    {
+        $name = 'Mockery_' . mt_rand();
+
+        foreach ((array) $targets as $target) {
+            if (is_object($target)) {
+                $name .= "_" . str_replace("\\", "_", get_class($this->getTargetObject()));
+            } else {
+                $name .= "_" . str_replace("\\", "_", $target);
+            }
+        }
+
+        return $name;
+    }
 
 }

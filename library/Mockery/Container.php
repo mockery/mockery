@@ -151,21 +151,21 @@ class Container
             }
             $result = class_alias($mockName, $name);
             $mock = $this->_getInstance($name, $constructorArgs);
-            $mock->mockery_init($class, $this);
+            $mock->mockery_init($this);
         } elseif (!is_null($name)) {
             $mock = new \Mockery\Mock();
-            $mock->mockery_init($name, $this);
+            $mock->mockery_init($this);
         } elseif(!is_null($class)) {
             $mockName = \Mockery\Generator::createClassMock($class, null, null, $blocks, false, $partialMethods);
             $mock = $this->_getInstance($mockName, $constructorArgs);
-            $mock->mockery_init($class, $this);
+            $mock->mockery_init($this);
         } elseif(!is_null($partial)) {
             $mockName = \Mockery\Generator::createClassMock(get_class($partial), null, true, $blocks);
             $mock = $this->_getInstance($mockName, $constructorArgs);
-            $mock->mockery_init(get_class($partial), $this, $partial);
+            $mock->mockery_init($this, $partial);
         } else {
             $mock = new \Mockery\Mock();
-            $mock->mockery_init('unknown', $this);
+            $mock->mockery_init($this);
         }
         if (!empty($quickdefs)) {
             $mock->shouldReceive($quickdefs)->byDefault();

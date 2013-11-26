@@ -99,6 +99,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testNamedMockMultipleInterfaces()
+    {
+        $m = $this->container->mock('stdClass, ArrayAccess, Countable', array('foo'=>1,'bar'=>2));
+        $this->assertEquals(1, $m->foo());
+        $this->assertEquals(2, $m->bar());
+        try {
+            $m->f();
+        } catch (BadMethodCallException $e) {
+            $this->assertTrue((bool) preg_match("/stdClass/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/ArrayAccess/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/Countable/", $e->getMessage()));
+        }
+    }
 
     public function testNamedMockWithConstructorArgs()
     {
@@ -850,6 +863,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ArrayAccess', $mock);
         $this->assertInstanceOf('Countable', $mock);
         $this->assertInstanceOf('Traversable', $mock);
+    }
+
+    public function testInterfacesCanHaveAssertions()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('stdClass, ArrayAccess, Countable, Traversable');
+        $m->shouldReceive('foo')->once();
+        $m->foo();
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
     }
 
     public function testMockingIteratorAggregateDoesNotImplementIterator()
