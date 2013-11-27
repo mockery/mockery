@@ -135,7 +135,7 @@ class Mock implements MockInterface
      *
      * @var ReflectionMethod[]
      */
-    protected $_mockery_methods;
+    static protected $_mockery_methods;
 
     protected $_mockery_allowMockingProtectedMethods = false;
     
@@ -629,8 +629,8 @@ class Mock implements MockInterface
 
     protected function mockery_getMethods()
     {
-        if ($this->_mockery_methods) {
-            return $this->_mockery_methods;
+        if (static::$_mockery_methods) {
+            return static::$_mockery_methods;
         }
 
         $methods = array();
@@ -654,7 +654,7 @@ class Mock implements MockInterface
             }
         }
 
-        return $this->_mockery_methods = $methods;
+        return static::$_mockery_methods = $methods;
     }
 
 }
