@@ -173,7 +173,7 @@ class Mockery
 
     public static function getDefaultLoader()
     {
-        return new RequireLoader(); //EvalLoader();
+        return new EvalLoader();
     }
 
 
