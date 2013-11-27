@@ -349,6 +349,7 @@ class MockConfiguration
         if ($this->getTargetInterfaces()) {
             $name .= array_reduce($this->getTargetInterfaces(), function($tmpname, $i) {
                 $tmpname .= '_' . str_replace("\\", "_", $i->getName());
+                return $tmpname;
             }, '');
         }
 

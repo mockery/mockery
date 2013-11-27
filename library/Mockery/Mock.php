@@ -143,14 +143,12 @@ class Mock implements MockInterface
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
      *
-     * @param string $name
      * @param \Mockery\Container $container
      * @param object $partialObject
      * @return void
      */
-    public function mockery_init($name, \Mockery\Container $container = null, $partialObject = null)
+    public function mockery_init(\Mockery\Container $container = null, $partialObject = null)
     {
-        $this->_mockery_name = $name;
         if(is_null($container)) {
             $container = new \Mockery\Container;
         }
@@ -303,10 +301,14 @@ class Mock implements MockInterface
                 return;
             } 
 
-            $prototype = $rm->getPrototype();
-            if ($prototype && $prototype->isAbstract()) {
-                return;
-            }
+            try {
+                $prototype = $rm->getPrototype();
+                if ($prototype->isAbstract()) {
+                    return;
+                }
+            } catch (\ReflectionException $re) {
+                // noop - there is no hasPrototype method
+            } 
     
             return call_user_func_array("parent::$method", $args);
         }
@@ -337,7 +339,7 @@ class Mock implements MockInterface
             }
         }
         throw new \BadMethodCallException(
-            'Method ' . $this->_mockery_name . '::' . $method . '() does not exist on this mock object'
+            'Method ' . __CLASS__ . '::' . $method . '() does not exist on this mock object'
         );
     }
     
@@ -376,7 +378,7 @@ class Mock implements MockInterface
             return $this->{$name};
         }   	                			    
         throw new \InvalidArgumentException (
-            'Property ' . $this->_mockery_name . '::' . $name . ' does not exist on this mock object'
+            'Property ' . __CLASS__ . '::' . $name . ' does not exist on this mock object'
         );
     }**/
     
@@ -474,7 +476,7 @@ class Mock implements MockInterface
     {
         if ($order < $this->_mockery_currentOrder) {
             $exception = new \Mockery\Exception\InvalidOrderException(
-                'Method ' . $this->_mockery_name . '::' . $method . '()'
+                'Method ' . __CLASS__ . '::' . $method . '()'
                 . ' called out of order: expected order '
                 . $order . ', was ' . $this->_mockery_currentOrder
             );
@@ -538,10 +540,7 @@ class Mock implements MockInterface
             return null;
         }
         $director = $this->_mockery_expectations[$method];
-        /**
-            * @todo _mockery_name seems to be __CLASS__ in this impl, not what 
-            * master has, which is kind of like target
-         */
+
         return $director->findExpectation($args);
     }
     
@@ -562,7 +561,7 @@ class Mock implements MockInterface
      */
     public function mockery_getName()
     {
-        return $this->_mockery_name;
+        return __CLASS__;
     }
     
     public function mockery_getMockableProperties()
@@ -634,22 +633,28 @@ class Mock implements MockInterface
             return $this->_mockery_methods;
         }
 
+        $methods = array();
+
         if (isset($this->_mockery_partial)) {
             $reflected = new \ReflectionObject($this->_mockery_partial);
+            $methods = $reflected->getMethods();
         } else {
-            if (!class_exists($this->_mockery_name)) {
-                return $this->_mockery_methods = array();
+            $reflected = new \ReflectionClass($this);
+            foreach ($reflected->getMethods() as $method) {
+                try {
+                    $methods[] = $method->getPrototype();
+                } catch (\ReflectionException $re) {
+                    /**
+                     * For some reason, private methods don't have a prototype
+                     */
+                    if ($method->isPrivate()) {
+                        $methods[] = $method;
+                    }
+                }
             }
-
-            /**
-             * @todo _mockery_name seems to be __CLASS__ in this impl, not what 
-             * master has, which is kind of like target
-             */
-            $reflected = new \ReflectionClass($this->_mockery_name);
         }
-        $this->_mockery_methods = $reflected->getMethods();
 
-        return $this->_mockery_methods;
+        return $this->_mockery_methods = $methods;
     }
 
 }

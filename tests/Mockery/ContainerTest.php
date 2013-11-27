@@ -57,6 +57,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $m->bar());
     }
 
+    public function testSimpleMockWithArrayDefsCanBeOverridden()
+    {
+        // eg. In shared test setup
+        $m = $this->container->mock(array('foo' => 1, 'bar' => 2));
+
+        // and then overridden in one test
+        $m->shouldReceive('foo')->with('baz')->once()->andReturn(2);
+        $m->shouldReceive('bar')->with('baz')->once()->andReturn(42);
+
+        $this->assertEquals(2, $m->foo('baz'));
+        $this->assertEquals(42, $m->bar('baz'));
+    }
+
     public function testNamedMockWithArrayDefs()
     {
         $m = $this->container->mock('Foo', array('foo'=>1,'bar'=>2));
@@ -66,6 +79,37 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $m->f();
         } catch (BadMethodCallException $e) {
             $this->assertTrue((bool) preg_match("/Foo/", $e->getMessage()));
+        }
+    }
+
+    public function testNamedMockWithArrayDefsCanBeOverridden()
+    {
+        // eg. In shared test setup
+        $m = $this->container->mock('Foo', array('foo' => 1));
+
+        // and then overridden in one test
+        $m->shouldReceive('foo')->with('bar')->once()->andReturn(2);
+
+        $this->assertEquals(2, $m->foo('bar'));
+
+        try {
+            $m->f();
+        } catch (BadMethodCallException $e) {
+            $this->assertTrue((bool) preg_match("/Foo/", $e->getMessage()));
+        }
+    }
+
+    public function testNamedMockMultipleInterfaces()
+    {
+        $m = $this->container->mock('stdClass, ArrayAccess, Countable', array('foo'=>1,'bar'=>2));
+        $this->assertEquals(1, $m->foo());
+        $this->assertEquals(2, $m->bar());
+        try {
+            $m->f();
+        } catch (BadMethodCallException $e) {
+            $this->assertTrue((bool) preg_match("/stdClass/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/ArrayAccess/", $e->getMessage()));
+            $this->assertTrue((bool) preg_match("/Countable/", $e->getMessage()));
         }
     }
 
@@ -821,6 +865,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Traversable', $mock);
     }
 
+    public function testInterfacesCanHaveAssertions()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('stdClass, ArrayAccess, Countable, Traversable');
+        $m->shouldReceive('foo')->once();
+        $m->foo();
+        $this->container->mockery_verify();
+        \Mockery::resetContainer();
+    }
+
     public function testMockingIteratorAggregateDoesNotImplementIterator()
     {
         $mock = $this->container->mock('MockeryTest_ImplementsIteratorAggregate');
@@ -934,8 +988,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $mock::keepMe(3));
     }
 
-    /** 
-     * @group issue/154 
+    /**
+     * @group issue/154
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage protectedMethod() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock
      */
@@ -945,8 +999,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock->shouldReceive("protectedMethod");
     }
 
-    /** 
-     * @group issue/154 
+    /**
+     * @group issue/154
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage privateMethod() cannot be mocked as it is a private method
      */
