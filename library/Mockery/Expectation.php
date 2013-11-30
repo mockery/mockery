@@ -301,7 +301,12 @@ class Expectation
             return $expected->match($actual);
         }
         if ($expected instanceof \Hamcrest_Matcher) {
-            return $expected->matches($actual);
+            try {
+                assertThat($actual, is($expected));
+            } catch (Exception $e) {
+                return false;
+            }
+            return true;
         }
         return false;
     }
