@@ -359,7 +359,7 @@ BODY;
 
     protected \$_mockery_mockableProperties = array();
 
-    protected \$_mockery_methods; // ReflectionMethod cache
+    static protected \$_mockery_methods; // ReflectionMethod cache
 
     protected \$_mockery_allowMockingProtectedMethods = false;
 
@@ -667,15 +667,15 @@ BODY;
 
     protected function mockery_getMethods()
     {
-        if (empty(\$this->_mockery_methods)) {
+        if (empty(static::\$_mockery_methods)) {
             if (isset(\$this->_mockery_partial)) {
-                \$this->_mockery_methods = \$this->mockery_getObjectMethods(\$this->_mockery_partial);
+                static::\$_mockery_methods = \$this->mockery_getObjectMethods(\$this->_mockery_partial);
             } else {
-                \$this->_mockery_methods = \$this->mockery_getClassMethods();
+                static::\$_mockery_methods = \$this->mockery_getClassMethods();
             }
         }
 
-        return \$this->_mockery_methods;
+        return static::\$_mockery_methods;
     }
 
     protected function mockery_getObjectMethods(\$object)
