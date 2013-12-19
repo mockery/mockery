@@ -115,16 +115,26 @@ class Generator
         }
 
         $definition .= 'class ' . $mockName . $inheritance . PHP_EOL . '{' . PHP_EOL;
+        $nonFinalWakeup = true;
         foreach ($classData as $data) {
             if (!$data['class']->isFinal()) {
                 $result = self::applyMockeryTo($data['class'], $data['methods'], $block, $partialMethods);
                 if ($result['callTypehinting']) $callTypehinting = true;
                 $definition .= $result['definition'];
+
+                if ($data['hasFinalWakeup']) {
+                    $nonFinalWakeup = false;
+                }
             }  else {
                 $useStandardMethods = false;
             }
         }
-        if ($useStandardMethods) $definition .= self::_getStandardMethods($callTypehinting, $makeInstanceMock);
+        if ($useStandardMethods) {
+            $definition .= self::_getStandardMethods($callTypehinting, $makeInstanceMock);
+            if ($nonFinalWakeup) {
+                $definition = str_replace(array('/*{__wakeup}', '{__wakeup}*/'), '', $definition);
+            }
+        }
         $definition .= PHP_EOL . '}';
         eval($definition);
         return $mockName;
@@ -146,15 +156,21 @@ class Generator
         $hasFinalMethods = false;
         $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
         $protected = $class->getMethods(\ReflectionMethod::IS_PROTECTED);
+        $hasFinalWakeup = false;
         foreach ($methods as $method) {
             if ($method->isFinal()) {
                 $hasFinalMethods = true;
+
+                if (strtolower($method->getName()) === '__wakeup') {
+                    $hasFinalWakeup = true;
+                }
             }
         }
         return array(
             'class' => $class,
             'className' => $className,
             'hasFinalMethods' => $hasFinalMethods,
+            'hasFinalWakeup' => $hasFinalWakeup,
             'publicMethods' => $methods,
             'protectedMethods' => $protected,
             'methods' => $class->getMethods(),
@@ -637,15 +653,15 @@ BODY;
 
     //** Everything below this line is not copied from/needed for Mockery/Mock **//
 
-    public function __wakeup()
-    {
+    /*{__wakeup}public function __wakeup()
+    {{__wakeup}*/
         /**
          * This does not add __wakeup method support. It's a blind method and any
          * expected __wakeup work will NOT be performed. It merely cuts off
          * annoying errors where a __wakeup exists but is not essential when
          * mocking
          */
-    }
+    /*{__wakeup}}{__wakeup}*/
 
     public static function __callStatic(\$method, $typehint \$args)
     {
