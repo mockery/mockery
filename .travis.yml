@@ -3,6 +3,7 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - hhvm
 before_script:
   - composer install --dev
   - pecl install redis
@@ -13,3 +14,6 @@ notifications:
     email:
         - padraic.brady@gmail.com
         - dave@atstsolutions.co.uk
+matrix:
+    allow_failures:
+        - php: hhvm
