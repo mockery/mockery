@@ -3,13 +3,16 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - hhvm
 before_script:
   - composer install --dev
-  - pecl install redis
-  - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - sh -c "if [[ \"$TRAVIS_PHP_VERSION\" != \"hhvm\" ]]; then pecl install redis; echo \"extension = mongo.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi"
   - phpenv rehash
-script: phpunit -v --colors --coverage-text 
+script: phpunit -v --colors --coverage-text
 notifications:
     email:
         - padraic.brady@gmail.com
         - dave@atstsolutions.co.uk
+matrix:
+    allow_failures:
+        - php: hhvm
