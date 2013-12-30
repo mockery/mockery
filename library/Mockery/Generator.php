@@ -38,6 +38,8 @@ class Generator
         "unset", "use", "var", "while", "xor"
     );
 
+    protected static $mockCounter = 0;
+
    /**
     * Generates a Mock Object class with all Mockery methods whose
     * intent is basically to provide the mock object with the same
@@ -781,7 +783,7 @@ MOCK;
 
     protected static function generateMockName($targets)
     {
-        $name = 'Mockery_' . mt_rand();
+        $name = 'Mockery_' . static::$mockCounter++;
 
         foreach ((array) $targets as $target) {
             if (is_object($target)) {
