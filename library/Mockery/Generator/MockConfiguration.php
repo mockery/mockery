@@ -8,6 +8,8 @@ namespace Mockery\Generator;
  */
 class MockConfiguration 
 {
+    protected static $mockCounter = 0;
+
     /**
      * A class that we'd like to mock
      */
@@ -336,7 +338,7 @@ class MockConfiguration
      */
     public function generateName()
     {
-        $name = 'Mockery_' . mt_rand();
+        $name = 'Mockery_' . static::$mockCounter++;
 
         if ($this->getTargetObject()) {
             $name .= "_" . str_replace("\\", "_", get_class($this->getTargetObject()));

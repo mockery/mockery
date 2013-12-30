@@ -4,6 +4,8 @@ namespace Mockery\Generator;
 
 class Parameter 
 {
+    private static $parameterCounter;
+
     private $rfp;
 
     public function __construct(\ReflectionParameter $rfp)
@@ -51,7 +53,7 @@ class Parameter
     {
         $name = $this->rfp->getName();
         if (!$name || $name == '...') {
-            $name = 'arg' . mt_rand();
+            $name = 'arg' . static::$parameterCounter++;
         }
 
         return $name;
