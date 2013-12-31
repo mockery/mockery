@@ -49,11 +49,12 @@ if (!file_exists($root . '/vendor/autoload.php')) {
  * this copy.
  */
 $path = array(
-    $library,
-    $tests,
+    $library, // required for `testCallingRegisterRegistersSelfAsSplAutoloaderFunction`
     get_include_path(),
 );
 set_include_path(implode(PATH_SEPARATOR, $path));
+
+require_once "$root/vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php";
 
 if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     version_compare(PHPUnit_Runner_Version::id(), '3.1.6', '>=')) {

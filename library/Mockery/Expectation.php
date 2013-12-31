@@ -300,7 +300,7 @@ class Expectation
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
-        if ($expected instanceof \Hamcrest_Matcher) {
+        if (is_a($expected, '\Hamcrest\Matcher') || is_a($expected, '\Hamcrest_Matcher')) {
             return $expected->matches($actual);
         }
         return false;
