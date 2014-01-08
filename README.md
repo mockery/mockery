@@ -100,18 +100,10 @@ To run the unit tests for Mockery, clone the git repository, download Composer (
 
 This will install the required Hamcrest dev dependency and create the autoload files required by the unit tests. Navigate to the "tests" directory and run the phpunit command as normal. With a wee bit of luck, there will be no failed tests!
 
-Upgrading to 0.8.*
-------------------
+Upgrading
+---------
 
-Since the release of 0.8.0 the following behaviours were altered:
-
-1. The shouldIgnoreMissing() behaviour optionally applied to mock objects returned an instance of
-\Mockery\Undefined when methods called did not match a known expectation. Since 0.8.0, this behaviour
-was switched to returning NULL instead. You can restore the 0.7.2 behavour by using the following:
-
-```PHP
-$mock = \Mockery::mock('stdClass')->shouldIgnoreMissing()->asUndefined();
-```
+Please see `UPGRADE.md` and `CHANGELOG.md`
 
 Simple Example
 --------------
