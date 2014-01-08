@@ -20,5 +20,10 @@
     },
     "autoload": {
         "psr-0": { "Mockery": "library/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.9.x-dev"
+        }
     }
 }
