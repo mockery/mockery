@@ -16,27 +16,14 @@
         "lib-pcre": ">=7.0"
     },
     "require-dev": {
-        "hamcrest/hamcrest": "1.1.0"
+        "hamcrest/hamcrest-php": "~1.1"
     },
     "autoload": {
         "psr-0": { "Mockery": "library/" }
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "hamcrest/hamcrest",
-                "version": "1.1.0",
-                "dist": {
-                    "type": "zip",
-                    "url": "https://hamcrest.googlecode.com/files/hamcrest-php-1.1.0.zip"
-                },
-                "include-path": ["Hamcrest-1.1.0/"],
-                "autoload": {
-                    "psr-0": { "Hamcrest_": "Hamcrest-1.1.0/" },
-                    "files": ["Hamcrest-1.1.0/Hamcrest/Hamcrest.php"]
-                }
-            }
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.9.x-dev"
         }
-    ]
+    }
 }
