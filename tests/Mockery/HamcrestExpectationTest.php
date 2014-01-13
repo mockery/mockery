@@ -24,7 +24,7 @@ class HamcrestExpectationTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->container = new \Mockery\Container;
+        $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
         $this->mock = $this->container->mock('foo');
     }
     

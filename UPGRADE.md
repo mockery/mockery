@@ -1,8 +1,7 @@
 # Upgrading to 0.9.*
 
-0.9.0 saw the ability to mock protected properties, but this came with a slight
-performance regression, requiring more reflection at runtime. We hope to resolve
-this as a bug release in the 0.9 branch, but it may have to wait until 1.0.
+The generator was completely rewritten, so any code with a deep integration to
+mockery will need evaluating
 
 # Upgrading to 0.8.*
 

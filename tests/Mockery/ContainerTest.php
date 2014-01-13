@@ -24,7 +24,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function setup ()
     {
-        $this->container = new \Mockery\Container;
+        $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), new \Mockery\Loader\EvalLoader());
     }
 
     public function teardown()
@@ -1008,6 +1008,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->container->mock('MockeryTest_WithProtectedAndPrivate');
         $mock->shouldReceive("privateMethod");
+    }
+
+    public function testWakeupMagicIsNotMockedToAllowSerialisationInstanceHack()
+    {
+        $mock = $this->container->mock('DateTime');
     }
 }
 
