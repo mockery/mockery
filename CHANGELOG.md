@@ -4,3 +4,4 @@
 * Quick definitions are now always `byDefault`
 * Allow mocking of protected methods with `shouldAllowMockingProtectedMethods`
 * Support offical Hamcrest package
+* Generator completely rewritten
