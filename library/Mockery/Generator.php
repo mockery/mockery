@@ -292,7 +292,6 @@ BODY;
         $methodParams = array();
         $params = $method->getParameters();
 		$typehintMatch = array();
-        $isCompatibleWithSelf = (version_compare(PHP_VERSION, '5.4.1') >= 0);
         foreach ($params as $i => $param) {
             $paramDef = '';
             $paramDef.= static::getTypeHint($param) . " ";
