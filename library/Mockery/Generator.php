@@ -295,15 +295,8 @@ BODY;
         $isCompatibleWithSelf = (version_compare(PHP_VERSION, '5.4.1') >= 0);
         foreach ($params as $i => $param) {
             $paramDef = '';
-            if ($param->isArray()) {
-                $paramDef .= 'array ';
-            } elseif ($isCompatibleWithSelf && $param->getClass()) {
-                $paramDef .= $param->getClass()->getName() . ' ';
-            }  elseif (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $param->getName() . ' .*\]$/', $param->__toString(), $typehintMatch)) {
-                if (!empty($typehintMatch['typehint'])) {
-                    $paramDef .= $typehintMatch['typehint'] . ' ';
-                }
-            }
+            $paramDef.= static::getTypeHint($param) . " ";
+
             $paramName = $param->getName();
             if (empty($paramName) || $paramName === '...') {
                 $paramName = 'arg' . $i;
@@ -794,6 +787,31 @@ MOCK;
         }
 
         return $name;
+    }
+
+    protected static function getTypeHint(\ReflectionParameter $parameter)
+    {
+        if ($parameter->isArray()) {
+            return 'array';
+        }
+
+        $isCompatibleWithSelf = (version_compare(PHP_VERSION, '5.4.1') >= 0);
+
+        try {
+            if ($isCompatibleWithSelf && $parameter->getClass()) {
+                return $parameter->getClass()->getName();
+            }
+        } catch (\ReflectionException $re) {
+            // noop
+        }
+
+        if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $parameter->getName() . ' .*\]$/', $parameter->__toString(), $typehintMatch)) {
+            if (!empty($typehintMatch['typehint'])) {
+                return $typehintMatch['typehint'];
+            }
+        }
+
+        return '';
     }
 
 }
