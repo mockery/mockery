@@ -9,6 +9,11 @@
             "name": "Pádraic Brady",
             "email": "padraic.brady@gmail.com",
             "homepage": "http://blog.astrumfutura.com"
+        },
+        {
+            "name": "Dave Marshall",
+            "email": "dave.marshall@atstsolutions.co.uk",
+            "homepage": "http://davedevelopment.co.uk"
         }
     ],
     "require": {
