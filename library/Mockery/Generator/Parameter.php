@@ -25,6 +25,11 @@ class Parameter
 
     public function getTypeHintAsString()
     {
+        if (method_exists($this->rfp, 'getTypehintText')) {
+            // Available in HHVM
+            return $this->rfp->getTypehintText();
+        }
+
         if ($this->rfp->isArray()) {
             return 'array';
         }
