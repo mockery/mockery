@@ -22,7 +22,7 @@ namespace Mockery;
 
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
-use Mockery\Loader\Loader;
+use Mockery\Loader\Loader as LoaderInterface;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\RequireLoader;
 
@@ -64,11 +64,11 @@ class Container
     protected $_generator;
 
     /**
-     * @var Loader\Loader
+     * @var LoaderInterface
      */
     protected $_loader;
 
-    public function __construct(Generator $generator = null, Loader $loader = null)
+    public function __construct(Generator $generator = null, LoaderInterface $loader = null)
     {
         $this->_generator = $generator ?: \Mockery::getDefaultGenerator();
         $this->_loader = $loader ?: \Mockery::getDefaultLoader();
