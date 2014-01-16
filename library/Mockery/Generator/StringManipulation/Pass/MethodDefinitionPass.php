@@ -91,9 +91,9 @@ BODY;
         $overrides = $config->getParameterOverrides();
         if (isset($overrides[$class_name][$method->getName()])) {
             $params = array_values($overrides[$class_name][$method->getName()]);
-            foreach ($params as $param) {
+            for ($i = 0; $i < count($params); ++$i) {
+              $param = $params[$i];
                 if (strpos($param, '&') !== FALSE) {
-                    $i = key($params) - 1;
                     $body .= <<<BODY
 if (\$argc > $i) {
     \$argv[$i] = {$param};
@@ -104,11 +104,11 @@ BODY;
             }
         } else {
             $params = array_values($method->getParameters());
-            foreach ($params as $param) {
+            for ($i = 0; $i < count($params); ++$i) {
+                $param = $params[$i];
                 if (!$param->isPassedByReference()) {
                     continue;
                 }
-                $i = key($params) - 1;
                 $body .= <<<BODY
 if (\$argc > $i) {
     \$argv[$i] =& \${$param->getName()};
