@@ -7,40 +7,6 @@ use Mockery\Generator\Method;
 
 class MethodDefinitionPass implements Pass
 {
-    /**
-     * Purpose of this block is to create an argument array where
-     * references are preserved (func_get_args() does not preserve
-     * references)
-     */
-    const METHOD_BODY = <<<BODY
-{
-\$stack = debug_backtrace();
-\$args = array();
-if (isset(\$stack[0]['args'])) {
-    for(\$i=0; \$i<count(\$stack[0]['args']); \$i++) {
-        \$args[\$i] =& \$stack[0]['args'][\$i];
-    }
-}
-\$ret = \$this->__call(__FUNCTION__, \$args);
-return \$ret;
-}
-BODY;
-
-    const STATIC_METHOD_BODY = <<<BODY
-{
-\$stack = debug_backtrace();
-\$args = array();
-if (isset(\$stack[0]['args'])) {
-    for(\$i=0; \$i<count(\$stack[0]['args']); \$i++) {
-        \$args[\$i] =& \$stack[0]['args'][\$i];
-    }
-}
-\$ret = static::__callStatic(__FUNCTION__, \$args);
-return \$ret;
-}
-
-BODY;
-
     public function apply($code, MockConfiguration $config)
     {
         foreach ($config->getMethodsToMock() as $method) {
@@ -61,7 +27,7 @@ BODY;
             $methodDef .= $method->returnsReference() ? ' & ' : '';
             $methodDef .= $method->getName();
             $methodDef .= $this->renderParams($method, $config);
-            $methodDef .= $method->isStatic() ? static::STATIC_METHOD_BODY : static::METHOD_BODY;
+            $methodDef .= $this->renderMethodBody($method, $config);
             
             $code = $this->appendToClass($code, $methodDef);
         }
@@ -106,5 +72,56 @@ BODY;
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
         return $class;
+    }
+
+    private function renderMethodBody($method, $config) {
+        $invoke = $method->isStatic() ? 'static::__callStatic' : '$this->__call';
+        $body = <<<BODY
+{
+\$argc = func_num_args();
+\$argv = func_get_args();
+
+BODY;
+
+        // Fix up known parameters by reference - used func_get_args() above
+        // in case more parameters are passed in than the function definition
+        // says - eg varargs.
+        $class = $method->getDeclaringClass();
+        $class_name = strtolower($class->getName());
+        $overrides = $config->getParameterOverrides();
+        if (isset($overrides[$class_name][$method->getName()])) {
+            $params = array_values($overrides[$class_name][$method->getName()]);
+            for ($i = 0; $i < count($params); ++$i) {
+              $param = $params[$i];
+                if (strpos($param, '&') !== FALSE) {
+                    $body .= <<<BODY
+if (\$argc > $i) {
+    \$argv[$i] = {$param};
+}
+
+BODY;
+                }
+            }
+        } else {
+            $params = array_values($method->getParameters());
+            for ($i = 0; $i < count($params); ++$i) {
+                $param = $params[$i];
+                if (!$param->isPassedByReference()) {
+                    continue;
+                }
+                $body .= <<<BODY
+if (\$argc > $i) {
+    \$argv[$i] =& \${$param->getName()};
+}
+
+BODY;
+            }
+        }
+        $body .= <<<BODY
+\$ret = {$invoke}(__FUNCTION__, \$argv);
+return \$ret;
+}
+BODY;
+        return $body;
     }
 }
