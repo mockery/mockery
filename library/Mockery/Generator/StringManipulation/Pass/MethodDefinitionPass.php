@@ -27,7 +27,7 @@ class MethodDefinitionPass implements Pass
             $methodDef .= $method->returnsReference() ? ' & ' : '';
             $methodDef .= $method->getName();
             $methodDef .= $this->renderParams($method, $config);
-            $methodDef .= $this->renderMethodBody($method);
+            $methodDef .= $this->renderMethodBody($method, $config);
             
             $code = $this->appendToClass($code, $methodDef);
         }
@@ -74,30 +74,48 @@ class MethodDefinitionPass implements Pass
         return $class;
     }
 
-    private function renderMethodBody($method) {
+    private function renderMethodBody($method, $config) {
         $invoke = $method->isStatic() ? 'static::__callStatic' : '$this->__call';
-        $parameters = $method->getParameters();
         $body = <<<BODY
 {
 \$argc = func_num_args();
 \$argv = func_get_args();
 
 BODY;
+
         // Fix up known parameters by reference - used func_get_args() above
         // in case more parameters are passed in than the function definition
         // says - eg varargs.
-        $i = 0;
-        foreach ($parameters as $param) {
-            if (!$param->isPassedByReference()) {
-                continue;
-            }
-            $body .= <<<BODY
-    if (\$argc > $i) {
-        \$argv[$i] =& \${$param->getName()};
-    }
+        $class = $method->getDeclaringClass();
+        $class_name = strtolower($class->getName());
+        $overrides = $config->getParameterOverrides();
+        if (isset($overrides[$class_name][$method->getName()])) {
+            $params = array_values($overrides[$class_name][$method->getName()]);
+            foreach ($params as $param) {
+                if (strpos($param, '&') !== FALSE) {
+                    $i = key($params) - 1;
+                    $body .= <<<BODY
+if (\$argc > $i) {
+    \$argv[$i] = {$param};
+}
 
 BODY;
-            $i++;
+                }
+            }
+        } else {
+            $params = array_values($method->getParameters());
+            foreach ($params as $param) {
+                if (!$param->isPassedByReference()) {
+                    continue;
+                }
+                $i = key($params) - 1;
+                $body .= <<<BODY
+if (\$argc > $i) {
+    \$argv[$i] =& \${$param->getName()};
+}
+
+BODY;
+            }
         }
         $body .= <<<BODY
 \$ret = {$invoke}(__FUNCTION__, \$argv);
