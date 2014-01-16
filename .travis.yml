@@ -6,7 +6,7 @@ php:
   - hhvm
 before_script:
   - composer install --dev
-  - sh -c "if [[ \"$TRAVIS_PHP_VERSION\" != \"hhvm\" ]]; then pecl install redis; echo \"extension = mongo.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi"
+  - sh -c "if [ \"$TRAVIS_PHP_VERSION\" != \"hhvm\" ]; then echo \"extension = mongo.so\nextension = redis.so\" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi"
   - phpenv rehash
 script: phpunit -v --colors --coverage-text
 notifications:
