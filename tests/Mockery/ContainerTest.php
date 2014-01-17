@@ -746,15 +746,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         // @ used to avoid E_STRICT for incompatible signature
         @$m = $this->container->mock('DateTime');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
-        $method = (new ReflectionClass($m))->getMethod('modify');
-        $this->assertTrue($method->getParameters()[0]->isPassedByReference());
+        $rc = new ReflectionClass($m);
+        $rm = $rc->getMethod('modify');
+        $this->assertTrue($rm->getParameters()[0]->isPassedByReference());
 
         \Mockery::getConfiguration()->resetInternalClassMethodParamMaps();
 
         $m = $this->container->mock('DateTime');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed");
-        $method = (new ReflectionClass($m))->getMethod('modify');
-        $this->assertFalse($method->getParameters()[0]->isPassedByReference());
+        $rc = new ReflectionClass($m);
+        $rm = $rc->getMethod('modify');
+        $this->assertFalse($rm->getParameters()[0]->isPassedByReference());
 
         \Mockery::resetContainer();
         \Mockery::getConfiguration()->resetInternalClassMethodParamMaps();
