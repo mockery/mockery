@@ -748,7 +748,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $rc = new ReflectionClass($m);
         $rm = $rc->getMethod('modify');
-        $this->assertTrue($rm->getParameters()[0]->isPassedByReference());
+        $params = $rm->getParameters();
+        $this->assertTrue($params[0]->isPassedByReference());
 
         \Mockery::getConfiguration()->resetInternalClassMethodParamMaps();
 
@@ -756,7 +757,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed");
         $rc = new ReflectionClass($m);
         $rm = $rc->getMethod('modify');
-        $this->assertFalse($rm->getParameters()[0]->isPassedByReference());
+        $params = $rm->getParameters();
+        $this->assertFalse($params[0]->isPassedByReference());
 
         \Mockery::resetContainer();
         \Mockery::getConfiguration()->resetInternalClassMethodParamMaps();
