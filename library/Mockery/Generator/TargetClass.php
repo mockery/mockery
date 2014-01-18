@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-interface TargetClass 
+interface TargetClass
 {
     /** @return string */
     function getName();

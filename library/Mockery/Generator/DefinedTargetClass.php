@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-class DefinedTargetClass 
+class DefinedTargetClass
 {
     private $rfc;
 
@@ -61,7 +61,7 @@ class DefinedTargetClass
         return $this->rfc->inNamespace();
     }
 
-    public function getShortName() 
+    public function getShortName()
     {
         return $this->rfc->getShortName();
     }

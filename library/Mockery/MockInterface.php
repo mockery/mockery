@@ -17,12 +17,12 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 interface MockInterface
 {
-    
+
     /**
      * Alternative setup method to constructor
      *
@@ -31,7 +31,7 @@ interface MockInterface
      * @return void
      */
     public function mockery_init(\Mockery\Container $container = null, $partialObject = null);
-    
+
     /**
      * Set expected method calls
      *
@@ -39,14 +39,14 @@ interface MockInterface
      * @return \Mockery\Expectation
      */
     public function shouldReceive();
-    
+
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      *
      * @return Mock
      */
     public function shouldIgnoreMissing();
-    
+
     /**
      * Set mock to defer unexpected methods to it's parent if possible
      *
@@ -62,7 +62,7 @@ interface MockInterface
      * @return self
      */
     public function byDefault();
-    
+
     /**
      * Capture calls to this mock and check against expectations
      *
@@ -76,7 +76,7 @@ interface MockInterface
          * way.
          */
     //public function __call($method, array $args);
-    
+
     /**
      * Iterate across all expectation directors and validate each
      *
@@ -84,21 +84,21 @@ interface MockInterface
      * @return void
      */
     public function mockery_verify();
-    
+
     /**
      * Tear down tasks for this mock
      *
      * @return void
      */
     public function mockery_teardown();
-    
+
     /**
      * Fetch the next available allocation order number
      *
      * @return int
      */
     public function mockery_allocateOrder();
-    
+
     /**
      * Set ordering for a group
      *
@@ -106,28 +106,28 @@ interface MockInterface
      * @param int $order
      */
     public function mockery_setGroup($group, $order);
-    
+
     /**
      * Fetch array of ordered groups
      *
      * @return array
      */
     public function mockery_getGroups();
-    
+
     /**
      * Set current ordered number
      *
      * @param int $order
      */
     public function mockery_setCurrentOrder($order);
-    
+
     /**
      * Get current ordered number
      *
      * @return int
      */
     public function mockery_getCurrentOrder();
-    
+
     /**
      * Validate the current mock's ordering
      *
@@ -137,14 +137,14 @@ interface MockInterface
      * @return void
      */
     public function mockery_validateOrder($method, $order);
-    
+
     /**
      * Gets the count of expectations for this mock
      *
      * @return int
      */
     public function mockery_getExpectationCount();
-    
+
     /**
      * Return the expectations director for the given method
      *
@@ -152,7 +152,7 @@ interface MockInterface
      * @return \Mockery\ExpectationDirector|null
      */
     public function mockery_setExpectationsFor($method, \Mockery\ExpectationDirector $director);
-    
+
     /**
      * Return the expectations director for the given method
      *
@@ -160,7 +160,7 @@ interface MockInterface
      * @return \Mockery\ExpectationDirector|null
      */
     public function mockery_getExpectationsFor($method);
-    
+
     /**
      * Find an expectation matching the given method and arguments
      *
@@ -169,14 +169,14 @@ interface MockInterface
      * @return \Mockery\Expectation|null
      */
     public function mockery_findExpectation($method, array $args);
-    
+
     /**
      * Return the container for this mock
      *
      * @return \Mockery\Container
      */
     public function mockery_getContainer();
-    
+
     /**
      * Return the name for this mock
      *

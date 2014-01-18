@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-class MockDefinition 
+class MockDefinition
 {
     protected $config;
     protected $code;

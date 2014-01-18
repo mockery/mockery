@@ -3,10 +3,10 @@
 namespace Mockery\Generator;
 
 /**
- * This class describes the configuration of mocks and hides away some of the 
+ * This class describes the configuration of mocks and hides away some of the
  * reflection implementation
  */
-class MockConfiguration 
+class MockConfiguration
 {
     protected static $mockCounter = 0;
 
@@ -17,7 +17,7 @@ class MockConfiguration
     protected $targetClassName;
 
     /**
-     * A number of interfaces we'd like to mock, keyed by name to attempt to 
+     * A number of interfaces we'd like to mock, keyed by name to attempt to
      * keep unique
      */
     protected $targetInterfaces = array();
@@ -31,12 +31,12 @@ class MockConfiguration
     /**
      * The class name we'd like to use for a generated mock
      */
-    protected $name; 
+    protected $name;
 
     /**
      * Methods that should specifically not be mocked
      *
-     * This is currently populated with stuff we don't know how to deal with, 
+     * This is currently populated with stuff we don't know how to deal with,
      * should really be somewhere else
      */
     protected $blackListedMethods = array();
@@ -47,7 +47,7 @@ class MockConfiguration
     protected $whiteListedMethods = array();
 
     /**
-     * An instance mock is where we override the original class before it's 
+     * An instance mock is where we override the original class before it's
      * autoloaded
      */
     protected $instanceMock = false;
@@ -95,8 +95,8 @@ class MockConfiguration
     }
 
     /**
-     * Gets a list of methods from the classes, interfaces and objects and 
-     * filters them appropriately. Lot's of filtering going on, perhaps we could 
+     * Gets a list of methods from the classes, interfaces and objects and
+     * filters them appropriately. Lot's of filtering going on, perhaps we could
      * have filter classes to iterate through
      */
     public function getMethodsToMock()
@@ -135,7 +135,7 @@ class MockConfiguration
     }
 
     /**
-     * We declare the __call method to handle undefined stuff, if the class 
+     * We declare the __call method to handle undefined stuff, if the class
      * we're mocking has also defined it, we need to comply with their interface
      */
     public function requiresCallTypeHintRemoval()
@@ -151,7 +151,7 @@ class MockConfiguration
     }
 
     /**
-     * We declare the __callStatic method to handle undefined stuff, if the class 
+     * We declare the __callStatic method to handle undefined stuff, if the class
      * we're mocking has also defined it, we need to comply with their interface
      */
     public function requiresCallStaticTypeHintRemoval()
@@ -217,13 +217,13 @@ class MockConfiguration
         /**
          * Default is to set as class, or interface if class already set
          *
-         * Don't like this condition, can't remember what the default 
+         * Don't like this condition, can't remember what the default
          * targetClass is for
          */
         if ($this->getTargetClassName()) {
             $this->addTargetInterfaceName($target);
             return $this;
-        } 
+        }
 
         $this->setTargetClassName($target);
     }
@@ -432,8 +432,8 @@ class MockConfiguration
     }
 
     /**
-     * If we attempt to implement Traversable, we must ensure we are also 
-     * implementing either Iterator or IteratorAggregate, and that whichever one 
+     * If we attempt to implement Traversable, we must ensure we are also
+     * implementing either Iterator or IteratorAggregate, and that whichever one
      * it is comes before Traversable in the list of implements.
      */
     protected function addTargetInterfaceName($targetInterface)

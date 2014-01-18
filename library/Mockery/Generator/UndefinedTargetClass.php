@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-class UndefinedTargetClass 
+class UndefinedTargetClass
 {
     private $name;
 
@@ -43,7 +43,7 @@ class UndefinedTargetClass
         return $this->getNamespaceName() !== '';
     }
 
-    public function getShortName() 
+    public function getShortName()
     {
         $parts = explode("\\", $this->getName());
         return array_pop($parts);

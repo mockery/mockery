@@ -22,7 +22,7 @@ namespace Mockery\Matcher;
 
 class Closure extends MatcherAbstract
 {
-    
+
     /**
      * Check if the actual value matches the expected.
      *
@@ -35,7 +35,7 @@ class Closure extends MatcherAbstract
         $result = $closure($actual);
         return $result === true;
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -45,5 +45,5 @@ class Closure extends MatcherAbstract
     {
         return '<Closure===TRUE>';
     }
-    
+
 }

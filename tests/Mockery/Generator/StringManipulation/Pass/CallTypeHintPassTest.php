@@ -7,7 +7,7 @@ use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 
 class CallTypeHintPassTest extends \PHPUnit_Framework_TestCase
 {
-    const CODE = ' public function __call($method, array $args) {} 
+    const CODE = ' public function __call($method, array $args) {}
                    public static function __callStatic($method, array $args) {}
     ';
 
@@ -22,8 +22,8 @@ class CallTypeHintPassTest extends \PHPUnit_Framework_TestCase
         ))->shouldDeferMissing();
         $code = $pass->apply(static::CODE, $config);
         $this->assertContains('__call($method, $args)', $code);
-    } 
- 
+    }
+
     /**
      * @test
      */
@@ -35,5 +35,5 @@ class CallTypeHintPassTest extends \PHPUnit_Framework_TestCase
         ))->shouldDeferMissing();
         $code = $pass->apply(static::CODE, $config);
         $this->assertContains('__callStatic($method, $args)', $code);
-    } 
+    }
 }

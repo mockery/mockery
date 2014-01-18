@@ -24,5 +24,5 @@ class RequireLoader implements Loader
         file_put_contents($tmpfname, $definition->getCode());
 
         require $tmpfname;
-    } 
+    }
 }
