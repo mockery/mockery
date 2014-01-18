@@ -38,7 +38,7 @@ class NotAnyOf extends MatcherAbstract
         }
         return true;
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -48,5 +48,5 @@ class NotAnyOf extends MatcherAbstract
     {
         return '<AnyOf>';
     }
-    
+
 }

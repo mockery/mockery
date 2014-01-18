@@ -14,9 +14,9 @@ class StarshipTest extends PHPUnit_Framework_TestCase
         $mock->shouldReceive('divertPower')->with(0.30, 'auxengines')->once()->ordered();
         $mock->shouldReceive('runDiagnosticLevel')->with(1)->once()->ordered();
         $mock->shouldReceive('runDiagnosticLevel')->with(M::type('int'))->zeroOrMoreTimes();
-        
+
         $starship = new Starship($mock);
         $starship->enterOrbit();
     }
-    
+
 }

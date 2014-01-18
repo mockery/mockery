@@ -38,7 +38,7 @@ class AnyOf extends MatcherAbstract
         }
         return false;
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -48,5 +48,5 @@ class AnyOf extends MatcherAbstract
     {
         return '<AnyOf>';
     }
-    
+
 }

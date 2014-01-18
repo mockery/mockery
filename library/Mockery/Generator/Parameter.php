@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-class Parameter 
+class Parameter
 {
     private static $parameterCounter;
 
@@ -35,7 +35,7 @@ class Parameter
         }
 
         /*
-         * PHP < 5.4.1 has some strange behaviour with a typehint of self and 
+         * PHP < 5.4.1 has some strange behaviour with a typehint of self and
          * subclass signatures, so we risk the regexp instead
          */
         if ((version_compare(PHP_VERSION, '5.4.1') >= 0)) {

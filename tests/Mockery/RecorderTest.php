@@ -26,7 +26,7 @@ class RecorderTest extends PHPUnit_Framework_TestCase
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
     }
-    
+
     public function teardown()
     {
         $this->container->mockery_close();
@@ -39,11 +39,11 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doFoo();
         });
-        
+
         $this->assertEquals(1, $mock->foo());
         $mock->mockery_verify();
     }
-    
+
     public function testArgumentsArePassedAsMethodExpectations()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -51,11 +51,11 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doBar();
         });
-        
+
         $this->assertEquals(4, $mock->bar(2));
         $mock->mockery_verify();
     }
-    
+
     public function testArgumentsLooselyMatchedByDefault()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -63,11 +63,11 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doBar();
         });
-        
+
         $this->assertEquals(4, $mock->bar('2'));
         $mock->mockery_verify();
     }
-    
+
     public function testMultipleMethodExpectations()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -76,12 +76,12 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user->doFoo();
             $user->doBar();
         });
-        
+
         $this->assertEquals(1, $mock->foo());
         $this->assertEquals(4, $mock->bar(2));
         $mock->mockery_verify();
     }
-    
+
     public function testRecordingDoesNotSpecifyExactOrderByDefault()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -90,12 +90,12 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user->doFoo();
             $user->doBar();
         });
-        
+
         $this->assertEquals(4, $mock->bar(2));
         $this->assertEquals(1, $mock->foo());
         $mock->mockery_verify();
     }
-    
+
     /**
      * @expectedException \Mockery\Exception
      */
@@ -108,12 +108,12 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user->doFoo();
             $user->doBar();
         });
-        
+
         $mock->bar(2);
         $mock->foo();
         $mock->mockery_verify();
     }
-    
+
     /**
      * @expectedException \Mockery\Exception
      */
@@ -125,10 +125,10 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doBar();
         });
-        
+
         $mock->bar('2');
     }
-    
+
     /**
      * @expectedException \Mockery\Exception
      */
@@ -139,10 +139,10 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doBar();
         });
-        
+
         $mock->bar(4);
     }
-    
+
     public function testCallCountUnconstrainedByDefault()
     {
         $mock = $this->container->mock(new MockeryTestSubject);
@@ -150,12 +150,12 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doBar();
         });
-        
+
         $mock->bar(2);
         $this->assertEquals(4, $mock->bar(2));
         $mock->mockery_verify();
     }
-    
+
     /**
      * @expectedException \Mockery\CountValidator\Exception
      */
@@ -167,12 +167,12 @@ class RecorderTest extends PHPUnit_Framework_TestCase
             $user = new MockeryTestSubjectUser($subject);
             $user->doBar();
         });
-        
+
         $mock->bar(2);
         $mock->bar(2);
         $mock->mockery_verify();
     }
-    
+
 }
 
 class MockeryTestSubject {

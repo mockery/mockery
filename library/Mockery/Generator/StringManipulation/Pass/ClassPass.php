@@ -30,8 +30,8 @@ class ClassPass implements Pass
             $targetCode.= 'class ' . $target->getShortName() . ' {} ';
 
             /*
-             * We could eval here, but it doesn't play well with the way 
-             * PHPUnit tries to backup global state and the require definition 
+             * We could eval here, but it doesn't play well with the way
+             * PHPUnit tries to backup global state and the require definition
              * loader
              */
             $tmpfname = tempnam(sys_get_temp_dir(), "Mockery");

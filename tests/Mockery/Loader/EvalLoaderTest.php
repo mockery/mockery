@@ -12,5 +12,5 @@ class EvalLoaderTest extends LoaderTestCase
     public function getLoader()
     {
         return new EvalLoader();
-    } 
+    }
 }

@@ -12,5 +12,5 @@ class RequireLoaderTest extends LoaderTestCase
     public function getLoader()
     {
         return new RequireLoader(sys_get_temp_dir());
-    } 
+    }
 }

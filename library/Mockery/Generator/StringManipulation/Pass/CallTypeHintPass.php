@@ -25,5 +25,5 @@ class CallTypeHintPass implements Pass
         }
 
         return $code;
-    } 
+    }
 }

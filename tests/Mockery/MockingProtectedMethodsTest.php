@@ -34,10 +34,10 @@ class MockingProtectedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->container->mockery_close();
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      *
-     * This is a regression test, basically we don't want the mock handling 
+     * This is a regression test, basically we don't want the mock handling
      * interfering with calling protected methods partials
      */
     public function shouldAutomaticallyDeferCallsToProtectedMethodsForPartials()
@@ -46,10 +46,10 @@ class MockingProtectedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("bar", $mock->bar());
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      *
-     * This is a regression test, basically we don't want the mock handling 
+     * This is a regression test, basically we don't want the mock handling
      * interfering with calling protected methods partials
      */
     public function shouldAutomaticallyDeferCallsToProtectedMethodsForRuntimePartials()
