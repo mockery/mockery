@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-class Method 
+class Method
 {
     private $method;
 

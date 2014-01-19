@@ -2,9 +2,9 @@
 
 namespace Mockery\Generator;
 
-class MockConfigurationBuilder 
+class MockConfigurationBuilder
 {
-    protected $name; 
+    protected $name;
     protected $blackListedMethods = array(
         '__call',
         '__callStatic',
@@ -120,5 +120,5 @@ class MockConfigurationBuilder
             $this->parameterOverrides
         );
     }
-    
+
 }

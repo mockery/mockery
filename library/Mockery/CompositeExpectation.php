@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class CompositeExpectation
@@ -29,7 +29,7 @@ class CompositeExpectation
      * @var array
      */
     protected $_expectations = array();
-    
+
     /**
      * Add an expectation to the composite
      *
@@ -40,7 +40,7 @@ class CompositeExpectation
     {
         $this->_expectations[] = $expectation;
     }
-    
+
     /**
      * Intercept any expectation calls and direct against all expectations
      *
@@ -55,7 +55,7 @@ class CompositeExpectation
         }
         return $this;
     }
-    
+
     /**
      * Return order number of the first expectation
      *
@@ -67,7 +67,7 @@ class CompositeExpectation
         $first = current($this->_expectations);
         return $first->getOrderNumber();
     }
-    
+
     /**
      * Return the parent mock of the first expectation
      *
@@ -79,7 +79,7 @@ class CompositeExpectation
         $first = current($this->_expectations);
         return $first->getMock();
     }
-    
+
     /**
      * Mockery API alias to getMock
      *
@@ -89,7 +89,7 @@ class CompositeExpectation
     {
         return $this->getMock();
     }
-    
+
     /**
      * Starts a new expectation addition on the first mock which is the primary
      * target outside of a demeter chain
@@ -103,7 +103,7 @@ class CompositeExpectation
         $first = current($this->_expectations);
         return call_user_func_array(array($first->getMock(), 'shouldReceive'), $args);
     }
-    
+
     /**
      * Return the string summary of this composite expectation
      *

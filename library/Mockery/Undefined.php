@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
- 
+
 namespace Mockery;
 
 class Undefined
@@ -33,10 +33,10 @@ class Undefined
     public function __call($method, array $args)
     {
         return $this;
-    }  
+    }
 
     /**
-     * Return a string, avoiding E_RECOVERABLE_ERROR 
+     * Return a string, avoiding E_RECOVERABLE_ERROR
      *
      * @return string
      */

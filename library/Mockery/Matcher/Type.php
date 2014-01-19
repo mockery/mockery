@@ -22,7 +22,7 @@ namespace Mockery\Matcher;
 
 class Type extends MatcherAbstract
 {
-    
+
     /**
      * Check if the actual value matches the expected.
      *
@@ -40,7 +40,7 @@ class Type extends MatcherAbstract
         }
         return false;
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -50,5 +50,5 @@ class Type extends MatcherAbstract
     {
         return '<' . ucfirst($this->_expected) . '>';
     }
-    
+
 }

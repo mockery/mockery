@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-interface Generator 
+interface Generator
 {
     /** @returns MockDefinition */
     public function generate(MockConfiguration $config);

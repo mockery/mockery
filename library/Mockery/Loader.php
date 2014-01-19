@@ -29,7 +29,7 @@ class Loader
     /**
      * Creates a new <tt>Loader</tt> that loads classes of the
      * specified namespace.
-     * 
+     *
      * @param string $ns The namespace to use.
      */
     public function __construct($ns = 'Mockery', $includePath = null)
@@ -40,7 +40,7 @@ class Loader
 
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
-     * 
+     *
      * @param string $sep The separator to use.
      */
     public function setNamespaceSeparator($sep)
@@ -60,7 +60,7 @@ class Loader
 
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
-     * 
+     *
      * @param string $includePath
      */
     public function setIncludePath($includePath)
@@ -80,7 +80,7 @@ class Loader
 
     /**
      * Sets the file extension of class files in the namespace of this class loader.
-     * 
+     *
      * @param string $fileExtension
      */
     public function setFileExtension($fileExtension)
@@ -100,8 +100,8 @@ class Loader
 
     /**
      * Installs this class loader on the SPL autoload stack.
-	 *
-	 * @param bool $prepend If true, prepend autoloader on the autoload stack
+     *
+     * @param bool $prepend If true, prepend autoloader on the autoload stack
      */
     public function register($prepend = false)
     {
@@ -142,14 +142,14 @@ class Loader
         }
     }
 
-	/**
-	 * Returns full path for $fileName if _includePath is set, or leaves as-is for PHP's internal search in 'require'.
-	 *
-	 * @param string $fileName relative to include path.
-	 * @return string
-	 */
-	private function getFullPath($fileName)
-	{
-		return ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
-	}
+    /**
+     * Returns full path for $fileName if _includePath is set, or leaves as-is for PHP's internal search in 'require'.
+     *
+     * @param string $fileName relative to include path.
+     * @return string
+     */
+    private function getFullPath($fileName)
+    {
+        return ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
+    }
 }

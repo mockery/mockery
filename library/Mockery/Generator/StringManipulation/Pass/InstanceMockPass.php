@@ -4,7 +4,7 @@ namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
 
-class InstanceMockPass 
+class InstanceMockPass
 {
     const INSTANCE_MOCK_CODE = <<<MOCK
 

@@ -28,7 +28,7 @@ class MethodDefinitionPass implements Pass
             $methodDef .= $method->getName();
             $methodDef .= $this->renderParams($method, $config);
             $methodDef .= $this->renderMethodBody($method, $config);
-            
+
             $code = $this->appendToClass($code, $methodDef);
         }
 
@@ -37,8 +37,8 @@ class MethodDefinitionPass implements Pass
 
     protected function renderParams(Method $method, $config)
     {
-        $class = $method->getDeclaringClass(); 
-        if ($class->isInternal()) { 
+        $class = $method->getDeclaringClass();
+        if ($class->isInternal()) {
             $overrides = $config->getParameterOverrides();
 
             if (isset($overrides[strtolower($class->getName())][$method->getName()])) {
