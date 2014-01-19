@@ -1,6 +1,6 @@
 # How to contribute
 
-We'd love you to help out with mockery and no contribution is too small. 
+We'd love you to help out with mockery and no contribution is too small.
 
 ## Reporting Bugs
 

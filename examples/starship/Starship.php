@@ -17,7 +17,7 @@ class Starship
         $this->_engineering->divertPower(0.40, 'sensors');
         $this->_engineering->divertPower(0.30, 'auxengines');
         $this->_engineering->runDiagnosticLevel(1);
-        
+
         // We can add more runDiagnosticLevel() calls without failing the test
         // anywhere above since they are unordered.
     }
