@@ -548,7 +548,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @expectedException BadMethodCallException
      */
     public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist(){
-    	\Mockery::setContainer($this->container);
+        \Mockery::setContainer($this->container);
         $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
         $this->assertEquals('bar', \MyNameSpace\StaticNoMethod::staticFoo());
         \Mockery::resetContainer();
@@ -844,9 +844,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testMockCallableTypeHint()
     {
-		if(PHP_VERSION_ID >= 50400) {
-        	$this->container->mock('MockeryTest_MockCallableTypeHint');
-		}
+        if(PHP_VERSION_ID >= 50400) {
+            $this->container->mock('MockeryTest_MockCallableTypeHint');
+        }
     }
 
     public function testCanMockClassWithReservedWordMethod()

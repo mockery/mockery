@@ -43,5 +43,5 @@ class InterfacePassTest extends \PHPUnit_Framework_TestCase
 
         $this->assertContains("implements MockInterface, \Dave\Dave, \Paddy\Paddy", $code);
     }
-    
+
 }

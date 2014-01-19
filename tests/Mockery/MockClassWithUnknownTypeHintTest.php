@@ -16,7 +16,7 @@
 
 namespace test\Mockery;
 
-class MockClassWithUnknownTypeHintTest extends \PHPUnit_Framework_TestCase 
+class MockClassWithUnknownTypeHintTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp() {
         $this->container = new \Mockery\Container;

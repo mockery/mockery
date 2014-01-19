@@ -156,7 +156,7 @@ interface TestTraversableInterface3 extends \Traversable, \IteratorAggregate {}
 
 final class TestFinal {}
 
-interface TestInterface 
+interface TestInterface
 {
     public function foo();
 }
