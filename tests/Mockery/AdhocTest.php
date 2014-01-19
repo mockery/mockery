@@ -29,7 +29,7 @@ class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
     }
-    
+
     public function teardown()
     {
         $this->container->mockery_close();

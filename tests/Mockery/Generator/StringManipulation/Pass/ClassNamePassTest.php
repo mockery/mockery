@@ -9,11 +9,11 @@ use Mockery\Generator\MockConfiguration;
 class ClassNamePassTest extends \PHPUnit_Framework_TestCase
 {
     const CODE = "namespace Mockery; class Mock {}";
-    
+
     public function setup()
     {
        $this->pass = new ClassNamePass();
-    } 
+    }
 
     /**
      * @test
@@ -23,7 +23,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
         $config = new MockConfiguration(array(), array(), array(), "Dave\Dave");
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertNotContains('namespace Mockery;', $code);
-    } 
+    }
 
     /**
      * @test
@@ -34,7 +34,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertNotContains('namespace Mockery;', $code);
         $this->assertContains('namespace Dave;', $code);
-    } 
+    }
 
     /**
      * @test
