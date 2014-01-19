@@ -22,6 +22,7 @@
     },
     "require-dev": {
         "hamcrest/hamcrest-php": "~1.1"
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-0": { "Mockery": "library/" }
