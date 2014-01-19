@@ -22,7 +22,7 @@ namespace Mockery\Matcher;
 
 class HasValue extends MatcherAbstract
 {
-    
+
     /**
      * Check if the actual value matches the expected.
      *
@@ -33,7 +33,7 @@ class HasValue extends MatcherAbstract
     {
         return in_array($this->_expected, $actual);
     }
-    
+
     /**
      * Return a string representation of this Matcher
      *
@@ -44,5 +44,5 @@ class HasValue extends MatcherAbstract
         $return = '<HasValue[' . (string) $this->_expected . ']>';
         return $return;
     }
-    
+
 }
