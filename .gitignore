@@ -6,3 +6,4 @@ composer.lock
 vendor/
 composer.phar
 test.php
+build/
