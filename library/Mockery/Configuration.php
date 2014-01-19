@@ -103,6 +103,13 @@ class Configuration
         }
         $this->_internalClassParamMap[strtolower($class)][strtolower($method)] = $map;
     }
+
+    /**
+     * Remove all overriden parameter maps from internal PHP classes.
+     */
+    public function resetInternalClassMethodParamMaps() {
+        $this->_internalClassParamMap = array();
+    }
     
     /**
      * Get the parameter map of an internal PHP class method
