@@ -18,6 +18,7 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
@@ -73,6 +74,22 @@ class Mockery
     public static function instanceMock()
     {
         $args = func_get_args();
+        return call_user_func_array(array(self::getContainer(), 'mock'), $args);
+    }
+
+    /**
+     * Static shortcut to \Mockery\Container::mock(), first argument names the 
+     * mock
+     *
+     * @return \Mockery\MockInterface
+     */
+    public static function namedMock()
+    {
+        $args = func_get_args();
+        $name = array_shift($args);
+        $builder = new MockConfigurationBuilder();
+        $builder->setName($name);
+        array_unshift($args, $builder);
         return call_user_func_array(array(self::getContainer(), 'mock'), $args);
     }
 
