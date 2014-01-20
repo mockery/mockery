@@ -458,16 +458,21 @@ class Container
     protected function checkForNamedMockClashes($config)
     {
         $name = $config->getName();
+
+        if (!$name) {
+            return;
+        }
+
         $hash = $config->getHash();
 
-        if ($name) {
-            if (isset($this->_namedMocks[$name])) {
-                if ($hash !== $this->_namedMocks[$name]) {
-                    throw new \Mockery\Exception("Mock named $name has already been defined with a different mock defintion");
-                }
+        if (isset($this->_namedMocks[$name])) {
+            if ($hash !== $this->_namedMocks[$name]) {
+                throw new \Mockery\Exception(
+                    "Mock named $name has already been defined with a different mock defintion"
+                );
             }
-
-            $this->_namedMocks[$name] = $hash;
         }
+
+        $this->_namedMocks[$name] = $hash;
     }
 }
