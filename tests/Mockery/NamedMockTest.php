@@ -42,7 +42,7 @@ class NamedMockTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException Mockery\Exception
-     * @expectedExceptionMessage Mock named Mockery\Dave7 has already been defined with a different mock defintion
+     * @expectedExceptionMessage The mock named 'Mockery\Dave7' has been already defined with a different mock configuration
      */
     public function itShouldThrowIfAttemptingToRedefineNamedMock()
     {

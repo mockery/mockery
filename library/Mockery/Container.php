@@ -468,7 +468,7 @@ class Container
         if (isset($this->_namedMocks[$name])) {
             if ($hash !== $this->_namedMocks[$name]) {
                 throw new \Mockery\Exception(
-                    "Mock named $name has already been defined with a different mock defintion"
+                    "The mock named '$name' has been already defined with a different mock configuration"
                 );
             }
         }
