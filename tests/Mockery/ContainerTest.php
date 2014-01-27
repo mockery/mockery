@@ -989,8 +989,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testMockeryShouldDistinguishBetweenConstructorParamsAndClosures()
     {
+        $obj = new MockeryTestFoo();
         $mock = $this->container->mock('MockeryTest_ClassMultipleConstructorParams[dave]',
-            array(new stdClass, 'bar'));
+            array( &$obj, 'foo' ));
     }
 
     /** @group nette */

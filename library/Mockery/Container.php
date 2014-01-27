@@ -95,8 +95,8 @@ class Container
         if (count($args) > 1) {
             $finalArg = end($args);
             reset($args);
-            if (is_callable($finalArg)) {
-                $expectationClosure = array_pop($args);
+            if (is_callable($finalArg) && is_object($finalArg)) {
+                 $expectationClosure = array_pop($args);
             }
         }
 
