@@ -421,6 +421,22 @@ many cases, you can replace all the iterated elements (since they are the same t
 many times) with just the one mock object which is programmed to act as discrete
 iterated elements.
 
+```PHP
+$mock = \Mockery::namedMock('MyClassName', 'DateTime');
+```
+
+The `namedMock` method will generate a class called by the first argument, so in
+this example `MyClassName`. The rest of the arguments are treat in the same way
+as the `mock` method, so again, this example would create a class called
+`MyClassName` that extends `DateTime`. 
+
+Named mocks are quite an edge case, but they can be useful when code depends on
+the `__CLASS__` magic constant, or when you need two derivatives of an abstract
+type, that are actually different classes.
+
+*Warning*: You can only create a named mock once, any subsequent calls to
+`namedMock`, with different arguments are likely to cause exceptions.
+
 ### Behaviour Modifiers
 
 When creating a mock object, you may wish to use some commonly preferred behaviours
