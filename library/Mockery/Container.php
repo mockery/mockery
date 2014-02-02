@@ -68,6 +68,11 @@ class Container
      */
     protected $_loader;
 
+    /**
+     * @var array
+     */
+    protected $_namedMocks = array();
+
     public function __construct(Generator $generator = null, LoaderInterface $loader = null)
     {
         $this->_generator = $generator ?: \Mockery::getDefaultGenerator();
@@ -101,7 +106,17 @@ class Container
         }
 
         $builder = new MockConfigurationBuilder();
+
+        foreach ($args as $k => $arg) {
+            if ($arg instanceof MockConfigurationBuilder) {
+                $builder = $arg;
+                unset($args[$k]);
+            }
+        }
+        reset($args);
+
         $builder->setParameterOverrides(\Mockery::getConfiguration()->getInternalClassMethodParamMaps());
+
         while (count($args) > 0) {
             $arg = current($args);
             // check for multiple interfaces
@@ -186,6 +201,8 @@ class Container
         }
 
         $config = $builder->getMockConfiguration();
+
+        $this->checkForNamedMockClashes($config);
 
         $def = $this->getGenerator()->generate($config);
         $this->getLoader()->load($def);
@@ -438,4 +455,24 @@ class Container
         }
     }
 
+    protected function checkForNamedMockClashes($config)
+    {
+        $name = $config->getName();
+
+        if (!$name) {
+            return;
+        }
+
+        $hash = $config->getHash();
+
+        if (isset($this->_namedMocks[$name])) {
+            if ($hash !== $this->_namedMocks[$name]) {
+                throw new \Mockery\Exception(
+                    "The mock named '$name' has been already defined with a different mock configuration"
+                );
+            }
+        }
+
+        $this->_namedMocks[$name] = $hash;
+    }
 }
