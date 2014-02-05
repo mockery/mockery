@@ -47,8 +47,6 @@ class Mock implements MockInterface
      */
     protected $_mockery_ignoreMissing = false;
 
-    protected $_mockery_ignoreMissingAsUndefined = false;
-
     /**
      * Flag to indicate whether we can defer method calls missing from our
      * expectations
@@ -226,7 +224,8 @@ class Mock implements MockInterface
 
     public function asUndefined()
     {
-        $this->_mockery_ignoreMissingAsUndefined = true;
+        $this->_mockery_ignoreMissing = true;
+        $this->_mockery_defaultReturnValue = new \Mockery\Undefined;
         return $this;
     }
 
@@ -338,12 +337,10 @@ class Mock implements MockInterface
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
         } elseif ($this->_mockery_ignoreMissing) {
-            if ($this->_mockery_ignoreMissingAsUndefined === true) {
-                $undef = new \Mockery\Undefined;
-                return call_user_func_array(array($undef, $method), $args);
-            } else {
-                return $this->_mockery_defaultReturnValue;
-            }
+            if($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined)
+              return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
+            else 
+              return $this->_mockery_defaultReturnValue;
         }
         throw new \BadMethodCallException(
             'Method ' . __CLASS__ . '::' . $method . '() does not exist on this mock object'
