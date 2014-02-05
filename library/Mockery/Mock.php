@@ -140,6 +140,12 @@ class Mock implements MockInterface
     protected $_mockery_allowMockingProtectedMethods = false;
 
     /**
+     * If shouldIgnoreMissing is called, this value will be returned on all calls to missing methods
+     * @var mixed
+     */
+    protected $_mockery_defaultReturnValue = null;
+
+    /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
      *
@@ -208,12 +214,13 @@ class Mock implements MockInterface
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     *
+     * @param mixed $returnValue the default return value for calls to missing functions on this mock 
      * @return Mock
      */
-    public function shouldIgnoreMissing()
+    public function shouldIgnoreMissing($returnValue = null)
     {
         $this->_mockery_ignoreMissing = true;
+        $this->_mockery_defaultReturnValue = $returnValue;
         return $this;
     }
 
@@ -335,7 +342,7 @@ class Mock implements MockInterface
                 $undef = new \Mockery\Undefined;
                 return call_user_func_array(array($undef, $method), $args);
             } else {
-                return null;
+                return $this->_mockery_defaultReturnValue;
             }
         }
         throw new \BadMethodCallException(
