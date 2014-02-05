@@ -12,8 +12,8 @@ phpunit-mock-objects without the World ending.
 
 Mockery is released under a New BSD License.
 
-The current released version for PEAR is 0.8.0. Composer users may instead opt to use
-the current master branch in lieu of using the more static 0.8.0 git tag.
+The current released version for PEAR is 0.9.0. Composer users may instead opt to use
+the current master branch in lieu of using the more static 0.9.0 git tag.
 The build status of the current master branch is tracked by Travis CI:
 [![Build Status](https://travis-ci.org/padraic/mockery.png?branch=master)](http://travis-ci.org/padraic/mockery)
 
