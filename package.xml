@@ -5,9 +5,15 @@
   <summary>Mockery is a simple yet flexible mock object framework for use in unit testing.</summary>
   <description>Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.</description>
   <lead>
-    <name>Padraic Brady</name>
+    <name>Pádraic Brady</name>
     <user>padraic</user>
     <email>padraic.brady@yahoo.com</email>
+    <active>yes</active>
+  </lead>
+  <lead>
+    <name>Dave Marshall</name>
+    <user>davedevelopment</user>
+    <email>dave.marshall@atstsolutions.co.uk</email>
     <active>yes</active>
   </lead>
   <date>2014-02-05</date>
@@ -50,7 +56,31 @@
           <file name="Exception.php" role="php"/>
           <file name="Expectation.php" role="php"/>
           <file name="ExpectationDirector.php" role="php"/>
-          <file name="Generator.php" role="php"/>
+          <dir name="Generator">
+            <file name="CachingGenerator.php" role="php"/>
+            <file name="DefinedTargetClass.php" role="php"/>
+            <file name="Generator.php" role="php"/>
+            <file name="Method.php" role="php"/>
+            <file name="MockConfiguration.php" role="php"/>
+            <file name="MockConfigurationBuilder.php" role="php"/>
+            <file name="MockDefinition.php" role="php"/>
+            <file name="Parameter.php" role="php"/>
+            <dir name="StringManipulation">
+                <dir name="Pass">
+                    <file name="CallTypeHintPass.php" role="php"/>
+                    <file name="ClassNamePass.php" role="php"/>
+                    <file name="ClassPass.php" role="php"/>
+                    <file name="InstanceMockPass.php" role="php"/>
+                    <file name="InterfacePass.php" role="php"/>
+                    <file name="MethodDefinitionPass.php" role="php"/>
+                    <file name="Pass.php" role="php"/>
+                    <file name="RemoveBuiltinMethodsThatAreFinalPass.php" role="php"/>
+                </dir>
+            </dir>
+            <file name="StringManipulationGenerator.php" role="php"/>
+            <file name="TargetClass.php" role="php"/>
+            <file name="UndefinedTargetClass.php" role="php"/>
+          </dir>
           <file name="Loader.php" role="php"/>
           <dir name="Matcher">
             <file name="Any.php" role="php"/>
@@ -78,7 +108,7 @@
   <dependencies>
     <required>
       <php>
-        <min>5.3.0</min>
+        <min>5.3.2</min>
       </php>
       <pearinstaller>
         <min>1.4.0</min>
@@ -109,7 +139,25 @@
       <install name="library/Mockery/Exception/NoMatchingExpectationException.php" as="Mockery/Exception/NoMatchingExpectationException.php"/>
       <install name="library/Mockery/Expectation.php" as="Mockery/Expectation.php"/>
       <install name="library/Mockery/ExpectationDirector.php" as="Mockery/ExpectationDirector.php"/>
-      <install name="library/Mockery/Generator.php" as="Mockery/Generator.php"/>
+      <install name="library/Mockery/Generator/CachingGenerator.php" as="Mockery/Generator/CachingGenerator.php"/>
+      <install name="library/Mockery/Generator/DefinedTargetClass.php" as="Mockery/Generator/DefinedTargetClass.php"/>
+      <install name="library/Mockery/Generator/Generator.php" as="Mockery/Generator/Generator.php"/>
+      <install name="library/Mockery/Generator/Method.php" as="Mockery/Generator/Method.php"/>
+      <install name="library/Mockery/Generator/MockConfiguration.php" as="Mockery/Generator/MockConfiguration.php"/>
+      <install name="library/Mockery/Generator/MockConfigurationBuilder.php" as="Mockery/Generator/MockConfigurationBuilder.php"/>
+      <install name="library/Mockery/Generator/MockDefinition.php" as="Mockery/Generator/MockDefinition.php"/>
+      <install name="library/Mockery/Generator/Parameter.php" as="Mockery/Generator/Parameter.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/CallTypeHintPass.php" as="Mockery/Generator/StringManipulation/Pass/CallTypeHintPass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/ClassNamePass.php" as="Mockery/Generator/StringManipulation/Pass/ClassNamePass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/ClassPass.php" as="Mockery/Generator/StringManipulation/Pass/ClassPass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/InstanceMockPass.php" as="Mockery/Generator/StringManipulation/Pass/InstanceMockPass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/InterfacePass.php" as="Mockery/Generator/StringManipulation/Pass/InterfacePass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPass.php" as="Mockery/Generator/StringManipulation/Pass/MethodDefinitionPass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/Pass.php" as="Mockery/Generator/StringManipulation/Pass/Pass.php"/>
+      <install name="library/Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php" as="Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php"/>
+      <install name="library/Mockery/Generator/StringManipulationGenerator.php" as="Mockery/Generator/StringManipulationGenerator.php"/>
+      <install name="library/Mockery/Generator/TargetClass.php" as="Mockery/Generator/TargetClass.php"/>
+      <install name="library/Mockery/Generator/UndefinedTargetClass.php" as="Mockery/Generator/UndefinedTargetClass.php"/>
       <install name="library/Mockery/Loader.php" as="Mockery/Loader.php"/>
       <install name="library/Mockery/Matcher/Any.php" as="Mockery/Matcher/Any.php"/>
       <install name="library/Mockery/Matcher/AnyOf.php" as="Mockery/Matcher/AnyOf.php"/>
