@@ -82,6 +82,11 @@
             <file name="UndefinedTargetClass.php" role="php"/>
           </dir>
           <file name="Loader.php" role="php"/>
+          <dir name="Loader">
+            <file name="EvalLoader.php" role="php"/>
+            <file name="Loader.php" role="php"/>
+            <file name="RequireLoader.php" role="php"/>
+          </dir>
           <dir name="Matcher">
             <file name="Any.php" role="php"/>
             <file name="AnyOf.php" role="php"/>
@@ -159,6 +164,9 @@
       <install name="library/Mockery/Generator/TargetClass.php" as="Mockery/Generator/TargetClass.php"/>
       <install name="library/Mockery/Generator/UndefinedTargetClass.php" as="Mockery/Generator/UndefinedTargetClass.php"/>
       <install name="library/Mockery/Loader.php" as="Mockery/Loader.php"/>
+      <install name="library/Mockery/Loader/EvalLoader.php" as="Mockery/Loader/EvalLoader.php"/>
+      <install name="library/Mockery/Loader/Loader.php" as="Mockery/Loader/Loader.php"/>
+      <install name="library/Mockery/Loader/RequireLoader.php" as="Mockery/Loader/RequireLoader.php"/>
       <install name="library/Mockery/Matcher/Any.php" as="Mockery/Matcher/Any.php"/>
       <install name="library/Mockery/Matcher/AnyOf.php" as="Mockery/Matcher/AnyOf.php"/>
       <install name="library/Mockery/Matcher/Closure.php" as="Mockery/Matcher/Closure.php"/>
