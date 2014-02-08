@@ -367,7 +367,7 @@ class MockConfiguration
     public function getNamespaceName()
     {
         $parts = explode("\\", $this->getName());
-        $shortName = array_pop($parts);
+        array_pop($parts);
 
         if (count($parts)) {
             return implode("\\", $parts);
