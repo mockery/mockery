@@ -1,0 +1,5 @@
+filter:
+    excluded_paths: [vendor/*, tests/*, examples/*]
+tools:
+    external_code_coverage:
+        timeout: 300
