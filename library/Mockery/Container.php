@@ -23,8 +23,6 @@ namespace Mockery;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Loader\Loader as LoaderInterface;
-use Mockery\Loader\EvalLoader;
-use Mockery\Loader\RequireLoader;
 
 class Container
 {

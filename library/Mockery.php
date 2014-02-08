@@ -29,7 +29,6 @@ use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPass;
 use Mockery\Loader\EvalLoader;
-use Mockery\Loader\RequireLoader;
 use Mockery\Loader\Loader;
 
 class Mockery
