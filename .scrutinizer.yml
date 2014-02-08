@@ -16,7 +16,7 @@ tools:
     php_loc:
         enabled: true
         excluded_dirs: [vendor, tests, examples]
-    php_hhvm: true
+    php_hhvm: false
     php_mess_detector: true
     php_analyzer: true
 changetracking:
