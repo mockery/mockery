@@ -20,6 +20,7 @@
 
 namespace Mockery\Exception;
 use Mockery;
+use Mockery\Exception\RuntimeException;
 
 class InvalidCountException extends Mockery\CountValidator\Exception
 {
@@ -61,7 +62,7 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     public function setExpectedCountComparative($comp)
     {
         if (!in_array($comp, array('=', '>', '<', '>=', '<='))) {
-            throw new Exception(
+            throw new RuntimeException(
                 'Illegal comparative for expected call counts set: ' . $comp
             );
         }

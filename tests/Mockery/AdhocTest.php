@@ -65,6 +65,13 @@ class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($m instanceof \Mockery\MockInterface);
     }
 
+    public function testInvalidCountExceptionThrowsRuntimeExceptionOnIllegalComparativeSymbol()
+    {
+        $this->setExpectedException('Mockery\Exception\RuntimeException');
+        $e = new \Mockery\Exception\InvalidCountException;
+        $e->setExpectedCountComparative('X');
+    }
+
 
 }
 
