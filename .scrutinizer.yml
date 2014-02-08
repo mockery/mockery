@@ -1,5 +1,3 @@
-imports:
-    - php
 filter:
     paths: [library/*]
     excluded_paths: [vendor/*, tests/*, examples/*]

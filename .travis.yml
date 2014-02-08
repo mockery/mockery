@@ -17,8 +17,8 @@ script:
 
 after_script:
   - php vendor/bin/coveralls -v
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi
 
 matrix:
   allow_failures:
