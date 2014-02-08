@@ -91,7 +91,8 @@ BODY;
         $overrides = $config->getParameterOverrides();
         if (isset($overrides[$class_name][$method->getName()])) {
             $params = array_values($overrides[$class_name][$method->getName()]);
-            for ($i = 0; $i < count($params); ++$i) {
+            $paramCount = count($params);
+            for ($i = 0; $i < $paramCount; ++$i) {
               $param = $params[$i];
                 if (strpos($param, '&') !== FALSE) {
                     $body .= <<<BODY
@@ -104,7 +105,8 @@ BODY;
             }
         } else {
             $params = array_values($method->getParameters());
-            for ($i = 0; $i < count($params); ++$i) {
+            $paramCount = count($params);
+            for ($i = 0; $i < $paramCount; ++$i) {
                 $param = $params[$i];
                 if (!$param->isPassedByReference()) {
                     continue;
