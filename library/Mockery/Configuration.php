@@ -107,7 +107,8 @@ class Configuration
     /**
      * Remove all overriden parameter maps from internal PHP classes.
      */
-    public function resetInternalClassMethodParamMaps() {
+    public function resetInternalClassMethodParamMaps()
+    {
         $this->_internalClassParamMap = array();
     }
 

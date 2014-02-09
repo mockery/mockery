@@ -74,7 +74,8 @@ class MethodDefinitionPass implements Pass
         return $class;
     }
 
-    private function renderMethodBody($method, $config) {
+    private function renderMethodBody($method, $config)
+    {
         $invoke = $method->isStatic() ? 'static::__callStatic' : '$this->__call';
         $body = <<<BODY
 {

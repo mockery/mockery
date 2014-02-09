@@ -5,24 +5,24 @@ namespace Mockery\Generator;
 interface TargetClass
 {
     /** @return string */
-    function getName();
+    public function getName();
 
     /** @return bool */
-    function isAbstract();
+    public function isAbstract();
 
     /** @return bool */
-    function isFinal();
+    public function isFinal();
 
     /** @return Method[] */
-    function getMethods();
+    public function getMethods();
 
     /** @return string */
-    function getNamespaceName();
+    public function getNamespaceName();
 
     /** @return bool */
-    function inNamespace();
+    public function inNamespace();
 
     /** @return string */
-    function getShortName();
+    public function getShortName();
 
 }

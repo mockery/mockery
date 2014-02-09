@@ -66,6 +66,6 @@ abstract class CountValidatorAbstract
      * @param int $n
      * @return bool
      */
-    public abstract function validate($n);
+    abstract public function validate($n);
 
 }

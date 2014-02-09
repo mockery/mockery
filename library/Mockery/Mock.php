@@ -135,7 +135,7 @@ class Mock implements MockInterface
      *
      * @var ReflectionMethod[]
      */
-    static protected $_mockery_methods;
+    protected static $_mockery_methods;
 
     protected $_mockery_allowMockingProtectedMethods = false;
 
@@ -182,7 +182,7 @@ class Mock implements MockInterface
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, func_get_args(), function($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
+            $this, func_get_args(), function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {

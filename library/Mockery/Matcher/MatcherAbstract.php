@@ -48,13 +48,13 @@ abstract class MatcherAbstract
      * @param mixed $actual
      * @return bool
      */
-    public abstract function match(&$actual);
+    abstract public function match(&$actual);
 
     /**
      * Return a string representation of this Matcher
      *
      * @return string
      */
-    public abstract function __toString();
+    abstract public function __toString();
 
 }

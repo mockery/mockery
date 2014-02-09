@@ -134,20 +134,20 @@ class Container
                 array_shift($args);
 
                 continue;
-            } else if (is_string($arg) && substr($arg, 0, 6) == 'alias:') {
+            } elseif (is_string($arg) && substr($arg, 0, 6) == 'alias:') {
                 $name = array_shift($args);
                 $name = str_replace('alias:', '', $name);
                 $builder->addTarget('stdClass');
                 $builder->setName($name);
                 continue;
-            } else if (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
+            } elseif (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
                 $name = array_shift($args);
                 $name = str_replace('overload:', '', $name);
                 $builder->setInstanceMock(true);
                 $builder->addTarget('stdClass');
                 $builder->setName($name);
                 continue;
-            } else if (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
+            } elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
                 $parts = explode('[', $arg);
                 if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
                     throw new \Mockery\Exception('Can only create a partial mock from'
@@ -160,15 +160,15 @@ class Container
                 $builder->setWhiteListedMethods($partialMethods);
                 array_shift($args);
                 continue;
-            } else if (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
+            } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
                 $class = array_shift($args);
                 $builder->addTarget($class);
                 continue;
-            } else if (is_string($arg)) {
+            } elseif (is_string($arg)) {
                 $class = array_shift($args);
                 $builder->addTarget($class);
                 continue;
-            } else if (is_object($arg)) {
+            } elseif (is_object($arg)) {
                 $partial = array_shift($args);
                 $builder->addTarget($partial);
                 continue;
@@ -177,7 +177,7 @@ class Container
                 if(array_key_exists(self::BLOCKS, $arg)) $blocks = $arg[self::BLOCKS]; unset($arg[self::BLOCKS]);
                 $quickdefs = array_shift($args);
                 continue;
-            } else if (is_array($arg)) {
+            } elseif (is_array($arg)) {
                 $constructorArgs = array_shift($args);
                 continue;
             }
@@ -442,7 +442,7 @@ class Container
             );
         }
         if (false !== strpos($fqcn, "\\")) {
-            $parts = array_filter(explode("\\", $fqcn), function($part) {
+            $parts = array_filter(explode("\\", $fqcn), function ($part) {
                 return $part !== "";
             });
             $cl = array_pop($parts);

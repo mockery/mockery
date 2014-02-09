@@ -6,5 +6,5 @@ use Mockery\Generator\MockDefinition;
 
 interface Loader
 {
-    function load(MockDefinition $definition);
+    public function load(MockDefinition $definition);
 }
