@@ -14,18 +14,12 @@ before_script:
   - phpenv rehash
 
 script:
-  - phpunit -v --colors --coverage-text --coverage-clover ./build/logs/clover.xml
+  - vendor/bin/phpunit --verbose --colors --coverage-text --coverage-clover ./build/logs/clover.xml
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]]; then vendor/bin/coveralls -v; fi
   - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
   - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi
-
-matrix:
-  allow_failures:
-    - php: 5.6
-    - php: hhvm
-  fast_finish: true
 
 notifications:
   email:
