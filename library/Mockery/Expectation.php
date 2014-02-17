@@ -327,6 +327,7 @@ class Expectation
      */
     public function withArgs(array $args)
     {
+        if(empty($args)) return $this->withNoArgs();
         $this->_expectedArgs = $args;
         return $this;
     }
