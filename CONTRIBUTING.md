@@ -7,7 +7,7 @@ We'd love you to help out with mockery and no contribution is too small.
 Issues can be reported on the [issue
 tracker](https://github.com/padraic/mockery/issues). Please try and report any
 bugs with a minimal reproducible example, it will make things easier for other
-contributers and your problems will hopefully be resolved quickly.
+contributors and your problems will hopefully be resolved quickly.
 
 ## Requesting Features
 
@@ -18,7 +18,7 @@ someone will jump on it straight away, but putting it out there to see if anyone
 else is interested is a good idea.
 
 Likewise, if a feature you would like is already listed in
-the issue tracker, add a :+1: so that other contributers know it's a feature
+the issue tracker, add a :+1: so that other contributors know it's a feature
 that would help others.
 
 ## Contributing code and documentation
@@ -44,8 +44,13 @@ License](http://opensource.org/licenses/BSD-3-Clause).
 Mockery may have several active branches at any one time and roughly follows a
 [Git Branching Model](https://igor.io/2013/10/21/git-branching-model.html).
 Generally, if you're developing a new feature, you want to be targetting the
-master branch, if it's a bug fix, you want to be targetting a release branch,
+master branch, if it's a bug fix, you want to be targeting a release branch,
 e.g. 0.8.
+
+# Testing Mockery
+
+Mockery relies on PHPUnit 4 to run unit tests. To run Mockery's unit tests,
+please run `composer install --dev` then `vendor/bin/phpunit`.
 
 # Debugging Mockery
 
@@ -61,4 +66,3 @@ and you will be able to open the mock class in your editor.
 Mockery::setLoader(new Mockery\Loader\RequireLoader(sys_get_temp_dir()));
 
 ```
-
