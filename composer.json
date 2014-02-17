@@ -21,6 +21,7 @@
         "lib-pcre": ">=7.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "4.0.*",
         "hamcrest/hamcrest-php": "~1.1",
         "satooshi/php-coveralls": "dev-master"
     },
@@ -31,5 +32,7 @@
         "branch-alias": {
             "dev-master": "0.9.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
