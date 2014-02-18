@@ -215,19 +215,28 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Mockery\Exception
      */
-    public function testExpectsArgumentsArrayThrowsExceptionIfPassedWrongArguments()
+    public function testExpectsArgumentsArrayThrowsExceptionIfPassedEmptyArray()
     {
-        $this->mock->shouldReceive('foo')->withArgs(array(1, 2));
-        $this->mock->foo(3, 4);
+        $this->mock->shouldReceive('foo')->withArgs(array());
+        $this->mock->foo(1, 2);
     }
 
     /**
      * @expectedException \Mockery\Exception
      */
-    public function testExpectsArgumentsArrayThrowsExceptionIfPassedEmptyArray()
+    public function testExpectsArgumentsArrayThrowsExceptionIfNoArgumentsPassed()
     {
-        $this->mock->shouldReceive('foo')->withArgs(array());
-        $this->mock->foo(1, 2);
+        $this->mock->shouldReceive('foo')->with();
+        $this->mock->foo(1);
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testExpectsArgumentsArrayThrowsExceptionIfPassedWrongArguments()
+    {
+        $this->mock->shouldReceive('foo')->withArgs(array(1, 2));
+        $this->mock->foo(3, 4);
     }
 
     public function testExpectsAnyArguments()
@@ -1709,7 +1718,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException PHPUnit_Framework_Error_Warning
      * @runInSeparateProcess
-    */
+     */
     public function testPregMatchThrowsDelimiterWarningWithXdebugScreamTurnedOn()
     {
         if (!extension_loaded('xdebug')) {
