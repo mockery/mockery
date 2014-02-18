@@ -331,6 +331,7 @@ class Expectation
             return $this->withNoArgs();
         }
         $this->_expectedArgs = $args;
+        $this->_noArgsExpectation = false;
         return $this;
     }
 
