@@ -693,4 +693,9 @@ class Expectation implements ExpectationInterface
         $this->_countValidators = $newValidators;
     }
 
+    public function getName()
+    {
+        return $this->_name;
+    }
+
 }

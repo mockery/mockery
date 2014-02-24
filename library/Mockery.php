@@ -75,8 +75,15 @@ class Mockery
     }
 
     /**
-     * Another shortcut to \Mockery\Container:mock().
-     *
+     * @return \Mockery\MockInterface
+     */
+    public static function spy()
+    {
+        $args = func_get_args();
+        return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing();
+    }
+
+    /**
      * @return \Mockery\MockInterface
      */
     public static function instanceMock()

@@ -73,7 +73,7 @@ class MethodDefinitionPass implements Pass
 
     private function renderMethodBody($method, $config)
     {
-        $invoke = $method->isStatic() ? 'static::__callStatic' : '$this->__call';
+        $invoke = $method->isStatic() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
         $body = <<<BODY
 {
 \$argc = func_num_args();
