@@ -157,3 +157,7 @@ with(\Mockery::hasValue(value));
 ```
 
 Matches any argument which is an array containing the given value.
+
+
+
+**[&#8592; Previous](06-EXPECTATION DECLARATIONS.md) | [Contents](../README.md#documentation) | [Next &#8594;](08-CREATING-PARTIAL-MOCKS.md)**

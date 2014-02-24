@@ -72,3 +72,7 @@ public function testCanOverrideExpectedParametersOfInternalPHPClassesToPreserveR
     \Mockery::resetContainer();
 }
 ```
+
+
+
+**[&#8592; Previous](13-INSTANCE-MOCKING.md) | [Contents](../README.md#documentation) | [Next &#8594;](15-MOCKING-DEMETER-CHAINS-AND-FLUENT-INTERFACES.md)**

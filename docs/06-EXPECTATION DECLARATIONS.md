@@ -237,3 +237,7 @@ you prefer to keep mock setups as a single statement, e.g.
 ```PHP
 $mock = \Mockery::mock('foo')->shouldReceive('foo')->andReturn(1)->getMock();
 ```
+
+
+
+**[&#8592; Previous](05-QUICK-REFERENCE.md) | [Contents](../README.md#documentation) | [Next &#8594;](07-ARGUMENT-VALIDATION.md)**

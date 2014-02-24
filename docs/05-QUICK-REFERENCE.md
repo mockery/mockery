@@ -214,3 +214,7 @@ discussed later), this form of mock object will defer all methods not subject to
 an expectation to the parent class of the mock, i.e. `MyClass`. Whereas the previous
 `shouldIgnoreMissing()` returned `null`, this behaviour simply calls the parent's
 matching method.
+
+
+
+**[&#8592; Previous](04-PHPUNIT-INTEGRATION.md) | [Contents](../README.md#documentation) | [Next &#8594;](06-EXPECTATION DECLARATIONS.md)**

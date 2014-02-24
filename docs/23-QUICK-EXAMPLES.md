@@ -124,3 +124,7 @@ class DbTest extends PHPUnit_Framework_TestCase
 
 }
 ```
+
+
+
+**[&#8592; Previous](22-GOTCHAS.md) | [Contents](../README.md#documentation)**

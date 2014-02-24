@@ -18,3 +18,7 @@ You can create a proxy mock by passing the instantiated object you wish to mock
 into `\Mockery::mock()`, i.e. Mockery will then generate a Proxy to the real object
 and selectively intercept method calls for the purposes of setting and
 meeting expectations.
+
+
+
+**[&#8592; Previous](17-MOCK-OBJECT-RECORDING.md) | [Contents](../README.md#documentation) | [Next &#8594;](19-MOCKERY-GLOBAL-CONFIGURATION.md)**

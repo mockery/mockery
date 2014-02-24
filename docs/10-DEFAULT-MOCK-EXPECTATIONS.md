@@ -12,3 +12,7 @@ How this works, is that you can define mocks with default expectations. Then,
 in a later unit test, you can add or fine-tune expectations for that
 specific test. Any expectation can be set as a default using the `byDefault()`
 declaration.
+
+
+
+**[&#8592; Previous](09-DETECTING-MOCK-OBJECTS.md) | [Contents](../README.md#documentation) | [Next &#8594;](11-MOCKING-PUBLIC-PROPERTIES.md)**

@@ -8,3 +8,7 @@ be used in a type check.
 ```PHP
 assert($mightBeMocked instanceof \Mockery\MockInterface);
 ```
+
+
+
+**[&#8592; Previous](08-CREATING-PARTIAL-MOCKS.md) | [Contents](../README.md#documentation) | [Next &#8594;](10-DEFAULT-MOCK-EXPECTATIONS.md)**
