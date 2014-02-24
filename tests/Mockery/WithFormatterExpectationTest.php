@@ -32,6 +32,20 @@ class WithFormatterExpectationTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     *
+     * Note that without the patch checked in with this test, rather than throwing
+     * an exception, the program will go into an infinite recursive loop
+     */
+    public function testFormatObjectsWithMockCalledInGetterDoesNotLeadToRecursion()
+    {
+        $mock = Mockery::mock('stdClass');
+        $mock->shouldReceive('doBar')->with('foo');
+        $obj = new ClassWithGetter($mock);
+        $obj->getFoo();
+    }
+
     public function formatObjectsDataProvider()
     {
         return array(
@@ -46,4 +60,18 @@ class WithFormatterExpectationTest extends PHPUnit_Framework_TestCase
         );
     }
 
+}
+ 
+class ClassWithGetter
+{
+    private $dep;
+
+    function __construct($dep)
+    {
+        $this->dep = $dep;
+    }
+    public function getFoo()
+    {
+        return $this->dep->doBar('bar', $this);
+    }
 }
