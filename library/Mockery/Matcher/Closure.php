@@ -43,7 +43,7 @@ class Closure extends MatcherAbstract
      */
     public function __toString()
     {
-        return '<Closure===TRUE>';
+        return '<Closure===true>';
     }
 
 }

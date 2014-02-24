@@ -204,7 +204,7 @@ class Mockery
     }
 
     /**
-     * Reset the container to NULL
+     * Reset the container to null
      */
     public static function resetContainer()
     {
