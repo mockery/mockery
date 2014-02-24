@@ -95,7 +95,7 @@ BODY;
             $paramCount = count($params);
             for ($i = 0; $i < $paramCount; ++$i) {
               $param = $params[$i];
-                if (strpos($param, '&') !== FALSE) {
+                if (strpos($param, '&') !== false) {
                     $body .= <<<BODY
 if (\$argc > $i) {
     \$argv[$i] = {$param};
