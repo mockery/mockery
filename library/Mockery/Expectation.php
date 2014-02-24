@@ -269,6 +269,7 @@ class Expectation
                 return false;
             }
         }
+
         return true;
     }
 
@@ -315,8 +316,7 @@ class Expectation
      */
     public function with()
     {
-        $this->_expectedArgs = func_get_args();
-        return $this;
+        return $this->withArgs(func_get_args());
     }
 
     /**
@@ -327,7 +327,11 @@ class Expectation
      */
     public function withArgs(array $args)
     {
+        if (empty($args)) {
+            return $this->withNoArgs();
+        }
         $this->_expectedArgs = $args;
+        $this->_noArgsExpectation = false;
         return $this;
     }
 
@@ -339,7 +343,8 @@ class Expectation
     public function withNoArgs()
     {
         $this->_noArgsExpectation = true;
-        return $this->with();
+        $this->_expectedArgs = null;
+        return $this;
     }
 
     /**
