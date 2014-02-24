@@ -54,3 +54,7 @@ You may also install this development version using PEAR:
 The above processes will install both Mockery and Hamcrest.
 While omitting Hamcrest will not break Mockery, Hamcrest is recommended
 as it adds a wider variety of functionality for argument matching.
+
+
+
+**[Contents](../README.md#documentation) | [Next &#8594;](02-UPGRADING.md)**

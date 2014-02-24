@@ -11,3 +11,7 @@ Following this piece of advice will ensure you are testing the real API of class
 and also ensures there is no conflict should Mockery override these magic methods,
 which it will inevitably do in order to support its role in intercepting method
 calls and properties.
+
+
+
+**[&#8592; Previous](20-RESERVED-METHOD-NAMES.md) | [Contents](../README.md#documentation) | [Next &#8594;](22-GOTCHAS.md)**

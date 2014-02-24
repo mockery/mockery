@@ -96,3 +96,7 @@ isolation, resulting in expectations that might not be respected, but without ra
 any `Mockery\Exception`. To avoid this, you cannot rely on the supplied Mockery PHPUnit
 `TestListener`, and you need to explicitly calls `Mockery::close`. The easiest solution
 to include this call in the `tearDown()` method, as explained previously.
+
+
+
+**[&#8592; Previous](03-SIMPLE-EXAMPLE.md) | [Contents](../README.md#documentation) | [Next &#8594;](05-QUICK-REFERENCE.md)**

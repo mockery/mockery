@@ -51,3 +51,7 @@ This exception class offers the following methods:
 + `getMockName()` - return the name of the mock object
 + `getMethodName()` - return the name of the method the failing expectation is attached to
 + `getActualArguments()` - return actual arguments used to search for a matching expectation
+
+
+
+**[&#8592; Previous](15-MOCKING-DEMETER-CHAINS-AND-FLUENT-INTERFACES.md) | [Contents](../README.md#documentation) | [Next &#8594;](17-MOCK-OBJECT-RECORDING.md)**

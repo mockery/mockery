@@ -36,3 +36,7 @@ documented and resolved where possible. Here is a list to note:
 The gotchas noted above are largely down to PHP's architecture and are assumed
 to be unavoidable. But - if you figure out a solution (or a better one than what
 may exist), let us know!
+
+
+
+**[&#8592; Previous](21-PHP-MAGIC-METHODS.md) | [Contents](../README.md#documentation) | [Next &#8594;](23-QUICK-EXAMPLES.md)**

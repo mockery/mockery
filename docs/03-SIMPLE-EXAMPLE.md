@@ -58,3 +58,7 @@ class TemperatureTest extends PHPUnit_Framework_TestCase
 
 }
 ```
+
+
+
+**[&#8592; Previous](02-UPGRADING.md) | [Contents](../README.md#documentation) | [Next &#8594;](04-PHPUNIT-INTEGRATION.md)**

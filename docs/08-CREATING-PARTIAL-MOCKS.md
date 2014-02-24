@@ -89,3 +89,7 @@ to worry about this but if you really really must mock a final method, the only 
 means is through a Proxied Partial Mock. SplFileInfo, for example, is a common class subject
 to this form of automatic internal partial since it contains public final methods used
 internally.
+
+
+
+**[&#8592; Previous](07-ARGUMENT-VALIDATION.md) | [Contents](../README.md#documentation) | [Next &#8594;](09-DETECTING-MOCK-OBJECTS.md)**

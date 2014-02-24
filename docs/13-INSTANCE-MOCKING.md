@@ -17,3 +17,7 @@ intercept instantiation where you can't simply inject a replacement object.
 As before, this does not prevent a require statement from including the real
 class and triggering a fatal PHP error. It's intended for use where autoloading
 is the primary class loading mechanism.
+
+
+
+**[&#8592; Previous](12-MOCKING-PUBLIC-STATIC-METHODS.md) | [Contents](../README.md#documentation) | [Next &#8594;](14-PRESERVING-PASS-BY-REFERENCE-PARAMETER-BEHAVIOUR.md)**

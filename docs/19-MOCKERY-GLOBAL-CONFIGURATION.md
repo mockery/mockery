@@ -46,3 +46,7 @@ classes. Most of the time, you never need to do this. It's mainly needed where a
 internal class method uses pass-by-reference for a parameter - you MUST in such
 cases ensure the parameter signature includes the "&" symbol correctly as Mockery
 won't correctly add it automatically for internal classes.
+
+
+
+**[&#8592; Previous](18-DEALING-WITH-FINAL-CLASSES-OR-METHODS.md) | [Contents](../README.md#documentation) | [Next &#8594;](20-RESERVED-METHOD-NAMES.md)**

@@ -86,3 +86,7 @@ $mock->shouldExpect(function ($subject) {
     $user->use($subject);
 });
 ```
+
+
+
+**[&#8592; Previous](16-MOCKERY-EXCEPTIONS.md) | [Contents](../README.md#documentation) | [Next &#8594;](18-DEALING-WITH-FINAL-CLASSES-OR-METHODS.md)**

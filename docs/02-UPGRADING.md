@@ -19,3 +19,7 @@ Since the release of 0.8.0 the following behaviours were altered:
    ```PHP
    $mock = \Mockery::mock('stdClass')->shouldIgnoreMissing()->asUndefined();
    ```
+
+
+
+**[&#8592; Previous](01-INSTALLATION.md) | [Contents](../README.md#documentation) | [Next &#8594;](03-SIMPLE-EXAMPLE.md)**
