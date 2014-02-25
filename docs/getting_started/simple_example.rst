@@ -1,59 +1,66 @@
-# Simple Example
+.. index::
+    single: Getting Started; Simple Example
 
-Imagine we have a `Temperature` class which samples the temperature of a locale
+Simple Example
+==============
+
+Imagine we have a ``Temperature`` class which samples the temperature of a locale
 before reporting an average temperature. The data could come from a web service
 or any other data source, but we do not have such a class at present. We can,
 however, assume some basic interactions with such a class based on its interaction
-with the `Temperature` class.
+with the ``Temperature`` class:
 
-```PHP
-class Temperature
-{
+.. code-block:: php
 
-    public function __construct($service)
+    class Temperature
     {
-        $this->_service = $service;
-    }
 
-    public function average()
-    {
-        $total = 0;
-        for ($i=0;$i<3;$i++) {
-            $total += $this->_service->readTemp();
+        public function __construct($service)
+        {
+            $this->_service = $service;
         }
-        return $total/3;
-    }
 
-}
-```
+        public function average()
+        {
+            $total = 0;
+            for ($i=0;$i<3;$i++) {
+                $total += $this->_service->readTemp();
+            }
+            return $total/3;
+        }
+
+    }
 
 Even without an actual service class, we can see how we expect it to operate.
-When writing a test for the `Temperature` class, we can now substitute a mock
+When writing a test for the ``Temperature`` class, we can now substitute a mock
 object for the real service which allows us to test the behaviour of the
-`Temperature` class without actually needing a concrete service instance.
+``Temperature`` class without actually needing a concrete service instance.
 
-Note: PHPUnit integration (see next chapter) can remove the need for a `tearDown()` method.
+.. code-block:: php
 
-```PHP
-use \Mockery as m;
+    use \Mockery as m;
 
-class TemperatureTest extends PHPUnit_Framework_TestCase
-{
-
-    public function tearDown()
+    class TemperatureTest extends PHPUnit_Framework_TestCase
     {
-        m::close();
+
+        public function tearDown()
+        {
+            m::close();
+        }
+
+        public function testGetsAverageTemperatureFromThreeServiceReadings()
+        {
+            $service = m::mock('service');
+            $service->shouldReceive('readTemp')->times(3)->andReturn(10, 12, 14);
+
+            $temperature = new Temperature($service);
+
+            $this->assertEquals(12, $temperature->average());
+        }
+
     }
 
-    public function testGetsAverageTemperatureFromThreeServiceReadings()
-    {
-        $service = m::mock('service');
-        $service->shouldReceive('readTemp')->times(3)->andReturn(10, 12, 14);
+.. note::
 
-        $temperature = new Temperature($service);
-
-        $this->assertEquals(12, $temperature->average());
-    }
-
-}
-```
+    PHPUnit integration can remove the need for a ``tearDown()`` method. See
+    ":doc:`/reference/phpunit_integration`" for more information.
