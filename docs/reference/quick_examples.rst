@@ -1,125 +1,130 @@
-# Quick Examples
+.. index::
+    single: Reference; Examples
 
-Create a mock object to return a sequence of values from a set of method calls.
+Quick Examples
+==============
 
-```PHP
-class SimpleTest extends PHPUnit_Framework_TestCase
-{
+Create a mock object to return a sequence of values from a set of method
+calls.
 
-    public function tearDown()
+.. code-block:: php
+
+    class SimpleTest extends PHPUnit_Framework_TestCase
     {
-        \Mockery::close();
+
+        public function tearDown()
+        {
+            \Mockery::close();
+        }
+
+        public function testSimpleMock()
+        {
+            $mock = \Mockery::mock(array('pi' => 3.1416, 'e' => 2.71));
+            $this->assertEquals(3.1416, $mock->pi());
+            $this->assertEquals(2.71, $mock->e());
+        }
+
     }
 
-    public function testSimpleMock()
+Create a mock object which returns a self-chaining Undefined object for a
+method call.
+
+.. code-block:: php
+
+    use \Mockery as m;
+
+    class UndefinedTest extends PHPUnit_Framework_TestCase
     {
-        $mock = \Mockery::mock(array('pi' => 3.1416, 'e' => 2.71));
-        $this->assertEquals(3.1416, $mock->pi());
-        $this->assertEquals(2.71, $mock->e());
+
+        public function tearDown()
+        {
+            m::close();
+        }
+
+        public function testUndefinedValues()
+        {
+            $mock = m::mock('mymock');
+            $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
+            $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
+        }
+
     }
 
-}
-```
+Creates a mock object which multiple query calls and a single update call.
 
-Create a mock object which returns a self-chaining Undefined object for a method
-call.
+.. code-block:: php
 
-```PHP
-use \Mockery as m;
+    use \Mockery as m;
 
-class UndefinedTest extends PHPUnit_Framework_TestCase
-{
-
-    public function tearDown()
+    class DbTest extends PHPUnit_Framework_TestCase
     {
-        m::close();
+
+        public function tearDown()
+        {
+            m::close();
+        }
+
+        public function testDbAdapter()
+        {
+            $mock = m::mock('db');
+            $mock->shouldReceive('query')->andReturn(1, 2, 3);
+            $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
+
+            // ... test code here using the mock
+        }
+
     }
-
-    public function testUndefinedValues()
-    {
-        $mock = m::mock('mymock');
-        $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
-        $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
-    }
-
-}
-```
-
-Creates a mock object which multiple query calls and a single update call
-
-```PHP
-use \Mockery as m;
-
-class DbTest extends PHPUnit_Framework_TestCase
-{
-
-    public function tearDown()
-    {
-        m::close();
-    }
-
-    public function testDbAdapter()
-    {
-        $mock = m::mock('db');
-        $mock->shouldReceive('query')->andReturn(1, 2, 3);
-        $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
-
-        // ... test code here using the mock
-    }
-
-}
-```
 
 Expect all queries to be executed before any updates.
 
-```PHP
-use \Mockery as m;
+.. code-block:: php
 
-class DbTest extends PHPUnit_Framework_TestCase
-{
+    use \Mockery as m;
 
-    public function tearDown()
+    class DbTest extends PHPUnit_Framework_TestCase
     {
-        m::close();
+
+        public function tearDown()
+        {
+            m::close();
+        }
+
+        public function testQueryAndUpdateOrder()
+        {
+            $mock = m::mock('db');
+            $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
+            $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
+
+            // ... test code here using the mock
+        }
+
     }
 
-    public function testQueryAndUpdateOrder()
+Create a mock object where all queries occur after startup, but before finish,
+and where queries are expected with several different params.
+
+.. code-block:: php
+
+    use \Mockery as m;
+
+    class DbTest extends PHPUnit_Framework_TestCase
     {
-        $mock = m::mock('db');
-        $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
-        $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
 
-        // ... test code here using the mock
+        public function tearDown()
+        {
+            m::close();
+        }
+
+        public function testOrderedQueries()
+        {
+            $db = m::mock('db');
+            $db->shouldReceive('startup')->once()->ordered();
+            $db->shouldReceive('query')->with('CPWR')->andReturn(12.3)->once()->ordered('queries');
+            $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
+            $db->shouldReceive('query')->with("/^....$/")->andReturn(3.3)->atLeast()->once()->ordered('queries');
+            $db->shouldReceive('finish')->once()->ordered();
+
+            // ... test code here using the mock
+        }
+
     }
-
-}
-```
-
-Create a mock object where all queries occur after startup, but before finish, and
-where queries are expected with several different params.
-
-```PHP
-use \Mockery as m;
-
-class DbTest extends PHPUnit_Framework_TestCase
-{
-
-    public function tearDown()
-    {
-        m::close();
-    }
-
-    public function testOrderedQueries()
-    {
-        $db = m::mock('db');
-        $db->shouldReceive('startup')->once()->ordered();
-        $db->shouldReceive('query')->with('CPWR')->andReturn(12.3)->once()->ordered('queries');
-        $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
-        $db->shouldReceive('query')->with("/^....$/")->andReturn(3.3)->atLeast()->once()->ordered('queries');
-        $db->shouldReceive('finish')->once()->ordered();
-
-        // ... test code here using the mock
-    }
-
-}
-```
