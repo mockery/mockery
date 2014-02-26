@@ -33,6 +33,7 @@ that would help others.
 * Optionally, but preferably, write some documentation (currently in README.md)
 * Optionally, update the CHANGELOG.md file with your feature or
   [BC](http://en.wikipedia.org/wiki/Backward_compatibility) break
+* If you have created new library files, add them to the root package.xml file for PEAR install support.
 * Send a [Pull
   Request](https://help.github.com/articles/creating-a-pull-request) to the
   correct target branch (see below)
