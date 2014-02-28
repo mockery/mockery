@@ -1072,6 +1072,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $mock = $this->container->mock('DateTime');
     }
+
+    /**
+     * @group issue/154
+     */
+    public function testCanMockMethodsWithRequiredParamsThatHaveDefaultValues()
+    {
+        $mock = $this->container->mock('MockeryTest_MethodWithRequiredParamWithDefaultValue');
+        $mock->shouldIgnoreMissing();
+        $mock->foo(null, 123);
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1329,6 +1339,10 @@ class MockeryTest_PartialStatic {
     {
         return $b;
     }
+}
+
+class MockeryTest_MethodWithRequiredParamWithDefaultValue {
+    public function foo(\DateTime $bar = null, $baz) {}
 }
 
 interface MockeryTest_InterfaceThatExtendsIterator extends \Iterator {
