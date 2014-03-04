@@ -10,7 +10,7 @@ Reference
     partial_mocks
     public_properties
     public_static_properties
-    pass_by_reference_behaviour
+    pass_by_reference_behaviours
     demeter_chains
     object_recording
     final_methods_classes

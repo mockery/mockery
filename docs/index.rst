@@ -30,6 +30,11 @@ Getting Started
 Ready to dive into the Mockery framework? Then you can get started by reading
 the "Getting Started" section!
 
+.. toctree::
+    :hidden:
+
+    getting_started/index
+
 .. include:: getting_started/map.rst.inc
 
 Reference
@@ -38,6 +43,11 @@ Reference
 The reference contains a complete overview of all features of the Mockery
 framework.
 
+.. toctree::
+    :hidden:
+
+    reference/index
+
 .. include:: reference/map.rst.inc
 
 Cookbook
@@ -45,4 +55,10 @@ Cookbook
 
 Want to learn some easy tips and tricks? Take a look at the cookbook articles!
 
+.. toctree::
+    :hidden:
+
+    cookbook/index
+
 .. include:: cookbook/map.rst.inc
+
