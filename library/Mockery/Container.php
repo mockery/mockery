@@ -206,6 +206,14 @@ class Container
         $this->getLoader()->load($def);
 
         $mock = $this->_getInstance($def->getClassName(), $constructorArgs);
+
+        if (! method_exists($mock, 'mockery_init')) {
+            throw new \Mockery\Exception(
+                'You cannot mock a class that has already been loaded: '
+                . $def->getClassName()
+            );
+        }
+
         $mock->mockery_init($this, $config->getTargetObject());
 
         if (!empty($quickdefs)) {
