@@ -204,7 +204,9 @@ class Container
 
         $def = $this->getGenerator()->generate($config);
 
-        if (class_exists($def->getClassName()) && !is_subclass_of($def->getClassName(), "Mockery\MockInterface")) {
+        if (class_exists($def->getClassName(), $attemptAutoload = false) 
+            && !is_subclass_of($def->getClassName(), "Mockery\MockInterface")) {
+
             throw new \Mockery\Exception\RuntimeException("Could not load mock {$def->getClassName()}, class already exists");
         }
 
