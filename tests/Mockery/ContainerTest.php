@@ -19,6 +19,8 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+use Mockery\Generator\MockConfigurationBuilder;
+
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
 
@@ -1071,6 +1073,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testWakeupMagicIsNotMockedToAllowSerialisationInstanceHack()
     {
         $mock = $this->container->mock('DateTime');
+    }
+
+    /** 
+     * @test 
+     * @group issue/294
+     * @expectedException Mockery\Exception\RuntimeException
+     * @expectedExceptionMessage Could not load mock DateTime, class already exists
+     */
+    public function testThrowsWhenNamedMockClassExistsAndIsNotMockery()
+    {
+        $builder = new MockConfigurationBuilder();
+        $builder->setName("DateTime");
+        $mock = $this->container->mock($builder);
     }
 }
 
