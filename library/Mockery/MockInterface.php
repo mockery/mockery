@@ -39,6 +39,12 @@ interface MockInterface
      * @return \Mockery\Expectation
      */
     public function shouldReceive();
+    
+    /**
+     * Allows additional methods to be mocked that do not explicitly exist on mocked class
+     * @param String $method name of the method to be mocked
+     */
+    public function shouldAllowMockingMethod($method);
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
