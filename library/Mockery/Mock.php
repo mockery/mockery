@@ -205,6 +205,15 @@ class Mock implements MockInterface
         );
         return $lastExpectation;
     }
+   
+    /**
+     * Allows additional methods to be mocked that do not explicitly exist on mocked class
+     * @param String $method name of the method to be mocked
+     */
+    public function shouldAllowMockingMethod($method) 
+    {
+        $this->_mockery_mockableMethods[] = $method;
+    } 
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
