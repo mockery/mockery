@@ -1770,6 +1770,12 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
 
         $this->container->mockery_verify();
     }
+
+    public function testCanReturnSelf()
+    {
+        $this->mock->shouldReceive("foo")->andReturnSelf();
+        $this->assertSame($this->mock, $this->mock->foo());
+    }
 }
 
 class MockeryTest_SubjectCall1 {
