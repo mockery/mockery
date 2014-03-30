@@ -370,6 +370,16 @@ class Expectation
     }
 
     /**
+     * Return this mock, like a fluent interface
+     *
+     * @return self
+     */
+    public function andReturnSelf()
+    {
+        return $this->andReturn($this->_mock);
+    }
+
+    /**
      * Set a sequential queue of return values with an array
      *
      * @return self
