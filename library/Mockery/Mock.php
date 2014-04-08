@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -135,7 +135,7 @@ class Mock implements MockInterface
      *
      * @var ReflectionMethod[]
      */
-    static protected $_mockery_methods;
+    protected static $_mockery_methods;
 
     protected $_mockery_allowMockingProtectedMethods = false;
 
@@ -182,7 +182,7 @@ class Mock implements MockInterface
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, func_get_args(), function($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
+            $this, func_get_args(), function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {
@@ -205,6 +205,15 @@ class Mock implements MockInterface
         );
         return $lastExpectation;
     }
+   
+    /**
+     * Allows additional methods to be mocked that do not explicitly exist on mocked class
+     * @param String $method name of the method to be mocked
+     */
+    public function shouldAllowMockingMethod($method) 
+    {
+        $this->_mockery_mockableMethods[] = $method;
+    } 
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
@@ -330,6 +339,11 @@ class Mock implements MockInterface
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
+        } elseif ($method == '__toString') {
+            // __toString is special because we force its addition to the class API regardless of the 
+            // original implementation.  Thus, we should always return a string rather than honor 
+            // _mockery_ignoreMissing and break the API with an error.
+            return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
             if ($this->_mockery_ignoreMissingAsUndefined === true) {
                 $undef = new \Mockery\Undefined;

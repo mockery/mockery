@@ -3,11 +3,6 @@
 namespace Mockery\Generator;
 
 use  Mockery\Generator\StringManipulation\Pass\Pass;
-use  Mockery\Generator\StringManipulation\Pass\ClassNamePass;
-use  Mockery\Generator\StringManipulation\Pass\InterfacePass;
-use  Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
-use  Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
-use  Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 
 class StringManipulationGenerator implements Generator
 {

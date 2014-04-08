@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -262,12 +262,14 @@ class Expectation
         if(count($args) !== count($this->_expectedArgs)) {
             return false;
         }
-        for ($i=0; $i<count($args); $i++) {
+        $argCount = count($args);
+        for ($i=0; $i<$argCount; $i++) {
             $param =& $args[$i];
             if (!$this->_matchArg($this->_expectedArgs[$i], $param)) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -314,8 +316,7 @@ class Expectation
      */
     public function with()
     {
-        $this->_expectedArgs = func_get_args();
-        return $this;
+        return $this->withArgs(func_get_args());
     }
 
     /**
@@ -326,7 +327,11 @@ class Expectation
      */
     public function withArgs(array $args)
     {
+        if (empty($args)) {
+            return $this->withNoArgs();
+        }
         $this->_expectedArgs = $args;
+        $this->_noArgsExpectation = false;
         return $this;
     }
 
@@ -338,7 +343,8 @@ class Expectation
     public function withNoArgs()
     {
         $this->_noArgsExpectation = true;
-        return $this->with();
+        $this->_expectedArgs = null;
+        return $this;
     }
 
     /**
@@ -361,6 +367,16 @@ class Expectation
     {
         $this->_returnQueue = func_get_args();
         return $this;
+    }
+
+    /**
+     * Return this mock, like a fluent interface
+     *
+     * @return self
+     */
+    public function andReturnSelf()
+    {
+        return $this->andReturn($this->_mock);
     }
 
     /**

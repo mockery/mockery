@@ -114,7 +114,7 @@ class MockConfiguration
          */
         if (count($this->getWhiteListedMethods())) {
             $whitelist = array_map('strtolower', $this->getWhiteListedMethods());
-            $methods = array_filter($methods, function($method) use ($whitelist) {
+            $methods = array_filter($methods, function ($method) use ($whitelist) {
                 return $method->isAbstract() || in_array(strtolower($method->getName()), $whitelist);
             });
 
@@ -299,10 +299,10 @@ class MockConfiguration
                 if (preg_match("/^\\\\?IteratorAggregate$/i", $interface)) {
                     $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
                     $iteratorShiftedToFront = true;
-                } else if (preg_match("/^\\\\?Iterator$/i", $interface)) {
+                } elseif (preg_match("/^\\\\?Iterator$/i", $interface)) {
                     $this->targetInterfaces[] = DefinedTargetClass::factory("\\Iterator");
                     $iteratorShiftedToFront = true;
-                } else if (preg_match("/^\\\\?Traversable$/i", $interface)) {
+                } elseif (preg_match("/^\\\\?Traversable$/i", $interface)) {
                     $traversableFound = true;
                 }
             }
@@ -349,7 +349,7 @@ class MockConfiguration
         }
 
         if ($this->getTargetInterfaces()) {
-            $name .= array_reduce($this->getTargetInterfaces(), function($tmpname, $i) {
+            $name .= array_reduce($this->getTargetInterfaces(), function ($tmpname, $i) {
                 $tmpname .= '_' . str_replace("\\", "_", $i->getName());
                 return $tmpname;
             }, '');
@@ -367,7 +367,7 @@ class MockConfiguration
     public function getNamespaceName()
     {
         $parts = explode("\\", $this->getName());
-        $shortName = array_pop($parts);
+        array_pop($parts);
 
         if (count($parts)) {
             return implode("\\", $parts);

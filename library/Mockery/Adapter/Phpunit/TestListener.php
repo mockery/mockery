@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -32,8 +32,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
-        try
-        {
+        try {
             $container = \Mockery::getContainer();
             if ($container != null) {
                 $expectation_count = $container->mockery_getExpectationCount();
@@ -49,8 +48,8 @@ class TestListener implements \PHPUnit_Framework_TestListener
     /**
      * Add Mockery files to PHPUnit's blacklist so they don't showup on coverage reports
      */
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite) {
-
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    {
         if (class_exists('\\PHP_CodeCoverage_Filter')
         && method_exists('\\PHP_CodeCoverage_Filter', 'getInstance')) {
             \PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
