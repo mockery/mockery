@@ -53,13 +53,10 @@ class MethodDefinitionPass implements Pass
             $paramDef .= $param->isPassedByReference() ? '&' : '';
             $paramDef .= '$' . $param->getName();
 
-            if ($param->isOptional()) {
-                if ($param->isDefaultValueAvailable()) {
-                    $default = var_export($param->getDefaultValue(), true);
-                } else {
-                    $default = 'null';
-                }
-                $paramDef .= ' = ' . $default;
+            if (false !== $param->isDefaultValueAvailable()) {
+                $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
+            } else if ($param->isOptional()) {
+                $paramDef .= ' = null';
             }
 
             $methodParams[] = $paramDef;
