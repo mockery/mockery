@@ -1505,6 +1505,18 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $string = "Mock: {$this->mock}";
     }
 
+    public function testShouldIgnoreMissingDefaultReturnValue() {
+        $this->mock->shouldIgnoreMissing(1);
+        $this->assertEquals(1,$this->mock->a());
+    }
+
+    /** @issue #253 */
+    public function testShouldIgnoreMissingDefaultSelfAndReturnsSelf() 
+    {
+        $this->mock->shouldIgnoreMissing($this->container->self());
+        $this->assertSame($this->mock, $this->mock->a()->b());
+    }
+
     public function testToStringMagicMethodCanBeMocked()
     {
         $this->mock->shouldReceive("__toString")->andReturn('dave');

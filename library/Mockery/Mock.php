@@ -47,8 +47,6 @@ class Mock implements MockInterface
      */
     protected $_mockery_ignoreMissing = false;
 
-    protected $_mockery_ignoreMissingAsUndefined = false;
-
     /**
      * Flag to indicate whether we can defer method calls missing from our
      * expectations
@@ -140,6 +138,12 @@ class Mock implements MockInterface
     protected $_mockery_allowMockingProtectedMethods = false;
 
     /**
+     * If shouldIgnoreMissing is called, this value will be returned on all calls to missing methods
+     * @var mixed
+     */
+    protected $_mockery_defaultReturnValue = null;
+
+    /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
      *
@@ -217,18 +221,20 @@ class Mock implements MockInterface
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     *
+     * @param mixed $returnValue the default return value for calls to missing functions on this mock 
      * @return Mock
      */
-    public function shouldIgnoreMissing()
+    public function shouldIgnoreMissing($returnValue = null)
     {
         $this->_mockery_ignoreMissing = true;
+        $this->_mockery_defaultReturnValue = $returnValue;
         return $this;
     }
 
     public function asUndefined()
     {
-        $this->_mockery_ignoreMissingAsUndefined = true;
+        $this->_mockery_ignoreMissing = true;
+        $this->_mockery_defaultReturnValue = new \Mockery\Undefined;
         return $this;
     }
 
@@ -345,12 +351,10 @@ class Mock implements MockInterface
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
-            if ($this->_mockery_ignoreMissingAsUndefined === true) {
-                $undef = new \Mockery\Undefined;
-                return call_user_func_array(array($undef, $method), $args);
-            } else {
-                return null;
-            }
+            if($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined)
+              return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
+            else 
+              return $this->_mockery_defaultReturnValue;
         }
         throw new \BadMethodCallException(
             'Method ' . __CLASS__ . '::' . $method . '() does not exist on this mock object'

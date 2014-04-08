@@ -48,10 +48,10 @@ interface MockInterface
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     *
+     * @param mixed $returnValue the default return value for calls to missing functions on this mock 
      * @return Mock
      */
-    public function shouldIgnoreMissing();
+    public function shouldIgnoreMissing($returnValue = null);
 
     /**
      * Set mock to defer unexpected methods to it's parent if possible
