@@ -339,6 +339,11 @@ class Mock implements MockInterface
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
+        } elseif ($method == '__toString') {
+            // __toString is special because we force its addition to the class API regardless of the 
+            // original implementation.  Thus, we should always return a string rather than honor 
+            // _mockery_ignoreMissing and break the API with an error.
+            return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
             if ($this->_mockery_ignoreMissingAsUndefined === true) {
                 $undef = new \Mockery\Undefined;
