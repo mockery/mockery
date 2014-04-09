@@ -444,6 +444,24 @@ class Expectation
         return $this;
     }
 
+    /*
+     * Set Exception classes to be thrown
+     *
+     * @param array $exceptions
+     * @return self
+     */
+    public function andThrowExceptions(array $exceptions)
+    {
+        $this->_throw = true;
+        foreach ($exceptions as $exception)
+        {
+            if (!is_object($exception)) {
+                throw new Exception('You must pass an array of exception objects to andThrowExceptions');
+            }
+        }
+        return $this->andReturnValues($exceptions);
+    }
+
     /**
      * Set a public property on the mock
      *
