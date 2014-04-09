@@ -429,7 +429,7 @@ class Mockery
         if ($nesting == 0) {
             return array('...');
         }
-        $reflection = new \ReflectionClass($object);
+        $reflection = new \ReflectionClass(get_class($object));
         $properties = array();
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $publicProperty) {
             if ($publicProperty->isStatic()) continue;
