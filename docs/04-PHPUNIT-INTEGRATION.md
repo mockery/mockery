@@ -7,7 +7,7 @@ To integrate Mockery, you just need to define a `tearDown()` method for your
 tests containing the following (you may use a shorter `\Mockery` namespace alias):
 
 ```PHP
-public function tearDown() {
+protected function tearDown() {
     \Mockery::close();
 }
 ```
@@ -30,7 +30,7 @@ class SimpleTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $mock->foo(5));
     }
 
-    public function tearDown() {
+    protected function tearDown() {
         m::close();
     }
 }
