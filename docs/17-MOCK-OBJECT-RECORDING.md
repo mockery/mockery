@@ -44,7 +44,7 @@ Here's the test case showing the recording:
 class SubjectUserTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         \Mockery::close();
     }

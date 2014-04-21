@@ -224,7 +224,7 @@ byDefault()
 Marks an expectation as a default. Default expectations are applied unless
 a non-default expectation is created. These later expectations immediately
 replace the previously defined default. This is useful so you can setup default
-mocks in your unit test `setup()` and later tweak them in specific tests as
+mocks in your unit test `setUp()` and later tweak them in specific tests as
 needed.
 
 ```PHP
