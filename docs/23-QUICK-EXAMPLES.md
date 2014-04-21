@@ -7,7 +7,7 @@ Create a mock object to return a sequence of values from a set of method calls.
 class SimpleTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         \Mockery::close();
     }
@@ -31,7 +31,7 @@ use \Mockery as m;
 class UndefinedTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
@@ -54,7 +54,7 @@ use \Mockery as m;
 class DbTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
@@ -79,7 +79,7 @@ use \Mockery as m;
 class DbTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
@@ -105,7 +105,7 @@ use \Mockery as m;
 class DbTest extends PHPUnit_Framework_TestCase
 {
 
-    public function tearDown()
+    protected function tearDown()
     {
         m::close();
     }
