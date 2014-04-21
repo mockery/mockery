@@ -183,6 +183,53 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->foo();
     }
 
+    public function testAndThrowExceptions()
+    {   
+        $this->mock->shouldReceive('foo')->andThrowExceptions(array(
+            new OutOfBoundsException,
+            new InvalidArgumentException,
+            )
+        );
+        $outOfBoundsExceptionThrown = false;
+        $invalidArgumentExceptionThrown = false;
+        $exceptionsThrown = 0;
+        try {
+           $this->mock->foo();
+        } catch (OutOfBoundsException $e) {
+           $outOfBoundsExceptionThrown = true;
+           $exceptionsThrown++;
+        } catch (InvalidArgumentException $e) {
+           $invalidArgumentExceptionThrown = true;
+           $exceptionsThrown++;
+        }
+        $this->assertTrue($outOfBoundsExceptionThrown);
+        $this->assertFalse($invalidArgumentExceptionThrown);
+        try {
+           $this->mock->foo();
+        } catch (OutOfBoundsException $e) {
+           $outOfBoundsExceptionThrown = true;
+           $exceptionsThrown++;
+        } catch (InvalidArgumentException $e) {
+            $invalidArgumentExceptionThrown = true;
+            $exceptionsThrown++;
+        }
+        $this->assertTrue($invalidArgumentExceptionThrown);
+        $this->assertEquals($exceptionsThrown, 2);
+    }
+
+    public function testAndThrowExceptionsCatchNonExceptionArgument()
+    {   
+        $notAnExceptionErrorThrown = false;
+        try {
+            $this->mock
+                ->shouldReceive('foo')
+                ->andThrowExceptions(array('NotAnException'));
+        } catch (Mockery\Exception $e) {
+            $notAnExceptionErrorThrown = true;
+        }
+        $this->assertTrue($notAnExceptionErrorThrown);
+    }
+
     public function testMultipleExpectationsWithReturns()
     {
         $this->mock->shouldReceive('foo')->with(1)->andReturn(10);
