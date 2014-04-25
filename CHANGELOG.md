@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.9.1 (2014-04-XX)
+
+* Allow specifying consecutive exceptions to be thrown with andReturnExceptions
 
 ## 0.9.0 (2014-02-05)
 
