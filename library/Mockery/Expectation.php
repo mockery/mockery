@@ -444,7 +444,7 @@ class Expectation
         return $this;
     }
 
-    /*
+    /**
      * Set Exception classes to be thrown
      *
      * @param array $exceptions
@@ -453,8 +453,7 @@ class Expectation
     public function andThrowExceptions(array $exceptions)
     {
         $this->_throw = true;
-        foreach ($exceptions as $exception)
-        {
+        foreach ($exceptions as $exception) {
             if (!is_object($exception)) {
                 throw new Exception('You must pass an array of exception objects to andThrowExceptions');
             }
