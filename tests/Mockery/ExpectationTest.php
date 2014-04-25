@@ -188,46 +188,32 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->mock->shouldReceive('foo')->andThrowExceptions(array(
             new OutOfBoundsException,
             new InvalidArgumentException,
-            )
-        );
-        $outOfBoundsExceptionThrown = false;
-        $invalidArgumentExceptionThrown = false;
-        $exceptionsThrown = 0;
+        ));
+
         try {
-           $this->mock->foo();
-        } catch (OutOfBoundsException $e) {
-           $outOfBoundsExceptionThrown = true;
-           $exceptionsThrown++;
-        } catch (InvalidArgumentException $e) {
-           $invalidArgumentExceptionThrown = true;
-           $exceptionsThrown++;
+            $this->mock->foo();
+            throw new Exception("Expected OutOfBoundsException, non thrown");
+        } catch (\Exception $e) {
+            $this->assertInstanceOf("OutOfBoundsException", $e, "Wrong or no exception thrown: {$e->getMessage()}");
         }
-        $this->assertTrue($outOfBoundsExceptionThrown);
-        $this->assertFalse($invalidArgumentExceptionThrown);
+
         try {
-           $this->mock->foo();
-        } catch (OutOfBoundsException $e) {
-           $outOfBoundsExceptionThrown = true;
-           $exceptionsThrown++;
-        } catch (InvalidArgumentException $e) {
-            $invalidArgumentExceptionThrown = true;
-            $exceptionsThrown++;
+            $this->mock->foo();
+            throw new Exception("Expected InvalidArgumentException, non thrown");
+        } catch (\Exception $e) {
+            $this->assertInstanceOf("InvalidArgumentException", $e, "Wrong or no exception thrown: {$e->getMessage()}");
         }
-        $this->assertTrue($invalidArgumentExceptionThrown);
-        $this->assertEquals($exceptionsThrown, 2);
     }
 
+    /**
+     * @expectedException Mockery\Exception
+     * @expectedExceptionMessage You must pass an array of exception objects to andThrowExceptions
+     */
     public function testAndThrowExceptionsCatchNonExceptionArgument()
     {   
-        $notAnExceptionErrorThrown = false;
-        try {
-            $this->mock
-                ->shouldReceive('foo')
-                ->andThrowExceptions(array('NotAnException'));
-        } catch (Mockery\Exception $e) {
-            $notAnExceptionErrorThrown = true;
-        }
-        $this->assertTrue($notAnExceptionErrorThrown);
+        $this->mock
+            ->shouldReceive('foo')
+            ->andThrowExceptions(array('NotAnException'));
     }
 
     public function testMultipleExpectationsWithReturns()
