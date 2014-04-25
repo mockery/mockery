@@ -2,7 +2,13 @@
 
 ## 0.9.1 (2014-04-XX)
 
-* Allow specifying consecutive exceptions to be thrown with andReturnExceptions
+* Allow specifying consecutive exceptions to be thrown with `andReturnExceptions`
+* Allow specifying methods which can be mocked when using 
+  `Mockery\Configuration::allowMockingNonExistentMethods(false)` with
+  `Mockery\MockInterface::shouldAllowMockingMethod($methodName)`
+* Added andReturnSelf method: `$mock->shouldReceive("foo")->andReturnSelf()`
+* `shouldIgnoreMissing` now takes an optional value that will be return instead
+  of null, e.g. `$mock->shouldIgnoreMissing($mock)`
 
 ## 0.9.0 (2014-02-05)
 
