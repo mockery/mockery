@@ -2,7 +2,7 @@
 
 ## 0.9.1 (2014-04-XX)
 
-* Allow specifying consecutive exceptions to be thrown with `andReturnExceptions`
+* Allow specifying consecutive exceptions to be thrown with `andThrowExceptions`
 * Allow specifying methods which can be mocked when using 
   `Mockery\Configuration::allowMockingNonExistentMethods(false)` with
   `Mockery\MockInterface::shouldAllowMockingMethod($methodName)`
