@@ -16,11 +16,11 @@
     <email>dave.marshall@atstsolutions.co.uk</email>
     <active>yes</active>
   </lead>
-  <date>2014-02-05</date>
-  <time>21:23:00</time>
+  <date>2014-04-29</date>
+  <time>20:26:00</time>
   <version>
-    <release>0.9.0</release>
-    <api>0.9.0</api>
+    <release>0.9.1</release>
+    <api>0.9.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -49,6 +49,7 @@
             <file name="Exception.php" role="php"/>
           </dir>
           <dir name="Exception">
+            <file name="RuntimeException.php" role="php"/>
             <file name="InvalidCountException.php" role="php"/>
             <file name="InvalidOrderException.php" role="php"/>
             <file name="NoMatchingExpectationException.php" role="php"/>
@@ -139,6 +140,7 @@
       <install name="library/Mockery/CountValidator/Exact.php" as="Mockery/CountValidator/Exact.php"/>
       <install name="library/Mockery/CountValidator/Exception.php" as="Mockery/CountValidator/Exception.php"/>
       <install name="library/Mockery/Exception.php" as="Mockery/Exception.php"/>
+      <install name="library/Mockery/Exception/RuntimeException.php" as="Mockery/Exception/RuntimeException.php"/>
       <install name="library/Mockery/Exception/InvalidCountException.php" as="Mockery/Exception/InvalidCountException.php"/>
       <install name="library/Mockery/Exception/InvalidOrderException.php" as="Mockery/Exception/InvalidOrderException.php"/>
       <install name="library/Mockery/Exception/NoMatchingExpectationException.php" as="Mockery/Exception/NoMatchingExpectationException.php"/>
