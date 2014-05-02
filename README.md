@@ -43,6 +43,10 @@ matchers used when defining expected method arguments.
 
 ## Documentation
 
+**Note:** We're transitioning the documentation to readthedocs.org, current
+version can be seen at [docs.mockery.io](http://docs.mockery.io), feedback
+welcome. The old docs will also remain here for the time being.
+
 - [Installation](docs/01-INSTALLATION.md)
 - [Upgrading](docs/02-UPGRADING.md)
 - [Simple Example](docs/03-SIMPLE-EXAMPLE.md)
