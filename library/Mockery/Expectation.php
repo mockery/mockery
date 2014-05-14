@@ -288,7 +288,18 @@ class Expectation
             return true;
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
-            $result = @preg_match($expected, (string) $actual);
+            set_error_handler(function($level, $message, $file, $line) {
+                throw new \ErrorException($message, 0, $level, $file, $line);
+            });
+
+            try {
+                $result = preg_match($expected, (string) $actual);
+            } catch (\Exception $e) {
+                $result = false;
+            }
+
+            restore_error_handler();
+
             if($result) {
                 return true;
             }
