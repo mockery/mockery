@@ -59,8 +59,13 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mockery\MockInterface', $m->shouldAllowMockingMethod('testFunction'));
     }
 
+    public function testShouldAllowMockingProtectedMethodReturnsMockInstance()
+    {
+        $m = Mockery::mock('someClass');
+        $this->assertInstanceOf('Mockery\MockInterface', $m->shouldAllowMockingProtectedMethods('testFunction'));
+    }
 
-    public function testMockAddsToString() 
+    public function testMockAddsToString()
     {
         $mock = $this->container->mock('ClassWithNoToString');
         assertThat(hasToString($mock));
