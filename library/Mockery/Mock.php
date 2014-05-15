@@ -213,7 +213,7 @@ class Mock implements MockInterface
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
      * @param String $method name of the method to be mocked
-     * @return $this
+     * @return Mock
      */
     public function shouldAllowMockingMethod($method) 
     {
@@ -241,7 +241,7 @@ class Mock implements MockInterface
     }
 
     /**
-     * @return $this
+     * @return Mock
      */
     public function shouldAllowMockingProtectedMethods()
     {
