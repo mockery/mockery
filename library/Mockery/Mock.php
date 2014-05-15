@@ -240,6 +240,9 @@ class Mock implements MockInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function shouldAllowMockingProtectedMethods()
     {
         $this->_mockery_allowMockingProtectedMethods = true;

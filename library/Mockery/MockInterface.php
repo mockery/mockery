@@ -54,6 +54,11 @@ interface MockInterface
     public function shouldIgnoreMissing($returnValue = null);
 
     /**
+     * @return Mock
+     */
+    public function shouldAllowMockingProtectedMethods();
+
+    /**
      * Set mock to defer unexpected methods to it's parent if possible
      *
      * @return Mock
