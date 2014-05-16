@@ -288,7 +288,11 @@ class Expectation
             return true;
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
-            $result = @preg_match($expected, (string) $actual);
+            # push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
+            set_error_handler(function() {});
+            $result = preg_match($expected, (string) $actual);
+            restore_error_handler();
+
             if($result) {
                 return true;
             }
