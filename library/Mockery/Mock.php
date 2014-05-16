@@ -209,14 +209,16 @@ class Mock implements MockInterface
         );
         return $lastExpectation;
     }
-   
+
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
      * @param String $method name of the method to be mocked
+     * @return Mock
      */
     public function shouldAllowMockingMethod($method) 
     {
         $this->_mockery_mockableMethods[] = $method;
+        return $this;
     } 
 
     /**
@@ -238,6 +240,9 @@ class Mock implements MockInterface
         return $this;
     }
 
+    /**
+     * @return Mock
+     */
     public function shouldAllowMockingProtectedMethods()
     {
         $this->_mockery_allowMockingProtectedMethods = true;

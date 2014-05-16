@@ -43,7 +43,7 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
-    public function testMockWithNotAllowingMockingOfNonExistantMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
+    public function testMockWithNotAllowingMockingOfNonExistentMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
     {
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = $this->container->mock('ExampleClassForTestingNonExistentMethod');
@@ -53,7 +53,19 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
-    public function testMockAddsToString() 
+    public function testShouldAllowMockingMethodReturnsMockInstance()
+    {
+        $m = Mockery::mock('someClass');
+        $this->assertInstanceOf('Mockery\MockInterface', $m->shouldAllowMockingMethod('testFunction'));
+    }
+
+    public function testShouldAllowMockingProtectedMethodReturnsMockInstance()
+    {
+        $m = Mockery::mock('someClass');
+        $this->assertInstanceOf('Mockery\MockInterface', $m->shouldAllowMockingProtectedMethods('testFunction'));
+    }
+
+    public function testMockAddsToString()
     {
         $mock = $this->container->mock('ClassWithNoToString');
         assertThat(hasToString($mock));
