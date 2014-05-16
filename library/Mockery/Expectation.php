@@ -288,16 +288,9 @@ class Expectation
             return true;
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
-            set_error_handler(function($level, $message, $file, $line) {
-                throw new \ErrorException($message, 0, $level, $file, $line);
-            });
-
-            try {
-                $result = preg_match($expected, (string) $actual);
-            } catch (\Exception $e) {
-                $result = false;
-            }
-
+            # push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
+            set_error_handler(function() {});
+            $result = preg_match($expected, (string) $actual);
             restore_error_handler();
 
             if($result) {
