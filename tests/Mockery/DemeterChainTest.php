@@ -44,7 +44,6 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
             ->andReturn('something');
 
         $mock->shouldReceive('getElement->getType')
-            ->once()
             ->andReturn('somethingElse');
 
         $mock->getElement()->getType();
