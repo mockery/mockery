@@ -176,12 +176,8 @@ class Mock implements MockInterface
      */
     public function shouldReceive()
     {
-        $nonPublicMethods = array_map(
-            function ($method) { return $method->getName(); },
-            array_filter($this->mockery_getMethods(), function ($method) {
-                return !$method->isPublic();
-            })
-        );
+        /** @var array $nonPublicMethods */
+        $nonPublicMethods = $this->getNonPublicMethods();
 
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
@@ -678,6 +674,21 @@ class Mock implements MockInterface
         }
 
         return static::$_mockery_methods = $methods;
+    }
+
+    /**
+     * @return array
+     */
+    private function getNonPublicMethods()
+    {
+        return array_map(
+            function ($method) {
+                return $method->getName();
+            },
+            array_filter($this->mockery_getMethods(), function ($method) {
+                return !$method->isPublic();
+            })
+        );
     }
 
 }
