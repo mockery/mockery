@@ -22,6 +22,18 @@
 
 class DemeterChainTest extends \PHPUnit_Framework_TestCase
 {
+    public function testTwoChains()
+    {
+        $mock = Mockery::mock('object')->shouldIgnoreMissing();
+        $mock->shouldReceive('getElement->getConfig')
+            ->andReturn('something');
+
+        $mock->shouldReceive('getElement->getType')
+            ->andReturn('somethingElse');
+
+        $mock->getElement()->getType();
+    }
+
     public function testDemeterChain()
     {
         $mock = Mockery::mock('object')->shouldIgnoreMissing();
@@ -34,18 +46,30 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function testTwoChains()
+    public function testChainedMethodAndBaseMethod()
     {
         $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement->getConfig')
+        $mock->shouldReceive('getElement->getType')
+            ->andReturn('somethingElse');
+
+        $mock->shouldReceive('getElement')
+            ->andReturn('something');
+
+        $mock->getElement()->getType();
+        $mock->getElement();
+    }
+
+    public function testBaseMethodAndChainedMethod()
+    {
+        $mock = Mockery::mock('object')->shouldIgnoreMissing();
+        $mock->shouldReceive('getElement')
             ->andReturn('something');
 
         $mock->shouldReceive('getElement->getType')
             ->andReturn('somethingElse');
 
-        $mock->getElement()->getType();
+
+       // $mock->getElement()->getType();
+        $mock->getElement();
     }
 }

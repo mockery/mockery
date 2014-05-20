@@ -33,7 +33,7 @@ class Container
      *
      * @var array
      */
-    protected $_mocks = array();
+    public $_mocks = array();
 
     /**
      * Order number of allocation

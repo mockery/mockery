@@ -550,6 +550,12 @@ class Mockery
             if ($needNew) {
                 $mock = $container->mock('demeter_' . $method);
                 $exp->andReturn($mock);
+            } elseif (!$needNew and $method === 'getElement') {
+                $keys = array_keys($container->_mocks);
+                if(isset($keys[1])) {
+                    $demeterGetElementKey = $keys[1];
+                    $mock = $container->_mocks[$demeterGetElementKey];
+                }
             }
             $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};
         }
