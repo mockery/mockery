@@ -484,8 +484,9 @@ class Mockery
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
      *
-     * @param \Mockery\MockInterface
+     * @param Mockery\MockInterface $mock
      * @param array $args
+     * @param callable $add
      * @return \Mockery\CompositeExpectation
      */
     public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
@@ -512,6 +513,7 @@ class Mockery
      * @param \Mockery\MockInterface $mock
      * @param string $arg
      * @param Closure $add
+     * @throws Mockery\Exception
      * @return \Mockery\ExpectationDirector
      */
     protected static function _buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
@@ -529,7 +531,9 @@ class Mockery
             );
         }
         $exp = null;
-        $nextExp = function ($n) use ($add) {return $add($n);};
+
+        /** @var Callable $nextExp */
+        $nextExp = function ($method) use ($add) {return $add($method);};
         while (true) {
             $method = array_shift($names);
             $exp = $mock->mockery_getExpectationsFor($method);
@@ -537,8 +541,12 @@ class Mockery
             if (is_null($exp) || empty($names)) {
                 $needNew = true;
             }
-            if ($needNew) $exp = $nextExp($method);
-            if (empty($names)) break;
+            if ($needNew) {
+                $exp = $nextExp($method);
+            }
+            if (empty($names)) {
+                break;
+            }
             if ($needNew) {
                 $mock = $container->mock('demeter_' . $method);
                 $exp->andReturn($mock);
