@@ -248,9 +248,10 @@ class Container
     public function getKeyOfDemeterMockFor($method)
     {
         $keys = array_keys($this->_mocks);
-        if(isset($keys[1])) {
-            $demeterGetElementKey = $keys[1];
-            return $demeterGetElementKey;
+        $match = preg_grep("/__demeter_{$method}$/", $keys);
+        if (count($match) == 1 ) {
+            $res = array_values($match)[0];
+            return $res;
         }
         return null;
     }
