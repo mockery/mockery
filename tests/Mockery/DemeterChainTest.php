@@ -25,37 +25,55 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
     public function testTwoChains()
     {
         $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement->getConfig')
+        $mock->shouldReceive('getElement->getFirst')
+            ->once()
             ->andReturn('something');
 
-        $mock->shouldReceive('getElement->getType')
+        $mock->shouldReceive('getElement->getSecond')
+            ->once()
             ->andReturn('somethingElse');
 
-        $mock->getElement()->getType();
+        $mock->getElement()->getFirst();
+        $mock->getElement()->getSecond();
+    }
+
+    public function testTwoNotRelatedChains()
+    {
+        $mock = Mockery::mock('object')->shouldIgnoreMissing();
+        $mock->shouldReceive('getElement->getFirst')
+            ->once()
+            ->andReturn('something');
+
+        $mock->shouldReceive('getOtherElement->getSecond')
+            ->once()
+            ->andReturn('somethingElse');
+
+        $mock->getElement()->getFirst();
+        $mock->getOtherElement()->getSecond();
     }
 
     public function testDemeterChain()
     {
         $mock = Mockery::mock('object')->shouldIgnoreMissing();
 
-        $mock->shouldReceive('getElement->getType')
+        $mock->shouldReceive('getElement->getFirst')
             ->once()
             ->andReturn('somethingElse');
 
-        $this->assertEquals('somethingElse', $mock->getElement()->getType());
+        $this->assertEquals('somethingElse', $mock->getElement()->getFirst());
 
     }
 
     public function testChainedMethodAndBaseMethod()
     {
         $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement->getType')
+        $mock->shouldReceive('getElement->getFirst')
             ->andReturn('somethingElse');
 
         $mock->shouldReceive('getElement')
             ->andReturn('something');
 
-        $mock->getElement()->getType();
+        $mock->getElement()->getFirst();
         $mock->getElement();
     }
 
@@ -65,11 +83,11 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
         $mock->shouldReceive('getElement')
             ->andReturn('something');
 
-        $mock->shouldReceive('getElement->getType')
+        $mock->shouldReceive('getElement->getFirst')
             ->andReturn('somethingElse');
 
 
-       // $mock->getElement()->getType();
+       // $mock->getElement()->getFirst();
         $mock->getElement();
     }
 }

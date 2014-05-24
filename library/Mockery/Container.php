@@ -242,6 +242,20 @@ class Container
     }
 
     /**
+     * @param string $method
+     * @return string
+     */
+    public function getKeyOfDemeterMockFor($method)
+    {
+        $keys = array_keys($this->_mocks);
+        if(isset($keys[1])) {
+            $demeterGetElementKey = $keys[1];
+            return $demeterGetElementKey;
+        }
+        return null;
+    }
+
+    /**
      *  Tear down tasks for this container
      *
      * @return void

@@ -518,6 +518,7 @@ class Mockery
      */
     protected static function _buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
     {
+        /** @var Mockery\Container $container */
         $container = $mock->mockery_getContainer();
         $names = explode('->', $arg);
         reset($names);
@@ -536,6 +537,7 @@ class Mockery
         $nextExp = function ($method) use ($add) {return $add($method);};
         while (true) {
             $method = array_shift($names);
+            /** @var Mockery\Expectation $exp */
             $exp = $mock->mockery_getExpectationsFor($method);
             $needNew = false;
             if (is_null($exp) || empty($names)) {
@@ -550,11 +552,10 @@ class Mockery
             if ($needNew) {
                 $mock = $container->mock('demeter_' . $method);
                 $exp->andReturn($mock);
-            } elseif (!$needNew and $method === 'getElement') {
-                $keys = array_keys($container->_mocks);
-                if(isset($keys[1])) {
-                    $demeterGetElementKey = $keys[1];
-                    $mock = $container->_mocks[$demeterGetElementKey];
+            } else {
+                $demeterMockKey = $container->getKeyOfDemeterMockFor($method);
+                if ($demeterMockKey) {
+                    $mock = $container->_mocks[$demeterMockKey];
                 }
             }
             $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};

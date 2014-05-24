@@ -584,6 +584,9 @@ class Mock implements MockInterface
         return __CLASS__;
     }
 
+    /**
+     * @return array
+     */
     public function mockery_getMockableProperties()
     {
         return $this->_mockery_mockableProperties;
@@ -620,6 +623,9 @@ class Mock implements MockInterface
         return $this->_mockery_mockableMethods;
     }
 
+    /**
+     * @return bool
+     */
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
