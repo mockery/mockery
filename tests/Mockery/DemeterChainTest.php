@@ -22,72 +22,133 @@
 
 class DemeterChainTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  Mockery\Mock $this->mock */
+    private $mock;
+
+    public function setUp()
+    {
+        $this->mock = $this->mock = Mockery::mock('object')->shouldIgnoreMissing();
+    }
+    
+    public function tearDown()
+    {
+        $this->mock->mockery_getContainer()->mockery_close();
+    }
+    
     public function testTwoChains()
     {
-        $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement->getFirst')
+        $this->mock->shouldReceive('getElement->getFirst')
             ->once()
             ->andReturn('something');
 
-        $mock->shouldReceive('getElement->getSecond')
+        $this->mock->shouldReceive('getElement->getSecond')
             ->once()
             ->andReturn('somethingElse');
 
-        $mock->getElement()->getFirst();
-        $mock->getElement()->getSecond();
+        $this->assertEquals(
+            'something',
+            $this->mock->getElement()->getFirst()
+        );
+        $this->assertEquals(
+            'somethingElse',
+            $this->mock->getElement()->getSecond()
+        );
+        $this->mock->mockery_getContainer()->mockery_close();
+    }
+
+    public function testThreeChains()
+    {
+        $this->mock->shouldReceive('getElement->getFirst')
+            ->once()
+            ->andReturn('something');
+
+        $this->mock->shouldReceive('getElement->getSecond')
+            ->once()
+            ->andReturn('somethingElse');
+
+        $this->assertEquals(
+            'something',
+            $this->mock->getElement()->getFirst()
+        );
+        $this->assertEquals(
+            'somethingElse',
+            $this->mock->getElement()->getSecond()
+        );
+        $this->mock->shouldReceive('getElement->getFirst')
+            ->once()
+            ->andReturn('somethingNew');
+        $this->assertEquals(
+            'somethingNew',
+            $this->mock->getElement()->getFirst()
+        );
+    }
+
+    public function testManyChains()
+    {
+        $this->mock->shouldReceive('getElements->getFirst')
+            ->once()
+            ->andReturn('something');
+
+        $this->mock->shouldReceive('getElements->getSecond')
+            ->once()
+            ->andReturn('somethingElse');
+
+        $this->mock->getElements()->getFirst();
+        $this->mock->getElements()->getSecond();
     }
 
     public function testTwoNotRelatedChains()
     {
-        $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement->getFirst')
+        $this->mock->shouldReceive('getElement->getFirst')
             ->once()
             ->andReturn('something');
 
-        $mock->shouldReceive('getOtherElement->getSecond')
+        $this->mock->shouldReceive('getOtherElement->getSecond')
             ->once()
             ->andReturn('somethingElse');
 
-        $mock->getElement()->getFirst();
-        $mock->getOtherElement()->getSecond();
+        $this->assertEquals(
+            'somethingElse',
+            $this->mock->getOtherElement()->getSecond()
+        );
+        $this->assertEquals(
+            'something',
+            $this->mock->getElement()->getFirst()
+        );
     }
 
     public function testDemeterChain()
     {
-        $mock = Mockery::mock('object')->shouldIgnoreMissing();
-
-        $mock->shouldReceive('getElement->getFirst')
+        $this->mock->shouldReceive('getElement->getFirst')
             ->once()
             ->andReturn('somethingElse');
 
-        $this->assertEquals('somethingElse', $mock->getElement()->getFirst());
+        $this->assertEquals('somethingElse', $this->mock->getElement()->getFirst());
 
     }
 
     public function testChainedMethodAndBaseMethod()
     {
-        $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement->getFirst')
+        $this->mock->shouldReceive('getElement->getFirst')
             ->andReturn('somethingElse');
 
-        $mock->shouldReceive('getElement')
+        $this->mock->shouldReceive('getElement')
             ->andReturn('something');
 
-        $mock->getElement()->getFirst();
-        $mock->getElement();
+        $this->mock->getElement()->getFirst();
+        $this->mock->getElement();
     }
 
     public function testBaseMethodAndChainedMethod()
     {
-        $mock = Mockery::mock('object')->shouldIgnoreMissing();
-        $mock->shouldReceive('getElement')
+        $this->mock->shouldReceive('getElement')
             ->andReturn('something');
 
-        $mock->shouldReceive('getElement->getFirst')
+        $this->mock->shouldReceive('getElement->getFirst')
             ->andReturn('somethingElse');
 
 
-       // $mock->getElement()->getFirst();
-        $mock->getElement();
+       // $this->mock->getElement()->getFirst();
+        $this->mock->getElement();
     }
 }
