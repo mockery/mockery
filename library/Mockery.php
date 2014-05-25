@@ -520,46 +520,80 @@ class Mockery
     {
         /** @var Mockery\Container $container */
         $container = $mock->mockery_getContainer();
-        $names = explode('->', $arg);
-        reset($names);
+        $methodNames = explode('->', $arg);
+        reset($methodNames);
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
         && !$mock->mockery_isAnonymous()
-        && !in_array(current($names), $mock->mockery_getMockableMethods())) {
+        && !in_array(current($methodNames), $mock->mockery_getMockableMethods())) {
             throw new \Mockery\Exception(
                 'Mockery\'s configuration currently forbids mocking the method '
-                . current($names) . ' as it does not exist on the class or object '
+                . current($methodNames) . ' as it does not exist on the class or object '
                 . 'being mocked'
             );
         }
+
+        /** @var Mockery\Expectation|null $exp */
         $exp = null;
 
         /** @var Callable $nextExp */
         $nextExp = function ($method) use ($add) {return $add($method);};
         while (true) {
-            $method = array_shift($names);
-            /** @var Mockery\Expectation $exp */
+            $method = array_shift($methodNames);
             $exp = $mock->mockery_getExpectationsFor($method);
-            $needNew = false;
-            if (is_null($exp) || empty($names)) {
-                $needNew = true;
-            }
-            if ($needNew) {
+            if (is_null($exp) || self::noMoreElementsInChain($methodNames)) {
                 $exp = $nextExp($method);
-            }
-            if (empty($names)) {
-                break;
-            }
-            if ($needNew) {
-                $mock = $container->mock('demeter_' . $method);
-                $exp->andReturn($mock);
+                if (self::noMoreElementsInChain($methodNames)) {
+                    break;
+                }
+                $mock = self::getNewDemeterMock($container, $method, $exp);
             } else {
                 $demeterMockKey = $container->getKeyOfDemeterMockFor($method);
                 if ($demeterMockKey) {
-                    $mock = $container->_mocks[$demeterMockKey];
+                    $mock = self::getExistingDemeterMock($container, $demeterMockKey);
                 }
             }
             $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};
         }
         return $exp;
+    }
+
+    /**
+     * @param \Mockery\Container $container
+     * @param string $method
+     * @param Mockery\Expectation $exp
+     * @return \Mockery\Mock
+     */
+    private static function getNewDemeterMock(
+        Mockery\Container $container,
+        $method,
+        Mockery\Expectation $exp
+    )
+    {
+        $mock = $container->mock('demeter_' . $method);
+        $exp->andReturn($mock);
+        return $mock;
+    }
+
+    /**
+     * @param \Mockery\Container $container
+     * @param string $demeterMockKey
+     * @return mixed
+     */
+    private static function getExistingDemeterMock(
+        Mockery\Container $container,
+        $demeterMockKey
+    )
+    {
+        $mock = $container->_mocks[$demeterMockKey];
+        return $mock;
+    }
+
+    /**
+     * @param array $methodNames
+     * @return bool
+     */
+    private static function noMoreElementsInChain(array $methodNames)
+    {
+        return empty($methodNames);
     }
 }
