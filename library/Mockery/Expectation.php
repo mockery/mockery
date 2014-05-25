@@ -20,7 +20,7 @@
 
 namespace Mockery;
 
-class Expectation
+class Expectation implements ExpectationInterface
 {
 
     /**

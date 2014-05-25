@@ -201,6 +201,11 @@ interface MockInterface
     public function mockery_getMockableProperties();
 
     /**
+     * @return string[]
+     */
+    public function mockery_getMockableMethods();
+    
+    /**
      * @return bool
      */
     public function mockery_isAnonymous();

@@ -18,6 +18,7 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+use Mockery\ExpectationInterface;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\StringManipulationGenerator;
@@ -532,7 +533,7 @@ class Mockery
             );
         }
 
-        /** @var Mockery\Expectation|null $exp */
+        /** @var ExpectationInterface|null $exp */
         $exp = null;
 
         /** @var Callable $nextExp */
@@ -560,13 +561,13 @@ class Mockery
     /**
      * @param \Mockery\Container $container
      * @param string $method
-     * @param Mockery\Expectation $exp
+     * @param Mockery\ExpectationInterface $exp
      * @return \Mockery\Mock
      */
     private static function getNewDemeterMock(
         Mockery\Container $container,
         $method,
-        Mockery\Expectation $exp
+        Mockery\ExpectationInterface $exp
     )
     {
         $mock = $container->mock('demeter_' . $method);

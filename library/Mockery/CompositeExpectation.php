@@ -20,7 +20,7 @@
 
 namespace Mockery;
 
-class CompositeExpectation
+class CompositeExpectation implements ExpectationInterface
 {
 
     /**
@@ -39,6 +39,11 @@ class CompositeExpectation
     public function add($expectation)
     {
         $this->_expectations[] = $expectation;
+    }
+
+    public function andReturn()
+    {
+        return $this->__call(__FUNCTION__, func_get_args());
     }
 
     /**

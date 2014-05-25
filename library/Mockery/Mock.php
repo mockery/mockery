@@ -618,6 +618,9 @@ class Mock implements MockInterface
         return call_user_func_array('parent::' . $name, $args);
     }
 
+    /**
+     * @return string[]
+     */
     public function mockery_getMockableMethods()
     {
         return $this->_mockery_mockableMethods;
