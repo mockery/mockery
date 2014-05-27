@@ -138,17 +138,4 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
         $this->mock->getElement()->getFirst();
         $this->mock->getElement();
     }
-
-    public function testBaseMethodAndChainedMethod()
-    {
-        $this->mock->shouldReceive('getElement')
-            ->andReturn('something');
-
-        $this->mock->shouldReceive('getElement->getFirst')
-            ->andReturn('somethingElse');
-
-
-       // $this->mock->getElement()->getFirst();
-        $this->mock->getElement();
-    }
 }
