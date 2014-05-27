@@ -127,15 +127,21 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testChainedMethodAndBaseMethod()
+    public function testMultiLevelDemeterChain()
     {
-        $this->mock->shouldReceive('getElement->getFirst')
-            ->andReturn('somethingElse');
+        $this->mock->shouldReceive('levelOne->levelTwo->getFirst')
+            ->andReturn('first');
 
-        $this->mock->shouldReceive('getElement')
-            ->andReturn('something');
+        $this->mock->shouldReceive('levelOne->levelTwo->getSecond')
+            ->andReturn('second');
 
-        $this->mock->getElement()->getFirst();
-        $this->mock->getElement();
+        $this->assertEquals(
+            'second',
+            $this->mock->levelOne()->levelTwo()->getSecond()
+        );
+        $this->assertEquals(
+            'first',
+            $this->mock->levelOne()->levelTwo()->getFirst()
+        );
     }
 }
