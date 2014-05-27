@@ -513,7 +513,7 @@ class Mockery
      *
      * @param \Mockery\MockInterface $mock
      * @param string $arg
-     * @param Closure $add
+     * @param callable $add
      * @throws Mockery\Exception
      * @return \Mockery\ExpectationDirector
      */
