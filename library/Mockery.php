@@ -585,7 +585,8 @@ class Mockery
         $demeterMockKey
     )
     {
-        $mock = $container->_mocks[$demeterMockKey];
+        $mocks = $container->getMocks();
+        $mock = $mocks[$demeterMockKey];
         return $mock;
     }
 

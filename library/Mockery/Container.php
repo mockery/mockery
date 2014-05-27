@@ -33,7 +33,7 @@ class Container
      *
      * @var array
      */
-    public $_mocks = array();
+    protected $_mocks = array();
 
     /**
      * Order number of allocation
@@ -85,6 +85,8 @@ class Container
      * names or partials - just so long as it's something that can be mocked.
      * I'll refactor it one day so it's easier to follow.
      *
+     * @throws Exception\RuntimeException
+     * @throws Exception
      * @return \Mockery\Mock
      */
     public function mock()
@@ -258,8 +260,17 @@ class Container
     }
 
     /**
+     * @return array
+     */
+    public function getMocks()
+    {
+        return $this->_mocks;
+    }
+
+    /**
      *  Tear down tasks for this container
      *
+     * @throws \Exception
      * @return void
      */
     public function mockery_teardown()
