@@ -34,7 +34,7 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
     {
         $this->mock->mockery_getContainer()->mockery_close();
     }
-    
+
     public function testTwoChains()
     {
         $this->mock->shouldReceive('getElement->getFirst')
@@ -52,6 +52,29 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             'somethingElse',
             $this->mock->getElement()->getSecond()
+        );
+        $this->mock->mockery_getContainer()->mockery_close();
+    }
+
+    public function testTwoChainsWithExpectedParameters()
+    {
+        $this->mock->shouldReceive('getElement->getFirst')
+            ->once()
+            ->with('parameter')
+            ->andReturn('something');
+
+        $this->mock->shouldReceive('getElement->getSecond')
+            ->once()
+            ->with('secondParameter')
+            ->andReturn('somethingElse');
+
+        $this->assertEquals(
+            'something',
+            $this->mock->getElement()->getFirst('parameter')
+        );
+        $this->assertEquals(
+            'somethingElse',
+            $this->mock->getElement()->getSecond('secondParameter')
         );
         $this->mock->mockery_getContainer()->mockery_close();
     }
