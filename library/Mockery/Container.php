@@ -245,7 +245,7 @@ class Container
 
     /**
      * @param string $method
-     * @return string
+     * @return string|null
      */
     public function getKeyOfDemeterMockFor($method)
     {
