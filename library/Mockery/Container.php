@@ -252,9 +252,11 @@ class Container
 
         $keys = array_keys($this->_mocks);
         $match = preg_grep("/__demeter_{$method}$/", $keys);
-        if (count($match) == 1 ) {
-            $res = array_values($match)[0];
-            return $res;
+        if (count($match) == 1) {
+            $res = array_values($match);
+            if (count($res) > 0) {
+                return $res[0];
+            }
         }
         return null;
     }
