@@ -176,15 +176,12 @@ class Mock implements MockInterface
      */
     public function shouldReceive()
     {
-        $nonPublicMethods = array_map(
-            function ($method) { return $method->getName(); },
-            array_filter($this->mockery_getMethods(), function ($method) {
-                return !$method->isPublic();
-            })
-        );
+        /** @var array $nonPublicMethods */
+        $nonPublicMethods = $this->getNonPublicMethods();
 
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
+
         $lastExpectation = \Mockery::parseShouldReturnArgs(
             $this, func_get_args(), function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
@@ -587,6 +584,9 @@ class Mock implements MockInterface
         return __CLASS__;
     }
 
+    /**
+     * @return array
+     */
     public function mockery_getMockableProperties()
     {
         return $this->_mockery_mockableProperties;
@@ -618,11 +618,17 @@ class Mock implements MockInterface
         return call_user_func_array('parent::' . $name, $args);
     }
 
+    /**
+     * @return string[]
+     */
     public function mockery_getMockableMethods()
     {
         return $this->_mockery_mockableMethods;
     }
 
+    /**
+     * @return bool
+     */
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
@@ -678,6 +684,21 @@ class Mock implements MockInterface
         }
 
         return static::$_mockery_methods = $methods;
+    }
+
+    /**
+     * @return array
+     */
+    private function getNonPublicMethods()
+    {
+        return array_map(
+            function ($method) {
+                return $method->getName();
+            },
+            array_filter($this->mockery_getMethods(), function ($method) {
+                return !$method->isPublic();
+            })
+        );
     }
 
 }
