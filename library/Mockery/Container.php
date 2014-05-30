@@ -432,7 +432,19 @@ class Container
             return $r->newInstanceArgs($constructorArgs);
         }
 
-        $return = unserialize(sprintf('O:%d:"%s":0:{}', strlen($mockName), $mockName));
+        $isInternal = false;
+        $child = $r;
+        while (!$isInternal && $parent = $child->getParentClass()) {
+            $isInternal = $parent->isInternal();
+            $child = $parent;
+        }
+
+        if (version_compare(PHP_VERSION, '5.4') < 0 || $isInternal) {
+            $return = unserialize(sprintf('O:%d:"%s":0:{}', strlen($mockName), $mockName));
+        } else {
+            $return = $r->newInstanceWithoutConstructor();
+        }
+
         return $return;
     }
 
