@@ -432,7 +432,7 @@ class Container
             return $r->newInstanceArgs($constructorArgs);
         }
 
-        $isInternal = false;
+        $isInternal = $r->isInternal();
         $child = $r;
         while (!$isInternal && $parent = $child->getParentClass()) {
             $isInternal = $parent->isInternal();
