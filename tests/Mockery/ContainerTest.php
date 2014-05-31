@@ -1111,8 +1111,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock->foo(null, 123);
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      * @group issue/294
      * @expectedException Mockery\Exception\RuntimeException
      * @expectedExceptionMessage Could not load mock DateTime, class already exists
