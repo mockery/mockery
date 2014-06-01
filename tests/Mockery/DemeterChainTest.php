@@ -29,7 +29,7 @@ class DemeterChainTest extends \PHPUnit_Framework_TestCase
     {
         $this->mock = $this->mock = Mockery::mock('object')->shouldIgnoreMissing();
     }
-    
+
     public function tearDown()
     {
         $this->mock->mockery_getContainer()->mockery_close();

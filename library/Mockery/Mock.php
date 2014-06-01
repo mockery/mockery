@@ -212,15 +212,15 @@ class Mock implements MockInterface
      * @param String $method name of the method to be mocked
      * @return Mock
      */
-    public function shouldAllowMockingMethod($method) 
+    public function shouldAllowMockingMethod($method)
     {
         $this->_mockery_mockableMethods[] = $method;
         return $this;
-    } 
+    }
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     * @param mixed $returnValue the default return value for calls to missing functions on this mock 
+     * @param mixed $returnValue the default return value for calls to missing functions on this mock
      * @return Mock
      */
     public function shouldIgnoreMissing($returnValue = null)
@@ -348,14 +348,14 @@ class Mock implements MockInterface
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
         } elseif ($method == '__toString') {
-            // __toString is special because we force its addition to the class API regardless of the 
-            // original implementation.  Thus, we should always return a string rather than honor 
+            // __toString is special because we force its addition to the class API regardless of the
+            // original implementation.  Thus, we should always return a string rather than honor
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
             if($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined)
               return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
-            else 
+            else
               return $this->_mockery_defaultReturnValue;
         }
         throw new \BadMethodCallException(

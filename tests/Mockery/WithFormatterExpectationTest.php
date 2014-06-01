@@ -61,7 +61,7 @@ class WithFormatterExpectationTest extends PHPUnit_Framework_TestCase
     }
 
 }
- 
+
 class ClassWithGetter
 {
     private $dep;
