@@ -31,7 +31,7 @@ We loosely follow the
 [PSR-1](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
 and
 [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standards,
-but we'll probably merge any code that looks close enough. 
+but we'll probably merge any code that looks close enough.
 
 * Fork the [repository](https://github.com/padraic/mockery) on GitHub
 * Add the code for your feature or bug

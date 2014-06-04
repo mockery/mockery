@@ -39,7 +39,7 @@ interface MockInterface
      * @return \Mockery\Expectation
      */
     public function shouldReceive();
-    
+
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
      * @param String $method name of the method to be mocked
@@ -48,7 +48,7 @@ interface MockInterface
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     * @param mixed $returnValue the default return value for calls to missing functions on this mock 
+     * @param mixed $returnValue the default return value for calls to missing functions on this mock
      * @return Mock
      */
     public function shouldIgnoreMissing($returnValue = null);
@@ -195,4 +195,18 @@ interface MockInterface
      */
     public function mockery_getName();
 
+    /**
+     * @return array
+     */
+    public function mockery_getMockableProperties();
+
+    /**
+     * @return string[]
+     */
+    public function mockery_getMockableMethods();
+
+    /**
+     * @return bool
+     */
+    public function mockery_isAnonymous();
 }

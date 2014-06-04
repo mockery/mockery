@@ -24,6 +24,9 @@ use Mockery\Generator\MockConfigurationBuilder;
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
 
+    /** @var  Mockery\Container */
+    private $container;
+
     public function setup ()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), new \Mockery\Loader\EvalLoader());
@@ -40,6 +43,29 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $m->shouldReceive('foo')->andReturn('bar');
         $this->assertEquals('bar', $m->foo());
     }
+
+    public function testGetKeyOfDemeterMockShouldReturnKeyWhenMatchingMock()
+    {
+        $m = $this->container->mock();
+        $m->shouldReceive('foo->bar');
+        $this->assertRegExp(
+            '/Mockery_(\d+)__demeter_foo/',
+            $this->container->getKeyOfDemeterMockFor('foo')
+        );
+    }
+    public function testGetKeyOfDemeterMockShouldReturnNullWhenNoMatchingMock()
+    {
+        $method = 'unknownMethod';
+        $this->assertNull($this->container->getKeyOfDemeterMockFor($method));
+
+        $m = $this->container->mock();
+        $m->shouldReceive('method');
+        $this->assertNull($this->container->getKeyOfDemeterMockFor($method));
+
+        $m->shouldReceive('foo->bar');
+        $this->assertNull($this->container->getKeyOfDemeterMockFor($method));
+    }
+
 
     public function testNamedMocksAddNameToExceptions()
     {
@@ -1085,8 +1111,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock->foo(null, 123);
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      * @group issue/294
      * @expectedException Mockery\Exception\RuntimeException
      * @expectedExceptionMessage Could not load mock DateTime, class already exists

@@ -20,7 +20,7 @@
 
 namespace Mockery;
 
-class Expectation
+class Expectation implements ExpectationInterface
 {
 
     /**
@@ -386,6 +386,7 @@ class Expectation
     /**
      * Set a sequential queue of return values with an array
      *
+     * @param array $values
      * @return self
      */
     public function andReturnValues(array $values)

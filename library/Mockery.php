@@ -18,6 +18,7 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+use Mockery\ExpectationInterface;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\StringManipulationGenerator;
@@ -484,8 +485,9 @@ class Mockery
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
      *
-     * @param \Mockery\MockInterface
+     * @param Mockery\MockInterface $mock
      * @param array $args
+     * @param callable $add
      * @return \Mockery\CompositeExpectation
      */
     public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
@@ -511,40 +513,89 @@ class Mockery
      *
      * @param \Mockery\MockInterface $mock
      * @param string $arg
-     * @param Closure $add
+     * @param callable $add
+     * @throws Mockery\Exception
      * @return \Mockery\ExpectationDirector
      */
     protected static function _buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
     {
+        /** @var Mockery\Container $container */
         $container = $mock->mockery_getContainer();
-        $names = explode('->', $arg);
-        reset($names);
+        $methodNames = explode('->', $arg);
+        reset($methodNames);
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
         && !$mock->mockery_isAnonymous()
-        && !in_array(current($names), $mock->mockery_getMockableMethods())) {
+        && !in_array(current($methodNames), $mock->mockery_getMockableMethods())) {
             throw new \Mockery\Exception(
                 'Mockery\'s configuration currently forbids mocking the method '
-                . current($names) . ' as it does not exist on the class or object '
+                . current($methodNames) . ' as it does not exist on the class or object '
                 . 'being mocked'
             );
         }
+
+        /** @var ExpectationInterface|null $exp */
         $exp = null;
-        $nextExp = function ($n) use ($add) {return $add($n);};
+
+        /** @var Callable $nextExp */
+        $nextExp = function ($method) use ($add) {return $add($method);};
         while (true) {
-            $method = array_shift($names);
+            $method = array_shift($methodNames);
             $exp = $mock->mockery_getExpectationsFor($method);
-            $needNew = false;
-            if (is_null($exp) || empty($names)) {
-                $needNew = true;
-            }
-            if ($needNew) $exp = $nextExp($method);
-            if (empty($names)) break;
-            if ($needNew) {
-                $mock = $container->mock('demeter_' . $method);
-                $exp->andReturn($mock);
+            if (is_null($exp) || self::noMoreElementsInChain($methodNames)) {
+                $exp = $nextExp($method);
+                if (self::noMoreElementsInChain($methodNames)) {
+                    break;
+                }
+                $mock = self::getNewDemeterMock($container, $method, $exp);
+            } else {
+                $demeterMockKey = $container->getKeyOfDemeterMockFor($method);
+                if ($demeterMockKey) {
+                    $mock = self::getExistingDemeterMock($container, $demeterMockKey);
+                }
             }
             $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};
         }
         return $exp;
+    }
+
+    /**
+     * @param \Mockery\Container $container
+     * @param string $method
+     * @param Mockery\ExpectationInterface $exp
+     * @return \Mockery\Mock
+     */
+    private static function getNewDemeterMock(
+        Mockery\Container $container,
+        $method,
+        Mockery\ExpectationInterface $exp
+    )
+    {
+        $mock = $container->mock('demeter_' . $method);
+        $exp->andReturn($mock);
+        return $mock;
+    }
+
+    /**
+     * @param \Mockery\Container $container
+     * @param string $demeterMockKey
+     * @return mixed
+     */
+    private static function getExistingDemeterMock(
+        Mockery\Container $container,
+        $demeterMockKey
+    )
+    {
+        $mocks = $container->getMocks();
+        $mock = $mocks[$demeterMockKey];
+        return $mock;
+    }
+
+    /**
+     * @param array $methodNames
+     * @return bool
+     */
+    private static function noMoreElementsInChain(array $methodNames)
+    {
+        return empty($methodNames);
     }
 }

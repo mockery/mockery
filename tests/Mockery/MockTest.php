@@ -71,13 +71,13 @@ class Mockery_MockTest extends PHPUnit_Framework_TestCase
         assertThat(hasToString($mock));
     }
 
-    public function testMockToStringMayBeDeferred() 
+    public function testMockToStringMayBeDeferred()
     {
         $mock = $this->container->mock('ClassWithToString')->shouldDeferMissing();
         assertThat((string)$mock, equalTo("foo"));
     }
 
-    public function testMockToStringShouldIgnoreMissingAlwaysReturnsString() 
+    public function testMockToStringShouldIgnoreMissingAlwaysReturnsString()
     {
         $mock = $this->container->mock('ClassWithNoToString')->shouldIgnoreMissing();
         assertThat(isNonEmptyString((string)$mock));
@@ -92,14 +92,14 @@ class ExampleClassForTestingNonExistentMethod
 {
 }
 
-class ClassWithToString 
+class ClassWithToString
 {
-    public function __toString() 
+    public function __toString()
     {
         return 'foo';
     }
 }
 
-class ClassWithNoToString 
+class ClassWithNoToString
 {
 }

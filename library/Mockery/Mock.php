@@ -176,15 +176,12 @@ class Mock implements MockInterface
      */
     public function shouldReceive()
     {
-        $nonPublicMethods = array_map(
-            function ($method) { return $method->getName(); },
-            array_filter($this->mockery_getMethods(), function ($method) {
-                return !$method->isPublic();
-            })
-        );
+        /** @var array $nonPublicMethods */
+        $nonPublicMethods = $this->getNonPublicMethods();
 
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
+
         $lastExpectation = \Mockery::parseShouldReturnArgs(
             $this, func_get_args(), function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
@@ -215,15 +212,15 @@ class Mock implements MockInterface
      * @param String $method name of the method to be mocked
      * @return Mock
      */
-    public function shouldAllowMockingMethod($method) 
+    public function shouldAllowMockingMethod($method)
     {
         $this->_mockery_mockableMethods[] = $method;
         return $this;
-    } 
+    }
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     * @param mixed $returnValue the default return value for calls to missing functions on this mock 
+     * @param mixed $returnValue the default return value for calls to missing functions on this mock
      * @return Mock
      */
     public function shouldIgnoreMissing($returnValue = null)
@@ -351,14 +348,14 @@ class Mock implements MockInterface
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
         } elseif ($method == '__toString') {
-            // __toString is special because we force its addition to the class API regardless of the 
-            // original implementation.  Thus, we should always return a string rather than honor 
+            // __toString is special because we force its addition to the class API regardless of the
+            // original implementation.  Thus, we should always return a string rather than honor
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
             if($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined)
               return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
-            else 
+            else
               return $this->_mockery_defaultReturnValue;
         }
         throw new \BadMethodCallException(
@@ -587,6 +584,9 @@ class Mock implements MockInterface
         return __CLASS__;
     }
 
+    /**
+     * @return array
+     */
     public function mockery_getMockableProperties()
     {
         return $this->_mockery_mockableProperties;
@@ -618,11 +618,17 @@ class Mock implements MockInterface
         return call_user_func_array('parent::' . $name, $args);
     }
 
+    /**
+     * @return string[]
+     */
     public function mockery_getMockableMethods()
     {
         return $this->_mockery_mockableMethods;
     }
 
+    /**
+     * @return bool
+     */
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
@@ -678,6 +684,21 @@ class Mock implements MockInterface
         }
 
         return static::$_mockery_methods = $methods;
+    }
+
+    /**
+     * @return array
+     */
+    private function getNonPublicMethods()
+    {
+        return array_map(
+            function ($method) {
+                return $method->getName();
+            },
+            array_filter($this->mockery_getMethods(), function ($method) {
+                return !$method->isPublic();
+            })
+        );
     }
 
 }
