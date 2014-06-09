@@ -56,7 +56,7 @@ require __DIR__ . '/../vendor/autoload.php'; // assuming vendor is one directory
 ```
 
 To integrate Mockery into PHPUnit and avoid having to call the close method and
-have Mockery remove itself from code coverage reports, use this in you suite:
+have Mockery remove itself from code coverage reports, use this in your suite:
 
 ```PHP
 // Create Suite
