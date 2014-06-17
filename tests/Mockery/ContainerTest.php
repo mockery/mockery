@@ -1124,6 +1124,25 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock($builder);
     }
 
+    /** 
+     * @test 
+     * @group issue/339
+     */
+    public function canMockClassesThatDescendFromInternalClasses()
+    {
+        $mock = $this->container->mock("MockeryTest_ClassThatDescendsFromInternalClass");
+        $this->assertInstanceOf("DateTime", $mock);
+    }
+
+    /** 
+     * @test 
+     * @group issue/339
+     */
+    public function canMockClassesThatImplementSerializable()
+    {
+        $mock = $this->container->mock("MockeryTest_ClassThatImplementsSerializable");
+        $this->assertInstanceOf("Serializable", $mock);
+    }
 }
 
 class MockeryTest_CallStatic {
@@ -1393,4 +1412,11 @@ interface MockeryTest_InterfaceThatExtendsIterator extends \Iterator {
 
 interface MockeryTest_InterfaceThatExtendsIteratorAggregate extends \IteratorAggregate {
     public function foo();
+}
+
+class MockeryTest_ClassThatDescendsFromInternalClass extends \DateTime {}
+
+class MockeryTest_ClassThatImplementsSerializable implements \Serializable {
+    public function serialize() {}
+    public function unserialize($serialized) {}
 }
