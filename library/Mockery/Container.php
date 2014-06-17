@@ -469,7 +469,13 @@ class Container
         }
 
         if (version_compare(PHP_VERSION, '5.4') < 0 || $isInternal) {
-            $return = unserialize(sprintf('O:%d:"%s":0:{}', strlen($mockName), $mockName));
+            $return = unserialize(sprintf(
+                '%s:%d:"%s":0:{}', 
+                // see https://github.com/sebastianbergmann/phpunit-mock-objects/pull/176/files
+                (version_compare(PHP_VERSION, '5.4', '>') && $r->implementsInterface('Serializable') ? 'C' : 'O'),
+                strlen($mockName), 
+                $mockName)
+            );
         } else {
             $return = $r->newInstanceWithoutConstructor();
         }
