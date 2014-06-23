@@ -110,7 +110,7 @@ class MockConfiguration
         }
 
         /**
-         * Whitelist trumps blacklist
+         * Whitelist trumps everything else
          */
         if (count($this->getWhiteListedMethods())) {
             $whitelist = array_map('strtolower', $this->getWhiteListedMethods());
@@ -128,6 +128,21 @@ class MockConfiguration
             $blacklist = array_map('strtolower', $this->getBlackListedMethods());
             $methods = array_filter($methods, function ($method) use ($blacklist) {
                 return !in_array(strtolower($method->getName()), $blacklist);
+            });
+        }
+
+        /**
+         * Internal objects can not be instantiated with newInstanceArgs and if 
+         * they implement Serializable, unserialize will have to be called. As 
+         * such, we can't mock it and will need a pass to add a dummy 
+         * implementation
+         */
+        if ($this->getTargetClass() 
+            && $this->getTargetClass()->implementsInterface("Serializable")
+            && $this->getTargetClass()->hasInternalAncestor()) {
+
+            $methods = array_filter($methods, function ($method) {
+                return $method->getName() !== "unserialize";
             });
         }
 
