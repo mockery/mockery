@@ -48,4 +48,14 @@ class UndefinedTargetClass
         $parts = explode("\\", $this->getName());
         return array_pop($parts);
     }
+
+    public function implementsInterface($interface)
+    {
+        return false;
+    }
+
+    public function hasInternalAncestor()
+    {
+        return false;
+    }
 }
