@@ -9,6 +9,7 @@ class MockConfigurationBuilder
         '__call',
         '__callStatic',
         '__clone',
+        '__sleep',
         '__wakeup',
         '__set',
         '__get',
