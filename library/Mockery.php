@@ -32,6 +32,17 @@ use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPa
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 
+
+class ShutdownFailsafe {
+    function __construct($callable) {
+        $this->callable = $callable;
+    }
+    
+    function __destruct() {
+        call_user_func($this->callable);
+    }
+}
+
 class Mockery
 {
     const BLOCKS = 'Mockery_Forward_Blocks';
@@ -59,6 +70,11 @@ class Mockery
      * @var \Mockery\Loader\Loader
      */
     protected static $_loader;
+    
+    /**
+     * An object that calls a callable when it is destroyed.
+     */
+    private static $shutdownForgetMeNot = null;
 
     /**
      * Static shortcut to \Mockery\Container::mock()
@@ -136,6 +152,10 @@ class Mockery
     {
         if (self::$_container) {
             return self::$_container;
+        }
+        
+        if (self::$shutdownFailsafe == null) {
+            self::$shutdownFailsafe = new ShutdownFailsafe(['Mockery', 'close']);
         }
 
         return self::$_container = new Mockery\Container(self::getGenerator(), self::getLoader());
