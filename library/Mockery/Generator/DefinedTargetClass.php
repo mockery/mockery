@@ -65,4 +65,26 @@ class DefinedTargetClass
     {
         return $this->rfc->getShortName();
     }
+
+    public function implementsInterface($interface)
+    {
+        return $this->rfc->implementsInterface($interface);
+    }
+
+    public function hasInternalAncestor()
+    {
+        if ($this->rfc->isInternal()) {
+            return true;
+        }
+
+        $child = $this->rfc;
+        while ($parent = $child->getParentClass()) {
+            if ($parent->isInternal()) {
+                return true;
+            }
+            $child = $parent;
+        }
+
+        return false;
+    }
 }

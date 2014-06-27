@@ -1143,6 +1143,16 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock("MockeryTest_ClassThatImplementsSerializable");
         $this->assertInstanceOf("Serializable", $mock);
     }
+
+    /**
+     * @test
+     * @group issue/346
+     */
+    public function canMockInternalClassesThatImplementSerializable()
+    {
+        $mock = $this->container->mock("ArrayObject");
+        $this->assertInstanceOf("Serializable", $mock);
+    }
 }
 
 class MockeryTest_CallStatic {
