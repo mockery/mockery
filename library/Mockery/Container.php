@@ -194,6 +194,8 @@ class Container
 
         if (!is_null($constructorArgs)) {
             $builder->addBlackListedMethod("__construct"); // we need to pass through
+        } else {
+            $builder->setMockOriginalDestructor(true);
         }
 
         if (!empty($partialMethods) && $constructorArgs === null) {
