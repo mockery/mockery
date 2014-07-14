@@ -62,7 +62,21 @@ class MockConfiguration
      */
     protected $allMethods;
 
-    public function __construct(array $targets = array(), array $blackListedMethods = array(), array $whiteListedMethods = array(), $name = null, $instanceMock = false, array $parameterOverrides = array())
+    /**
+     * If true, overrides original class destructor
+     */
+    protected $mockOriginalDestructor = false;
+
+    public function __construct(
+        array $targets = array(),
+        array $blackListedMethods = array(),
+        array $whiteListedMethods = array(),
+        $name = null,
+        $instanceMock = false,
+        array $parameterOverrides = array(),
+        $mockOriginalDestructor = false
+    )
+
     {
         $this->addTargets($targets);
         $this->blackListedMethods = $blackListedMethods;
@@ -70,6 +84,7 @@ class MockConfiguration
         $this->name = $name;
         $this->instanceMock = $instanceMock;
         $this->parameterOverrides = $parameterOverrides;
+        $this->mockOriginalDestructor = $mockOriginalDestructor;
     }
 
     /**
@@ -82,13 +97,14 @@ class MockConfiguration
     public function getHash()
     {
         $vars = array(
-            'targetClassName' => $this->targetClassName,
-            'targetInterfaceNames' => $this->targetInterfaceNames,
-            'name' => $this->name,
-            'blackListedMethods' => $this->blackListedMethods,
-            'whiteListedMethod' => $this->whiteListedMethods,
-            'instanceMock' => $this->instanceMock,
-            'parameterOverrides' => $this->parameterOverrides,
+            'targetClassName'        => $this->targetClassName,
+            'targetInterfaceNames'   => $this->targetInterfaceNames,
+            'name'                   => $this->name,
+            'blackListedMethods'     => $this->blackListedMethods,
+            'whiteListedMethod'      => $this->whiteListedMethods,
+            'instanceMock'           => $this->instanceMock,
+            'parameterOverrides'     => $this->parameterOverrides,
+            'mockOriginalDestructor' => $this->mockOriginalDestructor
         );
 
         return md5(serialize($vars));
@@ -202,7 +218,8 @@ class MockConfiguration
             $this->whiteListedMethods,
             $className,
             $this->instanceMock,
-            $this->parameterOverrides
+            $this->parameterOverrides,
+            $this->mockOriginalDestructor
         );
     }
 
@@ -405,6 +422,11 @@ class MockConfiguration
     public function getParameterOverrides()
     {
         return $this->parameterOverrides;
+    }
+
+    public function isMockOriginalDestructor()
+    {
+        return $this->mockOriginalDestructor;
     }
 
     protected function setTargetClassName($targetClassName)

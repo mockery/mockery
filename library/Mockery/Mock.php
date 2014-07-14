@@ -600,6 +600,13 @@ class Mock implements MockInterface
          */
     }
 
+    public function __destruct()
+    {
+        /**
+         * Overrides real class destructor in case if class was created without original constructor
+         */
+    }
+
     public function mockery_getMethod($name)
     {
         foreach ($this->mockery_getMethods() as $method) {
