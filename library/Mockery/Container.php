@@ -483,9 +483,11 @@ class Container
         } catch (\Exception $ex) {
             $internalMockName = $mockName . '_Internal';
 
-            eval("class $internalMockName extends $mockName {" .
-                    'public function __construct() {}' .
-                '}');
+            if (!class_exists($internalMockName)) {
+                eval("class $internalMockName extends $mockName {" .
+                        'public function __construct() {}' .
+                    '}');
+            }
 
             $return = new $internalMockName();
         }
