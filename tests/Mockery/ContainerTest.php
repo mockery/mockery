@@ -286,6 +286,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testSplClassWithFinalMethodsCanBeMockedMultipleTimes()
+    {
+        $this->container->mock('SplFileInfo');
+        $m = $this->container->mock('SplFileInfo');
+        $m->shouldReceive('foo')->andReturn('baz');
+        $this->assertEquals('baz', $m->foo());
+        $this->assertTrue($m instanceof SplFileInfo);
+    }
+
     public function testClassesWithFinalMethodsCanBeProxyPartialMocks()
     {
         $m = $this->container->mock(new MockeryFoo4);
