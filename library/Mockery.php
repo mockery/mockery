@@ -376,11 +376,11 @@ class Mockery
                     $parts[] = $arg;
                 } elseif (is_array($arg)) {
                     // Prefer var_export(...), but fall back to print_r(...) for circular structures
-                    try {
+                    $representation = print_r($arg, true);
+                    if (!preg_match('/^\s*\*RECURSION\*/m', $representation)) {
                         $representation = var_export($arg, true);
-                    } catch (\Exception $ex) {
-                        $representation = print_r($arg, true);
                     }
+
                     $arg = preg_replace("{\s}", '', $representation);
                     $parts[] = (strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg;
                 } elseif (is_bool($arg)) {
