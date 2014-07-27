@@ -375,7 +375,13 @@ class Mockery
                 } elseif (is_int($arg) || is_float($arg)) {
                     $parts[] = $arg;
                 } elseif (is_array($arg)) {
-                    $arg = preg_replace("{\s}", '', var_export($arg, true));
+                    // Prefer var_export(...), but fall back to print_r(...) for circular structures
+                    try {
+                        $representation = var_export($arg, true);
+                    } catch (\Exception $ex) {
+                        $representation = print_r($arg, true);
+                    }
+                    $arg = preg_replace("{\s}", '', $representation);
                     $parts[] = (strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg;
                 } elseif (is_bool($arg)) {
                     $parts[] = $arg ? 'true' : 'false';

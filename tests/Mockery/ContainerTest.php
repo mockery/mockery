@@ -1133,8 +1133,23 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock($builder);
     }
 
-    /** 
-     * @test 
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(Array([myself]=>Array([myself]=>Array*RECURSION*)))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithCircularArray()
+    {
+        $testArray = array();
+        $testArray['myself'] =& $testArray;
+
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo($testArray);
+    }
+
+    /**
+     * @test
      * @group issue/339
      */
     public function canMockClassesThatDescendFromInternalClasses()
