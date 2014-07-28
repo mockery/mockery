@@ -722,7 +722,7 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
     public function testExpectationCastToStringFormatting()
     {
         $exp = $this->mock->shouldReceive('foo')->with(1, 'bar', new stdClass, array('Spam' => 'Ham', 'Bar' => 'Baz'));
-        $this->assertEquals('[foo(1, "bar", stdClass, array(\'Spam\'=>\'Ham\',\'Bar\'=>\'Baz\',))]', (string) $exp);
+        $this->assertEquals('[foo(1, "bar", object(stdClass), array(\'Spam\'=>\'Ham\',\'Bar\'=>\'Baz\',))]', (string) $exp);
     }
 
     public function testLongExpectationCastToStringFormatting()

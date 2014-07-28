@@ -1135,6 +1135,18 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(resource(...))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithResource()
+    {
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo(fopen('php://memory', 'r'));
+    }
+
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
      * @expectedExceptionMessage MyTestClass::foo(array('myself'=>'array(...)',))
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithCircularArray()
