@@ -1133,8 +1133,100 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $mock = $this->container->mock($builder);
     }
 
-    /** 
-     * @test 
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(resource(...))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithResource()
+    {
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo(fopen('php://memory', 'r'));
+    }
+
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(array('myself'=>'array(...)',))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithCircularArray()
+    {
+        $testArray = array();
+        $testArray['myself'] =& $testArray;
+
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo($testArray);
+    }
+
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'an_array'=>'array(...)',))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedArray()
+    {
+        $testArray = array();
+        $testArray['a_scalar'] = 2;
+        $testArray['an_array'] = array(1, 2, 3);
+
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo($testArray);
+    }
+
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'an_object'=>'object(stdClass)',))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedObject()
+    {
+        $testArray = array();
+        $testArray['a_scalar'] = 2;
+        $testArray['an_object'] = new \stdClass();
+
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo($testArray);
+    }
+
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'a_closure'=>'object(Closure)',))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedClosure()
+    {
+        $testArray = array();
+        $testArray['a_scalar'] = 2;
+        $testArray['a_closure'] = function () {
+        };
+
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo($testArray);
+    }
+
+    /**
+     * @expectedException Mockery\Exception\NoMatchingExpectationException
+     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'a_resource'=>'resource(...)',))
+     */
+    public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedResource()
+    {
+        $testArray = array();
+        $testArray['a_scalar'] = 2;
+        $testArray['a_resource'] = fopen('php://memory', 'r');
+
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive('foo')->with(array('yourself' => 21));
+
+        $mock->foo($testArray);
+    }
+
+    /**
+     * @test
      * @group issue/339
      */
     public function canMockClassesThatDescendFromInternalClasses()

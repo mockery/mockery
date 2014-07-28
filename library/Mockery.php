@@ -370,24 +370,50 @@ class Mockery
         if ($args && !empty($args)) {
             $parts = array();
             foreach($args as $arg) {
-                if (is_object($arg)) {
-                    $parts[] = get_class($arg);
-                } elseif (is_int($arg) || is_float($arg)) {
-                    $parts[] = $arg;
-                } elseif (is_array($arg)) {
-                    $arg = preg_replace("{\s}", '', var_export($arg, true));
-                    $parts[] = (strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg;
-                } elseif (is_bool($arg)) {
-                    $parts[] = $arg ? 'true' : 'false';
-                } else {
-                    $parts[] = '"' . (string) $arg . '"';
-                }
+                $parts[] = self::formatArg($arg);
             }
             $return .= implode(', ', $parts); // TODO: improve format
 
         }
         $return .= ')';
         return $return;
+    }
+
+    private static function formatArg($arg, $depth = 0)
+    {
+        if (is_object($arg)) {
+            return 'object(' . get_class($arg) . ')';
+        }
+
+        if (is_int($arg) || is_float($arg)) {
+            return $arg;
+        }
+
+        if (is_array($arg)) {
+            if ($depth === 1) {
+                $arg = 'array(...)';
+            } else {
+                $sample = array();
+                foreach ($arg as $key => $value) {
+                    $sample[$key] = self::formatArg($value, $depth + 1);
+                }
+                $arg = preg_replace("{\s}", '', var_export($sample, true));
+            }
+
+            return ((strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg);
+        }
+
+        if (is_bool($arg)) {
+            return $arg ? 'true' : 'false';
+        }
+
+        if (is_resource($arg)) {
+            return 'resource(...)';
+        }
+
+        $arg = (string) $arg;
+
+        return $depth === 0 ? '"' . $arg . '"' : $arg;
     }
 
     /**
