@@ -375,13 +375,19 @@ class Mockery
                 } elseif (is_int($arg) || is_float($arg)) {
                     $parts[] = $arg;
                 } elseif (is_array($arg)) {
-                    // Prefer var_export(...), but fall back to print_r(...) for circular structures
-                    $representation = print_r($arg, true);
-                    if (!preg_match('/^\s*\*RECURSION\*/m', $representation)) {
-                        $representation = var_export($arg, true);
+                    $sample = array();
+                    foreach ($arg as $key => $value) {
+                        if (is_array($value)) {
+                            $value = 'array(...)';
+                        } elseif (is_object($value)) {
+                            $value = 'object(' . get_class($value) . ')';
+                        } elseif (is_resource($value)) {
+                            $value = 'resource(...)';
+                        }
+                        $sample[$key] = $value;
                     }
 
-                    $arg = preg_replace("{\s}", '', $representation);
+                    $arg = preg_replace("{\s}", '', var_export($sample, true));
                     $parts[] = (strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg;
                 } elseif (is_bool($arg)) {
                     $parts[] = $arg ? 'true' : 'false';
