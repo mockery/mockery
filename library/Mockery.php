@@ -384,9 +384,11 @@ class Mockery
         if (is_object($arg)) {
             return 'object(' . get_class($arg) . ')';
         }
+
         if (is_int($arg) || is_float($arg)) {
             return $arg;
         }
+
         if (is_array($arg)) {
             if ($depth === 1) {
                 $arg = 'array(...)';
@@ -400,9 +402,11 @@ class Mockery
 
             return ((strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg);
         }
+
         if (is_bool($arg)) {
             return $arg ? 'true' : 'false';
         }
+
         if (is_resource($arg)) {
             return 'resource(...)';
         }
