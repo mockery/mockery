@@ -292,6 +292,17 @@ class Mockery
     }
 
     /**
+     * Return instance of HASSUBSTRINGS matcher
+     *
+     * @return
+     */
+    public static function hasSubstrings()
+    {
+        $return = new \Mockery\Matcher\HasSubstrings(func_get_args());
+        return $return;
+    }
+
+    /**
      * Return instance of CLOSURE matcher
      *
      * @return

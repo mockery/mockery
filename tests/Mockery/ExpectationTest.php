@@ -1345,6 +1345,49 @@ class ExpectationTest extends PHPUnit_Framework_TestCase
         $this->container->mockery_verify();
     }
 
+    public function hasSubstringsMatches()
+    {
+        return array(
+            array(),
+            array('The'),
+            array('The', 'quick')
+        );
+    }
+
+    /** @dataProvider hasSubstringsMatches */
+    public function testHasSubstringsConstraintMatchesArgument()
+    {
+        $substrings = func_get_args();
+        $matcher = call_user_func_array(array('Mockery', 'hasSubstrings'), $substrings);
+        $this->mock->shouldReceive('foo')->with($matcher)->once();
+        $this->mock->foo('The quick brown fox');
+        $this->container->mockery_verify();
+    }
+
+    public function hasSubstringsNonMatchingCases()
+    {
+        return array(
+            array('The', 'quick', 'brown', 'monkey'),
+            array('monkey')
+        );
+    }
+
+    /** @dataProvider hasSubstringsNonMatchingCases */
+    public function testHasSubstringsConstraintNonMatchingCase()
+    {
+        $substrings = func_get_args();
+        $matcher = call_user_func_array(array('Mockery', 'hasSubstrings'), $substrings);
+        $this->mock->shouldReceive('foo')->once()->with($matcher);
+        $thrown = false;
+        try {
+            $this->mock->foo('The quick brown fox');
+            $this->container->mockery_verify();
+        } catch (\Mockery\Exception\NoMatchingExpectationException $ex) {
+            $thrown = true;
+        }
+        $this->assertTrue($thrown, 'Unexpected match');
+    }
+
     /**
      * @expectedException \Mockery\Exception
      */
