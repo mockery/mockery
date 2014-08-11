@@ -19,6 +19,7 @@
  */
 
 use Mockery\ExpectationInterface;
+use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\StringManipulationGenerator;
@@ -38,14 +39,14 @@ class Mockery
     const BLOCKS = 'Mockery_Forward_Blocks';
 
     /**
-     * Global container to hold all mocks for the current unit test running
+     * Global container to hold all mocks for the current unit test running.
      *
      * @var \Mockery\Container
      */
     protected static $_container = null;
 
     /**
-     * Global configuration handler containing configuration options
+     * Global configuration handler containing configuration options.
      *
      * @var \Mockery\Configuration
      */
@@ -62,25 +63,31 @@ class Mockery
     protected static $_loader;
 
     /**
-     * Static shortcut to \Mockery\Container::mock()
+     * Static shortcut to \Mockery\Container::mock().
      *
      * @return \Mockery\MockInterface
      */
     public static function mock()
     {
         $args = func_get_args();
-        return call_user_func_array(array(self::getContainer(), 'mock'), $args);
-    }
 
-    public static function instanceMock()
-    {
-        $args = func_get_args();
         return call_user_func_array(array(self::getContainer(), 'mock'), $args);
     }
 
     /**
-     * Static shortcut to \Mockery\Container::mock(), first argument names the
-     * mock
+     * Another shortcut to \Mockery\Container:mock().
+     *
+     * @return \Mockery\MockInterface
+     */
+    public static function instanceMock()
+    {
+        $args = func_get_args();
+
+        return call_user_func_array(array(self::getContainer(), 'mock'), $args);
+    }
+
+    /**
+     * Static shortcut to \Mockery\Container::mock(), first argument names the mock.
      *
      * @return \Mockery\MockInterface
      */
@@ -88,21 +95,26 @@ class Mockery
     {
         $args = func_get_args();
         $name = array_shift($args);
+
         $builder = new MockConfigurationBuilder();
         $builder->setName($name);
+
         array_unshift($args, $builder);
+
         return call_user_func_array(array(self::getContainer(), 'mock'), $args);
     }
 
     /**
-     * Static shortcut to \Mockery\Container::self()
+     * Static shortcut to \Mockery\Container::self().
+     *
+     * @throws LogicException
      *
      * @return \Mockery\MockInterface
      */
     public static function self()
     {
         if (is_null(self::$_container)) {
-            throw new \LogicException("You have not declared any mocks yet");
+            throw new \LogicException('You have not declared any mocks yet');
         }
 
         return self::$_container->self();
@@ -110,20 +122,25 @@ class Mockery
 
     /**
      * Static shortcut to closing up and verifying all mocks in the global
-     * container, and resetting the container static variable to null
+     * container, and resetting the container static variable to null.
      *
      * @return void
      */
     public static function close()
     {
         if (is_null(self::$_container)) return;
+
         self::$_container->mockery_teardown();
         self::$_container->mockery_close();
         self::$_container = null;
     }
 
     /**
-     * Static fetching of a mock associated with a name or explicit class poser
+     * Static fetching of a mock associated with a name or explicit class poser.
+     *
+     * @param $name
+     *
+     * @return \Mockery\Mock
      */
     public static function fetchMock($name)
     {
@@ -131,17 +148,20 @@ class Mockery
     }
 
     /**
-     * Get the container
+     * Get the container.
      */
     public static function getContainer()
     {
-        if (self::$_container) {
-            return self::$_container;
+        if (is_null(self::$_container)) {
+            self::$_container = new Mockery\Container(self::getGenerator(), self::getLoader());
         }
 
-        return self::$_container = new Mockery\Container(self::getGenerator(), self::getLoader());
+        return self::$_container;
     }
 
+    /**
+     * @param \Mockery\Generator\Generator $generator
+     */
     public static function setGenerator(Generator $generator)
     {
         self::$_generator = $generator;
@@ -149,11 +169,9 @@ class Mockery
 
     public static function getGenerator()
     {
-        if (self::$_generator) {
-            return self::$_generator;
+        if (is_null(self::$_generator)) {
+            self::$_generator = self::getDefaultGenerator();
         }
-
-        self::$_generator = self::getDefaultGenerator();
 
         return self::$_generator;
     }
@@ -171,35 +189,43 @@ class Mockery
             new RemoveBuiltinMethodsThatAreFinalPass(),
         ));
 
-        $generator = new CachingGenerator($generator);
-
-        return $generator;
+        return new CachingGenerator($generator);
     }
 
+    /**
+     * @param Loader $loader
+     */
     public static function setLoader(Loader $loader)
     {
         self::$_loader = $loader;
     }
 
+    /**
+     * @return Loader
+     */
     public static function getLoader()
     {
-        if (self::$_loader) {
-            return self::$_loader;
+        if (is_null(self::$_loader)) {
+            self::$_loader = self::getDefaultLoader();
         }
-
-        self::$_loader = self::getDefaultLoader();
 
         return self::$_loader;
     }
 
+    /**
+     * @return EvalLoader
+     */
     public static function getDefaultLoader()
     {
         return new EvalLoader();
     }
 
-
     /**
-     * Set the container
+     * Set the container.
+     *
+     * @param \Mockery\Container $container
+     *
+     * @return \Mockery\Container
      */
     public static function setContainer(Mockery\Container $container)
     {
@@ -207,7 +233,7 @@ class Mockery
     }
 
     /**
-     * Reset the container to null
+     * Reset the container to null.
      */
     public static function resetContainer()
     {
@@ -215,298 +241,352 @@ class Mockery
     }
 
     /**
-     * Return instance of ANY matcher
+     * Return instance of ANY matcher.
      *
-     * @return
+     * @return \Mockery\Matcher\Any
      */
     public static function any()
     {
-        $return = new \Mockery\Matcher\Any();
-        return $return;
+        return new \Mockery\Matcher\Any();
     }
 
     /**
-     * Return instance of TYPE matcher
+     * Return instance of TYPE matcher.
      *
-     * @return
+     * @param $expected
+     *
+     * @return \Mockery\Matcher\Type
      */
     public static function type($expected)
     {
-        $return = new \Mockery\Matcher\Type($expected);
-        return $return;
+        return new \Mockery\Matcher\Type($expected);
     }
 
     /**
-     * Return instance of DUCKTYPE matcher
+     * Return instance of DUCKTYPE matcher.
      *
-     * @return
+     * @return \Mockery\Matcher\Ducktype
      */
     public static function ducktype()
     {
-        $return = new \Mockery\Matcher\Ducktype(func_get_args());
-        return $return;
+        return new \Mockery\Matcher\Ducktype(func_get_args());
     }
 
     /**
-     * Return instance of SUBSET matcher
+     * Return instance of SUBSET matcher.
      *
-     * @return
+     * @param array $part
+     *
+     * @return \Mockery\Matcher\Subset
      */
     public static function subset(array $part)
     {
-        $return = new \Mockery\Matcher\Subset($part);
-        return $return;
+        return new \Mockery\Matcher\Subset($part);
     }
 
     /**
-     * Return instance of CONTAINS matcher
+     * Return instance of CONTAINS matcher.
      *
-     * @return
+     * @return \Mockery\Matcher\Contains
      */
     public static function contains()
     {
-        $return = new \Mockery\Matcher\Contains(func_get_args());
-        return $return;
+        return new \Mockery\Matcher\Contains(func_get_args());
     }
 
     /**
-     * Return instance of HASKEY matcher
+     * Return instance of HASKEY matcher.
      *
-     * @return
+     * @param $key
+     *
+     * @return \Mockery\Matcher\HasKey
      */
     public static function hasKey($key)
     {
-        $return = new \Mockery\Matcher\HasKey($key);
-        return $return;
+        return new \Mockery\Matcher\HasKey($key);
     }
 
     /**
-     * Return instance of HASVALUE matcher
+     * Return instance of HASVALUE matcher.
      *
-     * @return
+     * @param $val
+     *
+     * @return \Mockery\Matcher\HasValue
      */
     public static function hasValue($val)
     {
-        $return = new \Mockery\Matcher\HasValue($val);
-        return $return;
+        return new \Mockery\Matcher\HasValue($val);
     }
 
     /**
-     * Return instance of CLOSURE matcher
+     * Return instance of CLOSURE matcher.
      *
-     * @return
+     * @param $closure
+     *
+     * @return \Mockery\Matcher\Closure
      */
     public static function on($closure)
     {
-        $return = new \Mockery\Matcher\Closure($closure);
-        return $return;
+        return new \Mockery\Matcher\Closure($closure);
     }
 
     /**
-     * Return instance of MUSTBE matcher
+     * Return instance of MUSTBE matcher.
      *
-     * @return
+     * @param $expected
+     *
+     * @return \Mockery\Matcher\MustBe
      */
     public static function mustBe($expected)
     {
-        $return = new \Mockery\Matcher\MustBe($expected);
-        return $return;
+        return new \Mockery\Matcher\MustBe($expected);
     }
 
     /**
-     * Return instance of NOT matcher
+     * Return instance of NOT matcher.
      *
-     * @return
+     * @param $expected
+     *
+     * @return \Mockery\Matcher\Not
      */
     public static function not($expected)
     {
-        $return = new \Mockery\Matcher\Not($expected);
-        return $return;
+        return new \Mockery\Matcher\Not($expected);
     }
 
     /**
-     * Return instance of ANYOF matcher
+     * Return instance of ANYOF matcher.
      *
-     * @return
+     * @return \Mockery\Matcher\AnyOf
      */
     public static function anyOf()
     {
-        $return = new \Mockery\Matcher\AnyOf(func_get_args());
-        return $return;
+        return new \Mockery\Matcher\AnyOf(func_get_args());
     }
 
     /**
-     * Return instance of NOTANYOF matcher
+     * Return instance of NOTANYOF matcher.
      *
-     * @return
+     * @return \Mockery\Matcher\NotAnyOf
      */
     public static function notAnyOf()
     {
-        $return = new \Mockery\Matcher\NotAnyOf(func_get_args());
-        return $return;
+        return new \Mockery\Matcher\NotAnyOf(func_get_args());
     }
 
     /**
-     * Get the global configuration container
+     * Get the global configuration container.
      */
     public static function getConfiguration()
     {
         if (is_null(self::$_config)) {
-            self::$_config = new \Mockery\Configuration;
+            self::$_config = new \Mockery\Configuration();
         }
+
         return self::$_config;
     }
 
     /**
-     * Utility method to format method name and args into a string
+     * Utility method to format method name and arguments into a string.
      *
      * @param string $method
-     * @param array $args
+     * @param array $arguments
+     *
      * @return string
      */
-    public static function formatArgs($method, array $args = null)
+    public static function formatArgs($method, array $arguments = null)
     {
-        $return = $method . '(';
-        if ($args && !empty($args)) {
-            $parts = array();
-            foreach($args as $arg) {
-                $parts[] = self::formatArg($arg);
-            }
-            $return .= implode(', ', $parts); // TODO: improve format
-
+        if (is_null($arguments)) {
+            return $method . '()';
         }
-        $return .= ')';
-        return $return;
+
+        $formattedArguments = array();
+        foreach ($arguments as $argument) {
+            $formattedArguments[] = self::formatArgument($argument);
+        }
+
+        return $method . '(' . implode(', ', $formattedArguments) . ')';
     }
 
-    private static function formatArg($arg, $depth = 0)
+    private static function formatArgument($argument, $depth = 0)
     {
-        if (is_object($arg)) {
-            return 'object(' . get_class($arg) . ')';
+        if (is_object($argument)) {
+            return 'object(' . get_class($argument) . ')';
         }
 
-        if (is_int($arg) || is_float($arg)) {
-            return $arg;
+        if (is_int($argument) || is_float($argument)) {
+            return $argument;
         }
 
-        if (is_array($arg)) {
+        if (is_array($argument)) {
             if ($depth === 1) {
-                $arg = 'array(...)';
+                $argument = 'array(...)';
             } else {
                 $sample = array();
-                foreach ($arg as $key => $value) {
-                    $sample[$key] = self::formatArg($value, $depth + 1);
+                foreach ($argument as $key => $value) {
+                    $sample[$key] = self::formatArgument($value, $depth + 1);
                 }
-                $arg = preg_replace("{\s}", '', var_export($sample, true));
+                $argument = preg_replace("{\s}", '', var_export($sample, true));
             }
 
-            return ((strlen($arg) > 1000) ? substr($arg, 0, 1000).'...)' : $arg);
+            return ((strlen($argument) > 1000) ? substr($argument, 0, 1000).'...)' : $argument);
         }
 
-        if (is_bool($arg)) {
-            return $arg ? 'true' : 'false';
+        if (is_bool($argument)) {
+            return $argument ? 'true' : 'false';
         }
 
-        if (is_resource($arg)) {
+        if (is_resource($argument)) {
             return 'resource(...)';
         }
 
-        $arg = (string) $arg;
+        $argument = (string) $argument;
 
-        return $depth === 0 ? '"' . $arg . '"' : $arg;
+        return $depth === 0 ? '"' . $argument . '"' : $argument;
     }
 
     /**
-     * Utility function to format objects to printable arrays
+     * Utility function to format objects to printable arrays.
      *
-     * @param array $args
+     * @param array $objects
+     *
      * @return string
      */
-    public static function formatObjects(array $args = null)
+    public static function formatObjects(array $objects = null)
     {
         static $formatting;
-        if($formatting)
+
+        if ($formatting) {
             return '[Recursion]';
-        $formatting = true;
-        $hasObjects = false;
-        $parts = array();
-        $return = 'Objects: (';
-        if ($args && !empty($args)) {
-            foreach($args as $arg) {
-                if (is_object($arg)) {
-                    $hasObjects = true;
-                    $parts[get_class($arg)] = self::_objectToArray($arg);
-                }
-            }
         }
-        $return .= var_export($parts, true);
-        $return .= ')';
-        $return = $hasObjects ? $return : '';
+
+        if (is_null($objects)) {
+            return '';
+        }
+
+        $objects = array_filter($objects, 'is_object');
+        if (empty($objects)) {
+            return '';
+        }
+
+        $formatting = true;
+        $parts = array();
+
+        foreach($objects as $object) {
+            $parts[get_class($object)] = self::objectToArray($object);
+        }
+
         $formatting = false;
-        return $return;
+
+        return 'Objects: ( ' . var_export($parts, true) . ')';
     }
 
     /**
-     * Utility function to turn public properties
-     * and public get* and is* method values into an array
+     * Utility function to turn public properties and public get* and is* method values into an array.
      *
-     * @param object $object
-     * @return string
+     * @param     $object
+     * @param int $nesting
+     *
+     * @return array
      */
-    private static function _objectToArray($object, $nesting = 3)
+    private static function objectToArray($object, $nesting = 3)
     {
         if ($nesting == 0) {
             return array('...');
         }
+
+        return array(
+            'class' => get_class($object),
+            'properties' => self::extractInstancePublicProperties($object, $nesting),
+            'getters' => self::extractGetters($object, $nesting)
+        );
+    }
+
+    /**
+     * Returns all public instance properties.
+     *
+     * @param $object
+     * @param $nesting
+     *
+     * @return array
+     */
+    private static function extractInstancePublicProperties($object, $nesting)
+    {
         $reflection = new \ReflectionClass(get_class($object));
-        $properties = array();
-        foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $publicProperty) {
-            if ($publicProperty->isStatic()) continue;
+        $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC & ~ \ReflectionProperty::IS_STATIC);
+        $cleanedProperties = array();
+
+        foreach ($properties as $publicProperty) {
             $name = $publicProperty->getName();
-            $properties[$name] = self::_cleanupNesting($object->$name, $nesting);
+            $cleanedProperties[$name] = self::cleanupNesting($object->$name, $nesting);
         }
 
+        return $cleanedProperties;
+    }
+
+    /**
+     * Returns all object getters.
+     *
+     * @param $object
+     * @param $nesting
+     *
+     * @return array
+     */
+    private static function extractGetters($object, $nesting)
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $publicMethods = $reflection->getMethods(\ReflectionProperty::IS_PUBLIC & ~ \ReflectionProperty::IS_STATIC);
         $getters = array();
-        foreach ($reflection->getMethods(\ReflectionProperty::IS_PUBLIC) as $publicMethod) {
-            if ($publicMethod->isStatic()) continue;
+
+        foreach ($publicMethods as $publicMethod) {
             $name = $publicMethod->getName();
             $numberOfParameters = $publicMethod->getNumberOfParameters();
-            if ((substr($name, 0, 3) === 'get' || substr($name, 0, 2) === 'is') && $numberOfParameters == 0) {
-                try {
-                    $getters[$name] = self::_cleanupNesting($object->$name(), $nesting);
-                } catch(\Exception $e) {
-                    $getters[$name] = '!! ' . get_class($e) . ': ' . $e->getMessage() . ' !!';
-                }
+
+            if ((substr($name, 0, 3) !== 'get' && substr($name, 0, 2) !== 'is') && $numberOfParameters != 0) {
+                continue;
+            }
+
+            try {
+                $getters[$name] = self::cleanupNesting($object->$name(), $nesting);
+            } catch(\Exception $e) {
+                $getters[$name] = '!! ' . get_class($e) . ': ' . $e->getMessage() . ' !!';
             }
         }
-        return array('class' => get_class($object), 'properties' => $properties, 'getters' => $getters);
+
+        return $getters;
     }
 
-    private static function _cleanupNesting($arg, $nesting)
+    private static function cleanupNesting($argument, $nesting)
     {
-        if (is_object($arg)) {
-            $object = self::_objectToArray($arg, $nesting - 1);
-            $object['class'] = get_class($arg);
+        if (is_object($argument)) {
+            $object = self::objectToArray($argument, $nesting - 1);
+            $object['class'] = get_class($argument);
+
             return $object;
-        } elseif (is_array($arg)) {
-            return self::_cleanupArray($arg, $nesting -1 );
         }
-        return $arg;
+
+        if (is_array($argument)) {
+            return self::cleanupArray($argument, $nesting - 1);
+        }
+
+        return $argument;
     }
 
-    private static function _cleanupArray($arg, $nesting = 3)
+    private static function cleanupArray($argument, $nesting = 3)
     {
         if ($nesting == 0) {
             return '...';
         }
-        foreach ($arg as $key => $value) {
+
+        foreach ($argument as $key => $value) {
             if (is_array($value)) {
-                $arg[$key] = self::_cleanupArray($value, $nesting -1);
+                $argument[$key] = self::cleanupArray($value, $nesting - 1);
             } elseif (is_object($value)) {
-                $arg[$key] = self::_objectToArray($value, $nesting - 1);
+                $argument[$key] = self::objectToArray($value, $nesting - 1);
             }
         }
-        return $arg;
+
+        return $argument;
     }
 
     /**
@@ -520,24 +600,26 @@ class Mockery
      */
     public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
     {
-        $composite = new \Mockery\CompositeExpectation;
+        $composite = new \Mockery\CompositeExpectation();
+
         foreach ($args as $arg) {
             if (is_array($arg)) {
-                foreach($arg as $k=>$v) {
-                    $expectation = self::_buildDemeterChain($mock, $k, $add)->andReturn($v);
+                foreach($arg as $k => $v) {
+                    $expectation = self::buildDemeterChain($mock, $k, $add)->andReturn($v);
                     $composite->add($expectation);
                 }
             } elseif (is_string($arg)) {
-                $expectation = self::_buildDemeterChain($mock, $arg, $add);
+                $expectation = self::buildDemeterChain($mock, $arg, $add);
                 $composite->add($expectation);
             }
         }
+
         return $composite;
     }
 
     /**
      * Sets up expectations on the members of the CompositeExpectation and
-     * builds up any demeter chain that was passed to shouldReceive
+     * builds up any demeter chain that was passed to shouldReceive.
      *
      * @param \Mockery\MockInterface $mock
      * @param string $arg
@@ -545,15 +627,17 @@ class Mockery
      * @throws Mockery\Exception
      * @return \Mockery\ExpectationDirector
      */
-    protected static function _buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
+    protected static function buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
     {
         /** @var Mockery\Container $container */
         $container = $mock->mockery_getContainer();
         $methodNames = explode('->', $arg);
         reset($methodNames);
+
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
-        && !$mock->mockery_isAnonymous()
-        && !in_array(current($methodNames), $mock->mockery_getMockableMethods())) {
+            && !$mock->mockery_isAnonymous()
+            && !in_array(current($methodNames), $mock->mockery_getMockableMethods())
+        ) {
             throw new \Mockery\Exception(
                 'Mockery\'s configuration currently forbids mocking the method '
                 . current($methodNames) . ' as it does not exist on the class or object '
@@ -561,65 +645,74 @@ class Mockery
             );
         }
 
-        /** @var ExpectationInterface|null $exp */
-        $exp = null;
+        /** @var ExpectationInterface|null $expectations */
+        $expectations = null;
 
         /** @var Callable $nextExp */
-        $nextExp = function ($method) use ($add) {return $add($method);};
+        $nextExp = function ($method) use ($add) {
+            return $add($method);
+        };
+
         while (true) {
             $method = array_shift($methodNames);
-            $exp = $mock->mockery_getExpectationsFor($method);
-            if (is_null($exp) || self::noMoreElementsInChain($methodNames)) {
-                $exp = $nextExp($method);
+            $expectations = $mock->mockery_getExpectationsFor($method);
+
+            if (is_null($expectations) || self::noMoreElementsInChain($methodNames)) {
+                $expectations = $nextExp($method);
                 if (self::noMoreElementsInChain($methodNames)) {
                     break;
                 }
-                $mock = self::getNewDemeterMock($container, $method, $exp);
+
+                $mock = self::getNewDemeterMock($container, $method, $expectations);
             } else {
                 $demeterMockKey = $container->getKeyOfDemeterMockFor($method);
                 if ($demeterMockKey) {
                     $mock = self::getExistingDemeterMock($container, $demeterMockKey);
                 }
             }
-            $nextExp = function ($n) use ($mock) {return $mock->shouldReceive($n);};
+
+            $nextExp = function ($n) use ($mock) {
+                return $mock->shouldReceive($n);
+            };
         }
-        return $exp;
+
+        return $expectations;
     }
 
     /**
      * @param \Mockery\Container $container
      * @param string $method
      * @param Mockery\ExpectationInterface $exp
+     *
      * @return \Mockery\Mock
      */
-    private static function getNewDemeterMock(
-        Mockery\Container $container,
+    private static function getNewDemeterMock(Mockery\Container $container,
         $method,
         Mockery\ExpectationInterface $exp
-    )
-    {
+    ) {
         $mock = $container->mock('demeter_' . $method);
         $exp->andReturn($mock);
+
         return $mock;
     }
 
     /**
      * @param \Mockery\Container $container
      * @param string $demeterMockKey
+     *
      * @return mixed
      */
-    private static function getExistingDemeterMock(
-        Mockery\Container $container,
-        $demeterMockKey
-    )
+    private static function getExistingDemeterMock(Mockery\Container $container, $demeterMockKey)
     {
         $mocks = $container->getMocks();
         $mock = $mocks[$demeterMockKey];
+
         return $mock;
     }
 
     /**
      * @param array $methodNames
+     *
      * @return bool
      */
     private static function noMoreElementsInChain(array $methodNames)
