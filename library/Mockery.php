@@ -22,6 +22,7 @@ use Mockery\ExpectationInterface;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\CachingGenerator;
+use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
@@ -187,6 +188,7 @@ class Mockery
             new MethodDefinitionPass(),
             new RemoveUnserializeForInternalSerializableClassesPass(),
             new RemoveBuiltinMethodsThatAreFinalPass(),
+            new RemoveDestructorPass(),
         ));
 
         return new CachingGenerator($generator);
