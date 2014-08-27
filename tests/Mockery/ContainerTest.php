@@ -27,7 +27,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /** @var  Mockery\Container */
     private $container;
 
-    public function setup ()
+    public function setup()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), new \Mockery\Loader\EvalLoader());
     }
@@ -247,7 +247,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testPassingClosureAsFinalParameterUsedToDefineExpectations()
     {
-        $m = $this->container->mock('foo', function($m) {
+        $m = $this->container->mock('foo', function ($m) {
             $m->shouldReceive('foo')->once()->andReturn('bar');
         });
         $this->assertEquals('bar', $m->foo());
@@ -584,7 +584,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException BadMethodCallException
      */
-    public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist(){
+    public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist()
+    {
         \Mockery::setContainer($this->container);
         $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
         $this->assertEquals('bar', \MyNameSpace\StaticNoMethod::staticFoo());
@@ -713,7 +714,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $m = $this->container->mock('MockeryTestRef1');
         $m->shouldReceive('foo')->with(
-            \Mockery::on(function(&$a) {$a += 1;return true;}),
+            \Mockery::on(function (&$a) {$a += 1;return true;}),
             \Mockery::any()
         );
         $a = 1;
@@ -739,7 +740,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         @$m = $this->container->mock('DateTime');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('modify')->with(
-            \Mockery::on(function(&$string) {$string = 'foo'; return true;})
+            \Mockery::on(function (&$string) {$string = 'foo'; return true;})
         );
         $data ='bar';
         $m->modify($data);
@@ -763,7 +764,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         @$m = $this->container->mock('MongoCollection');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('insert')->with(
-            \Mockery::on(function(&$data) {$data['_id'] = 123; return true;}),
+            \Mockery::on(function (&$data) {$data['_id'] = 123; return true;}),
             \Mockery::type('array')
         );
         $data = array('a'=>1,'b'=>2);
@@ -1256,37 +1257,43 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class MockeryTest_CallStatic {
-    public static function __callStatic($method, $args){}
+class MockeryTest_CallStatic
+{
+    public static function __callStatic($method, $args) {}
 }
 
-class MockeryTest_ClassMultipleConstructorParams {
+class MockeryTest_ClassMultipleConstructorParams
+{
     public function __construct($a, $b) {}
     public function dave() {}
 }
 
-interface MockeryTest_InterfaceWithTraversable extends \ArrayAccess, \Traversable, \Countable {
+interface MockeryTest_InterfaceWithTraversable extends \ArrayAccess, \Traversable, \Countable
+{
     public function self();
 }
 
-class MockeryTestIsset_Bar {
-
+class MockeryTestIsset_Bar
+{
     public function doSomething() {}
 }
 
-class MockeryTestIsset_Foo {
-
+class MockeryTestIsset_Foo
+{
     private $var;
 
-    public function __construct($var) {
+    public function __construct($var)
+    {
         $this->var = $var;
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         $this->var->doSomething();
     }
 
-    public function __isset($name) {
+    public function __isset($name)
+    {
         return (bool) strlen($this->__get($name));
     }
 }
@@ -1295,7 +1302,8 @@ class MockeryTest_IssetMethod
 {
     protected $_properties = array();
     public function __construct() {}
-    public function __isset($property) {
+    public function __isset($property)
+    {
         return isset($this->_properties[$property]);
     }
 }
@@ -1304,25 +1312,30 @@ class MockeryTest_UnsetMethod
 {
     protected $_properties = array();
     public function __construct() {}
-    public function __unset($property) {
+    public function __unset($property)
+    {
         unset($this->_properties[$property]);
     }
 }
 
-class MockeryTestFoo {
+class MockeryTestFoo
+{
     public function foo() { return 'foo'; }
 }
 
-class MockeryTestFoo2 {
+class MockeryTestFoo2
+{
     public function foo() { return 'foo'; }
     public function bar() { return 'bar'; }
 }
 
-final class MockeryFoo3 {
+final class MockeryFoo3
+{
     public function foo() { return 'baz'; }
 }
 
-class MockeryFoo4 {
+class MockeryFoo4
+{
     final public function foo() { return 'baz'; }
     public function bar() { return 'bar'; }
 }
@@ -1352,11 +1365,13 @@ class MockeryTest_WithProtectedAndPrivate
     private function privateMethod() {}
 }
 
-class MockeryTest_ClassConstructor {
+class MockeryTest_ClassConstructor
+{
     public function __construct($param1) {}
 }
 
-class MockeryTest_ClassConstructor2 {
+class MockeryTest_ClassConstructor2
+{
     protected $param1;
     public function __construct(stdClass $param1) { $this->param1 = $param1; }
     public function getParam1() { return $this->param1; }
@@ -1364,23 +1379,28 @@ class MockeryTest_ClassConstructor2 {
     public function bar() { return $this->foo(); }
 }
 
-class MockeryTest_Call1 {
+class MockeryTest_Call1
+{
     public function __call($method, array $params) {}
 }
 
-class MockeryTest_Call2 {
+class MockeryTest_Call2
+{
     public function __call($method, $params) {}
 }
 
-class MockeryTest_Wakeup1 {
+class MockeryTest_Wakeup1
+{
     public function __construct() {}
     public function __wakeup() {}
 }
 
-class MockeryTest_ExistingProperty {
+class MockeryTest_ExistingProperty
+{
     public $foo = 'bar';
 }
-abstract class MockeryTest_AbstractWithAbstractPublicMethod{
+abstract class MockeryTest_AbstractWithAbstractPublicMethod
+{
     abstract public function foo($a, $b);
 }
 
@@ -1401,14 +1421,16 @@ class Gateway
     }
 }
 
-class MockeryTestBar1 {
+class MockeryTestBar1
+{
     public function method1()
     {
         return $this;
     }
 }
 
-class MockeryTest_ReturnByRef {
+class MockeryTest_ReturnByRef
+{
     public $i = 0;
     public function &get()
     {
@@ -1416,33 +1438,40 @@ class MockeryTest_ReturnByRef {
     }
 }
 
-class MockeryTest_MethodParamRef {
-    public function method1(&$foo){return true;}
+class MockeryTest_MethodParamRef
+{
+    public function method1(&$foo) {return true;}
 }
-class MockeryTest_MethodParamRef2 {
-    public function method1(&$foo){return true;}
+class MockeryTest_MethodParamRef2
+{
+    public function method1(&$foo) {return true;}
 }
-class MockeryTestRef1 {
+class MockeryTestRef1
+{
     public function foo(&$a, $b) {}
 }
 
-class MockeryTest_PartialNormalClass {
+class MockeryTest_PartialNormalClass
+{
     public function foo() {return 'abc';}
     public function bar() {return 'abc';}
 }
 
-abstract class MockeryTest_PartialAbstractClass {
+abstract class MockeryTest_PartialAbstractClass
+{
     abstract public function foo();
     public function bar() {return 'abc';}
 }
 
-class MockeryTest_PartialNormalClass2 {
+class MockeryTest_PartialNormalClass2
+{
     public function foo() {return 'abc';}
     public function bar() {return 'abc';}
     public function baz() {return 'abc';}
 }
 
-abstract class MockeryTest_PartialAbstractClass2 {
+abstract class MockeryTest_PartialAbstractClass2
+{
     abstract public function foo();
     public function bar() {return 'abc';}
     abstract public function baz();
@@ -1451,36 +1480,42 @@ abstract class MockeryTest_PartialAbstractClass2 {
 class MockeryTest_TestInheritedType {}
 
 if(PHP_VERSION_ID >= 50400) {
-    class MockeryTest_MockCallableTypeHint {
+    class MockeryTest_MockCallableTypeHint
+    {
         public function foo(callable $baz) {$baz();}
         public function bar(callable $callback = null) {$callback();}
     }
 }
 
-class MockeryTest_WithToString {
+class MockeryTest_WithToString
+{
     public function __toString() {}
 }
 
-class MockeryTest_ImplementsIteratorAggregate implements \IteratorAggregate {
+class MockeryTest_ImplementsIteratorAggregate implements \IteratorAggregate
+{
     public function getIterator()
     {
         return new \ArrayIterator(array());
     }
 }
 
-class MockeryTest_ImplementsIterator implements \Iterator {
-    public function rewind(){}
-    public function current(){}
-    public function key(){}
-    public function next(){}
-    public function valid(){}
+class MockeryTest_ImplementsIterator implements \Iterator
+{
+    public function rewind() {}
+    public function current() {}
+    public function key() {}
+    public function next() {}
+    public function valid() {}
 }
 
-class MockeryTest_OldStyleConstructor {
+class MockeryTest_OldStyleConstructor
+{
     public function MockeryTest_OldStyleConstructor($arg) {}
 }
 
-class EmptyConstructorTest {
+class EmptyConstructorTest
+{
     public $numberOfConstructorArgs;
 
     public function __construct()
@@ -1488,20 +1523,23 @@ class EmptyConstructorTest {
         $this->numberOfConstructorArgs = count(func_get_args());
     }
 
-    public function foo() {
-
+    public function foo()
+    {
     }
 }
 
-interface MockeryTest_InterfaceWithMethodParamSelf {
+interface MockeryTest_InterfaceWithMethodParamSelf
+{
     public function foo(self $bar);
 }
 
-class MockeryTest_Lowercase_ToString {
+class MockeryTest_Lowercase_ToString
+{
     public function __tostring() { }
 }
 
-class MockeryTest_PartialStatic {
+class MockeryTest_PartialStatic
+{
     public static function mockMe($a)
     {
         return $a;
@@ -1513,21 +1551,25 @@ class MockeryTest_PartialStatic {
     }
 }
 
-class MockeryTest_MethodWithRequiredParamWithDefaultValue {
+class MockeryTest_MethodWithRequiredParamWithDefaultValue
+{
     public function foo(\DateTime $bar = null, $baz) {}
 }
 
-interface MockeryTest_InterfaceThatExtendsIterator extends \Iterator {
+interface MockeryTest_InterfaceThatExtendsIterator extends \Iterator
+{
     public function foo();
 }
 
-interface MockeryTest_InterfaceThatExtendsIteratorAggregate extends \IteratorAggregate {
+interface MockeryTest_InterfaceThatExtendsIteratorAggregate extends \IteratorAggregate
+{
     public function foo();
 }
 
 class MockeryTest_ClassThatDescendsFromInternalClass extends \DateTime {}
 
-class MockeryTest_ClassThatImplementsSerializable implements \Serializable {
+class MockeryTest_ClassThatImplementsSerializable implements \Serializable
+{
     public function serialize() {}
     public function unserialize($serialized) {}
 }

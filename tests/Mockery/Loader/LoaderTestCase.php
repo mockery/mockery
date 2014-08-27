@@ -2,8 +2,8 @@
 
 namespace Mockery\Loader;
 
-use Mockery\Generator\MockDefinition;
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\MockDefinition;
 
 abstract class LoaderTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -23,5 +23,5 @@ abstract class LoaderTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue(class_exists($className));
     }
 
-    abstract function getLoader();
+    abstract public function getLoader();
 }

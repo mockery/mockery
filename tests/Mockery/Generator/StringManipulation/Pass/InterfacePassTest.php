@@ -3,8 +3,8 @@
 namespace Mockery\Test\Generator\StringManipulation\Pass;
 
 use Mockery as m;
-use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 
 class InterfacePassTest extends \PHPUnit_Framework_TestCase
 {
