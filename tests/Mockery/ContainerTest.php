@@ -1195,7 +1195,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'a_closure'=>'object(Closure)',))
+     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'a_closure'=>'object(Closure
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedClosure()
     {
