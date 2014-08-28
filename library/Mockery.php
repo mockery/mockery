@@ -542,7 +542,7 @@ class Mockery
             $name = $publicMethod->getName();
             $numberOfParameters = $publicMethod->getNumberOfParameters();
 
-            if ((substr($name, 0, 3) !== 'get' && substr($name, 0, 2) !== 'is') && $numberOfParameters != 0) {
+            if ((substr($name, 0, 3) !== 'get' && substr($name, 0, 2) !== 'is') || $numberOfParameters != 0) {
                 continue;
             }
 
