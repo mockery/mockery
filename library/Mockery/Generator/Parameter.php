@@ -27,7 +27,14 @@ class Parameter
     {
         if (method_exists($this->rfp, 'getTypehintText')) {
             // Available in HHVM
-            return $this->rfp->getTypehintText();
+            $typehint = $this->rfp->getTypehintText();
+
+            // not exhaustive, but will do for now
+            if (in_array($typehint, array('int', 'integer', 'float', 'string', 'bool', 'boolean'))) {
+                return '';
+            }
+
+            return $typehint;
         }
 
         if ($this->rfp->isArray()) {
