@@ -25,7 +25,7 @@
 class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setup ()
+    public function setup()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
     }
@@ -77,10 +77,12 @@ class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
 
 class MockeryTest_NameOfExistingClass {}
 
-interface MockeryTest_NameOfInterface {
+interface MockeryTest_NameOfInterface
+{
     public function foo();
 }
 
-abstract class MockeryTest_NameOfAbstract {
+abstract class MockeryTest_NameOfAbstract
+{
     abstract public function foo();
 }

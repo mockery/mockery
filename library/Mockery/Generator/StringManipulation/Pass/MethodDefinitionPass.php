@@ -2,8 +2,8 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\Method;
+use Mockery\Generator\MockConfiguration;
 
 class MethodDefinitionPass implements Pass
 {
@@ -55,7 +55,7 @@ class MethodDefinitionPass implements Pass
 
             if (false !== $param->isDefaultValueAvailable()) {
                 $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
-            } else if ($param->isOptional()) {
+            } elseif ($param->isOptional()) {
                 $paramDef .= ' = null';
             }
 

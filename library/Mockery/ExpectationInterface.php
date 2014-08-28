@@ -21,8 +21,8 @@
 namespace Mockery;
 
 
-interface ExpectationInterface {
-
+interface ExpectationInterface
+{
     /**
      * @return int
      */

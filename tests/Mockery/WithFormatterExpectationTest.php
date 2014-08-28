@@ -66,7 +66,7 @@ class ClassWithGetter
 {
     private $dep;
 
-    function __construct($dep)
+    public function __construct($dep)
     {
         $this->dep = $dep;
     }

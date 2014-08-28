@@ -83,4 +83,3 @@ require __DIR__.'/../vendor/autoload.php';
  * Unset global variables that are no longer needed.
  */
 unset($root, $library, $tests, $path);
-

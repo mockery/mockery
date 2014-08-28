@@ -24,7 +24,7 @@ namespace test\Mockery;
 class MockingProtectedMethodsTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function setup ()
+    public function setup()
     {
         $this->container = new \Mockery\Container;
     }
@@ -118,4 +118,3 @@ abstract class TestWithProtectedMethods
         return 'bar';
     }
 }
-
