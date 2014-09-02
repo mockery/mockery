@@ -7,3 +7,4 @@ vendor/
 composer.phar
 test.php
 build/
+phpunit.xml
