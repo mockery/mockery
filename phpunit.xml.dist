@@ -1,16 +1,25 @@
-<phpunit bootstrap="./tests/Bootstrap.php">
-    <testsuite name="Mockery Test Suite">
-        <directory>./tests</directory>
-    </testsuite>
-
-    <groups>
-        <exclude>
-            <group>disable</group>
-        </exclude>
-    </groups>
-
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="./tests/Bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         syntaxCheck="true"
+         strict="false"
+         verbose="true">
+>
+    <testsuites>
+        <testsuite name="Mockery Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
     <filter>
-        <whitelist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./library/</directory>
         </whitelist>
     </filter>
@@ -20,4 +29,3 @@
             file='./library/Mockery/Adapter/Phpunit/TestListener.php'/>
     </listeners>
 </phpunit>
-
