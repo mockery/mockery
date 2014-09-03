@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.9.2 (2014-09-03)
+
+* Some workarounds for the serilisation problems created by changes to PHP in 5.5.13, 5.4.29,
+  5.6.
+* Demeter chains attempt to reuse doubles as they see fit, so for foo->bar and
+  foo->baz, we'll attempt to use the same foo
+
 ## 0.9.1 (2014-05-02)
 
 * Allow specifying consecutive exceptions to be thrown with `andThrowExceptions`
