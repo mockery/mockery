@@ -36,7 +36,7 @@ may rely on those!
 
 .. code-block:: php
 
-    $mock = \Mockery::mock("MyNamespace\MyClass[foo]", array($arg1, $arg2));
+    $mock = \Mockery::mock('MyNamespace\MyClass[foo]', array($arg1, $arg2));
 
 Passive Partial Mock
 --------------------
