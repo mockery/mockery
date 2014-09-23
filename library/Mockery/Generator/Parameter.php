@@ -38,17 +38,21 @@ class Parameter
                 if ($this->rfp->getClass()) {
                     return $this->rfp->getClass()->getName();
                 }
-
-                return '';
             } catch (\ReflectionException $re) {
                 // noop
             }
         }
 
-        if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
-            if (!empty($typehintMatch['typehint'])) {
-                return $typehintMatch['typehint'];
-            }
+        if ($this->rfp->isArray()) {
+            return 'array';
+        }
+
+        if (method_exists($this->rfp, 'isCallable') && $this->rfp->isCallable()) {
+            return 'callable';
+        }
+
+        if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>([sS][eE][lL][fF]|[sS][tT][aA][tT][iI][cC])) .*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
+            return $typehintMatch['typehint'];
         }
 
         return '';
