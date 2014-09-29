@@ -279,6 +279,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSplClassWithFinalMethodsCanBeMocked()
     {
+        // Prevent PHPUnit's custom error handler from interfering with unserialize error detection
+        restore_error_handler();
+
         $m = $this->container->mock('SplFileInfo');
         $m->shouldReceive('foo')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
@@ -288,6 +291,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSplClassWithFinalMethodsCanBeMockedMultipleTimes()
     {
+        // Prevent PHPUnit's custom error handler from interfering with unserialize error detection
+        restore_error_handler();
+
         $this->container->mock('SplFileInfo');
         $m = $this->container->mock('SplFileInfo');
         $m->shouldReceive('foo')->andReturn('baz');
