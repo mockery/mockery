@@ -763,7 +763,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
         $that = $this;
         $m = $this->withoutStrictErrors(function() use ($that) {
-            return $this->container->mock('MongoCollection');
+            return $that->container->mock('MongoCollection');
         });
 
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
