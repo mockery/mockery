@@ -25,7 +25,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 {
 
     /** @var  Mockery\Container */
-    private $container;
+    public $container;
 
     public function setup()
     {
