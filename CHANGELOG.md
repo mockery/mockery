@@ -3,6 +3,8 @@
 ## 0.9.3 (XXXX-XX-XX)
 
 * Added a basic spy implementation
+* Added `Mockery\Adapter\Phpunit\MockerTestCase` for more reliable PHPUnit
+  integration
 
 ## 0.9.2 (2014-09-03)
 
