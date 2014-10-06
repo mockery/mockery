@@ -19,9 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-/**
- */
-class Mockery_MockTest extends PHPUnit_Framework_TestCase
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class Mockery_MockTest extends MockeryTestCase
 {
 
     public function setup()

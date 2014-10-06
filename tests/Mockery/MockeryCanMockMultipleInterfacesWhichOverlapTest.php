@@ -22,7 +22,9 @@ namespace Mockery\Tests;
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class GeneratorTest extends \PHPUnit_Framework_TestCase
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class GeneratorTest extends MockeryTestCase
 {
     /** @test */
     public function shouldNotDuplicateDoublyInheritedMethods()

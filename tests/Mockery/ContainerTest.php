@@ -20,8 +20,9 @@
  */
 
 use Mockery\Generator\MockConfigurationBuilder;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends MockeryTestCase
 {
 
     /** @var  Mockery\Container */
