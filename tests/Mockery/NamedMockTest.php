@@ -19,7 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class NamedMockTest extends PHPUnit_Framework_TestCase
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class NamedMockTest extends MockeryTestCase
 {
     /** @test */
     public function itCreatesANamedMock()

@@ -21,9 +21,9 @@
 
 namespace test\Mockery;
 
-use \PHPUnit_Framework_TestCase as TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class MockClassWithFinalWakeupTest extends TestCase
+class MockClassWithFinalWakeupTest extends MockeryTestCase
 {
 
     protected function setUp()

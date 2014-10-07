@@ -19,10 +19,12 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
 /**
  * Ad-hoc unit tests for various scenarios reported by users
  */
-class Mockery_AdhocTest extends PHPUnit_Framework_TestCase
+class Mockery_AdhocTest extends MockeryTestCase
 {
 
     public function setup()

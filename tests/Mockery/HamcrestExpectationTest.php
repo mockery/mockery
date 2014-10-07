@@ -19,7 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class HamcrestExpectationTest extends PHPUnit_Framework_TestCase
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+
+class HamcrestExpectationTest extends MockeryTestCase
 {
 
     public function setUp()
