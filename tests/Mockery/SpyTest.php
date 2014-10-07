@@ -40,6 +40,18 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function itShouldVerifyAMethodWasNotCalledWithParticularArguments()
+    {
+        $spy = m::spy();
+        $spy->myMethod(123, 456);
+
+        $spy->shouldNotHaveReceived("myMethod", array(789, 10));
+
+        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $spy->shouldNotHaveReceived("myMethod", array(123, 456));
+    }
+
+    /** @test */
     public function itShouldVerifyAMethodWasCalledASpecificNumberOfTimes()
     {
         $spy = m::spy();
