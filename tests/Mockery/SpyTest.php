@@ -70,6 +70,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy = m::spy();
         $spy->myMethod(123, "a string");
         $spy->shouldHaveReceived("myMethod")->with(123, "a string");
+        $spy->shouldHaveReceived("myMethod", array(123, "a string"));
 
         $this->setExpectedException("Mockery\Exception\InvalidCountException");
         $spy->shouldHaveReceived("myMethod")->with(123);

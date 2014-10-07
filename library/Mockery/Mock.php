@@ -602,9 +602,12 @@ class Mock implements MockInterface
         return null;
     }
 
-    public function shouldHaveReceived($method)
+    public function shouldHaveReceived($method, $args = null)
     {
         $expectation = new \Mockery\VerificationExpectation($this, $method);
+        if (null !== $args) {
+            $expectation->withArgs($args);
+        }
         $expectation->atLeast()->once();
         $director = new \Mockery\VerificationDirector($this->_mockery_getReceivedMethodCalls(), $expectation);
         $director->verify();
