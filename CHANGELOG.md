@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.3 (XXXX-XX-XX)
+
+* Added a basic spy implementation
+
 ## 0.9.2 (2014-09-03)
 
 * Some workarounds for the serilisation problems created by changes to PHP in 5.5.13, 5.4.29,
