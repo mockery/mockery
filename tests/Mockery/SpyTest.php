@@ -18,7 +18,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldVerifyAMethodWasCalled()
+    public function itVerifiesAMethodWasCalled()
     {
         $spy = m::spy();
         $spy->myMethod();
@@ -29,7 +29,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldVerifyAMethodWasNotCalled()
+    public function itVerifiesAMethodWasNotCalled()
     {
         $spy = m::spy();
         $spy->shouldNotHaveReceived("myMethod");
@@ -40,7 +40,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldVerifyAMethodWasNotCalledWithParticularArguments()
+    public function itVerifiesAMethodWasNotCalledWithParticularArguments()
     {
         $spy = m::spy();
         $spy->myMethod(123, 456);
@@ -52,7 +52,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldVerifyAMethodWasCalledASpecificNumberOfTimes()
+    public function itVerifiesAMethodWasCalledASpecificNumberOfTimes()
     {
         $spy = m::spy();
         $spy->myMethod();
@@ -65,7 +65,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itShouldVerifyAMethodWasCalledWithSpecificArguments()
+    public function itVerifiesAMethodWasCalledWithSpecificArguments()
     {
         $spy = m::spy();
         $spy->myMethod(123, "a string");
