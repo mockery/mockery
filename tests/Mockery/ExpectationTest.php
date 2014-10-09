@@ -82,16 +82,100 @@ class ExpectationTest extends MockeryTestCase
 
     public function testSetsPublicPropertyWhenRequested()
     {
+        $this->mock->bar = null;
         $this->mock->shouldReceive('foo')->andSet('bar', 'baz');
+        $this->assertNull($this->mock->bar);
         $this->mock->foo();
         $this->assertEquals('baz', $this->mock->bar);
     }
 
     public function testSetsPublicPropertyWhenRequestedUsingAlias()
     {
+        $this->mock->bar = null;
         $this->mock->shouldReceive('foo')->set('bar', 'baz');
+        $this->assertNull($this->mock->bar);
         $this->mock->foo();
         $this->assertEquals('baz', $this->mock->bar);
+    }
+
+    public function testSetsPublicPropertiesWhenRequested()
+    {
+        $this->mock->bar = null;
+        $this->mock->shouldReceive('foo')->andSet('bar', 'baz', 'bazz', 'bazzz');
+        $this->assertNull($this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazzz', $this->mock->bar);
+    }
+
+    public function testSetsPublicPropertiesWhenRequestedUsingAlias()
+    {
+        $this->mock->bar = null;
+        $this->mock->shouldReceive('foo')->set('bar', 'baz', 'bazz', 'bazzz');
+        $this->assertAttributeEmpty('bar', $this->mock);
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazzz', $this->mock->bar);
+    }
+    
+    public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValues()
+    {
+        $this->mock->bar = null;
+        $this->mock->shouldReceive('foo')->andSet('bar', 'baz', 'bazz');
+        $this->assertNull($this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+    }
+
+    public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesUsingAlias()
+    {
+        $this->mock->bar = null;
+        $this->mock->shouldReceive('foo')->andSet('bar', 'baz', 'bazz');
+        $this->assertNull($this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+    }
+
+    public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesWithDirectSet()
+    {
+        $this->mock->bar = null;
+        $this->mock->shouldReceive('foo')->andSet('bar', 'baz', 'bazz');
+        $this->assertNull($this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+        $this->mock->bar = null;
+        $this->mock->foo();
+        $this->assertNull($this->mock->bar);
+    }
+
+    public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesWithDirectSetUsingAlias()
+    {
+        $this->mock->bar = null;
+        $this->mock->shouldReceive('foo')->set('bar', 'baz', 'bazz');
+        $this->assertNull($this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('baz', $this->mock->bar);
+        $this->mock->foo();
+        $this->assertEquals('bazz', $this->mock->bar);
+        $this->mock->bar = null;
+        $this->mock->foo();
+        $this->assertNull($this->mock->bar);
     }
 
     public function testReturnsSameValueForAllIfNoArgsExpectationAndSomeGiven()

@@ -88,6 +88,13 @@ class Expectation implements ExpectationInterface
     protected $_closureQueue = array();
 
     /**
+     * Array of values to be set when this expectation matches
+     *
+     * @var array
+     */
+    protected $_setQueue = array();
+
+    /**
      * Integer representing the call order of this expectation
      *
      * @var int
@@ -173,7 +180,24 @@ class Expectation implements ExpectationInterface
         if ($return instanceof \Exception && $this->_throw === true) {
             throw $return;
         }
+        $this->_setValues();
         return $return;
+    }
+
+    /**
+     * Sets public properties with queued values to the mock object
+     *
+     * @param array $args
+     * @return mixed
+     */
+    protected function _setValues()
+    {
+        foreach ($this->_setQueue as $name => &$values) {
+            if (count($values) > 0) {
+                $value = array_shift($values);
+                $this->_mock->{$name} = $value;
+            }
+        }
     }
 
     /**
@@ -467,7 +491,7 @@ class Expectation implements ExpectationInterface
     }
 
     /**
-     * Set a public property on the mock
+     * Register values to be set to a public property each time this expectation occurs
      *
      * @param string $name
      * @param mixed $value
@@ -475,13 +499,15 @@ class Expectation implements ExpectationInterface
      */
     public function andSet($name, $value)
     {
-        $this->_mock->{$name} = $value;
+        $values = func_get_args();
+        array_shift($values);
+        $this->_setQueue[$name] = $values;
         return $this;
     }
 
     /**
-     * Set a public property on the mock (alias to andSet()). Allows the natural
-     * English construct - set('foo', 'bar')->andReturn('bar')
+     * Alias to andSet(). Allows the natural English construct
+     * - set('foo', 'bar')->andReturn('bar')
      *
      * @param string $name
      * @param mixed $value
@@ -489,7 +515,7 @@ class Expectation implements ExpectationInterface
      */
     public function set($name, $value)
     {
-        return $this->andSet($name, $value);
+        return call_user_func_array(array($this, 'andSet'), func_get_args());
     }
 
     /**
