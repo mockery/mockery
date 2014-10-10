@@ -75,7 +75,7 @@ interface MockInterface
     /**
      * @param $method
      * @param null $args
-     * @return \Mockery\Expectation
+     * @return null
      */
     public function shouldNotHaveReceived($method, $args = null);
 
