@@ -8,3 +8,5 @@ composer.phar
 test.php
 build/
 phpunit.xml
+*.DS_store
+.idea/*
