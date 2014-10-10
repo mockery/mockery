@@ -66,6 +66,21 @@ interface MockInterface
     public function shouldDeferMissing();
 
     /**
+     * @param $method
+     * @param null $args
+     * @return \Mockery\Expectation
+     */
+    public function shouldHaveReceived($method, $args = null);
+
+    /**
+     * @param $method
+     * @param null $args
+     * @return \Mockery\Expectation
+     */
+    public function shouldNotHaveReceived($method, $args = null);
+
+
+    /**
      * In the event shouldReceive() accepting an array of methods/returns
      * this method will switch them from normal expectations to default
      * expectations
