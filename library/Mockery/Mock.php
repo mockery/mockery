@@ -623,7 +623,7 @@ class Mock implements MockInterface
         $expectation->never();
         $director = new \Mockery\VerificationDirector($this->_mockery_getReceivedMethodCalls(), $expectation);
         $director->verify();
-        return $director;
+        return null;
     }
 
     protected static function _mockery_handleStaticMethodCall($method, array $args)
