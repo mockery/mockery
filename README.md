@@ -19,6 +19,14 @@ Mockery is released under a New BSD License.
 The current released version for PEAR is 0.9.0. Composer users may instead opt to use
 the current master branch in lieu of using the more static 0.9.0 git tag.
 
+## Installation
+
+To install this library, run the command below and you will get the latest
+version
+
+``` bash
+composer require mockery/mockery
+```
 
 ## Mock Objects
 
