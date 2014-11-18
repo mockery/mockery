@@ -18,8 +18,8 @@ mocking.
 Traditional Partial Mock
 ------------------------
 
-A traditional partial mock defined ahead of time which methods of a class are
-to be mocked and which are to left unmocked (i.e. callable as normal).  The
+A traditional partial mock, defines ahead of time which methods of a class are
+to be mocked and which are to be left unmocked (i.e. callable as normal).  The
 syntax for creating traditional mocks is:
 
 .. code-block:: php
