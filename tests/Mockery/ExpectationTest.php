@@ -123,7 +123,7 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo();
         $this->assertEquals('bazzz', $this->mock->bar);
     }
-    
+
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValues()
     {
         $this->mock->bar = null;
@@ -1728,6 +1728,60 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->with(Mockery::notAnyOf(1, 2))->once();
         $this->mock->foo(2);
+        $this->container->mockery_verify();
+    }
+
+    public function testEqualsStringIgnoringWhitespaceMatchGivenParameters()
+    {
+        $this->mock->shouldReceive('foo')
+            ->with(Mockery::equalsStringIgnoringWhitespace("My \t  Expectation! \n Wub. .. "))
+            ->once();
+        $this->mock->foo(" My \n  Expectation!  \t  Wub. ..");
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testEqualsStringIgnoringWhitespaceThrowsExceptionOnNonMatchingStrings()
+    {
+        $this->mock->shouldReceive('foo')
+            ->with(Mockery::equalsStringIgnoringWhitespace("My \t  Expectation! \n Wub. .. "))
+            ->once();
+        $this->mock->foo('I\'m no match');
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testEqualsStringIgnoringWhitespaceThrowsExceptionOnWrongParameterType()
+    {
+        $this->mock->shouldReceive('foo')
+            ->with(Mockery::equalsStringIgnoringWhitespace("My \t  Expectation! \n Wub. .. "))
+            ->once();
+        $this->mock->foo(1234);
+        $this->container->mockery_verify();
+    }
+
+    public function testEqualsStringIgnoringWhitespaceWorksWithUtf8()
+    {
+        $this->mock->shouldReceive('foo')
+            ->with(Mockery::equalsStringIgnoringWhitespace(" あ \t  ä"))
+            ->once();
+        $this->mock->foo("あ \n  ä ");
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEqualsStringIgnoringWhitespaceThrowsExceptionOnWrongConstructorParameterType()
+    {
+        $this->mock->shouldReceive('foo')
+            ->with(Mockery::equalsStringIgnoringWhitespace(1234))
+            ->once();
+        $this->mock->foo('1234');
         $this->container->mockery_verify();
     }
 

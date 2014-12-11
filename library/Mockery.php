@@ -382,6 +382,18 @@ class Mockery
     }
 
     /**
+     * Returns an instance of the EQUALSTRINGIGNORINGWHITESPACE matcher.
+     *
+     * @param string $expected
+     *
+     * @return \Mockery\Matcher\EqualsStringIgnoringWhitespace
+     */
+    public static function equalsStringIgnoringWhitespace($expected)
+    {
+        return new \Mockery\Matcher\EqualsStringIgnoringWhitespace($expected);
+    }
+
+    /**
      * Get the global configuration container.
      */
     public static function getConfiguration()
