@@ -33,13 +33,6 @@ class Mock implements MockInterface
     protected $_mockery_expectations = array();
 
     /**
-     * Last expectation that was set
-     *
-     * @var object
-     */
-    protected $_mockery_lastExpectation = null;
-
-    /**
      * Flag to indicate whether we can ignore method calls missing from our
      * expectations
      *
