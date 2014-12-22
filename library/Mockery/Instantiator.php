@@ -22,6 +22,8 @@ namespace Mockery;
 use Closure;
 use Exception;
 use ReflectionClass;
+use UnexpectedValueException;
+use InvalidArgumentException;
 
 /**
  * This is a trimmed down version of https://github.com/doctrine/instantiator, 
