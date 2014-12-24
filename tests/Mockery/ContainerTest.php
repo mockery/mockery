@@ -711,6 +711,12 @@ class ContainerTest extends MockeryTestCase
         \Mockery::resetContainer();
     }
 
+    public function testCreationOfInstanceMockWithFullyQualifiedName()
+    {
+        $m = $this->container->mock('overload:\MyNamespace\MyClass11');
+        $this->assertTrue($m instanceof \MyNamespace\MyClass11);
+    }
+
     public function testMethodParamsPassedByReferenceHaveReferencePreserved()
     {
         $m = $this->container->mock('MockeryTestRef1');
