@@ -57,7 +57,5 @@ matchers used when defining expected method arguments.
 
 ## Documentation
 
-**Note:** We're transitioning the documentation to readthedocs.org, current
-version can be seen at [docs.mockery.io](http://docs.mockery.io), feedback
-welcome. 
+The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
 
