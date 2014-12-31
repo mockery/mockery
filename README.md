@@ -28,6 +28,12 @@ version
 composer require mockery/mockery
 ```
 
+If you want to run the tests:
+
+```
+vendor/bin/phpunit
+```
+
 ## Mock Objects
 
 In unit tests, mock objects simulate the behaviour of real objects. They are
