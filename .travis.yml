@@ -33,3 +33,4 @@ notifications:
   email:
     - padraic.brady@gmail.com
     - dave@atstsolutions.co.uk
+  irc: "irc.freenode.org#mockery"
