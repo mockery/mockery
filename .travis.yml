@@ -26,3 +26,9 @@ notifications:
   email:
     - padraic.brady@gmail.com
     - dave@atstsolutions.co.uk
+
+sudo: false
+
+cache: 
+  directories:
+    - $HOME/.composer/cache        
