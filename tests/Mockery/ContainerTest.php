@@ -26,7 +26,7 @@ class ContainerTest extends MockeryTestCase
 {
 
     /** @var  Mockery\Container */
-    private $container;
+    public $container;
 
     public function setup()
     {
@@ -767,8 +767,12 @@ class ContainerTest extends MockeryTestCase
         \Mockery::getConfiguration()->setInternalClassMethodParamMap(
             'MongoCollection', 'insert', array('&$data', '$options')
         );
-        // @ used to avoid E_STRICT for incompatible signature
-        @$m = $this->container->mock('MongoCollection');
+
+        $that = $this;
+        $m = $this->withoutStrictErrors(function() use ($that) {
+            return $that->container->mock('MongoCollection');
+        });
+
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('insert')->with(
             \Mockery::on(function (&$data) {$data['_id'] = 123; return true;}),
@@ -1261,6 +1265,18 @@ class ContainerTest extends MockeryTestCase
     {
         $mock = $this->container->mock("ArrayObject");
         $this->assertInstanceOf("Serializable", $mock);
+    }
+
+    private function withoutStrictErrors($function) 
+    {
+        $oldLevel = error_reporting();
+        error_reporting($oldLevel & ~E_STRICT); 
+
+        $returnValue = $function();
+
+        error_reporting($oldLevel);
+
+        return $returnValue;
     }
 }
 
