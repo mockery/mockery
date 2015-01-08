@@ -470,29 +470,39 @@ class Container
 
         try {
             if (version_compare(PHP_VERSION, '5.4') < 0 || $isInternal) {
-                $return = unserialize(sprintf(
+                // Suppress warnings and notices for 'Erroneous data format' to allow fallback to kick in
+                $return = @unserialize(sprintf(
                     '%s:%d:"%s":0:{}',
                     // see https://github.com/sebastianbergmann/phpunit-mock-objects/pull/176/files
                     (version_compare(PHP_VERSION, '5.4', '>') && $r->implementsInterface('Serializable') ? 'C' : 'O'),
                     strlen($mockName),
                     $mockName)
                 );
+
+                if (!$return) {
+                    $return = $this->createMockWithEmptyConstructor($mockName);
+                }
             } else {
                 $return = $r->newInstanceWithoutConstructor();
             }
         } catch (\Exception $ex) {
-            $internalMockName = $mockName . '_Internal';
-
-            if (!class_exists($internalMockName)) {
-                eval("class $internalMockName extends $mockName {" .
-                        'public function __construct() {}' .
-                    '}');
-            }
-
-            $return = new $internalMockName();
+            $return = $this->createMockWithEmptyConstructor($mockName);
         }
 
         return $return;
+    }
+
+    protected function createMockWithEmptyConstructor($mockName)
+    {
+        $internalMockName = $mockName . '_Internal';
+
+        if (!class_exists($internalMockName)) {
+            eval("class $internalMockName extends $mockName {" .
+                    'public function __construct() {}' .
+                '}');
+        }
+
+        return new $internalMockName();
     }
 
     /**
