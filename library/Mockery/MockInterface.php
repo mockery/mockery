@@ -59,7 +59,7 @@ interface MockInterface
     public function shouldAllowMockingProtectedMethods();
 
     /**
-     * Set mock to defer unexpected methods to it's parent if possible
+     * Set mock to defer unexpected methods to its parent if possible
      *
      * @return Mock
      */
