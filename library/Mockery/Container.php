@@ -450,36 +450,14 @@ class Container
 
     protected function _getInstance($mockName, $constructorArgs = null)
     {
-        $r = new \ReflectionClass($mockName);
-
-        if (null === $r->getConstructor()) {
-            $return = new $mockName;
-            return $return;
-        }
-
         if ($constructorArgs !== null) {
+            $r = new \ReflectionClass($mockName);
             return $r->newInstanceArgs($constructorArgs);
         }
 
-        $isInternal = $r->isInternal();
-        $child = $r;
-        while (!$isInternal && $parent = $child->getParentClass()) {
-            $isInternal = $parent->isInternal();
-            $child = $parent;
-        }
-
         try {
-            if (version_compare(PHP_VERSION, '5.4') < 0 || $isInternal) {
-                $return = unserialize(sprintf(
-                    '%s:%d:"%s":0:{}',
-                    // see https://github.com/sebastianbergmann/phpunit-mock-objects/pull/176/files
-                    (version_compare(PHP_VERSION, '5.4', '>') && $r->implementsInterface('Serializable') ? 'C' : 'O'),
-                    strlen($mockName),
-                    $mockName)
-                );
-            } else {
-                $return = $r->newInstanceWithoutConstructor();
-            }
+            $instantiator = new Instantiator;
+            $instance = $instantiator->instantiate($mockName);
         } catch (\Exception $ex) {
             $internalMockName = $mockName . '_Internal';
 
@@ -489,10 +467,10 @@ class Container
                     '}');
             }
 
-            $return = new $internalMockName();
+            $instance = new $internalMockName();
         }
 
-        return $return;
+        return $instance;
     }
 
     /**
