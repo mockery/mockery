@@ -1387,6 +1387,73 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
+    public function testNestedArrayContentConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::nestedSubset(
+            array(
+                array(
+                    'a'=>1,
+                    'b'=>2,
+                    'c'=>array('c1'=> '1c')
+                ),
+                array(
+                    '1a'=>'a1',
+                    '1b'=>'b1'
+                )
+            )))->once();
+        $this->mock->foo(
+            array(
+                array(
+                    'a'=>1,
+                    'b'=>2,
+                    'c'=>array('c1'=> '1c'),
+                    'd'=>3
+                ),
+                array(
+                    '1a'=>'a1',
+                    '1b'=>'b1',
+                    '1c'=>'c1'
+                )
+            )
+        );
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception\NoMatchingExpectationException
+     */
+    public function testNestedArrayContentConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::nestedSubset(
+            array(
+                array(
+                    'a'=>1,
+                    'b'=>2,
+                    'c'=>array(
+                        'c1'=> '1c'
+                    )
+                ),
+                array(
+                    '1a'=>'a1',
+                    '1b'=>'b1'
+                )
+            )))->once();
+        $this->mock->foo(array(
+            array(
+                'a'=>1,
+                'b'=>2,
+                'd'=>3
+            ),
+            array(
+                '1a'=>'a1',
+                '1b'=>'b1',
+                '1c'=>'c1'
+            )
+        ));
+
+        $this->container->mockery_verify();
+    }
+
     public function testArrayContentConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1,'b'=>2)))->once();
