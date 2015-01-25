@@ -520,12 +520,14 @@ class Mockery
     private static function extractInstancePublicProperties($object, $nesting)
     {
         $reflection = new \ReflectionClass(get_class($object));
-        $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC & ~ \ReflectionProperty::IS_STATIC);
+        $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
         $cleanedProperties = array();
 
         foreach ($properties as $publicProperty) {
-            $name = $publicProperty->getName();
-            $cleanedProperties[$name] = self::cleanupNesting($object->$name, $nesting);
+            if (!$publicProperty->isStatic()) {
+                $name = $publicProperty->getName();
+                $cleanedProperties[$name] = self::cleanupNesting($object->$name, $nesting);
+            }
         }
 
         return $cleanedProperties;
@@ -542,14 +544,16 @@ class Mockery
     private static function extractGetters($object, $nesting)
     {
         $reflection = new \ReflectionClass(get_class($object));
-        $publicMethods = $reflection->getMethods(\ReflectionProperty::IS_PUBLIC & ~ \ReflectionProperty::IS_STATIC);
+        $publicMethods = $reflection->getMethods(\ReflectionMethod::IS_PUBLIC);
         $getters = array();
 
         foreach ($publicMethods as $publicMethod) {
             $name = $publicMethod->getName();
+            $irrelevantName = (substr($name, 0, 3) !== 'get' && substr($name, 0, 2) !== 'is');
+            $isStatic = $publicMethod->isStatic();
             $numberOfParameters = $publicMethod->getNumberOfParameters();
 
-            if ((substr($name, 0, 3) !== 'get' && substr($name, 0, 2) !== 'is') || $numberOfParameters != 0) {
+            if ($irrelevantName || $numberOfParameters != 0 || $isStatic) {
                 continue;
             }
 
