@@ -50,13 +50,16 @@ class MethodDefinitionPass implements Pass
         $params = $method->getParameters();
         foreach ($params as $param) {
             $paramDef = $param->getTypeHintAsString();
+            $paramDef .= $param->isVariadic() ? '...' : '';
             $paramDef .= $param->isPassedByReference() ? '&' : '';
             $paramDef .= '$' . $param->getName();
 
-            if (false !== $param->isDefaultValueAvailable()) {
-                $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
-            } elseif ($param->isOptional()) {
-                $paramDef .= ' = null';
+            if (!$param->isVariadic()) {
+                if (false !== $param->isDefaultValueAvailable()) {
+                    $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
+                } elseif ($param->isOptional()) {
+                    $paramDef .= ' = null';
+                }
             }
 
             $methodParams[] = $paramDef;
