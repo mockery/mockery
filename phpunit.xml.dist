@@ -16,6 +16,8 @@
     <testsuites>
         <testsuite name="Mockery Test Suite">
             <directory suffix="Test.php">./tests</directory>
+            <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
+            <file phpVersion="5.6.0" phpVersionOperator=">=">./tests/Mockery/MockingVariadicArgumentsTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
