@@ -78,4 +78,5 @@ class TestListener implements \PHPUnit_Framework_TestListener
 
     public function startTest(\PHPUnit_Framework_Test $test) {}
 
+    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {}
 }
