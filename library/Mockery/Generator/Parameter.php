@@ -76,4 +76,16 @@ class Parameter
 
         return $name;
     }
+
+
+    /**
+     * Variadics only introduced in 5.6
+     */
+    public function isVariadic()
+    {
+        if (version_compare(PHP_VERSION, '5.6.0') < 0) {
+            return false;
+        }
+        return $this->rfp->isVariadic();
+    }
 }
