@@ -1890,6 +1890,14 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive("foo")->andReturnSelf();
         $this->assertSame($this->mock, $this->mock->foo());
     }
+
+    public function testExpectationCanBeOverridden()
+    {
+        $this->mock->shouldReceive('foo')->once()->andReturn('green');
+        $this->mock->shouldReceive('foo')->andReturn('blue');
+        $this->assertEquals($this->mock->foo(), 'green');
+        $this->assertEquals($this->mock->foo(), 'blue');
+    }
 }
 
 class MockeryTest_SubjectCall1
