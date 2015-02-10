@@ -447,6 +447,10 @@ class Mockery
             return 'resource(...)';
         }
 
+        if (is_null($argument)) {
+            return 'NULL';
+        }
+
         $argument = (string) $argument;
 
         return $depth === 0 ? '"' . $argument . '"' : $argument;

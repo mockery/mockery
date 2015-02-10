@@ -358,6 +358,16 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo(3, 4);
     }
 
+    /**
+     * @expectedException \Mockery\Exception
+     * @expectedExceptionMessageRegExp /foo\(NULL\)/
+     */
+    public function testExpectsStringArgumentExceptionMessageDifferentiatesBetweenNullAndEmptyString()
+    {
+        $this->mock->shouldReceive('foo')->withArgs(array('a string'));
+        $this->mock->foo(null);
+    }
+
     public function testExpectsAnyArguments()
     {
         $this->mock->shouldReceive('foo')->withAnyArgs();
