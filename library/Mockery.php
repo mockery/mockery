@@ -291,6 +291,18 @@ class Mockery
         return new \Mockery\Matcher\Subset($part);
     }
 
+	/**
+	 * Return instance of NESTEDSUBSET matcher.
+	 *
+	 * @param array $part
+	 *
+	 * @return \Mockery\Matcher\NestedSubset
+	 */
+	public static function nestedSubset(array $part)
+	{
+		return new \Mockery\Matcher\NestedSubset($part);
+	}
+
     /**
      * Return instance of CONTAINS matcher.
      *

@@ -100,6 +100,7 @@
             <file name="MustBe.php" role="php"/>
             <file name="Not.php" role="php"/>
             <file name="NotAnyOf.php" role="php"/>
+            <file name="NestedSubset.php" role="php"/>
             <file name="Subset.php" role="php"/>
             <file name="Type.php" role="php"/>
           </dir>

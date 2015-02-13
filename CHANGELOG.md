@@ -2,6 +2,8 @@
 
 ## 0.9.4 (XXXX-XX-XX)
 
+* Add NestedMatcher class
+
 ## 0.9.3 (2014-12-22)
 
 * Added a basic spy implementation

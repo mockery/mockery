@@ -150,6 +150,13 @@ a single entry using ``hasEntry()`` or ``hasKeyValuePair()``.
 
 .. code-block:: php
 
+    with(\Mockery::nestedSubset(array(0 => 'foo', 1 => array(0 => 'bar', 'baz' => array(0 => 'quux')))))
+
+Similar to the subset matcher, but supports the ability to specify additional,
+arbitrarily nested subsets.
+
+.. code-block:: php
+
     with(\Mockery::contains(value1, value2))
 
 Matches any argument which is an array containing the listed values. The
