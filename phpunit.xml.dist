@@ -22,10 +22,10 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./library/</directory>
+            <exclude>
+                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php</file>
+            </exclude>
         </whitelist>
-        <blacklist>
-            <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php</file>
-        </blacklist>
     </filter>
     <listeners>
         <listener
