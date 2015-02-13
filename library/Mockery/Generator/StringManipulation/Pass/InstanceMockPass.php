@@ -36,6 +36,10 @@ MOCK;
     {
         if ($config->isInstanceMock()) {
             $code = $this->appendToClass($code, static::INSTANCE_MOCK_CODE);
+
+            if (\Mockery::getConfiguration()->ignoreMissing()) {
+                $code = str_replace("protected \$_mockery_ignoreMissing = false;", "protected \$_mockery_ignoreMissing = true;", $code);
+            }
         }
 
         return $code;
