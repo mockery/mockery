@@ -10,7 +10,6 @@
          stopOnError="false"
          stopOnFailure="false"
          syntaxCheck="true"
-         strict="false"
          verbose="true">
 >
     <testsuites>
@@ -24,6 +23,9 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./library/</directory>
         </whitelist>
+        <blacklist>
+            <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php</file>
+        </blacklist>
     </filter>
     <listeners>
         <listener
