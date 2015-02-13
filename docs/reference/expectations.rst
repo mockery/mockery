@@ -43,6 +43,12 @@ usage (e.g. during refactoring). See examples in a later section.
 
 .. code-block:: php
 
+    shouldNotReceive(method_name)
+
+Declares that the mock should not expect a call to the given method name.
+
+.. code-block:: php
+
     with(arg1, arg2, ...) / withArgs(array(arg1, arg2, ...))
 
 Adds a constraint that this expectation only applies to method calls which
