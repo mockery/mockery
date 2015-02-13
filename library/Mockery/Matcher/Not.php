@@ -24,6 +24,16 @@ class Not extends MatcherAbstract
 {
 
     /**
+     * Return the expectation that is negated by this matcher.
+     * 
+     * @return mixed
+     */
+    public function getNegatedExpectation()
+    {
+        return $this->_expected;
+    }
+
+    /**
      * Check if the actual value does not match the expected (in this
      * case it's specifically NOT expected).
      *
@@ -32,7 +42,7 @@ class Not extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        return $actual !== $this->_expected;
+        return false;
     }
 
     /**

@@ -305,11 +305,16 @@ class Expectation implements ExpectationInterface
      */
     protected function _matchArg($expected, &$actual)
     {
+        $negate = false;
+        while ($expected instanceof \Mockery\Matcher\Not) {
+            $expected = $expected->getNegatedExpectation();
+            $negate = !$negate;
+        }
         if ($expected === $actual) {
-            return true;
+            return !$negate;
         }
         if (!is_object($expected) && !is_object($actual) && $expected == $actual) {
-            return true;
+            return !$negate;
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
             # push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
@@ -318,22 +323,24 @@ class Expectation implements ExpectationInterface
             restore_error_handler();
 
             if($result) {
-                return true;
+                return !$negate;
             }
         }
         if (is_string($expected) && is_object($actual)) {
             $result = $actual instanceof $expected;
             if($result) {
-                return true;
+                return !$negate;
             }
         }
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
-            return $expected->match($actual);
+            $result = $expected->match($actual);
+            return $negate ? !$result : $result;
         }
         if (is_a($expected, '\Hamcrest\Matcher') || is_a($expected, '\Hamcrest_Matcher')) {
-            return $expected->matches($actual);
+            $result = $expected->matches($actual);
+            return $negate ? !$result : $result;
         }
-        return false;
+        return $negate;
     }
 
     /**

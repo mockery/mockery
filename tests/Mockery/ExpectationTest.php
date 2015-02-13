@@ -1666,6 +1666,13 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
+    public function testNotConstraintChainable()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::not(Mockery::not(1)))->once();
+        $this->mock->foo(1);
+        $this->container->mockery_verify();
+    }
+
     public function testNotConstraintNonMatchingCase()
     {
         $this->mock->shouldReceive('foo')->times(3);
