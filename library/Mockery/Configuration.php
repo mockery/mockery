@@ -41,24 +41,12 @@ class Configuration
      */
     protected $_allowMockingMethodsUnnecessarily = true;
 
-    protected $_allowIgnoreMissing = false;
-
     /**
      * Parameter map for use with PHP internal classes.
      *
      * @var array
      */
     protected $_internalClassParamMap = array();
-
-    public function allowIgnoreMissing($flag=true)
-    {
-        $this->_allowIgnoreMissing = (bool) $flag;
-    }
-
-    public function ignoreMissing()
-    {
-        return $this->_allowIgnoreMissing;
-    }
 
     /**
      * Set boolean to allow/prevent mocking of non-existent methods

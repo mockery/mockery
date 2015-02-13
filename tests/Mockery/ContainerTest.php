@@ -720,17 +720,12 @@ class ContainerTest extends MockeryTestCase
     public function testInstanceMocksShouldIgnoreMissing()
     {
         \Mockery::setContainer($this->container);
-        \Mockery::getConfiguration()->allowIgnoreMissing();
         $m = $this->container->mock('overload:MyNamespace\MyClass12');
-        $m->shouldReceive('bar')->once();
-        $m->foo();
+        $m->shouldIgnoreMissing();
 
         $instance = new \MyNamespace\MyClass12();
         $instance->foo();
-        $instance->bar();
 
-        $this->assertTrue($instance instanceof \MyNamespace\MyClass12);
-        $this->assertTrue($instance instanceof $m);
         \Mockery::resetContainer();
     }
 
