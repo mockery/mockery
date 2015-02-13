@@ -402,6 +402,31 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')->never();
     }
 
+    public function testShouldNotReceive()
+    {
+        $this->mock->shouldNotReceive('foo');
+    }
+
+    /**
+     * @expectedException \Mockery\Exception\InvalidCountException
+     */
+    public function testShouldNotReceiveThrowsExceptionIfMethodCalled()
+    {
+        $this->mock->shouldNotReceive('foo');
+        $this->mock->foo();
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception\InvalidCountException
+     */
+    public function testShouldNotReceiveWithArgumentThrowsExceptionIfMethodCalled()
+    {
+        $this->mock->shouldNotReceive('foo')->with(2);
+        $this->mock->foo(2);
+        $this->container->mockery_verify();
+    }
+
     /**
      * @expectedException \Mockery\CountValidator\Exception
      */
