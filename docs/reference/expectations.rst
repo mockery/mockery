@@ -45,7 +45,8 @@ usage (e.g. during refactoring). See examples in a later section.
 
     shouldNotReceive(method_name)
 
-Declares that the mock should not expect a call to the given method name.
+Declares that the mock should not expect a call to the given method name. This
+method is a convenience method for calling ``shouldReceive()->never()``.
 
 .. code-block:: php
 
