@@ -9,9 +9,9 @@ php:
   - hhvm-nightly
 
 matrix:
-allow_failures:
-- php: hhvm
-- php: hhvm-nightly
+  allow_failures:
+    - php: hhvm
+    - php: hhvm-nightly
 
 sudo: false
 
