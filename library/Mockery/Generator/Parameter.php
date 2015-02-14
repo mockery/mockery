@@ -48,13 +48,7 @@ class Parameter
         if ((version_compare(PHP_VERSION, '5.4.1') >= 0)) {
             try {
                 if ($this->rfp->getClass()) {
-                    $typehintedClass = $this->rfp->getClass()->getName();
-
-                    if ($this->isNamespacedClass($typehintedClass)) {
-                        return '\\' . $typehintedClass;
-                    }
-
-                    return $typehintedClass;
+                    return '\\' . $this->rfp->getClass()->getName();
                 }
             } catch (\ReflectionException $re) {
                 // noop
