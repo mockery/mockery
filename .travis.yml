@@ -28,7 +28,7 @@ before_script:
 
 script:
   - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]] && [[ "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] || [[ "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then vendor/bin/phpunit; fi
+  - if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] || [[ "$TRAVIS_PHP_VERSION" == "hhvm-nightly" ]]; then vendor/bin/phpunit; fi
 
 after_script:
   - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]] && [[ "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then vendor/bin/coveralls -v; fi
