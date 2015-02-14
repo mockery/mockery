@@ -1,4 +1,25 @@
 <?php
+
+namespace Foo {
+    class Bar {
+        public function baz() { return 0; }
+    }
+}
+
+namespace Acme {
+    class Acme {
+        public function hammer(\Foo\Bar $bar) {
+            return $bar->baz();
+        }
+
+        public function workshop(Anvil $anvil) {}
+    }
+
+    class Anvil {}
+}
+
+namespace {
+
 /**
  * Mockery
  *
@@ -51,4 +72,22 @@ class NamedMockTest extends MockeryTestCase
         $mock = Mockery::namedMock("Mockery\Dave7");
         $mock = Mockery::namedMock("Mockery\Dave7", "DateTime");
     }
+
+    /**
+     * @test
+     */
+    public function itUsesCorrectNamespaceInFunctionParameterTypeHints()
+    {
+        $mock = Mockery::namedMock("MyNamespace\Acme", "\Acme\Acme");
+        $mock->shouldReceive('hammer')->once()->andReturn(1);
+        $mock->shouldReceive('workshop')->once();
+
+        $bar = new \Foo\Bar();
+        $mock->hammer($bar);
+
+        $anvil = new \Acme\Anvil();
+        $mock->workshop($anvil);
+    }
+}
+
 }
