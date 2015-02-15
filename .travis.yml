@@ -5,6 +5,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 5.3.3 #This will actually use PHP7
   - hhvm
   - hhvm-nightly
 
@@ -19,22 +20,20 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+  - ./travis/before_install.sh
+
 install:
-  - travis_retry composer install -n
+  - travis_retry ./travis/install.sh
 
 before_script:
-  - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]] && [[ "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then echo "extension = mongo.so\nextension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
-  - phpenv rehash
+  - ./travis/before_script.sh
 
 script:
-  - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]] && [[ "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == "hhvm" ]] || [[ "$TRAVIS_PHP_VERSION" == "hhvm-nightly" ]]; then vendor/bin/phpunit; fi
+  - ./travis/script.sh
 
 after_script:
-  - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" ]] && [[ "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then vendor/bin/coveralls -v; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == "5.5" ]]; then php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi
-
+  - ./travis/after_script.sh
 notifications:
   email:
     - padraic.brady@gmail.com
