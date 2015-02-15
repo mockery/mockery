@@ -22,8 +22,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
-        "hamcrest/hamcrest-php": "~1.1",
-        "satooshi/php-coveralls": "~0.7@dev"
+        "hamcrest/hamcrest-php": "~1.1"
     },
     "autoload": {
         "psr-0": { "Mockery": "library/" }
