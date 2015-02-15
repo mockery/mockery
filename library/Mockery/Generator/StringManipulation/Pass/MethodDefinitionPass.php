@@ -10,10 +10,9 @@ class MethodDefinitionPass implements Pass
     public function apply($code, MockConfiguration $config)
     {
         foreach ($config->getMethodsToMock() as $method) {
-
             if ($method->isPublic()) {
                 $methodDef = 'public';
-            } elseif($method->isProtected()) {
+            } elseif ($method->isProtected()) {
                 $methodDef = 'protected';
             } else {
                 $methodDef = 'private';
@@ -94,7 +93,7 @@ BODY;
             $params = array_values($overrides[$class_name][$method->getName()]);
             $paramCount = count($params);
             for ($i = 0; $i < $paramCount; ++$i) {
-              $param = $params[$i];
+                $param = $params[$i];
                 if (strpos($param, '&') !== false) {
                     $body .= <<<BODY
 if (\$argc > $i) {

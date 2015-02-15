@@ -45,5 +45,4 @@ class Closure extends MatcherAbstract
     {
         return '<Closure===true>';
     }
-
 }

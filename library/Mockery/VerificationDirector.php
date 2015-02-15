@@ -2,7 +2,7 @@
 
 namespace Mockery;
 
-class VerificationDirector 
+class VerificationDirector
 {
     private $receivedMethodCalls;
     private $expectation;

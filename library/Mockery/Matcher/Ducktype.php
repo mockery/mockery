@@ -51,5 +51,4 @@ class Ducktype extends MatcherAbstract
     {
         return '<Ducktype[' . implode(', ', $this->_expected) . ']>';
     }
-
 }

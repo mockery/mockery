@@ -20,7 +20,6 @@
  */
 namespace Mockery;
 
-
 interface ExpectationInterface
 {
     /**

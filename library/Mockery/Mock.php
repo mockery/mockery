@@ -148,7 +148,7 @@ class Mock implements MockInterface
      */
     public function mockery_init(\Mockery\Container $container = null, $partialObject = null)
     {
-        if(is_null($container)) {
+        if (is_null($container)) {
             $container = new \Mockery\Container;
         }
         $this->_mockery_container = $container;
@@ -158,7 +158,9 @@ class Mock implements MockInterface
 
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
             foreach ($this->mockery_getMethods() as $method) {
-                if ($method->isPublic() && !$method->isStatic()) $this->_mockery_mockableMethods[] = $method->getName();
+                if ($method->isPublic() && !$method->isStatic()) {
+                    $this->_mockery_mockableMethods[] = $method->getName();
+                }
             }
         }
     }
@@ -349,13 +351,15 @@ class Mock implements MockInterface
      */
     public function mockery_verify()
     {
-        if ($this->_mockery_verified) return true;
+        if ($this->_mockery_verified) {
+            return true;
+        }
         if (isset($this->_mockery_ignoreVerification)
             && $this->_mockery_ignoreVerification == true) {
             return true;
         }
         $this->_mockery_verified = true;
-        foreach($this->_mockery_expectations as $director) {
+        foreach ($this->_mockery_expectations as $director) {
             $director->verify();
         }
     }
@@ -367,7 +371,6 @@ class Mock implements MockInterface
      */
     public function mockery_teardown()
     {
-
     }
 
     /**
@@ -456,7 +459,7 @@ class Mock implements MockInterface
     public function mockery_getExpectationCount()
     {
         $count = 0;
-        foreach($this->_mockery_expectations as $director) {
+        foreach ($this->_mockery_expectations as $director) {
             $count += $director->getExpectationCount();
         }
         return $count;
@@ -682,10 +685,11 @@ class Mock implements MockInterface
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
-            if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined)
+            if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined) {
                 return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
-            else
+            } else {
                 return $this->_mockery_defaultReturnValue;
+            }
         }
         throw new \BadMethodCallException(
             'Method ' . __CLASS__ . '::' . $method . '() does not exist on this mock object'
@@ -736,5 +740,4 @@ class Mock implements MockInterface
             })
         );
     }
-
 }

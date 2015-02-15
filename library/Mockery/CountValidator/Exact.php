@@ -19,6 +19,7 @@
  */
 
 namespace Mockery\CountValidator;
+
 use Mockery;
 
 class Exact extends CountValidatorAbstract
@@ -46,8 +47,6 @@ class Exact extends CountValidatorAbstract
                 ->setExpectedCount($this->_limit)
                 ->setActualCount($n);
             throw $exception;
-
         }
     }
-
 }

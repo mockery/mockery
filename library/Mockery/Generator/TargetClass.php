@@ -30,5 +30,4 @@ interface TargetClass
 
     /** @return bool */
     public function hasInternalAncestor();
-
 }

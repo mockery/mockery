@@ -50,5 +50,4 @@ class Type extends MatcherAbstract
     {
         return '<' . ucfirst($this->_expected) . '>';
     }
-
 }

@@ -24,4 +24,3 @@ trait MockeryPHPUnitIntegration
         \Mockery::close();
     }
 }
-

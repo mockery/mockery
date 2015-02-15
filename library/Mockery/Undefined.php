@@ -44,5 +44,4 @@ class Undefined
     {
         return __CLASS__ . ":" . spl_object_hash($this);
     }
-
 }

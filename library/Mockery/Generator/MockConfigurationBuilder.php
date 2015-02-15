@@ -120,5 +120,4 @@ class MockConfigurationBuilder
             $this->parameterOverrides
         );
     }
-
 }

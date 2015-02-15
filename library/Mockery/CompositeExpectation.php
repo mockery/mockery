@@ -124,5 +124,4 @@ class CompositeExpectation implements ExpectationInterface
         $return .= implode(', ', $parts) . ']';
         return $return;
     }
-
 }

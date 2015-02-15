@@ -128,5 +128,4 @@ class Configuration
     {
         return $this->_internalClassParamMap;
     }
-
 }

@@ -2,7 +2,7 @@
 
 namespace Mockery;
 
-class MethodCall 
+class MethodCall
 {
     private $method;
     private $args;

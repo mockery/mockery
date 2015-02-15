@@ -48,5 +48,4 @@ class NotAnyOf extends MatcherAbstract
     {
         return '<AnyOf>';
     }
-
 }

@@ -44,5 +44,4 @@ class HasValue extends MatcherAbstract
         $return = '<HasValue[' . (string) $this->_expected . ']>';
         return $return;
     }
-
 }
