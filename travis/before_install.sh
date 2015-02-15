@@ -10,7 +10,6 @@ if [[ "$TRAVIS_PHP_VERSION" == "5.3.3" ]]; then
   phpenv global 7
   popd
   popd
-  php --version
   echo Travis PHP Version is $TRAVIS_PHP_VERSION
   wget http://getcomposer.org/composer.phar
   mkdir $PWD/phar
