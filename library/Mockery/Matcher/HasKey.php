@@ -44,5 +44,4 @@ class HasKey extends MatcherAbstract
         $return = '<HasKey[' . (string) $this->_expected . ']>';
         return $return;
     }
-
 }

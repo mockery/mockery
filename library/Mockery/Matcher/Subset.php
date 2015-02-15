@@ -57,5 +57,4 @@ class Subset extends MatcherAbstract
         $return .= implode(', ', $elements) . ']>';
         return $return;
     }
-
 }

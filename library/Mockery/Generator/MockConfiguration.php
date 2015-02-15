@@ -132,15 +132,14 @@ class MockConfiguration
         }
 
         /**
-         * Internal objects can not be instantiated with newInstanceArgs and if 
-         * they implement Serializable, unserialize will have to be called. As 
-         * such, we can't mock it and will need a pass to add a dummy 
+         * Internal objects can not be instantiated with newInstanceArgs and if
+         * they implement Serializable, unserialize will have to be called. As
+         * such, we can't mock it and will need a pass to add a dummy
          * implementation
          */
-        if ($this->getTargetClass() 
+        if ($this->getTargetClass()
             && $this->getTargetClass()->implementsInterface("Serializable")
             && $this->getTargetClass()->hasInternalAncestor()) {
-
             $methods = array_filter($methods, function ($method) {
                 return $method->getName() !== "unserialize";
             });
@@ -279,7 +278,6 @@ class MockConfiguration
             }
 
             $this->targetClass = $dtc;
-
         } else {
             $this->targetClass = new UndefinedTargetClass($this->targetClassName);
         }
@@ -306,7 +304,6 @@ class MockConfiguration
             $traversableFound = false;
             $iteratorShiftedToFront = false;
             foreach ($extendedInterfaces as $interface) {
-
                 if (!$traversableFound && preg_match("/^\\?Iterator(|Aggregate)$/i", $interface)) {
                     break;
                 }
@@ -332,7 +329,6 @@ class MockConfiguration
             if (!preg_match("/^\\\\?Traversable$/i", $targetInterface)) {
                 $this->targetInterfaces[] = $dtc;
             }
-
         }
         $this->targetInterfaces = array_unique($this->targetInterfaces); // just in case
         return $this->targetInterfaces;
@@ -461,5 +457,4 @@ class MockConfiguration
     {
         $this->targetObject = $object;
     }
-
 }

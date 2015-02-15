@@ -2,7 +2,7 @@
 
 namespace Mockery;
 
-class ReceivedMethodCalls 
+class ReceivedMethodCalls
 {
     private $methodCalls = array();
     

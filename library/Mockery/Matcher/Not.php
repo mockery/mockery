@@ -44,5 +44,4 @@ class Not extends MatcherAbstract
     {
         return '<Not>';
     }
-
 }

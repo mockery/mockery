@@ -2,7 +2,7 @@
 
 namespace Mockery\Generator;
 
-use  Mockery\Generator\StringManipulation\Pass\Pass;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class StringManipulationGenerator implements Generator
 {

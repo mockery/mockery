@@ -19,6 +19,7 @@
  */
 
 namespace Mockery\Exception;
+
 use Mockery;
 use Mockery\Exception\RuntimeException;
 
@@ -99,5 +100,4 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     {
         return $this->expectedComparative;
     }
-
 }

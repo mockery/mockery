@@ -19,6 +19,7 @@
  */
 
 namespace Mockery\CountValidator;
+
 use Mockery;
 
 class AtLeast extends CountValidatorAbstract
@@ -59,5 +60,4 @@ class AtLeast extends CountValidatorAbstract
             throw $exception;
         }
     }
-
 }

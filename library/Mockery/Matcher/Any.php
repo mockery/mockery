@@ -43,5 +43,4 @@ class Any extends MatcherAbstract
     {
         return '<Any>';
     }
-
 }

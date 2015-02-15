@@ -62,5 +62,4 @@ class Contains extends MatcherAbstract
         $return .= implode(', ', $elements) . ']>';
         return $return;
     }
-
 }

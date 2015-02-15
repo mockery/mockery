@@ -12,7 +12,7 @@ abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
         $this->closeMockery();
 
         parent::assertPostConditions();
-    } 
+    }
 
     protected function addMockeryExpectationsToAssertionCount()
     {

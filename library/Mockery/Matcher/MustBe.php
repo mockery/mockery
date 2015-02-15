@@ -47,5 +47,4 @@ class MustBe extends MatcherAbstract
     {
         return '<MustBe>';
     }
-
 }

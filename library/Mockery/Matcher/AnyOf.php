@@ -48,5 +48,4 @@ class AnyOf extends MatcherAbstract
     {
         return '<AnyOf>';
     }
-
 }

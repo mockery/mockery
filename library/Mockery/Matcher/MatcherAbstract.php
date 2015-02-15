@@ -56,5 +56,4 @@ abstract class MatcherAbstract
      * @return string
      */
     abstract public function __toString();
-
 }

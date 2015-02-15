@@ -200,5 +200,4 @@ class ExpectationDirector
     {
         return count($this->getExpectations());
     }
-
 }

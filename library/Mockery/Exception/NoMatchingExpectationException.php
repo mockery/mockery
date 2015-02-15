@@ -19,6 +19,7 @@
  */
 
 namespace Mockery\Exception;
+
 use Mockery;
 
 class NoMatchingExpectationException extends Mockery\Exception
@@ -67,5 +68,4 @@ class NoMatchingExpectationException extends Mockery\Exception
     {
         return $this->getMock()->mockery_getName();
     }
-
 }

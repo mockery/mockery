@@ -19,6 +19,7 @@
  */
 
 namespace Mockery\Exception;
+
 use Mockery;
 
 class InvalidOrderException extends Mockery\Exception
@@ -80,5 +81,4 @@ class InvalidOrderException extends Mockery\Exception
     {
         return $this->getMock()->mockery_getName();
     }
-
 }

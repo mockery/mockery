@@ -280,10 +280,10 @@ class Expectation implements ExpectationInterface
      */
     public function matchArgs(array $args)
     {
-        if(empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
+        if (empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
             return true;
         }
-        if(count($args) !== count($this->_expectedArgs)) {
+        if (count($args) !== count($this->_expectedArgs)) {
             return false;
         }
         $argCount = count($args);
@@ -317,13 +317,13 @@ class Expectation implements ExpectationInterface
             $result = preg_match($expected, (string) $actual);
             restore_error_handler();
 
-            if($result) {
+            if ($result) {
                 return true;
             }
         }
         if (is_string($expected) && is_object($actual)) {
             $result = $actual instanceof $expected;
-            if($result) {
+            if ($result) {
                 return true;
             }
         }
@@ -536,7 +536,9 @@ class Expectation implements ExpectationInterface
      */
     public function times($limit = null)
     {
-        if (is_null($limit)) return $this;
+        if (is_null($limit)) {
+            return $this;
+        }
         $this->_countValidators[] = new $this->_countValidatorClass($this, $limit);
         $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
         return $this;
@@ -672,7 +674,7 @@ class Expectation implements ExpectationInterface
     public function byDefault()
     {
         $director = $this->_mock->mockery_getExpectationsFor($this->_name);
-        if(!empty($director)) {
+        if (!empty($director)) {
             $director->makeExpectationDefault($this);
         }
         return $this;
@@ -724,5 +726,4 @@ class Expectation implements ExpectationInterface
     {
         return $this->_name;
     }
-
 }

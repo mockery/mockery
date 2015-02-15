@@ -26,12 +26,12 @@ use UnexpectedValueException;
 use InvalidArgumentException;
 
 /**
- * This is a trimmed down version of https://github.com/doctrine/instantiator, 
+ * This is a trimmed down version of https://github.com/doctrine/instantiator,
  * basically without the caching
  *
  * @author Marco Pivetta <ocramius@gmail.com>
  */
-final class Instantiator 
+final class Instantiator
 {
     /**
      * Markers used internally by PHP to define whether {@see \unserialize} should invoke

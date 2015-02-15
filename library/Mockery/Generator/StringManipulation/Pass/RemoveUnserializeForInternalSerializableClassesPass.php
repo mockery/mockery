@@ -5,12 +5,12 @@ namespace Mockery\Generator\StringManipulation\Pass;
 use Mockery\Generator\MockConfiguration;
 
 /**
- * Internal classes can not be instantiated with the newInstanceWithoutArgs 
- * reflection method, so need the serialization hack. If the class also 
- * implements Serializable, we need to replace the standard unserialize method 
+ * Internal classes can not be instantiated with the newInstanceWithoutArgs
+ * reflection method, so need the serialization hack. If the class also
+ * implements Serializable, we need to replace the standard unserialize method
  * definition with a dummy
  */
-class RemoveUnserializeForInternalSerializableClassesPass 
+class RemoveUnserializeForInternalSerializableClassesPass
 {
     const DUMMY_METHOD_DEFINITION = 'public function unserialize($string) {} ';
 

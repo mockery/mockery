@@ -135,7 +135,9 @@ class Mockery
      */
     public static function close()
     {
-        if (is_null(self::$_container)) return;
+        if (is_null(self::$_container)) {
+            return;
+        }
 
         self::$_container->mockery_teardown();
         self::$_container->mockery_close();
@@ -483,7 +485,7 @@ class Mockery
         $formatting = true;
         $parts = array();
 
-        foreach($objects as $object) {
+        foreach ($objects as $object) {
             $parts[get_class($object)] = self::objectToArray($object);
         }
 
@@ -563,7 +565,7 @@ class Mockery
 
             try {
                 $getters[$name] = self::cleanupNesting($object->$name(), $nesting);
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $getters[$name] = '!! ' . get_class($e) . ': ' . $e->getMessage() . ' !!';
             }
         }
@@ -619,7 +621,7 @@ class Mockery
 
         foreach ($args as $arg) {
             if (is_array($arg)) {
-                foreach($arg as $k => $v) {
+                foreach ($arg as $k => $v) {
                     $expectation = self::buildDemeterChain($mock, $k, $add)->andReturn($v);
                     $composite->add($expectation);
                 }
