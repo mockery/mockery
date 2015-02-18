@@ -14,6 +14,13 @@ class InstanceMockPass
     {
         \$this->_mockery_ignoreVerification = false;
         \$associatedRealObject = \Mockery::fetchMock(__CLASS__);
+
+        foreach (get_object_vars(\$this) as \$attr => \$val) {
+            if (\$attr !== "_mockery_ignoreVerification" && \$attr !== "_mockery_expectations") {
+                \$this->\$attr = \$associatedRealObject->\$attr;
+            }
+        }
+
         \$directors = \$associatedRealObject->mockery_getExpectations();
         foreach (\$directors as \$method=>\$director) {
             \$expectations = \$director->getExpectations();

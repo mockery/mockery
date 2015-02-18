@@ -717,6 +717,18 @@ class ContainerTest extends MockeryTestCase
         $this->assertTrue($m instanceof \MyNamespace\MyClass11);
     }
 
+    public function testInstanceMocksShouldIgnoreMissing()
+    {
+        \Mockery::setContainer($this->container);
+        $m = $this->container->mock('overload:MyNamespace\MyClass12');
+        $m->shouldIgnoreMissing();
+
+        $instance = new \MyNamespace\MyClass12();
+        $instance->foo();
+
+        \Mockery::resetContainer();
+    }
+
     public function testMethodParamsPassedByReferenceHaveReferencePreserved()
     {
         $m = $this->container->mock('MockeryTestRef1');
