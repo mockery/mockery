@@ -41,6 +41,9 @@ class CompositeExpectation implements ExpectationInterface
         $this->_expectations[] = $expectation;
     }
 
+    /**
+     * @param mixed ...
+     */
     public function andReturn()
     {
         return $this->__call(__FUNCTION__, func_get_args());
@@ -99,6 +102,7 @@ class CompositeExpectation implements ExpectationInterface
      * Starts a new expectation addition on the first mock which is the primary
      * target outside of a demeter chain
      *
+     * @param mixed ...
      * @return \Mockery\Expectation
      */
     public function shouldReceive()

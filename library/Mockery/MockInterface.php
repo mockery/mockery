@@ -35,7 +35,7 @@ interface MockInterface
     /**
      * Set expected method calls
      *
-     * @param mixed
+     * @param mixed ...
      * @return \Mockery\Expectation
      */
     public function shouldReceive();
@@ -43,7 +43,7 @@ interface MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param mixed
+     * @param mixed ...
      * @return \Mockery\Expectation
      */
     public function shouldNotReceive();
