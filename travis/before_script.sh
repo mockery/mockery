@@ -9,3 +9,7 @@ fi
 if [[ "$TRAVIS_PHP_VERSION" == "5.3.3" ]]; then
   php --version
 fi
+
+if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then
+  sed '/MockeryPHPUnitIntegration/d' -i ./phpunit.xml.dist
+fi
