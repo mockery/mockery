@@ -1,0 +1,6 @@
+preset: recommended
+
+disabled:
+  - short_array_syntax
+  - new_with_braces
+  
