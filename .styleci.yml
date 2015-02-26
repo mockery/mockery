@@ -1,6 +1,10 @@
 preset: recommended
 
+enabled:
+  - concat_with_spaces
+
 disabled:
   - short_array_syntax
+  - phpdoc_no_package
   - new_with_braces
-  
+  - concat_without_spaces
