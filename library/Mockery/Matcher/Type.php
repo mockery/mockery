@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -22,11 +24,11 @@ namespace Mockery\Matcher;
 
 class Type extends MatcherAbstract
 {
-
     /**
      * Check if the actual value matches the expected.
      *
      * @param mixed $actual
+     *
      * @return bool
      */
     public function match(&$actual)
@@ -38,11 +40,12 @@ class Type extends MatcherAbstract
         && (class_exists($this->_expected) || interface_exists($this->_expected))) {
             return $actual instanceof $this->_expected;
         }
+
         return false;
     }
 
     /**
-     * Return a string representation of this Matcher
+     * Return a string representation of this Matcher.
      *
      * @return string
      */

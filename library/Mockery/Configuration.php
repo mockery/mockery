@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -22,10 +24,9 @@ namespace Mockery;
 
 class Configuration
 {
-
     /**
      * Boolean assertion of whether we can mock methods which do not actually
-     * exist for the given class or object (ignored for unreal mocks)
+     * exist for the given class or object (ignored for unreal mocks).
      *
      * @var bool
      */
@@ -49,7 +50,7 @@ class Configuration
     protected $_internalClassParamMap = array();
 
     /**
-     * Set boolean to allow/prevent mocking of non-existent methods
+     * Set boolean to allow/prevent mocking of non-existent methods.
      *
      * @param bool
      */
@@ -59,7 +60,7 @@ class Configuration
     }
 
     /**
-     * Return flag indicating whether mocking non-existent methods allowed
+     * Return flag indicating whether mocking non-existent methods allowed.
      *
      * @return bool
      */
@@ -69,7 +70,7 @@ class Configuration
     }
 
     /**
-     * Set boolean to allow/prevent unnecessary mocking of methods
+     * Set boolean to allow/prevent unnecessary mocking of methods.
      *
      * @param bool
      */
@@ -79,7 +80,7 @@ class Configuration
     }
 
     /**
-     * Return flag indicating whether mocking non-existent methods allowed
+     * Return flag indicating whether mocking non-existent methods allowed.
      *
      * @return bool
      */
@@ -94,7 +95,7 @@ class Configuration
      *
      * @param string $class
      * @param string $method
-     * @param array $map
+     * @param array  $map
      */
     public function setInternalClassMethodParamMap($class, $method, array $map)
     {
@@ -113,7 +114,7 @@ class Configuration
     }
 
     /**
-     * Get the parameter map of an internal PHP class method
+     * Get the parameter map of an internal PHP class method.
      *
      * @return array
      */

@@ -4,37 +4,37 @@ namespace Mockery\Generator;
 
 /**
  * This class describes the configuration of mocks and hides away some of the
- * reflection implementation
+ * reflection implementation.
  */
 class MockConfiguration
 {
     protected static $mockCounter = 0;
 
     /**
-     * A class that we'd like to mock
+     * A class that we'd like to mock.
      */
     protected $targetClass;
     protected $targetClassName;
 
     /**
      * A number of interfaces we'd like to mock, keyed by name to attempt to
-     * keep unique
+     * keep unique.
      */
     protected $targetInterfaces = array();
     protected $targetInterfaceNames = array();
 
     /**
-     * An object we'd like our mock to proxy to
+     * An object we'd like our mock to proxy to.
      */
     protected $targetObject;
 
     /**
-     * The class name we'd like to use for a generated mock
+     * The class name we'd like to use for a generated mock.
      */
     protected $name;
 
     /**
-     * Methods that should specifically not be mocked
+     * Methods that should specifically not be mocked.
      *
      * This is currently populated with stuff we don't know how to deal with,
      * should really be somewhere else
@@ -42,23 +42,23 @@ class MockConfiguration
     protected $blackListedMethods = array();
 
     /**
-     * If not empty, only these methods will be mocked
+     * If not empty, only these methods will be mocked.
      */
     protected $whiteListedMethods = array();
 
     /**
      * An instance mock is where we override the original class before it's
-     * autoloaded
+     * autoloaded.
      */
     protected $instanceMock = false;
 
     /**
-     * Param overrides
+     * Param overrides.
      */
     protected $parameterOverrides = array();
 
     /**
-     * Instance cache of all methods
+     * Instance cache of all methods.
      */
     protected $allMethods;
 
@@ -73,7 +73,7 @@ class MockConfiguration
     }
 
     /**
-     * Attempt to create a hash of the configuration, in order to allow caching
+     * Attempt to create a hash of the configuration, in order to allow caching.
      *
      * @TODO workout if this will work
      *
@@ -82,13 +82,13 @@ class MockConfiguration
     public function getHash()
     {
         $vars = array(
-            'targetClassName' => $this->targetClassName,
+            'targetClassName'      => $this->targetClassName,
             'targetInterfaceNames' => $this->targetInterfaceNames,
-            'name' => $this->name,
-            'blackListedMethods' => $this->blackListedMethods,
-            'whiteListedMethod' => $this->whiteListedMethods,
-            'instanceMock' => $this->instanceMock,
-            'parameterOverrides' => $this->parameterOverrides,
+            'name'                 => $this->name,
+            'blackListedMethods'   => $this->blackListedMethods,
+            'whiteListedMethod'    => $this->whiteListedMethods,
+            'instanceMock'         => $this->instanceMock,
+            'parameterOverrides'   => $this->parameterOverrides,
         );
 
         return md5(serialize($vars));
@@ -97,7 +97,7 @@ class MockConfiguration
     /**
      * Gets a list of methods from the classes, interfaces and objects and
      * filters them appropriately. Lot's of filtering going on, perhaps we could
-     * have filter classes to iterate through
+     * have filter classes to iterate through.
      */
     public function getMethodsToMock()
     {
@@ -109,7 +109,7 @@ class MockConfiguration
             }
         }
 
-        /**
+        /*
          * Whitelist trumps everything else
          */
         if (count($this->getWhiteListedMethods())) {
@@ -121,7 +121,7 @@ class MockConfiguration
             return $methods;
         }
 
-        /**
+        /*
          * Remove blacklisted methods
          */
         if (count($this->getBlackListedMethods())) {
@@ -131,7 +131,7 @@ class MockConfiguration
             });
         }
 
-        /**
+        /*
          * Internal objects can not be instantiated with newInstanceArgs and if
          * they implement Serializable, unserialize will have to be called. As
          * such, we can't mock it and will need a pass to add a dummy
@@ -150,13 +150,14 @@ class MockConfiguration
 
     /**
      * We declare the __call method to handle undefined stuff, if the class
-     * we're mocking has also defined it, we need to comply with their interface
+     * we're mocking has also defined it, we need to comply with their interface.
      */
     public function requiresCallTypeHintRemoval()
     {
         foreach ($this->getAllMethods() as $method) {
             if ("__call" === $method->getName()) {
                 $params = $method->getParameters();
+
                 return !$params[1]->isArray();
             }
         }
@@ -166,13 +167,14 @@ class MockConfiguration
 
     /**
      * We declare the __callStatic method to handle undefined stuff, if the class
-     * we're mocking has also defined it, we need to comply with their interface
+     * we're mocking has also defined it, we need to comply with their interface.
      */
     public function requiresCallStaticTypeHintRemoval()
     {
         foreach ($this->getAllMethods() as $method) {
             if ("__callStatic" === $method->getName()) {
                 $params = $method->getParameters();
+
                 return !$params[1]->isArray();
             }
         }
@@ -211,6 +213,7 @@ class MockConfiguration
         if (is_object($target)) {
             $this->setTargetObject($target);
             $this->setTargetClassName(get_class($target));
+
             return $this;
         }
 
@@ -220,15 +223,17 @@ class MockConfiguration
 
         if (class_exists($target)) {
             $this->setTargetClassName($target);
+
             return $this;
         }
 
         if (interface_exists($target)) {
             $this->addTargetInterfaceName($target);
+
             return $this;
         }
 
-        /**
+        /*
          * Default is to set as class, or interface if class already set
          *
          * Don't like this condition, can't remember what the default
@@ -236,6 +241,7 @@ class MockConfiguration
          */
         if ($this->getTargetClassName()) {
             $this->addTargetInterfaceName($target);
+
             return $this;
         }
 
@@ -261,7 +267,7 @@ class MockConfiguration
         }
 
         if (!$this->targetClassName) {
-            return null;
+            return;
         }
 
         if (class_exists($this->targetClassName)) {
@@ -294,6 +300,7 @@ class MockConfiguration
         foreach ($this->targetInterfaceNames as $targetInterface) {
             if (!interface_exists($targetInterface)) {
                 $this->targetInterfaces[] = new UndefinedTargetClass($targetInterface);
+
                 return;
             }
 
@@ -323,7 +330,7 @@ class MockConfiguration
                 $this->targetInterfaces[] = DefinedTargetClass::factory("\\IteratorAggregate");
             }
 
-            /**
+            /*
              * We never straight up implement Traversable
              */
             if (!preg_match("/^\\\\?Traversable$/i", $targetInterface)) {
@@ -345,7 +352,7 @@ class MockConfiguration
     }
 
     /**
-     * Generate a suitable name based on the config
+     * Generate a suitable name based on the config.
      */
     public function generateName()
     {
@@ -362,6 +369,7 @@ class MockConfiguration
         if ($this->getTargetInterfaces()) {
             $name .= array_reduce($this->getTargetInterfaces(), function ($tmpname, $i) {
                 $tmpname .= '_' . str_replace("\\", "_", $i->getName());
+
                 return $tmpname;
             }, '');
         }
@@ -372,6 +380,7 @@ class MockConfiguration
     public function getShortName()
     {
         $parts = explode("\\", $this->getName());
+
         return array_pop($parts);
     }
 
@@ -436,6 +445,7 @@ class MockConfiguration
             }
 
             $names[] = $method->getName();
+
             return true;
         });
 
@@ -451,7 +461,6 @@ class MockConfiguration
     {
         $this->targetInterfaceNames[] = $targetInterface;
     }
-
 
     protected function setTargetObject($object)
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -22,13 +24,12 @@ namespace Mockery\Adapter\Phpunit;
 
 class TestListener implements \PHPUnit_Framework_TestListener
 {
-
     /**
      * After each test, perform Mockery verification tasks and cleanup the
      * statically stored Mockery container for the next test.
      *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  float                  $time
+     * @param PHPUnit_Framework_Test $test
+     * @param float                  $time
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
@@ -47,21 +48,21 @@ class TestListener implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * Add Mockery files to PHPUnit's blacklist so they don't showup on coverage reports
+     * Add Mockery files to PHPUnit's blacklist so they don't showup on coverage reports.
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (class_exists('\\PHP_CodeCoverage_Filter')
         && method_exists('\\PHP_CodeCoverage_Filter', 'getInstance')) {
             \PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
-                 __DIR__.'/../../../Mockery/', '.php', '', 'PHPUNIT'
+                 __DIR__ . '/../../../Mockery/', '.php', '', 'PHPUNIT'
             );
 
-            \PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__.'/../../../Mockery.php', 'PHPUNIT');
+            \PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__ . '/../../../Mockery.php', 'PHPUNIT');
         }
     }
     /**
-     *  The Listening methods below are not required for Mockery
+     *  The Listening methods below are not required for Mockery.
      */
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {

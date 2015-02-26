@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,17 +13,17 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
  * @subpackage UnitTests
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
-
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class Mockery_MockTest extends MockeryTestCase
 {
-
     public function setup()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
@@ -74,19 +74,18 @@ class Mockery_MockTest extends MockeryTestCase
     public function testMockToStringMayBeDeferred()
     {
         $mock = $this->container->mock('ClassWithToString')->shouldDeferMissing();
-        assertThat((string)$mock, equalTo("foo"));
+        assertThat((string) $mock, equalTo("foo"));
     }
 
     public function testMockToStringShouldIgnoreMissingAlwaysReturnsString()
     {
         $mock = $this->container->mock('ClassWithNoToString')->shouldIgnoreMissing();
-        assertThat(isNonEmptyString((string)$mock));
+        assertThat(isNonEmptyString((string) $mock));
 
         $mock->asUndefined();
-        assertThat(isNonEmptyString((string)$mock));
+        assertThat(isNonEmptyString((string) $mock));
     }
 }
-
 
 class ExampleClassForTestingNonExistentMethod
 {

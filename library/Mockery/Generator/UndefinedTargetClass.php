@@ -35,6 +35,7 @@ class UndefinedTargetClass
     {
         $parts = explode("\\", ltrim($this->getName(), "\\"));
         array_pop($parts);
+
         return implode("\\", $parts);
     }
 
@@ -46,6 +47,7 @@ class UndefinedTargetClass
     public function getShortName()
     {
         $parts = explode("\\", $this->getName());
+
         return array_pop($parts);
     }
 

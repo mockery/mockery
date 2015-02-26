@@ -120,16 +120,18 @@ class Loader
      * Loads the given class or interface.
      *
      * @param string $className The name of the class to load.
+     *
      * @return void
      */
     public function loadClass($className)
     {
         if ($className === 'Mockery') {
             require $this->getFullPath('Mockery.php');
+
             return;
         }
         if (null === $this->_namespace
-        || $this->_namespace.$this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace.$this->_namespaceSeparator))) {
+        || $this->_namespace . $this->_namespaceSeparator === substr($className, 0, strlen($this->_namespace . $this->_namespaceSeparator))) {
             $fileName = '';
             $namespace = '';
             if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
@@ -146,6 +148,7 @@ class Loader
      * Returns full path for $fileName if _includePath is set, or leaves as-is for PHP's internal search in 'require'.
      *
      * @param string $fileName relative to include path.
+     *
      * @return string
      */
     private function getFullPath($fileName)

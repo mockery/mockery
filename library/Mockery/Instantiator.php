@@ -21,13 +21,13 @@ namespace Mockery;
 
 use Closure;
 use Exception;
+use InvalidArgumentException;
 use ReflectionClass;
 use UnexpectedValueException;
-use InvalidArgumentException;
 
 /**
  * This is a trimmed down version of https://github.com/doctrine/instantiator,
- * basically without the caching
+ * basically without the caching.
  *
  * @author Marco Pivetta <ocramius@gmail.com>
  */
@@ -93,9 +93,9 @@ final class Instantiator
     /**
      * @param string $className
      *
-     * @return ReflectionClass
-     *
      * @throws InvalidArgumentException
+     *
+     * @return ReflectionClass
      */
     private function getReflectionClass($className)
     {
@@ -163,7 +163,7 @@ final class Instantiator
     }
 
     /**
-     * Verifies whether the given class is to be considered internal
+     * Verifies whether the given class is to be considered internal.
      *
      * @param ReflectionClass $reflectionClass
      *
@@ -204,7 +204,7 @@ final class Instantiator
     }
 
     /**
-     * Checks whether the current PHP runtime uses an incompatible serialization format
+     * Checks whether the current PHP runtime uses an incompatible serialization format.
      *
      * @return bool
      */

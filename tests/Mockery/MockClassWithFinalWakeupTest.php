@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,8 +13,10 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
  * @subpackage UnitTests
+ *
  * @copyright  Copyright (c) 2012 Philip Graham <philip.robert.graham@gmail.com>
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -25,7 +27,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithFinalWakeupTest extends MockeryTestCase
 {
-
     protected function setUp()
     {
         $this->container = new \Mockery\Container;
@@ -62,12 +63,10 @@ class MockClassWithFinalWakeupTest extends MockeryTestCase
         // Make sure __wakeup is overridden and doesn't return anything.
         $this->assertNull($mock->__wakeup());
     }
-
 }
 
 class TestWithFinalWakeup
 {
-
     public function foo()
     {
         return 'foo';
@@ -84,7 +83,9 @@ class TestWithFinalWakeup
     }
 }
 
-class SubclassWithFinalWakeup extends TestWithFinalWakeup {}
+class SubclassWithFinalWakeup extends TestWithFinalWakeup
+{
+}
 
 class TestWithNonFinalWakeup
 {

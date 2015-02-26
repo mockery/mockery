@@ -52,6 +52,7 @@ MOCK;
     {
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+
         return $class;
     }
 }

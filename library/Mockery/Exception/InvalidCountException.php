@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -21,11 +23,9 @@
 namespace Mockery\Exception;
 
 use Mockery;
-use Mockery\Exception\RuntimeException;
 
 class InvalidCountException extends Mockery\CountValidator\Exception
 {
-
     protected $method = null;
 
     protected $expected = 0;
@@ -39,24 +39,28 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     public function setMock(Mockery\MockInterface $mock)
     {
         $this->mockObject = $mock;
+
         return $this;
     }
 
     public function setMethodName($name)
     {
         $this->method = $name;
+
         return $this;
     }
 
     public function setActualCount($count)
     {
         $this->actual = $count;
+
         return $this;
     }
 
     public function setExpectedCount($count)
     {
         $this->expected = $count;
+
         return $this;
     }
 
@@ -68,6 +72,7 @@ class InvalidCountException extends Mockery\CountValidator\Exception
             );
         }
         $this->expectedComparative = $comp;
+
         return $this;
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,8 +13,10 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
  * @subpackage UnitTests
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -25,7 +27,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingProtectedMethodsTest extends MockeryTestCase
 {
-
     public function setup()
     {
         $this->container = new \Mockery\Container;
@@ -99,7 +100,6 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $this->assertEquals("abstractProtected", $mock->foo());
     }
 }
-
 
 abstract class TestWithProtectedMethods
 {

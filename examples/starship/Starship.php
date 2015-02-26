@@ -2,7 +2,6 @@
 
 class Starship
 {
-
     protected $_engineering = null;
 
     public function __construct($engineering)
@@ -21,5 +20,4 @@ class Starship
         // We can add more runDiagnosticLevel() calls without failing the test
         // anywhere above since they are unordered.
     }
-
 }

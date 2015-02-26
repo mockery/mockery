@@ -8,7 +8,7 @@ use Mockery\Generator\MockConfiguration;
  * The standard Mockery\Mock class includes some methods to ease mocking, such
  * as __wakeup, however if the target has a final __wakeup method, it can't be
  * mocked. This pass removes the builtin methods where they are final on the
- * target
+ * target.
  */
 class RemoveBuiltinMethodsThatAreFinalPass
 {

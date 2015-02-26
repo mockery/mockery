@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -22,17 +24,16 @@ namespace Mockery;
 
 class Recorder
 {
-
     /**
      * Mock object on which all recorded interactions will be set as
-     * expectations
+     * expectations.
      *
      * @var object
      */
     protected $_mock = null;
 
     /**
-     * The subject object whose interactions are being recorded
+     * The subject object whose interactions are being recorded.
      *
      * @var object
      */
@@ -54,7 +55,8 @@ class Recorder
      * a \Mockery::mock() call in the same way as a partial mock requires.
      *
      * @param \Mockery\MockInterface $mock
-     * @param object $subject
+     * @param object                 $subject
+     *
      * @return void
      */
     public function __construct(\Mockery\MockInterface $mock, $subject)
@@ -81,7 +83,8 @@ class Recorder
      * recorded.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return mixed
      */
     public function __call($method, array $args)
@@ -98,6 +101,7 @@ class Recorder
         } else {
             call_user_func_array(array($expectation, 'with'), $args);
         }
+
         return $return;
     }
 }

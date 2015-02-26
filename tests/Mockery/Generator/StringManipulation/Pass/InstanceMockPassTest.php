@@ -2,7 +2,6 @@
 
 namespace Mockery\Test\Generator\StringManipulation\Pass;
 
-use Mockery as m;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 

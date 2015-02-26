@@ -7,7 +7,7 @@ use Mockery\Spy;
 
 class SpyTest extends \PHPUnit_Framework_TestCase
 {
-    public function setup ()
+    public function setup()
     {
         $this->container = new \Mockery\Container;
     }
@@ -75,5 +75,4 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("Mockery\Exception\InvalidCountException");
         $spy->shouldHaveReceived("myMethod")->with(123);
     }
-
 }
