@@ -81,6 +81,13 @@ interface MockInterface
     public function makePartial();
 
     /**
+     * Set mock to return null by default for all existing methods
+     *
+     * @return Mock
+     */
+    public function makeStubs();
+
+    /**
      * @param $method
      * @param null $args
      * @return \Mockery\Expectation

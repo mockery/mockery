@@ -49,6 +49,13 @@ class Mock implements MockInterface
     protected $_mockery_deferMissing = false;
 
     /**
+     * Flag to indicate whether existing method calls return null by default
+     *
+     * @var bool
+     */
+    protected $_mockery_allStubs = false;
+
+    /**
      * Flag to indicate whether this mock was verified
      *
      * @var bool
@@ -279,6 +286,17 @@ class Mock implements MockInterface
     public function makePartial()
     {
         return $this->shouldDeferMissing();
+    }
+
+    /**
+     * Set mock to return null by default for all existing methods
+     *
+     * @return Mock
+     */
+    public function makeStubs()
+    {
+        $this->_mockery_allStubs = true;
+        return $this;
     }
 
     /**
@@ -688,7 +706,9 @@ class Mock implements MockInterface
             }
         }
 
-        if (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
+        if ($this->_mockery_allStubs && (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
+            return null;
+        } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
