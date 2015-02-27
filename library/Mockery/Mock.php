@@ -163,7 +163,7 @@ class Mock implements MockInterface
             $this->_mockery_partial = $partialObject;
         }
 
-        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
+        if (!$this->mockingNonExistentMethodsAllowed()) {
             foreach ($this->mockery_getMethods() as $method) {
                 if ($method->isPublic() && !$method->isStatic()) {
                     $this->_mockery_mockableMethods[] = $method->getName();

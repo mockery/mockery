@@ -88,6 +88,14 @@ interface MockInterface
     public function disallowMockingNonExistentMethods();
 
     /**
+     * Return flag indicating whether mocking non-existent methods allowed
+     * Fallback to global configuration
+     *
+     * @return bool
+     */
+    public function mockingNonExistentMethodsAllowed();
+
+    /**
      * @param $method
      * @param null $args
      * @return \Mockery\Expectation

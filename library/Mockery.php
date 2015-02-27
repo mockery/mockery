@@ -651,7 +651,7 @@ class Mockery
         $methodNames = explode('->', $arg);
         reset($methodNames);
 
-        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
+        if (!$mock->mockingNonExistentMethodsAllowed()
             && !$mock->mockery_isAnonymous()
             && !in_array(current($methodNames), $mock->mockery_getMockableMethods())
         ) {
