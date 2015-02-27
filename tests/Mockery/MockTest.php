@@ -136,10 +136,7 @@ class Mockery_MockTest extends MockeryTestCase
         assertThat($mock->nonExistentMethod(), equalTo('result'));
     }
 
-    /**
-     * @expectedException Mockery\Exception
-     */
-    public function testShouldIgnoreMissingDisallowMockingNonExistentMethods()
+    public function testShouldIgnoreMissingAllowMockingExistentMethods()
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
         $mock = $this->container->mock('ClassWithMethods')->shouldIgnoreMissing()->disallowMockingNonExistentMethods();
@@ -148,6 +145,14 @@ class Mockery_MockTest extends MockeryTestCase
         assertThat($mock->foo(), equalTo('new_foo'));
         $mock->shouldReceive('bar')->passthru();
         assertThat($mock->bar(), equalTo('bar'));
+    }
+
+    /**
+     * @expectedException Mockery\Exception
+     */
+    public function testShouldIgnoreMissingDisallowMockingNonExistentMethods()
+    {
+        $mock = $this->container->mock('ClassWithMethods')->shouldIgnoreMissing()->disallowMockingNonExistentMethods();
         $mock->shouldReceive('nonExistentMethod');
     }
 

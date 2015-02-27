@@ -50,7 +50,7 @@ class Mock implements MockInterface
 
     /**
      * Local flag to indicate whether mocking non-existing methods allowed.
-     * 
+     *
      * @var bool
      */
     protected $_mockery_allowMockingNotExistentMethod = null;
@@ -163,6 +163,12 @@ class Mock implements MockInterface
             $this->_mockery_partial = $partialObject;
         }
 
+        $this->collectMockableMethods();
+    }
+
+    protected function collectMockableMethods()
+    {
+        $this->_mockery_mockableMethods = array();
         if (!$this->mockingNonExistentMethodsAllowed()) {
             foreach ($this->mockery_getMethods() as $method) {
                 if ($method->isPublic() && !$method->isStatic()) {
@@ -296,6 +302,7 @@ class Mock implements MockInterface
     public function disallowMockingNonExistentMethods()
     {
         $this->_mockery_allowMockingNotExistentMethod = false;
+        $this->collectMockableMethods();
         return $this;
     }
 
