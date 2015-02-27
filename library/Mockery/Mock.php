@@ -20,8 +20,6 @@
 
 namespace Mockery;
 
-use Mockery\MockInterface;
-
 class Mock implements MockInterface
 {
 
