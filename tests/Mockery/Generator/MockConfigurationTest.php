@@ -150,11 +150,19 @@ class MockConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-interface TestTraversableInterface extends \Traversable {}
-interface TestTraversableInterface2 extends \Traversable, \Iterator {}
-interface TestTraversableInterface3 extends \Traversable, \IteratorAggregate {}
+interface TestTraversableInterface extends \Traversable
+{
+}
+interface TestTraversableInterface2 extends \Traversable, \Iterator
+{
+}
+interface TestTraversableInterface3 extends \Traversable, \IteratorAggregate
+{
+}
 
-final class TestFinal {}
+final class TestFinal
+{
+}
 
 interface TestInterface
 {
@@ -168,12 +176,22 @@ interface TestInterface2
 
 class TestSubject
 {
-    public function foo() {}
-    public function bar() {}
+    public function foo()
+    {
+    }
+
+    public function bar()
+    {
+    }
 }
 
 class ClassWithFinalMethod
 {
-    final public function foo() {}
-    public function bar() {}
+    final public function foo()
+    {
+    }
+
+    public function bar()
+    {
+    }
 }

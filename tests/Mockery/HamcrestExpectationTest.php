@@ -62,5 +62,4 @@ class HamcrestExpectationTest extends MockeryTestCase
         $this->mock->foo(1);
         $this->container->mockery_verify();
     }
-
 }

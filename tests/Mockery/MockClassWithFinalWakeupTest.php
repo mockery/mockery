@@ -62,7 +62,6 @@ class MockClassWithFinalWakeupTest extends MockeryTestCase
         // Make sure __wakeup is overridden and doesn't return anything.
         $this->assertNull($mock->__wakeup());
     }
-
 }
 
 class TestWithFinalWakeup
@@ -84,7 +83,9 @@ class TestWithFinalWakeup
     }
 }
 
-class SubclassWithFinalWakeup extends TestWithFinalWakeup {}
+class SubclassWithFinalWakeup extends TestWithFinalWakeup
+{
+}
 
 class TestWithNonFinalWakeup
 {

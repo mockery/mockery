@@ -73,11 +73,11 @@ class Mockery_AdhocTest extends MockeryTestCase
         $e = new \Mockery\Exception\InvalidCountException;
         $e->setExpectedCountComparative('X');
     }
-
-
 }
 
-class MockeryTest_NameOfExistingClass {}
+class MockeryTest_NameOfExistingClass
+{
+}
 
 interface MockeryTest_NameOfInterface
 {

@@ -223,7 +223,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testReturnsValuesSetAsArray()
     {
-        $this->mock->shouldReceive('foo')->andReturnValues(array(1,2,3));
+        $this->mock->shouldReceive('foo')->andReturnValues(array(1, 2, 3));
         $this->assertEquals(1, $this->mock->foo());
         $this->assertEquals(2, $this->mock->foo());
         $this->assertEquals(3, $this->mock->foo());
@@ -265,7 +265,8 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')->andThrow(new Exception)->andThrow(new OutOfBoundsException);
         try {
             $this->mock->foo();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
         $this->mock->foo();
     }
 
@@ -850,7 +851,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testLongExpectationCastToStringFormatting()
     {
-        $exp = $this->mock->shouldReceive('foo')->with(array('Spam' => 'Ham', 'Bar' => 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'Bar' , 'Baz', 'End'));
+        $exp = $this->mock->shouldReceive('foo')->with(array('Spam' => 'Ham', 'Bar' => 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'Bar', 'Baz', 'End'));
         $this->assertEquals("[foo(array('Spam'=>'Ham','Bar'=>'Baz',0=>'Bar',1=>'Baz',2=>'Bar',3=>'Baz',4=>'Bar',5=>'Baz',6=>'Bar',7=>'Baz',8=>'Bar',9=>'Baz',10=>'Bar',11=>'Baz',12=>'Bar',13=>'Baz',14=>'Bar',15=>'Baz',16=>'Bar',17=>'Baz',18=>'Bar',19=>'Baz',20=>'Bar',21=>'Baz',22=>'Bar',23=>'Baz',24=>'Bar',25=>'Baz',26=>'Bar',27=>'Baz',28=>'Bar',29=>'Baz',30=>'Bar',31=>'Baz',32=>'Bar',33=>'Baz',34=>'Bar',35=>'Baz',36=>'Bar',37=>'Baz',38=>'Bar',39=>'Baz',40=>'Bar',41=>'Baz',42=>'Bar',43=>'Baz',44=>'Bar',45=>'Baz',46=>'Baz',47=>'Bar',48=>'Baz',49=>'Bar',50=>'Baz',51=>'Bar',52=>'Baz',53=>'Bar',54=>'Baz',55=>'Bar',56=>'Baz',57=>'Baz',58=>'Bar',59=>'Baz',60=>'Bar',61=>'Baz',62=>'Bar',63=>'Baz',64=>'Bar',65=>'Baz',66=>'Bar',67=>'Baz',68=>'Baz',69=>'Bar',70=>'Baz',71=>'Bar',72=>'Baz',73=>'Bar',74=>'Baz',75=>'Bar',76=>'Baz',77=>'Bar',78=>'Baz',79=>'Baz',80=>'Bar',81=>'Baz',82=>'Bar',83=>'Baz',84=>'Bar',85=>'Baz',86=>'Bar',87=>'Baz',88=>'Bar',89=>'Baz',90=>'Baz',91=>'Bar',92=>'Baz',93=>'Bar',94=>'Baz',95=>'Bar',96=>'Baz',97=>'Ba...))]", (string) $exp);
     }
 
@@ -906,7 +907,8 @@ class ExpectationTest extends MockeryTestCase
         try {
             $this->mock->foo(1);
             $this->fail('Expected exception not thrown');
-        } catch (\Mockery\Exception $e) {}
+        } catch (\Mockery\Exception $e) {
+        }
         $this->mock->foo(2);
         $this->container->mockery_verify();
     }
@@ -937,7 +939,7 @@ class ExpectationTest extends MockeryTestCase
     public function testByDefaultOperatesFromMockConstruction()
     {
         $container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
-        $mock = $container->mock('f', array('foo'=>'rfoo','bar'=>'rbar','baz'=>'rbaz'))->byDefault();
+        $mock = $container->mock('f', array('foo'=>'rfoo', 'bar'=>'rbar', 'baz'=>'rbaz'))->byDefault();
         $mock->shouldReceive('foo')->andReturn('foobar');
         $this->assertEquals('foobar', $mock->foo());
         $this->assertEquals('rbar', $mock->bar());
@@ -1426,15 +1428,15 @@ class ExpectationTest extends MockeryTestCase
 
     public function testArrayContentConstraintMatchesArgument()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1,'b'=>2)))->once();
-        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1, 'b'=>2)))->once();
+        $this->mock->foo(array('a'=>1, 'b'=>2, 'c'=>3));
         $this->container->mockery_verify();
     }
 
     public function testArrayContentConstraintNonMatchingCase()
     {
         $this->mock->shouldReceive('foo')->times(3);
-        $this->mock->shouldReceive('foo')->with(1, Mockery::subset(array('a'=>1,'b'=>2)))->never();
+        $this->mock->shouldReceive('foo')->with(1, Mockery::subset(array('a'=>1, 'b'=>2)))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 2, 3);
@@ -1446,15 +1448,15 @@ class ExpectationTest extends MockeryTestCase
      */
     public function testArrayContentConstraintThrowsExceptionWhenConstraintUnmatched()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1,'b'=>2)))->once();
-        $this->mock->foo(array('a'=>1,'c'=>3));
+        $this->mock->shouldReceive('foo')->with(Mockery::subset(array('a'=>1, 'b'=>2)))->once();
+        $this->mock->foo(array('a'=>1, 'c'=>3));
         $this->container->mockery_verify();
     }
 
     public function testContainsConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::contains(1, 2))->once();
-        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->mock->foo(array('a'=>1, 'b'=>2, 'c'=>3));
         $this->container->mockery_verify();
     }
 
@@ -1474,14 +1476,14 @@ class ExpectationTest extends MockeryTestCase
     public function testContainsConstraintThrowsExceptionWhenConstraintUnmatched()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::contains(1, 2))->once();
-        $this->mock->foo(array('a'=>1,'c'=>3));
+        $this->mock->foo(array('a'=>1, 'c'=>3));
         $this->container->mockery_verify();
     }
 
     public function testHasKeyConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::hasKey('c'))->once();
-        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->mock->foo(array('a'=>1, 'b'=>2, 'c'=>3));
         $this->container->mockery_verify();
     }
 
@@ -1501,14 +1503,14 @@ class ExpectationTest extends MockeryTestCase
     public function testHasKeyConstraintThrowsExceptionWhenConstraintUnmatched()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::hasKey('c'))->once();
-        $this->mock->foo(array('a'=>1,'b'=>3));
+        $this->mock->foo(array('a'=>1, 'b'=>3));
         $this->container->mockery_verify();
     }
 
     public function testHasValueConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::hasValue(1))->once();
-        $this->mock->foo(array('a'=>1,'b'=>2,'c'=>3));
+        $this->mock->foo(array('a'=>1, 'b'=>2, 'c'=>3));
         $this->container->mockery_verify();
     }
 
@@ -1528,7 +1530,7 @@ class ExpectationTest extends MockeryTestCase
     public function testHasValueConstraintThrowsExceptionWhenConstraintUnmatched()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::hasValue(2))->once();
-        $this->mock->foo(array('a'=>1,'b'=>3));
+        $this->mock->foo(array('a'=>1, 'b'=>3));
         $this->container->mockery_verify();
     }
 
@@ -1580,8 +1582,10 @@ class ExpectationTest extends MockeryTestCase
 
     public function testMustBeConstraintMatchesObjectArgumentWithEqualsComparisonNotIdentical()
     {
-        $a = new stdClass; $a->foo = 1;
-        $b = new stdClass; $b->foo = 1;
+        $a = new stdClass;
+        $a->foo = 1;
+        $b = new stdClass;
+        $b->foo = 1;
         $this->mock->shouldReceive('foo')->with(Mockery::mustBe($a))->once();
         $this->mock->foo($b);
         $this->container->mockery_verify();
@@ -1589,7 +1593,8 @@ class ExpectationTest extends MockeryTestCase
 
     public function testMustBeConstraintNonMatchingCaseWithObject()
     {
-        $a = new stdClass; $a->foo = 1;
+        $a = new stdClass;
+        $a->foo = 1;
         $this->mock->shouldReceive('foo')->times(3);
         $this->mock->shouldReceive('foo')->with(1, Mockery::mustBe($a))->never();
         $this->mock->foo();
@@ -1603,8 +1608,10 @@ class ExpectationTest extends MockeryTestCase
      */
     public function testMustBeConstraintThrowsExceptionWhenConstraintUnmatchedWithObject()
     {
-        $a = new stdClass; $a->foo = 1;
-        $b = new stdClass; $b->foo = 2;
+        $a = new stdClass;
+        $a->foo = 1;
+        $b = new stdClass;
+        $b->foo = 2;
         $this->mock->shouldReceive('foo')->with(Mockery::mustBe($a))->once();
         $this->mock->foo($b);
         $this->container->mockery_verify();
@@ -1629,19 +1636,19 @@ class ExpectationTest extends MockeryTestCase
     public function testReturnNullIfIgnoreMissingMethodsSet()
     {
         $this->mock->shouldIgnoreMissing();
-        $this->assertNull($this->mock->g(1,2));
+        $this->assertNull($this->mock->g(1, 2));
     }
 
     public function testReturnUndefinedIfIgnoreMissingMethodsSet()
     {
         $this->mock->shouldIgnoreMissing()->asUndefined();
-        $this->assertTrue($this->mock->g(1,2) instanceof \Mockery\Undefined);
+        $this->assertTrue($this->mock->g(1, 2) instanceof \Mockery\Undefined);
     }
 
     public function testReturnAsUndefinedAllowsForInfiniteSelfReturningChain()
     {
         $this->mock->shouldIgnoreMissing()->asUndefined();
-        $this->assertTrue($this->mock->g(1,2)->a()->b()->c() instanceof \Mockery\Undefined);
+        $this->assertTrue($this->mock->g(1, 2)->a()->b()->c() instanceof \Mockery\Undefined);
     }
 
     public function testShouldIgnoreMissingFluentInterface()
@@ -1664,7 +1671,7 @@ class ExpectationTest extends MockeryTestCase
     public function testShouldIgnoreMissingDefaultReturnValue()
     {
         $this->mock->shouldIgnoreMissing(1);
-        $this->assertEquals(1,$this->mock->a());
+        $this->assertEquals(1, $this->mock->a());
     }
 
     /** @issue #253 */
@@ -1939,7 +1946,10 @@ class ExpectationTest extends MockeryTestCase
 
 class MockeryTest_SubjectCall1
 {
-    public function foo() {return 'bar';}
+    public function foo()
+    {
+        return 'bar';
+    }
 }
 
 class MockeryTest_InterMethod1
@@ -1962,20 +1972,32 @@ class MockeryTest_InterMethod1
 
 class MyService2
 {
-    public function login($user, $pass) {}
-    public function hasBookmarksTagged($tag) {}
-    public function addBookmark($uri, $tag) {}
+    public function login($user, $pass)
+    {
+    }
+    public function hasBookmarksTagged($tag)
+    {
+    }
+    public function addBookmark($uri, $tag)
+    {
+    }
 }
 
 class Mockery_Duck
 {
-    public function quack() {}
-    public function swim() {}
+    public function quack()
+    {
+    }
+    public function swim()
+    {
+    }
 }
 
 class Mockery_Duck_Nonswimmer
 {
-    public function quack() {}
+    public function quack()
+    {
+    }
 }
 
 class Mockery_Demeterowski
@@ -2012,5 +2034,7 @@ class Mockery_UseDemeter
 
 class MockeryTest_Foo
 {
-    public function foo() {}
+    public function foo()
+    {
+    }
 }

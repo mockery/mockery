@@ -103,7 +103,9 @@ class ClassWithGetter
 
 class ClassWithGetterWithParam
 {
-    public function getBar($bar) {}
+    public function getBar($bar)
+    {
+    }
 }
 
 class ClassWithPublicStaticProperty
@@ -113,5 +115,7 @@ class ClassWithPublicStaticProperty
 
 class ClassWithPublicStaticGetter
 {
-    public static function getExcluded() { }
+    public static function getExcluded()
+    {
+    }
 }
