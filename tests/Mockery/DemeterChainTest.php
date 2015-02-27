@@ -148,7 +148,6 @@ class DemeterChainTest extends MockeryTestCase
             ->andReturn('somethingElse');
 
         $this->assertEquals('somethingElse', $this->mock->getElement()->getFirst());
-
     }
 
     public function testMultiLevelDemeterChain()

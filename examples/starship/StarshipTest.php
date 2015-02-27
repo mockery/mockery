@@ -18,5 +18,4 @@ class StarshipTest extends PHPUnit_Framework_TestCase
         $starship = new Starship($mock);
         $starship->enterOrbit();
     }
-
 }

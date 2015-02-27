@@ -12,7 +12,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-       $this->pass = new ClassNamePass();
+        $this->pass = new ClassNamePass();
     }
 
     /**

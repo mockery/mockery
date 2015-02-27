@@ -34,6 +34,10 @@ class MockConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
 
 class ClassWithMagicCall
 {
-    public function foo() {}
-    public function __call($method, $args) {}
+    public function foo()
+    {
+    }
+    public function __call($method, $args)
+    {
+    }
 }

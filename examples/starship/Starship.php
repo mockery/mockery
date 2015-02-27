@@ -21,5 +21,4 @@ class Starship
         // We can add more runDiagnosticLevel() calls without failing the test
         // anywhere above since they are unordered.
     }
-
 }

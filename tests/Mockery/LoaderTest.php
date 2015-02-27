@@ -42,5 +42,4 @@ class Mockery_LoaderTest extends PHPUnit_Framework_TestCase
         $loader = new \Mockery\Loader;
         $loader->register();
     }
-
 }

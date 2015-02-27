@@ -174,19 +174,33 @@ class RecorderTest extends MockeryTestCase
         $mock->bar(2);
         $mock->mockery_verify();
     }
-
 }
 
 class MockeryTestSubject
 {
-    public function foo() { return 1; }
-    public function bar($i) { return $i * 2; }
+    public function foo()
+    {
+        return 1;
+    }
+    public function bar($i)
+    {
+        return $i * 2;
+    }
 }
 
 class MockeryTestSubjectUser
 {
     public $subject = null;
-    public function __construct($subject) { $this->subject = $subject; }
-    public function doFoo() { return $this->subject->foo(); }
-    public function doBar() { return $this->subject->bar(2); }
+    public function __construct($subject)
+    {
+        $this->subject = $subject;
+    }
+    public function doFoo()
+    {
+        return $this->subject->foo();
+    }
+    public function doBar()
+    {
+        return $this->subject->bar(2);
+    }
 }
