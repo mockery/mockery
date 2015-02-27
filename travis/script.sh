@@ -1,8 +1,8 @@
 #!/bin/bash
-if [[ "$TRAVIS_PHP_VERSION" != "hhvm" && "$TRAVIS_PHP_VERSION" != "hhvm-nightly" ]]; then
+if [[ $TRAVIS_PHP_VERSION != "hhvm" \
+  && $TRAVIS_PHP_VERSION != "hhvm-nightly" \
+  && $TRAVIS_PHP_VERSION != "7.0" ]]; then
   vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
-fi
-
-if [[ "$TRAVIS_PHP_VERSION" == "hhvm" || "$TRAVIS_PHP_VERSION" == "hhvm-nightly" ]]; then
+else
   vendor/bin/phpunit
 fi
