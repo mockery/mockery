@@ -81,11 +81,11 @@ interface MockInterface
     public function makePartial();
 
     /**
-     * Set mock to return null by default for all existing methods
+     * Disable mocking non-existent methods
      *
      * @return Mock
      */
-    public function makeStubs();
+    public function disallowMockingNonExistentMethods();
 
     /**
      * @param $method

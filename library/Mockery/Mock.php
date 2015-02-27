@@ -49,11 +49,11 @@ class Mock implements MockInterface
     protected $_mockery_deferMissing = false;
 
     /**
-     * Flag to indicate whether existing method calls return null by default
-     *
+     * Local flag to indicate whether mocking non-existing methods allowed.
+     * 
      * @var bool
      */
-    protected $_mockery_allStubs = false;
+    protected $_mockery_allowMockingNotExistentMethod = null;
 
     /**
      * Flag to indicate whether this mock was verified
@@ -289,14 +289,29 @@ class Mock implements MockInterface
     }
 
     /**
-     * Set mock to return null by default for all existing methods
+     * Disable mocking non-existent methods
      *
      * @return Mock
      */
-    public function makeStubs()
+    public function disallowMockingNonExistentMethods()
     {
-        $this->_mockery_allStubs = true;
+        $this->_mockery_allowMockingNotExistentMethod = false;
         return $this;
+    }
+
+    /**
+     * Return flag indicating whether mocking non-existent methods allowed
+     *
+     * @return bool
+     */
+    public function mockingNonExistentMethodsAllowed()
+    {
+        // When local flag isn't set, fallback to global configuration
+        $allowed = $this->_mockery_allowMockingNotExistentMethod;
+        if (null === $allowed) {
+            $allowed = \Mockery::getConfiguration()->mockingNonExistentMethodsAllowed();
+        }
+        return $allowed;
     }
 
     /**
@@ -706,9 +721,7 @@ class Mock implements MockInterface
             }
         }
 
-        if ($this->_mockery_allStubs && (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
-            return null;
-        } elseif (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
+        if (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
             return call_user_func_array("parent::$method", $args);
@@ -718,7 +731,7 @@ class Mock implements MockInterface
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
-            if (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
+            if ($this->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
                 if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined) {
                     return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
                 } else {
