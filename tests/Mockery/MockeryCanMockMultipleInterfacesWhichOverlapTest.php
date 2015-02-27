@@ -2,7 +2,7 @@
 
 namespace Mockery\Tests;
 
-/**
+/*
  * Mockery
  *
  * LICENSE

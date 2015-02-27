@@ -29,7 +29,7 @@ class MockConfigurationBuilder
         "namespace", "new", "or", "print", "private",
         "protected", "public", "require", "require_once", "return",
         "static", "switch", "throw", "trait", "try",
-        "unset", "use", "var", "while", "xor"
+        "unset", "use", "var", "while", "xor",
     );
     protected $whiteListedMethods = array();
     protected $instanceMock = false;
@@ -56,12 +56,14 @@ class MockConfigurationBuilder
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function addBlackListedMethod($blackListedMethod)
     {
         $this->blackListedMethods[] = $blackListedMethod;
+
         return $this;
     }
 
@@ -70,18 +72,21 @@ class MockConfigurationBuilder
         foreach ($blackListedMethods as $method) {
             $this->addBlackListedMethod($method);
         }
+
         return $this;
     }
 
     public function setBlackListedMethods(array $blackListedMethods)
     {
         $this->blackListedMethods = $blackListedMethods;
+
         return $this;
     }
 
     public function addWhiteListedMethod($whiteListedMethod)
     {
         $this->whiteListedMethods[] = $whiteListedMethod;
+
         return $this;
     }
 
@@ -90,12 +95,14 @@ class MockConfigurationBuilder
         foreach ($whiteListedMethods as $method) {
             $this->addWhiteListedMethod($method);
         }
+
         return $this;
     }
 
     public function setWhiteListedMethods(array $whiteListedMethods)
     {
         $this->whiteListedMethods = $whiteListedMethods;
+
         return $this;
     }
 

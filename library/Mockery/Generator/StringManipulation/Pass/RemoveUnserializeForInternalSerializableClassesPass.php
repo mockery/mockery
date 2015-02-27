@@ -8,7 +8,7 @@ use Mockery\Generator\MockConfiguration;
  * Internal classes can not be instantiated with the newInstanceWithoutArgs
  * reflection method, so need the serialization hack. If the class also
  * implements Serializable, we need to replace the standard unserialize method
- * definition with a dummy
+ * definition with a dummy.
  */
 class RemoveUnserializeForInternalSerializableClassesPass
 {
@@ -35,6 +35,7 @@ class RemoveUnserializeForInternalSerializableClassesPass
     {
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+
         return $class;
     }
 }

@@ -75,6 +75,7 @@ class VerificationDirector
         call_user_func_array(array($expectation, $method), $args);
         $director = new VerificationDirector($this->receivedMethodCalls, $expectation);
         $director->verify();
+
         return $director;
     }
 
@@ -84,6 +85,7 @@ class VerificationDirector
         call_user_func_array(array($expectation, $method), $args);
         $director = new VerificationDirector($this->receivedMethodCalls, $expectation);
         $director->verify();
+
         return $director;
     }
 }

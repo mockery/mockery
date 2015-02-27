@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -22,12 +24,12 @@ namespace Mockery;
 
 class Undefined
 {
-
     /**
      * Call capturing to merely return this same object.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return self
      */
     public function __call($method, array $args)
@@ -36,7 +38,7 @@ class Undefined
     }
 
     /**
-     * Return a string, avoiding E_RECOVERABLE_ERROR
+     * Return a string, avoiding E_RECOVERABLE_ERROR.
      *
      * @return string
      */

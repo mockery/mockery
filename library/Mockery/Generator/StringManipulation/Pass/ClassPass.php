@@ -23,10 +23,10 @@ class ClassPass implements Pass
             $targetCode = '<?php ';
 
             if ($target->inNamespace()) {
-                $targetCode.= 'namespace ' . $target->getNamespaceName(). '; ';
+                $targetCode .= 'namespace ' . $target->getNamespaceName() . '; ';
             }
 
-            $targetCode.= 'class ' . $target->getShortName() . ' {} ';
+            $targetCode .= 'class ' . $target->getShortName() . ' {} ';
 
             /*
              * We could eval here, but it doesn't play well with the way

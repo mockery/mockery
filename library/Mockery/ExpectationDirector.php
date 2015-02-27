@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -22,46 +24,45 @@ namespace Mockery;
 
 class ExpectationDirector
 {
-
     /**
-     * Method name the director is directing
+     * Method name the director is directing.
      *
      * @var string
      */
     protected $_name = null;
 
     /**
-     * Mock object the director is attached to
+     * Mock object the director is attached to.
      *
      * @var \Mockery\MockInterface
      */
     protected $_mock = null;
 
     /**
-     * Stores an array of all expectations for this mock
+     * Stores an array of all expectations for this mock.
      *
      * @var array
      */
     protected $_expectations = array();
 
     /**
-     * The expected order of next call
+     * The expected order of next call.
      *
      * @var int
      */
     protected $_expectedOrder = null;
 
     /**
-     * Stores an array of all default expectations for this mock
+     * Stores an array of all default expectations for this mock.
      *
      * @var array
      */
     protected $_defaults = array();
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string $name
+     * @param string                 $name
      * @param \Mockery\MockInterface $mock
      */
     public function __construct($name, \Mockery\MockInterface $mock)
@@ -71,7 +72,7 @@ class ExpectationDirector
     }
 
     /**
-     * Add a new expectation to the director
+     * Add a new expectation to the director.
      *
      * @param Mutateme\Expectation $expectation
      */
@@ -81,9 +82,10 @@ class ExpectationDirector
     }
 
     /**
-     * Handle a method call being directed by this instance
+     * Handle a method call being directed by this instance.
      *
      * @param array $args
+     *
      * @return mixed
      */
     public function call(array $args)
@@ -104,13 +106,15 @@ class ExpectationDirector
                 ->setActualArguments($args);
             throw $exception;
         }
+
         return $expectation->verifyCall($args);
     }
 
     /**
-     * Verify all expectations of the director
+     * Verify all expectations of the director.
      *
      * @throws \Mockery\CountValidator\Exception
+     *
      * @return void
      */
     public function verify()
@@ -127,9 +131,10 @@ class ExpectationDirector
     }
 
     /**
-     * Attempt to locate an expectation matching the provided args
+     * Attempt to locate an expectation matching the provided args.
      *
      * @param array $args
+     *
      * @return mixed
      */
     public function findExpectation(array $args)
@@ -143,7 +148,7 @@ class ExpectationDirector
 
     /**
      * Make the given expectation a default for all others assuming it was
-     * correctly created last
+     * correctly created last.
      *
      * @param \Mockery\Expectation
      */
@@ -161,10 +166,11 @@ class ExpectationDirector
     }
 
     /**
-     * Search current array of expectations for a match
+     * Search current array of expectations for a match.
      *
      * @param array $expectations
      * @param array $args
+     *
      * @return mixed
      */
     protected function _findExpectationIn(array $expectations, array $args)
@@ -182,7 +188,7 @@ class ExpectationDirector
     }
 
     /**
-     * Return all expectations assigned to this director
+     * Return all expectations assigned to this director.
      *
      * @return array
      */

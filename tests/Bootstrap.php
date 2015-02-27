@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,8 +13,10 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
  * @subpackage UnitTests
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -32,7 +34,7 @@ $root    = realpath(dirname(dirname(__FILE__)));
 $library = "$root/library";
 $tests   = "$root/tests";
 
-/**
+/*
  * Check that --dev composer installation was done
  */
 if (!file_exists($root . '/vendor/autoload.php')) {
@@ -77,7 +79,7 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     PHPUnit_Util_Filter::addDirectoryToFilter(PHP_LIBDIR);
 }
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
  * Unset global variables that are no longer needed.

@@ -63,6 +63,7 @@ class MethodDefinitionPass implements Pass
 
             $methodParams[] = $paramDef;
         }
+
         return '(' . implode(', ', $methodParams) . ')';
     }
 
@@ -70,6 +71,7 @@ class MethodDefinitionPass implements Pass
     {
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+
         return $class;
     }
 
@@ -124,6 +126,7 @@ BODY;
 return \$ret;
 }
 BODY;
+
         return $body;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery as m;
 use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
 
 class ClassNamePassTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +10,7 @@ class ClassNamePassTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-       $this->pass = new ClassNamePass();
+        $this->pass = new ClassNamePass();
     }
 
     /**

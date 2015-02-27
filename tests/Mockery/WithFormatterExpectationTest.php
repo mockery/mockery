@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,12 +13,13 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
  * @subpackage UnitTests
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
-
 class WithFormatterExpectationTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -51,11 +52,11 @@ class WithFormatterExpectationTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 array(null),
-                ''
+                '',
             ),
             array(
                 array('a string', 98768, array('a', 'nother', 'array')),
-                ''
+                '',
             ),
         );
     }
@@ -103,7 +104,9 @@ class ClassWithGetter
 
 class ClassWithGetterWithParam
 {
-    public function getBar($bar) {}
+    public function getBar($bar)
+    {
+    }
 }
 
 class ClassWithPublicStaticProperty
@@ -113,5 +116,7 @@ class ClassWithPublicStaticProperty
 
 class ClassWithPublicStaticGetter
 {
-    public static function getExcluded() { }
+    public static function getExcluded()
+    {
+    }
 }

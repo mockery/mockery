@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,7 +13,9 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
@@ -29,28 +31,28 @@ class Container
     const BLOCKS = \Mockery::BLOCKS;
 
     /**
-     * Store of mock objects
+     * Store of mock objects.
      *
      * @var array
      */
     protected $_mocks = array();
 
     /**
-     * Order number of allocation
+     * Order number of allocation.
      *
      * @var int
      */
     protected $_allocatedOrder = 0;
 
     /**
-     * Current ordered number
+     * Current ordered number.
      *
      * @var int
      */
     protected $_currentOrder = 0;
 
     /**
-     * Ordered groups
+     * Ordered groups.
      *
      * @var array
      */
@@ -78,7 +80,7 @@ class Container
     }
 
     /**
-     * Generates a new mock object for this container
+     * Generates a new mock object for this container.
      *
      * I apologies in advance for this. A God Method just fits the API which
      * doesn't require differentiating between classes, interfaces, abstracts,
@@ -87,6 +89,7 @@ class Container
      *
      * @throws Exception\RuntimeException
      * @throws Exception
+     *
      * @return \Mockery\Mock
      */
     public function mock()
@@ -228,6 +231,7 @@ class Container
             $expectationClosure($mock);
         }
         $this->rememberMock($mock);
+
         return $mock;
     }
 
@@ -247,6 +251,7 @@ class Container
 
     /**
      * @param string $method
+     *
      * @return string|null
      */
     public function getKeyOfDemeterMockFor($method)
@@ -259,7 +264,8 @@ class Container
                 return $res[0];
             }
         }
-        return null;
+
+        return;
     }
 
     /**
@@ -271,9 +277,10 @@ class Container
     }
 
     /**
-     *  Tear down tasks for this container
+     *  Tear down tasks for this container.
      *
      * @throws \Exception
+     *
      * @return void
      */
     public function mockery_teardown()
@@ -287,7 +294,7 @@ class Container
     }
 
     /**
-     * Verify the container mocks
+     * Verify the container mocks.
      *
      * @return void
      */
@@ -299,7 +306,7 @@ class Container
     }
 
     /**
-     * Reset the container to its original state
+     * Reset the container to its original state.
      *
      * @return void
      */
@@ -312,21 +319,22 @@ class Container
     }
 
     /**
-     * Fetch the next available allocation order number
+     * Fetch the next available allocation order number.
      *
      * @return int
      */
     public function mockery_allocateOrder()
     {
         $this->_allocatedOrder += 1;
+
         return $this->_allocatedOrder;
     }
 
     /**
-     * Set ordering for a group
+     * Set ordering for a group.
      *
      * @param mixed $group
-     * @param int $order
+     * @param int   $order
      */
     public function mockery_setGroup($group, $order)
     {
@@ -334,7 +342,7 @@ class Container
     }
 
     /**
-     * Fetch array of ordered groups
+     * Fetch array of ordered groups.
      *
      * @return array
      */
@@ -344,19 +352,21 @@ class Container
     }
 
     /**
-     * Set current ordered number
+     * Set current ordered number.
      *
      * @param int $order
+     *
      * @return int The current order number that was set
      */
     public function mockery_setCurrentOrder($order)
     {
         $this->_currentOrder = $order;
+
         return $this->_currentOrder;
     }
 
     /**
-     * Get current ordered number
+     * Get current ordered number.
      *
      * @return int
      */
@@ -366,11 +376,13 @@ class Container
     }
 
     /**
-     * Validate the current mock's ordering
+     * Validate the current mock's ordering.
      *
      * @param string $method
-     * @param int $order
+     * @param int    $order
+     *
      * @throws \Mockery\Exception
+     *
      * @return void
      */
     public function mockery_validateOrder($method, $order, \Mockery\MockInterface $mock)
@@ -390,7 +402,7 @@ class Container
     }
 
     /**
-     * Gets the count of expectations on the mocks
+     * Gets the count of expectations on the mocks.
      *
      * @return int
      */
@@ -400,13 +412,15 @@ class Container
         foreach ($this->_mocks as $mock) {
             $count += $mock->mockery_getExpectationCount();
         }
+
         return $count;
     }
 
     /**
-     * Store a mock and set its container reference
+     * Store a mock and set its container reference.
      *
      * @param \Mockery\Mock
+     *
      * @return \Mockery\Mock
      */
     public function rememberMock(\Mockery\MockInterface $mock)
@@ -414,12 +428,13 @@ class Container
         if (!isset($this->_mocks[get_class($mock)])) {
             $this->_mocks[get_class($mock)] = $mock;
         } else {
-            /**
+            /*
              * This condition triggers for an instance mock where origin mock
              * is already remembered
              */
             $this->_mocks[] = $mock;
         }
+
         return $mock;
     }
 
@@ -435,12 +450,13 @@ class Container
     {
         $mocks = array_values($this->_mocks);
         $index = count($mocks) - 1;
+
         return $mocks[$index];
     }
 
     /**
      * Return a specific remembered mock according to the array index it
-     * was stored to in this container instance
+     * was stored to in this container instance.
      *
      * @return \Mockery\Mock
      */
@@ -455,6 +471,7 @@ class Container
     {
         if ($constructorArgs !== null) {
             $r = new \ReflectionClass($mockName);
+
             return $r->newInstanceArgs($constructorArgs);
         }
 
@@ -477,7 +494,7 @@ class Container
     }
 
     /**
-     * Takes a class name and declares it
+     * Takes a class name and declares it.
      *
      * @param string $fqcn
      */

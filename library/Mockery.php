@@ -1,6 +1,6 @@
 <?php
 /**
- * Mockery
+ * Mockery.
  *
  * LICENSE
  *
@@ -13,16 +13,16 @@
  * to padraic@php.net so we can send you a copy immediately.
  *
  * @category   Mockery
+ *
  * @package    Mockery
+ *
  * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
-
 use Mockery\ExpectationInterface;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
-use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
 use Mockery\Generator\StringManipulation\Pass\ClassPass;
@@ -31,6 +31,7 @@ use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
+use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 
@@ -80,6 +81,7 @@ class Mockery
     public static function spy()
     {
         $args = func_get_args();
+
         return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing();
     }
 
@@ -399,7 +401,7 @@ class Mockery
      * Utility method to format method name and arguments into a string.
      *
      * @param string $method
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return string
      */
@@ -438,7 +440,7 @@ class Mockery
                 $argument = preg_replace("{\s}", '', var_export($sample, true));
             }
 
-            return ((strlen($argument) > 1000) ? substr($argument, 0, 1000).'...)' : $argument);
+            return ((strlen($argument) > 1000) ? substr($argument, 0, 1000) . '...)' : $argument);
         }
 
         if (is_bool($argument)) {
@@ -509,9 +511,9 @@ class Mockery
         }
 
         return array(
-            'class' => get_class($object),
+            'class'      => get_class($object),
             'properties' => self::extractInstancePublicProperties($object, $nesting),
-            'getters' => self::extractGetters($object, $nesting)
+            'getters'    => self::extractGetters($object, $nesting),
         );
     }
 
@@ -611,8 +613,9 @@ class Mockery
      * expectations from such as needed.
      *
      * @param Mockery\MockInterface $mock
-     * @param array $args
-     * @param callable $add
+     * @param array                 $args
+     * @param callable              $add
+     *
      * @return \Mockery\CompositeExpectation
      */
     public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
@@ -639,9 +642,11 @@ class Mockery
      * builds up any demeter chain that was passed to shouldReceive.
      *
      * @param \Mockery\MockInterface $mock
-     * @param string $arg
-     * @param callable $add
+     * @param string                 $arg
+     * @param callable               $add
+     *
      * @throws Mockery\Exception
+     *
      * @return \Mockery\ExpectationDirector
      */
     protected static function buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
@@ -697,8 +702,8 @@ class Mockery
     }
 
     /**
-     * @param \Mockery\Container $container
-     * @param string $method
+     * @param \Mockery\Container           $container
+     * @param string                       $method
      * @param Mockery\ExpectationInterface $exp
      *
      * @return \Mockery\Mock
@@ -715,7 +720,7 @@ class Mockery
 
     /**
      * @param \Mockery\Container $container
-     * @param string $demeterMockKey
+     * @param string             $demeterMockKey
      *
      * @return mixed
      */
