@@ -119,7 +119,6 @@ class Mockery_MockTest extends MockeryTestCase
         assertThat(nullValue($mock->foo()));
         $mock->shouldReceive('bar')->passthru();
         assertThat($mock->bar(), equalTo('bar'));
-
     }
 
     public function testShouldIgnoreMissingCallingNonExistentMethods()
