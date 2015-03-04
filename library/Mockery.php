@@ -86,6 +86,17 @@ class Mockery
     /**
      * @return \Mockery\MockInterface
      */
+    public static function stub()
+    {
+        $args = func_get_args();
+        return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing()
+            ->disallowMockingNonExistentMethods()
+            ;
+    }
+
+    /**
+     * @return \Mockery\MockInterface
+     */
     public static function instanceMock()
     {
         $args = func_get_args();
