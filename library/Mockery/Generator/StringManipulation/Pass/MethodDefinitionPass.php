@@ -49,8 +49,8 @@ class MethodDefinitionPass implements Pass
         $params = $method->getParameters();
         foreach ($params as $param) {
             $paramDef = $param->getTypeHintAsString();
-            $paramDef .= $param->isVariadic() ? '...' : '';
             $paramDef .= $param->isPassedByReference() ? '&' : '';
+            $paramDef .= $param->isVariadic() ? '...' : '';
             $paramDef .= '$' . $param->getName();
 
             if (!$param->isVariadic()) {
