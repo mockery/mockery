@@ -135,6 +135,12 @@ class Mockery_MockTest extends MockeryTestCase
         assertThat($mock->bar(), equalTo('bar'));
         assertThat($mock->nonExistentMethod(), equalTo('result'));
     }
+
+    public function testCanMockException()
+    {
+        $exception = Mockery::mock('Exception');
+        $this->assertInstanceOf('Exception', $exception);
+    }
 }
 
 
