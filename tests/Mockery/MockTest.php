@@ -34,7 +34,7 @@ class Mockery_MockTest extends MockeryTestCase
         $this->container->mockery_close();
     }
 
-    public function testAnonymousMockWorksWithNotAllowingMockingOfNonExistantMethods()
+    public function testAnonymousMockWorksWithNotAllowingMockingOfNonExistentMethods()
     {
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = $this->container->mock();
