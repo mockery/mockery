@@ -22,18 +22,25 @@ the current master branch aliased to 0.9.x-dev.
 
 ## Installation
 
-To install this library, run the command below and you will get the latest
+To install Mockery, run the command below and you will get the latest
 version
 
-``` bash
+```sh
 composer require mockery/mockery
 ```
 
 If you want to run the tests:
 
-```
+```sh
 vendor/bin/phpunit
 ```
+
+####Note
+
+The future Mockery 0.9.4 release will be the final version to have PHP 5.3
+as a minimum requirement. The minimum PHP requirement will thereafter move to
+PHP 5.4. Also, the PEAR channel will go offline permanently no earlier than 30
+June 2015.
 
 ## Mock Objects
 
@@ -59,4 +66,3 @@ matchers used when defining expected method arguments.
 ## Documentation
 
 The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
-
