@@ -2,6 +2,12 @@
 
 ## 0.9.4 (XXXX-XX-XX)
 
+* `shouldIgnoreMissing` will respect global `allowMockingNonExistentMethods`
+  config
+* Some support for variadic parameters
+* Hamcrest is now a required dependency
+* Instance mocks now respect `shouldIgnoreMissing` call on control instance
+
 ## 0.9.3 (2014-12-22)
 
 * Added a basic spy implementation
