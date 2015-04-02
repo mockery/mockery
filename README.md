@@ -16,9 +16,9 @@ phpunit-mock-objects without the World ending.
 
 Mockery is released under a New BSD License.
 
-The current released version on Packagist is 0.9.3.
-The current released version for PEAR is 0.9.0. Composer users may instead opt to use
-the current master branch aliased to 0.9.x-dev.
+The current released version on Packagist is `0.9.4`.
+The current released version for PEAR is `0.9.0`. Composer users may instead opt to use
+the current master branch aliased to `0.9.x-dev`.
 
 ## Installation
 
@@ -37,10 +37,10 @@ vendor/bin/phpunit
 
 ####Note
 
-The future Mockery 0.9.4 release will be the final version to have PHP 5.3
-as a minimum requirement. The minimum PHP requirement will thereafter move to
-PHP 5.4. Also, the PEAR channel will go offline permanently no earlier than 30
-June 2015.
+The current Mockery 0.9.4 release is the final version to have PHP 5.3
+as a minimum requirement. The minimum PHP requirement has been moved to
+PHP 5.4 for future releases. Also, the PEAR channel will go offline permanently
+no earlier than 30 June 2015.
 
 ## Mock Objects
 
@@ -58,9 +58,9 @@ natural language description.
 
 ## Prerequisites
 
-Mockery requires PHP 5.3.2 or greater. In addition, it is recommended to install
-the Hamcrest library (see below for instructions) which contains additional
-matchers used when defining expected method arguments.
+Mockery requires PHP 5.3.2 or greater for versions `0.9.4` or lower. The current
+master and future versions will use PHP 5.4 at minimum. This is subject to change
+as PHP versions reach their published end of life dates.
 
 
 ## Documentation
