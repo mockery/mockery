@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.4.0",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "~1.1"
     },
