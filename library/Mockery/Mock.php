@@ -168,10 +168,10 @@ class Mock implements MockInterface
     /**
      * Set expected method calls
      *
-     * @param mixed ...
+     * @param string $methodName,... one or many methods that are expected to be called in this mock
      * @return \Mockery\Expectation
      */
-    public function shouldReceive($args)
+    public function shouldReceive($methodName)
     {
         /** @var array $nonPublicMethods */
         $nonPublicMethods = $this->getNonPublicMethods();
@@ -207,10 +207,10 @@ class Mock implements MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param mixed ...
+     * @param string $methodName,... one or many methods that are expected not to be called in this mock
      * @return \Mockery\Expectation
      */
-    public function shouldNotReceive($args)
+    public function shouldNotReceive($methodName)
     {
         $expectation = call_user_func_array(array($this, 'shouldReceive'), func_get_args());
         $expectation->never();
