@@ -18,7 +18,7 @@ Mockery is released under a New BSD License.
 
 The current released version on Packagist is `0.9.4`.
 The current released version for PEAR is `0.9.0`. Composer users may instead opt to use
-the current master branch aliased to `0.9.x-dev`.
+the current master branch aliased to `1.0.x-dev`.
 
 ## Installation
 
