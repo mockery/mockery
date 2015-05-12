@@ -170,7 +170,7 @@ class ExpectationDirector
     protected function _findExpectationIn(array $expectations, array $args)
     {
         foreach ($expectations as $exp) {
-            if ($exp->matchArgs($args) && $exp->isEligible()) {
+            if ($exp->isEligible() && $exp->matchArgs($args)) {
                 return $exp;
             }
         }

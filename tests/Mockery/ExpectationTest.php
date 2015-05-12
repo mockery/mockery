@@ -123,7 +123,7 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo();
         $this->assertEquals('bazzz', $this->mock->bar);
     }
-    
+
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValues()
     {
         $this->mock->bar = null;
@@ -669,6 +669,25 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo(2);
         $this->mock->foo(3);
         $this->mock->bar();
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception\InvalidCountException
+     */
+    public function testCallCountingThrowsExceptionFirst()
+    {
+        $number_of_calls = 0;
+        $this->mock->shouldReceive('foo')
+            ->times(2)
+            ->with(\Mockery::on(function ($argument) use (&$number_of_calls) {
+                $number_of_calls++;
+                return $number_of_calls <= 3;
+            }));
+
+        $this->mock->foo(1);
+        $this->mock->foo(1);
+        $this->mock->foo(1);
         $this->container->mockery_verify();
     }
 
