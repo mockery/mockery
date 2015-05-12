@@ -680,7 +680,7 @@ class ExpectationTest extends MockeryTestCase
         $number_of_calls = 0;
         $this->mock->shouldReceive('foo')
             ->times(2)
-            ->with(\Mockery::on(function($argument) use (&$number_of_calls) {
+            ->with(\Mockery::on(function ($argument) use (&$number_of_calls) {
                 $number_of_calls++;
                 return $number_of_calls <= 3;
             }));
