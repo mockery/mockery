@@ -73,6 +73,27 @@ class Mockery_AdhocTest extends MockeryTestCase
         $e = new \Mockery\Exception\InvalidCountException;
         $e->setExpectedCountComparative('X');
     }
+
+    public function testMockeryConstructAndDestructIsNotCalled()
+    {
+        MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled = false;
+        // We pass no arguments in constructor, so it's not being called. Then destructor shouldn't be called too.
+        $this->container->mock('MockeryTest_NameOfExistingClassWithDestructor');
+        // Clear references to trigger destructor
+        $this->container->mockery_close();
+        $this->assertFalse(MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled);
+    }
+
+    public function testMockeryConstructAndDestructIsCalled()
+    {
+        MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled = false;
+
+        $this->container->mock('MockeryTest_NameOfExistingClassWithDestructor', array());
+        // Clear references to trigger destructor
+        $this->container->mockery_close();
+        $this->assertTrue(MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled);
+    }
+
 }
 
 class MockeryTest_NameOfExistingClass
@@ -87,4 +108,14 @@ interface MockeryTest_NameOfInterface
 abstract class MockeryTest_NameOfAbstract
 {
     abstract public function foo();
+}
+
+class MockeryTest_NameOfExistingClassWithDestructor {
+
+    public static $isDestructorWasCalled = false;
+
+    public function __destruct()
+    {
+        self::$isDestructorWasCalled = true;
+    }
 }
