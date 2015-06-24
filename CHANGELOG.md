@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0 (XXXX-XX-XX)
+
+* Destructors (`__destruct`) are stubbed out where it makes sense
+
 ## 0.9.4 (XXXX-XX-XX)
 
 * `shouldIgnoreMissing` will respect global `allowMockingNonExistentMethods`
