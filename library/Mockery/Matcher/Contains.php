@@ -22,7 +22,6 @@ namespace Mockery\Matcher;
 
 class Contains extends MatcherAbstract
 {
-
     /**
      * Check if the actual value matches the expected.
      *

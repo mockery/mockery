@@ -22,7 +22,6 @@ namespace Mockery\Adapter\Phpunit;
 
 class TestListener implements \PHPUnit_Framework_TestListener
 {
-
     /**
      * After each test, perform Mockery verification tasks and cleanup the
      * statically stored Mockery container for the next test.

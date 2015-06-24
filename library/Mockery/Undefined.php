@@ -22,7 +22,6 @@ namespace Mockery;
 
 class Undefined
 {
-
     /**
      * Call capturing to merely return this same object.
      *

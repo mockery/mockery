@@ -24,7 +24,6 @@ use Mockery\MockInterface;
 
 class Mock implements MockInterface
 {
-
     /**
      * Stores an array of all expectation directors for this mock
      *

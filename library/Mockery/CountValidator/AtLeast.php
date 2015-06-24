@@ -24,7 +24,6 @@ use Mockery;
 
 class AtLeast extends CountValidatorAbstract
 {
-
     /**
      * Checks if the validator can accept an additional nth call
      *

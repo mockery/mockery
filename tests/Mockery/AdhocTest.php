@@ -26,7 +26,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class Mockery_AdhocTest extends MockeryTestCase
 {
-
     public function setup()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
@@ -93,7 +92,6 @@ class Mockery_AdhocTest extends MockeryTestCase
         $this->container->mockery_close();
         $this->assertTrue(MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled);
     }
-
 }
 
 class MockeryTest_NameOfExistingClass
@@ -110,8 +108,8 @@ abstract class MockeryTest_NameOfAbstract
     abstract public function foo();
 }
 
-class MockeryTest_NameOfExistingClassWithDestructor {
-
+class MockeryTest_NameOfExistingClassWithDestructor
+{
     public static $isDestructorWasCalled = false;
 
     public function __destruct()

@@ -24,7 +24,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class ContainerTest extends MockeryTestCase
 {
-
     /** @var Mockery\Container */
     private $container;
 

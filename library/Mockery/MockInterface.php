@@ -22,7 +22,6 @@ namespace Mockery;
 
 interface MockInterface
 {
-
     /**
      * Alternative setup method to constructor
      *

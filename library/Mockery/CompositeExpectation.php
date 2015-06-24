@@ -22,7 +22,6 @@ namespace Mockery;
 
 class CompositeExpectation implements ExpectationInterface
 {
-
     /**
      * Stores an array of all expectations for this composite
      *

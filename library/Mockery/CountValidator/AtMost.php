@@ -24,7 +24,6 @@ use Mockery;
 
 class AtMost extends CountValidatorAbstract
 {
-
     /**
      * Validate the call count against this validator
      *

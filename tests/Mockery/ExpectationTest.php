@@ -23,7 +23,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class ExpectationTest extends MockeryTestCase
 {
-
     public function setup()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
