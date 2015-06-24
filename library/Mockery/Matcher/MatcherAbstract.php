@@ -22,7 +22,6 @@ namespace Mockery\Matcher;
 
 abstract class MatcherAbstract
 {
-
     /**
      * The expected value (or part thereof)
      *

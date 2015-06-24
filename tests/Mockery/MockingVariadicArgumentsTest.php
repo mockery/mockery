@@ -25,7 +25,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingVariadicArgumentsTest extends MockeryTestCase
 {
-
     public function setup()
     {
         $this->container = new \Mockery\Container;

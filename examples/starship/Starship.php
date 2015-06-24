@@ -2,7 +2,6 @@
 
 class Starship
 {
-
     protected $_engineering = null;
 
     public function __construct($engineering)

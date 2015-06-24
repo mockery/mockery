@@ -22,7 +22,6 @@ namespace Mockery;
 
 class Recorder
 {
-
     /**
      * Mock object on which all recorded interactions will be set as
      * expectations

@@ -21,7 +21,6 @@
 
 class Mockery_LoaderTest extends PHPUnit_Framework_TestCase
 {
-
     public function setUp()
     {
         spl_autoload_unregister('\Mockery\Loader::loadClass');

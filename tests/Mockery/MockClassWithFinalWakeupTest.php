@@ -25,7 +25,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithFinalWakeupTest extends MockeryTestCase
 {
-
     protected function setUp()
     {
         $this->container = new \Mockery\Container;
@@ -66,7 +65,6 @@ class MockClassWithFinalWakeupTest extends MockeryTestCase
 
 class TestWithFinalWakeup
 {
-
     public function foo()
     {
         return 'foo';

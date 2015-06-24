@@ -22,7 +22,6 @@ namespace Mockery;
 
 class Expectation implements ExpectationInterface
 {
-
     /**
      * Mock object to which this expectation belongs
      *

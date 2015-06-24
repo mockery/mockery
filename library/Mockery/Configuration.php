@@ -22,7 +22,6 @@ namespace Mockery;
 
 class Configuration
 {
-
     /**
      * Boolean assertion of whether we can mock methods which do not actually
      * exist for the given class or object (ignored for unreal mocks)

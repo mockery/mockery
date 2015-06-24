@@ -75,9 +75,7 @@ class MockConfiguration
         $instanceMock = false,
         array $parameterOverrides = array(),
         $mockOriginalDestructor = false
-    )
-
-    {
+    ) {
         $this->addTargets($targets);
         $this->blackListedMethods = $blackListedMethods;
         $this->whiteListedMethods = $whiteListedMethods;

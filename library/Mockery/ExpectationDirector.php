@@ -22,7 +22,6 @@ namespace Mockery;
 
 class ExpectationDirector
 {
-
     /**
      * Method name the director is directing
      *

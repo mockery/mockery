@@ -22,7 +22,6 @@ namespace Mockery\Matcher;
 
 class Not extends MatcherAbstract
 {
-
     /**
      * Check if the actual value does not match the expected (in this
      * case it's specifically NOT expected).
