@@ -71,7 +71,7 @@ class Container
      *
      * @var boolean
      */
-    public static $_overwriteMocks = true;
+    public static $_overwriteMocks = false;
 
     /**
      * @var array
