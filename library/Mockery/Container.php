@@ -67,8 +67,8 @@ class Container
     protected $_loader;
 
     /**
-     * Should we overwrite mocks of the same class
-     * 
+     * Should we overwrite mocks of the same class?
+     *
      * @var boolean
      */
     public static $_overwriteMocks = true;
@@ -87,11 +87,12 @@ class Container
     /**
      * Set wether the mocks of the same class should overwrite the previos
      * defined mocks
-     * 
+     *
      * @param boolean $overwriteMocks
      */
-    public static function setOverwriteMocks($overwriteMocks) {
-      self::$_overwriteMocks = $overwriteMocks;
+    public static function setOverwriteMocks($overwriteMocks)
+    {
+        self::$_overwriteMocks = $overwriteMocks;
     }
 
     /**
