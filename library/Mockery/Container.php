@@ -69,7 +69,7 @@ class Container
     /**
      * Should we overwrite mocks of the same class?
      *
-     * @var boolean
+     * @var bool
      */
     public static $_overwriteMocks = false;
 
