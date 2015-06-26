@@ -35,7 +35,7 @@ class InstanceMockPass
                 \$existingDirector->addExpectation(\$clonedExpectation);
             }
             \$defaultExpectations = \$director->getDefaultExpectations();
-            foreach (\$defaultExpectations as \$expectation) {
+            foreach (array_reverse(\$defaultExpectations) as \$expectation) {
                 \$clonedExpectation = clone \$expectation;
                 \$existingDirector->addExpectation(\$clonedExpectation);
                 \$existingDirector->makeExpectationDefault(\$clonedExpectation);
