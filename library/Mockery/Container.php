@@ -67,6 +67,13 @@ class Container
     protected $_loader;
 
     /**
+     * Should we overwrite mocks of the same class
+     * 
+     * @var boolean
+     */
+    public static $_overwriteMocks = true;
+
+    /**
      * @var array
      */
     protected $_namedMocks = array();
@@ -75,6 +82,16 @@ class Container
     {
         $this->_generator = $generator ?: \Mockery::getDefaultGenerator();
         $this->_loader = $loader ?: \Mockery::getDefaultLoader();
+    }
+
+    /**
+     * Set wether the mocks of the same class should overwrite the previos
+     * defined mocks
+     * 
+     * @param boolean $overwriteMocks
+     */
+    public static function setOverwriteMocks($overwriteMocks) {
+      self::$_overwriteMocks = $overwriteMocks;
     }
 
     /**
@@ -413,7 +430,7 @@ class Container
      */
     public function rememberMock(\Mockery\MockInterface $mock)
     {
-        if (!isset($this->_mocks[get_class($mock)])) {
+        if (!isset($this->_mocks[get_class($mock)]) || self::$_overwriteMocks) {
             $this->_mocks[get_class($mock)] = $mock;
         } else {
             /**
