@@ -659,6 +659,32 @@ class ContainerTest extends MockeryTestCase
         Mockery::resetContainer();
     }
 
+    public function testInstantiationOfInstanceMockImportsDefaultExpectations()
+    {
+        Mockery::setContainer($this->container);
+        $m = $this->container->mock('overload:MyNamespace\MyClass6');
+        $m->shouldReceive('foo')->andReturn('bar')->byDefault();
+        $instance = new MyNamespace\MyClass6;
+
+        $this->assertEquals('bar', $instance->foo());
+
+        Mockery::resetContainer();
+    }
+
+    public function testInstantiationOfInstanceMockImportsDefaultExpectationsInTheCorrectOrder()
+    {
+        Mockery::setContainer($this->container);
+        $m = $this->container->mock('overload:MyNamespace\MyClass6');
+        $m->shouldReceive('foo')->andReturn(1)->byDefault();
+        $m->shouldReceive('foo')->andReturn(2)->byDefault();
+        $m->shouldReceive('foo')->andReturn(3)->byDefault();
+        $instance = new MyNamespace\MyClass6;
+
+        $this->assertEquals(3, $instance->foo());
+
+        Mockery::resetContainer();
+    }
+
     public function testInstantiationOfInstanceMocksIgnoresVerificationOfOriginMock()
     {
         Mockery::setContainer($this->container);

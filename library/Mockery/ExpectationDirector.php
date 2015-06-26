@@ -191,6 +191,16 @@ class ExpectationDirector
     }
 
     /**
+     * Return all expectations assigned to this director
+     *
+     * @return array
+     */
+    public function getDefaultExpectations()
+    {
+        return $this->_defaults;
+    }
+
+    /**
      * Return the number of expectations assigned to this director.
      *
      * @return int
