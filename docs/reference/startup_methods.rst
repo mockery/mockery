@@ -228,3 +228,7 @@ objects discussed later), this form of mock object will defer all methods not
 subject to an expectation to the parent class of the mock, i.e. ``MyClass``.
 Whereas the previous ``shouldIgnoreMissing()`` returned ``null``, this
 behaviour simply calls the parent's matching method.
+
+.. note::
+
+'not subject to an expectation to the parent class of the mock' includes also expectations where parameter signature don't match real received parameters by parent's method's.
