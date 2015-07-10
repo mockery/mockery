@@ -64,6 +64,11 @@ class Mockery
     protected static $_loader;
 
     /**
+     * @var array
+     */
+    private static $_filesToCleanUp = [];
+
+    /**
      * Static shortcut to \Mockery\Container::mock().
      *
      * @return \Mockery\MockInterface
@@ -136,6 +141,10 @@ class Mockery
      */
     public static function close()
     {
+        foreach (self::$_filesToCleanUp as $fileName) {
+            @unlink($fileName);
+        }
+
         if (is_null(self::$_container)) {
             return;
         }
@@ -737,5 +746,15 @@ class Mockery
     private static function noMoreElementsInChain(array $methodNames)
     {
         return empty($methodNames);
+    }
+
+    /**
+     * Register a file to be deleted on tearDown.
+     *
+     * @param string $fileName
+     */
+    public static function registerFileForCleanUp($fileName)
+    {
+        self::$_filesToCleanUp[] = $fileName;
     }
 }
