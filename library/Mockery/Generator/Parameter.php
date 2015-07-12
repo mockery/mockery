@@ -25,18 +25,6 @@ class Parameter
 
     public function getTypeHintAsString()
     {
-        if (method_exists($this->rfp, 'getTypehintText')) {
-            // Available in HHVM
-            $typehint = $this->rfp->getTypehintText();
-
-            // not exhaustive, but will do for now
-            if (in_array($typehint, array('int', 'integer', 'float', 'string', 'bool', 'boolean'))) {
-                return '';
-            }
-
-            return $typehint;
-        }
-
         if ($this->rfp->isArray()) {
             return 'array';
         }
@@ -55,10 +43,16 @@ class Parameter
             }
         }
 
-        if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
-            if (!empty($typehintMatch['typehint'])) {
-                return $typehintMatch['typehint'];
-            }
+        if ($this->rfp->isArray()) {
+            return 'array';
+        }
+
+        if (method_exists($this->rfp, 'isCallable') && $this->rfp->isCallable()) {
+            return 'callable';
+        }
+
+        if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>([sS][eE][lL][fF]|[sS][tT][aA][tT][iI][cC])) .*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
+            return $typehintMatch['typehint'];
         }
 
         return '';
