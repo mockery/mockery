@@ -617,6 +617,46 @@ class Mock implements MockInterface
         return null;
     }
 
+    /**
+     * @param string $name Method name.
+     *
+     * @return mixed Generated return value based on the declared return value of the named method.
+     */
+    public function mockery_returnValueForMethod($name)
+    {
+        if (version_compare(PHP_VERSION, '7.0.0-dev') < 0) {
+            return;
+        }
+
+        $rm = $this->mockery_getMethod($name);
+        if (!$rm || !$rm->hasReturnType()) {
+            return;
+        }
+
+        $type = (string) $rm->getReturnType();
+        switch ($type) {
+            case '':       return;
+            case 'string': return '';
+            case 'int':    return 0;
+            case 'float':  return 0.0;
+            case 'bool':   return false;
+            case 'array':  return [];
+
+            case 'callable':
+            case 'Closure':
+                return function () {};
+
+            case 'Traversable':
+            case 'Generator':
+                // Remove eval() when minimum version >=5.5
+                $generator = eval('return function () { yield; };');
+                return $generator();
+
+            default:
+                return \Mockery::mock($type);
+        }
+    }
+
     public function shouldHaveReceived($method, $args = null)
     {
         $expectation = new \Mockery\VerificationExpectation($this, $method);
@@ -707,6 +747,8 @@ class Mock implements MockInterface
             if (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
                 if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined) {
                     return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
+                } elseif (null === $this->_mockery_defaultReturnValue) {
+                    return $this->mockery_returnValueForMethod($method);
                 } else {
                     return $this->_mockery_defaultReturnValue;
                 }
