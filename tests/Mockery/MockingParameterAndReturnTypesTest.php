@@ -50,7 +50,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnInteger");
-        $this->assertEquals(0, $mock->returnInteger());
+        $this->assertSame(0, $mock->returnInteger());
     }
 
     public function testMockingFloatReturnType()
@@ -107,6 +107,22 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
         $mock->shouldReceive("withScalarParameters");
         $mock->withScalarParameters(1, 1.0, true, 'string');
+    }
+
+    public function testIgnoringMissingReturnsType()
+    {
+        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+
+        $mock->shouldIgnoreMissing();
+
+        $this->assertSame('', $mock->returnString());
+        $this->assertSame(0, $mock->returnInteger());
+        $this->assertSame(0.0, $mock->returnFloat());
+        $this->assertSame(false, $mock->returnBoolean());
+        $this->assertSame([], $mock->returnArray());
+        $this->assertTrue(is_callable($mock->returnCallable()));
+        $this->assertInstanceOf("\Generator", $mock->returnGenerator());
+        $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
     }
 }
 
