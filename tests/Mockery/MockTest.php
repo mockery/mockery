@@ -140,6 +140,14 @@ class Mockery_MockTest extends MockeryTestCase
         $exception = Mockery::mock('Exception');
         $this->assertInstanceOf('Exception', $exception);
     }
+
+    public function testCallingShouldReceiveWithoutAValidMethodName()
+    {
+        $mock = Mockery::mock();
+
+        $this->setExpectedException("InvalidArgumentException", "Received empty method name");
+        $mock->shouldReceive("");
+    }
 }
 
 
