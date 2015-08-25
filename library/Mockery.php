@@ -395,6 +395,16 @@ class Mockery
     }
 
     /**
+     * Return instance of ANYTYPEOF matcher.
+     *
+     * @return \Mockery\Matcher\AnyTypeOf
+     */
+    public static function anyTypeOf()
+    {
+        return new \Mockery\Matcher\AnyTypeOf(func_get_args());
+    }
+
+    /**
      * Get the global configuration container.
      */
     public static function getConfiguration()
