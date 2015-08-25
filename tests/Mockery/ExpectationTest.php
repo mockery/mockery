@@ -1793,6 +1793,54 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
+    public function testAnyTypeOfConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::anyTypeOf('array', 'bool', 'callable', 'float', 'int', 'null', 'numeric', 'object', 'resource', 'scalar', 'string'))->times(22);
+        $this->mock->foo(array());
+        $this->mock->foo(array(null));
+        $this->mock->foo(array('bar'));
+        $this->mock->foo(array(array()));
+        $this->mock->foo(true);
+        $this->mock->foo(false);
+        $this->mock->foo('die');
+        $this->mock->foo(array($this, 'testAnyTypeOfConstraintMatchesArgument'));
+        $this->mock->foo(3.1415926536);
+        $this->mock->foo(-0.123456789);
+        $this->mock->foo(-1);
+        $this->mock->foo(0);
+        $this->mock->foo(42);
+        $this->mock->foo('0');
+        $this->mock->foo('1');
+        $this->mock->foo('0b10111');
+        $this->mock->foo('0.42e2');
+        $this->mock->foo($this);
+        $this->mock->foo(new stdClass());
+        $this->mock->foo('');
+        $this->mock->foo('string');
+        $this->mock->foo('null');
+        $this->container->mockery_verify();
+    }
+
+    public function testAnyTypeOfConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->times(3);
+        $this->mock->shouldReceive('foo')->with(1, Mockery::anyTypeOf('string'))->never();
+        $this->mock->foo(1);
+        $this->mock->foo('1');
+        $this->mock->foo(1, '2', 3);
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testAnyTypeOfConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::anyTypeOf('array', 'object'))->once();
+        $this->mock->foo('bar');
+        $this->container->mockery_verify();
+    }
+
     /**
      * @expectedException \Mockery\Exception
      */
