@@ -1269,8 +1269,6 @@ class ContainerTest extends MockeryTestCase
         $mock->foo($testArray);
     }
 
-    /**
-     */
     public function testExceptionOutputMakesBooleansLookLikeBooleans()
     {
         $mock = $this->container->mock('MyTestClass');
@@ -1283,7 +1281,6 @@ class ContainerTest extends MockeryTestCase
 
         $mock->foo(true, false, [true, false]);
     }
-
 
     /**
      * @test
