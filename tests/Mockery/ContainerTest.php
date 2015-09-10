@@ -1191,7 +1191,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(array('myself'=>'array(...)',))
+     * @expectedExceptionMessage MyTestClass::foo(['myself' => [...]])
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithCircularArray()
     {
@@ -1206,7 +1206,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'an_array'=>'array(...)',))
+     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'an_array' => [...]])
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedArray()
     {
@@ -1222,7 +1222,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'an_object'=>'object(stdClass)',))
+     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'an_object' => object(stdClass)])
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedObject()
     {
@@ -1238,7 +1238,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'a_closure'=>'object(Closure
+     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'a_closure' => object(Closure)])
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedClosure()
     {
@@ -1255,7 +1255,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(array('a_scalar'=>2,'a_resource'=>'resource(...)',))
+     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'a_resource' => resource(...)])
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedResource()
     {
@@ -1267,6 +1267,19 @@ class ContainerTest extends MockeryTestCase
         $mock->shouldReceive('foo')->with(array('yourself' => 21));
 
         $mock->foo($testArray);
+    }
+
+    public function testExceptionOutputMakesBooleansLookLikeBooleans()
+    {
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive("foo")->with(123);
+
+        $this->setExpectedException(
+            "Mockery\Exception\NoMatchingExpectationException",
+            "MyTestClass::foo(true, false, [0 => true, 1 => false])"
+        );
+
+        $mock->foo(true, false, [true, false]);
     }
 
     /**
