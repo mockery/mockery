@@ -440,16 +440,19 @@ class Mockery
 
         if (is_array($argument)) {
             if ($depth === 1) {
-                $argument = 'array(...)';
+                $argument = '[...]';
             } else {
                 $sample = array();
                 foreach ($argument as $key => $value) {
-                    $sample[$key] = self::formatArgument($value, $depth + 1);
+                    $key = is_int($key) ? $key : "'$key'";
+                    $value = self::formatArgument($value, $depth + 1);
+                    $sample[]= "$key => $value";
                 }
-                $argument = preg_replace("{\s}", '', var_export($sample, true));
+
+                $argument = "[".implode(", ", $sample)."]";
             }
 
-            return ((strlen($argument) > 1000) ? substr($argument, 0, 1000).'...)' : $argument);
+            return ((strlen($argument) > 1000) ? substr($argument, 0, 1000).'...]' : $argument);
         }
 
         if (is_bool($argument)) {
@@ -464,9 +467,7 @@ class Mockery
             return 'NULL';
         }
 
-        $argument = (string) $argument;
-
-        return $depth === 0 ? '"' . $argument . '"' : $argument;
+        return "'".(string) $argument."'";
     }
 
     /**
