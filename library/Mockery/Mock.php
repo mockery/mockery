@@ -173,7 +173,7 @@ class Mock implements MockInterface
     public function shouldReceive($methodName)
     {
         if (func_num_args() < 1) {
-            throw new \InvalidArgumentException("At least one method name is required"); 
+            throw new \InvalidArgumentException("At least one method name is required");
         }
 
         foreach (func_get_args() as $method) {
