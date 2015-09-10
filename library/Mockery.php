@@ -446,7 +446,7 @@ class Mockery
                 foreach ($argument as $key => $value) {
                     $key = is_int($key) ? $key : "'$key'";
                     $value = self::formatArgument($value, $depth + 1);
-                    $sample[]= "$key => $value";
+                    $sample[] = "$key => $value";
                 }
 
                 $argument = "[".implode(", ", $sample)."]";
