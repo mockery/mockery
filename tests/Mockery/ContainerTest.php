@@ -1270,6 +1270,22 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
+     */
+    public function testExceptionOutputMakesBooleansLookLikeBooleans()
+    {
+        $mock = $this->container->mock('MyTestClass');
+        $mock->shouldReceive("foo")->with(123);
+
+        $this->setExpectedException(
+            "Mockery\Exception\NoMatchingExpectationException",
+            "MyTestClass::foo(true, false, [0 => true, 1 => false])"
+        );
+
+        $mock->foo(true, false, [true, false]);
+    }
+
+
+    /**
      * @test
      * @group issue/339
      */
