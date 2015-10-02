@@ -35,7 +35,7 @@ arrays can be passed for all mock objects as the second parameter to
 .. code-block:: php
 
     $mock = \Mockery::mock('foo', function($mock) {
-        $mock->shouldReceive(method_name);
+        $mock->shouldReceive('method_name');
     });
 
 In addition to expectation arrays, you can also pass in a closure which
