@@ -20,7 +20,6 @@
 namespace Mockery;
 
 use Closure;
-use Exception;
 use ReflectionClass;
 use UnexpectedValueException;
 use InvalidArgumentException;
@@ -135,7 +134,7 @@ final class Instantiator
 
         try {
             unserialize($serializedString);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             restore_error_handler();
 
             throw new UnexpectedValueException("An exception was raised while trying to instantiate an instance of \"{$reflectionClass->getName()}\" via un-serialization", 0, $exception);
