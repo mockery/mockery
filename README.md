@@ -17,7 +17,7 @@ phpunit-mock-objects without the World ending.
 Mockery is released under a New BSD License.
 
 The current released version on Packagist is `0.9.4`.
-Composer users may opt to use the current master branch aliased to `1.0.x-dev`.
+Composer users may opt to use `0.9.*` for the current stable package, or `~1.0@dev` for the current master branch.
 Latest version released through PEAR was `0.9.0`; channel is now closed.
 
 ## Installation
