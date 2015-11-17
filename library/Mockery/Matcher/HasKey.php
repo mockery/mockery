@@ -30,7 +30,7 @@ class HasKey extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        return in_array($this->_expected, array_keys($actual));
+        return array_key_exists($this->_expected, $actual);
     }
 
     /**
@@ -40,7 +40,6 @@ class HasKey extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<HasKey[' . (string) $this->_expected . ']>';
-        return $return;
+        return "<HasKey[$this->_expected]>";
     }
 }
