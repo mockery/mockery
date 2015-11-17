@@ -30,7 +30,7 @@ class HasKey extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        return isset($actual[$this->_expected]);
+        return array_key_exists($this->_expected, $actual);
     }
 
     /**
