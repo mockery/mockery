@@ -26,7 +26,7 @@ To install Mockery, run the command below and you will get the latest
 version
 
 ```sh
-composer require mockery/mockery
+composer require --dev mockery/mockery
 ```
 
 If you want to run the tests:
