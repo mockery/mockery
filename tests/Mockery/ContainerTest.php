@@ -1311,6 +1311,26 @@ class ContainerTest extends MockeryTestCase
         $mock = $this->container->mock("ArrayObject");
         $this->assertInstanceOf("Serializable", $mock);
     }
+
+    /**
+     * @dataProvider classNameProvider
+     */
+    public function testIsValidClassName($expected, $className)
+    {
+        $container = new \Mockery\Container;
+        $this->assertSame($expected, $container->isValidClassName($className));
+    }
+
+    public function classNameProvider()
+    {
+        return array(
+            array(false, ' '), // just a space
+            array(false, 'ClassName.WithDot'),
+            array(false, '\\\\TooManyBackSlashes'),
+            array(true,  'Foo'),
+            array(true,  '\\Foo\\Bar'),
+        );
+    }
 }
 
 class MockeryTest_CallStatic

@@ -148,6 +148,14 @@ class Mockery_MockTest extends MockeryTestCase
         $this->setExpectedException("InvalidArgumentException", "Received empty method name");
         $mock->shouldReceive("");
     }
+
+    /**
+     * @expectedException Mockery\Exception
+     */
+    public function testShouldThrowExceptionWithInvalidClassName()
+    {
+        $this->container->mock('ClassName.CannotContainDot');
+    }
 }
 
 
