@@ -167,6 +167,9 @@ class Container
                 $builder->addTarget($class);
                 continue;
             } elseif (is_string($arg)) {
+                if (!$this->isValidClassName($arg)) {
+                    throw new \Mockery\Exception('Class name contains invalid characters');
+                }
                 $class = array_shift($args);
                 $builder->addTarget($class);
                 continue;
@@ -522,5 +525,23 @@ class Container
         }
 
         $this->_namedMocks[$name] = $hash;
+    }
+
+    /**
+     * see http://php.net/manual/en/language.oop5.basic.php
+     * @param string $className
+     * @return bool
+     */
+    public function isValidClassName($className)
+    {
+        $pos = strpos($className, '\\');
+        if ($pos === 0) {
+            $className = substr($className, 1); // remove the first backslash
+        }
+        // all the namespaces and class name should match the regex
+        $invalidNames = array_filter(explode('\\', $className), function ($name) {
+            return !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
+        });
+        return empty($invalidNames);
     }
 }
