@@ -539,8 +539,9 @@ class Container
             $className = substr($className, 1); // remove the first backslash
         }
         // all the namespaces and class name should match the regex
-        return empty(array_filter(explode('\\', $className), function ($name) {
+        $invalidNames = array_filter(explode('\\', $className), function ($name) {
             return !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
-        }));
+        });
+        return empty($invalidNames);
     }
 }
