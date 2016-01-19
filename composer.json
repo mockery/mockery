@@ -19,7 +19,7 @@
     "require": {
         "php": ">=5.4.0",
         "lib-pcre": ">=7.0",
-        "hamcrest/hamcrest-php": "~2.0-dev"
+        "hamcrest/hamcrest-php": "^2.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
