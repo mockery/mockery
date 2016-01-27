@@ -459,10 +459,10 @@ class Expectation implements ExpectationInterface
     /**
      * Set Exception class and arguments to that class to be thrown
      *
-     * @param string $exception
+     * @param string|\Exception $exception
      * @param string $message
      * @param int $code
-     * @param Exception $previous
+     * @param \Exception $previous
      * @return self
      */
     public function andThrow($exception, $message = '', $code = 0, \Exception $previous = null)
