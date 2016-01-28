@@ -2,7 +2,7 @@ filter:
     paths: [library/*]
     excluded_paths: [vendor/*, tests/*, examples/*]
 before_commands:
-    - 'composer install --dev --prefer-source'
+    - 'composer install --prefer-source'
 tools:
     external_code_coverage:
         timeout: 300
