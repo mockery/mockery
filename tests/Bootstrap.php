@@ -33,11 +33,11 @@ $library = "$root/library";
 $tests   = "$root/tests";
 
 /**
- * Check that --dev composer installation was done
+ * Check that composer installation was done
  */
 if (!file_exists($root . '/vendor/autoload.php')) {
     throw new Exception(
-        'Please run "php composer.phar install --dev" in root directory '
+        'Please run "php composer.phar install" in root directory '
         . 'to setup unit test dependencies before running the tests'
     );
 }

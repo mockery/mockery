@@ -66,7 +66,7 @@ e.g. 0.8.
 
 To run the unit tests for Mockery, clone the git repository, download Composer using
 the instructions at [http://getcomposer.org/download/](http://getcomposer.org/download/),
-then install the dependencies with `php /path/to/composer.phar install --dev`.
+then install the dependencies with `php /path/to/composer.phar install`.
 
 This will install the required PHPUnit and Hamcrest dev dependencies and create the
 autoload files required by the unit tests. You may run the `vendor/bin/phpunit` command
