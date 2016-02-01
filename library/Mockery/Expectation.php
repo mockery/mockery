@@ -284,7 +284,16 @@ class Expectation implements ExpectationInterface
         if (empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
             return true;
         }
-        if (count($args) !== count($this->_expectedArgs)) {
+        $expectedArgsCount = count($this->_expectedArgs);
+        if (count($args) !== $expectedArgsCount) {
+            if (
+                $expectedArgsCount == 1 &&
+                is_object($this->_expectedArgs[0]) &&
+                ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure) &&
+                $this->_matchArg($this->_expectedArgs[0], $args)
+            ) {
+                return true;
+            }
             return false;
         }
         $argCount = count($args);
@@ -351,15 +360,22 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments for the expectation passed as an array
      *
-     * @param array $args
+     * @param array|\Closure $argsOrClosure
      * @return self
      */
-    public function withArgs(array $args)
+    public function withArgs($argsOrClosure)
     {
-        if (empty($args)) {
-            return $this->withNoArgs();
+        if (is_array($argsOrClosure)) {
+            if (empty($argsOrClosure)) {
+                return $this->withNoArgs();
+            }
+            $this->_expectedArgs = $argsOrClosure;
+        } elseif (is_object($argsOrClosure) && ($argsOrClosure instanceof \Closure)) {
+            $this->_expectedArgs = [new \Mockery\Matcher\MultiArgumentClosure($argsOrClosure)];
+        } else {
+            throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and '.
+                'closure are allowed', __METHOD__, $argsOrClosure));
         }
-        $this->_expectedArgs = $args;
         $this->_noArgsExpectation = false;
         return $this;
     }
