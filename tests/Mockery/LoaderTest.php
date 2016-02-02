@@ -28,7 +28,6 @@ class Mockery_LoaderTest extends PHPUnit_Framework_TestCase
 
     public function testCallingRegisterRegistersSelfAsSplAutoloaderFunction()
     {
-        require_once 'Mockery/Loader.php';
         $loader = new \Mockery\Loader;
         $loader->register();
         $expected = array($loader, 'loadClass');
