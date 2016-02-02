@@ -35,10 +35,6 @@ class MultiArgumentClosure extends MatcherAbstract
     public function match(&$actual)
     {
         $closure = $this->_expected;
-        $requiredParamsNumber = (new \ReflectionFunction($closure))->getNumberOfRequiredParameters();
-        if (count($actual) != $requiredParamsNumber) {
-            return false;
-        }
         return true === call_user_func_array($closure, $actual);
     }
 

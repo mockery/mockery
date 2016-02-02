@@ -104,10 +104,6 @@ doesn't match the expectation.
     $this->mock->foo(1, 2); // It matches the expectation: the optional argument is not needed
     $this->mock->foo(1, 2, 3); // It also matches the expectation: the optional argument pass the validation
     $this->mock->foo(1, 2, 4); // It doesn't match the expectation: the optional doesn't pass the validation
-    $this->mock->foo(1, 2, 4, 5); // It neither match the expectation: there are too many arguments
-    $this->mock->foo(1); // It neither match the expectation: there are too few arguments
-
-
 
 .. code-block:: php
 

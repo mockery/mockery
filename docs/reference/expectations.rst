@@ -73,8 +73,7 @@ Instead of providing a built-in matcher for each argument, you can provide a
 closure that matches all passed arguments at once. The given closure receives
 all the arguments passed in the call to the expected method. In this way, this
 expectation only applies to method calls where passed arguments make the closure
-evaluates to true. It can also handle optional arguments and takes care of the
-number of required arguments in the closure#
+evaluates to true.
 
 .. code-block:: php
 

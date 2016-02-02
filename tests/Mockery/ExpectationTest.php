@@ -400,20 +400,7 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
-    /**
-     * @expectedException \Mockery\Exception
-     */
-    public function testExpectsArgumentsArrayThrowsExceptionWhenReceivedNumberOfArgumentsDoNotMatchClosureNumberOfArguments()
-    {
-        $closure = function ($odd, $even) {
-            return ($odd % 2 != 0) && ($even % 2 == 0);
-        };
-        $this->mock->shouldReceive('foo')->withArgs($closure);
-        $this->mock->foo(1, 4, 2);
-        $this->container->mockery_verify();
-    }
-
-    public function testExpectsArgumentsArrayClosureIsAbleToHandleOptionalArguments()
+    public function testExpectsArgumentsArrayClosureDoesNotThrowExceptionIfOptionalArgumentsAreMissing()
     {
         $closure = function ($odd, $even, $sum = null) {
             $result = ($odd % 2 != 0) && ($even % 2 == 0);
@@ -427,10 +414,24 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
+    public function testExpectsArgumentsArrayClosureDoesNotThrowExceptionIfOptionalArgumentsMathTheExpectation()
+    {
+        $closure = function ($odd, $even, $sum = null) {
+            $result = ($odd % 2 != 0) && ($even % 2 == 0);
+            if (!is_null($sum)) {
+                return $result && ($odd + $even == $sum);
+            }
+            return $result;
+        };
+        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->foo(1, 4, 5);
+        $this->container->mockery_verify();
+    }
+
     /**
      * @expectedException \Mockery\Exception
      */
-    public function testExpectsArgumentsArrayThrowsAnExceptionIfClosureDoesNotMatchOptionalArguments()
+    public function testExpectsArgumentsArrayClosureThrowsExceptionIfOptionalArgumentsDontMatchTheExpectation()
     {
         $closure = function ($odd, $even, $sum = null) {
             $result = ($odd % 2 != 0) && ($even % 2 == 0);

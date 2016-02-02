@@ -285,15 +285,13 @@ class Expectation implements ExpectationInterface
             return true;
         }
         $expectedArgsCount = count($this->_expectedArgs);
-        if (count($args) !== $expectedArgsCount) {
-            if (
-                $expectedArgsCount == 1 &&
-                is_object($this->_expectedArgs[0]) &&
-                ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure) &&
-                $this->_matchArg($this->_expectedArgs[0], $args)
-            ) {
+        if ($expectedArgsCount === 1 && ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure)) {
+            if ($this->_matchArg($this->_expectedArgs[0], $args)) {
                 return true;
             }
+            return false;
+        }
+        if (count($args) !== $expectedArgsCount) {
             return false;
         }
         $argCount = count($args);
