@@ -3,7 +3,8 @@
 ## 1.0.0 (XXXX-XX-XX)
 
 * Destructors (`__destruct`) are stubbed out where it makes sense
-
+* Allow passing a closure argument to `withArgs()` to validate multiple arguments at once. 
+ 
 ## 0.9.4 (XXXX-XX-XX)
 
 * `shouldIgnoreMissing` will respect global `allowMockingNonExistentMethods`

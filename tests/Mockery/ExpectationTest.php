@@ -368,6 +368,83 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo(null);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessageRegExp /invalid argument (.+), only array and closure are allowed/
+     */
+    public function testExpectsArgumentsArrayThrowsExceptionIfPassedWrongArgumentType()
+    {
+        $this->mock->shouldReceive('foo')->withArgs(5);
+    }
+
+    public function testExpectsArgumentsArrayAcceptAClosureThatValidatesPassedArguments()
+    {
+        $closure = function ($odd, $even) {
+            return ($odd % 2 != 0) && ($even % 2 == 0);
+        };
+        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->foo(1, 2);
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testExpectsArgumentsArrayThrowsExceptionWhenClosureEvaluatesToFalse()
+    {
+        $closure = function ($odd, $even) {
+            return ($odd % 2 != 0) && ($even % 2 == 0);
+        };
+        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->foo(4, 2);
+        $this->container->mockery_verify();
+    }
+
+    public function testExpectsArgumentsArrayClosureDoesNotThrowExceptionIfOptionalArgumentsAreMissing()
+    {
+        $closure = function ($odd, $even, $sum = null) {
+            $result = ($odd % 2 != 0) && ($even % 2 == 0);
+            if (!is_null($sum)) {
+                return $result && ($odd + $even == $sum);
+            }
+            return $result;
+        };
+        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->foo(1, 4);
+        $this->container->mockery_verify();
+    }
+
+    public function testExpectsArgumentsArrayClosureDoesNotThrowExceptionIfOptionalArgumentsMathTheExpectation()
+    {
+        $closure = function ($odd, $even, $sum = null) {
+            $result = ($odd % 2 != 0) && ($even % 2 == 0);
+            if (!is_null($sum)) {
+                return $result && ($odd + $even == $sum);
+            }
+            return $result;
+        };
+        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->foo(1, 4, 5);
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testExpectsArgumentsArrayClosureThrowsExceptionIfOptionalArgumentsDontMatchTheExpectation()
+    {
+        $closure = function ($odd, $even, $sum = null) {
+            $result = ($odd % 2 != 0) && ($even % 2 == 0);
+            if (!is_null($sum)) {
+                return $result && ($odd + $even == $sum);
+            }
+            return $result;
+        };
+        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->foo(1, 4, 2);
+        $this->container->mockery_verify();
+    }
+
     public function testExpectsAnyArguments()
     {
         $this->mock->shouldReceive('foo')->withAnyArgs();
@@ -1557,6 +1634,14 @@ class ExpectationTest extends MockeryTestCase
         $function = function ($arg) {return $arg % 2 == 0;};
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo(4);
+        $this->container->mockery_verify();
+    }
+
+    public function testOnConstraintMatchesArgumentOfTypeArray_ClosureEvaluatesToTrue()
+    {
+        $function = function ($arg) {return is_array($arg);};
+        $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
+        $this->mock->foo([4, 5]);
         $this->container->mockery_verify();
     }
 

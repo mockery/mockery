@@ -80,6 +80,33 @@ There is no Hamcrest version of this functionality.
 
 .. code-block:: php
 
+    withArgs(closure)
+
+You can also perform argument validation by passing a closure to ``withArgs()``
+method. The closure will receive all arguments passed in the call to the expected
+method and if it evaluates (i.e. returns) to boolean ``true``, then the list of
+arguments is assumed to have matched the expectation. The closure can also
+handle optional parameters, so if an optional parameter is missing in the call
+to the expected method, it doesn't necessary means that the list of arguments
+doesn't match the expectation.
+
+.. code-block:: php
+
+    $closure = function ($odd, $even, $sum = null) {
+        $result = ($odd % 2 != 0) && ($even % 2 == 0);
+        if (!is_null($sum)) {
+            return $result && ($odd + $even == $sum);
+        }
+        return $result;
+    };
+    $this->mock->shouldReceive('foo')->withArgs($closure);
+
+    $this->mock->foo(1, 2); // It matches the expectation: the optional argument is not needed
+    $this->mock->foo(1, 2, 3); // It also matches the expectation: the optional argument pass the validation
+    $this->mock->foo(1, 2, 4); // It doesn't match the expectation: the optional doesn't pass the validation
+
+.. code-block:: php
+
     with('/^foo/') OR with(matchesPattern('/^foo/'))
 
 The argument declarator also assumes any given string may be a regular

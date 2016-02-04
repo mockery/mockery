@@ -767,6 +767,17 @@ class ContainerTest extends MockeryTestCase
         $this->assertEquals(1, $b);
     }
 
+    public function testMethodParamsPassedByReferenceThroughWithArgsHaveReferencePreserved()
+    {
+        $m = $this->container->mock('MockeryTestRef1');
+        $m->shouldReceive('foo')->withArgs(function (&$a, $b) {$a += 1; $b += 1; return true;});
+        $a = 1;
+        $b = 1;
+        $m->foo($a, $b);
+        $this->assertEquals(2, $a);
+        $this->assertEquals(1, $b);
+    }
+
     /**
      * Meant to test the same logic as
      * testCanOverrideExpectedParametersOfExtensionPHPClassesToPreserveRefs,
