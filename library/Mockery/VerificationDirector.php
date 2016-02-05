@@ -23,7 +23,7 @@ class VerificationDirector
         return $this->cloneApplyAndVerify("with", func_get_args());
     }
 
-    public function withArgs(array $args)
+    public function withArgs($args)
     {
         return $this->cloneApplyAndVerify("withArgs", array($args));
     }
