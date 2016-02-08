@@ -1,7 +1,7 @@
 <?php
 namespace Mockery\Matcher;
 
-class Constraint extends MatcherAbstract
+class PHPUnitConstraint extends MatcherAbstract
 {
     protected $constraint;
     protected $rethrow;

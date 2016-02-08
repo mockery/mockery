@@ -7,13 +7,13 @@
  */
 
 use Mockery\MockInterface;
-use Mockery\Matcher\Constraint;
+use Mockery\Matcher\PHPUnitConstraint;
 
-class ConstraintTest extends \PHPUnit_Framework_TestCase
+class PHPUnitConstraintTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Constraint */
+    /** @var  PHPUnitConstraint */
     protected $matcher;
-    /** @var  Constraint */
+    /** @var  PHPUnitConstraint */
     protected $rethrowingMatcher;
     /** @var  MockInterface */
     protected $constraint;
@@ -21,8 +21,8 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->constraint = \Mockery::mock('PHPUnit_Framework_Constraint');
-        $this->matcher = new Constraint($this->constraint);
-        $this->rethrowingMatcher = new Constraint($this->constraint, true);
+        $this->matcher = new PHPUnitConstraint($this->constraint);
+        $this->rethrowingMatcher = new PHPUnitConstraint($this->constraint, true);
     }
 
     public function testMatches()
