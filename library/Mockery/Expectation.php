@@ -470,6 +470,16 @@ class Expectation implements ExpectationInterface
         return $this;
     }
 
+    public function andReturnFalse()
+    {
+        return $this->andReturn(false);
+    }
+
+    public function andReturnTrue()
+    {
+        return $this->andReturn(true);
+    }
+
     /**
      * Set Exception class and arguments to that class to be thrown
      *
