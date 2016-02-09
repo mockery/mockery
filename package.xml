@@ -92,6 +92,7 @@
             <file name="Any.php" role="php"/>
             <file name="AnyOf.php" role="php"/>
             <file name="Closure.php" role="php"/>
+            <file name="Constraint.php" role="php"/>
             <file name="Contains.php" role="php"/>
             <file name="Ducktype.php" role="php"/>
             <file name="HasKey.php" role="php"/>
