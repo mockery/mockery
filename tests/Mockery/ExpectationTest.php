@@ -2057,6 +2057,14 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals($this->mock->foo(), 'green');
         $this->assertEquals($this->mock->foo(), 'blue');
     }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testTimesExpectationForbidsFloatNumbers()
+    {
+        $this->mock->shouldReceive('foo')->times(1.3);
+    }
 }
 
 class MockeryTest_SubjectCall1
