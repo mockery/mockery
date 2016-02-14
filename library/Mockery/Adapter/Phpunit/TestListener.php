@@ -53,7 +53,10 @@ class TestListener implements \PHPUnit_Framework_TestListener
         if (class_exists('\\PHP_CodeCoverage_Filter')
         && method_exists('\\PHP_CodeCoverage_Filter', 'getInstance')) {
             \PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(
-                 __DIR__.'/../../../Mockery/', '.php', '', 'PHPUNIT'
+                __DIR__ . '/../../../Mockery/',
+                '.php',
+                '',
+                'PHPUNIT'
             );
 
             \PHP_CodeCoverage_Filter::getInstance()->addFileToBlacklist(__DIR__.'/../../../Mockery.php', 'PHPUNIT');
@@ -66,7 +69,9 @@ class TestListener implements \PHPUnit_Framework_TestListener
     {
     }
 
-    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time) {}
+    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time)
+    {
+    }
 
     public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
