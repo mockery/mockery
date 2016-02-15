@@ -2059,7 +2059,7 @@ class ExpectationTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException \Mockery\Exception
+     * @expectedException \InvalidArgumentException
      */
     public function testTimesExpectationForbidsFloatNumbers()
     {
