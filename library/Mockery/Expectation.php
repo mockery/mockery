@@ -559,6 +559,7 @@ class Expectation implements ExpectationInterface
      * Indicates the number of times this expectation should occur
      *
      * @param int $limit
+     * @throws InvalidArgumentException
      * @return self
      */
     public function times($limit = null)
