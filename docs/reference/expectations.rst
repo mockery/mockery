@@ -8,8 +8,6 @@ Expectation Declarations
 
     In order for your expectations to work you MUST call ``Mockery::close()``, preferably in a callback method such as ``tearDown`` or ``_before`` (depending on whether or not you're integrating Mockery with another framework). This static call cleans up the Mockery container used by the current test, and run any verification tasks needed for your expectations.
     
-    
-
 Once you have created a mock object, you'll often want to start defining how
 exactly it should behave (and how it should be called). This is where the
 Mockery expectation declarations take over.
