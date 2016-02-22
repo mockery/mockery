@@ -559,12 +559,16 @@ class Expectation implements ExpectationInterface
      * Indicates the number of times this expectation should occur
      *
      * @param int $limit
+     * @throws InvalidArgumentException
      * @return self
      */
     public function times($limit = null)
     {
         if (is_null($limit)) {
             return $this;
+        }
+        if (!is_int($limit)) {
+            throw new \InvalidArgumentException('The passed Times limit should be an integer value');
         }
         $this->_countValidators[] = new $this->_countValidatorClass($this, $limit);
         $this->_countValidatorClass = 'Mockery\CountValidator\Exact';

@@ -20,7 +20,6 @@
 
 namespace Mockery\Matcher;
 
-
 class MultiArgumentClosure extends MatcherAbstract
 {
 
