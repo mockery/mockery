@@ -31,11 +31,11 @@ error_reporting(E_ALL);
 $root    = realpath(dirname(dirname(__FILE__)));
 $library = "$root/library";
 $tests   = "$root/tests";
-
+$composerVendorDirectory = getenv("COMPOSER_VENDOR_DIR") ?: "vendor";
 /**
  * Check that composer installation was done
  */
-if (!file_exists($root . '/vendor/autoload.php')) {
+if (!file_exists("$root/$composerVendorDirectory/autoload.php")) {
     throw new Exception(
         'Please run "php composer.phar install" in root directory '
         . 'to setup unit test dependencies before running the tests'
@@ -54,7 +54,7 @@ $path = array(
 );
 set_include_path(implode(PATH_SEPARATOR, $path));
 
-require_once "$root/vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php";
+require_once "$root/$composerVendorDirectory/hamcrest/hamcrest-php/hamcrest/Hamcrest.php";
 
 if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     version_compare(PHPUnit_Runner_Version::id(), '3.1.6', '>=')) {
@@ -77,7 +77,7 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     PHPUnit_Util_Filter::addDirectoryToFilter(PHP_LIBDIR);
 }
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__."/../$composerVendorDirectory/autoload.php";
 
 /*
  * Unset global variables that are no longer needed.
