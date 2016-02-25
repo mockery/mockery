@@ -61,7 +61,9 @@ class Parameter
 
         if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
             if (!empty($typehintMatch['typehint'])) {
-                return str_replace('integer', 'int', $typehintMatch['typehint']);
+                $invalid = ['integer','boolean'];
+                $valid = ['int','bool'];
+                return str_replace($invalid, $valid, $typehintMatch['typehint']);
             }
         }
 
