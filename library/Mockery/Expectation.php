@@ -374,7 +374,7 @@ class Expectation implements ExpectationInterface
                 return $this->withNoArgs();
             }
             $this->_expectedArgs = $argsOrClosure;
-        } elseif (is_object($argsOrClosure) && ($argsOrClosure instanceof \Closure)) {
+        } elseif ($argsOrClosure instanceof \Closure) {
             $this->_expectedArgs = [new \Mockery\Matcher\MultiArgumentClosure($argsOrClosure)];
         } else {
             throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and '.
