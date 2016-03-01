@@ -20,6 +20,9 @@
 
 namespace Mockery;
 
+use Closure;
+use Mockery\Matcher\MultiArgumentClosure;
+
 class Expectation implements ExpectationInterface
 {
     /**
@@ -274,6 +277,15 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Check if the registered expectation is a MultiArgumentClosureExpectation.
+     * @return bool
+     */
+    private function isMultiArgumentClosureExpectation()
+    {
+        return (count($this->_expectedArgs) === 1 && ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure));
+    }
+
+    /**
      * Check if passed arguments match an argument expectation
      *
      * @param array $args
@@ -284,17 +296,13 @@ class Expectation implements ExpectationInterface
         if (empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
             return true;
         }
-        $expectedArgsCount = count($this->_expectedArgs);
-        if ($expectedArgsCount === 1 && ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure)) {
-            if ($this->_matchArg($this->_expectedArgs[0], $args)) {
-                return true;
-            }
-            return false;
-        }
-        if (count($args) !== $expectedArgsCount) {
-            return false;
+        if ($this->isMultiArgumentClosureExpectation()) {
+            return $this->_matchArg($this->_expectedArgs[0], $args);
         }
         $argCount = count($args);
+        if ($argCount !== count($this->_expectedArgs)) {
+            return false;
+        }
         for ($i=0; $i<$argCount; $i++) {
             $param =& $args[$i];
             if (!$this->_matchArg($this->_expectedArgs[$i], $param)) {
@@ -308,7 +316,8 @@ class Expectation implements ExpectationInterface
     /**
      * Check if passed argument matches an argument expectation
      *
-     * @param array $args
+     * @param mixed $expected
+     * @param mixed &$actual
      * @return bool
      */
     protected function _matchArg($expected, &$actual)
@@ -358,23 +367,49 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments for the expectation passed as an array
      *
-     * @param array|\Closure $argsOrClosure
+     * @param array $arguments
+     * @return self
+     */
+    private function withArgsInArray(array $arguments)
+    {
+        if (empty($arguments)) {
+            return $this->withNoArgs();
+        }
+        $this->_expectedArgs = $arguments;
+        $this->_noArgsExpectation = false;
+        return $this;
+    }
+
+    /**
+     * Expected arguments have to be matched by the given closure.
+     *
+     * @param Closure $closure
+     * @return self
+     */
+    private function withArgsMatchedByClosure(Closure $closure)
+    {
+        $this->_expectedArgs = [new MultiArgumentClosure($closure)];
+        $this->_noArgsExpectation = false;
+        return $this;
+    }
+
+    /**
+     * Expected arguments for the expectation passed as an array or a closure that matches each passed argument on
+     * each function call.
+     *
+     * @param array|Closure $argsOrClosure
      * @return self
      */
     public function withArgs($argsOrClosure)
     {
         if (is_array($argsOrClosure)) {
-            if (empty($argsOrClosure)) {
-                return $this->withNoArgs();
-            }
-            $this->_expectedArgs = $argsOrClosure;
-        } elseif (is_object($argsOrClosure) && ($argsOrClosure instanceof \Closure)) {
-            $this->_expectedArgs = [new \Mockery\Matcher\MultiArgumentClosure($argsOrClosure)];
+            $this->withArgsInArray($argsOrClosure);
+        } elseif ($argsOrClosure instanceof Closure) {
+            $this->withArgsMatchedByClosure($argsOrClosure);
         } else {
             throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and '.
                 'closure are allowed', __METHOD__, $argsOrClosure));
         }
-        $this->_noArgsExpectation = false;
         return $this;
     }
 
