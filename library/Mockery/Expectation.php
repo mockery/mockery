@@ -20,6 +20,9 @@
 
 namespace Mockery;
 
+use Closure;
+use Mockery\Matcher\MultiArgumentClosure;
+
 class Expectation implements ExpectationInterface
 {
     /**
@@ -364,23 +367,49 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments for the expectation passed as an array
      *
-     * @param array|\Closure $argsOrClosure
+     * @param array $arguments
+     * @return self
+     */
+    private function withArgsInArray(array $arguments)
+    {
+        if (empty($arguments)) {
+            return $this->withNoArgs();
+        }
+        $this->_expectedArgs = $arguments;
+        $this->_noArgsExpectation = false;
+        return $this;
+    }
+
+    /**
+     * Expected arguments have to be matched by the given closure.
+     *
+     * @param Closure $closure
+     * @return self
+     */
+    private function withArgsMatchedByClosure(Closure $closure)
+    {
+        $this->_expectedArgs = [new MultiArgumentClosure($closure)];
+        $this->_noArgsExpectation = false;
+        return $this;
+    }
+
+    /**
+     * Expected arguments for the expectation passed as an array or a closure that matches each passed argument on
+     * each function call.
+     *
+     * @param array|Closure $argsOrClosure
      * @return self
      */
     public function withArgs($argsOrClosure)
     {
         if (is_array($argsOrClosure)) {
-            if (empty($argsOrClosure)) {
-                return $this->withNoArgs();
-            }
-            $this->_expectedArgs = $argsOrClosure;
-        } elseif ($argsOrClosure instanceof \Closure) {
-            $this->_expectedArgs = [new \Mockery\Matcher\MultiArgumentClosure($argsOrClosure)];
+            $this->withArgsInArray($argsOrClosure);
+        } elseif ($argsOrClosure instanceof Closure) {
+            $this->withArgsMatchedByClosure($argsOrClosure);
         } else {
             throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and '.
                 'closure are allowed', __METHOD__, $argsOrClosure));
         }
-        $this->_noArgsExpectation = false;
         return $this;
     }
 
