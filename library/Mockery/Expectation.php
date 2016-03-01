@@ -274,6 +274,15 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Check if the registered expectation is a MultiArgumentClosureExpectation.
+     * @return bool
+     */
+    private function isMultiArgumentClosureExpectation()
+    {
+        return (count($this->_expectedArgs) === 1 && ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure));
+    }
+
+    /**
      * Check if passed arguments match an argument expectation
      *
      * @param array $args
@@ -284,17 +293,13 @@ class Expectation implements ExpectationInterface
         if (empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
             return true;
         }
-        $expectedArgsCount = count($this->_expectedArgs);
-        if ($expectedArgsCount === 1 && ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure)) {
-            if ($this->_matchArg($this->_expectedArgs[0], $args)) {
-                return true;
-            }
-            return false;
-        }
-        if (count($args) !== $expectedArgsCount) {
-            return false;
+        if ($this->isMultiArgumentClosureExpectation()) {
+            return $this->_matchArg($this->_expectedArgs[0], $args);
         }
         $argCount = count($args);
+        if ($argCount !== count($this->_expectedArgs)) {
+            return false;
+        }
         for ($i=0; $i<$argCount; $i++) {
             $param =& $args[$i];
             if (!$this->_matchArg($this->_expectedArgs[$i], $param)) {
