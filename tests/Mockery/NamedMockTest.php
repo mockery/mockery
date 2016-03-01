@@ -19,6 +19,8 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+require_once __DIR__.'/DummyClasses/Namespaced.php';
+
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class NamedMockTest extends MockeryTestCase
@@ -50,5 +52,28 @@ class NamedMockTest extends MockeryTestCase
     {
         $mock = Mockery::namedMock("Mockery\Dave7");
         $mock = Mockery::namedMock("Mockery\Dave7", "DateTime");
+    }
+
+    /** @test */
+    public function itCreatesConcreteImplementationOfMethodsAndClasses()
+    {
+        $orchid = new \Nature\Plant();
+        $gardiner = Mockery::namedMock(
+            "GenericNamespace\\genericName",
+            Gardiner::class
+        );
+        $gardiner->water($orchid);
+    }
+
+    /** @test */
+    public function itCreatesConcreteMethodImplementationWithReturnType()
+    {
+        $cactus = new \Nature\Plant();
+        $gardiner = Mockery::namedMock(
+            "NewNamespace\\ClassName",
+            Gardiner::class,
+            array('water' => true)
+        );
+        $this->assertTrue($gardiner->water($cactus));
     }
 }
