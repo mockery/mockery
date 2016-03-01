@@ -313,7 +313,8 @@ class Expectation implements ExpectationInterface
     /**
      * Check if passed argument matches an argument expectation
      *
-     * @param array $args
+     * @param mixed $expected
+     * @param mixed &$actual
      * @return bool
      */
     protected function _matchArg($expected, &$actual)
