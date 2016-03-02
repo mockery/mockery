@@ -48,7 +48,7 @@ class Parameter
         if ((version_compare(PHP_VERSION, '5.4.1') >= 0)) {
             try {
                 if ($this->rfp->getClass()) {
-                    return $this->rfp->getClass()->getName();
+                    return '\\' . $this->rfp->getClass()->getName();
                 }
             } catch (\ReflectionException $re) {
                 // noop
@@ -60,7 +60,13 @@ class Parameter
         }
 
         if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
+
             if (!empty($typehintMatch['typehint'])) {
+
+                if ($this->isNamespacedClass($typehintMatch['typehint'])) {
+                    return '\\' . $typehintMatch['typehint'];
+                }
+
                 return $typehintMatch['typehint'];
             }
         }
@@ -91,5 +97,13 @@ class Parameter
             return false;
         }
         return $this->rfp->isVariadic();
+    }
+
+    private function isNamespacedClass($class)
+    {
+        if (strpos($class, '\\') > 0) {
+            return true;
+        }
+        return false;
     }
 }
