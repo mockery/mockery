@@ -60,7 +60,7 @@ class NamedMockTest extends MockeryTestCase
         $cactus = new \Nature\Plant();
         $gardener = Mockery::namedMock(
             "NewNamespace\\ClassName",
-            Gardener::class,
+            "Gardener",
             array('water' => true)
         );
         $this->assertTrue($gardener->water($cactus));
