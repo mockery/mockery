@@ -58,11 +58,11 @@ class NamedMockTest extends MockeryTestCase
     public function itCreatesConcreteMethodImplementationWithReturnType()
     {
         $cactus = new \Nature\Plant();
-        $gardiner = Mockery::namedMock(
+        $gardener = Mockery::namedMock(
             "NewNamespace\\ClassName",
-            Gardiner::class,
+            Gardener::class,
             array('water' => true)
         );
-        $this->assertTrue($gardiner->water($cactus));
+        $this->assertTrue($gardener->water($cactus));
     }
 }

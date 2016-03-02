@@ -28,7 +28,7 @@ namespace Nature
 
 namespace
 {
-    abstract class Gardiner
+    abstract class Gardener
     {
         abstract public function water(Nature\Plant $plant);
     }
