@@ -3,6 +3,7 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\Method;
+use Mockery\Generator\Parameter;
 use Mockery\Generator\MockConfiguration;
 
 class MethodDefinitionPass implements Pass
@@ -49,7 +50,7 @@ class MethodDefinitionPass implements Pass
         $methodParams = array();
         $params = $method->getParameters();
         foreach ($params as $param) {
-            $paramDef = '\\'.$param->getTypeHintAsString().' ';
+            $paramDef = $this->renderTypeHint($param);
             $paramDef .= $param->isPassedByReference() ? '&' : '';
             $paramDef .= $param->isVariadic() ? '...' : '';
             $paramDef .= '$' . $param->getName();
@@ -78,6 +79,27 @@ class MethodDefinitionPass implements Pass
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
         return $class;
+    }
+
+    private function renderTypeHint(Parameter $param)
+    {
+        $languageTypeHints = array(
+            'self',
+            'array',
+            'callable',
+            // Up to php 7
+            'bool',
+            'float',
+            'int',
+            'string'
+        );
+        $typeHint = trim($param->getTypeHintAsString());
+
+        if (!empty($typeHint) && !in_array($typeHint, $languageTypeHints)) {
+            $typeHint = '\\'.$typeHint;
+        }
+
+        return $typeHint .= ' ';
     }
 
     private function renderMethodBody($method, $config)
