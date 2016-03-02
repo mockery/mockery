@@ -81,7 +81,7 @@ class MethodDefinitionPass implements Pass
         return $class;
     }
 
-    private function renderTypeHint(Parameter $param)
+    protected function renderTypeHint(Parameter $param)
     {
         $languageTypeHints = array(
             'self',
