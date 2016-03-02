@@ -30,6 +30,6 @@ namespace
 {
     abstract class Gardiner
     {
-        abstract function water(Nature\Plant $plant);
+        abstract public function water(Nature\Plant $plant);
     }
 }
