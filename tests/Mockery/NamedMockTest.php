@@ -55,17 +55,6 @@ class NamedMockTest extends MockeryTestCase
     }
 
     /** @test */
-    public function itCreatesConcreteImplementationOfMethodsAndClasses()
-    {
-        $orchid = new \Nature\Plant();
-        $gardiner = Mockery::namedMock(
-            "GenericNamespace\\genericName",
-            Gardiner::class
-        );
-        $gardiner->water($orchid);
-    }
-
-    /** @test */
     public function itCreatesConcreteMethodImplementationWithReturnType()
     {
         $cactus = new \Nature\Plant();
