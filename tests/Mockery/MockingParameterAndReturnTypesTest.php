@@ -124,6 +124,13 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $this->assertInstanceOf("\Generator", $mock->returnGenerator());
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
     }
+
+    public function testAutoStubbingSelf()
+    {
+        $spy = \Mockery::spy("test\Mockery\TestWithParameterAndReturnType");
+
+        $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $spy->returnSelf());
+    }
 }
 
 
@@ -146,4 +153,6 @@ abstract class TestWithParameterAndReturnType
     public function withClassReturnType(): TestWithParameterAndReturnType {}
 
     public function withScalarParameters(int $integer, float $float, bool $boolean, string $string) {}
+
+    public function returnSelf(): self {}
 }

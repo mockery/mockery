@@ -662,6 +662,9 @@ class Mock implements MockInterface
                 $generator = eval('return function () { yield; };');
                 return $generator();
 
+            case 'self':
+                return \Mockery::mock($rm->getDeclaringClass()->getName());
+
             default:
                 return \Mockery::mock($type);
         }

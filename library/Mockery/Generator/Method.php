@@ -26,7 +26,13 @@ class Method
     public function getReturnType()
     {
         if (version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $this->method->hasReturnType()) {
-            return (string) $this->method->getReturnType();
+            $returnType = (string) $this->method->getReturnType();
+
+            if ('self' === $returnType) {
+                return "\\".$this->method->getDeclaringClass()->getName();
+            }
+
+            return $returnType;
         }
         return '';
     }
