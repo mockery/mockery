@@ -75,4 +75,21 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("Mockery\Exception\InvalidCountException");
         $spy->shouldHaveReceived("myMethod")->with(123);
     }
+
+    /** @test */
+    public function itIncrementsExpectationCountWhenShouldHaveReceivedIsUsed()
+    {
+        $spy = m::spy();
+        $spy->myMethod('param1', 'param2');
+        $spy->shouldHaveReceived('myMethod')->with('param1', 'param2');
+        $this->assertEquals(1, $spy->mockery_getExpectationCount());
+    }
+
+    /** @test */
+    public function itIncrementExpectationCountWhenShouldNotHaveReceivedIsUsed()
+    {
+        $spy = m::spy();
+        $spy->shouldNotHaveReceived('method');
+        $this->assertEquals(1, $spy->mockery_getExpectationCount());
+    }
 }
