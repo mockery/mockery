@@ -86,7 +86,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function itIncrementExpectationCountWhenShouldNotHaveReceivedIsUsed()
+    public function itIncrementsExpectationCountWhenShouldNotHaveReceivedIsUsed()
     {
         $spy = m::spy();
         $spy->shouldNotHaveReceived('method');
