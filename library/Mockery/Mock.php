@@ -776,16 +776,13 @@ class Mock implements MockInterface
             return static::$_mockery_methods;
         }
 
-        $methods = array();
-
         if (isset($this->_mockery_partial)) {
             $reflected = new \ReflectionObject($this->_mockery_partial);
         } else {
             $reflected = new \ReflectionClass($this);
         }
-        $methods = $reflected->getMethods();
 
-        return static::$_mockery_methods = $methods;
+        return static::$_mockery_methods = $reflected->getMethods();
     }
 
     /**
