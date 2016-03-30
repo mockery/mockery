@@ -130,10 +130,14 @@ abstract class TestWithProtectedMethods
 
 class TestIncreasedVisibilityParent
 {
-    protected function foobar() {}
+    protected function foobar()
+    {
+    }
 }
 
 class TestIncreasedVisibilityChild extends TestIncreasedVisibilityParent
 {
-    public function foobar() {}
+    public function foobar()
+    {
+    }
 }

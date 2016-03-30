@@ -767,7 +767,7 @@ class Mock implements MockInterface
     /**
      * Uses reflection to get the list of all
      * methods within the current mock object
-     * 
+     *
      * @return array
      */
     protected function mockery_getMethods()
