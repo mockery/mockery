@@ -104,20 +104,6 @@ interface MockInterface
     public function byDefault();
 
     /**
-     * Capture calls to this mock and check against expectations
-     *
-     * @param string $method
-     * @param array $args
-     * @return mixed
-     */
-        /**
-         * Unfortunately we need to allow type hinting agnostic __call()
-         * definitions since any interface/class being mocked can go either
-         * way.
-         */
-    //public function __call($method, array $args);
-
-    /**
      * Iterate across all expectation directors and validate each
      *
      * @throws \Mockery\CountValidator\Exception
