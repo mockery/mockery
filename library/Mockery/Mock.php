@@ -782,6 +782,12 @@ class Mock implements MockInterface
         );
     }
 
+    /**
+     * Uses reflection to get the list of all
+     * methods within the current mock object
+     * 
+     * @return array
+     */
     protected function mockery_getMethods()
     {
         if (static::$_mockery_methods) {
@@ -792,22 +798,10 @@ class Mock implements MockInterface
 
         if (isset($this->_mockery_partial)) {
             $reflected = new \ReflectionObject($this->_mockery_partial);
-            $methods = $reflected->getMethods();
         } else {
             $reflected = new \ReflectionClass($this);
-            foreach ($reflected->getMethods() as $method) {
-                try {
-                    $methods[] = $method->getPrototype();
-                } catch (\ReflectionException $re) {
-                    /**
-                     * For some reason, private methods don't have a prototype
-                     */
-                    if ($method->isPrivate()) {
-                        $methods[] = $method;
-                    }
-                }
-            }
         }
+        $methods = $reflected->getMethods();
 
         return static::$_mockery_methods = $methods;
     }
