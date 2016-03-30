@@ -1141,7 +1141,7 @@ class ContainerTest extends MockeryTestCase
     /**
      * @group issue/154
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage protectedMethod() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock
+     * @expectedExceptionMessage protectedMethod() cannot be mocked as it is a protected method and mocking protected methods is not enabled for the currently used mock object.
      */
     public function testShouldThrowIfAttemptingToStubProtectedMethod()
     {
