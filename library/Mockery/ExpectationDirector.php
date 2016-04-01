@@ -72,7 +72,7 @@ class ExpectationDirector
     /**
      * Add a new expectation to the director
      *
-     * @param Mutateme\Expectation $expectation
+     * @param \Mockery\Expectation $expectation
      */
     public function addExpectation(\Mockery\Expectation $expectation)
     {
