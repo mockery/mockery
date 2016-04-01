@@ -49,7 +49,7 @@ class Expectation implements ExpectationInterface
     /**
      * Count validator store
      *
-     * @var array
+     * @var \Mockery\CountValidator\CountValidatorAbstract[]
      */
     protected $_countValidators = array();
 
@@ -236,6 +236,16 @@ class Expectation implements ExpectationInterface
             }
         }
         return true;
+    }
+
+    public function isExpected()
+    {
+        foreach ($this->_countValidators as $validator) {
+            if ($validator->isEligible($this->_actualCount)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
