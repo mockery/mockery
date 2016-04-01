@@ -134,7 +134,7 @@ class ExpectationDirector
     public function findExpectation(array $args)
     {
         if (!empty($this->_expectations)) {
-            return $this->_findExpectationIn($this->_expectations, $args);
+            return $this->_findExpectationIn(array_reverse($this->_expectations), $args);
         } else {
             return $this->_findExpectationIn($this->_defaults, $args);
         }
