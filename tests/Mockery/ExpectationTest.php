@@ -2066,7 +2066,8 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')->times(1.3);
     }
 
-    public function testFirstInLastOut() {
+    public function testFirstInLastOut()
+    {
         // assign
         $this->mock->shouldReceive('foo')->andReturn('anything');
         $this->mock->shouldReceive('foo')->once()->with('bar')->andReturn('something');
