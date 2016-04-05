@@ -97,6 +97,14 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $mock->shouldReceive("abstractProtected")->andReturn("abstractProtected");
         $this->assertEquals("abstractProtected", $mock->foo());
     }
+
+    /** @test */
+    public function shouldAllowMockingIncreasedVisabilityMethods()
+    {
+        $mock = $this->container->mock("test\Mockery\TestIncreasedVisibilityChild");
+        $mock->shouldReceive('foobar')->andReturn("foobar");
+        $this->assertEquals('foobar', $mock->foobar());
+    }
 }
 
 
@@ -117,5 +125,19 @@ abstract class TestWithProtectedMethods
     protected function protectedBar()
     {
         return 'bar';
+    }
+}
+
+class TestIncreasedVisibilityParent
+{
+    protected function foobar()
+    {
+    }
+}
+
+class TestIncreasedVisibilityChild extends TestIncreasedVisibilityParent
+{
+    public function foobar()
+    {
     }
 }

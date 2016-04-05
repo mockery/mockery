@@ -204,7 +204,7 @@ class Mock implements MockInterface
                         throw new \InvalidArgumentException("$method() cannot be mocked as it is a private method");
                     }
                     if (!$allowMockingProtectedMethods && $rm->isProtected()) {
-                        throw new \InvalidArgumentException("$method() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock");
+                        throw new \InvalidArgumentException("$method() cannot be mocked as it is a protected method and mocking protected methods is not enabled for the currently used mock object.");
                     }
                 }
 
@@ -354,24 +354,6 @@ class Mock implements MockInterface
     {
         return $this->__call('__toString', array());
     }
-
-    /**public function __set($name, $value)
-    {
-        $this->_mockery_mockableProperties[$name] = $value;
-        return $this;
-    }
-
-    public function __get($name)
-    {
-        if (isset($this->_mockery_mockableProperties[$name])) {
-            return $this->_mockery_mockableProperties[$name];
-        } elseif(isset($this->{$name})) {
-            return $this->{$name};
-        }
-        throw new \InvalidArgumentException (
-            'Property ' . __CLASS__ . '::' . $name . ' does not exist on this mock object'
-        );
-    }**/
 
     /**
      * Iterate across all expectation directors and validate each
@@ -782,34 +764,25 @@ class Mock implements MockInterface
         );
     }
 
+    /**
+     * Uses reflection to get the list of all
+     * methods within the current mock object
+     *
+     * @return array
+     */
     protected function mockery_getMethods()
     {
         if (static::$_mockery_methods) {
             return static::$_mockery_methods;
         }
 
-        $methods = array();
-
         if (isset($this->_mockery_partial)) {
             $reflected = new \ReflectionObject($this->_mockery_partial);
-            $methods = $reflected->getMethods();
         } else {
             $reflected = new \ReflectionClass($this);
-            foreach ($reflected->getMethods() as $method) {
-                try {
-                    $methods[] = $method->getPrototype();
-                } catch (\ReflectionException $re) {
-                    /**
-                     * For some reason, private methods don't have a prototype
-                     */
-                    if ($method->isPrivate()) {
-                        $methods[] = $method;
-                    }
-                }
-            }
         }
 
-        return static::$_mockery_methods = $methods;
+        return static::$_mockery_methods = $reflected->getMethods();
     }
 
     /**
