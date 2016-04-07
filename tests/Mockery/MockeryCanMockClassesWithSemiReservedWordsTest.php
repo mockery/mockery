@@ -17,7 +17,7 @@ class MockeryCanMockClassesWithSemiReservedWordsTest extends \PHPUnit_Framework_
     {
         require __DIR__.'/Fixtures/SemiReservedWordsAsMethods.php';
 
-        $mock = m::mock(SemiReservedWordsAsMethods::class);
+        $mock = m::mock("Mockery\Fixtures\SemiReservedWordsAsMethods");
 
         $mock->shouldReceive("include")->andReturn("foo");
 
