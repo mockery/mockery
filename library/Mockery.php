@@ -167,7 +167,10 @@ class Mockery
     }
 
     /**
-     * Get the container.
+     * Lazy loader and getter for
+     * the container property.
+     *
+     * @return Mockery\Container
      */
     public static function getContainer()
     {
@@ -186,6 +189,12 @@ class Mockery
         self::$_generator = $generator;
     }
 
+    /**
+     * Lazy loader method and getter for
+     * the generator property.
+     *
+     * @return Generator
+     */
     public static function getGenerator()
     {
         if (is_null(self::$_generator)) {
@@ -195,6 +204,12 @@ class Mockery
         return self::$_generator;
     }
 
+    /**
+     * Creates and returns a default generator
+     * used inside this class.
+     *
+     * @return CachingGenerator
+     */
     public static function getDefaultGenerator()
     {
         $generator = new StringManipulationGenerator(array(
@@ -254,6 +269,8 @@ class Mockery
 
     /**
      * Reset the container to null.
+     *
+     * @return void
      */
     public static function resetContainer()
     {
@@ -395,7 +412,10 @@ class Mockery
     }
 
     /**
-     * Get the global configuration container.
+     * Lazy loader and Getter for the global
+     * configuration container.
+     *
+     * @return \Mockery\Configuration
      */
     public static function getConfiguration()
     {
@@ -428,6 +448,15 @@ class Mockery
         return $method . '(' . implode(', ', $formattedArguments) . ')';
     }
 
+    /**
+     * Gets the string representation
+     * of any passed argument.
+     *
+     * @param $argument
+     * @param $depth
+     *
+     * @return string
+     */
     private static function formatArgument($argument, $depth = 0)
     {
         if (is_object($argument)) {
@@ -585,6 +614,15 @@ class Mockery
         return $getters;
     }
 
+    /**
+     * Utility method used for recursively generating
+     * an object or array representation.
+     *
+     * @param $argument
+     * @param $nesting
+     *
+     * @return mixed
+     */
     private static function cleanupNesting($argument, $nesting)
     {
         if (is_object($argument)) {
@@ -601,6 +639,16 @@ class Mockery
         return $argument;
     }
 
+    /**
+     * Utility method for recursively
+     * gerating a representation
+     * of the given array.
+     *
+     * @param array $argument
+     * @param int $nesting
+     *
+     * @return mixed
+     */
     private static function cleanupArray($argument, $nesting = 3)
     {
         if ($nesting == 0) {
