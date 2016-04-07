@@ -190,7 +190,7 @@ class Mockery
     }
 
     /**
-     * Lazy loader method and getter for 
+     * Lazy loader method and getter for
      * the generator property.
      *
      * @return Generator
@@ -449,7 +449,7 @@ class Mockery
     }
 
     /**
-     * Gets the string representation 
+     * Gets the string representation
      * of any passed argument.
      *
      * @param $argument
@@ -640,7 +640,7 @@ class Mockery
     }
 
     /**
-     * Utility method for recursively 
+     * Utility method for recursively
      * gerating a representation
      * of the given array.
      *
