@@ -32,7 +32,7 @@ class MockConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
     public function reservedWordsAreBlackListedByDefault()
     {
         $builder = new MockConfigurationBuilder;
-        $this->assertContains('abstract', $builder->getMockConfiguration()->getBlackListedMethods());
+        $this->assertContains('__halt_compiler', $builder->getMockConfiguration()->getBlackListedMethods());
 
         // need a builtin for this
         $this->markTestSkipped("Need a builtin class with a method that is a reserved word");
