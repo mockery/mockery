@@ -81,6 +81,9 @@ class Mockery
     }
 
     /**
+     * Static and semantic shortcut for getting a mock from the container
+     * and applying the spy's expected behavior into it.
+     *
      * @return \Mockery\MockInterface
      */
     public static function spy()
@@ -90,6 +93,8 @@ class Mockery
     }
 
     /**
+     * Static and Semantic shortcut to \Mockery\Container::mock().
+     *
      * @return \Mockery\MockInterface
      */
     public static function instanceMock()
@@ -182,6 +187,8 @@ class Mockery
     }
 
     /**
+     * Setter for the $_generator static propery.
+     *
      * @param \Mockery\Generator\Generator $generator
      */
     public static function setGenerator(Generator $generator)
@@ -228,6 +235,8 @@ class Mockery
     }
 
     /**
+     * Setter for the $_loader static property.
+     *
      * @param Loader $loader
      */
     public static function setLoader(Loader $loader)
@@ -236,6 +245,9 @@ class Mockery
     }
 
     /**
+     * Lazy loader method and getter for
+     * the $_loader property.
+     *
      * @return Loader
      */
     public static function getLoader()
@@ -248,6 +260,8 @@ class Mockery
     }
 
     /**
+     * Gets an EvalLoader to be used as default.
+     *
      * @return EvalLoader
      */
     public static function getDefaultLoader()
@@ -757,13 +771,17 @@ class Mockery
     }
 
     /**
+     * Gets a new demeter configured 
+     * mock from the container.
+     *
      * @param \Mockery\Container $container
      * @param string $method
      * @param Mockery\ExpectationInterface $exp
      *
      * @return \Mockery\Mock
      */
-    private static function getNewDemeterMock(Mockery\Container $container,
+    private static function getNewDemeterMock(
+        Mockery\Container $container,
         $method,
         Mockery\ExpectationInterface $exp
     ) {
@@ -774,13 +792,18 @@ class Mockery
     }
 
     /**
+     * Gets an specific demeter mock from
+     * the ones kept by the container.
+     *
      * @param \Mockery\Container $container
      * @param string $demeterMockKey
      *
      * @return mixed
      */
-    private static function getExistingDemeterMock(Mockery\Container $container, $demeterMockKey)
-    {
+    private static function getExistingDemeterMock(
+        Mockery\Container $container, 
+        $demeterMockKey
+    ) {
         $mocks = $container->getMocks();
         $mock = $mocks[$demeterMockKey];
 
@@ -788,6 +811,9 @@ class Mockery
     }
 
     /**
+     * Checks if the passed array representing a demeter
+     * chain with the method names is empty.
+     *
      * @param array $methodNames
      *
      * @return bool
