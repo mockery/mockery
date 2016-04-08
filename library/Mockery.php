@@ -771,7 +771,7 @@ class Mockery
     }
 
     /**
-     * Gets a new demeter configured 
+     * Gets a new demeter configured
      * mock from the container.
      *
      * @param \Mockery\Container $container
@@ -801,7 +801,7 @@ class Mockery
      * @return mixed
      */
     private static function getExistingDemeterMock(
-        Mockery\Container $container, 
+        Mockery\Container $container,
         $demeterMockKey
     ) {
         $mocks = $container->getMocks();
