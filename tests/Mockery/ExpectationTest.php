@@ -2065,6 +2065,17 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->times(1.3);
     }
+
+    public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface()
+    {
+        $waterMock = $this->container->mock('IWater');
+        $this->assertFalse($waterMock->mockery_isAnonymous());
+    }
+}
+
+interface IWater
+{
+    public function dry();
 }
 
 class MockeryTest_SubjectCall1
