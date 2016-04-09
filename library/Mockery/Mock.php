@@ -586,7 +586,8 @@ class Mock implements MockInterface
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
-        return false === $rfc->getParentClass();
+        $onlyImplementsMock = count($rfc->getInterfaces()) == 1;
+        return (false === $rfc->getParentClass()) && $onlyImplementsMock;
     }
 
     public function __wakeup()
