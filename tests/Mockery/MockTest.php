@@ -141,6 +141,13 @@ class Mockery_MockTest extends MockeryTestCase
         $this->assertInstanceOf('Exception', $exception);
     }
 
+    public function testCanMockSubclassOfException()
+    {
+        $errorException = Mockery::mock('ErrorException');
+        $this->assertInstanceOf('ErrorException', $errorException);
+        $this->assertInstanceOf('Exception', $errorException);
+    }
+
     public function testCallingShouldReceiveWithoutAValidMethodName()
     {
         $mock = Mockery::mock();

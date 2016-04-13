@@ -198,6 +198,13 @@ class Container
 
         $builder->addBlackListedMethods($blocks);
 
+        if (defined('HHVM_VERSION')
+            && isset($class)
+            && ($class === 'Exception' || is_subclass_of($class, 'Exception'))) {
+            $builder->addBlackListedMethod("setTraceOptions");
+            $builder->addBlackListedMethod("getTraceOptions");
+        }
+
         if (!is_null($constructorArgs)) {
             $builder->addBlackListedMethod("__construct"); // we need to pass through
         } else {
