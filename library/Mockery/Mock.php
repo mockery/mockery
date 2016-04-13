@@ -760,8 +760,17 @@ class Mock implements MockInterface
                 }
             }
         }
+
+        $message = 'Method ' . __CLASS__ . '::' . $method .
+            '() does not exist on this mock object';
+
+        if (!is_null($rm)) {
+            $message = 'Received ' . __CLASS__ .
+                '::' . $method . '(), but no expectations were specified';
+        }
+
         throw new \BadMethodCallException(
-            'Method ' . __CLASS__ . '::' . $method . '() does not exist on this mock object'
+            $message
         );
     }
 

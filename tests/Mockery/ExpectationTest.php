@@ -2066,6 +2066,32 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')->times(1.3);
     }
 
+    public function testIfExceptionIndicatesAbsenceOfMethodAndExpectationsOnMock()
+    {
+        $mock = $this->container->mock('Mockery_Duck');
+
+        $this->setExpectedException(
+            '\BadMethodCallException',
+            'Method ' . get_class($mock) .
+            '::nonExistent() does not exist on this mock object'
+        );
+
+        $mock->nonExistent();
+    }
+
+    public function testIfCallingMethodWithNoExpectationsHasSpecificExceptionMessage()
+    {
+        $mock = $this->container->mock('Mockery_Duck');
+
+        $this->setExpectedException(
+            '\BadMethodCallException',
+            'Received ' . get_class($mock) .
+            '::quack(), ' . 'but no expectations were specified'
+        );
+        
+        $mock->quack();
+    }
+
     public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface()
     {
         $waterMock = $this->container->mock('IWater');
