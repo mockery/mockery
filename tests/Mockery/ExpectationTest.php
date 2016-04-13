@@ -2091,6 +2091,31 @@ class ExpectationTest extends MockeryTestCase
         
         $mock->quack();
     }
+
+    public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface()
+    {
+        $waterMock = $this->container->mock('IWater');
+        $this->assertFalse($waterMock->mockery_isAnonymous());
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testWetherMockWithInterfaceOnlyCanNotImplementNonExistingMethods()
+    {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $waterMock = \Mockery::mock('IWater');
+        $waterMock
+            ->shouldReceive('nonExistentMethod')
+            ->once()
+            ->andReturnNull();
+        \Mockery::close();
+    }
+}
+
+interface IWater
+{
+    public function dry();
 }
 
 class MockeryTest_SubjectCall1
