@@ -131,8 +131,37 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $spy->returnSelf());
     }
+
+    public function testItShouldMockClassWithHintedParamsInMagicMethod()
+    {
+        $this->assertNotNull(
+            \Mockery::mock('test\Mockery\MagicParams')
+        );
+    }
+
+    public function testItShouldMockClassWithHintedReturnInMagicMethod()
+    {
+        $this->assertNotNull(
+            \Mockery::mock('test\Mockery\MagicReturns')
+        );
+    }
 }
 
+class MagicParams
+{
+    public function __isset(string $property)
+    {
+        return null;
+    }
+}
+
+class MagicReturns
+{
+    public function __isset($property) : string
+    {
+        return null;
+    }
+}
 
 abstract class TestWithParameterAndReturnType
 {
