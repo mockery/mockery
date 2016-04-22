@@ -107,6 +107,22 @@ class MagicMethodTypeHintsPass implements Pass
             );
         }
 
+        if ($methodName == '__call') {
+            $code = str_replace(
+                'public function __call($method, array $args)',
+                $this->getMethodDeclaration($method),
+                $code
+            );
+        }
+
+        if ($methodName == '__callStatic') {
+            $code = str_replace(
+                'public function __callStatic($method, array $args)',
+                $this->getMethodDeclaration($method),
+                $code
+            );
+        }
+
         return $code;
     }
 
@@ -131,4 +147,6 @@ class MagicMethodTypeHintsPass implements Pass
 
         return $declaration;
     }
+
+
 }

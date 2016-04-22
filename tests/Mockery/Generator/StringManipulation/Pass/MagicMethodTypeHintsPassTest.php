@@ -127,6 +127,44 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertContains(' : string', $code);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldAddTypeHintsOnCallMethod()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy'
+        );
+        $this->mockedConfiguration
+             ->shouldReceive('getTargetClass')
+             ->andReturn($targetClass);
+
+        $code = $this->pass->apply(
+            'public function __call($method, array $args)',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $method', $code);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldAddTypeHintsOnCallStaticMethod()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy'
+        );
+        $this->mockedConfiguration
+             ->shouldReceive('getTargetClass')
+             ->andReturn($targetClass);
+
+        $code = $this->pass->apply(
+            'public function __callStatic($method, array $args)',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $method', $code);
+    }
 }
 
 class MagicDummy
