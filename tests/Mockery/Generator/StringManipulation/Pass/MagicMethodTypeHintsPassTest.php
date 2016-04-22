@@ -22,10 +22,32 @@
 namespace Mockery\Test\Generator\StringManipulation\Pass;
 
 use Mockery as m;
-use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPassTest;
+use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 
 class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var MagicMethodTypeHintsPass
+     */
+    private $pass;
+
+    /**
+     * @var MockConfiguration
+     */
+    private $mockedConfiguration;
+
+    /**
+     * Setup method
+     * @return void
+     */
+    public function setup()
+    {
+        $pass = new MagicMethodTypeHintsPass;
+        $this->mockedConfiguration = m::mock(
+            'Mockery\Generator\MockConfiguration'
+        );
+    }
+
     /**
      * @test
      */
