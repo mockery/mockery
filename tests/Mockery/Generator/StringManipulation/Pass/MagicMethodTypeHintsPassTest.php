@@ -22,6 +22,7 @@
 namespace Mockery\Test\Generator\StringManipulation\Pass;
 
 use Mockery as m;
+use Mockery\Generator\DefinedTargetClass;
 use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 
 class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
@@ -42,7 +43,7 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $pass = new MagicMethodTypeHintsPass;
+        $this->pass = new MagicMethodTypeHintsPass;
         $this->mockedConfiguration = m::mock(
             'Mockery\Generator\MockConfiguration'
         );
@@ -54,5 +55,31 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
     public function itShouldWork()
     {
         $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldGrabClassMagicMethods()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy'
+        );
+        $magicMethods = $this->pass->getMagicMethods($targetClass);
+
+        $this->assertCount(1, $magicMethods);
+        $this->assertEquals('__isset', $magicMethods[0]->getName());
+    }
+}
+
+class MagicDummy
+{
+    public function __isset(string $name) : boolean
+    {
+        return false;
+    }
+
+    public function nonMagicMethod()
+    {
     }
 }

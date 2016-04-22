@@ -21,10 +21,54 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\DefinedTargetClass;
+use Mockery\Generator\Method;
 
 class MagicMethodTypeHintsPass implements Pass
 {
+    /**
+     * @var array $mockMagicMethods
+     */
+    private $mockMagicMethods = array(
+        '__construct',
+        '__destruct',
+        '__call',
+        '__callStatic',
+        '__get',
+        '__set',
+        '__isset',
+        '__unset',
+        '__sleep',
+        '__wakeup',
+        '__toString',
+        '__invoke',
+        '__set_state',
+        '__clone',
+        '__debugInfo'
+    );
+
+    /**
+     * Apply implementation.
+     *
+     * @param $code
+     * @param MockConfiguration $config
+     * @return string
+     */
     public function apply($code, MockConfiguration $config)
     {
+    }
+
+    /**
+     * Returns the magic methods within the
+     * passed DefinedTargetClass.
+     *
+     * @param DefinedTargetClass $class
+     * @return array
+     */
+    public function getMagicMethods(DefinedTargetClass $class)
+    {
+        return array_filter($class->getMethods(), function(Method $method) {
+            return in_array($method->getName(), $this->mockMagicMethods);
+        });
     }
 }
