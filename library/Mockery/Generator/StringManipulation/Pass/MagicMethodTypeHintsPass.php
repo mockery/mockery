@@ -148,5 +148,4 @@ class MagicMethodTypeHintsPass implements Pass
         return $declaration;
     }
 
-
 }
