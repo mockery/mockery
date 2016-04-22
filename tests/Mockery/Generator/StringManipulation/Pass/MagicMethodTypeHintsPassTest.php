@@ -70,11 +70,49 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $magicMethods);
         $this->assertEquals('__isset', $magicMethods[0]->getName());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldAddStringTypeHintOnMagicMethod()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy'
+        );
+        $this->mockedConfiguration
+             ->shouldReceive('getTargetClass')
+             ->andReturn($targetClass);
+
+        $code = $this->pass->apply(
+            'public function __isset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $name', $code);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldAddBooleanReturnOnMagicMethod()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy'
+        );
+        $this->mockedConfiguration
+             ->shouldReceive('getTargetClass')
+             ->andReturn($targetClass);
+
+        $code = $this->pass->apply(
+            'public function __isset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains(' : bool', $code);
+    }
 }
 
 class MagicDummy
 {
-    public function __isset(string $name) : boolean
+    public function __isset(string $name) : bool
     {
         return false;
     }

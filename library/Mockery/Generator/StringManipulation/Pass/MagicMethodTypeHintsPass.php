@@ -56,6 +56,13 @@ class MagicMethodTypeHintsPass implements Pass
      */
     public function apply($code, MockConfiguration $config)
     {
+        $magicMethods = $this->getMagicMethods($config->getTargetClass());
+
+        foreach ($magicMethods as $method) {
+            $code = $this->applyMagicTypeHints($method, $code);
+        }
+
+        return $code;
     }
 
     /**
@@ -70,5 +77,48 @@ class MagicMethodTypeHintsPass implements Pass
         return array_filter($class->getMethods(), function(Method $method) {
             return in_array($method->getName(), $this->mockMagicMethods);
         });
+    }
+
+    /**
+     * Applies type hints of magic methods from
+     * class to the passed code.
+     *
+     * @param Method $method
+     * @param $code
+     * @return string
+     */
+    private function applyMagicTypeHints(Method $method, $code)
+    {
+        if ($method->getName() == '__isset') {
+            $code = str_replace(
+                'public function __isset($name)',
+                $this->getMethodDeclaration($method),
+                $code
+            );
+        }
+
+        return $code;
+    }
+
+    /**
+     * Gets the declaration code for the passed method.
+     *
+     * @param Method $method
+     * @return string
+     */
+    private function getMethodDeclaration(Method $method)
+    {
+        $declaration = 'public function '.$method->getName().'(';
+
+        foreach ($method->getParameters() as $parameter) {
+            $declaration .= $parameter->getTypeHintAsString().' ';
+            $declaration .= '$'.$parameter->getName();
+            $declaration .= ',';
+        }
+        $declaration = rtrim($declaration, ',');
+        $declaration .= ')';
+        $declaration .= ' : '.$method->getReturnType();
+
+        return $declaration;
     }
 }
