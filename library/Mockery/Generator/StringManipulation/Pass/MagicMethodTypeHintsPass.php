@@ -40,7 +40,7 @@ class MagicMethodTypeHintsPass implements Pass
         '__unset',
         '__sleep',
         '__wakeup',
-        '__toString',
+        '__tostring',
         '__invoke',
         '__set_state',
         '__clone',
@@ -89,9 +89,19 @@ class MagicMethodTypeHintsPass implements Pass
      */
     private function applyMagicTypeHints(Method $method, $code)
     {
-        if ($method->getName() == '__isset') {
+        $methodName = strtolower($method->getName());
+
+        if ($methodName == '__isset') {
             $code = str_replace(
                 'public function __isset($name)',
+                $this->getMethodDeclaration($method),
+                $code
+            );
+        }
+
+        if ($methodName == '__tostring') {
+            $code = str_replace(
+                'public function __toString()',
                 $this->getMethodDeclaration($method),
                 $code
             );
