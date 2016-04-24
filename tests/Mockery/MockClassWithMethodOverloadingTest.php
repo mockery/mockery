@@ -30,11 +30,25 @@ class MockClassWithMethodOverloadingTest extends MockeryTestCase
         // TestWithMethodOverloading::__call wouldn't be used. See Gotchas!.
         $mock->randomMethod();
     }
+
+    public function testCreateMockForClassWithMethodOverloadingWithExistingMethod()
+    {
+        $mock = $this->container->mock('test\Mockery\TestWithMethodOverloading')
+            ->makePartial();
+        $this->assertInstanceOf('test\Mockery\TestWithMethodOverloading', $mock);
+
+        $this->assertSame(1, $mock->thisIsRealMethod());
+    }
 }
 
 class TestWithMethodOverloading
 {
     public function __call($name, $arguments)
+    {
+        return 1;
+    }
+
+    public function thisIsRealMethod()
     {
         return 1;
     }
