@@ -24,7 +24,8 @@
  */
 error_reporting(E_ALL);
 
-function isAbsolutePath($path) {
+function isAbsolutePath($path)
+{
     $windowsPattern = '~^[A-Z]:[\\/]~i';
     return ($path[0] === DIRECTORY_SEPARATOR) || (preg_match($windowsPattern, $path) === 1);
 }

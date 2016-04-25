@@ -80,7 +80,7 @@ class MagicMethodTypeHintsPass implements Pass
             !($class instanceof UndefinedTargetClass)) {
             return array();
         }
-        return array_filter($class->getMethods(), function(Method $method) {
+        return array_filter($class->getMethods(), function (Method $method) {
             return in_array($method->getName(), $this->mockMagicMethods);
         });
     }

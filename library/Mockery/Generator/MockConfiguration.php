@@ -212,8 +212,6 @@ class MockConfiguration
         return false;
     }
 
-    // TODO: Add a method to define 
-
     public function rename($className)
     {
         $targets = array();
