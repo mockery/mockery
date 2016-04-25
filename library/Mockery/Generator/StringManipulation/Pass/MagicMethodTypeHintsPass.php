@@ -22,6 +22,7 @@ namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\DefinedTargetClass;
+use Mockery\Generator\UndefinedTargetClass;
 use Mockery\Generator\Method;
 
 class MagicMethodTypeHintsPass implements Pass
@@ -69,11 +70,16 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns the magic methods within the
      * passed DefinedTargetClass.
      *
-     * @param DefinedTargetClass $class
+     * @param $class
      * @return array
      */
-    public function getMagicMethods(DefinedTargetClass $class)
+    public function getMagicMethods($class)
     {
+        if (!$class ||
+            !($class instanceof DefinedTargetClass) &&
+            !($class instanceof UndefinedTargetClass)) {
+            return array();
+        }
         return array_filter($class->getMethods(), function(Method $method) {
             return in_array($method->getName(), $this->mockMagicMethods);
         });
@@ -145,7 +151,6 @@ class MagicMethodTypeHintsPass implements Pass
                 $parameterNames
             );
         }
-
         return array(end($parameterNames));
     }
 
@@ -173,8 +178,11 @@ class MagicMethodTypeHintsPass implements Pass
             $declaration .= ',';
         }
         $declaration = rtrim($declaration, ',');
-        $declaration .= ')';
-        $declaration .= ' : '.$method->getReturnType();
+        $declaration .= ') ';
+
+        if (!empty($method->getReturnType())) {
+            $declaration .= ': '.$method->getReturnType();
+        }
 
         return $declaration;
     }

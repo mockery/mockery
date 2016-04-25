@@ -19,6 +19,8 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Mockery\Test\Generator\StringManipulation\Pass;
 
 use Mockery as m;
@@ -137,6 +139,46 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertContains('string $method', $code);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldNotAddReturnTypeHintIfOneIsNotFound()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicReturnDummy'
+        );
+        $this->mockedConfiguration
+             ->shouldReceive('getTargetClass')
+             ->andReturn($targetClass)
+             ->byDefault();
+
+        $code = $this->pass->apply(
+            'public static function __isset($parameter) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains(') {', $code);
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldReturnEmptyArrayIfClassDoesNotHaveMagicMethods()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            '\StdClass'
+        );
+        $magicMethods = $this->pass->getMagicMethods($targetClass);
+        $this->assertInternalType('array', $magicMethods);
+        $this->assertEmpty($magicMethods);
+    }
+
+    public function itShouldReturnEmptyArrayIfClassTypeIsNotExpected()
+    {
+        $magicMethods = $this->pass->getMagicMethods(new \StdClass);
+        $this->assertInternalType('array', $magicMethods);
+        $this->assertEmpty($magicMethods);
+    }
 }
 
 class MagicDummy
@@ -169,5 +211,13 @@ class MagicDummy
 
     public function nonMagicMethod()
     {
+    }
+}
+
+class MagicReturnDummy
+{
+    public function __isset(string $name)
+    {
+        return false;
     }
 }

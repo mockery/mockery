@@ -151,15 +151,15 @@ class MagicParams
 {
     public function __isset(string $property)
     {
-        return null;
+        return false;
     }
 }
 
 class MagicReturns
 {
-    public function __isset($property) : string
+    public function __isset($property) : bool
     {
-        return null;
+        return false;
     }
 }
 
