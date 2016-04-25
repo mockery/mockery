@@ -742,7 +742,8 @@ class Mock implements MockInterface
 
         if (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
-        } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")) {
+        } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")
+            && (!$this->hasMethodOverloadingInParentClass() || method_exists(get_parent_class($this), $method))) {
             return call_user_func_array("parent::$method", $args);
         } elseif ($method == '__toString') {
             // __toString is special because we force its addition to the class API regardless of the
@@ -793,6 +794,12 @@ class Mock implements MockInterface
         }
 
         return static::$_mockery_methods = $reflected->getMethods();
+    }
+
+    private function hasMethodOverloadingInParentClass()
+    {
+        // if there's __call any name would be callable
+        return is_callable('parent::' . uniqid(__FUNCTION__));
     }
 
     /**
