@@ -59,7 +59,7 @@ class MagicMethodTypeHintsPass implements Pass
         $magicMethods = $this->getMagicMethods($config->getTargetClass());
 
         foreach ($magicMethods as $method) {
-            $code = $this->applyMagicTypeHints($method, $code);
+            $code = $this->applyMagicTypeHints($code, $method);
         }
 
         return $code;
@@ -83,62 +83,93 @@ class MagicMethodTypeHintsPass implements Pass
      * Applies type hints of magic methods from
      * class to the passed code.
      *
-     * @param Method $method
      * @param $code
+     * @param Method $method
      * @return string
      */
-    private function applyMagicTypeHints(Method $method, $code)
+    private function applyMagicTypeHints($code, Method $method)
     {
-        $methodName = strtolower($method->getName());
-
-        if ($methodName == '__isset') {
-            $code = str_replace(
-                'public function __isset($name)',
-                $this->getMethodDeclaration($method),
+        if ($this->isMethodWithinCode($code, $method)) {
+            $namedParameters = $this->getOriginalParameters(
+                $code,
+                $method
+            );
+            $code = preg_replace(
+                $this->getDeclarationRegex($method->getName()),
+                $this->getMethodDeclaration($method, $namedParameters),
                 $code
             );
         }
-
-        if ($methodName == '__tostring') {
-            $code = str_replace(
-                'public function __toString()',
-                $this->getMethodDeclaration($method),
-                $code
-            );
-        }
-
-        if ($methodName == '__call') {
-            $code = str_replace(
-                'public function __call($method, array $args)',
-                $this->getMethodDeclaration($method),
-                $code
-            );
-        }
-
-        if ($methodName == '__callStatic') {
-            $code = str_replace(
-                'public function __callStatic($method, array $args)',
-                $this->getMethodDeclaration($method),
-                $code
-            );
-        }
-
         return $code;
     }
 
     /**
-     * Gets the declaration code for the passed method.
+     * Checks if the method is declared withing code.
+     *
+     * @param $code
+     * @param Method $method
+     * @return boolean
+     */
+    private function isMethodWithinCode($code, Method $method)
+    {
+        return preg_match(
+            $this->getDeclarationRegex($method->getName()),
+            $code
+        ) == 1;
+    }
+
+    /**
+     * Returns the method original parameters, as they're
+     * described in the $code string.
+     *
+     * @param $code
+     * @param Method $method
+     * @return array
+     */
+    private function getOriginalParameters($code, Method $method)
+    {
+        $methodName = $method->getName();
+        $matches = [];
+        $parameterNames = [];
+
+        preg_match(
+            $this->getDeclarationRegex($method->getName()),
+            $code,
+            $matches
+        );
+
+        if (count($matches) > 0) {
+            preg_match(
+                '/(?<=\$)(\w+)+/i',
+                $matches[0],
+                $parameterNames
+            );
+        }
+
+        return array(end($parameterNames));
+    }
+
+    /**
+     * Gets the declaration code, as a string, for the passed method.
      *
      * @param Method $method
+     * @param array  $namedParameters
      * @return string
      */
-    private function getMethodDeclaration(Method $method)
-    {
-        $declaration = 'public function '.$method->getName().'(';
+    private function getMethodDeclaration(
+        Method $method,
+        array $namedParameters
+    ) {
+        $declaration = 'public';
+        $declaration .= $method->isStatic() ? ' static' : '';
+        $declaration .= ' function '.$method->getName().'(';
 
-        foreach ($method->getParameters() as $parameter) {
+        foreach ($method->getParameters() as $index => $parameter) {
             $declaration .= $parameter->getTypeHintAsString().' ';
-            $declaration .= '$'.$parameter->getName();
+            $name = isset($namedParameters[$index]) ?
+                $namedParameters[$index]            :
+                $parameter->getName();
+            $declaration .= '$'.$name;
             $declaration .= ',';
         }
         $declaration = rtrim($declaration, ',');
@@ -148,4 +179,16 @@ class MagicMethodTypeHintsPass implements Pass
         return $declaration;
     }
 
+    /**
+     * Returns a regex string used to match the
+     * declaration of some method.
+     *
+     * @param string $methodName
+     * @return string
+     */
+    private function getDeclarationRegex($methodName)
+    {
+        $method = strtolower($methodName);
+        return "/public\s+(?:static\s+)?function\s+$methodName\s*\(.*\)\s*(?=\{)/i";
+    }
 }

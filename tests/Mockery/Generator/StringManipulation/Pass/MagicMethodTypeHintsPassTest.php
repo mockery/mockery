@@ -119,8 +119,6 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldAddTypeHintsOnCallMethod()
     {
-        $this->markTestSkipped('Skipped until solved.');
-
         $code = $this->pass->apply(
             'public function __call($method, array $args) {}',
             $this->mockedConfiguration
@@ -133,10 +131,8 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldAddTypeHintsOnCallStaticMethod()
     {
-        $this->markTestSkipped('Skipped until solved.');
-
         $code = $this->pass->apply(
-            'public function __callStatic($method, array $args)',
+            'public static function __callStatic($method, array $args) {}',
             $this->mockedConfiguration
         );
         $this->assertContains('string $method', $code);
@@ -167,7 +163,7 @@ class MagicDummy
     {
     }
 
-    public function __callStatic(string $name, array $arguments) : int
+    public static function __callStatic(string $name, array $arguments) : int
     {
     }
 
