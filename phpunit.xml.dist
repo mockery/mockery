@@ -17,8 +17,10 @@
             <directory suffix="Test.php">./tests</directory>
             <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
             <exclude>./tests/Mockery/MockingParameterAndReturnTypesTest.php</exclude>
+            <exclude>./tests/Mockery/Generator/StringManipulation/Pass/MagicMethodTypeHintsPassTest.php</exclude>
             <file phpVersion="5.6.0" phpVersionOperator=">=">./tests/Mockery/MockingVariadicArgumentsTest.php</file>
             <file phpVersion="7.0.0-dev" phpVersionOperator=">=">./tests/Mockery/MockingParameterAndReturnTypesTest.php</file>
+            <file phpVersion="7.0.0-dev" phpVersionOperator=">=">./tests/Mockery/Generator/StringManipulation/Pass/MagicMethodTypeHintsPassTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
