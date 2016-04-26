@@ -184,7 +184,7 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if the pass correclty replaces all the magic 
+     * Tests if the pass correclty replaces all the magic
      * method parameters with those found in the
      * Mock class. This is made to avoid variable
      * conflicts withing Mock's magic methods
