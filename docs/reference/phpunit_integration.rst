@@ -72,28 +72,20 @@ suite:
 
 .. code-block:: php
 
-    // Create Suite
-    $suite = new PHPUnit_Framework_TestSuite();
+    class MyTest extends \Mockery\Adapter\PHPUnit\MockeryTestCase
+    {
 
-    // Create a result listener or add it
-    $result = new PHPUnit_Framework_TestResult();
-    $result->addListener(new \Mockery\Adapter\Phpunit\TestListener());
+    }
 
-    // Run the tests.
-    $suite->run($result);
+An alternative is to use the supplied trait:
 
-If you are using PHPUnit's XML configuration approach, you can include the
-following to load the ``TestListener``:
+.. code-block:: php
 
-.. code-block:: xml
+    class MyTest extends \PHPUnit_Framework_TestCase
+    {
+        use \Mockery\Adapter\PHPUnit\MockeryPHPUnitIntegration;
 
-    <listeners>
-        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
-    </listeners>
-
-Make sure Composer's or Mockery's autoloader is present in the bootstrap file
-or you will need to also define a "file" attribute pointing to the file of the
-above ``TestListener`` class.
+    }
 
 .. caution::
 
