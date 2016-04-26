@@ -173,11 +173,33 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($magicMethods);
     }
 
+    /**
+     * @test
+     */
     public function itShouldReturnEmptyArrayIfClassTypeIsNotExpected()
     {
         $magicMethods = $this->pass->getMagicMethods(new \StdClass);
         $this->assertInternalType('array', $magicMethods);
         $this->assertEmpty($magicMethods);
+    }
+
+    /**
+     * Tests if the pass correclty replaces all the magic 
+     * method parameters with those found in the
+     * Mock class. This is made to avoid variable
+     * conflicts withing Mock's magic methods
+     * implementations.
+     *
+     * @test
+     */
+    public function itShouldGrabAndReplaceAllParametersWithTheCodeStringMatches()
+    {
+        $code = $this->pass->apply(
+            'public function __call($method, array $args) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('$method', $code);
+        $this->assertContains('array $args', $code);
     }
 }
 

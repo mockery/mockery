@@ -136,7 +136,7 @@ class MagicMethodTypeHintsPass implements Pass
     {
         $methodName = $method->getName();
         $matches = [];
-        $parameterNames = [];
+        $parameterMatches = [];
 
         preg_match(
             $this->getDeclarationRegex($method->getName()),
@@ -145,13 +145,19 @@ class MagicMethodTypeHintsPass implements Pass
         );
 
         if (count($matches) > 0) {
-            preg_match(
+            preg_match_all(
                 '/(?<=\$)(\w+)+/i',
                 $matches[0],
-                $parameterNames
+                $parameterMatches
             );
         }
-        return array(end($parameterNames));
+
+        $groupMatches = end($parameterMatches);
+        $parameterNames = is_array($groupMatches) ?
+            $groupMatches                         :
+            array($groupMatches);
+
+        return $parameterNames;
     }
 
     /**
@@ -180,8 +186,9 @@ class MagicMethodTypeHintsPass implements Pass
         $declaration = rtrim($declaration, ',');
         $declaration .= ') ';
 
-        if (!empty($method->getReturnType())) {
-            $declaration .= ': '.$method->getReturnType();
+        $returnType = $method->getReturnType();
+        if (!empty($returnType)) {
+            $declaration .= ': '.$returnType;
         }
 
         return $declaration;
