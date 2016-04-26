@@ -29,9 +29,4 @@
             </exclude>
         </whitelist>
     </filter>
-    <listeners>
-        <listener
-            class='Mockery\Adapter\Phpunit\TestListener'
-            file='./library/Mockery/Adapter/Phpunit/TestListener.php'/>
-    </listeners>
 </phpunit>
