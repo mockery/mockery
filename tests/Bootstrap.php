@@ -90,7 +90,6 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     foreach (array('.php', '.phtml', '.csv', '.inc') as $suffix) {
         PHPUnit_Util_Filter::addDirectoryToFilter($tests, $suffix);
     }
-    PHPUnit_Util_Filter::addDirectoryToFilter(PEAR_INSTALL_DIR);
     PHPUnit_Util_Filter::addDirectoryToFilter(PHP_LIBDIR);
 }
 
