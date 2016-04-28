@@ -20,7 +20,7 @@
 
 namespace Mockery\Generator;
 
-class DefinedTargetClass
+class DefinedTargetClass implements TargetClassInterface
 {
     private $rfc;
 
