@@ -49,12 +49,31 @@ class MockConfigurationBuilder
         "static", "switch", "throw", "trait", "try",
         "unset", "use", "var", "while", "xor"
     );
+
+    protected $php7SemiReservedKeywords = [
+        "callable", "class", "trait", "extends", "implements", "static", "abstract", "final",
+        "public", "protected", "private", "const", "enddeclare", "endfor", "endforeach", "endif",
+        "endwhile", "and", "global", "goto", "instanceof", "insteadof", "interface", "namespace", "new",
+        "or", "xor", "try", "use", "var", "exit", "list", "clone", "include", "include_once", "throw",
+        "array", "print", "echo", "require", "require_once", "return", "else", "elseif", "default",
+        "break", "continue", "switch", "yield", "function", "if", "endswitch", "finally", "for", "foreach",
+        "declare", "case", "do", "while", "as", "catch", "die", "self", "parent",
+    ];
+
     protected $whiteListedMethods = array();
     protected $instanceMock = false;
     protected $parameterOverrides = array();
 
     protected $mockOriginalDestructor = false;
     protected $targets = array();
+
+
+    public function __construct()
+    {
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $this->blackListedMethods = array_diff($this->blackListedMethods, $this->php7SemiReservedKeywords);
+        }
+    }
 
     public function addTarget($target)
     {
