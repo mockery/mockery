@@ -312,7 +312,7 @@ class MockConfiguration
 
             $this->targetClass = $dtc;
         } else {
-            $this->targetClass = new UndefinedTargetClass($this->targetClassName);
+            $this->targetClass = UndefinedTargetClass::factory($this->targetClassName);
         }
 
         return $this->targetClass;
@@ -326,7 +326,7 @@ class MockConfiguration
 
         foreach ($this->targetInterfaceNames as $targetInterface) {
             if (!interface_exists($targetInterface)) {
-                $this->targetInterfaces[] = new UndefinedTargetClass($targetInterface);
+                $this->targetInterfaces[] = UndefinedTargetClass::factory($targetInterface);
                 return;
             }
 
