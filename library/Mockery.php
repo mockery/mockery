@@ -25,6 +25,7 @@ use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
+use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
 use Mockery\Generator\StringManipulation\Pass\ClassPass;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
@@ -222,6 +223,7 @@ class Mockery
     {
         $generator = new StringManipulationGenerator(array(
             new CallTypeHintPass(),
+            new MagicMethodTypeHintsPass(),
             new ClassPass(),
             new ClassNamePass(),
             new InstanceMockPass(),
