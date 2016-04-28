@@ -20,13 +20,18 @@
 
 namespace Mockery\Generator;
 
-class UndefinedTargetClass
+class UndefinedTargetClass implements TargetClassInterface
 {
     private $name;
 
     public function __construct($name)
     {
         $this->name = $name;
+    }
+
+    public static function factory($name)
+    {
+        return new self($name);
     }
 
     public function getName()
@@ -45,6 +50,11 @@ class UndefinedTargetClass
     }
 
     public function getMethods()
+    {
+        return array();
+    }
+
+    public function getInterfaces()
     {
         return array();
     }
