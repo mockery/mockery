@@ -178,7 +178,7 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldReturnEmptyArrayIfClassTypeIsNotExpected()
     {
-        $magicMethods = $this->pass->getMagicMethods(new \StdClass);
+        $magicMethods = $this->pass->getMagicMethods(null);
         $this->assertInternalType('array', $magicMethods);
         $this->assertEmpty($magicMethods);
     }
