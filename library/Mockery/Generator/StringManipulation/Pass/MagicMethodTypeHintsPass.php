@@ -21,8 +21,7 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\DefinedTargetClass;
-use Mockery\Generator\UndefinedTargetClass;
+use Mockery\Generator\TargetClassInterface;
 use Mockery\Generator\Method;
 
 class MagicMethodTypeHintsPass implements Pass
@@ -70,14 +69,13 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns the magic methods within the
      * passed DefinedTargetClass.
      *
-     * @param $class
+     * @param TargetClassInterface $class
      * @return array
      */
-    public function getMagicMethods($class)
-    {
-        if (!$class ||
-            !($class instanceof DefinedTargetClass) &&
-            !($class instanceof UndefinedTargetClass)) {
+    public function getMagicMethods(
+        TargetClassInterface $class = null
+    ) {
+        if (is_null($class)) {
             return array();
         }
         return array_filter($class->getMethods(), function (Method $method) {
