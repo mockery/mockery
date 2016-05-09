@@ -113,21 +113,39 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
 abstract class TestWithParameterAndReturnType
 {
-    public function returnString(): string {}
+    public function returnString(): string
+    {
+    }
 
-    public function returnInteger(): int {}
+    public function returnInteger(): int
+    {
+    }
 
-    public function returnFloat(): float {}
+    public function returnFloat(): float
+    {
+    }
 
-    public function returnBoolean(): bool {}
+    public function returnBoolean(): bool
+    {
+    }
 
-    public function returnArray(): array {}
+    public function returnArray(): array
+    {
+    }
 
-    public function returnCallable(): callable {}
+    public function returnCallable(): callable
+    {
+    }
 
-    public function returnGenerator(): \Generator {}
+    public function returnGenerator(): \Generator
+    {
+    }
 
-    public function withClassReturnType(): TestWithParameterAndReturnType {}
+    public function withClassReturnType(): TestWithParameterAndReturnType
+    {
+    }
 
-    public function withScalarParameters(int $integer, float $float, bool $boolean, string $string) {}
+    public function withScalarParameters(int $integer, float $float, bool $boolean, string $string)
+    {
+    }
 }

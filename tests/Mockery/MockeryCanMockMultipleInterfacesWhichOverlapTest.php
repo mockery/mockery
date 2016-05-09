@@ -61,8 +61,6 @@ interface React_WritableStreamInterface extends React_StreamInterface
     public function write($data);
 }
 
-interface Chatroulette_ConnectionInterface
-    extends React_ReadableStreamInterface,
-            React_WritableStreamInterface
+interface Chatroulette_ConnectionInterface extends React_ReadableStreamInterface, React_WritableStreamInterface
 {
 }
