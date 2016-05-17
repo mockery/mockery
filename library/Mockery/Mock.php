@@ -20,6 +20,7 @@
 
 namespace Mockery;
 
+use Mockery\ExpectationBuilder;
 use Mockery\MockInterface;
 
 class Mock implements MockInterface
@@ -178,10 +179,10 @@ class Mock implements MockInterface
      * @param string $methodName,... one or many methods that are expected to be called in this mock
      * @return \Mockery\ExpectationInterface
      */
-    public function shouldReceive($methodName)
+    public function shouldReceive($methodName = null)
     {
-        if (func_num_args() < 1) {
-            throw new \InvalidArgumentException("At least one method name is required");
+        if ($methodName === null) {
+            return new ExpectationBuilder($this);
         }
 
         foreach (func_get_args() as $method) {
