@@ -5,10 +5,12 @@ namespace Mockery;
 class ExpectationBuilder 
 {
     private $mock;
+    private $method;
 
-    public function __construct(MockInterface $mock)
+    public function __construct(MockInterface $mock, $method)
     {
         $this->mock = $mock;
+        $this->method = $method;
     }
 
     /**
@@ -16,6 +18,12 @@ class ExpectationBuilder
      */
     public function __call($method, $args)
     {
-        return $this->mock->shouldReceive($method)->withArgs($args);
+        $expectation = $this->mock->{$this->method}($method);
+
+        if ($this->method !== "shouldNotHaveReceived") {
+            return $expectation->withArgs($args);
+        }
+
+        return $expectation;
     }
 }

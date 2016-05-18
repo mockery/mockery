@@ -176,13 +176,13 @@ class Mock implements MockInterface
     /**
      * Set expected method calls
      *
-     * @param string $methodName,... one or many methods that are expected to be called in this mock
-     * @return \Mockery\ExpectationInterface
+     * @param null|string $methodName,... one or many methods that are expected to be called in this mock
+     * @return \Mockery\ExpectationInterface|\Mockery\ExpectationBuilder
      */
     public function shouldReceive($methodName = null)
     {
         if ($methodName === null) {
-            return new ExpectationBuilder($this);
+            return new ExpectationBuilder($this, "shouldReceive");
         }
 
         foreach (func_get_args() as $method) {
@@ -225,11 +225,15 @@ class Mock implements MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param string $methodName,... one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation
+     * @param null|string $methodName,... one or many methods that are expected not to be called in this mock
+     * @return \Mockery\Expectation|\Mockery\ExpectationBuilder
      */
-    public function shouldNotReceive($methodName)
+    public function shouldNotReceive($methodName = null)
     {
+        if ($methodName === null) {
+            return new ExpectationBuilder($this, "shouldNotReceive");
+        }
+
         $expectation = call_user_func_array(array($this, 'shouldReceive'), func_get_args());
         $expectation->never();
         return $expectation;
@@ -667,8 +671,12 @@ class Mock implements MockInterface
         }
     }
 
-    public function shouldHaveReceived($method, $args = null)
+    public function shouldHaveReceived($method = null, $args = null)
     {
+        if ($method === null) {
+            return new ExpectationBuilder($this, "shouldHaveReceived");
+        }
+
         $expectation = new \Mockery\VerificationExpectation($this, $method);
         if (null !== $args) {
             $expectation->withArgs($args);
@@ -680,8 +688,12 @@ class Mock implements MockInterface
         return $director;
     }
 
-    public function shouldNotHaveReceived($method, $args = null)
+    public function shouldNotHaveReceived($method = null, $args = null)
     {
+        if ($method === null) {
+            return new ExpectationBuilder($this, "shouldNotHaveReceived");
+        }
+
         $expectation = new \Mockery\VerificationExpectation($this, $method);
         if (null !== $args) {
             $expectation->withArgs($args);
