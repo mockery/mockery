@@ -227,7 +227,7 @@ class Expectation implements ExpectationInterface
                 case 'int':    return 0;
                 case 'float':  return 0.0;
                 case 'bool':   return false;
-                case 'array':  return [];
+                case 'array':  return array();
 
                 case 'callable':
                 case 'Closure':
