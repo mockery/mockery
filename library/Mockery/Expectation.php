@@ -217,6 +217,32 @@ class Expectation implements ExpectationInterface
         } elseif (count($this->_returnQueue) > 0) {
             return current($this->_returnQueue);
         }
+
+        $rm = $this->_mock->mockery_getMethod($this->_name);
+        if ($rm && version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $rm->hasReturnType()) {
+            $type = (string) $rm->getReturnType();
+            switch ($type) {
+                case '':       return;
+                case 'string': return '';
+                case 'int':    return 0;
+                case 'float':  return 0.0;
+                case 'bool':   return false;
+                case 'array':  return array();
+
+                case 'callable':
+                case 'Closure':
+                    return function () {};
+
+                case 'Traversable':
+                case 'Generator':
+                    // Remove eval() when minimum version >=5.5
+                    $generator = eval('return function () { yield; };');
+                    return $generator();
+
+                default:
+                    return \Mockery::mock($type);
+            }
+        }
     }
 
     /**
