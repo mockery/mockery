@@ -210,7 +210,7 @@ class MagicDummy
         return false;
     }
 
-    public function __tostring() : string
+    public function __toString() : string
     {
         return '';
     }

@@ -40,7 +40,7 @@ class MagicMethodTypeHintsPass implements Pass
         '__unset',
         '__sleep',
         '__wakeup',
-        '__tostring',
+        '__toString',
         '__invoke',
         '__set_state',
         '__clone',
