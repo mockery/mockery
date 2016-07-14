@@ -65,7 +65,7 @@ class Mockery
     /**
      * @var array
      */
-    private static $_filesToCleanUp = [];
+    private static $_filesToCleanUp = array();
 
     /**
      * Static shortcut to \Mockery\Container::mock().
