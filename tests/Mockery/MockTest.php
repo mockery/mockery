@@ -92,6 +92,12 @@ class Mockery_MockTest extends MockeryTestCase
         assertThat(nullValue($mock->nonExistingMethod()));
     }
 
+    public function testShouldIgnoreDebugInfo()
+    {
+        $mock = $this->container->mock('ClassWithNoToString');
+        assertThat(nullValue($mock->__debugInfo()));
+    }
+
     /**
      * @expectedException Mockery\Exception
      */
