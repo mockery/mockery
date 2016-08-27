@@ -188,6 +188,6 @@ class ClassWithDebugInfo
 {
     public function __debugInfo()
     {
-        return ['test' => 'test'];
+        return array('test' => 'test');
     }
 }
