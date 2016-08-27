@@ -23,6 +23,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class Mockery_MockTest extends MockeryTestCase
 {
+    /**
+     * @var \Mockery\Container
+     */
+    public $container;
+
     public function setup()
     {
         $this->container = new \Mockery\Container(\Mockery::getDefaultGenerator(), \Mockery::getDefaultLoader());
@@ -42,7 +47,8 @@ class Mockery_MockTest extends MockeryTestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
-    public function testMockWithNotAllowingMockingOfNonExistentMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
+    public function testMockWithNotAllowingMockingOfNonExistentMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass(
+    )
     {
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = $this->container->mock('ExampleClassForTestingNonExistentMethod');
@@ -93,8 +99,9 @@ class Mockery_MockTest extends MockeryTestCase
 
     public function testShouldIgnoreDebugInfo()
     {
-        $mock = $this->container->mock('ClassWithNoToString');
-        assertThat(nullValue($mock->__debugInfo()));
+        $mock = $this->container->mock('ClassWithDebugInfo');
+
+        $mock->__debugInfo();
     }
 
     /**
@@ -175,5 +182,13 @@ class ClassWithMethods
     public function bar()
     {
         return 'bar';
+    }
+}
+
+class ClassWithDebugInfo
+{
+    public function __debugInfo()
+    {
+        return ['test' => 'test'];
     }
 }

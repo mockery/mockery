@@ -697,9 +697,6 @@ class Mock implements MockInterface
             // original implementation.  Thus, we should always return a string rather than honor
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
-        } elseif ($method === '__debugInfo') {
-            // for xdebug call this method, when you use step-by-step debuging
-            return null;
         } elseif ($this->_mockery_ignoreMissing) {
             if (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
                 if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined) {
