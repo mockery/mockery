@@ -47,8 +47,7 @@ class Mockery_MockTest extends MockeryTestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
-    public function testMockWithNotAllowingMockingOfNonExistentMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass(
-    )
+    public function testMockWithNotAllowingMockingOfNonExistentMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass()
     {
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = $this->container->mock('ExampleClassForTestingNonExistentMethod');
