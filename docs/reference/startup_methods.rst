@@ -84,6 +84,10 @@ mock (``$mock``). The origin mock is never verified since it's used an
 expectation store for new instances. For this purpose we use the term
 "instance mock" to differentiate it from the simpler "alias mock".
 
+In other words, an instance mock will "intercept" when a new instance of the 
+mocked class is created, then the mock will be used instead. This is useful specially 
+when mocking hard dependencies which will be discussed later.
+
 .. note::
 
     Using alias/instance mocks across more than one test will generate a fatal
