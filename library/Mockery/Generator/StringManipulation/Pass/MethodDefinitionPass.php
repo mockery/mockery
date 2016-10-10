@@ -166,11 +166,14 @@ if (\$argc > $i) {
 BODY;
             }
         }
-        $body .= <<<BODY
-\$ret = {$invoke}(__FUNCTION__, \$argv);
-return \$ret;
-}
-BODY;
+
+        $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
+
+        if ($method->getReturnType() !== "void") {
+            $body .= "return \$ret;\n";
+        }
+
+        $body .= "}\n";
         return $body;
     }
 }
