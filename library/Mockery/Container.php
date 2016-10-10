@@ -122,16 +122,6 @@ class Container
             // check for multiple interfaces
             if (is_string($arg) && strpos($arg, ',') && !strpos($arg, ']')) {
                 $interfaces = explode(',', str_replace(' ', '', $arg));
-                foreach ($interfaces as $i) {
-                    if (!interface_exists($i, true) && !class_exists($i, true)) {
-                        throw new \Mockery\Exception(
-                            'Class name follows the format for defining multiple'
-                            . ' interfaces, however one or more of the interfaces'
-                            . ' do not exist or are not included, or the base class'
-                            . ' (which you may omit from the mock definition) does not exist'
-                        );
-                    }
-                }
                 $builder->addTargets($interfaces);
                 array_shift($args);
 

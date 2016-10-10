@@ -531,16 +531,6 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException \Mockery\Exception
-     */
-    public function testMockingMultipleInterfacesThrowsExceptionWhenGivenNonExistingClassOrInterface()
-    {
-        $m = $this->container->mock('DoesNotExist, MockeryTest_Interface2');
-        $this->assertTrue($m instanceof MockeryTest_Interface1);
-        $this->assertTrue($m instanceof MockeryTest_Interface2);
-    }
-
-    /**
      * @group issue/15
      */
     public function testCanMockClassAndApplyMultipleInterfaces()
