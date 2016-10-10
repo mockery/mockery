@@ -113,8 +113,15 @@ class MethodDefinitionPass implements Pass
         );
         $typeHint = trim($param->getTypeHintAsString());
 
-        if (!empty($typeHint) && !in_array($typeHint, $languageTypeHints)) {
-            $typeHint = '\\'.$typeHint;
+        if (!empty($typeHint)) {
+           
+            if (!in_array($typeHint, $languageTypeHints)) {
+                $typeHint = '\\'.$typeHint;
+            }
+
+            if ($param->allowsNull()) {
+                $typeHint = "?".$typeHint;
+            }
         }
 
         return $typeHint .= ' ';
