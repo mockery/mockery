@@ -119,7 +119,7 @@ class MethodDefinitionPass implements Pass
                 $typeHint = '\\'.$typeHint;
             }
 
-            if ($param->allowsNull()) {
+            if (version_compare(PHP_VERSION, '7.1.0-dev') >= 0 && $param->allowsNull()) {
                 $typeHint = "?".$typeHint;
             }
         }
