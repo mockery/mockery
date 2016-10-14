@@ -1890,7 +1890,7 @@ class ExpectationTest extends MockeryTestCase
 
     /**
      * @expectedException \Mockery\Exception
-     * @expectedExceptionMessage Mockery's configuration currently forbids mocking
+     * @expectedExceptionMessage Mockery can't find 'SomeMadeUpClass' so can't mock it
      */
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnAutoDeclaredClasses()
     {

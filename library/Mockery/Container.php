@@ -166,6 +166,8 @@ class Container
                 $class = array_shift($args);
                 $builder->addTarget($class);
                 continue;
+            } elseif (is_string($arg) && !\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() && (!class_exists($arg, true) && !interface_exists($arg, true))) {
+                throw new \Mockery\Exception("Mockery can't find '$arg' so can't mock it");
             } elseif (is_string($arg)) {
                 if (!$this->isValidClassName($arg)) {
                     throw new \Mockery\Exception('Class name contains invalid characters');
