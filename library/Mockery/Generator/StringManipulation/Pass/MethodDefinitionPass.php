@@ -109,7 +109,8 @@ class MethodDefinitionPass implements Pass
             'bool',
             'float',
             'int',
-            'string'
+            'string',
+            'iterable',
         );
         $typeHint = trim($param->getTypeHintAsString());
 
