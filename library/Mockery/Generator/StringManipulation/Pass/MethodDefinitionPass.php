@@ -109,12 +109,20 @@ class MethodDefinitionPass implements Pass
             'bool',
             'float',
             'int',
-            'string'
+            'string',
+            'iterable',
         );
         $typeHint = trim($param->getTypeHintAsString());
 
-        if (!empty($typeHint) && !in_array($typeHint, $languageTypeHints)) {
-            $typeHint = '\\'.$typeHint;
+        if (!empty($typeHint)) {
+           
+            if (!in_array($typeHint, $languageTypeHints)) {
+                $typeHint = '\\'.$typeHint;
+            }
+
+            if (version_compare(PHP_VERSION, '7.1.0-dev') >= 0 && $param->allowsNull()) {
+                $typeHint = "?".$typeHint;
+            }
         }
 
         return $typeHint .= ' ';
@@ -166,11 +174,14 @@ if (\$argc > $i) {
 BODY;
             }
         }
-        $body .= <<<BODY
-\$ret = {$invoke}(__FUNCTION__, \$argv);
-return \$ret;
-}
-BODY;
+
+        $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
+
+        if ($method->getReturnType() !== "void") {
+            $body .= "return \$ret;\n";
+        }
+
+        $body .= "}\n";
         return $body;
     }
 }
