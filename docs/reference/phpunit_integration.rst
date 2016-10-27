@@ -104,15 +104,15 @@ Make sure Composer's or Mockery's autoloader is present in the bootstrap file
 or you will need to also define a "file" attribute pointing to the file of the
 ``TestListener`` class.
 
-If you are creating the test suite programatically you may add the listener
+If you are creating the test suite programmatically you may add the listener
 like this:
 
 .. code-block:: php
 
-    // Create Suite
+    // Create the suite.
     $suite = new PHPUnit_Framework_TestSuite();
 
-    // Create a result listener or add it
+    // Create the listener and add it to the suite.
     $result = new PHPUnit_Framework_TestResult();
     $result->addListener(new \Mockery\Adapter\Phpunit\TestListener());
 
