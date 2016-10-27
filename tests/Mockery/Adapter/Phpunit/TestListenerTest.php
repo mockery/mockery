@@ -64,11 +64,19 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends PHPUnit_Framework_TestCas
         $mock->bar();
         \Mockery::close();
     }
+
+    /** @expectedException Mockery\Exception\InvalidCountException */
+    public function testSpy()
+    {
+        $spy = $this->container->mock('foo');
+        $spy->shouldHaveReceived("foo")->with("bar")->twice();
+    }
 }
 
 class Mockery_Adapter_Phpunit_EmptyTestCase extends PHPUnit_Framework_TestCase
 {
-    public function testNothing()
+    public function getStatus()
     {
+        return \PHPUnit_Runner_BaseTestRunner::STATUS_PASSED;
     }
 }
