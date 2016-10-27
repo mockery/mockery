@@ -4,8 +4,9 @@
 
 * Destructors (`__destruct`) are stubbed out where it makes sense
 * Allow passing a closure argument to `withArgs()` to validate multiple arguments at once. 
-* `Mockery\Adapter\Phpunit\TestListener` has been removed because it
-  incorrectly marks some tests as risky.
+* `Mockery\Adapter\Phpunit\TestListener` has been rewritten because it
+  incorrectly marked some tests as risky. It will no longer verify mock
+  expectations but instead check that tests do that themselves.
  
 ## 0.9.4 (XXXX-XX-XX)
 

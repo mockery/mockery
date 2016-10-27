@@ -67,7 +67,7 @@ Composer generated autoloader file:
     the file name is updated for all your projects.)
 
 To integrate Mockery into PHPUnit and avoid having to call the close method
-and have Mockery remove itself from code coverage reports, use this in you
+and have Mockery remove itself from code coverage reports, use this in your
 suite:
 
 .. code-block:: php
@@ -86,6 +86,38 @@ An alternative is to use the supplied trait:
         use \Mockery\Adapter\PHPUnit\MockeryPHPUnitIntegration;
 
     }
+
+Mockery provides a PHPUnit listener that makes tests fail if
+``Mockery::close()`` has not been called. It can help identify tests where
+you've forgotten to include the trait or extend the ``MockeryTestCase``.
+
+If you are using PHPUnit's XML configuration approach, you can include the
+following to load the ``TestListener``:
+
+.. code-block:: xml
+
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    </listeners>
+
+Make sure Composer's or Mockery's autoloader is present in the bootstrap file
+or you will need to also define a "file" attribute pointing to the file of the
+``TestListener`` class.
+
+If you are creating the test suite programmatically you may add the listener
+like this:
+
+.. code-block:: php
+
+    // Create the suite.
+    $suite = new PHPUnit_Framework_TestSuite();
+
+    // Create the listener and add it to the suite.
+    $result = new PHPUnit_Framework_TestResult();
+    $result->addListener(new \Mockery\Adapter\Phpunit\TestListener());
+
+    // Run the tests.
+    $suite->run($result);
 
 .. caution::
 
