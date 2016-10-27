@@ -38,7 +38,7 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends PHPUnit_Framework_TestCas
 
     public function testSuccessOnClose()
     {
-        $mock = $this->container->mock('foo');
+        $mock = $this->container->mock();
         $mock->shouldReceive('bar')->once();
         $mock->bar();
 
@@ -53,7 +53,7 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends PHPUnit_Framework_TestCas
 
     public function testFailureOnMissingClose()
     {
-        $mock = $this->container->mock('foo');
+        $mock = $this->container->mock();
         $mock->shouldReceive('bar')->once();
 
         $this->listener->endTest($this->test, 0);
@@ -63,13 +63,6 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends PHPUnit_Framework_TestCas
         // don't taint the environment.
         $mock->bar();
         \Mockery::close();
-    }
-
-    /** @expectedException Mockery\Exception\InvalidCountException */
-    public function testSpy()
-    {
-        $spy = $this->container->mock('foo');
-        $spy->shouldHaveReceived("foo")->with("bar")->twice();
     }
 }
 
