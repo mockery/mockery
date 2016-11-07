@@ -83,7 +83,7 @@ An alternative is to use the supplied trait:
 
     class MyTest extends \PHPUnit_Framework_TestCase
     {
-        use \Mockery\Adapter\PHPUnit\MockeryPHPUnitIntegration;
+        use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     }
 
