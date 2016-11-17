@@ -132,6 +132,12 @@ the method. The return value from the closure is then returned. Useful for
 some dynamic processing of arguments into related concrete results. Closures
 can queued by passing them as extra parameters as for ``andReturn()``.
 
+.. code-block:: php
+
+    andReturnSelf()
+    
+Set the return value to the mocked class name. Useful for mocking fluid interfaces.
+
 .. note::
 
     You cannot currently mix ``andReturnUsing()`` with ``andReturn()``.
