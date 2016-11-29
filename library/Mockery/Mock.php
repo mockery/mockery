@@ -658,6 +658,9 @@ class Mock implements MockInterface
             case 'self':
                 return \Mockery::mock($rm->getDeclaringClass()->getName());
 
+            case 'void':
+                return null;
+
             default:
                 return \Mockery::mock($type);
         }
