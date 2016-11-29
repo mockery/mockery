@@ -421,7 +421,7 @@ class Expectation implements ExpectationInterface
     public function withNoArgs()
     {
         $this->_noArgsExpectation = true;
-        $this->_expectedArgs = null;
+        $this->_expectedArgs = [];
         return $this;
     }
 
