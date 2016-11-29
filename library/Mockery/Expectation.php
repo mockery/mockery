@@ -330,7 +330,8 @@ class Expectation implements ExpectationInterface
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
             # push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
-            set_error_handler(function () {});
+            set_error_handler(function () {
+            });
             $result = preg_match($expected, (string) $actual);
             restore_error_handler();
 
@@ -421,7 +422,7 @@ class Expectation implements ExpectationInterface
     public function withNoArgs()
     {
         $this->_noArgsExpectation = true;
-        $this->_expectedArgs = null;
+        $this->_expectedArgs = [];
         return $this;
     }
 
