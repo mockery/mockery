@@ -176,7 +176,7 @@ class Mock implements MockInterface
      * Set expected method calls
      *
      * @param string $methodName,... one or many methods that are expected to be called in this mock
-     * @return \Mockery\Expectation
+     * @return \Mockery\ExpectationInterface
      */
     public function shouldReceive($methodName)
     {
