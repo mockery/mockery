@@ -47,7 +47,11 @@ class Method
             $returnType = (string) $this->method->getReturnType();
 
             if ('self' === $returnType) {
-                return "\\".$this->method->getDeclaringClass()->getName();
+                $returnType = "\\".$this->method->getDeclaringClass()->getName();
+            }
+
+            if (version_compare(PHP_VERSION, '7.1.0-dev') >= 0 && $this->method->getReturnType()->allowsNull()) {
+                $returnType = '?'.$returnType;
             }
 
             return $returnType;
