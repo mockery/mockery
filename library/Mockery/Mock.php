@@ -364,11 +364,11 @@ class Mock implements MockInterface
     public function mockery_verify()
     {
         if ($this->_mockery_verified) {
-            return true;
+            return;
         }
         if (isset($this->_mockery_ignoreVerification)
             && $this->_mockery_ignoreVerification == true) {
-            return true;
+            return;
         }
         $this->_mockery_verified = true;
         foreach ($this->_mockery_expectations as $director) {
