@@ -54,7 +54,8 @@ method is a convenience method for calling ``shouldReceive()->never()``.
 
 .. code-block:: php
 
-    with(arg1, arg2, ...) / withArgs(array(arg1, arg2, ...))
+    with(arg1, arg2, ...) 
+    withArgs(array(arg1, arg2, ...))
 
 Adds a constraint that this expectation only applies to method calls which
 match the expected argument list. You can add a lot more flexibility to
