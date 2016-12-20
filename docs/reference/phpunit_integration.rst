@@ -72,7 +72,7 @@ suite:
 
 .. code-block:: php
 
-    class MyTest extends \Mockery\Adapter\PHPUnit\MockeryTestCase
+    class MyTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     {
 
     }
