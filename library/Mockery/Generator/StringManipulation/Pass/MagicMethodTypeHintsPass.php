@@ -57,6 +57,9 @@ class MagicMethodTypeHintsPass implements Pass
     public function apply($code, MockConfiguration $config)
     {
         $magicMethods = $this->getMagicMethods($config->getTargetClass());
+        foreach ($config->getTargetInterfaces() as $interface) {
+            $magicMethods = array_merge($this->getMagicMethods($interface));
+        }
 
         foreach ($magicMethods as $method) {
             $code = $this->applyMagicTypeHints($code, $method);

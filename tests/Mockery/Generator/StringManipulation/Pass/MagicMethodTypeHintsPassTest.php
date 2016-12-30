@@ -45,17 +45,10 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $targetClass = DefinedTargetClass::factory(
-            'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy'
-        );
         $this->pass = new MagicMethodTypeHintsPass;
         $this->mockedConfiguration = m::mock(
             'Mockery\Generator\MockConfiguration'
         );
-        $this->mockedConfiguration
-             ->shouldReceive('getTargetClass')
-             ->andReturn($targetClass)
-             ->byDefault();
     }
 
     /**
@@ -83,8 +76,30 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function itShouldGrabInterfaceMagicMethods()
+    {
+        $targetClass = DefinedTargetClass::factory(
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicInterfaceDummy'
+        );
+        $magicMethods = $this->pass->getMagicMethods($targetClass);
+
+        $this->assertCount(6, $magicMethods);
+        $this->assertEquals('__isset', $magicMethods[0]->getName());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldAddStringTypeHintOnMagicMethod()
     {
+        $this->configureForClass();
+        $code = $this->pass->apply(
+            'public function __isset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $name', $code);
+
+        $this->configureForInterface();
         $code = $this->pass->apply(
             'public function __isset($name) {}',
             $this->mockedConfiguration
@@ -97,6 +112,14 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldAddBooleanReturnOnMagicMethod()
     {
+        $this->configureForClass();
+        $code = $this->pass->apply(
+            'public function __isset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains(' : bool', $code);
+
+        $this->configureForInterface();
         $code = $this->pass->apply(
             'public function __isset($name) {}',
             $this->mockedConfiguration
@@ -109,6 +132,14 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldAddTypeHintsOnToStringMethod()
     {
+        $this->configureForClass();
+        $code = $this->pass->apply(
+            'public function __toString() {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains(' : string', $code);
+
+        $this->configureForInterface();
         $code = $this->pass->apply(
             'public function __toString() {}',
             $this->mockedConfiguration
@@ -121,6 +152,14 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldAddTypeHintsOnCallMethod()
     {
+        $this->configureForClass();
+        $code = $this->pass->apply(
+            'public function __call($method, array $args) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $method', $code);
+
+        $this->configureForInterface();
         $code = $this->pass->apply(
             'public function __call($method, array $args) {}',
             $this->mockedConfiguration
@@ -133,6 +172,14 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldAddTypeHintsOnCallStaticMethod()
     {
+        $this->configureForClass();
+        $code = $this->pass->apply(
+            'public static function __callStatic($method, array $args) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $method', $code);
+
+        $this->configureForInterface();
         $code = $this->pass->apply(
             'public static function __callStatic($method, array $args) {}',
             $this->mockedConfiguration
@@ -145,14 +192,14 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldNotAddReturnTypeHintIfOneIsNotFound()
     {
-        $targetClass = DefinedTargetClass::factory(
-            'Mockery\Test\Generator\StringManipulation\Pass\MagicReturnDummy'
+        $this->configureForClass('Mockery\Test\Generator\StringManipulation\Pass\MagicReturnDummy');
+        $code = $this->pass->apply(
+            'public static function __isset($parameter) {}',
+            $this->mockedConfiguration
         );
-        $this->mockedConfiguration
-             ->shouldReceive('getTargetClass')
-             ->andReturn($targetClass)
-             ->byDefault();
+        $this->assertContains(') {', $code);
 
+        $this->configureForInterface('Mockery\Test\Generator\StringManipulation\Pass\MagicReturnInterfaceDummy');
         $code = $this->pass->apply(
             'public static function __isset($parameter) {}',
             $this->mockedConfiguration
@@ -194,12 +241,49 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldGrabAndReplaceAllParametersWithTheCodeStringMatches()
     {
+        $this->configureForClass();
         $code = $this->pass->apply(
             'public function __call($method, array $args) {}',
             $this->mockedConfiguration
         );
         $this->assertContains('$method', $code);
         $this->assertContains('array $args', $code);
+
+        $this->configureForInterface();
+        $code = $this->pass->apply(
+            'public function __call($method, array $args) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('$method', $code);
+        $this->assertContains('array $args', $code);
+    }
+
+    protected function configureForClass(string $className = 'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy')
+    {
+        $targetClass = DefinedTargetClass::factory($className);
+
+        $this->mockedConfiguration
+            ->shouldReceive('getTargetClass')
+            ->andReturn($targetClass)
+            ->byDefault();
+        $this->mockedConfiguration
+            ->shouldReceive('getTargetInterfaces')
+            ->andReturn([])
+            ->byDefault();
+    }
+
+    protected function configureForInterface(string $interfaceName = 'Mockery\Test\Generator\StringManipulation\Pass\MagicDummy')
+    {
+        $targetInterface = DefinedTargetClass::factory($interfaceName);
+
+        $this->mockedConfiguration
+            ->shouldReceive('getTargetClass')
+            ->andReturn(null)
+            ->byDefault();
+        $this->mockedConfiguration
+            ->shouldReceive('getTargetInterfaces')
+            ->andReturn([$targetInterface])
+            ->byDefault();
     }
 }
 
@@ -242,4 +326,26 @@ class MagicReturnDummy
     {
         return false;
     }
+}
+
+interface MagicInterfaceDummy
+{
+    public function __isset(string $name) : bool;
+
+    public function __toString() : string;
+
+    public function __wakeup();
+
+    public function __destruct();
+
+    public function __call(string $name, array $arguments) : string;
+
+    public static function __callStatic(string $name, array $arguments) : int;
+
+    public function nonMagicMethod();
+}
+
+interface MagicReturnInterfaceDummy
+{
+    public function __isset(string $name);
 }
