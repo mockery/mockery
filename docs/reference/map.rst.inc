@@ -9,6 +9,7 @@
 * :doc:`/reference/object_recording`
 * :doc:`/reference/final_methods_classes`
 * :doc:`/reference/magic_methods`
+* :doc:`/reference/phpunit_integration`
 
 Mockery Reference
 -----------------

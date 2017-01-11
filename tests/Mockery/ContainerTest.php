@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -1141,7 +1141,7 @@ class ContainerTest extends MockeryTestCase
     /**
      * @group issue/154
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage protectedMethod() cannot be mocked as it a protected method and mocking protected methods is not allowed for this mock
+     * @expectedExceptionMessage protectedMethod() cannot be mocked as it is a protected method and mocking protected methods is not enabled for the currently used mock object.
      */
     public function testShouldThrowIfAttemptingToStubProtectedMethod()
     {

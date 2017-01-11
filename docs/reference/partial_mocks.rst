@@ -52,9 +52,13 @@ parent class (``MyClass``) original methods unless a method call matches a
 known expectation. If you have no matching expectation for a specific method
 call, that call is deferred to the class being mocked. Since the division
 between mocked and unmocked calls depends entirely on the expectations you
-define, there is no need to define which methods to mock in advance. The
-``makePartial()`` method is identical to the original ``shouldDeferMissing()``
-method which first introduced this Partial Mock type.
+define, there is no need to define which methods to mock in advance. 
+
+.. note::
+
+The ``makePartial()`` method is identical to the original ``shouldDeferMissing()``
+method which first introduced this Partial Mock type. To know more about 
+``shouldDeferMissing()`` method - see the ":doc:`startup_methods`" chapter.
 
 Proxied Partial Mock
 --------------------

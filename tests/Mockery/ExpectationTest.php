@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -1890,7 +1890,7 @@ class ExpectationTest extends MockeryTestCase
 
     /**
      * @expectedException \Mockery\Exception
-     * @expectedExceptionMessage Mockery's configuration currently forbids mocking
+     * @expectedExceptionMessage Mockery can't find 'SomeMadeUpClass' so can't mock it
      */
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnAutoDeclaredClasses()
     {
@@ -2066,6 +2066,7 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')->times(1.3);
     }
 
+
     public function testFirstInLastOut()
     {
         // assign
@@ -2080,6 +2081,57 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals('something', $withBar);
         $this->assertEquals('anything', $withoutArgs);
     }
+
+    public function testIfExceptionIndicatesAbsenceOfMethodAndExpectationsOnMock()
+    {
+        $mock = $this->container->mock('Mockery_Duck');
+
+        $this->setExpectedException(
+            '\BadMethodCallException',
+            'Method ' . get_class($mock) .
+            '::nonExistent() does not exist on this mock object'
+        );
+
+        $mock->nonExistent();
+    }
+
+    public function testIfCallingMethodWithNoExpectationsHasSpecificExceptionMessage()
+    {
+        $mock = $this->container->mock('Mockery_Duck');
+
+        $this->setExpectedException(
+            '\BadMethodCallException',
+            'Received ' . get_class($mock) .
+            '::quack(), ' . 'but no expectations were specified'
+        );
+        
+        $mock->quack();
+    }
+
+    public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface()
+    {
+        $waterMock = $this->container->mock('IWater');
+        $this->assertFalse($waterMock->mockery_isAnonymous());
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testWetherMockWithInterfaceOnlyCanNotImplementNonExistingMethods()
+    {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $waterMock = \Mockery::mock('IWater');
+        $waterMock
+            ->shouldReceive('nonExistentMethod')
+            ->once()
+            ->andReturnNull();
+        \Mockery::close();
+    }
+}
+
+interface IWater
+{
+    public function dry();
 }
 
 class MockeryTest_SubjectCall1

@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -97,6 +97,14 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $mock->shouldReceive("abstractProtected")->andReturn("abstractProtected");
         $this->assertEquals("abstractProtected", $mock->foo());
     }
+
+    /** @test */
+    public function shouldAllowMockingIncreasedVisabilityMethods()
+    {
+        $mock = $this->container->mock("test\Mockery\TestIncreasedVisibilityChild");
+        $mock->shouldReceive('foobar')->andReturn("foobar");
+        $this->assertEquals('foobar', $mock->foobar());
+    }
 }
 
 
@@ -117,5 +125,19 @@ abstract class TestWithProtectedMethods
     protected function protectedBar()
     {
         return 'bar';
+    }
+}
+
+class TestIncreasedVisibilityParent
+{
+    protected function foobar()
+    {
+    }
+}
+
+class TestIncreasedVisibilityChild extends TestIncreasedVisibilityParent
+{
+    public function foobar()
+    {
     }
 }

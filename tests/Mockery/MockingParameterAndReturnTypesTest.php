@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -131,8 +131,37 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $spy->returnSelf());
     }
+
+    public function testItShouldMockClassWithHintedParamsInMagicMethod()
+    {
+        $this->assertNotNull(
+            \Mockery::mock('test\Mockery\MagicParams')
+        );
+    }
+
+    public function testItShouldMockClassWithHintedReturnInMagicMethod()
+    {
+        $this->assertNotNull(
+            \Mockery::mock('test\Mockery\MagicReturns')
+        );
+    }
 }
 
+class MagicParams
+{
+    public function __isset(string $property)
+    {
+        return false;
+    }
+}
+
+class MagicReturns
+{
+    public function __isset($property) : bool
+    {
+        return false;
+    }
+}
 
 abstract class TestWithParameterAndReturnType
 {

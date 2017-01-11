@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -166,6 +166,8 @@ class Container
                 $class = array_shift($args);
                 $builder->addTarget($class);
                 continue;
+            } elseif (is_string($arg) && !\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() && (!class_exists($arg, true) && !interface_exists($arg, true))) {
+                throw new \Mockery\Exception("Mockery can't find '$arg' so can't mock it");
             } elseif (is_string($arg)) {
                 if (!$this->isValidClassName($arg)) {
                     throw new \Mockery\Exception('Class name contains invalid characters');
@@ -197,6 +199,13 @@ class Container
         }
 
         $builder->addBlackListedMethods($blocks);
+
+        if (defined('HHVM_VERSION')
+            && isset($class)
+            && ($class === 'Exception' || is_subclass_of($class, 'Exception'))) {
+            $builder->addBlackListedMethod("setTraceOptions");
+            $builder->addBlackListedMethod("getTraceOptions");
+        }
 
         if (!is_null($constructorArgs)) {
             $builder->addBlackListedMethod("__construct"); // we need to pass through
@@ -479,31 +488,6 @@ class Container
         }
 
         return $instance;
-    }
-
-    /**
-     * Takes a class name and declares it
-     *
-     * @param string $fqcn
-     */
-    public function declareClass($fqcn)
-    {
-        if (false !== strpos($fqcn, '/')) {
-            throw new \Mockery\Exception(
-                'Class name contains a forward slash instead of backslash needed '
-                . 'when employing namespaces'
-            );
-        }
-        if (false !== strpos($fqcn, "\\")) {
-            $parts = array_filter(explode("\\", $fqcn), function ($part) {
-                return $part !== "";
-            });
-            $cl = array_pop($parts);
-            $ns = implode("\\", $parts);
-            eval(" namespace $ns { class $cl {} }");
-        } else {
-            eval(" class $fqcn {} ");
-        }
     }
 
     protected function checkForNamedMockClashes($config)

@@ -1,14 +1,15 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->exclude('examples')
-    ->exclude('docs')
-    ->exclude('travis')
-    ->exclude('vendor')
-    ->exclude('tests/Mockery/_files')
-    ->exclude('tests/Mockery/_files')
-    ->in(__DIR__);
+use Symfony\CS\Config\Config;
+use Symfony\CS\Finder\DefaultFinder;
 
-return Symfony\CS\Config\Config::create()
+$finder = DefaultFinder::create()->in(
+    [
+        'library',
+        'tests',
+    ]);
+
+return Config::create()
     ->level('psr2')
+    ->setUsingCache(true)
     ->finder($finder);

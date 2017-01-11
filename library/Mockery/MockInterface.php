@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -102,20 +102,6 @@ interface MockInterface
      * @return self
      */
     public function byDefault();
-
-    /**
-     * Capture calls to this mock and check against expectations
-     *
-     * @param string $method
-     * @param array $args
-     * @return mixed
-     */
-        /**
-         * Unfortunately we need to allow type hinting agnostic __call()
-         * definitions since any interface/class being mocked can go either
-         * way.
-         */
-    //public function __call($method, array $args);
 
     /**
      * Iterate across all expectation directors and validate each

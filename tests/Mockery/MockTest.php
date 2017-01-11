@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -139,6 +139,13 @@ class Mockery_MockTest extends MockeryTestCase
     {
         $exception = Mockery::mock('Exception');
         $this->assertInstanceOf('Exception', $exception);
+    }
+
+    public function testCanMockSubclassOfException()
+    {
+        $errorException = Mockery::mock('ErrorException');
+        $this->assertInstanceOf('ErrorException', $errorException);
+        $this->assertInstanceOf('Exception', $errorException);
     }
 
     public function testCallingShouldReceiveWithoutAValidMethodName()

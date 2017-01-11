@@ -1,4 +1,22 @@
 <?php
+/**
+ * Mockery
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://github.com/padraic/mockery/blob/master/LICENSE
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to padraic@php.net so we can send you a copy immediately.
+ *
+ * @category   Mockery
+ * @package    Mockery
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ */
 
 namespace Mockery\Generator;
 
@@ -31,12 +49,31 @@ class MockConfigurationBuilder
         "static", "switch", "throw", "trait", "try",
         "unset", "use", "var", "while", "xor"
     );
+
+    protected $php7SemiReservedKeywords = [
+        "callable", "class", "trait", "extends", "implements", "static", "abstract", "final",
+        "public", "protected", "private", "const", "enddeclare", "endfor", "endforeach", "endif",
+        "endwhile", "and", "global", "goto", "instanceof", "insteadof", "interface", "namespace", "new",
+        "or", "xor", "try", "use", "var", "exit", "list", "clone", "include", "include_once", "throw",
+        "array", "print", "echo", "require", "require_once", "return", "else", "elseif", "default",
+        "break", "continue", "switch", "yield", "function", "if", "endswitch", "finally", "for", "foreach",
+        "declare", "case", "do", "while", "as", "catch", "die", "self", "parent",
+    ];
+
     protected $whiteListedMethods = array();
     protected $instanceMock = false;
     protected $parameterOverrides = array();
 
     protected $mockOriginalDestructor = false;
     protected $targets = array();
+
+
+    public function __construct()
+    {
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $this->blackListedMethods = array_diff($this->blackListedMethods, $this->php7SemiReservedKeywords);
+        }
+    }
 
     public function addTarget($target)
     {

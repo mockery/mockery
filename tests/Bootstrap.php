@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -24,18 +24,30 @@
  */
 error_reporting(E_ALL);
 
+function isAbsolutePath($path)
+{
+    $windowsPattern = '~^[A-Z]:[\\/]~i';
+    return ($path[0] === DIRECTORY_SEPARATOR) || (preg_match($windowsPattern, $path) === 1);
+}
+
 /*
  * Determine the root, library, and tests directories of the framework
  * distribution.
  */
 $root    = realpath(dirname(dirname(__FILE__)));
-$library = "$root/library";
-$tests   = "$root/tests";
+$library = $root . DIRECTORY_SEPARATOR . 'library';
+$tests   = $root . DIRECTORY_SEPARATOR . 'tests';
 $composerVendorDirectory = getenv("COMPOSER_VENDOR_DIR") ?: "vendor";
+
+if (!isAbsolutePath($composerVendorDirectory)) {
+    $composerVendorDirectory = $root . DIRECTORY_SEPARATOR . $composerVendorDirectory;
+}
+
 /**
  * Check that composer installation was done
  */
-if (!file_exists("$root/$composerVendorDirectory/autoload.php")) {
+$autoloadPath = $composerVendorDirectory . DIRECTORY_SEPARATOR . 'autoload.php';
+if (!file_exists($autoloadPath)) {
     throw new Exception(
         'Please run "php composer.phar install" in root directory '
         . 'to setup unit test dependencies before running the tests'
@@ -54,7 +66,13 @@ $path = array(
 );
 set_include_path(implode(PATH_SEPARATOR, $path));
 
-require_once "$root/$composerVendorDirectory/hamcrest/hamcrest-php/hamcrest/Hamcrest.php";
+$hamcrestRelativePath = 'hamcrest/hamcrest-php/hamcrest/Hamcrest.php';
+if (DIRECTORY_SEPARATOR !== '/') {
+    $hamcrestRelativePath = str_replace('/', DIRECTORY_SEPARATOR, $hamcrestRelativePath);
+}
+$hamcrestPath = $composerVendorDirectory . DIRECTORY_SEPARATOR . $hamcrestRelativePath;
+
+require_once $hamcrestPath;
 
 if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     version_compare(PHPUnit_Runner_Version::id(), '3.1.6', '>=')) {
@@ -73,11 +91,10 @@ if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true &&
     foreach (array('.php', '.phtml', '.csv', '.inc') as $suffix) {
         PHPUnit_Util_Filter::addDirectoryToFilter($tests, $suffix);
     }
-    PHPUnit_Util_Filter::addDirectoryToFilter(PEAR_INSTALL_DIR);
     PHPUnit_Util_Filter::addDirectoryToFilter(PHP_LIBDIR);
 }
 
-require __DIR__."/../$composerVendorDirectory/autoload.php";
+require $autoloadPath;
 
 /*
  * Unset global variables that are no longer needed.

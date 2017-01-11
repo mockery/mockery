@@ -54,7 +54,8 @@ method is a convenience method for calling ``shouldReceive()->never()``.
 
 .. code-block:: php
 
-    with(arg1, arg2, ...) / withArgs(array(arg1, arg2, ...))
+    with(arg1, arg2, ...) 
+    withArgs(array(arg1, arg2, ...))
 
 Adds a constraint that this expectation only applies to method calls which
 match the expected argument list. You can add a lot more flexibility to
@@ -131,6 +132,12 @@ Sets a closure (anonymous function) to be called with the arguments passed to
 the method. The return value from the closure is then returned. Useful for
 some dynamic processing of arguments into related concrete results. Closures
 can queued by passing them as extra parameters as for ``andReturn()``.
+
+.. code-block:: php
+
+    andReturnSelf()
+    
+Set the return value to the mocked class name. Useful for mocking fluid interfaces.
 
 .. note::
 
