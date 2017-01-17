@@ -37,4 +37,9 @@ interface ExpectationInterface
      * @return self
      */
     public function andReturn();
+
+    /**
+     * @return self
+     */
+    public function andReturns();
 }

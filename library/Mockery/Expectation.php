@@ -473,6 +473,17 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Set a return value, or sequential queue of return values
+     *
+     * @param mixed ...
+     * @return self
+     */
+    public function andReturns()
+    {
+        return call_user_func_array([$this, 'andReturn'], func_get_args());
+    }
+
+    /**
      * Return this mock, like a fluent interface
      *
      * @return self
