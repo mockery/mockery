@@ -826,6 +826,43 @@ class Mockery
         return empty($methodNames);
     }
 
+    public static function declareClass($fqn)
+    {
+        return static::declareType($fqn, "class");
+    }
+
+    public static function declareInterface($fqn)
+    {
+        return static::declareType($fqn, "interface");
+    }
+
+    private static function declareType($fqn, $type)
+    {
+        $targetCode = "<?php ";
+        $shortName = $fqn;
+
+        if (strpos($fqn, "\\")) {
+            $parts = explode("\\", $fqn);
+
+            $shortName = trim(array_pop($parts));
+            $namespace = implode("\\", $parts);
+
+            $targetCode.= "namespace $namespace;\n";
+        }
+
+        $targetCode.= "$type $shortName {} ";
+
+        /*
+         * We could eval here, but it doesn't play well with the way
+         * PHPUnit tries to backup global state and the require definition
+         * loader
+         */
+        $tmpfname = tempnam(sys_get_temp_dir(), "Mockery");
+        file_put_contents($tmpfname, $targetCode);
+        require $tmpfname;
+        \Mockery::registerFileForCleanUp($tmpfname);
+    }
+
     /**
      * Register a file to be deleted on tearDown.
      *
