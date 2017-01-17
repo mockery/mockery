@@ -652,7 +652,8 @@ class Mock implements MockInterface
 
             case 'callable':
             case 'Closure':
-                return function () {};
+                return function () {
+                };
 
             case 'Traversable':
             case 'Generator':
