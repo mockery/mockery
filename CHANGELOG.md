@@ -8,6 +8,7 @@
   incorrectly marked some tests as risky. It will no longer verify mock
   expectations but instead check that tests do that themselves.
 * Removes SPL Class Loader
+* Removed object recorder feature
  
 ## 0.9.4 (XXXX-XX-XX)
 
