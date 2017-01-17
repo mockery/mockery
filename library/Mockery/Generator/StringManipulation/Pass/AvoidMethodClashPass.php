@@ -30,13 +30,16 @@ class AvoidMethodClashPass implements Pass
     {
         $names = array_map(function ($method) { return $method->getName();}, $config->getMethodsToMock());
 
-        if (in_array("allows", $names)) {
+        foreach (["allows", "expects"] as $method) {
+            if (in_array($method, $names)) {
 
-            $code = preg_replace(
-                "#// start method allows.*// end method allows#ms", 
-                "",
-                $code
-            );
+                $code = preg_replace(
+                    "#// start method {$method}.*// end method {$method}#ms", 
+                    "",
+                    $code
+                );
+            }
+
         }
 
         return $code;

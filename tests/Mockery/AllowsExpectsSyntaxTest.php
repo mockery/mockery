@@ -23,6 +23,7 @@ namespace test\Mockery;
 
 use Mockery as m;
 use Mockery\Spy;
+use Mockery\Exception\InvalidCountException;
 
 class ClassWithAllowsMethod
 {
@@ -59,5 +60,25 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $stub->shouldReceive('allows')->andReturn(123);
 
         $this->assertEquals(123, $stub->allows());
+    }
+
+    /** @test */
+    public function expectsSetsUpExpectationOfOneCall()
+    {
+        $mock = m::mock();
+        $mock->expects()->foo(123);
+
+        $this->setExpectedException(InvalidCountException::class);
+        m::close();
+    }
+
+    /** @test */
+    public function generateSkipsExpectsMethodIfAlreadyExists()
+    {
+        $stub = m::mock(ClassWithExpectsMethod::class);
+
+        $stub->shouldReceive('expects')->andReturn(123);
+
+        $this->assertEquals(123, $stub->expects());
     }
 }
