@@ -719,7 +719,7 @@ class Mockery
      * @param string $arg
      * @param callable $add
      * @throws Mockery\Exception
-     * @return \Mockery\ExpectationDirector
+     * @return \Mockery\ExpectationInterface
      */
     protected static function buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
     {
