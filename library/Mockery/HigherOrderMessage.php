@@ -20,7 +20,7 @@
 
 namespace Mockery;
 
-class HigherOrderMessage 
+class HigherOrderMessage
 {
     private $mock;
     private $method;
