@@ -304,24 +304,6 @@ class Mock implements MockInterface
     }
 
     /**
-     * Accepts a closure which is executed with an object recorder which proxies
-     * to the partial source object. The intent being to record the
-     * interactions of a concrete object as a set of expectations on the
-     * current mock object. The partial may then be passed to a second process
-     * to see if it fulfils the same (or exact same) contract as the original.
-     *
-     * @param Closure $closure
-     */
-    public function shouldExpect(\Closure $closure)
-    {
-        $recorder = new \Mockery\Recorder($this, $this->_mockery_partial);
-        $this->_mockery_disableExpectationMatching = true;
-        $closure($recorder);
-        $this->_mockery_disableExpectationMatching = false;
-        return $this;
-    }
-
-    /**
      * In the event shouldReceive() accepting one or more methods/returns,
      * this method will switch them from normal expectations to default
      * expectations
