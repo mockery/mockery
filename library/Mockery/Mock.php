@@ -20,7 +20,7 @@
 
 namespace Mockery;
 
-use Mockery\ExpectationBuilder;
+use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
 
 class Mock implements MockInterface
@@ -177,12 +177,12 @@ class Mock implements MockInterface
      * Set expected method calls
      *
      * @param null|string $methodName,... one or many methods that are expected to be called in this mock
-     * @return \Mockery\ExpectationInterface|\Mockery\ExpectationBuilder
+     * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
     public function shouldReceive($methodName = null)
     {
         if ($methodName === null) {
-            return new ExpectationBuilder($this, "shouldReceive");
+            return new HigherOrderMessage($this, "shouldReceive");
         }
 
         foreach (func_get_args() as $method) {
@@ -226,12 +226,12 @@ class Mock implements MockInterface
      * Shortcut method for setting an expectation that a method should not be called.
      *
      * @param null|string $methodName,... one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation|\Mockery\ExpectationBuilder
+     * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive($methodName = null)
     {
         if ($methodName === null) {
-            return new ExpectationBuilder($this, "shouldNotReceive");
+            return new HigherOrderMessage($this, "shouldNotReceive");
         }
 
         $expectation = call_user_func_array(array($this, 'shouldReceive'), func_get_args());
@@ -674,7 +674,7 @@ class Mock implements MockInterface
     public function shouldHaveReceived($method = null, $args = null)
     {
         if ($method === null) {
-            return new ExpectationBuilder($this, "shouldHaveReceived");
+            return new HigherOrderMessage($this, "shouldHaveReceived");
         }
 
         $expectation = new \Mockery\VerificationExpectation($this, $method);
@@ -691,7 +691,7 @@ class Mock implements MockInterface
     public function shouldNotHaveReceived($method = null, $args = null)
     {
         if ($method === null) {
-            return new ExpectationBuilder($this, "shouldNotHaveReceived");
+            return new HigherOrderMessage($this, "shouldNotHaveReceived");
         }
 
         $expectation = new \Mockery\VerificationExpectation($this, $method);

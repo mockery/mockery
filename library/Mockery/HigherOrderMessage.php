@@ -2,7 +2,7 @@
 
 namespace Mockery;
 
-class ExpectationBuilder 
+class HigherOrderMessage 
 {
     private $mock;
     private $method;
