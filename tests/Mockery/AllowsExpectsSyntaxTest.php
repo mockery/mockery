@@ -41,7 +41,7 @@ class ClassWithExpectsMethod
     }
 }
 
-class SpyTest extends \PHPUnit_Framework_TestCase
+class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
 {
     /** @test */
     public function allowsSetsUpMethodStub()
