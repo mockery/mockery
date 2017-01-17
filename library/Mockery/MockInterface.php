@@ -34,16 +34,16 @@ interface MockInterface
     /**
      * Set expected method calls
      *
-     * @param string $methodName,... one or many methods that are expected to be called in this mock
-     * @return \Mockery\Expectation
+     * @param null|string $methodName,... one or many methods that are expected to be called in this mock
+     * @return mixed
      */
-    public function shouldReceive($methodName);
+    public function shouldReceive($methodName = null);
 
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param string $methodName,... one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation
+     * @param null|string $methodName,... one or many methods that are expected not to be called in this mock
+     * @return mixed
      */
     public function shouldNotReceive($methodName);
 
@@ -80,16 +80,16 @@ interface MockInterface
     public function makePartial();
 
     /**
-     * @param $method
+     * @param null|string $method
      * @param null $args
-     * @return \Mockery\Expectation
+     * @return mixed
      */
     public function shouldHaveReceived($method, $args = null);
 
     /**
-     * @param $method
+     * @param null|string $method
      * @param null $args
-     * @return null
+     * @return mixed
      */
     public function shouldNotHaveReceived($method, $args = null);
 
