@@ -222,6 +222,16 @@ class Mock implements MockInterface
         return $lastExpectation;
     }
 
+    // start method allows
+    /**
+     * @return HigherOrderMessage
+     */
+    public function allows()
+    {
+        return $this->shouldReceive();
+    }
+    // end method allows
+
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
