@@ -55,7 +55,7 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function generateSkipsAllowsMethodIfAlreadyExists()
     {
-        $stub = m::mock(ClassWithAllowsMethod::class);
+        $stub = m::mock("test\Mockery\ClassWithAllowsMethod");
 
         $stub->shouldReceive('allows')->andReturn(123);
 
@@ -68,14 +68,14 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
         $mock = m::mock();
         $mock->expects()->foo(123);
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->setExpectedException("Mockery\Exception\InvalidCountException");
         m::close();
     }
 
     /** @test */
     public function generateSkipsExpectsMethodIfAlreadyExists()
     {
-        $stub = m::mock(ClassWithExpectsMethod::class);
+        $stub = m::mock("test\Mockery\ClassWithExpectsMethod");
 
         $stub->shouldReceive('expects')->andReturn(123);
 
