@@ -98,6 +98,17 @@ class Mockery
      *
      * @return \Mockery\MockInterface
      */
+    public static function stub()
+    {
+        $args = func_get_args();
+        return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing()
+            ->disallowMockingNonExistentMethods()
+            ;
+    }
+
+    /**
+     * @return \Mockery\MockInterface
+     */
     public static function instanceMock()
     {
         $args = func_get_args();
@@ -728,7 +739,7 @@ class Mockery
         $methodNames = explode('->', $arg);
         reset($methodNames);
 
-        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()
+        if (!$mock->mockingNonExistentMethodsAllowed()
             && !$mock->mockery_isAnonymous()
             && !in_array(current($methodNames), $mock->mockery_getMockableMethods())
         ) {

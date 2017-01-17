@@ -56,6 +56,13 @@ class Mock implements MockInterface
     protected $_mockery_deferMissing = false;
 
     /**
+     * Local flag to indicate whether mocking non-existing methods allowed.
+     *
+     * @var bool
+     */
+    protected $_mockery_allowMockingNotExistentMethod = null;
+
+    /**
      * Flag to indicate whether this mock was verified
      *
      * @var bool
@@ -163,7 +170,13 @@ class Mock implements MockInterface
             $this->_mockery_partial = $partialObject;
         }
 
-        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
+        $this->collectMockableMethods();
+    }
+
+    protected function collectMockableMethods()
+    {
+        $this->_mockery_mockableMethods = array();
+        if (!$this->mockingNonExistentMethodsAllowed()) {
             foreach ($this->mockery_getMethods() as $method) {
                 if ($method->isPublic() && !$method->isStatic()) {
                     $this->_mockery_mockableMethods[] = $method->getName();
@@ -296,6 +309,33 @@ class Mock implements MockInterface
     public function makePartial()
     {
         return $this->shouldDeferMissing();
+    }
+
+    /**
+     * Disable mocking non-existent methods
+     *
+     * @return Mock
+     */
+    public function disallowMockingNonExistentMethods()
+    {
+        $this->_mockery_allowMockingNotExistentMethod = false;
+        $this->collectMockableMethods();
+        return $this;
+    }
+
+    /**
+     * Return flag indicating whether mocking non-existent methods allowed
+     *
+     * @return bool
+     */
+    public function mockingNonExistentMethodsAllowed()
+    {
+        // When local flag isn't set, fallback to global configuration
+        $allowed = $this->_mockery_allowMockingNotExistentMethod;
+        if (null === $allowed) {
+            $allowed = \Mockery::getConfiguration()->mockingNonExistentMethodsAllowed();
+        }
+        return $allowed;
     }
 
     /**
@@ -756,7 +796,7 @@ class Mock implements MockInterface
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
-            if (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
+            if ($this->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
                 if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined) {
                     return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
                 } elseif (null === $this->_mockery_defaultReturnValue) {
