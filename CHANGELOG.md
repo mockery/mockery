@@ -11,6 +11,7 @@
 * Removed object recorder feature
 * Bumped minimum PHP version to 5.6
 * `andThrow` will now throw anything `\Throwable`
+* Adds `allows` and `expects` syntax
  
 ## 0.9.4 (XXXX-XX-XX)
 
