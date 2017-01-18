@@ -116,12 +116,12 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
             'Mockery\Test\Generator\StringManipulation\Pass\MagicInterfaceDummy',
             'Mockery\Test\Generator\StringManipulation\Pass\MagicUnsetInterfaceDummy'
         ]);
-	$code = $this->pass->apply(
-	    'public function __isset($name) {}',
-	    $this->mockedConfiguration
-	);
-	$this->assertContains('string $name', $code);
-	$code = $this->pass->apply(
+        $code = $this->pass->apply(
+            'public function __isset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $name', $code);
+        $code = $this->pass->apply(
             'public function __unset($name) {}',
             $this->mockedConfiguration
         );
