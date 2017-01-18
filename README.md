@@ -16,10 +16,6 @@ phpunit-mock-objects without the World ending.
 
 Mockery is released under a New BSD License.
 
-The current released version on Packagist is `0.9.5`.
-Composer users may opt to use `0.9.*` for the current stable package, or `~1.0@dev` for the current master branch.
-Latest version released through PEAR was `0.9.0`; channel is now closed.
-
 ## Installation
 
 To install Mockery, run the command below and you will get the latest
@@ -35,13 +31,6 @@ If you want to run the tests:
 vendor/bin/phpunit
 ```
 
-####Note
-
-The current Mockery 0.9.5 release is the final version to have PHP 5.3
-as a minimum requirement. The minimum PHP requirement has been moved to
-PHP 5.4 for future releases. Also, the PEAR channel has gone offline permanently
-since 30 June 2015.
-
 ## Mock Objects
 
 In unit tests, mock objects simulate the behaviour of real objects. They are
@@ -54,14 +43,6 @@ of such mock objects (and stubs). They allow the setting of expected method call
 and return values using a flexible API which is capable of capturing every
 possible real object behaviour in way that is stated as close as possible to a
 natural language description.
-
-
-## Prerequisites
-
-Mockery requires PHP 5.3.2 or greater for versions `0.9.5` or lower. The current
-master and future versions are using PHP 5.4 at minimum. This is subject to change
-as PHP versions reach their published end of life dates.
-
 
 ## Documentation
 
