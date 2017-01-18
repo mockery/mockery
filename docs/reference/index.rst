@@ -12,7 +12,6 @@ Reference
     public_static_properties
     pass_by_reference_behaviours
     demeter_chains
-    object_recording
     final_methods_classes
     magic_methods
     mockery/index

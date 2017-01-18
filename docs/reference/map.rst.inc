@@ -6,7 +6,6 @@
 * :doc:`/reference/public_static_properties`
 * :doc:`/reference/pass_by_reference_behaviours`
 * :doc:`/reference/demeter_chains`
-* :doc:`/reference/object_recording`
 * :doc:`/reference/final_methods_classes`
 * :doc:`/reference/magic_methods`
 * :doc:`/reference/phpunit_integration`
