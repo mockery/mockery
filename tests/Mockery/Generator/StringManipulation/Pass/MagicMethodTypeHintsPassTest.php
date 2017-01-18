@@ -110,6 +110,27 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function itShouldAddStringTypeHintOnAllMagicMethods()
+    {
+        $this->configureForInterfaces([
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicInterfaceDummy',
+            'Mockery\Test\Generator\StringManipulation\Pass\MagicUnsetInterfaceDummy'
+        ]);
+        $code = $this->pass->apply(
+            'public function __isset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $name', $code);
+        $code = $this->pass->apply(
+            'public function __unset($name) {}',
+            $this->mockedConfiguration
+        );
+        $this->assertContains('string $name', $code);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldAddBooleanReturnOnMagicMethod()
     {
         $this->configureForClass();
@@ -285,6 +306,20 @@ class MagicMethodTypeHintsPassTest extends \PHPUnit_Framework_TestCase
             ->andReturn([$targetInterface])
             ->byDefault();
     }
+
+    protected function configureForInterfaces(array $interfaceNames)
+    {
+        $targetInterfaces = array_map([DefinedTargetClass::class, 'factory'], $interfaceNames);
+
+        $this->mockedConfiguration
+            ->shouldReceive('getTargetClass')
+            ->andReturn(null)
+            ->byDefault();
+        $this->mockedConfiguration
+            ->shouldReceive('getTargetInterfaces')
+            ->andReturn($targetInterfaces)
+            ->byDefault();
+    }
 }
 
 class MagicDummy
@@ -348,4 +383,9 @@ interface MagicInterfaceDummy
 interface MagicReturnInterfaceDummy
 {
     public function __isset(string $name);
+}
+
+interface MagicUnsetInterfaceDummy
+{
+    public function __unset(string $name);
 }

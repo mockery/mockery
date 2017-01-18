@@ -58,7 +58,7 @@ class MagicMethodTypeHintsPass implements Pass
     {
         $magicMethods = $this->getMagicMethods($config->getTargetClass());
         foreach ($config->getTargetInterfaces() as $interface) {
-            $magicMethods = array_merge($this->getMagicMethods($interface));
+            $magicMethods = array_merge($magicMethods, $this->getMagicMethods($interface));
         }
 
         foreach ($magicMethods as $method) {
