@@ -7,6 +7,7 @@
 * `Mockery\Adapter\Phpunit\TestListener` has been rewritten because it
   incorrectly marked some tests as risky. It will no longer verify mock
   expectations but instead check that tests do that themselves.
+* Removes SPL Class Loader
  
 ## 0.9.4 (XXXX-XX-XX)
 
