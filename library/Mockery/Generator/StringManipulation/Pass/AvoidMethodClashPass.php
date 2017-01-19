@@ -28,7 +28,7 @@ class AvoidMethodClashPass implements Pass
 {
     public function apply($code, MockConfiguration $config)
     {
-        $names = array_map(function ($method) { 
+        $names = array_map(function ($method) {
             return $method->getName();
         }, $config->getMethodsToMock());
 
