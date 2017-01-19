@@ -53,6 +53,19 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function allowsCanTakeAnArrayOfCalls()
+    {
+        $stub = m::mock();
+        $stub->allows([
+            "foo" => "bar",
+            "bar" => "baz",
+        ]);
+
+        $this->assertEquals("bar", $stub->foo());
+        $this->assertEquals("baz", $stub->bar());
+    }
+
+    /** @test */
     public function generateSkipsAllowsMethodIfAlreadyExists()
     {
         $stub = m::mock("test\Mockery\ClassWithAllowsMethod");

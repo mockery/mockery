@@ -227,9 +227,17 @@ class Mock implements MockInterface
     /**
      * @return HigherOrderMessage
      */
-    public function allows()
+    public function allows(array $stubs = [])
     {
-        return $this->shouldReceive();
+        if (empty($stubs)) {
+            return $this->shouldReceive();
+        }
+
+        foreach ($stubs as $method => $returnValue) {
+            $this->shouldReceive($method)->andReturn($returnValue);
+        }
+
+        return $this;
     }
     // end method allows
 
