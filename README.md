@@ -60,7 +60,7 @@ $double = Mockery::mock(BookRepository::class);
 ## Method Stubs
 
 A method stub is a mechanism for having your test double return canned responses
-to a certain method call. With stubs, you don't care how many times, if at all,
+to certain method calls. With stubs, you don't care how many times, if at all,
 the method is called. Stubs are used to provide indirect input to the system
 under test.
 
@@ -92,7 +92,8 @@ $double = Mockery::mock(BookRepository::class, [
 
 A Method call expectation is a mechanism to allow you to verify that a
 particular method has been called. You can specify the parameters and you can
-also specify how many times you expect it to be called.
+also specify how many times you expect it to be called. Method call expectations
+are used to verify indirect output of the system under test.
 
 ``` php
 $book = new Book();
