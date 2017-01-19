@@ -86,6 +86,17 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function callVerificationCountCanBeOverridenAfterExpects()
+    {
+        $mock = m::mock();
+        $mock->expects()->foo(123)->twice();
+
+        $mock->foo(123);
+        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        m::close();
+    }
+
+    /** @test */
     public function generateSkipsExpectsMethodIfAlreadyExists()
     {
         $stub = m::mock("test\Mockery\ClassWithExpectsMethod");

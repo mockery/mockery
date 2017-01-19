@@ -102,9 +102,9 @@ $double = Mockery::mock(BookRepository::class);
 $double->expects()->add($book);
 ```
 
-During the test, Mockery will ensure that the `add` method is called no more
-than once. After you have finished exercising the system under test, you need to
-tell Mockery to check that the method was called at all using the
+During the test, Mockery accept calls to the `add` method as prescribed.
+After you have finished exercising the system under test, you need to
+tell Mockery to check that the method was called as expected, using the 
 `Mockery::close` method. One way to do that is to add it to your `tearDown`
 method in PHPUnit.
 
