@@ -66,6 +66,15 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function expects_can_optionally_match_on_any_arguments()
+    {
+        $mock = m::mock();
+        $mock->allows()->foo()->withAnyArgs()->andReturns(123);
+
+        $this->assertEquals(123, $mock->foo(456, 789));
+    }
+
+    /** @test */
     public function generateSkipsAllowsMethodIfAlreadyExists()
     {
         $stub = m::mock("test\Mockery\ClassWithAllowsMethod");
