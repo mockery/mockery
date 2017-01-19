@@ -51,6 +51,7 @@ class Book {}
 interface BookRepository {
     function find($id): Book;
     function findAll(): array;
+    function add(Book $book): void;
 }
 
 $double = Mockery::mock(BookRepository::class);
@@ -59,10 +60,14 @@ $double = Mockery::mock(BookRepository::class);
 ## Method Stubs
 
 A method stub is a mechanism for having your test double return canned responses
-to a certain method call. 
+to a certain method call. With stubs, you don't care how many times, if at all,
+the method is called. Stubs are used to provide indirect input to the system
+under test.
 
 ``` php
 $double->allows()->find(123)->andReturns(new Book());
+
+$book = $double->find(123);
 ```
 
 If your stub doesn't require specific arguments, you can also use this shortcut
@@ -83,7 +88,40 @@ $double = Mockery::mock(BookRepository::class, [
 ]);
 ```
 
-## Message Expectations
+## Method Call Expectations
+
+A Method call expectation is a mechanism to allow you to verify that a
+particular method has been called. You can specify the parameters and you can
+also specify how many times you expect it to be called.
+
+``` php
+$book = new Book();
+
+$double = Mockery::mock(BookRepository::class);
+$double->expects()->add($book);
+```
+
+During the test, Mockery will ensure that the `add` method is called no more
+than once. After you have finished exercising the system under test, you need to
+tell Mockery to check that the method was called at all using the
+`Mockery::close` method. One way to do that is to add it to your `tearDown`
+method in PHPUnit.
+
+``` php
+
+public function tearDown()
+{
+    Mockery::close();
+}
+```
+
+The `expects()` method automatically sets up an expectation that the method call
+(and matching parameters) is called once and once only. You can choose to change
+this if you are expecting more calls.
+
+``` php
+$double->expects()->add($book)->twice();
+```
 
 ## Documentation
 
