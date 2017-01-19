@@ -24,6 +24,8 @@ version
 composer require --dev mockery/mockery
 ```
 
+⚠️️ The remainder of this README refers specifically to the master branch (1.0-dev).
+
 ## Test Doubles 
 
 Test doubles (often called mocks) simulate the behaviour of real objects. They are
