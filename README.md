@@ -126,6 +126,36 @@ this if you are expecting more calls.
 $double->expects()->add($book)->twice();
 ```
 
+## Test Spies
+
+By default, all test doubles created with the `Mockery::mock` method will only
+accept calls that they have been configured to `allow` or `expect`. Sometimes we
+don't necessarily care about all of the calls that are going to be made to an
+object. To facilitate this, we can tell Mockery to ignore any calls it has been
+told to expect or allow. To do so, we can tell a test double
+`shouldIgnoreMissing`, or we can create the double using the `Mocker::spy`
+shortcut.
+
+``` php
+// $double = Mockery::mock()->shouldIgnoreMissing();
+$double = Mockery::spy(); 
+
+$double->foo(); // null
+$double->bar(); // null
+```
+
+Further to this, sometimes we want to have the object accept any call during the test execution
+and then verify the calls afterwards. For these purposes, we need our test
+double to act as a Spy. All mockery test doubles record the calls that are made
+to them for verification afterwards by default:
+
+``` php
+$double->baz(123);
+
+$double->shouldHaveReceived()->baz(123); // null
+$double->shouldHaveReceived()->baz(12345); // Uncaught Exception Mockery\Exception\InvalidCountException...
+```
+
 ## Documentation
 
 The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
