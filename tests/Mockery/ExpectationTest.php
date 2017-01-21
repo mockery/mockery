@@ -210,7 +210,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testReturnsValueOfClosure()
     {
-        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(function ($v) {return $v+1;});
+        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(function ($v) {
+            return $v+1;
+        });
         $this->assertEquals(6, $this->mock->foo(5));
     }
 
@@ -1145,7 +1147,9 @@ class ExpectationTest extends MockeryTestCase
     public function testCallableConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::type('callable'))->once();
-        $this->mock->foo(function () {return 'f';});
+        $this->mock->foo(function () {
+            return 'f';
+        });
         $this->container->mockery_verify();
     }
 
@@ -1631,7 +1635,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOnConstraintMatchesArgument_ClosureEvaluatesToTrue()
     {
-        $function = function ($arg) {return $arg % 2 == 0;};
+        $function = function ($arg) {
+            return $arg % 2 == 0;
+        };
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo(4);
         $this->container->mockery_verify();
@@ -1639,7 +1645,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOnConstraintMatchesArgumentOfTypeArray_ClosureEvaluatesToTrue()
     {
-        $function = function ($arg) {return is_array($arg);};
+        $function = function ($arg) {
+            return is_array($arg);
+        };
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo([4, 5]);
         $this->container->mockery_verify();
@@ -1650,7 +1658,9 @@ class ExpectationTest extends MockeryTestCase
      */
     public function testOnConstraintThrowsExceptionWhenConstraintUnmatched_ClosureEvaluatesToFalse()
     {
-        $function = function ($arg) {return $arg % 2 == 0;};
+        $function = function ($arg) {
+            return $arg % 2 == 0;
+        };
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo(5);
         $this->container->mockery_verify();
