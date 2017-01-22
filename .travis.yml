@@ -1,3 +1,5 @@
+sudo: false
+
 language: php
 
 php:
@@ -12,28 +14,57 @@ matrix:
     - php: hhvm
     - php: hhvm-nightly
 
-sudo: false
+  fast_finish: true
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - .composer/cache
 
 before_install:
-  - composer self-update
+  - alias composer=composer\ -n && composer self-update
 
 install:
-  - travis_retry ./travis/install.sh
+  - composer install
 
 before_script:
-  - ./travis/before_script.sh
+  - |
+    if [[ $TRAVIS_PHP_VERSION != hhvm \
+      && $TRAVIS_PHP_VERSION != hhvm-nightly \
+      && $TRAVIS_PHP_VERSION != 7.0 ]]; then
+      cat <<<'
+        extension=mongo.so
+        extension=redis.so
+      ' >> ~/.phpenv/versions/"$(phpenv version-name)"/etc/conf.d/travis.ini
+    fi
+
+  - |
+    if [[ $TRAVIS_PHP_VERSION = 5.6 ]]; then
+      sed '/MockeryPHPUnitIntegration/d' -i ./phpunit.xml.dist
+    fi
 
 script:
-  - ./travis/script.sh
+  - |
+    if [[ $TRAVIS_PHP_VERSION != hhvm \
+      && $TRAVIS_PHP_VERSION != hhvm-nightly \
+      && $TRAVIS_PHP_VERSION != 7.0 ]]; then
+      vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
+    else
+      vendor/bin/phpunit
+    fi
 
-after_script:
-  - ./travis/after_script.sh
+after_success:
+  - |
+    if [[ $TRAVIS_PHP_VERSION = 5.6 ]]; then
+      composer require satooshi/php-coveralls:~0.7@dev
+      vendor/bin/coveralls -v
+
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+    fi
+
 notifications:
   email:
     - padraic.brady@gmail.com
     - dave@atstsolutions.co.uk
-  irc: "irc.freenode.org#mockery"
+
+  irc: irc.freenode.org#mockery
