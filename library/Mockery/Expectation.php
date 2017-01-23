@@ -179,7 +179,7 @@ class Expectation implements ExpectationInterface
             return $this->_mock->mockery_callSubjectMethod($this->_name, $args);
         }
         $return = $this->_getReturnValue($args);
-        if ($return instanceof \Exception && $this->_throw === true) {
+        if ($return instanceof \Throwable && $this->_throw === true) {
             throw $return;
         }
         $this->_setValues();

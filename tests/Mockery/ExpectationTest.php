@@ -239,6 +239,14 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo();
     }
 
+    /** @test */
+    public function it_can_throw_a_throwable()
+    {
+        $this->setExpectedException(\Error::class);
+        $this->mock->shouldReceive('foo')->andThrow(new \Error());
+        $this->mock->foo();
+    }
+
     /**
      * @expectedException OutOfBoundsException
      */
