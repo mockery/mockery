@@ -1958,7 +1958,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
     {
-        $service = $this->getMock('MyService2');
+        $service = $this->createMock('MyService2');
         $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
         $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')
             ->will($this->onConsecutiveCalls(false, true, true));
@@ -2098,7 +2098,7 @@ class ExpectationTest extends MockeryTestCase
             'Received ' . get_class($mock) .
             '::quack(), ' . 'but no expectations were specified'
         );
-        
+
         $mock->quack();
     }
 
