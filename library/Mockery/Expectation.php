@@ -198,7 +198,7 @@ class Expectation implements ExpectationInterface
             return;
         }
 
-        $type = version_compare(PHP_VERSION, '7.0.0')
+        $type = version_compare(PHP_VERSION, '7.0.0') >= 0
             ? "\Throwable"
             : "\Exception";
 
