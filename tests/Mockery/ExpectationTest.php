@@ -239,7 +239,7 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo();
     }
 
-    /** 
+    /**
      * @test
      * @requires PHP 7.0.0
      */

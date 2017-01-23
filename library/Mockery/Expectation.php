@@ -188,11 +188,11 @@ class Expectation implements ExpectationInterface
 
     /**
      * Throws an exception if the expectation has been configured to do so
-     * 
+     *
      * @throws \Exception|\Throwable
      * @return void
      */
-	private function throwAsNecessary($return)
+    private function throwAsNecessary($return)
     {
         if (!$this->_throw) {
             return;
