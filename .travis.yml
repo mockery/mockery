@@ -43,24 +43,13 @@ before_script:
     fi
 
 script:
-  - |
-    if [[ $TRAVIS_PHP_VERSION != hhvm \
-      && $TRAVIS_PHP_VERSION != hhvm-nightly \
-      && $TRAVIS_PHP_VERSION != 7.0 ]]; then
-      vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
-    else
-      vendor/bin/phpunit
-    fi
+  - vendor/bin/phpunit --coverage-text --coverage-clover=${clover=build/logs/clover.xml}
 
 after_success:
-  - |
-    if [[ $TRAVIS_PHP_VERSION = 5.6 ]]; then
-      composer require satooshi/php-coveralls:~0.7@dev
-      vendor/bin/coveralls -v
-
-      wget https://scrutinizer-ci.com/ocular.phar
-      php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
-    fi
+  - composer require satooshi/php-coveralls
+  - vendor/bin/coveralls -v
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover "$clover"
 
 notifications:
   email:
