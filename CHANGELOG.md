@@ -10,6 +10,7 @@
 * Removes SPL Class Loader
 * Removed object recorder feature
 * Bumped minimum PHP version to 5.6
+* `andThrow` will now throw anything `\Throwable`
  
 ## 0.9.4 (XXXX-XX-XX)
 
