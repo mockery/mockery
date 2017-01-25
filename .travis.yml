@@ -27,11 +27,10 @@ install:
   - composer install
 
 before_script:
+  # Install extensions for PHP 5.x series. 7.x includes them by default.
   - |
-    if [[ $TRAVIS_PHP_VERSION != hhvm \
-      && $TRAVIS_PHP_VERSION != hhvm-nightly \
-      && $TRAVIS_PHP_VERSION != 7.0 ]]; then
-      cat <<<'
+    if [[ $TRAVIS_PHP_VERSION = 5.* ]]; then
+      cat <<< '
         extension=mongo.so
         extension=redis.so
       ' >> ~/.phpenv/versions/"$(phpenv version-name)"/etc/conf.d/travis.ini
