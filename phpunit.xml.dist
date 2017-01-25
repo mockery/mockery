@@ -25,9 +25,6 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./library/</directory>
-            <exclude>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php</file>
-            </exclude>
         </whitelist>
     </filter>
 </phpunit>

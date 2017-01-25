@@ -37,11 +37,6 @@ before_script:
       ' >> ~/.phpenv/versions/"$(phpenv version-name)"/etc/conf.d/travis.ini
     fi
 
-  - |
-    if [[ $TRAVIS_PHP_VERSION = 5.6 ]]; then
-      sed '/MockeryPHPUnitIntegration/d' -i ./phpunit.xml.dist
-    fi
-
 script:
   - |
     if [[ $TRAVIS_PHP_VERSION != hhvm \
