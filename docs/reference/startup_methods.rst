@@ -177,7 +177,7 @@ programmed to act as discrete iterated elements.
     $mock = \Mockery::namedMock('MyClassName', 'DateTime');
 
 The ``namedMock`` method will generate a class called by the first argument,
-so in this example ``MyClassName``. The rest of the arguments are treat in the
+so in this example ``MyClassName``. The rest of the arguments are treated in the
 same way as the ``mock`` method, so again, this example would create a class
 called ``MyClassName`` that extends ``DateTime``.
 
