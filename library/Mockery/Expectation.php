@@ -456,6 +456,7 @@ class Expectation implements ExpectationInterface
      */
     public function withAnyArgs()
     {
+        $this->_noArgsExpectation = false;
         $this->_expectedArgs = array();
         return $this;
     }
@@ -470,6 +471,17 @@ class Expectation implements ExpectationInterface
     {
         $this->_returnQueue = func_get_args();
         return $this;
+    }
+
+    /**
+     * Set a return value, or sequential queue of return values
+     *
+     * @param mixed ...
+     * @return self
+     */
+    public function andReturns()
+    {
+        return call_user_func_array([$this, 'andReturn'], func_get_args());
     }
 
     /**

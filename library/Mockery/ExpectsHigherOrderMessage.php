@@ -20,28 +20,19 @@
 
 namespace Mockery;
 
-class HigherOrderMessage
+class ExpectsHigherOrderMessage extends HigherOrderMessage
 {
-    private $mock;
-    private $method;
-
-    public function __construct(MockInterface $mock, $method)
+    public function __construct(MockInterface $mock)
     {
-        $this->mock = $mock;
-        $this->method = $method;
+        return parent::__construct($mock, "shouldReceive");
     }
-
     /**
      * @return Mockery\Expectation
      */
     public function __call($method, $args)
     {
-        $expectation = $this->mock->{$this->method}($method);
+        $expectation = parent::__call($method, $args);
 
-        if ($this->method !== "shouldNotHaveReceived") {
-            return $expectation->withArgs($args);
-        }
-
-        return $expectation;
+        return $expectation->once();
     }
 }

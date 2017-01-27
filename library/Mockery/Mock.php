@@ -22,6 +22,7 @@ namespace Mockery;
 
 use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
+use Mockery\ExpectsHigherOrderMessage;
 
 class Mock implements MockInterface
 {
@@ -222,6 +223,35 @@ class Mock implements MockInterface
         return $lastExpectation;
     }
 
+    // start method allows
+    /**
+     * @return HigherOrderMessage
+     */
+    public function allows(array $stubs = [])
+    {
+        if (empty($stubs)) {
+            return $this->shouldReceive();
+        }
+
+        foreach ($stubs as $method => $returnValue) {
+            $this->shouldReceive($method)->andReturn($returnValue);
+        }
+
+        return $this;
+    }
+    // end method allows
+
+    // start method expects
+    /**
+     * @return ExpectsHigherOrderMessage
+     */
+    public function expects()
+    {
+        return new ExpectsHigherOrderMessage($this);
+    }
+    // end method expects
+     
+     
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *

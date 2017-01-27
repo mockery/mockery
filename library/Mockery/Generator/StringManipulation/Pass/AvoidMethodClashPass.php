@@ -18,30 +18,30 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery;
+namespace Mockery\Generator\StringManipulation\Pass;
 
-class HigherOrderMessage
+use Mockery\Generator\Method;
+use Mockery\Generator\Parameter;
+use Mockery\Generator\MockConfiguration;
+
+class AvoidMethodClashPass implements Pass
 {
-    private $mock;
-    private $method;
-
-    public function __construct(MockInterface $mock, $method)
+    public function apply($code, MockConfiguration $config)
     {
-        $this->mock = $mock;
-        $this->method = $method;
-    }
+        $names = array_map(function ($method) {
+            return $method->getName();
+        }, $config->getMethodsToMock());
 
-    /**
-     * @return Mockery\Expectation
-     */
-    public function __call($method, $args)
-    {
-        $expectation = $this->mock->{$this->method}($method);
-
-        if ($this->method !== "shouldNotHaveReceived") {
-            return $expectation->withArgs($args);
+        foreach (["allows", "expects"] as $method) {
+            if (in_array($method, $names)) {
+                $code = preg_replace(
+                    "#// start method {$method}.*// end method {$method}#ms",
+                    "",
+                    $code
+                );
+            }
         }
 
-        return $expectation;
+        return $code;
     }
 }
