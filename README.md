@@ -59,7 +59,7 @@ interface BookRepository {
 $double = Mockery::mock(BookRepository::class);
 ``` 
 
-## Method Stubs
+## Method Stubs 🎫
 
 A method stub is a mechanism for having your test double return canned responses
 to certain method calls. With stubs, you don't care how many times, if at all,
@@ -90,7 +90,7 @@ $double = Mockery::mock(BookRepository::class, [
 ]);
 ```
 
-## Method Call Expectations
+## Method Call Expectations 📲
 
 A Method call expectation is a mechanism to allow you to verify that a
 particular method has been called. You can specify the parameters and you can
@@ -126,7 +126,7 @@ this if you are expecting more calls.
 $double->expects()->add($book)->twice();
 ```
 
-## Test Spies
+## Test Spies 🕵️
 
 By default, all test doubles created with the `Mockery::mock` method will only
 accept calls that they have been configured to `allow` or `expect`. Sometimes we
