@@ -221,20 +221,7 @@ class Mockery
      */
     public static function getDefaultGenerator()
     {
-        $generator = new StringManipulationGenerator(array(
-            new CallTypeHintPass(),
-            new MagicMethodTypeHintsPass(),
-            new ClassPass(),
-            new ClassNamePass(),
-            new InstanceMockPass(),
-            new InterfacePass(),
-            new MethodDefinitionPass(),
-            new RemoveUnserializeForInternalSerializableClassesPass(),
-            new RemoveBuiltinMethodsThatAreFinalPass(),
-            new RemoveDestructorPass(),
-        ));
-
-        return new CachingGenerator($generator);
+        return new CachingGenerator(StringManipulationGenerator::withDefaultPasses());
     }
 
     /**
