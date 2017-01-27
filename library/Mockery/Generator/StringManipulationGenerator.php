@@ -39,7 +39,7 @@ class StringManipulationGenerator implements Generator
 
     /**
      * Creates a new StringManipulationGenerator with the default passes
-     * 
+     *
      * @return StringManipulationGenerator
      */
     public static function withDefaultPasses()
