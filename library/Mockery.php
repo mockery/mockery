@@ -71,6 +71,16 @@ class Mockery
     private static $_filesToCleanUp = [];
 
     /**
+     * Defines the global helper functions
+     * 
+     * @return void
+     */
+    public static function globalHelpers()
+    {
+        require_once __DIR__.'/helpers.php';
+    }
+
+    /**
      * Static shortcut to \Mockery\Container::mock().
      *
      * @return \Mockery\MockInterface
