@@ -131,7 +131,7 @@ $double->expects()->add($book)->twice();
 By default, all test doubles created with the `Mockery::mock` method will only
 accept calls that they have been configured to `allow` or `expect`. Sometimes we
 don't necessarily care about all of the calls that are going to be made to an
-object. To facilitate this, we can tell Mockery to ignore any calls it has been
+object. To facilitate this, we can tell Mockery to ignore any calls it has not been
 told to expect or allow. To do so, we can tell a test double
 `shouldIgnoreMissing`, or we can create the double using the `Mocker::spy`
 shortcut.
