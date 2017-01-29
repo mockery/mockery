@@ -49,6 +49,11 @@ class UndefinedTargetClass implements TargetClassInterface
         return false;
     }
 
+    public function isTrait()
+    {
+        return false;
+    }
+
     public function getMethods()
     {
         return array();
