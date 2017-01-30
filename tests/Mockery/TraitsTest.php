@@ -21,6 +21,7 @@
 namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\Loader\RequireLoader;
 
 class TraitTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,9 +38,20 @@ class TraitTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_creates_abstract_methods_as_necessary()
     {
-        $trait = mock(TraitWithAbstractMethod::class, ['doFoo' => 'baz']);
+        $trait = mock(TraitWithAbstractMethod::class, ['doBaz' => 'baz']);
 
-        $this->assertEquals('baz', $trait->foo());
+        $this->assertEquals('baz', $trait->baz());
+    }
+
+    /** @test */
+    public function it_can_create_an_object_using_multiple_traits()
+    {
+        $trait = mock(SimpleTrait::class, TraitWithAbstractMethod::class, [
+            'doBaz' => 123,
+        ]);
+
+        $this->assertEquals('bar', $trait->foo());
+        $this->assertEquals(123, $trait->baz());
     }
 }
 
@@ -53,10 +65,10 @@ trait SimpleTrait
 
 trait TraitWithAbstractMethod
 {
-    function foo()
+    function baz()
     {
-        return $this->doFoo();
+        return $this->doBaz();
     }
 
-    abstract function doFoo();
+    abstract function doBaz();
 }
