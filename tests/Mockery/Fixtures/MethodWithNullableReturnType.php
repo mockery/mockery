@@ -54,4 +54,14 @@ class MethodWithNullableReturnType extends MockeryTestCase
     {
         return null;
     }
+
+    public function nullableInt() : ?int
+    {
+        return null;
+    }
+
+    public function nullableString() : ?string
+    {
+        return null;
+    }
 }
