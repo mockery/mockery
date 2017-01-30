@@ -538,7 +538,7 @@ class Expectation implements ExpectationInterface
      */
     public function andReturnNull()
     {
-        return $this;
+        return $this->andReturn(null);
     }
 
     public function andReturnFalse()
