@@ -82,13 +82,6 @@ interface TargetClassInterface
     public function isFinal();
 
     /**
-     * Returns whether the targetClass is a trait.
-     *
-     * @return boolean
-     */
-    public function isTrait();
-
-    /**
      * Returns whether the targetClass is in namespace.
      *
      * @return boolean

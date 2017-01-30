@@ -49,11 +49,6 @@ class DefinedTargetClass implements TargetClassInterface
         return $this->rfc->isFinal();
     }
 
-    public function isTrait()
-    {
-        return $this->rfc->isTrait();
-    }
-
     public function getMethods()
     {
         return array_map(function ($method) {
