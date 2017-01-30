@@ -156,7 +156,7 @@ $double->shouldHaveReceived()->baz(123); // null
 $double->shouldHaveReceived()->baz(12345); // Uncaught Exception Mockery\Exception\InvalidCountException...
 ```
 
-## Utilities
+## Utilities 🔌
 
 ### Testing Traits
 
