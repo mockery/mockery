@@ -13,6 +13,7 @@
 * `andThrow` will now throw anything `\Throwable`
 * Adds `allows` and `expects` syntax
 * Adds optional global helpers for `mock`, `namedMock` and `spy`
+* Adds ability to create objects using traits
  
 ## 0.9.4 (XXXX-XX-XX)
 
