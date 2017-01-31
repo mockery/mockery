@@ -42,6 +42,13 @@ class MockConfiguration
     protected $targetInterfaceNames = array();
 
     /**
+     * A number of traits we'd like to mock, keyed by name to attempt to
+     * keep unique
+     */
+    protected $targetTraits = array();
+    protected $targetTraitNames = array();
+
+    /**
      * An object we'd like our mock to proxy to
      */
     protected $targetObject;
@@ -115,6 +122,7 @@ class MockConfiguration
         $vars = array(
             'targetClassName'        => $this->targetClassName,
             'targetInterfaceNames'   => $this->targetInterfaceNames,
+            'targetTraitNames'       => $this->targetTraitNames,
             'name'                   => $this->name,
             'blackListedMethods'     => $this->blackListedMethods,
             'whiteListedMethod'      => $this->whiteListedMethods,
@@ -224,6 +232,10 @@ class MockConfiguration
             $targets = array_merge($targets, $this->targetInterfaceNames);
         }
 
+        if ($this->targetTraitNames) {
+            $targets = array_merge($targets, $this->targetTraitNames);
+        }
+
         if ($this->targetObject) {
             $targets[] = $this->targetObject;
         }
@@ -258,6 +270,11 @@ class MockConfiguration
 
         if (interface_exists($target)) {
             $this->addTargetInterfaceName($target);
+            return $this;
+        }
+
+        if (trait_exists($target)) {
+            $this->addTargetTraitName($target);
             return $this;
         }
 
@@ -316,6 +333,20 @@ class MockConfiguration
         }
 
         return $this->targetClass;
+    }
+
+    public function getTargetTraits()
+    {
+        if (!empty($this->targetTraits)) {
+            return $this->targetTraits;
+        }
+
+        foreach ($this->targetTraitNames as $targetTrait) {
+            $this->targetTraits[] = DefinedTargetClass::factory($targetTrait);
+        }
+
+        $this->targetTraits = array_unique($this->targetTraits); // just in case
+        return $this->targetTraits;
     }
 
     public function getTargetInterfaces()
@@ -467,6 +498,14 @@ class MockConfiguration
             $methods = array_merge($methods, $class->getMethods());
         }
 
+        foreach ($this->getTargetTraits() AS $trait) {
+            foreach ($trait->getMethods() as $method) {
+                if ($method->isAbstract()) {
+                    $methods[] = $method;
+                }
+            }
+        }
+
         $names = array();
         $methods = array_filter($methods, function ($method) use (&$names) {
             if (in_array($method->getName(), $names)) {
@@ -490,6 +529,10 @@ class MockConfiguration
         $this->targetInterfaceNames[] = $targetInterface;
     }
 
+    protected function addTargetTraitName($targetTraitName)
+    {
+        $this->targetTraitNames[] = $targetTraitName;
+    }
 
     protected function setTargetObject($object)
     {

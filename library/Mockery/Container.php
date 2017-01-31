@@ -152,7 +152,7 @@ class Container
                 $builder->setWhiteListedMethods($partialMethods);
                 array_shift($args);
                 continue;
-            } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true))) {
+            } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true) || trait_exists($arg, true))) {
                 $class = array_shift($args);
                 $builder->addTarget($class);
                 continue;
