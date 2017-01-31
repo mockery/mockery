@@ -1249,7 +1249,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'a_closure' => object(Closure)])
+     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'a_closure' => object(Closure
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedClosure()
     {
