@@ -36,8 +36,30 @@ Here's a sample of the possibilities.
 
 Matches the integer ``1``. This passes the ``===`` test (identical). It does
 facilitate a less strict ``==`` check (equals) where the string ``'1'`` would
-also match the
-argument.
+also match the argument.
+
+.. code-block:: php
+
+    $object = new stdClass();
+    $mock->expects("foo")->with($object);
+
+    // Hamcrest equivalents
+    $mock->expects("foo")->with(identicalTo($object));
+    $mock->expects("foo")->with(\Hamcrest\Matchers::identicalTo($object));
+
+The generic ``with()`` matching performs a strict ``===`` comparison with
+objects, so only the same object ``$object`` will match. Another instance of
+``stdClass`` will **not** match.
+
+**Note:** The ``Mockery\Matcher\MustBe`` matcher has now been deprecated.
+
+.. code-block:: php
+
+    $mock->expects("foo")->with(equalTo(new stdClass));
+    $mock->expects("foo")->with(\Hamcrest\Matchers::equalTo(new stdClass));
+
+A loose comparison of objects can be done using the Hamcrest ``equalTo``
+matcher
 
 .. code-block:: php
 
@@ -125,22 +147,6 @@ matches any argument which is an object containing the provided list of
 methods to call.
 
 There is no Hamcrest version of this functionality.
-
-.. code-block:: php
-
-    with(\Mockery::mustBe(2)) OR with(identicalTo(2))
-
-The MustBe matcher is more strict than the default argument matcher. The
-default matcher allows for PHP type casting, but the MustBe matcher also
-verifies that the argument must be of the same type as the expected value.
-Thus by default, the argument `'2'` matches the actual argument 2 (integer)
-but the MustBe matcher would fail in the same situation since the expected
-argument was a string and instead we got an integer.
-
-Note: Objects are not subject to an identical comparison using this matcher
-since PHP would fail the comparison if both objects were not the exact same
-instance. This is a hindrance when objects are generated prior to being
-returned, since an identical match just would never be possible.
 
 .. code-block:: php
 
