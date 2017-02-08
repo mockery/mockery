@@ -22,7 +22,7 @@ namespace Mockery\Adapter\Phpunit;
 
 use Mockery;
 
-/**\
+/**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified
  * for each test and are included by the assertion counter.
  */
