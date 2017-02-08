@@ -22,7 +22,7 @@ namespace Mockery\Adapter\Phpunit;
 
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-if (class_exists("\PHPUnit_Framework_TestCase")) {
+if (class_exists("PHPUnit_Framework_TestCase")) {
     abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
     {
         use MockeryPHPUnitIntegration;
