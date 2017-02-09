@@ -59,6 +59,7 @@ $hamcrestPath = $composerVendorDirectory . DIRECTORY_SEPARATOR . $hamcrestRelati
 require_once $hamcrestPath;
 
 Mockery::globalHelpers();
+
 /*
  * Unset global variables that are no longer needed.
  */

@@ -111,4 +111,13 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->shouldNotHaveReceived('method');
         $this->assertEquals(1, $spy->mockery_getExpectationCount());
     }
+
+    /** @test */
+    public function any_args_can_be_used_with_alternative_syntax()
+    {
+        $spy = m::spy();
+        $spy->foo(123, 456);
+
+        $spy->shouldHaveReceived()->foo(anyArgs());
+    }
 }
