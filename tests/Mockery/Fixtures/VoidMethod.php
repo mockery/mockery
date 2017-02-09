@@ -21,7 +21,7 @@
 
 namespace test\Mockery\Fixtures;
 
-interface TestWithVoidMethods
+interface VoidMethod
 {
     public function foo(): void;
 }
