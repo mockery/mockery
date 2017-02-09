@@ -14,36 +14,27 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2017 Dave Marshall 
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Matcher;
 
-class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatcher
+class NoArgs extends MatcherAbstract implements ArgumentListMatcher
 {
-
     /**
-     * Check if the actual value matches the expected.
-     * Actual passed by reference to preserve reference trail (where applicable)
-     * back to the original method parameter.
-     *
-     * @param mixed $actual
-     * @return bool
+     * @inheritdoc
      */
     public function match(&$actual)
     {
-        $closure = $this->_expected;
-        return true === call_user_func_array($closure, $actual);
+        return count($actual) == 0;
     }
 
     /**
-     * Return a string representation of this Matcher
-     *
-     * @return string
+     * @inheritdoc
      */
     public function __toString()
     {
-        return '<MultiArgumentClosure===true>';
+        return '<No Arguments>';
     }
 }

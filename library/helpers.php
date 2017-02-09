@@ -1,4 +1,7 @@
 <?php
+
+use Mockery\Matcher\AnyArgs;
+use Mockery\Matcher\NoArgs;
 /**
  * Mockery
  *
@@ -33,5 +36,11 @@ if (!function_exists("spy")) {
 if (!function_exists("namedMock")) {
     function namedMock() {
         return call_user_func_array([Mockery::class, "namedMock"], func_get_args());
+    }
+}
+
+if (!function_exists("anyArgs")) {
+    function anyArgs() {
+        return new AnyArgs();
     }
 }
