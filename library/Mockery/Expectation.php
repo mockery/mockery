@@ -223,6 +223,7 @@ class Expectation implements ExpectationInterface
             $type = (string) $rm->getReturnType();
             switch ($type) {
                 case '':       return;
+                case 'void':   return;
                 case 'string': return '';
                 case 'int':    return 0;
                 case 'float':  return 0.0;
