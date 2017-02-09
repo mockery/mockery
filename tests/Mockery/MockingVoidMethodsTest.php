@@ -30,6 +30,7 @@ class MockingVoidMethodsTest extends MockeryTestCase
 {
     public function setup()
     {
+        require_once __DIR__ . '/Fixtures/VoidMethod.php';
         $this->container = new \Mockery\Container;
     }
 
