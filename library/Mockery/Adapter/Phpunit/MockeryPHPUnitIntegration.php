@@ -20,6 +20,8 @@
 
 namespace Mockery\Adapter\Phpunit;
 
+use Mockery;
+
 /**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified
  * for each test and are included by the assertion counter.
@@ -32,14 +34,23 @@ trait MockeryPHPUnitIntegration
      */
     protected function assertPostConditions()
     {
+        $this->addMockeryExpectationsToAssertionCount();
+        $this->closeMockery();
+
         parent::assertPostConditions();
+    }
 
-        // Add Mockery expectations to assertion count.
-        if (($container = \Mockery::getContainer()) !== null) {
-            $this->addToAssertionCount($container->mockery_getExpectationCount());
+    protected function addMockeryExpectationsToAssertionCount()
+    {
+        $container = Mockery::getContainer();
+        if ($container != null) {
+            $count = $container->mockery_getExpectationCount();
+            $this->addToAssertionCount($count);
         }
+    }
 
-        // Verify Mockery expectations.
-        \Mockery::close();
+    protected function closeMockery()
+    {
+        Mockery::close();
     }
 }
