@@ -22,6 +22,9 @@ namespace Mockery;
 
 use Closure;
 use Mockery\Matcher\MultiArgumentClosure;
+use Mockery\Matcher\ArgumentListMatcher;
+use Mockery\Matcher\AnyArgs;
+use Mockery\Matcher\NoArgs;
 
 class Expectation implements ExpectationInterface
 {
@@ -126,13 +129,6 @@ class Expectation implements ExpectationInterface
     protected $_globally = false;
 
     /**
-     * Flag indicating we expect no arguments
-     *
-     * @var bool
-     */
-    protected $_noArgsExpectation = false;
-
-    /**
      * Flag indicating if the return value should be obtained from the original
      * class method instead of returning predefined values from the return queue
      *
@@ -150,6 +146,7 @@ class Expectation implements ExpectationInterface
     {
         $this->_mock = $mock;
         $this->_name = $name;
+        $this->withAnyArgs();
     }
 
     /**
@@ -300,12 +297,12 @@ class Expectation implements ExpectationInterface
     }
 
     /**
-     * Check if the registered expectation is a MultiArgumentClosureExpectation.
+     * Check if the registered expectation is an ArgumentListMatcher
      * @return bool
      */
-    private function isMultiArgumentClosureExpectation()
+    private function isArgumentListMatcher()
     {
-        return (count($this->_expectedArgs) === 1 && ($this->_expectedArgs[0] instanceof \Mockery\Matcher\MultiArgumentClosure));
+        return (count($this->_expectedArgs) === 1 && ($this->_expectedArgs[0] instanceof ArgumentListMatcher));
     }
 
     /**
@@ -316,10 +313,7 @@ class Expectation implements ExpectationInterface
      */
     public function matchArgs(array $args)
     {
-        if (empty($this->_expectedArgs) && !$this->_noArgsExpectation) {
-            return true;
-        }
-        if ($this->isMultiArgumentClosureExpectation()) {
+        if ($this->isArgumentListMatcher()) {
             return $this->_matchArg($this->_expectedArgs[0], $args);
         }
         $argCount = count($args);
@@ -400,7 +394,6 @@ class Expectation implements ExpectationInterface
             return $this->withNoArgs();
         }
         $this->_expectedArgs = $arguments;
-        $this->_noArgsExpectation = false;
         return $this;
     }
 
@@ -413,7 +406,6 @@ class Expectation implements ExpectationInterface
     private function withArgsMatchedByClosure(Closure $closure)
     {
         $this->_expectedArgs = [new MultiArgumentClosure($closure)];
-        $this->_noArgsExpectation = false;
         return $this;
     }
 
@@ -444,8 +436,7 @@ class Expectation implements ExpectationInterface
      */
     public function withNoArgs()
     {
-        $this->_noArgsExpectation = true;
-        $this->_expectedArgs = [];
+        $this->_expectedArgs = [new NoArgs()];
         return $this;
     }
 
@@ -456,8 +447,7 @@ class Expectation implements ExpectationInterface
      */
     public function withAnyArgs()
     {
-        $this->_noArgsExpectation = false;
-        $this->_expectedArgs = array();
+        $this->_expectedArgs = [new AnyArgs()];
         return $this;
     }
 
