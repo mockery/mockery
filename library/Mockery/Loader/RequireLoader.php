@@ -27,9 +27,9 @@ class RequireLoader implements Loader
 {
     protected $path;
 
-    public function __construct($path)
+    public function __construct($path = null)
     {
-        $this->path = $path;
+        $this->path = realpath($path) ?: sys_get_temp_dir();
     }
 
     public function load(MockDefinition $definition)
@@ -38,7 +38,7 @@ class RequireLoader implements Loader
             return;
         }
 
-        $tmpfname = tempnam($this->path, "Mockery");
+        $tmpfname = $this->path.DIRECTORY_SEPARATOR."Mockery_".uniqid().".php";
         file_put_contents($tmpfname, $definition->getCode());
 
         require $tmpfname;
