@@ -15,6 +15,7 @@
 * Adds optional global helpers for `mock`, `namedMock` and `spy`
 * Adds ability to create objects using traits
 * `Mockery\Matcher\MustBe` was deprecated
+* Marked `Mockery\MockInterface` as internal
  
 ## 0.9.4 (XXXX-XX-XX)
 
