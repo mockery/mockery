@@ -317,12 +317,13 @@ class Mockery
      * Return instance of SUBSET matcher.
      *
      * @param array $part
+     * @param bool $strict - (Optional) True for strict comparison, false for loose
      *
      * @return \Mockery\Matcher\Subset
      */
-    public static function subset(array $part)
+    public static function subset(array $part, $strict = true)
     {
-        return new \Mockery\Matcher\Subset($part);
+        return new \Mockery\Matcher\Subset($part, $strict);
     }
 
     /**

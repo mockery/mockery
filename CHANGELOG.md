@@ -16,6 +16,7 @@
 * Adds ability to create objects using traits
 * `Mockery\Matcher\MustBe` was deprecated
 * Marked `Mockery\MockInterface` as internal
+* Subset matcher matches recusively
  
 ## 0.9.4 (XXXX-XX-XX)
 
