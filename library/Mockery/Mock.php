@@ -250,8 +250,8 @@ class Mock implements MockInterface
         return new ExpectsHigherOrderMessage($this);
     }
     // end method expects
-     
-     
+
+
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
@@ -605,7 +605,7 @@ class Mock implements MockInterface
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
-        
+
         // HHVM has a Stringish interface
         $interfaces = array_filter($rfc->getInterfaces(), function ($i) { return $i->getName() !== "Stringish";});
         $onlyImplementsMock = 1 == count($interfaces);
@@ -728,6 +728,10 @@ class Mock implements MockInterface
             $associatedRealObject = \Mockery::fetchMock(__CLASS__);
             return $associatedRealObject->__call($method, $args);
         } catch (\BadMethodCallException $e) {
+            $parent = get_parent_class();
+            if ($parent && is_callable([$parent, '__callStatic'])) {
+                return parent::__callStatic($method, $args);
+            }
             throw new \BadMethodCallException(
                 'Static method ' . $associatedRealObject->mockery_getName() . '::' . $method
                 . '() does not exist on this mock object'
