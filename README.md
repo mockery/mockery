@@ -158,6 +158,25 @@ $double->shouldHaveReceived()->baz(12345); // Uncaught Exception Mockery\Excepti
 
 ## Utilities 🔌
 
+### Global Helpers
+
+Mockery ships with a handful of global helper methods, you just need to ask
+Mockery to declare them.
+
+``` php
+Mockery::globalHelpers();
+
+$mock = mock(Some::class);
+$spy = spy(Some::class);
+
+$spy->shouldHaveReceived()
+    ->foo(anyArgs());
+```
+
+All of the global helpers are wrapped in a `!function_exists` call to avoid
+conflicts. So if you already have a global function called `spy`, Mockery will
+silentyly skip the declaring it's own `spy` function.
+
 ### Testing Traits
 
 As Mockery ships with code generation capabilities, it was trivial to add
