@@ -374,12 +374,12 @@ class Expectation implements ExpectationInterface
     /**
      * Expected argument setter for the expectation
      *
-     * @param mixed ...
+     * @param mixed[] ...
      * @return self
      */
-    public function with()
+    public function with(...$args)
     {
-        return $this->withArgs(func_get_args());
+        return $this->withArgs($args);
     }
 
     /**
@@ -454,24 +454,24 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed ...
+     * @param mixed[] ...
      * @return self
      */
-    public function andReturn()
+    public function andReturn(...$args)
     {
-        $this->_returnQueue = func_get_args();
+        $this->_returnQueue = $args;
         return $this;
     }
 
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed ...
+     * @param mixed[] ...
      * @return self
      */
-    public function andReturns()
+    public function andReturns(...$args)
     {
-        return call_user_func_array([$this, 'andReturn'], func_get_args());
+        return call_user_func_array([$this, 'andReturn'], $args);
     }
 
     /**
@@ -501,12 +501,12 @@ class Expectation implements ExpectationInterface
      * values. The arguments passed to the expected method are passed to the
      * closures as parameters.
      *
-     * @param callable ...
+     * @param callable[] $args
      * @return self
      */
-    public function andReturnUsing()
+    public function andReturnUsing(...$args)
     {
-        $this->_closureQueue = func_get_args();
+        $this->_closureQueue = $args;
         return $this;
     }
 
@@ -582,13 +582,11 @@ class Expectation implements ExpectationInterface
      * Register values to be set to a public property each time this expectation occurs
      *
      * @param string $name
-     * @param mixed $value
+     * @param array $values
      * @return self
      */
-    public function andSet($name, $value)
+    public function andSet($name, ...$values)
     {
-        $values = func_get_args();
-        array_shift($values);
         $this->_setQueue[$name] = $values;
         return $this;
     }
@@ -620,7 +618,7 @@ class Expectation implements ExpectationInterface
      * Indicates the number of times this expectation should occur
      *
      * @param int $limit
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return self
      */
     public function times($limit = null)

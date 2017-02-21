@@ -22,20 +22,20 @@ use Mockery\Matcher\NoArgs;
  */
 
 if (!function_exists("mock")) {
-    function mock() {
-        return call_user_func_array([Mockery::class, "mock"], func_get_args());
+    function mock(...$args) {
+        return call_user_func_array([Mockery::class, "mock"], $args);
     }
 }
 
 if (!function_exists("spy")) {
-    function spy() {
-        return call_user_func_array([Mockery::class, "spy"], func_get_args());
+    function spy(...$args) {
+        return call_user_func_array([Mockery::class, "spy"], $args);
     }
 }
 
 if (!function_exists("namedMock")) {
-    function namedMock() {
-        return call_user_func_array([Mockery::class, "namedMock"], func_get_args());
+    function namedMock(...$args) {
+        return call_user_func_array([Mockery::class, "namedMock"], $args);
     }
 }
 

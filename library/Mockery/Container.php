@@ -85,17 +85,17 @@ class Container
      * names or partials - just so long as it's something that can be mocked.
      * I'll refactor it one day so it's easier to follow.
      *
+     * @param array $args
+     *
+     * @return Mock
      * @throws Exception\RuntimeException
-     * @throws Exception
-     * @return \Mockery\Mock
      */
-    public function mock()
+    public function mock(...$args)
     {
         $expectationClosure = null;
         $quickdefs = array();
         $constructorArgs = null;
         $blocks = array();
-        $args = func_get_args();
 
         if (count($args) > 1) {
             $finalArg = end($args);
