@@ -87,9 +87,6 @@ class Parameter
      */
     public function isVariadic()
     {
-        if (version_compare(PHP_VERSION, '5.6.0') < 0) {
-            return false;
-        }
-        return $this->rfp->isVariadic();
+        return version_compare(PHP_VERSION, '5.6.0') >= 0 && $this->rfp->isVariadic();
     }
 }
