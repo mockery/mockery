@@ -834,7 +834,7 @@ class Mock implements MockInterface
     private function hasMethodOverloadingInParentClass()
     {
         // if there's __call any name would be callable
-        return is_callable('parent::' . uniqid(__FUNCTION__));
+        return is_callable('parent::aFunctionNameThatNoOneWouldEverUseInRealLife12345');
     }
 
     /**
