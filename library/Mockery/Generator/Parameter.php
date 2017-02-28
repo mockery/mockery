@@ -48,7 +48,7 @@ class Parameter
         if ((version_compare(PHP_VERSION, '5.4.1') >= 0)) {
             try {
                 if ($this->rfp->getClass()) {
-                    return $this->rfp->getClass()->getName();
+                    return $this->getOptionalSign() . $this->rfp->getClass()->getName();
                 }
             } catch (\ReflectionException $re) {
                 // noop
@@ -56,13 +56,22 @@ class Parameter
         }
 
         if (version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $this->rfp->hasType()) {
-            return (string) $this->rfp->getType();
+            return $this->getOptionalSign() . $this->rfp->getType();
         }
 
         if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
             if (!empty($typehintMatch['typehint'])) {
                 return $typehintMatch['typehint'];
             }
+        }
+
+        return '';
+    }
+
+    private function getOptionalSign()
+    {
+        if (version_compare(PHP_VERSION, '7.1.0-dev', '>=') && $this->rfp->allowsNull() && !$this->rfp->isVariadic()) {
+            return '?';
         }
 
         return '';
@@ -87,9 +96,6 @@ class Parameter
      */
     public function isVariadic()
     {
-        if (version_compare(PHP_VERSION, '5.6.0') < 0) {
-            return false;
-        }
-        return $this->rfp->isVariadic();
+        return version_compare(PHP_VERSION, '5.6.0') >= 0 && $this->rfp->isVariadic();
     }
 }
