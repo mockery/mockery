@@ -1745,9 +1745,9 @@ class EmptyConstructorTest
 {
     public $numberOfConstructorArgs;
 
-    public function __construct()
+    public function __construct(...$args)
     {
-        $this->numberOfConstructorArgs = count(func_get_args());
+        $this->numberOfConstructorArgs = count($args);
     }
 
     public function foo()

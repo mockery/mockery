@@ -43,9 +43,9 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * @param mixed ...
      */
-    public function andReturn()
+    public function andReturn(...$args)
     {
-        return $this->__call(__FUNCTION__, func_get_args());
+        return $this->__call(__FUNCTION__, $args);
     }
 
     /**
@@ -54,9 +54,9 @@ class CompositeExpectation implements ExpectationInterface
      * @param mixed ...
      * @return self
      */
-    public function andReturns()
+    public function andReturns(...$args)
     {
-        return call_user_func_array([$this, 'andReturn'], func_get_args());
+        return call_user_func_array([$this, 'andReturn'], $args);
     }
 
     /**
@@ -115,9 +115,8 @@ class CompositeExpectation implements ExpectationInterface
      * @param mixed ...
      * @return \Mockery\Expectation
      */
-    public function shouldReceive()
+    public function shouldReceive(...$args)
     {
-        $args = func_get_args();
         reset($this->_expectations);
         $first = current($this->_expectations);
         return call_user_func_array(array($first->getMock(), 'shouldReceive'), $args);

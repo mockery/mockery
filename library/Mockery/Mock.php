@@ -133,7 +133,7 @@ class Mock implements MockInterface
     /**
      * Just a local cache for this mock's target's methods
      *
-     * @var ReflectionMethod[]
+     * @var \ReflectionMethod[]
      */
     protected static $_mockery_methods;
 
@@ -177,16 +177,17 @@ class Mock implements MockInterface
     /**
      * Set expected method calls
      *
-     * @param null|string $methodName,... one or many methods that are expected to be called in this mock
+     * @param array $methodNames,... one or many methods that are expected to be called in this mock
+     *
      * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
-    public function shouldReceive($methodName = null)
+    public function shouldReceive(...$methodNames)
     {
-        if ($methodName === null) {
+        if (count($methodNames) === 0) {
             return new HigherOrderMessage($this, "shouldReceive");
         }
 
-        foreach (func_get_args() as $method) {
+        foreach ($methodNames as $method) {
             if ("" == $method) {
                 throw new \InvalidArgumentException("Received empty method name");
             }
@@ -199,7 +200,7 @@ class Mock implements MockInterface
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
 
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, func_get_args(), function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
+            $this, $methodNames, function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {
@@ -250,21 +251,20 @@ class Mock implements MockInterface
         return new ExpectsHigherOrderMessage($this);
     }
     // end method expects
-     
-     
+
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param null|string $methodName,... one or many methods that are expected not to be called in this mock
+     * @param array $methodNames one or many methods that are expected not to be called in this mock
      * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
      */
-    public function shouldNotReceive($methodName = null)
+    public function shouldNotReceive(...$methodNames)
     {
-        if ($methodName === null) {
+        if (count($methodNames) === 0) {
             return new HigherOrderMessage($this, "shouldNotReceive");
         }
 
-        $expectation = call_user_func_array(array($this, 'shouldReceive'), func_get_args());
+        $expectation = call_user_func_array(array($this, 'shouldReceive'), $methodNames);
         $expectation->never();
         return $expectation;
     }

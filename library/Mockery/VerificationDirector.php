@@ -36,9 +36,9 @@ class VerificationDirector
         return $this->receivedMethodCalls->verify($this->expectation);
     }
 
-    public function with()
+    public function with(...$args)
     {
-        return $this->cloneApplyAndVerify("with", func_get_args());
+        return $this->cloneApplyAndVerify("with", $args);
     }
 
     public function withArgs($args)

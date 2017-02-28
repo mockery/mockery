@@ -72,12 +72,12 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock().
      *
+     * @param array $args
+     *
      * @return \Mockery\MockInterface
      */
-    public static function mock()
+    public static function mock(...$args)
     {
-        $args = func_get_args();
-
         return call_user_func_array(array(self::getContainer(), 'mock'), $args);
     }
 
@@ -85,34 +85,36 @@ class Mockery
      * Static and semantic shortcut for getting a mock from the container
      * and applying the spy's expected behavior into it.
      *
+     * @param array $args
+     *
      * @return \Mockery\MockInterface
      */
-    public static function spy()
+    public static function spy(...$args)
     {
-        $args = func_get_args();
         return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing();
     }
 
     /**
      * Static and Semantic shortcut to \Mockery\Container::mock().
      *
+     * @param array $args
+     *
      * @return \Mockery\MockInterface
      */
-    public static function instanceMock()
+    public static function instanceMock(...$args)
     {
-        $args = func_get_args();
-
         return call_user_func_array(array(self::getContainer(), 'mock'), $args);
     }
 
     /**
      * Static shortcut to \Mockery\Container::mock(), first argument names the mock.
      *
+     * @param array $args
+     *
      * @return \Mockery\MockInterface
      */
-    public static function namedMock()
+    public static function namedMock(...$args)
     {
-        $args = func_get_args();
         $name = array_shift($args);
 
         $builder = new MockConfigurationBuilder();
@@ -306,11 +308,13 @@ class Mockery
     /**
      * Return instance of DUCKTYPE matcher.
      *
+     * @param array $args
+     *
      * @return \Mockery\Matcher\Ducktype
      */
-    public static function ducktype()
+    public static function ducktype(...$args)
     {
-        return new \Mockery\Matcher\Ducktype(func_get_args());
+        return new \Mockery\Matcher\Ducktype($args);
     }
 
     /**
@@ -329,11 +333,13 @@ class Mockery
     /**
      * Return instance of CONTAINS matcher.
      *
+     * @param array $args
+     *
      * @return \Mockery\Matcher\Contains
      */
-    public static function contains()
+    public static function contains(...$args)
     {
-        return new \Mockery\Matcher\Contains(func_get_args());
+        return new \Mockery\Matcher\Contains($args);
     }
 
     /**
@@ -399,21 +405,25 @@ class Mockery
     /**
      * Return instance of ANYOF matcher.
      *
+     * @param array $args
+     *
      * @return \Mockery\Matcher\AnyOf
      */
-    public static function anyOf()
+    public static function anyOf(...$args)
     {
-        return new \Mockery\Matcher\AnyOf(func_get_args());
+        return new \Mockery\Matcher\AnyOf($args);
     }
 
     /**
      * Return instance of NOTANYOF matcher.
      *
+     * @param array $args
+     *
      * @return \Mockery\Matcher\NotAnyOf
      */
-    public static function notAnyOf()
+    public static function notAnyOf(...$args)
     {
-        return new \Mockery\Matcher\NotAnyOf(func_get_args());
+        return new \Mockery\Matcher\NotAnyOf($args);
     }
 
     /**
