@@ -607,7 +607,9 @@ class Mock implements MockInterface
         $rfc = new \ReflectionClass($this);
         
         // HHVM has a Stringish interface
-        $interfaces = array_filter($rfc->getInterfaces(), function ($i) { return $i->getName() !== "Stringish";});
+        $interfaces = array_filter($rfc->getInterfaces(), function ($i) {
+            return $i->getName() !== "Stringish";
+        });
         $onlyImplementsMock = 1 == count($interfaces);
 
         return (false === $rfc->getParentClass()) && $onlyImplementsMock;
