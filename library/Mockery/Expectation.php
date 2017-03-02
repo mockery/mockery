@@ -396,7 +396,7 @@ class Expectation implements ExpectationInterface
      * Expected arguments for the expectation passed as an array
      *
      * @param array $arguments
-     * @return Expectation
+     * @return self
      */
     private function withArgsInArray(array $arguments)
     {
@@ -411,7 +411,7 @@ class Expectation implements ExpectationInterface
      * Expected arguments have to be matched by the given closure.
      *
      * @param Closure $closure
-     * @return Expectation
+     * @return self
      */
     private function withArgsMatchedByClosure(Closure $closure)
     {
@@ -424,7 +424,7 @@ class Expectation implements ExpectationInterface
      * each function call.
      *
      * @param array|Closure $argsOrClosure
-     * @return Expectation
+     * @return self
      */
     public function withArgs($argsOrClosure)
     {
@@ -442,7 +442,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set with() as no arguments expected
      *
-     * @return Expectation
+     * @return self
      */
     public function withNoArgs()
     {
@@ -453,7 +453,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set expectation that any arguments are acceptable
      *
-     * @return Expectation
+     * @return self
      */
     public function withAnyArgs()
     {
@@ -487,7 +487,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return this mock, like a fluent interface
      *
-     * @return Expectation
+     * @return self
      */
     public function andReturnSelf()
     {
@@ -498,7 +498,7 @@ class Expectation implements ExpectationInterface
      * Set a sequential queue of return values with an array
      *
      * @param array $values
-     * @return Expectation
+     * @return self
      */
     public function andReturnValues(array $values)
     {
@@ -523,7 +523,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return a self-returning black hole object.
      *
-     * @return Expectation
+     * @return self
      */
     public function andReturnUndefined()
     {
@@ -534,7 +534,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return null. This is merely a language construct for Mock describing.
      *
-     * @return Expectation
+     * @return self
      */
     public function andReturnNull()
     {
@@ -558,7 +558,7 @@ class Expectation implements ExpectationInterface
      * @param string $message
      * @param int $code
      * @param \Exception $previous
-     * @return Expectation
+     * @return self
      */
     public function andThrow($exception, $message = '', $code = 0, \Exception $previous = null)
     {
@@ -575,7 +575,7 @@ class Expectation implements ExpectationInterface
      * Set Exception classes to be thrown
      *
      * @param array $exceptions
-     * @return Expectation
+     * @return self
      */
     public function andThrowExceptions(array $exceptions)
     {
@@ -607,7 +607,7 @@ class Expectation implements ExpectationInterface
      *
      * @param string $name
      * @param mixed $value
-     * @return Expectation
+     * @return self
      */
     public function set($name, $value)
     {
@@ -617,7 +617,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates this expectation should occur zero or more times
      *
-     * @return Expectation
+     * @return self
      */
     public function zeroOrMoreTimes()
     {
@@ -647,7 +647,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation is never expected to be called
      *
-     * @return Expectation
+     * @return self
      */
     public function never()
     {
@@ -657,7 +657,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation is expected exactly once
      *
-     * @return Expectation
+     * @return self
      */
     public function once()
     {
@@ -667,7 +667,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation is expected exactly twice
      *
-     * @return Expectation
+     * @return self
      */
     public function twice()
     {
@@ -677,7 +677,7 @@ class Expectation implements ExpectationInterface
     /**
      * Sets next count validator to the AtLeast instance
      *
-     * @return Expectation
+     * @return self
      */
     public function atLeast()
     {
@@ -688,7 +688,7 @@ class Expectation implements ExpectationInterface
     /**
      * Sets next count validator to the AtMost instance
      *
-     * @return Expectation
+     * @return self
      */
     public function atMost()
     {
@@ -711,7 +711,7 @@ class Expectation implements ExpectationInterface
      * Indicates that this expectation must be called in a specific given order
      *
      * @param string $group Name of the ordered group
-     * @return Expectation
+     * @return self
      */
     public function ordered($group = null)
     {
@@ -727,7 +727,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates call order should apply globally
      *
-     * @return Expectation
+     * @return self
      */
     public function globally()
     {
@@ -769,7 +769,7 @@ class Expectation implements ExpectationInterface
     /**
      * Mark this expectation as being a default
      *
-     * @return Expectation
+     * @return self
      */
     public function byDefault()
     {
@@ -794,7 +794,7 @@ class Expectation implements ExpectationInterface
      * Flag this expectation as calling the original class method with the
      * any provided arguments instead of using a return value queue.
      *
-     * @return Expectation
+     * @return self
      */
     public function passthru()
     {
