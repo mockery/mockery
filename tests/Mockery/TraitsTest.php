@@ -20,13 +20,11 @@
 
 namespace test\Mockery;
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Loader\RequireLoader;
 
-class TraitTest extends \PHPUnit_Framework_TestCase
+class TraitTest extends MockeryTestCase
 {
-    use MockeryPHPUnitIntegration;
-
     /** @test */
     public function it_can_create_an_object_for_a_simple_trait()
     {

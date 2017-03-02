@@ -20,16 +20,33 @@
 
 namespace Mockery\Adapter\Phpunit;
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery;
 
-if (class_exists("PHPUnit_Framework_TestCase")) {
-    abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
+abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * Performs assertions shared by all tests of a test case. This method is
+     * called before execution of a test ends and before the tearDown method.
+     */
+    protected function assertPostConditions()
     {
-        use MockeryPHPUnitIntegration;
+        $this->addMockeryExpectationsToAssertionCount();
+        $this->closeMockery();
+
+        parent::assertPostConditions();
     }
-} else {
-    abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
+
+    protected function addMockeryExpectationsToAssertionCount()
     {
-        use MockeryPHPUnitIntegration;
+        $container = Mockery::getContainer();
+        if ($container != null) {
+            $count = $container->mockery_getExpectationCount();
+            $this->addToAssertionCount($count);
+        }
+    }
+
+    protected function closeMockery()
+    {
+        Mockery::close();
     }
 }
