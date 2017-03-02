@@ -226,7 +226,7 @@ class Mock implements MockInterface
 
     // start method allows
     /**
-     * @return HigherOrderMessage
+     * @return self
      */
     public function allows(array $stubs = [])
     {

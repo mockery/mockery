@@ -57,7 +57,7 @@ class Container
     protected $_groups = array();
 
     /**
-     * @var Generator\Generator
+     * @var Generator
      */
     protected $_generator;
 
@@ -411,7 +411,7 @@ class Container
      * Store a mock and set its container reference
      *
      * @param \Mockery\Mock
-     * @return \Mockery\Mock
+     * @return \Mockery\MockInterface
      */
     public function rememberMock(\Mockery\MockInterface $mock)
     {
