@@ -18,34 +18,30 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery\Generator;
+namespace Mockery\Generator\StringManipulation\Pass;
 
-interface TargetClass
+use Mockery\Generator\MockConfiguration;
+
+class TraitPass implements Pass
 {
-    /** @return string */
-    public function getName();
+    public function apply($code, MockConfiguration $config)
+    {
+        $traits = $config->getTargetTraits();
 
-    /** @return bool */
-    public function isAbstract();
+        if (empty($traits)) {
+            return $code;
+        }
 
-    /** @return bool */
-    public function isFinal();
+        $useStatements = array_map(function ($trait) {
+            return "use \\\\".ltrim($trait->getName(), "\\").";";
+        }, $traits);
 
-    /** @return Method[] */
-    public function getMethods();
+        $code = preg_replace(
+            '/^{$/m',
+            "{\n    ".implode("\n    ", $useStatements)."\n",
+            $code
+        );
 
-    /** @return string */
-    public function getNamespaceName();
-
-    /** @return bool */
-    public function inNamespace();
-
-    /** @return string */
-    public function getShortName();
-
-    /** @return bool */
-    public function implementsInterface($interface);
-
-    /** @return bool */
-    public function hasInternalAncestor();
+        return $code;
+    }
 }

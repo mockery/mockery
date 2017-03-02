@@ -1,41 +1,52 @@
+sudo: false
+
 language: php
 
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
   - hhvm
-  - hhvm-nightly
 
 matrix:
   allow_failures:
     - php: hhvm
     - php: hhvm-nightly
 
-sudo: false
+  fast_finish: true
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - .composer/cache
 
 before_install:
-  - composer self-update
+  - alias composer=composer\ -n && composer self-update
 
 install:
-  - travis_retry ./travis/install.sh
+  - composer install
 
 before_script:
-  - ./travis/before_script.sh
+  # Install extensions for PHP 5.x series. 7.x includes them by default.
+  - |
+    if [[ $TRAVIS_PHP_VERSION = 5.* ]]; then
+      cat <<< '
+        extension=mongo.so
+        extension=redis.so
+      ' >> ~/.phpenv/versions/"$(phpenv version-name)"/etc/conf.d/travis.ini
+    fi
 
 script:
-  - ./travis/script.sh
+  - vendor/bin/phpunit --coverage-text --coverage-clover=${clover=build/logs/clover.xml}
 
-after_script:
-  - ./travis/after_script.sh
+after_success:
+  - composer require satooshi/php-coveralls
+  - vendor/bin/coveralls -v
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover "$clover"
+
 notifications:
   email:
     - padraic.brady@gmail.com
     - dave@atstsolutions.co.uk
-  irc: "irc.freenode.org#mockery"
+
+  irc: irc.freenode.org#mockery

@@ -531,13 +531,13 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException \Mockery\Exception
      */
-    public function testMockingMultipleInterfacesThrowsExceptionWhenGivenNonExistingClassOrInterface()
+    public function testCanMockMultipleInterfacesThatMayNotExist()
     {
-        $m = $this->container->mock('DoesNotExist, MockeryTest_Interface2');
+        $m = $this->container->mock('NonExistingClass, MockeryTest_Interface1, MockeryTest_Interface2, \Some\Thing\That\Doesnt\Exist');
         $this->assertTrue($m instanceof MockeryTest_Interface1);
         $this->assertTrue($m instanceof MockeryTest_Interface2);
+        $this->assertTrue($m instanceof \Some\Thing\That\Doesnt\Exist);
     }
 
     /**
@@ -1249,7 +1249,7 @@ class ContainerTest extends MockeryTestCase
 
     /**
      * @expectedException Mockery\Exception\NoMatchingExpectationException
-     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'a_closure' => object(Closure)])
+     * @expectedExceptionMessage MyTestClass::foo(['a_scalar' => 2, 'a_closure' => object(Closure
      */
     public function testHandlesMethodWithArgumentExpectationWhenCalledWithNestedClosure()
     {
@@ -1745,9 +1745,9 @@ class EmptyConstructorTest
 {
     public $numberOfConstructorArgs;
 
-    public function __construct()
+    public function __construct(...$args)
     {
-        $this->numberOfConstructorArgs = count(func_get_args());
+        $this->numberOfConstructorArgs = count($args);
     }
 
     public function foo()

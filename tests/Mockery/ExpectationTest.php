@@ -210,7 +210,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testReturnsValueOfClosure()
     {
-        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(function ($v) {return $v+1;});
+        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(function ($v) {
+            return $v+1;
+        });
         $this->assertEquals(6, $this->mock->foo(5));
     }
 
@@ -234,6 +236,17 @@ class ExpectationTest extends MockeryTestCase
     public function testThrowsException()
     {
         $this->mock->shouldReceive('foo')->andThrow(new OutOfBoundsException);
+        $this->mock->foo();
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0.0
+     */
+    public function it_can_throw_a_throwable()
+    {
+        $this->setExpectedException(\Error::class);
+        $this->mock->shouldReceive('foo')->andThrow(new \Error());
         $this->mock->foo();
     }
 
@@ -1145,7 +1158,9 @@ class ExpectationTest extends MockeryTestCase
     public function testCallableConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::type('callable'))->once();
-        $this->mock->foo(function () {return 'f';});
+        $this->mock->foo(function () {
+            return 'f';
+        });
         $this->container->mockery_verify();
     }
 
@@ -1631,7 +1646,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOnConstraintMatchesArgument_ClosureEvaluatesToTrue()
     {
-        $function = function ($arg) {return $arg % 2 == 0;};
+        $function = function ($arg) {
+            return $arg % 2 == 0;
+        };
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo(4);
         $this->container->mockery_verify();
@@ -1639,7 +1656,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOnConstraintMatchesArgumentOfTypeArray_ClosureEvaluatesToTrue()
     {
-        $function = function ($arg) {return is_array($arg);};
+        $function = function ($arg) {
+            return is_array($arg);
+        };
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo([4, 5]);
         $this->container->mockery_verify();
@@ -1650,7 +1669,9 @@ class ExpectationTest extends MockeryTestCase
      */
     public function testOnConstraintThrowsExceptionWhenConstraintUnmatched_ClosureEvaluatesToFalse()
     {
-        $function = function ($arg) {return $arg % 2 == 0;};
+        $function = function ($arg) {
+            return $arg % 2 == 0;
+        };
         $this->mock->shouldReceive('foo')->with(Mockery::on($function))->once();
         $this->mock->foo(5);
         $this->container->mockery_verify();
@@ -1948,7 +1969,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
     {
-        $service = $this->getMock('MyService2');
+        $service = $this->createMock('MyService2');
         $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
         $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')
             ->will($this->onConsecutiveCalls(false, true, true));
@@ -2104,7 +2125,7 @@ class ExpectationTest extends MockeryTestCase
             'Received ' . get_class($mock) .
             '::quack(), ' . 'but no expectations were specified'
         );
-        
+
         $mock->quack();
     }
 

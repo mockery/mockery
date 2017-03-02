@@ -14,30 +14,34 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @subpackage UnitTests
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class Mockery_LoaderTest extends PHPUnit_Framework_TestCase
+namespace Mockery;
+
+class HigherOrderMessage
 {
-    public function setUp()
+    private $mock;
+    private $method;
+
+    public function __construct(MockInterface $mock, $method)
     {
-        spl_autoload_unregister('\Mockery\Loader::loadClass');
+        $this->mock = $mock;
+        $this->method = $method;
     }
 
-    public function testCallingRegisterRegistersSelfAsSplAutoloaderFunction()
+    /**
+     * @return \Mockery\Expectation
+     */
+    public function __call($method, $args)
     {
-        $loader = new \Mockery\Loader;
-        $loader->register();
-        $expected = array($loader, 'loadClass');
-        $this->assertTrue(in_array($expected, spl_autoload_functions()));
-    }
+        $expectation = $this->mock->{$this->method}($method);
 
-    public function tearDown()
-    {
-        spl_autoload_unregister('\Mockery\Loader::loadClass');
-        $loader = new \Mockery\Loader;
-        $loader->register();
+        if ($this->method !== "shouldNotHaveReceived") {
+            return $expectation->withArgs($args);
+        }
+
+        return $expectation;
     }
 }

@@ -7,6 +7,16 @@
 * `Mockery\Adapter\Phpunit\TestListener` has been rewritten because it
   incorrectly marked some tests as risky. It will no longer verify mock
   expectations but instead check that tests do that themselves.
+* Removes SPL Class Loader
+* Removed object recorder feature
+* Bumped minimum PHP version to 5.6
+* `andThrow` will now throw anything `\Throwable`
+* Adds `allows` and `expects` syntax
+* Adds optional global helpers for `mock`, `namedMock` and `spy`
+* Adds ability to create objects using traits
+* `Mockery\Matcher\MustBe` was deprecated
+* Marked `Mockery\MockInterface` as internal
+* Subset matcher matches recusively
  
 ## 0.9.4 (XXXX-XX-XX)
 

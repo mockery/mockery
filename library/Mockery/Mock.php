@@ -20,7 +20,9 @@
 
 namespace Mockery;
 
+use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
+use Mockery\ExpectsHigherOrderMessage;
 
 class Mock implements MockInterface
 {
@@ -131,7 +133,7 @@ class Mock implements MockInterface
     /**
      * Just a local cache for this mock's target's methods
      *
-     * @var ReflectionMethod[]
+     * @var \ReflectionMethod[]
      */
     protected static $_mockery_methods;
 
@@ -175,16 +177,17 @@ class Mock implements MockInterface
     /**
      * Set expected method calls
      *
-     * @param string $methodName,... one or many methods that are expected to be called in this mock
-     * @return \Mockery\Expectation
+     * @param array $methodNames,... one or many methods that are expected to be called in this mock
+     *
+     * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
-    public function shouldReceive($methodName)
+    public function shouldReceive(...$methodNames)
     {
-        if (func_num_args() < 1) {
-            throw new \InvalidArgumentException("At least one method name is required");
+        if (count($methodNames) === 0) {
+            return new HigherOrderMessage($this, "shouldReceive");
         }
 
-        foreach (func_get_args() as $method) {
+        foreach ($methodNames as $method) {
             if ("" == $method) {
                 throw new \InvalidArgumentException("Received empty method name");
             }
@@ -197,7 +200,7 @@ class Mock implements MockInterface
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
 
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, func_get_args(), function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
+            $this, $methodNames, function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {
@@ -221,15 +224,47 @@ class Mock implements MockInterface
         return $lastExpectation;
     }
 
+    // start method allows
+    /**
+     * @return self
+     */
+    public function allows(array $stubs = [])
+    {
+        if (empty($stubs)) {
+            return $this->shouldReceive();
+        }
+
+        foreach ($stubs as $method => $returnValue) {
+            $this->shouldReceive($method)->andReturn($returnValue);
+        }
+
+        return $this;
+    }
+    // end method allows
+
+    // start method expects
+    /**
+     * @return ExpectsHigherOrderMessage
+     */
+    public function expects()
+    {
+        return new ExpectsHigherOrderMessage($this);
+    }
+    // end method expects
+
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param string $methodName,... one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation
+     * @param array $methodNames one or many methods that are expected not to be called in this mock
+     * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
      */
-    public function shouldNotReceive($methodName)
+    public function shouldNotReceive(...$methodNames)
     {
-        $expectation = call_user_func_array(array($this, 'shouldReceive'), func_get_args());
+        if (count($methodNames) === 0) {
+            return new HigherOrderMessage($this, "shouldNotReceive");
+        }
+
+        $expectation = call_user_func_array(array($this, 'shouldReceive'), $methodNames);
         $expectation->never();
         return $expectation;
     }
@@ -296,24 +331,6 @@ class Mock implements MockInterface
     public function makePartial()
     {
         return $this->shouldDeferMissing();
-    }
-
-    /**
-     * Accepts a closure which is executed with an object recorder which proxies
-     * to the partial source object. The intent being to record the
-     * interactions of a concrete object as a set of expectations on the
-     * current mock object. The partial may then be passed to a second process
-     * to see if it fulfils the same (or exact same) contract as the original.
-     *
-     * @param Closure $closure
-     */
-    public function shouldExpect(\Closure $closure)
-    {
-        $recorder = new \Mockery\Recorder($this, $this->_mockery_partial);
-        $this->_mockery_disableExpectationMatching = true;
-        $closure($recorder);
-        $this->_mockery_disableExpectationMatching = false;
-        return $this;
     }
 
     /**
@@ -588,7 +605,13 @@ class Mock implements MockInterface
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
-        $onlyImplementsMock = count($rfc->getInterfaces()) == 1;
+        
+        // HHVM has a Stringish interface
+        $interfaces = array_filter($rfc->getInterfaces(), function ($i) {
+            return $i->getName() !== "Stringish";
+        });
+        $onlyImplementsMock = 1 == count($interfaces);
+
         return (false === $rfc->getParentClass()) && $onlyImplementsMock;
     }
 
@@ -647,7 +670,8 @@ class Mock implements MockInterface
 
             case 'callable':
             case 'Closure':
-                return function () {};
+                return function () {
+                };
 
             case 'Traversable':
             case 'Generator':
@@ -666,8 +690,12 @@ class Mock implements MockInterface
         }
     }
 
-    public function shouldHaveReceived($method, $args = null)
+    public function shouldHaveReceived($method = null, $args = null)
     {
+        if ($method === null) {
+            return new HigherOrderMessage($this, "shouldHaveReceived");
+        }
+
         $expectation = new \Mockery\VerificationExpectation($this, $method);
         if (null !== $args) {
             $expectation->withArgs($args);
@@ -679,8 +707,12 @@ class Mock implements MockInterface
         return $director;
     }
 
-    public function shouldNotHaveReceived($method, $args = null)
+    public function shouldNotHaveReceived($method = null, $args = null)
     {
+        if ($method === null) {
+            return new HigherOrderMessage($this, "shouldNotHaveReceived");
+        }
+
         $expectation = new \Mockery\VerificationExpectation($this, $method);
         if (null !== $args) {
             $expectation->withArgs($args);
@@ -804,7 +836,7 @@ class Mock implements MockInterface
     private function hasMethodOverloadingInParentClass()
     {
         // if there's __call any name would be callable
-        return is_callable('parent::' . uniqid(__FUNCTION__));
+        return is_callable('parent::aFunctionNameThatNoOneWouldEverUseInRealLife12345');
     }
 
     /**

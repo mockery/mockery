@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mockery
  *
@@ -15,31 +14,13 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2017 Dave Marshall
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery;
+namespace Mockery\Matcher;
 
-interface ExpectationInterface
+interface ArgumentListMatcher
 {
-    /**
-     * @return int
-     */
-    public function getOrderNumber();
 
-    /**
-     * @return MockInterface
-     */
-    public function getMock();
-
-    /**
-     * @return self
-     */
-    public function andReturn();
-
-    /**
-     * @return self
-     */
-    public function andReturns();
 }

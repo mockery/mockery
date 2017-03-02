@@ -20,6 +20,9 @@
 
 namespace Mockery;
 
+/**
+ * @internal
+ */
 interface MockInterface
 {
     /**
@@ -34,18 +37,19 @@ interface MockInterface
     /**
      * Set expected method calls
      *
-     * @param string $methodName,... one or many methods that are expected to be called in this mock
-     * @return \Mockery\Expectation
+     * @param array ...$methodNames one or many methods that are expected to be called in this mock
+     *
+     * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
-    public function shouldReceive($methodName);
+    public function shouldReceive(...$methodNames);
 
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param string $methodName,... one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation
+     * @param array $methodNames one or many methods that are expected not to be called in this mock
+     * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
      */
-    public function shouldNotReceive($methodName);
+    public function shouldNotReceive(...$methodNames);
 
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
@@ -80,16 +84,16 @@ interface MockInterface
     public function makePartial();
 
     /**
-     * @param $method
+     * @param null|string $method
      * @param null $args
-     * @return \Mockery\Expectation
+     * @return mixed
      */
     public function shouldHaveReceived($method, $args = null);
 
     /**
-     * @param $method
+     * @param null|string $method
      * @param null $args
-     * @return null
+     * @return mixed
      */
     public function shouldNotHaveReceived($method, $args = null);
 

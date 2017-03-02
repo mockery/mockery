@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mockery
  *
@@ -15,31 +14,27 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2017 Dave Marshall 
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery;
+namespace Mockery\Matcher;
 
-interface ExpectationInterface
+class NoArgs extends MatcherAbstract implements ArgumentListMatcher
 {
     /**
-     * @return int
+     * @inheritdoc
      */
-    public function getOrderNumber();
+    public function match(&$actual)
+    {
+        return count($actual) == 0;
+    }
 
     /**
-     * @return MockInterface
+     * @inheritdoc
      */
-    public function getMock();
-
-    /**
-     * @return self
-     */
-    public function andReturn();
-
-    /**
-     * @return self
-     */
-    public function andReturns();
+    public function __toString()
+    {
+        return '<No Arguments>';
+    }
 }

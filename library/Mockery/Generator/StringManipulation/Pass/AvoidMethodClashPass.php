@@ -18,29 +18,30 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery\Loader;
+namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\MockDefinition;
-use Mockery\Loader\Loader;
+use Mockery\Generator\Method;
+use Mockery\Generator\Parameter;
+use Mockery\Generator\MockConfiguration;
 
-class RequireLoader implements Loader
+class AvoidMethodClashPass implements Pass
 {
-    protected $path;
-
-    public function __construct($path = null)
+    public function apply($code, MockConfiguration $config)
     {
-        $this->path = realpath($path) ?: sys_get_temp_dir();
-    }
+        $names = array_map(function ($method) {
+            return $method->getName();
+        }, $config->getMethodsToMock());
 
-    public function load(MockDefinition $definition)
-    {
-        if (class_exists($definition->getClassName(), false)) {
-            return;
+        foreach (["allows", "expects"] as $method) {
+            if (in_array($method, $names)) {
+                $code = preg_replace(
+                    "#// start method {$method}.*// end method {$method}#ms",
+                    "",
+                    $code
+                );
+            }
         }
 
-        $tmpfname = $this->path.DIRECTORY_SEPARATOR."Mockery_".uniqid().".php";
-        file_put_contents($tmpfname, $definition->getCode());
-
-        require $tmpfname;
+        return $code;
     }
 }

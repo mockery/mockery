@@ -20,29 +20,16 @@
 
 namespace Mockery\Adapter\Phpunit;
 
-use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
-{
-    protected function assertPostConditions()
+if (class_exists("PHPUnit_Framework_TestCase")) {
+    abstract class MockeryTestCase extends \PHPUnit_Framework_TestCase
     {
-        $this->addMockeryExpectationsToAssertionCount();
-        $this->closeMockery();
-
-        parent::assertPostConditions();
+        use MockeryPHPUnitIntegration;
     }
-
-    protected function addMockeryExpectationsToAssertionCount()
+} else {
+    abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
     {
-        $container = Mockery::getContainer();
-        if ($container != null) {
-            $count = $container->mockery_getExpectationCount();
-            $this->addToAssertionCount($count);
-        }
-    }
-
-    protected function closeMockery()
-    {
-        Mockery::close();
+        use MockeryPHPUnitIntegration;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mockery
  *
@@ -21,25 +20,19 @@
 
 namespace Mockery;
 
-interface ExpectationInterface
+class ExpectsHigherOrderMessage extends HigherOrderMessage
 {
+    public function __construct(MockInterface $mock)
+    {
+        return parent::__construct($mock, "shouldReceive");
+    }
     /**
-     * @return int
+     * @return \Mockery\Expectation
      */
-    public function getOrderNumber();
+    public function __call($method, $args)
+    {
+        $expectation = parent::__call($method, $args);
 
-    /**
-     * @return MockInterface
-     */
-    public function getMock();
-
-    /**
-     * @return self
-     */
-    public function andReturn();
-
-    /**
-     * @return self
-     */
-    public function andReturns();
+        return $expectation->once();
+    }
 }

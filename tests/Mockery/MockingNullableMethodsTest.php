@@ -181,4 +181,34 @@ class MockingNullableMethodsTest extends MockeryTestCase
         $mock->shouldReceive('nullableClass')->andReturn(null);
         $mock->nullableClass();
     }
+
+    /** @test */
+    public function it_allows_returning_null_for_nullable_object_return_types()
+    {
+        $double= \Mockery::mock(MethodWithNullableReturnType::class);
+
+        $double->shouldReceive("nullableClass")->andReturnNull();
+
+        $this->assertEquals(null, $double->nullableClass());
+    }
+
+    /** @test */
+    public function it_allows_returning_null_for_nullable_string_return_types()
+    {
+        $double= \Mockery::mock(MethodWithNullableReturnType::class);
+
+        $double->shouldReceive("nullableString")->andReturnNull();
+
+        $this->assertEquals(null, $double->nullableString());
+    }
+
+    /** @test */
+    public function it_allows_returning_null_for_nullable_int_return_types()
+    {
+        $double= \Mockery::mock(MethodWithNullableReturnType::class);
+
+        $double->shouldReceive("nullableInt")->andReturnNull();
+
+        $this->assertEquals(null, $double->nullableInt());
+    }
 }
