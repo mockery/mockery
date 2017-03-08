@@ -20,6 +20,7 @@
  */
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Exception\InvalidCountException;
 
 class ExpectationTest extends MockeryTestCase
 {
@@ -2132,6 +2133,22 @@ class ExpectationTest extends MockeryTestCase
             ->andReturnNull();
         \Mockery::close();
     }
+
+    /** @test */
+    public function it_uses_a_matchers_to_string_method_in_the_exception_output()
+    {
+        $mock = Mockery::mock();
+
+        $mock->expects()->foo(Mockery::hasKey('foo'));
+
+        $this->setExpectedException(
+            InvalidCountException::class,
+            "Method foo(<HasKey[foo]>)"
+        );
+
+        Mockery::close();
+    }
+
 }
 
 interface IWater

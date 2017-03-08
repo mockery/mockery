@@ -25,6 +25,7 @@ use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
+use Mockery\Matcher\MatcherAbstract;
 
 class Mockery
 {
@@ -474,6 +475,10 @@ class Mockery
      */
     private static function formatArgument($argument, $depth = 0)
     {
+        if ($argument instanceOf MatcherAbstract) {
+            return (string) $argument;
+        }
+
         if (is_object($argument)) {
             return 'object(' . get_class($argument) . ')';
         }
