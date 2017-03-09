@@ -729,7 +729,7 @@ class Mock implements MockInterface
         return null;
     }
 
-    public function shouldNotHaveBeenCalled($args = null)
+    public function shouldNotHaveBeenCalled(array $args = null)
     {
         return $this->shouldNotHaveReceived("__invoke", $args);
     }
