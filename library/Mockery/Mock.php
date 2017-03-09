@@ -707,6 +707,11 @@ class Mock implements MockInterface
         return $director;
     }
 
+    public function shouldHaveBeenCalled()
+    {
+        return $this->shouldHaveReceived("__invoke");
+    }
+
     public function shouldNotHaveReceived($method = null, $args = null)
     {
         if ($method === null) {
@@ -722,6 +727,11 @@ class Mock implements MockInterface
         $this->_mockery_expectations_count++;
         $director->verify();
         return null;
+    }
+
+    public function shouldNotHaveBeenCalled($args = null)
+    {
+        return $this->shouldNotHaveReceived("__invoke", $args);
     }
 
     protected static function _mockery_handleStaticMethodCall($method, array $args)
