@@ -93,8 +93,6 @@ class Mockery
      */
     public static function spy(...$args)
     {
-        $args = func_get_args();
-
         if (count($args) && $args[0] instanceof \Closure) {
             $args[0] = new ClosureWrapper($args[0]);
         }
