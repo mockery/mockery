@@ -5,7 +5,7 @@ language: php
 matrix:
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
+    - php: nightly
   fast_finish: true
   include:
     - php: 5.6
@@ -24,6 +24,12 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.1
+      env:
+        - DEPS=latest
+    - php: nightly
+      env:
+        - DEPS=lowest
+    - php: nightly
       env:
         - DEPS=latest
     - php: hhvm
