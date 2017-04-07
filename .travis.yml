@@ -5,7 +5,6 @@ language: php
 matrix:
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
   fast_finish: true
   include:
     - php: 5.6
