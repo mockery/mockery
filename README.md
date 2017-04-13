@@ -13,6 +13,17 @@ object operations and interactions using a human readable Domain Specific Langua
 Mockery is easy to integrate with PHPUnit and can operate alongside
 phpunit-mock-objects without the World ending.
 
+
+⚠️️ Update your remotes! Mockery has transferred to a new location. While your
+existing repositories will redirect transparently for any operations, take some
+time to transition to the new URL.
+```sh
+$ git remote set-url upstream https://github.com/mockery/mockery.git
+```
+Replace `upstream` with the name of the remote you use locally; `upstream` is commonly
+used but you may be using something else. Run `git remote -v` to see what you're actually
+using.
+
 Mockery is released under a New BSD License.
 
 ## Installation
