@@ -25,7 +25,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 /**
  */
-class MockingVoidMethodsWithNullableParametersTest extends MockeryTestCase
+class MockingMethodsWithNullableParametersTest extends MockeryTestCase
 {
     protected function setUp()
     {
@@ -37,8 +37,8 @@ class MockingVoidMethodsWithNullableParametersTest extends MockeryTestCase
         $this->container->mockery_close();
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      * @requires PHP 7.1.0RC3
      */
     public function it_can_handle_nullable_typed_parameters()
@@ -49,8 +49,8 @@ class MockingVoidMethodsWithNullableParametersTest extends MockeryTestCase
         $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithNullableTypedParameter);
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      */
     public function it_can_handle_default_parameters()
     {

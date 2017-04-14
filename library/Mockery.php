@@ -62,7 +62,7 @@ class Mockery
 
     /**
      * Defines the global helper functions
-     * 
+     *
      * @return void
      */
     public static function globalHelpers()
@@ -475,7 +475,7 @@ class Mockery
      */
     private static function formatArgument($argument, $depth = 0)
     {
-        if ($argument instanceOf MatcherAbstract) {
+        if ($argument instanceof MatcherAbstract) {
             return (string) $argument;
         }
 

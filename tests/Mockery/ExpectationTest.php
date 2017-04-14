@@ -2148,7 +2148,6 @@ class ExpectationTest extends MockeryTestCase
 
         Mockery::close();
     }
-
 }
 
 interface IWater

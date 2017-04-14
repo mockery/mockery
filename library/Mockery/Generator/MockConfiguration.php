@@ -498,7 +498,7 @@ class MockConfiguration
             $methods = array_merge($methods, $class->getMethods());
         }
 
-        foreach ($this->getTargetTraits() AS $trait) {
+        foreach ($this->getTargetTraits() as $trait) {
             foreach ($trait->getMethods() as $method) {
                 if ($method->isAbstract()) {
                     $methods[] = $method;

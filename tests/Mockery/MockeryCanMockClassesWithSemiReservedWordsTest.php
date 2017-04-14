@@ -10,8 +10,8 @@ use Mockery\Fixtures\SemiReservedWordsAsMethods;
  */
 class MockeryCanMockClassesWithSemiReservedWordsTest extends \PHPUnit_Framework_TestCase
 {
-    /** 
-     * @test 
+    /**
+     * @test
      */
     public function smoke_test()
     {

@@ -37,7 +37,7 @@ class Subset extends MatcherAbstract
 
     /**
      * @param array $expected Expected subset of data
-     * 
+     *
      * @return Subset
      */
     public static function strict(array $expected)
@@ -47,7 +47,7 @@ class Subset extends MatcherAbstract
 
     /**
      * @param array $expected Expected subset of data
-     * 
+     *
      * @return Subset
      */
     public static function loose(array $expected)
