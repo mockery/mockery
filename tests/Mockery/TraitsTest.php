@@ -55,7 +55,7 @@ class TraitTest extends MockeryTestCase
 
 trait SimpleTrait
 {
-    function foo()
+    public function foo()
     {
         return 'bar';
     }
@@ -63,10 +63,10 @@ trait SimpleTrait
 
 trait TraitWithAbstractMethod
 {
-    function baz()
+    public function baz()
     {
         return $this->doBaz();
     }
 
-    abstract function doBaz();
+    abstract public function doBaz();
 }

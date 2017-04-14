@@ -757,7 +757,10 @@ class ContainerTest extends MockeryTestCase
     {
         $m = $this->container->mock('MockeryTestRef1');
         $m->shouldReceive('foo')->with(
-            Mockery::on(function (&$a) {$a += 1;return true;}),
+            Mockery::on(function (&$a) {
+                $a += 1;
+                return true;
+            }),
             Mockery::any()
         );
         $a = 1;
@@ -770,7 +773,11 @@ class ContainerTest extends MockeryTestCase
     public function testMethodParamsPassedByReferenceThroughWithArgsHaveReferencePreserved()
     {
         $m = $this->container->mock('MockeryTestRef1');
-        $m->shouldReceive('foo')->withArgs(function (&$a, $b) {$a += 1; $b += 1; return true;});
+        $m->shouldReceive('foo')->withArgs(function (&$a, $b) {
+            $a += 1;
+            $b += 1;
+            return true;
+        });
         $a = 1;
         $b = 1;
         $m->foo($a, $b);
@@ -794,7 +801,10 @@ class ContainerTest extends MockeryTestCase
         @$m = $this->container->mock('DateTime');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('modify')->with(
-            Mockery::on(function (&$string) {$string = 'foo'; return true;})
+            Mockery::on(function (&$string) {
+                $string = 'foo';
+                return true;
+            })
         );
         $data ='bar';
         $m->modify($data);
@@ -820,7 +830,10 @@ class ContainerTest extends MockeryTestCase
         @$m = $this->container->mock('MongoCollection');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('insert')->with(
-            Mockery::on(function (&$data) {$data['_id'] = 123; return true;}),
+            Mockery::on(function (&$data) {
+                $data['_id'] = 123;
+                return true;
+            }),
             Mockery::type('array')
         );
         $data = array('a'=>1,'b'=>2);

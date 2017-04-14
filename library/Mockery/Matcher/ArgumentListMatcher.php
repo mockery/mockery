@@ -22,5 +22,4 @@ namespace Mockery\Matcher;
 
 interface ArgumentListMatcher
 {
-
 }
