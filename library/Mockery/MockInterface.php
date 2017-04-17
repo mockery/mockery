@@ -20,9 +20,6 @@
 
 namespace Mockery;
 
-/**
- * @internal
- */
 interface MockInterface
 {
     /**
