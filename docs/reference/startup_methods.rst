@@ -205,6 +205,14 @@ mock object as a Passive Mock. In such a mock object, calls to methods which
 are not covered by expectations will return ``null`` instead of the usual
 complaining about there being no expectation matching the call.
 
+On PHP >= 7.0.0, methods with missing expectations that have a return type
+will return either a mock of the object (if return type is a class) or a
+"falsy" primitive value, e.g. empty string, empty array, zero for ints and
+floats, false for bools, or empty closures.
+
+On PHP >= 7.1.0, methods with missing expectations and nullable return type
+will return null.
+
 You can optionally prefer to return an object of type ``\Mockery\Undefined``
 (i.e.  a ``null`` object) (which was the 0.7.2 behaviour) by using an
 additional modifier:

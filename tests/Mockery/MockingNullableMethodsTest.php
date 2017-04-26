@@ -211,4 +211,12 @@ class MockingNullableMethodsTest extends MockeryTestCase
 
         $this->assertEquals(null, $double->nullableInt());
     }
+
+    /** @test */
+    public function it_returns_null_on_calls_to_ignored_methods_of_spies_if_return_type_is_nullable()
+    {
+        $double = \Mockery::spy(MethodWithNullableReturnType::class);
+
+        $this->assertEquals(null, $double->nullableClass());
+    }
 }

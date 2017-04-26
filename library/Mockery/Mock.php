@@ -659,7 +659,14 @@ class Mock implements MockInterface
             return;
         }
 
-        $type = (string) $rm->getReturnType();
+        $returnType = $rm->getReturnType();
+
+        // Default return value for methods with nullable type is null
+        if ($returnType->allowsNull()) {
+            return null;
+        }
+
+        $type = (string) $returnType;
         switch ($type) {
             case '':       return;
             case 'string': return '';
