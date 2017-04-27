@@ -23,8 +23,9 @@ namespace Mockery\Loader;
 
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\MockDefinition;
+use PHPUnit\Framework\TestCase;
 
-abstract class LoaderTestCase extends \PHPUnit_Framework_TestCase
+abstract class LoaderTestCase extends TestCase
 {
     /**
      * @test

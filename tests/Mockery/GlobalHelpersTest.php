@@ -18,7 +18,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class GlobalHelpersTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class GlobalHelpersTest extends TestCase
 {
     public function setup()
     {
@@ -31,7 +33,7 @@ class GlobalHelpersTest extends PHPUnit_Framework_TestCase
         $double = mock();
 
         $this->assertInstanceOf(\Mockery\MockInterface::class, $double);
-        $this->setExpectedException(\Exception::class);
+        $this->expectException(\Exception::class);
         $double->foo();
     }
 

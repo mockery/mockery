@@ -33,7 +33,7 @@
         "hamcrest/hamcrest-php": "~2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~5.7|~6.1"
     },
     "autoload": {
         "psr-0": {

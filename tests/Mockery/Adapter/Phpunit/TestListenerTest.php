@@ -19,7 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class Mockery_Adapter_Phpunit_TestListenerTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
 {
     protected function setUp()
     {

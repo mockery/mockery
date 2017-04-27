@@ -23,8 +23,9 @@ namespace Mockery\Test\Generator\StringManipulation\Pass;
 
 use Mockery as m;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
+use PHPUnit\Framework\TestCase;
 
-class CallTypeHintPassTest extends \PHPUnit_Framework_TestCase
+class CallTypeHintPassTest extends TestCase
 {
     const CODE = ' public function __call($method, array $args) {}
                    public static function __callStatic($method, array $args) {}

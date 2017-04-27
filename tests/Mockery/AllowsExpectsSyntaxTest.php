@@ -24,6 +24,7 @@ namespace test\Mockery;
 use Mockery as m;
 use Mockery\Spy;
 use Mockery\Exception\InvalidCountException;
+use PHPUnit\Framework\TestCase;
 
 class ClassWithAllowsMethod
 {
@@ -41,7 +42,7 @@ class ClassWithExpectsMethod
     }
 }
 
-class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
+class AllowsExpectsSyntaxTest extends TestCase
 {
     /** @test */
     public function allowsSetsUpMethodStub()
@@ -90,7 +91,7 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
         $mock = m::mock();
         $mock->expects()->foo(123);
 
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         m::close();
     }
 
@@ -101,7 +102,7 @@ class AllowsExpectsSyntaxTest extends \PHPUnit_Framework_TestCase
         $mock->expects()->foo(123)->twice();
 
         $mock->foo(123);
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         m::close();
     }
 

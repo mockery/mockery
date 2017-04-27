@@ -246,7 +246,7 @@ class ExpectationTest extends MockeryTestCase
      */
     public function it_can_throw_a_throwable()
     {
-        $this->setExpectedException(\Error::class);
+        $this->expectException(\Error::class);
         $this->mock->shouldReceive('foo')->andThrow(new \Error());
         $this->mock->foo();
     }
@@ -2092,7 +2092,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $mock = $this->container->mock('Mockery_Duck');
 
-        $this->setExpectedException(
+        $this->expectException(
             '\BadMethodCallException',
             'Method ' . get_class($mock) .
             '::nonExistent() does not exist on this mock object'
@@ -2105,7 +2105,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $mock = $this->container->mock('Mockery_Duck');
 
-        $this->setExpectedException(
+        $this->expectException(
             '\BadMethodCallException',
             'Received ' . get_class($mock) .
             '::quack(), ' . 'but no expectations were specified'
@@ -2141,7 +2141,7 @@ class ExpectationTest extends MockeryTestCase
 
         $mock->expects()->foo(Mockery::hasKey('foo'));
 
-        $this->setExpectedException(
+        $this->expectException(
             InvalidCountException::class,
             "Method foo(<HasKey[foo]>)"
         );

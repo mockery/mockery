@@ -1298,7 +1298,7 @@ class ContainerTest extends MockeryTestCase
         $mock = $this->container->mock('MyTestClass');
         $mock->shouldReceive("foo")->with(123);
 
-        $this->setExpectedException(
+        $this->expectException(
             "Mockery\Exception\NoMatchingExpectationException",
             "MyTestClass::foo(true, false, [0 => true, 1 => false])"
         );

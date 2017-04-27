@@ -29,7 +29,7 @@ class PHPUnitConstraint extends MatcherAbstract
      * @param \PHPUnit_Framework_Constraint $constraint
      * @param bool $rethrow
      */
-    public function __construct(\PHPUnit_Framework_Constraint $constraint, $rethrow = false)
+    public function __construct(\PHPUnit\Framework\Constraint $constraint, $rethrow = false)
     {
         $this->constraint = $constraint;
         $this->rethrow = $rethrow;
@@ -44,7 +44,7 @@ class PHPUnitConstraint extends MatcherAbstract
         try {
             $this->constraint->evaluate($actual);
             return true;
-        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
             if ($this->rethrow) {
                 throw $e;
             }
