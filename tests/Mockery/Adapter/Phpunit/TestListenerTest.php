@@ -29,9 +29,15 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
         /**
          * Skip all tests here if PHPUnit is less than 6.0.0
          */
-        if (intval(\PHPUnit\Runner\Version::series()) > 5)
+        if (class_exists('\PHPUnit\Runner\Version') {
+            $ver = \PHPUnit\Runner\Version::series();
+        } else {
+            $ver = \PHPUnit_Runner_Version::series();
+        }
+        if (intval($ver) > 5)
         {
             $this->markTestSkipped('The TestListener is not supported with PHPUnit 6+.');
+            return;
         }
         // We intentionally test the static container here. That is what the
         // listener will check.
