@@ -21,10 +21,18 @@
 
 use PHPUnit\Framework\TestCase;
 
+
 class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
 {
     protected function setUp()
     {
+        /**
+         * Skip all tests here if PHPUnit is less than 6.0.0
+         */
+        if (intval(\PHPUnit\Runner\Version::series()) > 5)
+        {
+            $this->markTestSkipped('The TestListener is not supported with PHPUnit 6+.');
+        }
         // We intentionally test the static container here. That is what the
         // listener will check.
         $this->container = \Mockery::getContainer();
@@ -68,7 +76,7 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
     }
 }
 
-class Mockery_Adapter_Phpunit_EmptyTestCase extends PHPUnit_Framework_TestCase
+class Mockery_Adapter_Phpunit_EmptyTestCase extends TestCase
 {
     public function getStatus()
     {
