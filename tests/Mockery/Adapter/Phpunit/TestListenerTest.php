@@ -29,7 +29,7 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
         /**
          * Skip all tests here if PHPUnit is less than 6.0.0
          */
-        if (class_exists('\PHPUnit\Runner\Version') {
+        if (class_exists('\PHPUnit\Runner\Version')) {
             $ver = \PHPUnit\Runner\Version::series();
         } else {
             $ver = \PHPUnit_Runner_Version::series();
