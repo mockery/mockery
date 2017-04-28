@@ -75,11 +75,9 @@ class PHPUnitConstraintTest extends TestCase
         $this->assertTrue($this->rethrowingMatcher->match($value3));
     }
 
-    /**
-     * @expectedException \PHPUnit\Framework\AssertionFailedError
-     */
     public function testMatchesWhereNotMatchAndRethrowing()
     {
+        $this->expectException($this->assertionFailedError);
         $value = 'value';
         $this->constraint
             ->shouldReceive('evaluate')

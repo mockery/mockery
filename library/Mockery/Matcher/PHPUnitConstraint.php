@@ -20,17 +20,26 @@
 
 namespace Mockery\Matcher;
 
+use Mockery\Exception\InvalidArgumentException;
+
 class PHPUnitConstraint extends MatcherAbstract
 {
     protected $constraint;
     protected $rethrow;
 
     /**
-     * @param \PHPUnit_Framework_Constraint $constraint
+     * @param \PHPUnit\Framework\Constraint $constraint
      * @param bool $rethrow
      */
-    public function __construct(\PHPUnit\Framework\Constraint $constraint, $rethrow = false)
+    public function __construct($constraint, $rethrow = false)
     {
+        if (!($constraint instanceof \PHPUnit_Framework_Constraint)
+        && !($constraint instanceof \PHPUnit\Framework\Constraint)) {
+            throw new InvalidArgumentException(
+                'Constraint must be one of \PHPUnit\Framework\Constraint or '.
+                '\PHPUnit_Framework_Constraint'
+            );
+        }
         $this->constraint = $constraint;
         $this->rethrow = $rethrow;
     }
@@ -44,12 +53,17 @@ class PHPUnitConstraint extends MatcherAbstract
         try {
             $this->constraint->evaluate($actual);
             return true;
+        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+            if ($this->rethrow) {
+                throw $e;
+            }
+            return false;
         } catch (\PHPUnit\Framework\AssertionFailedError $e) {
             if ($this->rethrow) {
                 throw $e;
             }
             return false;
-        }
+        } 
     }
 
     /**
