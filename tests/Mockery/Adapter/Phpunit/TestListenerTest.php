@@ -34,8 +34,7 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
         } else {
             $ver = \PHPUnit_Runner_Version::series();
         }
-        if (intval($ver) > 5)
-        {
+        if (intval($ver) > 5) {
             $this->markTestSkipped('The TestListener is not supported with PHPUnit 6+.');
             return;
         }
