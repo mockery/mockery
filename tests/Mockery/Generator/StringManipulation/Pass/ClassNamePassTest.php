@@ -24,8 +24,9 @@ namespace Mockery\Generator\StringManipulation\Pass;
 use Mockery as m;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
+use PHPUnit\Framework\TestCase;
 
-class ClassNamePassTest extends \PHPUnit_Framework_TestCase
+class ClassNamePassTest extends TestCase
 {
     const CODE = "namespace Mockery; class Mock {}";
 

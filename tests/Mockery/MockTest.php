@@ -152,7 +152,7 @@ class Mockery_MockTest extends MockeryTestCase
     {
         $mock = Mockery::mock();
 
-        $this->setExpectedException("InvalidArgumentException", "Received empty method name");
+        $this->expectException("InvalidArgumentException", "Received empty method name");
         $mock->shouldReceive("");
     }
 

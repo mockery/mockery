@@ -23,8 +23,9 @@ namespace Mockery\Generator;
 
 use Mockery as m;
 use Mockery\Generator\MockConfigurationBuilder;
+use PHPUnit\Framework\TestCase;
 
-class MockConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
+class MockConfigurationBuilderTest extends TestCase
 {
     /**
      * @test

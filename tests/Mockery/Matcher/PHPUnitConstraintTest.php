@@ -21,8 +21,9 @@
 
 use Mockery\MockInterface;
 use Mockery\Matcher\PHPUnitConstraint;
+use PHPUnit\Framework\TestCase;
 
-class PHPUnitConstraintTest extends \PHPUnit_Framework_TestCase
+class PHPUnitConstraintTest extends TestCase
 {
     /** @var  PHPUnitConstraint */
     protected $matcher;
@@ -33,7 +34,18 @@ class PHPUnitConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->constraint = \Mockery::mock('PHPUnit_Framework_Constraint');
+        /*
+         * Revise by PHPUnit version
+         */
+        if (class_exists('\PHPUnit\Framework\AssertionFailedError')) {
+            $this->assertionFailedError = '\PHPUnit\Framework\AssertionFailedError';
+            $this->frameworkConstraint = '\PHPUnit\Framework\Constraint';
+        } else {
+            $this->assertionFailedError = '\PHPUnit_Framework_AssertionFailedError';
+            $this->frameworkConstraint = '\PHPUnit_Framework_Constraint';
+        }
+
+        $this->constraint = \Mockery::mock($this->frameworkConstraint);
         $this->matcher = new PHPUnitConstraint($this->constraint);
         $this->rethrowingMatcher = new PHPUnitConstraint($this->constraint, true);
     }
@@ -51,7 +63,7 @@ class PHPUnitConstraintTest extends \PHPUnit_Framework_TestCase
             ->shouldReceive('evaluate')
             ->once()
             ->with($value2)
-            ->andThrow('PHPUnit_Framework_AssertionFailedError')
+            ->andThrow($this->assertionFailedError)
             ->getMock()
             ->shouldReceive('evaluate')
             ->once()
@@ -63,17 +75,15 @@ class PHPUnitConstraintTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rethrowingMatcher->match($value3));
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_AssertionFailedError
-     */
     public function testMatchesWhereNotMatchAndRethrowing()
     {
+        $this->expectException($this->assertionFailedError);
         $value = 'value';
         $this->constraint
             ->shouldReceive('evaluate')
             ->once()
             ->with($value)
-            ->andThrow('PHPUnit_Framework_AssertionFailedError')
+            ->andThrow($this->assertionFailedError)
         ;
         $this->rethrowingMatcher->match($value);
     }

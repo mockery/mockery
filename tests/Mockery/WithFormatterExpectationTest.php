@@ -19,7 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-class WithFormatterExpectationTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class WithFormatterExpectationTest extends TestCase
 {
     /**
      * @dataProvider formatObjectsDataProvider

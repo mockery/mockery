@@ -23,8 +23,9 @@ namespace test\Mockery;
 
 use Mockery as m;
 use Mockery\Spy;
+use PHPUnit\Framework\TestCase;
 
-class SpyTest extends \PHPUnit_Framework_TestCase
+class SpyTest extends TestCase
 {
     public function setup()
     {
@@ -43,7 +44,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->myMethod();
         $spy->shouldHaveReceived("myMethod");
 
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         $spy->shouldHaveReceived("someMethodThatWasNotCalled");
     }
 
@@ -53,7 +54,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy = m::spy();
         $spy->shouldNotHaveReceived("myMethod");
 
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         $spy->myMethod();
         $spy->shouldNotHaveReceived("myMethod");
     }
@@ -66,7 +67,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
 
         $spy->shouldNotHaveReceived("myMethod", array(789, 10));
 
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         $spy->shouldNotHaveReceived("myMethod", array(123, 456));
     }
 
@@ -78,7 +79,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->myMethod();
         $spy->shouldHaveReceived("myMethod")->twice();
 
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         $spy->myMethod();
         $spy->shouldHaveReceived("myMethod")->twice();
     }
@@ -91,7 +92,7 @@ class SpyTest extends \PHPUnit_Framework_TestCase
         $spy->shouldHaveReceived("myMethod")->with(123, "a string");
         $spy->shouldHaveReceived("myMethod", array(123, "a string"));
 
-        $this->setExpectedException("Mockery\Exception\InvalidCountException");
+        $this->expectException("Mockery\Exception\InvalidCountException");
         $spy->shouldHaveReceived("myMethod")->with(123);
     }
 
