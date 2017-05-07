@@ -1,5 +1,4 @@
 * :doc:`/reference/creating_test_doubles`
-* :doc:`/reference/startup_methods`
 * :doc:`/reference/expectations`
 * :doc:`/reference/argument_validation`
 * :doc:`/reference/partial_mocks`

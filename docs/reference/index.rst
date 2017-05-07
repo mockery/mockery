@@ -5,7 +5,6 @@ Reference
     :hidden:
 
     creating_test_doubles
-    startup_methods
     expectations
     argument_validation
     partial_mocks
