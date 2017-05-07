@@ -152,7 +152,114 @@ following example:
     var_dump($mockResult); // int(42)
     var_dump($spyResult); // null
 
-As we can see from this example, with a mock object with set the call
-expectations before the call itself, and we get the return result we expect it
-to return. With a spy object on the other hand, we verify the call has happened
-after the fact, and the return result is ``null``.
+As we can see from this example, with a mock object we set the call expectations
+before the call itself, and we get the return result we expect it to return.
+With a spy object on the other hand, we verify the call has happened after the
+fact, and the return result is ``null``.
+
+Partial test doubles
+--------------------
+
+Partial doubles are useful when we want to stub out, set expectations for, or
+spy on *some* methods of a class, but run the actual code for other methods.
+
+We differentiate between two types of partial test doubles:
+
+ * runtime partial test doubles, and
+ * generated partial test doubles.
+
+Runtime partial test doubles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+What we call a runtime partial, involves creating a test double and then telling
+it to make itself partial. Any method calls that the double hasn't been told to
+allow or expect, will act as they would on a normal instance of the object.
+
+.. code-block:: php
+
+    class Foo {
+        function foo() { return 123; }
+        function bar() { return $this->foo(); }
+    }
+
+    $foo = mock(Foo::class)->makePartial();
+    $foo->foo(); // int(123);
+
+We can then tell the test double to allow or expect calls as with any other
+Mockery double.
+
+.. code-block:: php
+
+    $foo->shouldReceive('foo')->andReturn(456);
+    $foo->bar(); // int(456)
+
+Generated partial test doubles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The second type of partial double we can create is what we call a generated
+partial. With generated partials, we specifically tell Mockery which methods
+we want to be able to allow or expect calls to. All other methods will run the
+actual code *directly*, so stubs and expectations on these methods will not
+work.
+
+.. code-block:: PHP
+
+    class Foo {
+        function foo() { return 123; }
+        function bar() { return $this->foo(); }
+    }
+
+    $foo = mock("Foo[foo]");
+
+    $foo->foo(); // error, no expectation set
+
+    $foo->shouldReceive('foo')->andReturn(456);
+    $foo->foo(); // int(456)
+
+    // setting an expectation for this has no effect
+    $foo->shouldReceive('bar')->andReturn(456);
+    $foo->bar(); // int(456)
+
+.. note::
+
+    Even though we support generated partial test doubles, we do not recommend
+    using them.
+
+Aliasing
+--------
+
+Prefixing the valid name of a class (which is NOT currently loaded) with
+"alias:" will generate an "alias mock". Alias mocks create a class alias with
+the given classname to stdClass and are generally used to enable the mocking
+of public static methods. Expectations set on the new mock object which refer
+to static methods will be used by all static calls to this class.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('alias:MyClass');
+
+
+.. note::
+
+    Even though aliasing classes is supported, we do not recommend it.
+
+Overloading
+-----------
+
+Prefixing the valid name of a class (which is NOT currently loaded) with
+"overload:" will generate an alias mock (as with "alias:") except that created
+new instances of that class will import any expectations set on the origin
+mock (``$mock``). The origin mock is never verified since it's used an
+expectation store for new instances. For this purpose we use the term "instance
+mock" to differentiate it from the simpler "alias mock".
+
+In other words, an instance mock will "intercept" when a new instance of the
+mocked class is created, then the mock will be used instead. This is useful
+especially when mocking hard dependencies which will be discussed later.
+
+.. note::
+
+    Using alias/instance mocks across more than one test will generate a fatal
+    error since you can't have two classes of the same name. To avoid this,
+    run each test of this kind in a separate PHP process (which is supported
+    out of the box by both PHPUnit and PHPT).
