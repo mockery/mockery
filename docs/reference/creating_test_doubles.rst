@@ -105,6 +105,10 @@ against our test double after the calls were made. We would use a spy when we
 don't necessarily care about all of the calls that are going to be made to an
 object.
 
+A spy will return ``null`` for all method calls it receives. It is not possible
+to tell a spy what will be the return value of a method call. If we do that, then
+we would deal with a mock object, and not with a spy.
+
 We create a spy by calling the ``\Mockery::spy()`` method:
 
 .. code-block:: php
@@ -126,3 +130,29 @@ This spy will now be of type ``MyClass`` and implement the ``MyInterface`` and
     The ``\Mockery::spy()`` method call is actually a shorthand for calling
     ``\Mockery::mock()->shouldIgnoreMissing()``. The ``shouldIgnoreMissing``
     method is a "behaviour modifier". We'll discuss them a bit later.
+
+Mocks vs. Spies
+---------------
+
+Let's try and illustrate the difference between mocks and spies with the
+following example:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+    $spy = \Mockery::spy('MyClass');
+
+    $mock->shouldReceive('foo')->andReturn(42);
+
+    $mockResult = $mock->foo();
+    $spyResult = $spy->foo();
+
+    $spy->shouldHaveReceived()->foo();
+
+    var_dump($mockResult); // int(42)
+    var_dump($spyResult); // null
+
+As we can see from this example, with a mock object with set the call
+expectations before the call itself, and we get the return result we expect it
+to return. With a spy object on the other hand, we verify the call has happened
+after the fact, and the return result is ``null``.
