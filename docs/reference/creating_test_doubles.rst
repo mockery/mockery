@@ -4,7 +4,7 @@
 Creating Test Doubles
 =====================
 
-Mockery's main goal is to help you create test doubles. It can create stubs,
+Mockery's main goal is to help us create test doubles. It can create stubs,
 mocks, and spies.
 
 Stubs and mocks are created the same. The difference between the two is that a
@@ -105,7 +105,7 @@ against our test double after the calls were made. We would use a spy when we
 don't necessarily care about all of the calls that are going to be made to an
 object.
 
-We create a spy by calling the ``\Mockery::spy`` method:
+We create a spy by calling the ``\Mockery::spy()`` method:
 
 .. code-block:: php
 
@@ -124,5 +124,5 @@ This spy will now be of type ``MyClass`` and implement the ``MyInterface`` and
 .. note::
 
     The ``\Mockery::spy()`` method call is actually a shorthand for calling
-    ``\Mockery::mock()->shouldIgnoreMissing()``. The `shouldIgnoreMissing`
+    ``\Mockery::mock()->shouldIgnoreMissing()``. The ``shouldIgnoreMissing``
     method is a "behaviour modifier". We'll discuss them a bit later.
