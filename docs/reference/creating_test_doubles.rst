@@ -42,7 +42,7 @@ a type of ``\Mockery\Mock``.
 To create a stub or a mock object with no name, we can call the ``mock()``
 method with no parameters:
 
-... code-block:: php
+.. code-block:: php
 
     $mock = \Mockery::mock();
 
@@ -59,8 +59,8 @@ an existing class we want to create a test double of:
 
     $mock = \Mockery::mock('MyClass');
 
-This stub or mock object will have the type of ``\Mockery\Mock``, as well as the
-type of ``MyClass``, through inheritance.
+This stub or mock object will have the type of ``MyClass``, through inheritance,
+as well as the type of ``\Mockery\Mock``.
 
 Stub or mock objects can be based on any concrete class, abstract class or even
 an interface. The primary purpose is to ensure the mock object inherits a
@@ -70,8 +70,9 @@ specific type for type hinting.
 
     $mock = \Mockery::mock('MyInterface');
 
-This stub or mock object will have the type of ``\Mockery\Mock``, as well as
-implement the ``MyInterface`` interface.
+This stub or mock object will implement the ``MyInterface`` interface, as well
+as have the type of ``\Mockery\Mock``.
+.
 
 .. note::
 
