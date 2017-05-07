@@ -155,9 +155,9 @@ following example:
 As we can see from this example, with a mock object we set the call expectations
 before the call itself, and we get the return result we expect it to return.
 With a spy object on the other hand, we verify the call has happened after the
-fact, and the return result is ``null``.
+fact. The return result of a method call against a spy is always ``null``.
 
-Partial test doubles
+Partial Test Doubles
 --------------------
 
 Partial doubles are useful when we want to stub out, set expectations for, or
@@ -202,7 +202,7 @@ we want to be able to allow or expect calls to. All other methods will run the
 actual code *directly*, so stubs and expectations on these methods will not
 work.
 
-.. code-block:: PHP
+.. code-block:: php
 
     class Foo {
         function foo() { return 123; }
@@ -217,7 +217,7 @@ work.
     $foo->foo(); // int(456)
 
     // setting an expectation for this has no effect
-    $foo->shouldReceive('bar')->andReturn(456);
+    $foo->shouldReceive('bar')->andReturn(999);
     $foo->bar(); // int(456)
 
 .. note::
@@ -256,6 +256,10 @@ mock" to differentiate it from the simpler "alias mock".
 In other words, an instance mock will "intercept" when a new instance of the
 mocked class is created, then the mock will be used instead. This is useful
 especially when mocking hard dependencies which will be discussed later.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('overload:MyClass');
 
 .. note::
 
