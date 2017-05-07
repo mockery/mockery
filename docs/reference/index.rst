@@ -4,6 +4,7 @@ Reference
 .. toctree::
     :hidden:
 
+    creating_test_doubles
     startup_methods
     expectations
     argument_validation
