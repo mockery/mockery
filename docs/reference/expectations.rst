@@ -48,17 +48,6 @@ All of these will adopt any additional chained expectations or constraints.
 
 .. code-block:: php
 
-    shouldReceive(closure)
-
-Creates a mock object (only from a partial mock) which is used to create a
-mock object recorder. The recorder is a simple proxy to the original object
-passed in for mocking. This is passed to the closure, which may run it through
-a set of operations which are recorded as expectations on the partial mock. A
-simple use case is automatically recording expectations based on an existing
-usage (e.g. during refactoring). See examples in a later section.
-
-.. code-block:: php
-
     shouldNotReceive(method_name)
 
 Declares that the mock should not expect a call to the given method name. This
