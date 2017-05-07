@@ -46,53 +46,95 @@ their return values:
 
 All of these will adopt any additional chained expectations or constraints.
 
+We can also declare that a test double should not expect a call to the given
+method name:
+
 .. code-block:: php
 
     shouldNotReceive(method_name)
 
-Declares that the mock should not expect a call to the given method name. This
-method is a convenience method for calling ``shouldReceive()->never()``.
+This method is a convenience method for calling ``shouldReceive()->never()``.
+
+Declaring Method Argument Expectations
+--------------------------------------
+
+For every method we declare expectation for, we can also add constraints that
+the defined expectations apply only to the method calls that match the expected
+argument list:
 
 .. code-block:: php
 
-    with(arg1, arg2, ...) 
+    with(arg1, arg2, ...)
     withArgs(array(arg1, arg2, ...))
 
-Adds a constraint that this expectation only applies to method calls which
-match the expected argument list. we can add a lot more flexibility to
-argument matching using the built in matcher classes (see later). For example,
-``\Mockery::any()`` matches any argument passed to that position in the
-``with()`` parameter list. Mockery also allows Hamcrest library matchers - for
-example, the Hamcrest function ``anything()`` is equivalent to
-``\Mockery::any()``.
+We can add a lot more flexibility to argument matching using the built in
+matcher classes (see later). For example, ``\Mockery::any()`` matches any
+argument passed to that position in the ``with()`` parameter list. Mockery also
+allows Hamcrest library matchers - for example, the Hamcrest function
+``anything()`` is equivalent to ``\Mockery::any()``.
 
 It's important to note that this means all expectations attached only apply to
-the given method when it is called with these exact arguments. This allows for
-setting up differing expectations based on the arguments provided to expected
-calls.
+the given method when it is called with these exact arguments:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+
+    $mock->shouldReceive('foo')->with('Hello');
+
+    $mock->foo('Goodbye'); // throws a NoMatchingExpectationException
+
+This allows for setting up differing expectations based on the arguments
+provided to expected calls.
+
+Argument matching with closures
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Instead of providing a built-in matcher for each argument, we can provide a
+closure that matches all passed arguments at once:
 
 .. code-block:: php
 
     withArgs(closure)
 
-Instead of providing a built-in matcher for each argument, we can provide a
-closure that matches all passed arguments at once. The given closure receives
-all the arguments passed in the call to the expected method. In this way, this
-expectation only applies to method calls where passed arguments make the closure
-evaluates to true.
+The given closure receives all the arguments passed in the call to the expected
+method. In this way, this expectation only applies to method calls where passed
+arguments make the closure evaluate to true:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+
+    $mock->shouldReceive('foo')->withArgs(function ($arg) {
+        if ($arg % 2 == 0) {
+            return true;
+        }
+        return false;
+    });
+
+    $mock->foo(4); // matches the expectation
+    $mock->foo(3); // throws a NoMatchingExpectationException
+
+Any, or no arguments
+^^^^^^^^^^^^^^^^^^^^
+
+We can declare that the expectation matches a method call regardless of what
+arguments are passed:
 
 .. code-block:: php
 
     withAnyArgs()
 
-Declares that this expectation matches a method call regardless of what
-arguments are passed. This is set by default unless otherwise specified.
+This is set by default unless otherwise specified.
+
+We can declare that the expectation matches method calls with zero arguments:
 
 .. code-block:: php
 
     withNoArgs()
 
-Declares this expectation matches method calls with zero arguments.
+Declaring Return Value Expectations
+-----------------------------------
 
 .. code-block:: php
 
