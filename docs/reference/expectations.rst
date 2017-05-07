@@ -136,36 +136,58 @@ We can declare that the expectation matches method calls with zero arguments:
 Declaring Return Value Expectations
 -----------------------------------
 
+For mock objects, we can tell Mockery what return values to return from the
+expected method calls.
+
+For that we can use the ``andReturn()`` method:
+
 .. code-block:: php
 
     andReturn(value)
 
-Sets a value to be returned from the expected method call.
+This sets a value to be returned from the expected method call.
+
+It is possible to set up expectation for multiple return values. By providing
+a sequence of return values, we tell Mockery what value to return on every
+subsequent call to the method:
 
 .. code-block:: php
 
     andReturn(value1, value2, ...)
 
-Sets up a sequence of return values or closures. For example, the first call
-will return value1 and the second value2. Note that all subsequent calls to a
-mocked method will always return the final value (or the only value) given to
-this declaration.
+The first call will return value1 and the second call will return value2.
+
+If we call the method more times than the number of return values we declared,
+Mockery will return the final value for any subsequent method call:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+
+    $mock->shouldReceive('foo')->andReturn(1, 2, 3);
+
+    $mock->foo(); // int(1)
+    $mock->foo(); // int(2)
+    $mock->foo(); // int(3)
+    $mock->foo(); // int(3)
+
+The same can be achieved using the alternative syntax:
+
+.. code-block:: php
+
+    andReturnValues([value1, value2, ...])
+
+It accepts a simple array instead of a list of parameters. The order of return
+is determined by the numerical index of the given array with the last array
+member being returned on all calls once previous return values are exhausted.
+
+The following two options are primarily for communication to test readers:
 
 .. code-block:: php
 
     andReturnNull() / andReturn([NULL])
 
-Both of the above options are primarily for communication to test readers.
 They mark the mock object method call as returning ``null`` or nothing.
-
-.. code-block:: php
-
-    andReturnValues(array)
-
-Alternative syntax for ``andReturn()`` that accepts a simple array instead of
-a list of parameters. The order of return is determined by the numerical
-index of the given array with the last array member being return on all calls
-once previous return values are exhausted.
 
 .. code-block:: php
 
@@ -179,7 +201,7 @@ can queued by passing them as extra parameters as for ``andReturn()``.
 .. code-block:: php
 
     andReturnSelf()
-    
+
 Set the return value to the mocked class name. Useful for mocking fluid interfaces.
 
 .. note::
