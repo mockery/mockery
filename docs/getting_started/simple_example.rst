@@ -11,6 +11,7 @@ We can, however, assume some basic interactions with such a class based on its
 interaction with the ``Temperature`` class:
 
 .. code-block:: php
+
     class Temperature
     {
         private $service;
@@ -36,6 +37,7 @@ mock object for the real service which allows us to test the behaviour of the
 ``Temperature`` class without actually needing a concrete service instance.
 
 .. code-block:: php
+
     use \Mockery;
 
     class TemperatureTest extends PHPUnit_Framework_TestCase
