@@ -166,10 +166,11 @@ Partial Test Doubles
 Partial doubles are useful when we want to stub out, set expectations for, or
 spy on *some* methods of a class, but run the actual code for other methods.
 
-We differentiate between two types of partial test doubles:
+We differentiate between three types of partial test doubles:
 
- * runtime partial test doubles, and
- * generated partial test doubles.
+ * runtime partial test doubles,
+ * generated partial test doubles, and
+ * proxied partial test doubles.
 
 Runtime partial test doubles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -227,6 +228,26 @@ work.
 
     Even though we support generated partial test doubles, we do not recommend
     using them.
+
+Proxied partial test doubles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A proxied partial mock is a partial of last resort. We may encounter a class
+which is simply not capable of being mocked because it has been marked as
+final. Similarly, we may find a class with methods marked as final. In such a
+scenario, we cannot simply extend the class and override methods to mock - we
+need to get creative.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock(new MyClass);
+
+Yes, the new mock is a Proxy. It intercepts calls and reroutes them to the
+proxied object (which we construct and pass in) for methods which are not
+subject to any expectations. Indirectly, this allows us to mock methods
+marked final since the Proxy is not subject to those limitations. The tradeoff
+should be obvious - a proxied partial will fail any typehint checks for the
+class being mocked since it cannot extend that class.
 
 Aliasing
 --------
