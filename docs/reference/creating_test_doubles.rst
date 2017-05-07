@@ -36,8 +36,13 @@ following example shows how to create a stub, or a mock, object named "foo":
 
     $mock = \Mockery::mock('foo');
 
-The mock object created like this is the loosest form of mocks possible, and has
-a type of ``\Mockery\Mock``.
+The mock object created like this is the loosest form of mocks possible, and is
+an instance of ``\Mockery\MockInterface``.
+
+.. note::
+
+    All test doubles created with Mockery are an instance of
+    ``\Mockery\MockInterface``, regardless are they a stub, mock or a spy.
 
 To create a stub or a mock object with no name, we can call the ``mock()``
 method with no parameters:
@@ -59,8 +64,7 @@ an existing class we want to create a test double of:
 
     $mock = \Mockery::mock('MyClass');
 
-This stub or mock object will have the type of ``MyClass``, through inheritance,
-as well as the type of ``\Mockery\Mock``.
+This stub or mock object will have the type of ``MyClass``, through inheritance.
 
 Stub or mock objects can be based on any concrete class, abstract class or even
 an interface. The primary purpose is to ensure the mock object inherits a
@@ -70,8 +74,7 @@ specific type for type hinting.
 
     $mock = \Mockery::mock('MyInterface');
 
-This stub or mock object will implement the ``MyInterface`` interface, as well
-as have the type of ``\Mockery\Mock``.
+This stub or mock object will implement the ``MyInterface`` interface.
 
 .. note::
 
