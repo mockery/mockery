@@ -72,7 +72,6 @@ specific type for type hinting.
 
 This stub or mock object will implement the ``MyInterface`` interface, as well
 as have the type of ``\Mockery\Mock``.
-.
 
 .. note::
 
@@ -89,10 +88,41 @@ a comma-separated list of the class and interfaces as the first argument to the
 
     $mock = \Mockery::mock('MyClass, MyInterface, OtherInterface');
 
-This stub or mock object will now by of type ``MyClass`` and implement the
+This stub or mock object will now be of type ``MyClass`` and implement the
 ``MyInterface`` and ``OtherInterface`` interfaces.
 
 .. note::
 
     The class name doesn't need to be the first member of the list but it's a
     friendly convention to use for readability.
+
+Spies
+-----
+
+The third type of test doubles Mockery supports are spies. The main difference
+between spies and mock objects is that with spies we verify the calls made
+against our test double after the calls were made. We would use a spy when we
+don't necessarily care about all of the calls that are going to be made to an
+object.
+
+We create a spy by calling the ``\Mockery::spy`` method:
+
+.. code-block:: php
+
+    $spy = \Mockery::spy('MyClass');
+
+Just as with stubs or mocks, we can tell Mockery to base a spy on any concrete 
+or abstract class, or to implement any number of interfaces:
+
+.. code-block:: php
+
+    $spy = \Mockery::spy('MyClass, MyInterface, OtherInterface');
+
+This spy will now be of type ``MyClass`` and implement the ``MyInterface`` and
+``OtherInterface`` interfaces.
+
+.. note::
+
+    The ``\Mockery::spy()`` method call is actually a shorthand for calling
+    ``\Mockery::mock()->shouldIgnoreMissing()``. The `shouldIgnoreMissing`
+    method is a "behaviour modifier". We'll discuss them a bit later.
