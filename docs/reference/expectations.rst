@@ -6,33 +6,45 @@ Expectation Declarations
 
 .. note::
 
-    In order for your expectations to work you MUST call ``Mockery::close()``, preferably in a callback method such as ``tearDown`` or ``_before`` (depending on whether or not you're integrating Mockery with another framework). This static call cleans up the Mockery container used by the current test, and run any verification tasks needed for your expectations.
-    
-Once you have created a mock object, you'll often want to start defining how
+    In order for wer expectations to work we MUST call ``Mockery::close()``,
+    preferably in a callback method such as ``tearDown`` or ``_before``
+    (depending on whether or not we're integrating Mockery with another
+    framework). This static call cleans up the Mockery container used by the
+    current test, and run any verification tasks needed for wer expectations.
+
+Once we have created a mock object, we'll often want to start defining how
 exactly it should behave (and how it should be called). This is where the
 Mockery expectation declarations take over.
+
+Declaring Method Call Expectations
+----------------------------------
+
+To tell our test double to expect a call for a method with a given name, we use
+the ``shouldReceive`` method:
 
 .. code-block:: php
 
     shouldReceive(method_name)
 
-Declares that the mock expects a call to the given method name. This is the
-starting expectation upon which all other expectations and constraints are
-appended.
+This is the starting expectation upon which all other expectations and
+constraints are appended.
+
+We can declare more than one method call to be expected:
 
 .. code-block:: php
 
     shouldReceive(method1, method2, ...)
 
-Declares a number of expected method calls, all of which will adopt any
-chained expectations or constraints.
+All of these will adopt any chained expectations or constraints.
+
+It is possible to declare the expectations for the method calls, along with
+their return values:
 
 .. code-block:: php
 
     shouldReceive(array('method1'=>1, 'method2'=>2, ...))
 
-Declares a number of expected calls but also their return values. All will
-adopt any additional chained expectations or constraints.
+All of these will adopt any additional chained expectations or constraints.
 
 .. code-block:: php
 
@@ -58,7 +70,7 @@ method is a convenience method for calling ``shouldReceive()->never()``.
     withArgs(array(arg1, arg2, ...))
 
 Adds a constraint that this expectation only applies to method calls which
-match the expected argument list. You can add a lot more flexibility to
+match the expected argument list. we can add a lot more flexibility to
 argument matching using the built in matcher classes (see later). For example,
 ``\Mockery::any()`` matches any argument passed to that position in the
 ``with()`` parameter list. Mockery also allows Hamcrest library matchers - for
@@ -74,7 +86,7 @@ calls.
 
     withArgs(closure)
 
-Instead of providing a built-in matcher for each argument, you can provide a
+Instead of providing a built-in matcher for each argument, we can provide a
 closure that matches all passed arguments at once. The given closure receives
 all the arguments passed in the call to the expected method. In this way, this
 expectation only applies to method calls where passed arguments make the closure
@@ -141,7 +153,7 @@ Set the return value to the mocked class name. Useful for mocking fluid interfac
 
 .. note::
 
-    You cannot currently mix ``andReturnUsing()`` with ``andReturn()``.
+    we cannot currently mix ``andReturnUsing()`` with ``andReturn()``.
 
 .. code-block:: php
 
@@ -154,7 +166,7 @@ called.
 
     andThrow(exception_name, message)
 
-Rather than an object, you can pass in the ``Exception`` class and message to
+Rather than an object, we can pass in the ``Exception`` class and message to
 use when throwing an ``Exception`` from the mocked method.
 
 .. code-block:: php
@@ -247,7 +259,7 @@ which this modifier is actually used when setting up mocks.
 
 Declares the method as belonging to an order group (which can be named or
 numbered). Methods within a group can be called in any order, but the ordered
-calls from outside the group are ordered in relation to the group, i.e. you
+calls from outside the group are ordered in relation to the group, i.e. we
 can set up so that method1 is called before group1 which is in turn called
 before method 2.
 
@@ -265,15 +277,15 @@ allows for dictating order expectations across multiple mocks.
 
 Marks an expectation as a default. Default expectations are applied unless a
 non-default expectation is created. These later expectations immediately
-replace the previously defined default. This is useful so you can setup
-default mocks in your unit test ``setup()`` and later tweak them in specific
+replace the previously defined default. This is useful so we can setup
+default mocks in wer unit test ``setup()`` and later tweak them in specific
 tests as needed.
 
 .. code-block:: php
 
     getMock()
 
-Returns the current mock object from an expectation chain. Useful where you
+Returns the current mock object from an expectation chain. Useful where we
 prefer to keep mock setups as a single statement, e.g.
 
 .. code-block:: php
