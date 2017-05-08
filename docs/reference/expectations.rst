@@ -333,48 +333,57 @@ This is actually identical to using ``atLeast()->times(min)->atMost()->times(max
 but is provided as a shorthand. It may be followed by a ``times()`` call with no
 parameter to preserve the APIs natural language readability.
 
+Expectation Declaration Utilities
+---------------------------------
+
+Declares that this method is expected to be called in a specific order in
+relation to similarly marked methods.
+
 .. code-block:: php
 
     ordered()
 
-Declares that this method is expected to be called in a specific order in
-relation to similarly marked methods. The order is dictated by the order in
-which this modifier is actually used when setting up mocks.
+The order is dictated by the order in which this modifier is actually used when
+setting up mocks.
+
+Declares the method as belonging to an order group (which can be named or
+numbered). Methods within a group can be called in any order, but the ordered
+calls from outside the group are ordered in relation to the group:
 
 .. code-block:: php
 
     ordered(group)
 
-Declares the method as belonging to an order group (which can be named or
-numbered). Methods within a group can be called in any order, but the ordered
-calls from outside the group are ordered in relation to the group, i.e. we
-can set up so that method1 is called before group1 which is in turn called
-before method 2.
+We can set up so that method1 is called before group1 which is in turn called
+before method2.
 
 .. code-block:: php
 
+When called prior to ``ordered()`` or ``ordered(group)``, it declares this
+ordering to apply across all mock objects (not just the current mock):
+
     globally()
 
-When called prior to ``ordered()`` or ``ordered(group)``, it declares this
-ordering to apply across all mock objects (not just the current mock). This
-allows for dictating order expectations across multiple mocks.
+This allows for dictating order expectations across multiple mocks.
+
+Marks an expectation as a default. Default expectations are applied unless a
+non-default expectation is created:
 
 .. code-block:: php
 
     byDefault()
 
-Marks an expectation as a default. Default expectations are applied unless a
-non-default expectation is created. These later expectations immediately
-replace the previously defined default. This is useful so we can setup
-default mocks in our unit test ``setup()`` and later tweak them in specific
-tests as needed.
+These later expectations immediately replace the previously defined default.
+This is useful so we can setup default mocks in our unit test ``setup()`` and
+later tweak them in specific tests as needed.
+
+Returns the current mock object from an expectation chain:
 
 .. code-block:: php
 
     getMock()
 
-Returns the current mock object from an expectation chain. Useful where we
-prefer to keep mock setups as a single statement, e.g.
+Useful where we prefer to keep mock setups as a single statement, e.g.:
 
 .. code-block:: php
 
