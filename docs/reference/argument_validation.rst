@@ -98,7 +98,7 @@ list in
 Complex Argument Validation
 ---------------------------
 
-If we want to perform a complex argument expectation, the ``on()`` matcher is
+If we want to perform a complex argument validation, the ``on()`` matcher is
 invaluable. It accepts a closure (anonymous function) to which the actual
 argument will be passed.
 
@@ -167,10 +167,9 @@ The regex option is only used when:
 
  a) there is no ``===`` or ``==`` match, and
  b) when the regex is verified to be a valid regex (i.e. does not return false from
-``preg_match()``).
+    ``preg_match()``).
 
-If the regex detection doesn't suit your tastes, Hamcrest offers the more
-explicit ``matchesPattern()`` function.
+Hamcrest offers the more explicit ``matchesPattern()`` function.
 
 The ``ducktype()`` matcher is an alternative to matching by class type:
 
@@ -195,14 +194,14 @@ the matcher's parameter:
 
     with(\Mockery::not(2)) OR with(not(2))
 
-Matches any argument which equals any one of the given parameters:
+``anyOf()`` matches any argument which equals any one of the given parameters:
 
 .. code-block:: php
 
     with(\Mockery::anyOf(1, 2)) OR with(anyOf(1,2))
 
-Matches any argument which is not equal or identical to any of the given
-parameters:
+``notAnyOf()`` matches any argument which is not equal or identical to any of
+the given parameters:
 
 .. code-block:: php
 
@@ -212,7 +211,8 @@ parameters:
 
     There is no Hamcrest version of the ``notAnyOf()`` matcher.
 
-Matches any argument which is any array containing the given array subset:
+``subset()`` matches any argument which is any array containing the given array
+subset:
 
 .. code-block:: php
 
@@ -226,7 +226,8 @@ actual element is compared.
     There is no Hamcrest version of this functionality, though Hamcrest can check
     a single entry using ``hasEntry()`` or ``hasKeyValuePair()``.
 
-Matches any argument which is an array containing the listed values:
+``contains()`` matches any argument which is an array containing the listed
+values:
 
 .. code-block:: php
 
@@ -234,13 +235,15 @@ Matches any argument which is an array containing the listed values:
 
 The naming of keys is ignored.
 
-Matches any argument which is an array containing the given key name:
+``hasKey()`` matches any argument which is an array containing the given key
+name:
 
 .. code-block:: php
 
     with(\Mockery::hasKey(key));
 
-Matches any argument which is an array containing the given value:
+``hasValue()`` matches any argument which is an array containing the given
+value:
 
 .. code-block:: php
 
