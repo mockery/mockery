@@ -6,11 +6,11 @@ Expectation Declarations
 
 .. note::
 
-    In order for wer expectations to work we MUST call ``Mockery::close()``,
+    In order for our expectations to work we MUST call ``Mockery::close()``,
     preferably in a callback method such as ``tearDown`` or ``_before``
     (depending on whether or not we're integrating Mockery with another
     framework). This static call cleans up the Mockery container used by the
-    current test, and run any verification tasks needed for wer expectations.
+    current test, and run any verification tasks needed for our expectations.
 
 Once we have created a mock object, we'll often want to start defining how
 exactly it should behave (and how it should be called). This is where the
@@ -46,8 +46,8 @@ their return values:
 
 All of these will adopt any additional chained expectations or constraints.
 
-We can also declare that a test double should not expect a call to the given
-method name:
+We can declare that a test double should not expect a call to the given method
+name:
 
 .. code-block:: php
 
@@ -58,8 +58,8 @@ This method is a convenience method for calling ``shouldReceive()->never()``.
 Declaring Method Argument Expectations
 --------------------------------------
 
-For every method we declare expectation for, we can also add constraints that
-the defined expectations apply only to the method calls that match the expected
+For every method we declare expectation for, we can add constraints that the
+defined expectations apply only to the method calls that match the expected
 argument list:
 
 .. code-block:: php
@@ -181,7 +181,7 @@ It accepts a simple array instead of a list of parameters. The order of return
 is determined by the numerical index of the given array with the last array
 member being returned on all calls once previous return values are exhausted.
 
-The following two options are primarily for communication to test readers:
+The following two options are primarily for communication with test readers:
 
 .. code-block:: php
 
@@ -189,114 +189,149 @@ The following two options are primarily for communication to test readers:
 
 They mark the mock object method call as returning ``null`` or nothing.
 
+Sometimes we want to calculate the return results of the method calls, based on
+the arguments passed to the method. We can do that with the ``andReturnUsing()``
+method which accepts one or more closure:
+
 .. code-block:: php
 
     andReturnUsing(closure, ...)
 
-Sets a closure (anonymous function) to be called with the arguments passed to
-the method. The return value from the closure is then returned. Useful for
-some dynamic processing of arguments into related concrete results. Closures
-can queued by passing them as extra parameters as for ``andReturn()``.
+Closures can queued by passing them as extra parameters as for ``andReturn()``.
+
+.. note::
+
+    We cannot currently mix ``andReturnUsing()`` with ``andReturn()``.
+
+If we are mocking fluid interfaces, the following method will be helpful:
 
 .. code-block:: php
 
     andReturnSelf()
 
-Set the return value to the mocked class name. Useful for mocking fluid interfaces.
+It sets the return value to the mocked class name.
 
-.. note::
-
-    we cannot currently mix ``andReturnUsing()`` with ``andReturn()``.
+We can tell the method of mock objects to throw exceptions:
 
 .. code-block:: php
 
     andThrow(Exception)
 
-Declares that this method will throw the given ``Exception`` object when
-called.
+It will throw the given ``Exception`` object when called.
+
+Rather than an object, we can pass in the ``Exception`` class and message to
+use when throwing an ``Exception`` from the mocked method:
 
 .. code-block:: php
 
     andThrow(exception_name, message)
 
-Rather than an object, we can pass in the ``Exception`` class and message to
-use when throwing an ``Exception`` from the mocked method.
+Used with an expectation so that when a matching method is called, we can cause
+a mock object's public property to be set to a specified value.
 
 .. code-block:: php
 
     andSet(name, value1) / set(name, value1)
 
-Used with an expectation so that when a matching method is called, one can
-also cause a mock object's public property to be set to a specified value.
+In cases where we want to call the real method of the class that was mocked and
+return its result, the ``passhthru()`` method tells the expectation to bypass
+a return queue:
 
 .. code-block:: php
 
     passthru()
 
-Tells the expectation to bypass a return queue and instead call the real
-method of the class that was mocked and return the result. Basically, it
-allows expectation matching and call count validation to be applied against
+It allows expectation matching and call count validation to be applied against
 real methods while still calling the real class method with the expected
 arguments.
+
+Declaring Call Count Expectations
+---------------------------------
+
+Besides setting expectations on the arguments of the method calls, and the
+return values of those same calls, we can set expectations on how many times
+should any method be called.
+
+When a call count expectation is not met, a
+``\Mockery\Expectation\InvalidCountException`` will be thrown.
+
+.. note::
+
+    It is absolutely required to call ``\Mockery::close()`` at the end of our
+    tests, for example in the ``tearDown()`` method of PHPUnit. Otherwise
+    Mockery will not verify the calls made against our mock objects.
+
+We can declare that the expected method may be called zero or more times:
 
 .. code-block:: php
 
     zeroOrMoreTimes()
 
-Declares that the expected method may be called zero or more times. This is
-the default for all methods unless otherwise set.
+This is the default for all methods unless otherwise set.
 
-.. code-block:: php
-
-    once()
-
-Declares that the expected method may only be called once. Like all other call
-count constraints, it will throw a ``\Mockery\CountValidator\Exception`` if
-breached and can be modified by the ``atLeast()`` and ``atMost()``
-constraints.
-
-.. code-block:: php
-
-    twice()
-
-Declares that the expected method may only be called twice.
+To tell Mockery to expect an exact number of calls to a method, we can use the
+following:
 
 .. code-block:: php
 
     times(n)
 
-Declares that the expected method may only be called n times.
+where ``n`` is the number of times the method should be called.
+
+A couple of most common cases got their shorthand methods.
+
+To declare that the expected method must be called one time only:
+
+.. code-block:: php
+
+    once()
+
+To declare that the expected method must be called two times:
+
+.. code-block:: php
+
+    twice()
+
+To declare that the expected method must never be called:
 
 .. code-block:: php
 
     never()
 
-Declares that the expected method may never be called. Ever!
+Call count modifiers
+^^^^^^^^^^^^^^^^^^^^
+
+The call count expectations can have modifiers set.
+
+If we want to tell Mockery the minimum number of times a method should be called,
+we use:
 
 .. code-block:: php
 
     atLeast()
 
-Adds a minimum modifier to the next call count expectation. Thus
 ``atLeast()->times(3)`` means the call must be called at least three times
 (given matching method args) but never less than three times.
+
+Similarly, we can tell Mockery the maximum number of times a method should be
+called:
 
 .. code-block:: php
 
     atMost()
 
-Adds a maximum modifier to the next call count expectation. Thus
 ``atMost()->times(3)`` means the call must be called no more than three times.
-This also means no calls are acceptable.
+If the method gets no calls at all, the expectation will still be met.
+
+We can also set a range of call counts:
 
 .. code-block:: php
 
     between(min, max)
 
-Sets an expected range of call counts. This is actually identical to using
-``atLeast()->times(min)->atMost()->times(max)`` but is provided as a
-shorthand.  It may be followed by a ``times()`` call with no parameter to
-preserve the APIs natural language readability.
+This is actually identical to using ``atLeast()->times(min)->atMost()->times(max)``
+but is provided as a shorthand. It may be followed by a ``times()`` call with no
+parameter to preserve the APIs natural language readability.
 
 .. code-block:: php
 
@@ -331,7 +366,7 @@ allows for dictating order expectations across multiple mocks.
 Marks an expectation as a default. Default expectations are applied unless a
 non-default expectation is created. These later expectations immediately
 replace the previously defined default. This is useful so we can setup
-default mocks in wer unit test ``setup()`` and later tweak them in specific
+default mocks in our unit test ``setup()`` and later tweak them in specific
 tests as needed.
 
 .. code-block:: php
