@@ -428,6 +428,18 @@ class Mockery
     }
 
     /**
+     * Return instance of PATTERN matcher.
+     *
+     * @param $expected
+     *
+     * @return \Mockery\Matcher\Pattern
+     */
+    public static function pattern($expected)
+    {
+        return new \Mockery\Matcher\Pattern($expected);
+    }
+
+    /**
      * Lazy loader and Getter for the global
      * configuration container.
      *

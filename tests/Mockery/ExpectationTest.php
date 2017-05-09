@@ -467,12 +467,6 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo(1, 'k', new stdClass);
     }
 
-    public function testExpectsArgumentMatchingRegularExpression()
-    {
-        $this->mock->shouldReceive('foo')->with('/bar/i');
-        $this->mock->foo('xxBARxx');
-    }
-
     public function testExpectsArgumentMatchingObjectType()
     {
         $this->mock->shouldReceive('foo')->with('\stdClass');
@@ -1900,6 +1894,31 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
+    public function testPatternConstraintMatchesArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::pattern('/foo.*/'))->once();
+        $this->mock->foo('foobar');
+        $this->container->mockery_verify();
+    }
+
+    public function testPatternConstraintNonMatchingCase()
+    {
+        $this->mock->shouldReceive('foo')->once();
+        $this->mock->shouldReceive('foo')->with(Mockery::pattern('/foo.*/'))->never();
+        $this->mock->foo('bar');
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testPatternConstraintThrowsExceptionWhenConstraintUnmatched()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::pattern('/foo.*/'))->once();
+        $this->mock->foo('bar');
+        $this->container->mockery_verify();
+    }
+
     /**
      * @expectedException \Mockery\Exception
      */
@@ -1936,7 +1955,7 @@ class ExpectationTest extends MockeryTestCase
         $service = $this->container->mock('MyService');
         $service->shouldReceive('login')->with('user', 'pass')->once()->andReturn(true);
         $service->shouldReceive('hasBookmarksTagged')->with('php')->once()->andReturn(false);
-        $service->shouldReceive('addBookmark')->with('/^http:/', \Mockery::type('string'))->times(3)->andReturn(true);
+        $service->shouldReceive('addBookmark')->with(Mockery::pattern('/^http:/'), \Mockery::type('string'))->times(3)->andReturn(true);
         $service->shouldReceive('hasBookmarksTagged')->with('php')->once()->andReturn(true);
 
         $this->assertTrue($service->login('user', 'pass'));
@@ -1954,7 +1973,7 @@ class ExpectationTest extends MockeryTestCase
         $service = $this->container->mock('MyService');
         $service->shouldReceive('login')->with('user', 'pass')->once()->andReturn(true);
         $service->shouldReceive('hasBookmarksTagged')->with('php')->once()->andReturn(false);
-        $service->shouldReceive('addBookmark')->with('/^http:/', \Mockery::type('string'))->times(3)->andReturn(true);
+        $service->shouldReceive('addBookmark')->with(Mockery::pattern('/^http:/'), \Mockery::type('string'))->times(3)->andReturn(true);
         $service->shouldReceive('hasBookmarksTagged')->with('php')->twice()->andReturn(true);
 
         $this->assertTrue($service->login('user', 'pass'));
