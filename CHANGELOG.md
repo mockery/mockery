@@ -18,6 +18,7 @@
 * Marked `Mockery\MockInterface` as internal
 * Subset matcher matches recusively
 * BC BREAK - Spies return `null` by default from ignored (non-mocked) methods with nullable return type
+* Removed extracting getter methods of object instances
  
 ## 0.9.4 (XXXX-XX-XX)
 

@@ -571,8 +571,7 @@ class Mockery
 
         return array(
             'class' => get_class($object),
-            'properties' => self::extractInstancePublicProperties($object, $nesting),
-            'getters' => self::extractGetters($object, $nesting)
+            'properties' => self::extractInstancePublicProperties($object, $nesting)
         );
     }
 
@@ -598,40 +597,6 @@ class Mockery
         }
 
         return $cleanedProperties;
-    }
-
-    /**
-     * Returns all object getters.
-     *
-     * @param $object
-     * @param $nesting
-     *
-     * @return array
-     */
-    private static function extractGetters($object, $nesting)
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $publicMethods = $reflection->getMethods(\ReflectionMethod::IS_PUBLIC);
-        $getters = array();
-
-        foreach ($publicMethods as $publicMethod) {
-            $name = $publicMethod->getName();
-            $irrelevantName = (substr($name, 0, 3) !== 'get' && substr($name, 0, 2) !== 'is');
-            $isStatic = $publicMethod->isStatic();
-            $numberOfParameters = $publicMethod->getNumberOfParameters();
-
-            if ($irrelevantName || $numberOfParameters != 0 || $isStatic) {
-                continue;
-            }
-
-            try {
-                $getters[$name] = self::cleanupNesting($object->$name(), $nesting);
-            } catch (\Exception $e) {
-                $getters[$name] = '!! ' . get_class($e) . ': ' . $e->getMessage() . ' !!';
-            }
-        }
-
-        return $getters;
     }
 
     /**
