@@ -18,6 +18,7 @@
 * Marked `Mockery\MockInterface` as internal
 * Subset matcher matches recusively
 * BC BREAK - Spies return `null` by default from ignored (non-mocked) methods with nullable return type
+* Fix Mockery not getting closed in cases of failing test cases
  
 ## 0.9.4 (XXXX-XX-XX)
 
