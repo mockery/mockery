@@ -52,5 +52,25 @@ trait MockeryPHPUnitIntegration
     protected function closeMockery()
     {
         Mockery::close();
+        $this->mockeryOpen = false;
+    }
+
+    /**
+     * @before
+     */
+    protected function startMockery()
+    {
+        $this->mockeryOpen = true;
+    }
+
+    /**
+     * @after
+     */
+    protected function purgeMockeryContainer()
+    {
+        if ($this->mockeryOpen) {
+            // post conditions wasn't called, so test probably failed
+            Mockery::getContainer()->mockery_teardown();
+        }
     }
 }
