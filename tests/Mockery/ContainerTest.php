@@ -191,6 +191,7 @@ class ContainerTest extends MockeryTestCase
         $m = $this->container->mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
         $m->shouldDeferMissing();
         $m->foorbar123();
+        $m->mockery_verify();
     }
 
     public function testMockingAKnownConcreteClassSoMockInheritsClassType()
@@ -587,7 +588,8 @@ class ContainerTest extends MockeryTestCase
     {
         Mockery::setContainer($this->container);
         $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
-        $this->assertEquals('bar', MyNameSpace\StaticNoMethod::staticFoo());
+        MyNameSpace\StaticNoMethod::staticFoo();
+        $this->container->mockery_verify();
         Mockery::resetContainer();
     }
 

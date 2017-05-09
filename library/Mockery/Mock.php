@@ -148,6 +148,13 @@ class Mock implements MockInterface
     protected $_mockery_defaultReturnValue = null;
 
     /**
+     * Tracks internally all the bad method call exceptions that happened during runtime
+     *
+     * @var array
+     */
+    protected $_mockery_badMethodCallExceptions = [];
+
+    /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
      *
@@ -391,6 +398,10 @@ class Mock implements MockInterface
         foreach ($this->_mockery_expectations as $director) {
             $director->verify();
         }
+        foreach ($this->_mockery_badMethodCallExceptions as $bmce) {
+            throw new \BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
+        }
+        $this->_mockery_badMethodCallExceptions = [];
     }
 
     /**
@@ -814,9 +825,13 @@ class Mock implements MockInterface
                 '::' . $method . '(), but no expectations were specified';
         }
 
-        throw new \BadMethodCallException(
-            $message
-        );
+        try {
+            throw new \BadMethodCallException(
+                $message
+            );
+        } catch (\BadMethodCallException $bmce) {
+            $this->_mockery_badMethodCallExceptions[] = $bmce;
+        }
     }
 
     /**

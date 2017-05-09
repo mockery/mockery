@@ -27,6 +27,11 @@ class GlobalHelpersTest extends TestCase
         \Mockery::globalHelpers();
     }
 
+    public function tearDown()
+    {
+        \Mockery::close();
+    }
+
     /** @test */
     public function mock_creates_a_mock()
     {
@@ -35,6 +40,7 @@ class GlobalHelpersTest extends TestCase
         $this->assertInstanceOf(\Mockery\MockInterface::class, $double);
         $this->expectException(\Exception::class);
         $double->foo();
+        $double->mockery_verify();
     }
 
     /** @test */
