@@ -345,17 +345,6 @@ class Expectation implements ExpectationInterface
         if (!is_object($expected) && !is_object($actual) && $expected == $actual) {
             return true;
         }
-        if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
-            # push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
-            set_error_handler(function () {
-            });
-            $result = preg_match($expected, (string) $actual);
-            restore_error_handler();
-
-            if ($result) {
-                return true;
-            }
-        }
         if (is_string($expected) && is_object($actual)) {
             $result = $actual instanceof $expected;
             if ($result) {
