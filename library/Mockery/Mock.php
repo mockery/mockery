@@ -398,10 +398,20 @@ class Mock implements MockInterface
         foreach ($this->_mockery_expectations as $director) {
             $director->verify();
         }
+    }
+
+    /**
+     * Iterate across all thrown \BadMethodCallExceptions and rethrow them again
+     *
+     * @throws \BadMethodCallException
+     */
+    public function mockery_throwBadMethodCallExceptions()
+    {
         foreach ($this->_mockery_badMethodCallExceptions as $bmce) {
-            throw new \BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
+            if ($bmce instanceof \BadMethodCallException) {
+                throw new \BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
+            }
         }
-        $this->_mockery_badMethodCallExceptions = [];
     }
 
     /**
@@ -825,13 +835,9 @@ class Mock implements MockInterface
                 '::' . $method . '(), but no expectations were specified';
         }
 
-        try {
-            throw new \BadMethodCallException(
-                $message
-            );
-        } catch (\BadMethodCallException $bmce) {
-            $this->_mockery_badMethodCallExceptions[] = $bmce;
-        }
+        $bmce = new \BadMethodCallException($message);
+        $this->_mockery_badMethodCallExceptions[] = $bmce;
+        throw $bmce;
     }
 
     /**

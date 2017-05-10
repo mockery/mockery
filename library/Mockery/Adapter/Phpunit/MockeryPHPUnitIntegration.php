@@ -35,6 +35,7 @@ trait MockeryPHPUnitIntegration
     protected function assertPostConditions()
     {
         $this->addMockeryExpectationsToAssertionCount();
+        $this->checkBadMethodCallExceptions();
         $this->closeMockery();
 
         parent::assertPostConditions();
@@ -47,6 +48,11 @@ trait MockeryPHPUnitIntegration
             $count = $container->mockery_getExpectationCount();
             $this->addToAssertionCount($count);
         }
+    }
+
+    protected function checkBadMethodCallExceptions()
+    {
+        Mockery::getContainer()->mockery_throwBadMethodCallExceptions();
     }
 
     protected function closeMockery()

@@ -40,7 +40,6 @@ class GlobalHelpersTest extends TestCase
         $this->assertInstanceOf(\Mockery\MockInterface::class, $double);
         $this->expectException(\Exception::class);
         $double->foo();
-        $double->mockery_verify();
     }
 
     /** @test */

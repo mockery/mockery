@@ -303,6 +303,18 @@ class Container
     }
 
     /**
+     * Rethrow bad method call exceptions
+     *
+     * @throws \BadMethodCallException
+     */
+    public function mockery_throwBadMethodCallExceptions()
+    {
+        foreach ($this->_mocks as $mock) {
+            $mock->mockery_throwBadMethodCallExceptions();
+        }
+    }
+
+    /**
      * Reset the container to its original state
      *
      * @return void
