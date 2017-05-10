@@ -21,6 +21,7 @@
 * Removed extracting getter methods of object instances
 * BC BREAK - Remove implicit regex matching when trying to match string arguments, introduce `\Mockery::pattern()` when regex matching is needed
 * Fix Mockery not getting closed in cases of failing test cases
+* Fix Mockery not setting properties on overloaded instance mocks
 
  
 ## 0.9.4 (XXXX-XX-XX)
