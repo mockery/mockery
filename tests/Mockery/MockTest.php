@@ -109,7 +109,6 @@ class Mockery_MockTest extends MockeryTestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = $this->container->mock('ClassWithMethods')->shouldIgnoreMissing();
         $mock->nonExistentMethod();
-        $mock->mockery_verify();
     }
 
     public function testShouldIgnoreMissingCallingExistentMethods()

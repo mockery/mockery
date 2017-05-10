@@ -588,8 +588,7 @@ class ContainerTest extends MockeryTestCase
     {
         Mockery::setContainer($this->container);
         $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
-        MyNameSpace\StaticNoMethod::staticFoo();
-        $this->container->mockery_verify();
+        $this->assertEquals('bar', MyNameSpace\StaticNoMethod::staticFoo());
         Mockery::resetContainer();
     }
 

@@ -2118,8 +2118,6 @@ class ExpectationTest extends MockeryTestCase
         );
 
         $mock->nonExistent();
-
-        $mock->mockery_verify();
     }
 
     public function testIfCallingMethodWithNoExpectationsHasSpecificExceptionMessage()
@@ -2133,8 +2131,6 @@ class ExpectationTest extends MockeryTestCase
         );
 
         $mock->quack();
-
-        $mock->mockery_verify();
     }
 
     public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface()
