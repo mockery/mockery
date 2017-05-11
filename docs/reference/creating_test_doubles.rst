@@ -244,7 +244,7 @@ work.
     constructor of the mocked class. This can have unwanted side-effects during
     testing application code.
 
-    See :doc:`cookbook/not_calling_the_constructor` for more details.
+    See :doc:`../cookbook/not_calling_the_constructor` for more details.
 
 Proxied partial test doubles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
