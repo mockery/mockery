@@ -240,6 +240,12 @@ work.
     Even though we support generated partial test doubles, we do not recommend
     using them.
 
+    One of the reasons why is because a generated partial will call the original
+    constructor of the mocked class. This can have unwanted side-effects during
+    testing application code.
+
+    See :doc:`cookbook/not_calling_the_constructor` for more details.
+
 Proxied partial test doubles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
