@@ -103,3 +103,98 @@ Expecting that a spy should have received a method call:
     $spy->foo();
 
     $spy->shouldHaveReceived()->foo();
+
+Not so simple examples
+^^^^^^^^^^^^^^^^^^^^^^
+
+Creating a mock object to return a sequence of values from a set of method
+calls:
+
+.. code-block:: php
+
+    use \Mockery\Adapter\Phpunit\MockeryTestCase;
+
+    class SimpleTest extends MockeryTestCase
+    {
+        public function testSimpleMock()
+        {
+            $mock = \Mockery::mock(array('pi' => 3.1416, 'e' => 2.71));
+            $this->assertEquals(3.1416, $mock->pi());
+            $this->assertEquals(2.71, $mock->e());
+        }
+    }
+
+Creating a mock object which returns a self-chaining Undefined object for a
+method call:
+
+.. code-block:: php
+
+    use \Mockery\Adapter\Phpunit\MockeryTestCase;
+
+    class UndefinedTest extends MockeryTestCase
+    {
+        public function testUndefinedValues()
+        {
+            $mock = \Mockery::mock('mymock');
+            $mock->shouldReceive('divideBy')->with(0)->andReturnUndefined();
+            $this->assertTrue($mock->divideBy(0) instanceof \Mockery\Undefined);
+        }
+    }
+
+Creating a mock object with multiple query calls and a single update call:
+
+.. code-block:: php
+
+    use \Mockery\Adapter\Phpunit\MockeryTestCase;
+
+    class DbTest extends MockeryTestCase
+    {
+        public function testDbAdapter()
+        {
+            $mock = \Mockery::mock('db');
+            $mock->shouldReceive('query')->andReturn(1, 2, 3);
+            $mock->shouldReceive('update')->with(5)->andReturn(NULL)->once();
+
+            // ... test code here using the mock
+        }
+    }
+
+Expecting all queries to be executed before any updates:
+
+.. code-block:: php
+
+    use \Mockery\Adapter\Phpunit\MockeryTestCase;
+
+    class DbTest extends MockeryTestCase
+    {
+        public function testQueryAndUpdateOrder()
+        {
+            $mock = \Mockery::mock('db');
+            $mock->shouldReceive('query')->andReturn(1, 2, 3)->ordered();
+            $mock->shouldReceive('update')->andReturn(NULL)->once()->ordered();
+
+            // ... test code here using the mock
+        }
+    }
+
+Creating a mock object where all queries occur after startup, but before finish,
+and where queries are expected with several different params:
+
+.. code-block:: php
+
+    use \Mockery\Adapter\Phpunit\MockeryTestCase;
+
+    class DbTest extends MockeryTestCase
+    {
+        public function testOrderedQueries()
+        {
+            $db = \Mockery::mock('db');
+            $db->shouldReceive('startup')->once()->ordered();
+            $db->shouldReceive('query')->with('CPWR')->andReturn(12.3)->once()->ordered('queries');
+            $db->shouldReceive('query')->with('MSFT')->andReturn(10.0)->once()->ordered('queries');
+            $db->shouldReceive('query')->with(\Mockery::pattern("/^....$/"))->andReturn(3.3)->atLeast()->once()->ordered('queries');
+            $db->shouldReceive('finish')->once()->ordered();
+
+            // ... test code here using the mock
+        }
+    }
