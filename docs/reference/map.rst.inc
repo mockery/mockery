@@ -2,6 +2,7 @@
 * :doc:`/reference/expectations`
 * :doc:`/reference/argument_validation`
 * :doc:`/reference/partial_mocks`
+* :doc:`/reference/protected_methods`
 * :doc:`/reference/public_properties`
 * :doc:`/reference/public_static_properties`
 * :doc:`/reference/pass_by_reference_behaviours`

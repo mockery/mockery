@@ -346,7 +346,7 @@ mock object as a Passive Mock:
 
 .. code-block:: php
 
-    \Mockery::mock('MyClass')->shouldIgnoreMissing()
+    \Mockery::mock('MyClass')->shouldIgnoreMissing();
 
 In such a mock object, calls to methods which are not covered by expectations
 will return ``null`` instead of the usual error about there being no expectation
@@ -366,7 +366,7 @@ additional modifier:
 
 .. code-block:: php
 
-    \Mockery::mock('MyClass')->shouldIgnoreMissing()->asUndefined()
+    \Mockery::mock('MyClass')->shouldIgnoreMissing()->asUndefined();
 
 The returned object is nothing more than a placeholder so if, by some act of
 fate, it's erroneously used somewhere it shouldn't it will likely not pass a
@@ -377,8 +377,7 @@ use to create runtime partial test doubles:
 
 .. code-block:: php
 
-    \Mockery::mock('MyClass')->makePartial()
-
+    \Mockery::mock('MyClass')->makePartial();
 
 This form of mock object will defer all methods not subject to an expectation to
 the parent class of the mock, i.e. ``MyClass``. Whereas the previous

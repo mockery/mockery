@@ -8,6 +8,7 @@ Reference
     expectations
     argument_validation
     partial_mocks
+    protected_methods
     public_properties
     public_static_properties
     pass_by_reference_behaviours
