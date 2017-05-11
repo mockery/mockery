@@ -11,7 +11,7 @@ partials. Each has specific advantages and disadvantages so which strategy we
 use will depend on our own preferences and the source code in need of
 mocking.
 
-We have previously talked a bit about :doc:`creating-test-doubles-partial-test-doubles`,
+We have previously talked a bit about :ref:`creating-test-doubles-partial-test-doubles`,
 but we'd like to expand on the subject a bit here.
 
 #. Runtime partial test doubles
@@ -40,7 +40,7 @@ define, there is no need to define which methods to mock in advance.
     The ``makePartial()`` method is identical to the original ``shouldDeferMissing()``
     method which first introduced this Partial Mock type. To know more about
     ``shouldDeferMissing()`` method - see the chapter on
-    :doc:`creating-test-doubles-behavior-modifiers`.
+    :ref:`creating-test-doubles-behavior-modifiers`.
 
 Generated Partial Test Doubles
 ------------------------------
@@ -66,7 +66,7 @@ may rely on those!
 
     $mock = \Mockery::mock('MyNamespace\MyClass[foo]', array($arg1, $arg2));
 
-See the :doc:`creating-test-doubles-constructor-arguments` section to read up
+See the :ref:`creating-test-doubles-constructor-arguments` section to read up
 on them.
 
 Proxied Partial Mock

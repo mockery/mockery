@@ -161,6 +161,7 @@ With a spy object on the other hand, we verify the call has happened after the
 fact. The return result of a method call against a spy is always ``null``.
 
 .. _creating-test-doubles-partial-test-doubles:
+
 Partial Test Doubles
 --------------------
 
@@ -294,9 +295,11 @@ especially when mocking hard dependencies which will be discussed later.
     out of the box by both PHPUnit and PHPT).
 
 .. _creating-test-doubles-constructor-arguments:
+
 Constructor Arguments
 ---------------------
 
 .. _creating-test-doubles-behavior-modifiers:
+
 Behavior Modifiers
 ------------------
