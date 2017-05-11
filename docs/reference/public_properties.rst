@@ -9,6 +9,8 @@ a public property and its value on any mock object. The second is that we can
 use the expectation methods ``set()`` and ``andSet()`` to set property values if
 that expectation is ever met.
 
+You can read more about :ref:`expectations-setting-public-properties`.
+
 .. note::
 
     In general, Mockery does not support mocking any magic methods since these

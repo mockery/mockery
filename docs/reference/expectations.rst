@@ -243,6 +243,9 @@ If we are mocking fluid interfaces, the following method will be helpful:
 
 It sets the return value to the mocked class name.
 
+Throwing Exceptions
+-------------------
+
 We can tell the method of mock objects to throw exceptions:
 
 .. code-block:: php
@@ -261,6 +264,11 @@ use when throwing an ``Exception`` from the mocked method:
     $mock = \Mockery::mock('MyClass');
     $mock->shouldReceive('name_of_method')
         ->andThrow(exception_name, message);
+
+.. _expectations-setting-public-properties:
+
+Setting Public Properties
+-------------------------
 
 Used with an expectation so that when a matching method is called, we can cause
 a mock object's public property to be set to a specified value, by using
