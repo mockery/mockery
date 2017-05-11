@@ -4,61 +4,70 @@
 Creating Partial Mocks
 ======================
 
-Partial mocks are useful when you only need to mock several methods of an
+Partial mocks are useful when we only need to mock several methods of an
 object leaving the remainder free to respond to calls normally (i.e.  as
 implemented). Mockery implements three distinct strategies for creating
-partials. Each has specific advantages and disadvantages so which strategy you
-use will depend on your own preferences and the source code in need of
+partials. Each has specific advantages and disadvantages so which strategy we
+use will depend on our own preferences and the source code in need of
 mocking.
 
-#. Traditional Partial Mock
-#. Passive Partial Mock
+We have previously talked a bit about :ref:`creating-test-doubles-partial-test-doubles`,
+but we'd like to expand on the subject a bit here.
+
+#. Runtime partial test doubles
+#. Generated partial test doubles
 #. Proxied Partial Mock
 
-Traditional Partial Mock
-------------------------
+Runtime partial test doubles
+----------------------------
 
-A traditional partial mock, defines ahead of time which methods of a class are
-to be mocked and which are to be left unmocked (i.e. callable as normal).  The
-syntax for creating traditional mocks is:
+A runtime partial test double, also known as a passive partial mock, is a kind
+of a default state of being for a mocked object.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass')->makePartial();
+
+With a generated partial, we assume that all methods will simply defer to the
+parent class (``MyClass``) original methods unless a method call matches a
+known expectation. If we have no matching expectation for a specific method
+call, that call is deferred to the class being mocked. Since the division
+between mocked and unmocked calls depends entirely on the expectations we
+define, there is no need to define which methods to mock in advance.
+
+.. note::
+
+    The ``makePartial()`` method is identical to the original ``shouldDeferMissing()``
+    method which first introduced this Partial Mock type. To know more about
+    ``shouldDeferMissing()`` method - see the chapter on
+    :ref:`creating-test-doubles-behavior-modifiers`.
+
+Generated Partial Test Doubles
+------------------------------
+
+A generated partial test double, also known as a traditional partial mock,
+defines ahead of time which methods of a class are to be mocked and which are
+to be left unmocked (i.e. callable as normal). The syntax for creating
+traditional mocks is:
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass[foo,bar]');
 
 In the above example, the ``foo()`` and ``bar()`` methods of MyClass will be
-mocked but no other MyClass methods are touched. You will need to define
+mocked but no other MyClass methods are touched. We will need to define
 expectations for the ``foo()`` and ``bar()`` methods to dictate their mocked
 behaviour.
 
-Don't forget that you can pass in constructor arguments since unmocked methods
+Don't forget that we can pass in constructor arguments since unmocked methods
 may rely on those!
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyNamespace\MyClass[foo]', array($arg1, $arg2));
 
-Passive Partial Mock
---------------------
-
-A passive partial mock is more of a default state of being.
-
-.. code-block:: php
-
-    $mock = \Mockery::mock('MyClass')->makePartial();
-
-In a passive partial, we assume that all methods will simply defer to the
-parent class (``MyClass``) original methods unless a method call matches a
-known expectation. If you have no matching expectation for a specific method
-call, that call is deferred to the class being mocked. Since the division
-between mocked and unmocked calls depends entirely on the expectations you
-define, there is no need to define which methods to mock in advance. 
-
-.. note::
-
-The ``makePartial()`` method is identical to the original ``shouldDeferMissing()``
-method which first introduced this Partial Mock type. To know more about 
-``shouldDeferMissing()`` method - see the ":doc:`startup_methods`" chapter.
+See the :ref:`creating-test-doubles-constructor-arguments` section to read up
+on them.
 
 Proxied Partial Mock
 --------------------
