@@ -753,6 +753,21 @@ class ContainerTest extends MockeryTestCase
         Mockery::resetContainer();
     }
 
+    /**
+     * @group issue/451
+     */
+    public function testSettingPropertyOnInstanceMockWillSetItOnActualInstance()
+    {
+        Mockery::setContainer($this->container);
+        $m = $this->container->mock('overload:MyNamespace\MyClass13');
+        $m->shouldReceive('foo')->andSet('bar', 'baz');
+        $instance = new MyNamespace\MyClass13;
+        $instance->foo();
+        $this->assertEquals('baz', $m->bar);
+        $this->assertEquals('baz', $instance->bar);
+        Mockery::resetContainer();
+    }
+
     public function testMethodParamsPassedByReferenceHaveReferencePreserved()
     {
         $m = $this->container->mock('MockeryTestRef1');
