@@ -260,6 +260,8 @@ marked final since the Proxy is not subject to those limitations. The tradeoff
 should be obvious - a proxied partial will fail any typehint checks for the
 class being mocked since it cannot extend that class.
 
+.. _creating-test-doubles-aliasing:
+
 Aliasing
 --------
 

@@ -263,7 +263,8 @@ use when throwing an ``Exception`` from the mocked method:
         ->andThrow(exception_name, message);
 
 Used with an expectation so that when a matching method is called, we can cause
-a mock object's public property to be set to a specified value.
+a mock object's public property to be set to a specified value, by using
+``andSet()`` or ``set()``:
 
 .. code-block:: php
 
@@ -416,17 +417,17 @@ calls from outside the group are ordered in relation to the group:
 We can set up so that method1 is called before group1 which is in turn called
 before method2.
 
-.. code-block:: php
-
 When called prior to ``ordered()`` or ``ordered(group)``, it declares this
 ordering to apply across all mock objects (not just the current mock):
+
+.. code-block:: php
 
     globally()
 
 This allows for dictating order expectations across multiple mocks.
 
-Marks an expectation as a default. Default expectations are applied unless a
-non-default expectation is created:
+The ``byDefault()`` marks an expectation as a default. Default expectations are
+applied unless a non-default expectation is created:
 
 .. code-block:: php
 
