@@ -24,7 +24,8 @@ the ``shouldReceive`` method:
 
 .. code-block:: php
 
-    shouldReceive(method_name)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method');
 
 This is the starting expectation upon which all other expectations and
 constraints are appended.
@@ -33,7 +34,8 @@ We can declare more than one method call to be expected:
 
 .. code-block:: php
 
-    shouldReceive(method1, method2, ...)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method_1', 'name_of_method_2');
 
 All of these will adopt any chained expectations or constraints.
 
@@ -42,7 +44,11 @@ their return values:
 
 .. code-block:: php
 
-    shouldReceive(array('method1'=>1, 'method2'=>2, ...))
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive([
+        'name_of_method_1' => 'return value 1',
+        'name_of_method_2' => 'return value 2',
+    ]);
 
 All of these will adopt any additional chained expectations or constraints.
 
@@ -51,7 +57,8 @@ name:
 
 .. code-block:: php
 
-    shouldNotReceive(method_name)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldNotReceive('name_of_method');
 
 This method is a convenience method for calling ``shouldReceive()->never()``.
 
@@ -64,8 +71,12 @@ argument list:
 
 .. code-block:: php
 
-    with(arg1, arg2, ...)
-    withArgs(array(arg1, arg2, ...))
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->with($arg1, $arg2, ...);
+    // or
+    $mock->shouldReceive('name_of_method')
+        ->withArgs([$arg1, $arg2, ...]);
 
 We can add a lot more flexibility to argument matching using the built in
 matcher classes (see later). For example, ``\Mockery::any()`` matches any
@@ -95,7 +106,9 @@ closure that matches all passed arguments at once:
 
 .. code-block:: php
 
-    withArgs(closure)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->withArgs(closure);
 
 The given closure receives all the arguments passed in the call to the expected
 method. In this way, this expectation only applies to method calls where passed
@@ -123,7 +136,9 @@ arguments are passed:
 
 .. code-block:: php
 
-    withAnyArgs()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->withAnyArgs();
 
 This is set by default unless otherwise specified.
 
@@ -131,7 +146,9 @@ We can declare that the expectation matches method calls with zero arguments:
 
 .. code-block:: php
 
-    withNoArgs()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->withNoArgs();
 
 Declaring Return Value Expectations
 -----------------------------------
@@ -143,7 +160,9 @@ For that we can use the ``andReturn()`` method:
 
 .. code-block:: php
 
-    andReturn(value)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturn($value);
 
 This sets a value to be returned from the expected method call.
 
@@ -153,9 +172,11 @@ subsequent call to the method:
 
 .. code-block:: php
 
-    andReturn(value1, value2, ...)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturn($value1, $value2, ...)
 
-The first call will return value1 and the second call will return value2.
+The first call will return ``$value1`` and the second call will return ``$value2``.
 
 If we call the method more times than the number of return values we declared,
 Mockery will return the final value for any subsequent method call:
@@ -175,7 +196,9 @@ The same can be achieved using the alternative syntax:
 
 .. code-block:: php
 
-    andReturnValues([value1, value2, ...])
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturnValues([$value1, $value2, ...])
 
 It accepts a simple array instead of a list of parameters. The order of return
 is determined by the numerical index of the given array with the last array
@@ -185,7 +208,12 @@ The following two options are primarily for communication with test readers:
 
 .. code-block:: php
 
-    andReturnNull() / andReturn([NULL])
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturnNull();
+    // or
+    $mock->shouldReceive('name_of_method')
+        ->andReturn([null]);
 
 They mark the mock object method call as returning ``null`` or nothing.
 
@@ -195,7 +223,9 @@ method which accepts one or more closure:
 
 .. code-block:: php
 
-    andReturnUsing(closure, ...)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturnUsing(closure, ...);
 
 Closures can queued by passing them as extra parameters as for ``andReturn()``.
 
@@ -207,7 +237,9 @@ If we are mocking fluid interfaces, the following method will be helpful:
 
 .. code-block:: php
 
-    andReturnSelf()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturnSelf();
 
 It sets the return value to the mocked class name.
 
@@ -215,7 +247,9 @@ We can tell the method of mock objects to throw exceptions:
 
 .. code-block:: php
 
-    andThrow(Exception)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andThrow(Exception);
 
 It will throw the given ``Exception`` object when called.
 
@@ -224,14 +258,21 @@ use when throwing an ``Exception`` from the mocked method:
 
 .. code-block:: php
 
-    andThrow(exception_name, message)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andThrow(exception_name, message);
 
 Used with an expectation so that when a matching method is called, we can cause
 a mock object's public property to be set to a specified value.
 
 .. code-block:: php
 
-    andSet(name, value1) / set(name, value1)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andSet($property, $value);
+    // or
+    $mock->shouldReceive('name_of_method')
+        ->set($property, $value);
 
 In cases where we want to call the real method of the class that was mocked and
 return its result, the ``passhthru()`` method tells the expectation to bypass
@@ -265,7 +306,9 @@ We can declare that the expected method may be called zero or more times:
 
 .. code-block:: php
 
-    zeroOrMoreTimes()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->zeroOrMoreTimes();
 
 This is the default for all methods unless otherwise set.
 
@@ -274,9 +317,11 @@ following:
 
 .. code-block:: php
 
-    times(n)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->times($n);
 
-where ``n`` is the number of times the method should be called.
+where ``$n`` is the number of times the method should be called.
 
 A couple of most common cases got their shorthand methods.
 
@@ -284,19 +329,25 @@ To declare that the expected method must be called one time only:
 
 .. code-block:: php
 
-    once()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->once();
 
 To declare that the expected method must be called two times:
 
 .. code-block:: php
 
-    twice()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->twice();
 
 To declare that the expected method must never be called:
 
 .. code-block:: php
 
-    never()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->never();
 
 Call count modifiers
 ^^^^^^^^^^^^^^^^^^^^
@@ -304,32 +355,40 @@ Call count modifiers
 The call count expectations can have modifiers set.
 
 If we want to tell Mockery the minimum number of times a method should be called,
-we use:
+we use ``atLeast()``:
 
 .. code-block:: php
 
-    atLeast()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->atLeast()
+        ->times(3);
 
 ``atLeast()->times(3)`` means the call must be called at least three times
 (given matching method args) but never less than three times.
 
 Similarly, we can tell Mockery the maximum number of times a method should be
-called:
+called, using ``atMost()``:
 
 .. code-block:: php
 
-    atMost()
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->atMost()
+        ->times(3);
 
 ``atMost()->times(3)`` means the call must be called no more than three times.
 If the method gets no calls at all, the expectation will still be met.
 
-We can also set a range of call counts:
+We can also set a range of call counts, using ``between()``:
 
 .. code-block:: php
 
-    between(min, max)
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->between($min, $max);
 
-This is actually identical to using ``atLeast()->times(min)->atMost()->times(max)``
+This is actually identical to using ``atLeast()->times($min)->atMost()->times($max)``
 but is provided as a shorthand. It may be followed by a ``times()`` call with no
 parameter to preserve the APIs natural language readability.
 

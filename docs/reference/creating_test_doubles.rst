@@ -309,13 +309,14 @@ Constructor Arguments
 ---------------------
 
 Sometimes the mocked class has required constructor arguments. We can pass these
-to Mockery as an indexed array, as the 2nd or the 3rd argument:
+to Mockery as an indexed array, as the 2nd argument:
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass', [$constructorArg1, $constructorArg2]);
 
-or if we need the ``MyClass`` to implement an interface as well:
+or if we need the ``MyClass`` to implement an interface as well, as the 3rd
+argument:
 
 .. code-block:: php
 
