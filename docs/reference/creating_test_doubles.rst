@@ -57,7 +57,7 @@ a name.
 Classes, abstracts, interfaces
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The recommended way is to create a stub or a mock object by using a name of
+The recommended way to create a stub or a mock object is by using a name of
 an existing class we want to create a test double of:
 
 .. code-block:: php
@@ -98,6 +98,15 @@ This stub or mock object will now be of type ``MyClass`` and implement the
 
     The class name doesn't need to be the first member of the list but it's a
     friendly convention to use for readability.
+
+We can tell a mock to implement the desired interfaces by passing the list of
+interfaces as the second argument:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass', 'MyInterface, OtherInterface');
+
+For all intents and purposes, this is the same as the previous example.
 
 Spies
 -----
@@ -290,7 +299,7 @@ especially when mocking hard dependencies which will be discussed later.
 .. note::
 
     Using alias/instance mocks across more than one test will generate a fatal
-    error since you can't have two classes of the same name. To avoid this,
+    error since we can't have two classes of the same name. To avoid this,
     run each test of this kind in a separate PHP process (which is supported
     out of the box by both PHPUnit and PHPT).
 
@@ -299,7 +308,70 @@ especially when mocking hard dependencies which will be discussed later.
 Constructor Arguments
 ---------------------
 
+Sometimes the mocked class has required constructor arguments. We can pass these
+to Mockery as an indexed array, as the 2nd or the 3rd argument:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass', [$constructorArg1, $constructorArg2]);
+
+or if we need the ``MyClass`` to implement an interface as well:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass', 'MyInterface', [$constructorArg1, $constructorArg2]);
+
+Mockery now knows to pass in ``$constructorArg1`` and ``$constructorArg2`` as
+arguments to the constructor.
+
 .. _creating-test-doubles-behavior-modifiers:
 
 Behavior Modifiers
 ------------------
+
+When creating a mock object, we may wish to use some commonly preferred
+behaviours that are not the default in Mockery.
+
+The use of the ``shouldIgnoreMissing()`` behaviour modifier will label this
+mock object as a Passive Mock:
+
+.. code-block:: php
+
+    \Mockery::mock('MyClass')->shouldIgnoreMissing()
+
+In such a mock object, calls to methods which are not covered by expectations
+will return ``null`` instead of the usual error about there being no expectation
+matching the call.
+
+On PHP >= 7.0.0, methods with missing expectations that have a return type
+will return either a mock of the object (if return type is a class) or a
+"falsy" primitive value, e.g. empty string, empty array, zero for ints and
+floats, false for bools, or empty closures.
+
+On PHP >= 7.1.0, methods with missing expectations and nullable return type
+will return null.
+
+We can optionally prefer to return an object of type ``\Mockery\Undefined``
+(i.e.  a ``null`` object) (which was the 0.7.2 behaviour) by using an
+additional modifier:
+
+.. code-block:: php
+
+    \Mockery::mock('MyClass')->shouldIgnoreMissing()->asUndefined()
+
+The returned object is nothing more than a placeholder so if, by some act of
+fate, it's erroneously used somewhere it shouldn't it will likely not pass a
+logic check.
+
+We have encountered the ``makePartial()`` method before, as it is the method we
+use to create runtime partial test doubles:
+
+.. code-block:: php
+
+    \Mockery::mock('MyClass')->makePartial()
+
+
+This form of mock object will defer all methods not subject to an expectation to
+the parent class of the mock, i.e. ``MyClass``. Whereas the previous
+``shouldIgnoreMissing()`` returned ``null``, this behaviour simply calls the
+parent's matching method.
