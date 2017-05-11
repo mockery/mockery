@@ -81,3 +81,50 @@ preserved:
 
         \Mockery::resetContainer();
     }
+
+Protected Methods
+-----------------
+
+When dealing with protected methods, and trying to preserve pass by reference
+behavior for them, a different approach is required.
+
+.. code-block:: php
+
+    class Model
+    {
+        public function test(&$data)
+        {
+            return $this->doTest($data);
+        }
+
+        protected function doTest(&$data)
+        {
+            $data['something'] = 'wrong';
+            return $this;
+        }
+    }
+
+    class Test extends \PHPUnit\Framework\TestCase
+    {
+        public function testModel()
+        {
+            $mock = \Mockery::mock('Model[test]')->shouldAllowMockingProtectedMethods();
+
+            $mock->shouldReceive('test')
+                ->with(\Mockery::on(function(&$data) {
+                    $data['something'] = 'wrong';
+                    return true;
+                }));
+
+            $data = array('foo' => 'bar');
+
+            $mock->test($data);
+            $this->assertTrue(isset($data['something']));
+            $this->assertEquals('wrong', $data['something']);
+        }
+    }
+
+This is quite an edge case, so we need to change the original code a little bit,
+by creating a public method that will call our protected method, and then mock
+that, instead of the protected method. This new public method will act as a
+proxy to our protected method.
