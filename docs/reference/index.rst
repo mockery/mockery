@@ -7,6 +7,7 @@ Reference
     creating_test_doubles
     expectations
     argument_validation
+    spies
     partial_mocks
     protected_methods
     public_properties

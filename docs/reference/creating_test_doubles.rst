@@ -169,6 +169,8 @@ before the call itself, and we get the return result we expect it to return.
 With a spy object on the other hand, we verify the call has happened after the
 fact. The return result of a method call against a spy is always ``null``.
 
+We also have a dedicated chapter to :doc:`spies` only.
+
 .. _creating-test-doubles-partial-test-doubles:
 
 Partial Test Doubles
