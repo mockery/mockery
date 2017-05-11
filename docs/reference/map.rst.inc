@@ -9,11 +9,3 @@
 * :doc:`/reference/final_methods_classes`
 * :doc:`/reference/magic_methods`
 * :doc:`/reference/phpunit_integration`
-
-Mockery Reference
------------------
-
-* :doc:`/reference/mockery/configuration`
-* :doc:`/reference/mockery/exceptions`
-* :doc:`/reference/mockery/reserved_method_names`
-* :doc:`/reference/mockery/gotchas`

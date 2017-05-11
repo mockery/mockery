@@ -1,5 +1,5 @@
-User Guide
-==========
+Reference
+=========
 
 .. toctree::
     :hidden:
@@ -14,6 +14,5 @@ User Guide
     demeter_chains
     final_methods_classes
     magic_methods
-    mockery/index
 
 .. include:: map.rst.inc

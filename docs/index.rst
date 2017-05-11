@@ -37,10 +37,10 @@ the "Getting Started" section!
 
 .. include:: getting_started/map.rst.inc
 
-User Guide
-----------
+Reference
+---------
 
-The user guide contains a complete overview of all features of the Mockery
+The reference contains a complete overview of all features of the Mockery
 framework.
 
 .. toctree::
