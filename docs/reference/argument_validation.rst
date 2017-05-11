@@ -124,6 +124,8 @@ A full list of the type checkers is available at
 list in
 `the Hamcrest code <https://github.com/hamcrest/hamcrest-php/blob/master/hamcrest/Hamcrest.php>`_.
 
+.. _argument-validation-complex-argument-validation:
+
 Complex Argument Validation
 ---------------------------
 

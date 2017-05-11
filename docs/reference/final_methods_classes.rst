@@ -15,9 +15,12 @@ However, in a compromise between mocking functionality and type safety,
 Mockery does allow creating "proxy mocks" from classes marked final, or from
 classes with methods marked final. This offers all the usual mock object
 goodness but the resulting mock will not inherit the class type of the object
-being mocked, i.e.  it will not pass any instanceof comparison.
+being mocked, i.e. it will not pass any instanceof comparison.
 
-You can create a proxy mock by passing the instantiated object you wish to
+We can create a proxy mock by passing the instantiated object we wish to
 mock into ``\Mockery::mock()``, i.e. Mockery will then generate a Proxy to the
 real object and selectively intercept method calls for the purposes of setting
 and meeting expectations.
+
+See the :ref:`creating-test-doubles-partial-test-doubles` chapter, the subsection
+about proxied partial test doubles.

@@ -12,13 +12,13 @@ similar to:
     $object->foo()->bar()->zebra()->alpha()->selfDestruct();
 
 The long chain of method calls isn't necessarily a bad thing, assuming they
-each link back to a local object the calling class knows. Just as a fun
-example, Mockery's long chains (after the first ``shouldReceive()`` method)
-all call to the same instance of ``\Mockery\Expectation``. However, sometimes
-this is not the case and the chain is constantly crossing object boundaries.
+each link back to a local object the calling class knows. As a fun example,
+Mockery's long chains (after the first ``shouldReceive()`` method) all call to
+the same instance of ``\Mockery\Expectation``. However, sometimes this is not
+the case and the chain is constantly crossing object boundaries.
 
 In either case, mocking such a chain can be a horrible task. To make it easier
-Mockery support demeter chain mocking. Essentially, we shortcut through the
+Mockery supports demeter chain mocking. Essentially, we shortcut through the
 chain and return a defined value from the final call. For example, let's
 assume ``selfDestruct()`` returns the string "Ten!" to $object (an instance of
 ``CaptainsConsole``). Here's how we could mock it.
