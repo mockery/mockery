@@ -37,6 +37,12 @@ so it can be documented and resolved where possible. Here is a list to note:
    method parameters are needed, you should use the
    ``\Mockery\Configuration::setInternalClassMethodParamMap()`` method.
 
+5. Creating a mock implementing a certain interface with incorrect case in the
+   interface name, and then creating a second mock implementing the same
+   interface, but this time with the correct case, will have undefined behavior
+   due to PHP's ``class_exists`` and related functions being case insensitive.
+   Using the ``::class`` keyword in PHP can help you avoid these mistakes.
+
 The gotchas noted above are largely down to PHP's architecture and are assumed
 to be unavoidable. But - if you figure out a solution (or a better one than
 what may exist), let us know!
