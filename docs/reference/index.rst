@@ -14,5 +14,6 @@ Reference
     demeter_chains
     final_methods_classes
     magic_methods
+    phpunit_integration
 
 .. include:: map.rst.inc
