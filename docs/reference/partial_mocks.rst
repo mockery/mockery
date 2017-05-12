@@ -35,6 +35,9 @@ call, that call is deferred to the class being mocked. Since the division
 between mocked and unmocked calls depends entirely on the expectations we
 define, there is no need to define which methods to mock in advance.
 
+See the cookbook entry on :doc:`../cookbook/big_parent_class` for an example
+usage of runtime partial test doubles.
+
 .. note::
 
     The ``makePartial()`` method is identical to the original ``shouldDeferMissing()``

@@ -210,6 +210,9 @@ Mockery double.
     $foo->shouldReceive('foo')->andReturn(456);
     $foo->bar(); // int(456)
 
+See the cookbook entry on :doc:`../cookbook/big_parent_class` for an example
+usage of runtime partial test doubles.
+
 Generated partial test doubles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
