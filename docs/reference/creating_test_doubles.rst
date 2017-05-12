@@ -313,6 +313,35 @@ especially when mocking hard dependencies which will be discussed later.
     run each test of this kind in a separate PHP process (which is supported
     out of the box by both PHPUnit and PHPT).
 
+
+.. _creating-test-doubles-named-mocks:
+
+Named Mocks
+-----------
+
+The ``namedMock()`` method will generate a class called by the first argument,
+so in this example ``MyClassName``. The rest of the arguments are treated in the
+same way as the ``mock`` method:
+
+.. code-block:: php
+
+    $mock = \Mockery::namedMock('MyClassName', 'DateTime');
+
+This example would create a class called ``MyClassName`` that extends
+``DateTime``.
+
+Named mocks are quite an edge case, but they can be useful when code depends
+on the ``__CLASS__`` magic constant, or when we need two derivatives of an
+abstract type, that are actually different classes.
+
+See the cookbook entry on :doc:`../cookbook/class_constants` for an example
+usage of named mocks.
+
+.. note::
+
+    We can only create a named mock once, any subsequent calls to
+    ``namedMock``, with different arguments are likely to cause exceptions.
+
 .. _creating-test-doubles-constructor-arguments:
 
 Constructor Arguments
