@@ -835,7 +835,7 @@ class Mock implements MockInterface
         }
 
         $bmce = new BadMethodCallException($message);
-        $this->_mockery_badMethodCallExceptions[] = $bmce;
+        $this->_mockery_thrownExceptions[] = $bmce;
         throw $bmce;
     }
 
