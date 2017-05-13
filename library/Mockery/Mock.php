@@ -23,6 +23,7 @@ namespace Mockery;
 use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
 use Mockery\ExpectsHigherOrderMessage;
+use Mockery\Exception\BadMethodCallException;
 
 class Mock implements MockInterface
 {
@@ -408,8 +409,8 @@ class Mock implements MockInterface
     public function mockery_throwBadMethodCallExceptions()
     {
         foreach ($this->_mockery_badMethodCallExceptions as $bmce) {
-            if ($bmce instanceof \BadMethodCallException) {
-                throw new \BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
+            if ($bmce instanceof BadMethodCallException && !$bmce->dismissed()) {
+                throw new BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
             }
         }
     }
@@ -757,10 +758,12 @@ class Mock implements MockInterface
         try {
             $associatedRealObject = \Mockery::fetchMock(__CLASS__);
             return $associatedRealObject->__call($method, $args);
-        } catch (\BadMethodCallException $e) {
-            throw new \BadMethodCallException(
+        } catch (BadMethodCallException $e) {
+            throw new BadMethodCallException(
                 'Static method ' . $associatedRealObject->mockery_getName() . '::' . $method
-                . '() does not exist on this mock object'
+                . '() does not exist on this mock object',
+                null,
+                $e
             );
         }
     }
@@ -835,7 +838,7 @@ class Mock implements MockInterface
                 '::' . $method . '(), but no expectations were specified';
         }
 
-        $bmce = new \BadMethodCallException($message);
+        $bmce = new BadMethodCallException($message);
         $this->_mockery_badMethodCallExceptions[] = $bmce;
         throw $bmce;
     }

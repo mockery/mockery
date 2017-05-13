@@ -21,6 +21,7 @@
 
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Exception\BadMethodCallException;
 
 class ContainerTest extends MockeryTestCase
 {
@@ -582,14 +583,20 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException BadMethodCallException
      */
     public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist()
     {
-        Mockery::setContainer($this->container);
-        $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
-        $this->assertEquals('bar', MyNameSpace\StaticNoMethod::staticFoo());
-        Mockery::resetContainer();
+        $m = Mockery::mock('alias:MyNamespace\StaticNoMethod');
+        try {
+            MyNameSpace\StaticNoMethod::staticFoo();
+        } catch (BadMethodCallException $e) {
+            // Mockery + PHPUnit has a fail safe for tests swallowing our
+            // exceptions 
+            $e->dismiss();
+            return;
+        }
+
+        $this->fail('Exception was not thrown');
     }
 
     /**
