@@ -28,21 +28,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class MockingMethodsWithIterableTypeHintsTest extends MockeryTestCase
 {
-    protected function setUp()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    protected function tearDown()
-    {
-        $this->container->mockery_close();
-    }
-
     /** @test */
     public function itShouldSuccessfullyBuildTheMock()
     {
         require __DIR__."/Fixtures/MethodWithIterableTypeHints.php";
-        $mock = $this->container->mock("test\Mockery\Fixtures\MethodWithIterableTypeHints");
+        $mock = mock("test\Mockery\Fixtures\MethodWithIterableTypeHints");
 
         $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithIterableTypeHints);
     }

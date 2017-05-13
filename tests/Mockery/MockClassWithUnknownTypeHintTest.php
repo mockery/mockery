@@ -21,24 +21,17 @@
 
 namespace test\Mockery;
 
+use Mockery\MockInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithUnknownTypeHintTest extends MockeryTestCase
 {
-    protected function setUp()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    protected function tearDown()
-    {
-        $this->container->mockery_close();
-    }
-
     /** @test */
     public function itShouldSuccessfullyBuildTheMock()
     {
-        $this->container->mock("test\Mockery\HasUnknownClassAsTypeHintOnMethod");
+        $mock = mock("test\Mockery\HasUnknownClassAsTypeHintOnMethod");
+
+        $this->assertInstanceOf(MockInterface::class, $mock);
     }
 }
 

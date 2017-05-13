@@ -31,19 +31,13 @@ class MockingVoidMethodsTest extends MockeryTestCase
     protected function setUp()
     {
         require_once __DIR__."/Fixtures/MethodWithVoidReturnType.php";
-
-        $this->container = new \Mockery\Container;
     }
 
-    protected function tearDown()
-    {
-        $this->container->mockery_close();
-    }
 
     /** @test */
     public function itShouldSuccessfullyBuildTheMock()
     {
-        $mock = $this->container->mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
+        $mock = mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
 
         $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithVoidReturnType);
     }
@@ -51,7 +45,7 @@ class MockingVoidMethodsTest extends MockeryTestCase
     /** @test */
     public function it_can_stub_and_mock_void_methods()
     {
-        $mock = $this->container->mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
+        $mock = mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
 
         $mock->shouldReceive("foo");
         $mock->foo();

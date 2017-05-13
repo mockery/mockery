@@ -159,9 +159,11 @@ class Mockery
             return;
         }
 
-        self::$_container->mockery_teardown();
-        self::$_container->mockery_close();
+        $container = self::$_container;
         self::$_container = null;
+
+        $container->mockery_teardown();
+        $container->mockery_close();
     }
 
     /**
