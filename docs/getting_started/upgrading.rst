@@ -4,11 +4,16 @@
 Upgrading
 =========
 
+Upgrading to 1.0.0
+------------------
+
+To be written.
+
 Upgrading to 0.9
 ----------------
 
 The generator was completely rewritten, so any code with a deep integration to
-mockery will need evaluating
+mockery will need evaluating.
 
 Upgrading to 0.8
 ----------------

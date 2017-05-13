@@ -14,21 +14,21 @@ interaction with the ``Temperature`` class:
 
     class Temperature
     {
+        private $service;
 
         public function __construct($service)
         {
-            $this->_service = $service;
+            $this->service = $service;
         }
 
         public function average()
         {
             $total = 0;
-            for ($i=0;$i<3;$i++) {
-                $total += $this->_service->readTemp();
+            for ($i=0; $i<3; $i++) {
+                $total += $this->service->readTemp();
             }
             return $total/3;
         }
-
     }
 
 Even without an actual service class, we can see how we expect it to operate.
@@ -38,27 +38,31 @@ mock object for the real service which allows us to test the behaviour of the
 
 .. code-block:: php
 
-    use \Mockery as m;
+    use \Mockery;
 
     class TemperatureTest extends PHPUnit_Framework_TestCase
     {
-
         public function tearDown()
         {
-            m::close();
+            Mockery::close();
         }
 
         public function testGetsAverageTemperatureFromThreeServiceReadings()
         {
-            $service = m::mock('service');
-            $service->shouldReceive('readTemp')->times(3)->andReturn(10, 12, 14);
+            $service = Mockery::mock('service');
+            $service->shouldReceive('readTemp')
+                ->times(3)
+                ->andReturn(10, 12, 14);
 
             $temperature = new Temperature($service);
 
             $this->assertEquals(12, $temperature->average());
         }
-
     }
+
+We create a mock object which our ``Temperature`` class will use and set some
+expectations for that mock — that it should receive three calls to the ``readTemp``
+method, and these calls will return 10, 12, and 14 as results.
 
 .. note::
 

@@ -46,7 +46,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Mockery Docs'
-copyright = u'2014, Pádraic Brady, Dave Marshall, Wouter, Graham Campbell'
+copyright = u'Pádraic Brady, Dave Marshall and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
