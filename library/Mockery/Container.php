@@ -303,15 +303,19 @@ class Container
     }
 
     /**
-     * Rethrow bad method call exceptions
+     * Retrieves all exceptions thrown by mocks
      *
-     * @throws \BadMethodCallException
+     * @return array
      */
-    public function mockery_throwBadMethodCallExceptions()
+    public function mockery_thrownExceptions()
     {
+        $e = [];
+
         foreach ($this->_mocks as $mock) {
-            $mock->mockery_throwBadMethodCallExceptions();
+            array_merge($e, $mock->mockery_thrownExceptions());
         }
+
+        return $e;
     }
 
     /**

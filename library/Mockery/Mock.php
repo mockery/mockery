@@ -153,7 +153,7 @@ class Mock implements MockInterface
      *
      * @var array
      */
-    protected $_mockery_badMethodCallExceptions = [];
+    protected $_mockery_thrownExceptions = [];
 
     /**
      * We want to avoid constructors since class is copied to Generator.php
@@ -402,17 +402,13 @@ class Mock implements MockInterface
     }
 
     /**
-     * Iterate across all thrown \BadMethodCallExceptions and rethrow them again
+     * Gets a list of exceptions thrown by this mock
      *
-     * @throws \BadMethodCallException
+     * @return array
      */
-    public function mockery_throwBadMethodCallExceptions()
+    public function mockery_thrownExceptions()
     {
-        foreach ($this->_mockery_badMethodCallExceptions as $bmce) {
-            if ($bmce instanceof BadMethodCallException && !$bmce->dismissed()) {
-                throw new BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
-            }
-        }
+        return $this->_mockery_thrownExceptions;
     }
 
     /**
