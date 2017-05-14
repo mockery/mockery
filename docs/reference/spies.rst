@@ -129,8 +129,8 @@ the number of calls:
         ->with('bar')
         ->twice();
 
-Non-string method calls
-^^^^^^^^^^^^^^^^^^^^^^^
+Alternative shouldReceive syntax
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As of Mockery 1.0.0, we support calling methods as we would call any PHP method,
 and not as string arguments to Mockery ``should*`` methods.
