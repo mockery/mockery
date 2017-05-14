@@ -43,14 +43,14 @@ acted on the SUT, usually making our tests more readable:
 .. code-block:: php
 
     // arrange
-    $mock = \Mockery::spy('MyDependency');
-    $sut = new MyClass($mock);
+    $spy = \Mockery::spy('MyDependency');
+    $sut = new MyClass($spy);
 
     // act
     $sut->callFoo();
 
     // assert
-    $mock->shouldHaveReceived()
+    $spy->shouldHaveReceived()
         ->foo()
         ->with('bar');
 
@@ -78,3 +78,77 @@ that with a spy, only with a mock object.
     `"Mockery Spies" <https://davedevelopment.co.uk/2014/10/09/mockery-spies.html>`_,
     published by Dave Marshall on his blog. Dave is the original author of spies
     in Mockery.
+
+Spies Reference
+---------------
+
+To verify that a method was called on a spy, we use the ``shouldHaveReceived()``
+method:
+
+.. code-block:: php
+
+    $spy->shouldHaveReceived('foo');
+
+To verify that a method was **not** called on a spy, we use the
+``shouldNotHaveReceived()`` method:
+
+.. code-block:: php
+
+    $spy->shouldNotHaveReceived('foo');
+
+We can also do argument matching with spies:
+
+.. code-block:: php
+
+    $spy->shouldHaveReceived('foo')
+        ->with('bar');
+
+Argument matching is also possible by passing in an array of arguments to
+match:
+
+.. code-block:: php
+
+    $spy->shouldHaveReceived('foo', ['bar']);
+
+Although when verifying a method was not called, the argument matching can only
+be done by supplying the array of arguments as the 2nd argument to the
+``shouldNotHaveReceived()`` method:
+
+.. code-block:: php
+
+    $spy->shouldNotHaveReceived('foo', ['bar']);
+
+This is due to Mockery's internals.
+
+Finally, when expecting calls that should have been received, we can also verify
+the number of calls:
+
+.. code-block:: php
+
+    $spy->shouldHaveReceived('foo')
+        ->with('bar')
+        ->twice();
+
+Alternative shouldReceive syntax
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As of Mockery 1.0.0, we support calling methods as we would call any PHP method,
+and not as string arguments to Mockery ``should*`` methods.
+
+In cases of spies, this only applies to the ``shouldHaveReceived()`` method:
+
+.. code-block:: php
+
+    $spy->shouldHaveReceived()
+        ->foo('bar');
+
+We can set expectation on number of calls as well:
+
+.. code-block:: php
+
+    $spy->shouldHaveReceived()
+        ->foo('bar')
+        ->twice();
+
+Unfortunatelly, due to limitations we can't support the same syntax for the
+``shouldNotHaveReceived()`` method.
