@@ -35,7 +35,7 @@ trait MockeryPHPUnitIntegration
     protected function assertPostConditions()
     {
         $this->addMockeryExpectationsToAssertionCount();
-        $this->checkBadMethodCallExceptions();
+        $this->checkMockeryExceptions();
         $this->closeMockery();
 
         parent::assertPostConditions();
@@ -50,9 +50,13 @@ trait MockeryPHPUnitIntegration
         }
     }
 
-    protected function checkBadMethodCallExceptions()
+    protected function checkMockeryExceptions()
     {
-        Mockery::getContainer()->mockery_throwBadMethodCallExceptions();
+        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
+            if (!$e->dismissed()) {
+                $this->markAsRisky('Mockery found an exception that appears to have been swallowed: '.$e->getMessage());
+            }
+        }
     }
 
     protected function closeMockery()

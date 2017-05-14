@@ -21,6 +21,7 @@
 
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Exception\BadMethodCallException;
 
 class ContainerTest extends MockeryTestCase
 {
@@ -582,14 +583,20 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException BadMethodCallException
      */
     public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist()
     {
-        Mockery::setContainer($this->container);
-        $m = $this->container->mock('alias:MyNamespace\StaticNoMethod');
-        $this->assertEquals('bar', MyNameSpace\StaticNoMethod::staticFoo());
-        Mockery::resetContainer();
+        $m = Mockery::mock('alias:MyNamespace\StaticNoMethod');
+        try {
+            MyNameSpace\StaticNoMethod::staticFoo();
+        } catch (BadMethodCallException $e) {
+            // Mockery + PHPUnit has a fail safe for tests swallowing our
+            // exceptions 
+            $e->dismiss();
+            return;
+        }
+
+        $this->fail('Exception was not thrown');
     }
 
     /**
@@ -751,6 +758,21 @@ class ContainerTest extends MockeryTestCase
         $instance = new MyNamespace\MyClass12();
         $instance->foo();
 
+        Mockery::resetContainer();
+    }
+
+    /**
+     * @group issue/451
+     */
+    public function testSettingPropertyOnInstanceMockWillSetItOnActualInstance()
+    {
+        Mockery::setContainer($this->container);
+        $m = $this->container->mock('overload:MyNamespace\MyClass13');
+        $m->shouldReceive('foo')->andSet('bar', 'baz');
+        $instance = new MyNamespace\MyClass13;
+        $instance->foo();
+        $this->assertEquals('baz', $m->bar);
+        $this->assertEquals('baz', $instance->bar);
         Mockery::resetContainer();
     }
 

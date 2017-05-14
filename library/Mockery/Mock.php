@@ -23,6 +23,7 @@ namespace Mockery;
 use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
 use Mockery\ExpectsHigherOrderMessage;
+use Mockery\Exception\BadMethodCallException;
 
 class Mock implements MockInterface
 {
@@ -152,7 +153,7 @@ class Mock implements MockInterface
      *
      * @var array
      */
-    protected $_mockery_badMethodCallExceptions = [];
+    protected $_mockery_thrownExceptions = [];
 
     /**
      * We want to avoid constructors since class is copied to Generator.php
@@ -401,17 +402,13 @@ class Mock implements MockInterface
     }
 
     /**
-     * Iterate across all thrown \BadMethodCallExceptions and rethrow them again
+     * Gets a list of exceptions thrown by this mock
      *
-     * @throws \BadMethodCallException
+     * @return array
      */
-    public function mockery_throwBadMethodCallExceptions()
+    public function mockery_thrownExceptions()
     {
-        foreach ($this->_mockery_badMethodCallExceptions as $bmce) {
-            if ($bmce instanceof \BadMethodCallException) {
-                throw new \BadMethodCallException($bmce->getMessage(), $bmce->getCode(), $bmce);
-            }
-        }
+        return $this->_mockery_thrownExceptions;
     }
 
     /**
@@ -757,10 +754,12 @@ class Mock implements MockInterface
         try {
             $associatedRealObject = \Mockery::fetchMock(__CLASS__);
             return $associatedRealObject->__call($method, $args);
-        } catch (\BadMethodCallException $e) {
-            throw new \BadMethodCallException(
+        } catch (BadMethodCallException $e) {
+            throw new BadMethodCallException(
                 'Static method ' . $associatedRealObject->mockery_getName() . '::' . $method
-                . '() does not exist on this mock object'
+                . '() does not exist on this mock object',
+                null,
+                $e
             );
         }
     }
@@ -835,8 +834,8 @@ class Mock implements MockInterface
                 '::' . $method . '(), but no expectations were specified';
         }
 
-        $bmce = new \BadMethodCallException($message);
-        $this->_mockery_badMethodCallExceptions[] = $bmce;
+        $bmce = new BadMethodCallException($message);
+        $this->_mockery_thrownExceptions[] = $bmce;
         throw $bmce;
     }
 
