@@ -96,13 +96,25 @@ class AllowsExpectsSyntaxTest extends TestCase
     }
 
     /** @test */
-    public function callVerificationCountCanBeOverridenAfterExpects()
+    public function callVerificationCountCanBeOverridenAfterExpectsThrowsExceptionWhenIncorrectNumberOfCalls()
     {
         $mock = m::mock();
         $mock->expects()->foo(123)->twice();
 
         $mock->foo(123);
         $this->expectException("Mockery\Exception\InvalidCountException");
+        m::close();
+    }
+
+    /** @test */
+    public function callVerificationCountCanBeOverridenAfterExpects()
+    {
+        $mock = m::mock();
+        $mock->expects()->foo(123)->twice();
+
+        $mock->foo(123);
+        $mock->foo(123);
+
         m::close();
     }
 
