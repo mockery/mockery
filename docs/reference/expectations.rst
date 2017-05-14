@@ -50,6 +50,13 @@ their return values:
         'name_of_method_2' => 'return value 2',
     ]);
 
+There's also a shorthand way of setting up method call expectations and their
+return values:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass', ['name_of_method_1' => 'return value 1', 'name_of_method_2' => 'return value 2']);
+
 All of these will adopt any additional chained expectations or constraints.
 
 We can declare that a test double should not expect a call to the given method

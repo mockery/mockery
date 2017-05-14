@@ -54,11 +54,11 @@ comparison, which means only the same ``$object`` will match:
 
     $object = new stdClass();
     $mock = \Mockery::mock('MyClass');
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with($object);
 
     // Hamcrest equivalent
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(identicalTo($object));
 
 A different instance of ``stdClass`` will **not** match.
@@ -72,7 +72,7 @@ If we need a loose comparison of objects, we can do that using Hamcrest's
 
 .. code-block:: php
 
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(equalTo(new stdClass));
 
 In cases when we don't care about the type, or the value of an argument, just
@@ -81,11 +81,11 @@ that any argument is present, we use ``any()``:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(\Mockery::any());
 
     // Hamcrest equivalent
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(anything())
 
 Anything and everything passed in this argument slot is passed unconstrained.
@@ -101,13 +101,13 @@ To match any PHP resource, we could do the following:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(\Mockery::type('resource'));
 
     // Hamcrest equivalents
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(resourceValue());
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(typeOf('resource'));
 
 It will return a ``true`` from an ``is_resource()`` call, if the provided
@@ -136,7 +136,7 @@ argument will be passed.
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->with(\Mockery::on(closure));
 
 If the closure evaluates to (i.e. returns) boolean ``true`` then the argument is
@@ -169,7 +169,7 @@ arguments is assumed to have matched the expectation:
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
-    $mock->expects("foo")
+    $mock->shouldReceive("foo")
         ->withArgs(closure);
 
 The closure can also handle optional parameters, so if an optional parameter is

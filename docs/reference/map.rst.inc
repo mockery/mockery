@@ -1,6 +1,7 @@
 * :doc:`/reference/creating_test_doubles`
 * :doc:`/reference/expectations`
 * :doc:`/reference/argument_validation`
+* :doc:`/reference/alternative_should_receive_syntax`
 * :doc:`/reference/spies`
 * :doc:`/reference/partial_mocks`
 * :doc:`/reference/protected_methods`

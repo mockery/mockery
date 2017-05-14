@@ -7,6 +7,7 @@ Reference
     creating_test_doubles
     expectations
     argument_validation
+    alternative_should_receive_syntax
     spies
     partial_mocks
     protected_methods
