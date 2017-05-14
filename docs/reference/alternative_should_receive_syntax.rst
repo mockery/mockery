@@ -1,8 +1,8 @@
 .. index::
-    single: Non-string Method Calls
+    single: Alternative shouldReceive Syntax
 
-Non-string Method Calls
-=======================
+Alternative shouldReceive Syntax
+================================
 
 As of Mockery 1.0.0, we support calling methods as we would call any PHP method,
 and not as string arguments to Mockery ``should*`` methods.
