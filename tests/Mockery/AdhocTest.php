@@ -82,15 +82,24 @@ class Mockery_AdhocTest extends MockeryTestCase
         $this->container->mockery_close();
         $this->assertFalse(MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled);
     }
-
     public function testMockeryConstructAndDestructIsCalled()
     {
         MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled = false;
-
         $this->container->mock('MockeryTest_NameOfExistingClassWithDestructor', array());
         // Clear references to trigger destructor
         $this->container->mockery_close();
         $this->assertTrue(MockeryTest_NameOfExistingClassWithDestructor::$isDestructorWasCalled);
+    }
+
+    public function testComparingClassesWithDeprecatedMethods()
+    {
+        $object1 = new MockeryTest_ClassWithDeprecatedMethods();
+        $object2 = new MockeryTest_ClassWithDeprecatedMethods();
+
+        $mock = Mockery::mock('MockeryTest_NameOfInterfaceWithParams');
+        $mock->shouldReceive('foo')->with($object1)->andReturn('A');
+
+        $mock->foo($object2);
     }
 }
 
@@ -101,6 +110,11 @@ class MockeryTest_NameOfExistingClass
 interface MockeryTest_NameOfInterface
 {
     public function foo();
+}
+
+interface MockeryTest_NameOfInterfaceWithParams
+{
+    public function foo(MockeryTest_ClassWithDeprecatedMethods $param);
 }
 
 abstract class MockeryTest_NameOfAbstract
@@ -115,5 +129,27 @@ class MockeryTest_NameOfExistingClassWithDestructor
     public function __destruct()
     {
         self::$isDestructorWasCalled = true;
+    }
+}
+
+class MockeryTest_ClassWithDeprecatedMethods
+{
+    function getA()
+    {
+        return 'A';
+    }
+
+    /** @deprecated */
+    function getDeprecated()
+    {
+        trigger_error('Here is a problem', E_USER_DEPRECATED);
+        return 'ERROR';
+    }
+
+    /** @deprecated */
+    function isDeprecated()
+    {
+        trigger_error('Here is a problem', E_USER_DEPRECATED);
+        return 'ERROR';
     }
 }
