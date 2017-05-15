@@ -10,5 +10,6 @@ Cookbook
     mocking_hard_dependencies
     class_constants
     big_parent_class
+    mockery_on
 
 .. include:: map.rst.inc
