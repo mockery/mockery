@@ -22,6 +22,7 @@
 * BC BREAK - Remove implicit regex matching when trying to match string arguments, introduce `\Mockery::pattern()` when regex matching is needed
 * Fix Mockery not getting closed in cases of failing test cases
 * Fix Mockery not setting properties on overloaded instance mocks
+* BC BREAK - Fix Mockery not trying default expectations if there is any concrete expectation
 
  
 ## 0.9.4 (XXXX-XX-XX)
