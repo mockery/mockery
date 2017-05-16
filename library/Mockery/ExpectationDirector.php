@@ -139,7 +139,7 @@ class ExpectationDirector
             $expectation = $this->_findExpectationIn($this->_expectations, $args);
         }
 
-        if ($expectation === null) {
+        if ($expectation === null && !empty($this->_defaults)) {
             $expectation = $this->_findExpectationIn($this->_defaults, $args);
         }
 
