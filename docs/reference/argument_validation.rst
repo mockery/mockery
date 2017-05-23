@@ -148,7 +148,7 @@ assumed to have matched the expectation.
 
     $mock->shouldReceive('foo')
         ->with(\Mockery::on(function ($argument) {
-            if ($arg % 2 == 0) {
+            if ($argument % 2 == 0) {
                 return true;
             }
             return false;
