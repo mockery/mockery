@@ -27,6 +27,17 @@ use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 use Mockery\Matcher\MatcherAbstract;
 
+
+class ShutdownFailsafe {
+    function __construct($callable) {
+        $this->callable = $callable;
+    }
+    
+    function __destruct() {
+        call_user_func($this->callable);
+    }
+}
+
 class Mockery
 {
     const BLOCKS = 'Mockery_Forward_Blocks';
@@ -54,6 +65,11 @@ class Mockery
      * @var \Mockery\Loader\Loader
      */
     protected static $_loader;
+    
+    /**
+     * An object that calls a callable when it is destroyed.
+     */
+    private static $shutdownForgetMeNot = null;
 
     /**
      * @var array
@@ -186,6 +202,10 @@ class Mockery
     {
         if (is_null(self::$_container)) {
             self::$_container = new Mockery\Container(self::getGenerator(), self::getLoader());
+        }
+        
+        if (self::$shutdownFailsafe == null) {
+            self::$shutdownFailsafe = new ShutdownFailsafe(['Mockery', 'close']);
         }
 
         return self::$_container;
