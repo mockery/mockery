@@ -358,6 +358,12 @@ class Expectation implements ExpectationInterface
                 return true;
             }
         }
+        if (is_object($expected) && is_object($actual)) {
+            $result = $actual == $expected;
+            if ($result) {
+                return true;
+            }
+        }
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
