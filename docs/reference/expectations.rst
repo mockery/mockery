@@ -291,7 +291,7 @@ a mock object's public property to be set to a specified value, by using
         ->set($property, $value);
 
 In cases where we want to call the real method of the class that was mocked and
-return its result, the ``passhthru()`` method tells the expectation to bypass
+return its result, the ``passthru()`` method tells the expectation to bypass
 a return queue:
 
 .. code-block:: php
