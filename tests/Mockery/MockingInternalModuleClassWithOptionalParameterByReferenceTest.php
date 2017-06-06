@@ -18,7 +18,6 @@ namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-
 class MockingInternalModuleClassWithOptionalParameterByReferenceTest extends MockeryTestCase
 {
     protected function setUp()
