@@ -18,12 +18,12 @@ namespace test\Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 
-class MockingInternalModuleClassWithOptionalParameterByReference extends MockeryTestCase
+class MockingInternalModuleClassWithOptionalParameterByReferenceTest extends MockeryTestCase
 {
     protected function setUp()
     {
         if (!extension_loaded('memcache')) {
-            $this->markTestSkipped('The memcache extension needs to be loaded in order to run this test');
+            $this->markTestSkipped('ext/memcache not installed');
         }
         parent::setUp();
     }
@@ -42,15 +42,15 @@ class MockingInternalModuleClassWithOptionalParameterByReference extends Mockery
     public function mockingInternalModuleClassWithOptionalParameterByReferenceMayNotBreakCodeGeneration()
     {
         \Mockery::getConfiguration()
-            ->setInternalClassMethodParamMap(\Memcache::class, 'get', ['$id', '&$flags = null']);
-
-        $memcache = \Mockery::mock(\Memcache::class);
+            ->setInternalClassMethodParamMap('Memcache', 'get', array('$id', '&$flags = null'));
+        $self = $this;
+        $memcache = \Mockery::mock('Memcache');
         $memcache->shouldReceive('get')
             ->with(
                 $id = 'foobar',
                 \Mockery::on(
-                    function (&$flags) {
-                        $this->assertNull($flags);
+                    function (&$flags) use ($self){
+                        $self->assertNull($flags);
                         $flags = 255;
                         return true;
                     }
