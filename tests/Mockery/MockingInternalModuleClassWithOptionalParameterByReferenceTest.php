@@ -15,6 +15,7 @@
  */
 
 namespace test\Mockery;
+
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 
@@ -49,7 +50,7 @@ class MockingInternalModuleClassWithOptionalParameterByReferenceTest extends Moc
             ->with(
                 $id = 'foobar',
                 \Mockery::on(
-                    function (&$flags) use ($self){
+                    function (&$flags) use ($self) {
                         $self->assertNull($flags);
                         $flags = 255;
                         return true;
@@ -62,5 +63,4 @@ class MockingInternalModuleClassWithOptionalParameterByReferenceTest extends Moc
         $this->assertSame($expected, $memcache->get($id, $paramFlags));
         $this->assertSame(255, $paramFlags);
     }
-
 }
