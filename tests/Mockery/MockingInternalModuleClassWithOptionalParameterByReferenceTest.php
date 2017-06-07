@@ -20,46 +20,50 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingInternalModuleClassWithOptionalParameterByReferenceTest extends MockeryTestCase
 {
-    protected function setUp()
-    {
-        if (!extension_loaded('memcache')) {
-            $this->markTestSkipped('ext/memcache not installed');
-        }
-        parent::setUp();
-    }
+	protected function setUp()
+	{
+		if (!extension_loaded('memcache')) {
+			$this->markTestSkipped('ext/memcache not installed');
+		}
+		parent::setUp();
+	}
 
-    protected function tearDown()
-    {
-        static::closeMockery();
-        parent::tearDown();
-    }
+	protected function tearDown()
+	{
+		static::closeMockery();
+		parent::tearDown();
+	}
 
-    /**
-     * Regression for {@see https://github.com/mockery/mockery/issues/757 issue#757}
-     *
-     * @test
-     */
-    public function mockingInternalModuleClassWithOptionalParameterByReferenceMayNotBreakCodeGeneration()
-    {
-        \Mockery::getConfiguration()
-            ->setInternalClassMethodParamMap('Memcache', 'get', array('$id', '&$flags = null'));
-        $self = $this;
-        $memcache = \Mockery::mock('Memcache');
-        $memcache->shouldReceive('get')
-            ->with(
-                $id = 'foobar',
-                \Mockery::on(
-                    function (&$flags) use ($self) {
-                        $self->assertNull($flags);
-                        $flags = 255;
-                        return true;
-                    }
-                )
-            )
-            ->once()
-            ->andReturn($expected = time());
-        $paramFlags = null;
-        $this->assertSame($expected, $memcache->get($id, $paramFlags));
-        $this->assertSame(255, $paramFlags);
-    }
+	/**
+	 * Regression for {@see https://github.com/mockery/mockery/issues/757 issue#757}
+	 *
+	 * @test
+	 */
+	public function mockingInternalModuleClassWithOptionalParameterByReferenceMayNotBreakCodeGeneration()
+	{
+		// this works for macOS
+		\Mockery::getConfiguration()
+			->setInternalClassMethodParamMap('Memcache', 'get', array('$id', '&$flags = null'));
+		// strange thing is, the reflected class under linux is MemcachePool not Memcache
+		\Mockery::getConfiguration()
+			->setInternalClassMethodParamMap('MemcachePool', 'get', array('$id', '&$flags = null'));
+		$memcache = \Mockery::mock('Memcache');
+		$memcache->shouldReceive('get')
+			->with(
+				$id = 'foobar',
+				\Mockery::on(
+					function (&$flags) {
+						$valid = null === $flags;
+						$flags = 255;
+						return $valid;
+					}
+				)
+			)
+			->once()
+			->andReturn($expected = time());
+		$paramFlags = null;
+		$this->assertSame($expected, $memcache->get($id, $paramFlags));
+		\Mockery::close();
+		$this->assertSame(255, $paramFlags);
+	}
 }
