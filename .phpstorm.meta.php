@@ -4,5 +4,14 @@ namespace PHPSTORM_META {
         \Mockery::mock('') => [
             "" == "@",
         ],
+        \Mockery::spy('') => [
+            "" == "@",
+        ],
+        \mock('') => [
+            "" == "@",
+        ],
+        \spy('') => [
+            "" == "@",
+        ],
     ];
 }
