@@ -20,6 +20,9 @@
 
 namespace Mockery;
 
+/**
+ * @method \Mockery\Expectation withArgs(array $args)
+ */
 class HigherOrderMessage
 {
     private $mock;
