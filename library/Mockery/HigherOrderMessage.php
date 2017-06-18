@@ -21,7 +21,7 @@
 namespace Mockery;
 
 /**
- * @method \Mockery\Expectation withArgs(array $args)
+ * @method \Mockery\Expectation withArgs(\Closure|array $args)
  */
 class HigherOrderMessage
 {
