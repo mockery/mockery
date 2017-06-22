@@ -997,22 +997,18 @@ class ExpectationTest extends MockeryTestCase
     public function testDefaultExpectationsAreReplacedByLaterConcreteExpectations()
     {
         $this->mock->shouldReceive('foo')->andReturn('bar')->once()->byDefault();
-        $this->mock->shouldReceive('foo')->andReturn('bar')->twice();
-        $this->mock->foo();
-        $this->mock->foo();
+        $this->mock->shouldReceive('foo')->andReturn('baz')->twice();
+        $this->assertEquals('baz', $this->mock->foo());
+        $this->assertEquals('baz', $this->mock->foo());
         $this->container->mockery_verify();
     }
 
-    public function testDefaultExpectationsCanBeChangedByLaterExpectations()
+    public function testExpectationFallsBackToDefaultExpectationWhenConcreteExpectationsAreUsedUp()
     {
         $this->mock->shouldReceive('foo')->with(1)->andReturn('bar')->once()->byDefault();
         $this->mock->shouldReceive('foo')->with(2)->andReturn('baz')->once();
-        try {
-            $this->mock->foo(1);
-            $this->fail('Expected exception not thrown');
-        } catch (\Mockery\Exception $e) {
-        }
-        $this->mock->foo(2);
+        $this->assertEquals('baz', $this->mock->foo(2));
+        $this->assertEquals('bar', $this->mock->foo(1));
         $this->container->mockery_verify();
     }
 

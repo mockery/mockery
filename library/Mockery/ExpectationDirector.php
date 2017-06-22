@@ -133,11 +133,17 @@ class ExpectationDirector
      */
     public function findExpectation(array $args)
     {
+        $expectation = null;
+
         if (!empty($this->_expectations)) {
-            return $this->_findExpectationIn($this->_expectations, $args);
-        } else {
-            return $this->_findExpectationIn($this->_defaults, $args);
+            $expectation = $this->_findExpectationIn($this->_expectations, $args);
         }
+
+        if ($expectation === null && !empty($this->_defaults)) {
+            $expectation = $this->_findExpectationIn($this->_defaults, $args);
+        }
+
+        return $expectation;
     }
 
     /**
