@@ -29,7 +29,7 @@ class Mock implements MockInterface
     /**
      * Stores an array of all expectation directors for this mock
      *
-     * @var array
+     * @var ExpectationDirector[]
      */
     protected $_mockery_expectations = array();
 
@@ -338,7 +338,7 @@ class Mock implements MockInterface
      * this method will switch them from normal expectations to default
      * expectations
      *
-     * @return self
+     * @return Mock
      */
     public function byDefault()
     {

@@ -39,7 +39,7 @@ class ExpectationDirector
     /**
      * Stores an array of all expectations for this mock
      *
-     * @var array
+     * @var Expectation[]
      */
     protected $_expectations = array();
 
@@ -134,7 +134,16 @@ class ExpectationDirector
     public function findExpectation(array $args)
     {
         if (!empty($this->_expectations)) {
-            return $this->_findExpectationIn($this->_expectations, $args);
+            $orderedExpectations = array();
+            $reversedUnordered = array();
+            foreach ($this->_expectations as $exp) {
+                if ($exp->getOrderNumber() || $exp->isExpected()) {
+                    array_push($orderedExpectations, $exp);
+                } else {
+                    array_unshift($reversedUnordered, $exp);
+                }
+            }
+            return $this->_findExpectationIn(array_merge($orderedExpectations, $reversedUnordered), $args);
         } else {
             return $this->_findExpectationIn($this->_defaults, $args);
         }
