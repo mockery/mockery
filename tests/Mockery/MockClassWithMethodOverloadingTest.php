@@ -6,24 +6,12 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithMethodOverloadingTest extends MockeryTestCase
 {
-    private $container;
-
-    protected function setUp()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    protected function tearDown()
-    {
-        $this->container->mockery_close();
-    }
-
     /**
      * @expectedException BadMethodCallException
      */
     public function testCreateMockForClassWithMethodOverloading()
     {
-        $mock = $this->container->mock('test\Mockery\TestWithMethodOverloading')
+        $mock = mock('test\Mockery\TestWithMethodOverloading')
             ->makePartial();
         $this->assertInstanceOf('test\Mockery\TestWithMethodOverloading', $mock);
 
@@ -33,7 +21,7 @@ class MockClassWithMethodOverloadingTest extends MockeryTestCase
 
     public function testCreateMockForClassWithMethodOverloadingWithExistingMethod()
     {
-        $mock = $this->container->mock('test\Mockery\TestWithMethodOverloading')
+        $mock = mock('test\Mockery\TestWithMethodOverloading')
             ->makePartial();
         $this->assertInstanceOf('test\Mockery\TestWithMethodOverloading', $mock);
 

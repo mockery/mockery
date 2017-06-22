@@ -27,19 +27,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingParameterAndReturnTypesTest extends MockeryTestCase
 {
-    public function setup()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    public function teardown()
-    {
-        $this->container->mockery_close();
-    }
-
     public function testMockingStringReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnString");
         $this->assertSame("", $mock->returnString());
@@ -47,7 +37,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingIntegerReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnInteger");
         $this->assertSame(0, $mock->returnInteger());
@@ -55,7 +45,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingFloatReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnFloat");
         $this->assertSame(0.0, $mock->returnFloat());
@@ -63,7 +53,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingBooleanReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnBoolean");
         $this->assertSame(false, $mock->returnBoolean());
@@ -71,7 +61,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingArrayReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnArray");
         $this->assertSame([], $mock->returnArray());
@@ -79,7 +69,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingGeneratorReturnTyps()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnGenerator");
         $this->assertInstanceOf("\Generator", $mock->returnGenerator());
@@ -87,7 +77,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingCallableReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnCallable");
         $this->assertTrue(is_callable($mock->returnCallable()));
@@ -95,7 +85,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingClassReturnTypes()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("withClassReturnType");
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
@@ -103,7 +93,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingParameterTypes()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("withScalarParameters");
         $mock->withScalarParameters(1, 1.0, true, 'string');
@@ -111,7 +101,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testIgnoringMissingReturnsType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldIgnoreMissing();
 

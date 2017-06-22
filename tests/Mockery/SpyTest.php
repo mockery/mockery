@@ -23,20 +23,10 @@ namespace test\Mockery;
 
 use Mockery as m;
 use Mockery\Spy;
-use PHPUnit\Framework\TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class SpyTest extends TestCase
+class SpyTest extends MockeryTestCase
 {
-    public function setup()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    public function teardown()
-    {
-        $this->container->mockery_close();
-    }
-
     /** @test */
     public function itVerifiesAMethodWasCalled()
     {
