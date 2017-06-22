@@ -1867,6 +1867,26 @@ class ExpectationTest extends MockeryTestCase
         $this->container->mockery_verify();
     }
 
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testAnyOfConstraintThrowsExceptionWhenTrueIsNotAnExpectedArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::anyOf(1, 2))->once();
+        $this->mock->foo(true);
+        $this->container->mockery_verify();
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testAnyOfConstraintThrowsExceptionWhenFalseIsNotAnExpectedArgument()
+    {
+        $this->mock->shouldReceive('foo')->with(Mockery::anyOf(0, 1, 2))->once();
+        $this->mock->foo(false);
+        $this->container->mockery_verify();
+    }
+
     public function testNotAnyOfConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::notAnyOf(1, 2))->once();
