@@ -662,10 +662,25 @@ class Mockery
             return array('...');
         }
 
-        return array(
-            'class' => get_class($object),
-            'properties' => self::extractInstancePublicProperties($object, $nesting)
+        $class = get_class($object);
+        $customFormatterClass = self::getConfiguration()->findObjectFormatter($class);
+
+        $array = array(
+          'class' => $class,
+          'identity' => '#' . md5(spl_object_hash($object))
         );
+
+        if ($customFormatterClass) {
+            $customFormatter = self::getConfiguration()->getObjectFormatter($customFormatterClass);
+            $array = array_merge($array, $customFormatter($object));
+        } else {
+            $array = array_merge(
+                $array,
+                array('properties' => self::extractInstancePublicProperties($object, $nesting))
+            );
+        }
+
+        return $array;
     }
 
     /**
@@ -685,7 +700,11 @@ class Mockery
         foreach ($properties as $publicProperty) {
             if (!$publicProperty->isStatic()) {
                 $name = $publicProperty->getName();
-                $cleanedProperties[$name] = self::cleanupNesting($object->$name, $nesting);
+                try {
+                    $cleanedProperties[$name] = self::cleanupNesting($object->$name, $nesting);
+                } catch (\Exception $exception) {
+                    $cleanedProperties[$name] = $exception->getMessage();
+                }
             }
         }
 
