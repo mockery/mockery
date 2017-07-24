@@ -83,6 +83,15 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
         $mock->bar();
         \Mockery::close();
     }
+
+    public function testMockeryIsAddedToBlacklist()
+    {
+        $suite = \Mockery::mock(\PHPUnit\Framework\TestSuite::class);
+
+        $this->assertArrayNotHasKey(\Mockery\Mock::class, \PHPUnit\Util\Blacklist::$blacklistedClassNames);
+        $this->listener->startTestSuite($suite);
+        $this->assertSame(1, \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery\Mockery::class]);
+    }
 }
 
 class EmptyTestCase extends TestCase
