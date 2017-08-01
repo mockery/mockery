@@ -187,7 +187,7 @@ $spy->shouldHaveReceived()
 
 All of the global helpers are wrapped in a `!function_exists` call to avoid
 conflicts. So if you already have a global function called `spy`, Mockery will
-silentyly skip the declaring it's own `spy` function.
+silently skip the declaring it's own `spy` function.
 
 ### Testing Traits
 
