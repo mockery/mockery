@@ -324,7 +324,7 @@ class Expectation implements ExpectationInterface
             return $this->_matchArg($this->_expectedArgs[0], $args);
         }
         $argCount = count($args);
-        if ($argCount !== count($this->_expectedArgs)) {
+        if ($argCount !== count((array) $this->_expectedArgs)) {
             return false;
         }
         for ($i=0; $i<$argCount; $i++) {
