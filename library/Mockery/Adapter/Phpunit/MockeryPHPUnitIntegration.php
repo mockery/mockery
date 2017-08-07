@@ -54,6 +54,10 @@ trait MockeryPHPUnitIntegration
 
     protected function checkMockeryExceptions()
     {
+        if (!method_exists($this, "markAsRisky")) {
+            return;
+        }
+
         foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
             if (!$e->dismissed()) {
                 $this->markAsRisky('Mockery found an exception that appears to have been swallowed: '.$e->getMessage());
