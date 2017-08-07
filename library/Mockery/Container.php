@@ -312,7 +312,7 @@ class Container
         $e = [];
 
         foreach ($this->_mocks as $mock) {
-            array_merge($e, $mock->mockery_thrownExceptions());
+            $e = array_merge($e, $mock->mockery_thrownExceptions());
         }
 
         return $e;
