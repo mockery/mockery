@@ -303,6 +303,22 @@ class Container
     }
 
     /**
+     * Retrieves all exceptions thrown by mocks
+     *
+     * @return array
+     */
+    public function mockery_thrownExceptions()
+    {
+        $e = [];
+
+        foreach ($this->_mocks as $mock) {
+            array_merge($e, $mock->mockery_thrownExceptions());
+        }
+
+        return $e;
+    }
+
+    /**
      * Reset the container to its original state
      *
      * @return void

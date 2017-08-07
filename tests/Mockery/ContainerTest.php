@@ -22,6 +22,7 @@
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
+use Mockery\Exception\BadMethodCallException;
 
 class ContainerTest extends MockeryTestCase
 {
@@ -179,6 +180,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
         $m->shouldDeferMissing();
         $m->foorbar123();
+        $m->mockery_verify();
     }
 
     public function testMockingAKnownConcreteClassSoMockInheritsClassType()
@@ -572,12 +574,20 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
-     * @expectedException BadMethodCallException
      */
     public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist()
     {
         $m = mock('alias:MyNamespace\StaticNoMethod');
-        $this->assertEquals('bar', MyNameSpace\StaticNoMethod::staticFoo());
+        try {
+            MyNameSpace\StaticNoMethod::staticFoo();
+        } catch (BadMethodCallException $e) {
+            // Mockery + PHPUnit has a fail safe for tests swallowing our
+            // exceptions 
+            $e->dismiss();
+            return;
+        }
+
+        $this->fail('Exception was not thrown');
     }
 
     /**

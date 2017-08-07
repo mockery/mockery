@@ -23,6 +23,7 @@ namespace Mockery;
 use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
 use Mockery\ExpectsHigherOrderMessage;
+use Mockery\Exception\BadMethodCallException;
 
 class Mock implements MockInterface
 {
@@ -146,6 +147,13 @@ class Mock implements MockInterface
      * @var mixed
      */
     protected $_mockery_defaultReturnValue = null;
+
+    /**
+     * Tracks internally all the bad method call exceptions that happened during runtime
+     *
+     * @var array
+     */
+    protected $_mockery_thrownExceptions = [];
 
     /**
      * We want to avoid constructors since class is copied to Generator.php
@@ -391,6 +399,16 @@ class Mock implements MockInterface
         foreach ($this->_mockery_expectations as $director) {
             $director->verify();
         }
+    }
+
+    /**
+     * Gets a list of exceptions thrown by this mock
+     *
+     * @return array
+     */
+    public function mockery_thrownExceptions()
+    {
+        return $this->_mockery_thrownExceptions;
     }
 
     /**
@@ -736,10 +754,12 @@ class Mock implements MockInterface
         try {
             $associatedRealObject = \Mockery::fetchMock(__CLASS__);
             return $associatedRealObject->__call($method, $args);
-        } catch (\BadMethodCallException $e) {
-            throw new \BadMethodCallException(
+        } catch (BadMethodCallException $e) {
+            throw new BadMethodCallException(
                 'Static method ' . $associatedRealObject->mockery_getName() . '::' . $method
-                . '() does not exist on this mock object'
+                . '() does not exist on this mock object',
+                null,
+                $e
             );
         }
     }
@@ -814,9 +834,9 @@ class Mock implements MockInterface
                 '::' . $method . '(), but no expectations were specified';
         }
 
-        throw new \BadMethodCallException(
-            $message
-        );
+        $bmce = new BadMethodCallException($message);
+        $this->_mockery_thrownExceptions[] = $bmce;
+        throw $bmce;
     }
 
     /**

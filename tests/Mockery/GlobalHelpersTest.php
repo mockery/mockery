@@ -27,6 +27,11 @@ class GlobalHelpersTest extends TestCase
         \Mockery::globalHelpers();
     }
 
+    public function tearDown()
+    {
+        \Mockery::close();
+    }
+
     /** @test */
     public function mock_creates_a_mock()
     {
