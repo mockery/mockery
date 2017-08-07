@@ -24,7 +24,7 @@
 * Fix Mockery not setting properties on overloaded instance mocks
 * BC BREAK - Fix Mockery not trying default expectations if there is any concrete expectation
 * BC BREAK - Mockery's PHPUnit integration will mark a test as risky if it
-  thinks one it's exceptions has been swallowed. Use `$e->dismiss()` to dismiss.
+  thinks one it's exceptions has been swallowed in PHPUnit > 5.7.6. Use `$e->dismiss()` to dismiss.
 
  
 ## 0.9.4 (XXXX-XX-XX)
