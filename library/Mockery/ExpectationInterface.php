@@ -30,6 +30,7 @@ namespace Mockery;
  * @method Expectation atLeast()
  * @method Expectation atMost()
  * @method Expectation between()
+ * @method Expectation because(string $message)
  */
 interface ExpectationInterface
 {
