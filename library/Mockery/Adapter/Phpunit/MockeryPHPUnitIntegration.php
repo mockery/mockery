@@ -45,11 +45,7 @@ trait MockeryPHPUnitIntegration
 
     protected function addMockeryExpectationsToAssertionCount()
     {
-        $container = Mockery::getContainer();
-        if ($container != null) {
-            $count = $container->mockery_getExpectationCount();
-            $this->addToAssertionCount($count);
-        }
+        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
     }
 
     protected function checkMockeryExceptions()
