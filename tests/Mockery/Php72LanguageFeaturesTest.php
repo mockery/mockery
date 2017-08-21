@@ -5,7 +5,7 @@ namespace test\Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 /**
- * @require PHP 7.2.0-dev
+ * @requires PHP 7.2.0-dev
  */
 class Php72LanguageFeaturesTest extends MockeryTestCase
 {
