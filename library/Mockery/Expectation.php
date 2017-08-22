@@ -43,6 +43,13 @@ class Expectation implements ExpectationInterface
     protected $_name = null;
 
     /**
+     * Exception message
+     *
+     * @var null
+     */
+    protected $_because = null;
+
+    /**
      * Arguments expected by this expectation
      *
      * @var array
@@ -693,6 +700,19 @@ class Expectation implements ExpectationInterface
         return $this->atLeast()->times($minimum)->atMost()->times($maximum);
     }
 
+
+    /**
+     * Set the exception message
+     *
+     * @param string $message
+     * @return $this
+     */
+    public function because($message)
+    {
+        $this->_because = $message;
+        return $this;
+    }
+
     /**
      * Indicates that this expectation must be called in a specific given order
      *
@@ -811,5 +831,10 @@ class Expectation implements ExpectationInterface
     public function getName()
     {
         return $this->_name;
+    }
+
+    public function getExceptionMessage()
+    {
+        return $this->_because;
     }
 }

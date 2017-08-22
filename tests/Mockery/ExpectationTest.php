@@ -2090,6 +2090,18 @@ class ExpectationTest extends MockeryTestCase
         \Mockery::close();
     }
 
+    public function testCountWithBecauseExceptionMessage()
+    {
+        $this->expectException(InvalidCountException::class);
+        $this->expectExceptionMessage(
+            'Method foo(<Any Arguments>) from Mockery_0 should be called' . PHP_EOL . ' ' .
+            'exactly 1 times but called 0 times. Because We like foo'
+        );
+
+        $this->mock->shouldReceive('foo')->once()->because('We like foo');
+        Mockery::close();
+    }
+
     /** @test */
     public function it_uses_a_matchers_to_string_method_in_the_exception_output()
     {
