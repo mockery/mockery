@@ -710,6 +710,11 @@ class Mock implements MockInterface
             case 'void':
                 return null;
 
+            case 'object':
+                if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
+                    return \Mockery::mock();
+                }
+
             default:
                 return \Mockery::mock($type);
         }

@@ -112,6 +112,11 @@ class MethodDefinitionPass implements Pass
             'string',
             'iterable',
         );
+
+        if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
+            $languageTypeHints[] = 'object';
+        }
+
         $typeHint = trim($param->getTypeHintAsString());
 
         if (!empty($typeHint)) {
