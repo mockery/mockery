@@ -10,6 +10,7 @@
 * This will be the *last version to support PHP 5.3*
 * Added `Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration` trait
 * Added `makePartial` to `Mockery\MockInterface` as it was missing
+* Backported from master: Added possibility to add Constructor-Expectations on hard dependancies, read: Mockery::mock('overload:...')
 
 ## 0.9.3 (2014-12-22)
 

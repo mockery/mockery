@@ -20,5 +20,6 @@ class InstanceMockPassTest extends \PHPUnit_Framework_TestCase
         $code = $pass->apply('class Dave { }', $config);
         $this->assertContains('public function __construct', $code);
         $this->assertContains('protected $_mockery_ignoreVerification', $code);
+        $this->assertContains('this->_mockery_constructorCalled(func_get_args());', $code);
     }
 }
