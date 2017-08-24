@@ -20,7 +20,6 @@
 
 namespace Mockery;
 
-use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
 use Mockery\ExpectsHigherOrderMessage;
@@ -225,11 +224,7 @@ class Mock implements MockInterface
                     $director = new \Mockery\ExpectationDirector($method, $self);
                     $self->mockery_setExpectationsFor($method, $director);
                 }
-                if (false && '__construct' == $method) {
-                    $expectation = new \Mockery\ConstructorExpectation($self, $method);
-                } else {
-                    $expectation = new \Mockery\Expectation($self, $method);
-                }
+                $expectation = new \Mockery\Expectation($self, $method);
                 $director->addExpectation($expectation);
                 return $expectation;
             }
