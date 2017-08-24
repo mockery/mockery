@@ -210,6 +210,22 @@ $double->allows()->doFoo()->andReturns(123);
 $double->foo(); // int(123)
 ```
 
+### Testing the constructor arguments of hard Dependancies
+
+See [Mocking hard dependancies](http://docs.mockery.io/en/latest/cookbook/mocking_hard_dependencies.html)
+
+``` php
+$implementationMock = Mockery::mock('overload:\Some\Implementation');
+
+$implementationMock->shouldReceive('__construct')
+    ->once()
+    ->with(['host' => 'localhost]);
+// add other expectations as usual
+    
+$implementation = new \Some\Implementation(['host' => 'localhost']);
+```
+
+
 ## Documentation
 
 The current version can be seen at [docs.mockery.io](http://docs.mockery.io).

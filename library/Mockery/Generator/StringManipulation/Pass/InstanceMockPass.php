@@ -60,6 +60,8 @@ class InstanceMockPass
             }
         }
         \Mockery::getContainer()->rememberMock(\$this);
+        
+        \$this->_mockery_constructorCalled(func_get_args());
     }
 MOCK;
 
