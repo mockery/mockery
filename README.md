@@ -210,9 +210,9 @@ $double->allows()->doFoo()->andReturns(123);
 $double->foo(); // int(123)
 ```
 
-### Testing the constructor arguments of hard Dependancies
+### Testing the constructor arguments of hard Dependencies
 
-See [Mocking hard dependancies](http://docs.mockery.io/en/latest/cookbook/mocking_hard_dependencies.html)
+See [Mocking hard dependencies](http://docs.mockery.io/en/latest/cookbook/mocking_hard_dependencies.html)
 
 ``` php
 $implementationMock = Mockery::mock('overload:\Some\Implementation');
