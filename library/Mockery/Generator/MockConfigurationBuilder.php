@@ -33,6 +33,7 @@ class MockConfigurationBuilder
         '__toString',
         '__isset',
         '__destruct',
+        '__debugInfo', ## mocking this makes it difficult to debug with xdebug
 
         // below are reserved words in PHP
         "__halt_compiler", "abstract", "and", "array", "as",
