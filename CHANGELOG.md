@@ -6,7 +6,8 @@
 * Allow passing a closure argument to `withArgs()` to validate multiple arguments at once. 
 * `Mockery\Adapter\Phpunit\TestListener` has been rewritten because it
   incorrectly marked some tests as risky. It will no longer verify mock
-  expectations but instead check that tests do that themselves.
+  expectations but instead check that tests do that themselves. PHPUnit 6 is
+  required if you want to use this fail safe.
 * Removes SPL Class Loader
 * Removed object recorder feature
 * Bumped minimum PHP version to 5.6
