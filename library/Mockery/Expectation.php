@@ -564,6 +564,11 @@ class Expectation implements ExpectationInterface
         return $this;
     }
 
+    public function andThrows($exception, $message = '', $code = 0, \Exception $previous = null)
+    {
+        return $this->andThrow($exception, $message, $code, $previous);
+    }
+
     /**
      * Set Exception classes to be thrown
      *
