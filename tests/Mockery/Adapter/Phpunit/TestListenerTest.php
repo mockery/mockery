@@ -19,8 +19,12 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-use PHPUnit\Framework\TestCase;
+namespace tests\Mockery\Adapter\Phpunit;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestResult;
+use Mockery\Adapter\Phpunit\TestListener;
+use PHPUnit\Runner\BaseTestRunner;
 
 class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
 {
@@ -34,16 +38,16 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
         } else {
             $ver = \PHPUnit_Runner_Version::series();
         }
-        if (intval($ver) > 5) {
-            $this->markTestSkipped('The TestListener is not supported with PHPUnit 6+.');
+        if (intval($ver) < 6) {
+            $this->markTestSkipped('The TestListener is only supported with PHPUnit 6+.');
             return;
         }
         // We intentionally test the static container here. That is what the
         // listener will check.
         $this->container = \Mockery::getContainer();
-        $this->listener = new \Mockery\Adapter\Phpunit\TestListener();
-        $this->testResult = new \PHPUnit_Framework_TestResult();
-        $this->test = new \Mockery_Adapter_Phpunit_EmptyTestCase();
+        $this->listener = new TestListener();
+        $this->testResult = new TestResult();
+        $this->test = new EmptyTestCase();
 
         $this->test->setTestResultObject($this->testResult);
         $this->testResult->addListener($this->listener);
@@ -81,10 +85,10 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
     }
 }
 
-class Mockery_Adapter_Phpunit_EmptyTestCase extends TestCase
+class EmptyTestCase extends TestCase
 {
     public function getStatus()
     {
-        return \PHPUnit_Runner_BaseTestRunner::STATUS_PASSED;
+        return BaseTestRunner::STATUS_PASSED;
     }
 }
