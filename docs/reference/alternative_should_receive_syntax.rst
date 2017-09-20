@@ -20,8 +20,8 @@ all, were they called.
 
     $mock = \Mockery::mock('MyClass');
     $mock->allows([
-        'name_of_method_1' => ['1st call return value', '2nd call return value'],
-        'name_of_method_2' => ['1st call return value', '2nd call return value'],
+        'name_of_method_1' => 'return value',
+        'name_of_method_2' => 'return value',
     ]);
 
 This is equivalent with the following ``shouldReceive`` syntax:
@@ -30,8 +30,8 @@ This is equivalent with the following ``shouldReceive`` syntax:
 
     $mock = \Mockery::mock('MyClass');
     $mock->shouldReceive([
-        'name_of_method_1' => ['1st call return value', '2nd call return value'],
-        'name_of_method_2' => ['1st call return value', '2nd call return value'],
+        'name_of_method_1' => 'return value',
+        'name_of_method_2' => 'return value',
     ]);
 
 Note that with this format, we also tell Mockery that we don't care about the
@@ -44,7 +44,7 @@ If we do care about the arguments, we would do it like so:
     $mock = \Mockery::mock('MyClass');
     $mock->allows()
         ->name_of_method_1($arg1)
-        ->andReturn(['1st call return value', '2nd call return value']);
+        ->andReturn('return value');
 
 This is equivalent with the following ``shouldReceive`` syntax:
 
@@ -53,7 +53,7 @@ This is equivalent with the following ``shouldReceive`` syntax:
     $mock = \Mockery::mock('MyClass');
     $mock->shouldReceive('name_of_method_1')
         ->with($arg1)
-        ->andReturn(['1st call return value', '2nd call return value']);
+        ->andReturn('return value');
 
 Expects
 -------
