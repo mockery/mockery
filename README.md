@@ -260,6 +260,14 @@ $double->allows()->doFoo()->andReturns(123);
 $double->foo(); // int(123)
 ```
 
+## Versioning
+
+The Mockery team attempts to adhere to [Semantic Versioning](http://semver.org),
+however, some of Mockery's internals are considered private and will be open to
+change at any time. Just because a class isn't final, or a method isn't marked
+private, does not mean it constitutes part of the API we guarantee under the
+versioning scheme.
+
 ## A new home for Mockery
 
 ⚠️️ Update your remotes! Mockery has transferred to a new location. While it was once
