@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.0.0 (XXXX-XX-XX)
+## 1.0.0 (2017-09-06)
 
 * Destructors (`__destruct`) are stubbed out where it makes sense
 * Allow passing a closure argument to `withArgs()` to validate multiple arguments at once. 
