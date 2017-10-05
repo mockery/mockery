@@ -67,10 +67,27 @@ class AllowsExpectsSyntaxTest extends TestCase
     }
 
     /** @test */
+    public function allowsCanTakeAString()
+    {
+        $stub = m::mock();
+        $stub->allows("foo")->andReturns("bar");
+        $this->assertEquals("bar", $stub->foo());
+    }
+
+    /** @test */
     public function expects_can_optionally_match_on_any_arguments()
     {
         $mock = m::mock();
         $mock->allows()->foo()->withAnyArgs()->andReturns(123);
+
+        $this->assertEquals(123, $mock->foo(456, 789));
+    }
+
+    /** @test */
+    public function expects_can_take_a_string()
+    {
+        $mock = m::mock();
+        $mock->allows("foo")->andReturns(123);
 
         $this->assertEquals(123, $mock->foo(456, 789));
     }

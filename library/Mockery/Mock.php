@@ -234,15 +234,20 @@ class Mock implements MockInterface
 
     // start method allows
     /**
-     * @return self
+     * @param mixed $something  String method name or map of method => return
+     * @return self|\Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
-    public function allows(array $stubs = [])
+    public function allows($something = [])
     {
-        if (empty($stubs)) {
+        if (is_string($something)) {
+            return $this->shouldReceive($something);
+        }
+
+        if (empty($something)) {
             return $this->shouldReceive();
         }
 
-        foreach ($stubs as $method => $returnValue) {
+        foreach ($something as $method => $returnValue) {
             $this->shouldReceive($method)->andReturn($returnValue);
         }
 
@@ -252,10 +257,16 @@ class Mock implements MockInterface
 
     // start method expects
     /**
+     * @param mixed $something  String method name (optional)
      * @return ExpectsHigherOrderMessage
+     * @return \Mockery\ExpectationInterface|ExpectsHigherOrderMessage
      */
-    public function expects()
+    public function expects($something = null)
     {
+        if (is_string($something)) {
+            return $this->shouldReceive($something)->atLeast()->once();
+        }
+
         return new ExpectsHigherOrderMessage($this);
     }
     // end method expects
