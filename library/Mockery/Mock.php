@@ -264,7 +264,7 @@ class Mock implements MockInterface
     public function expects($something = null)
     {
         if (is_string($something)) {
-            return $this->shouldReceive($something)->atLeast()->once();
+            return $this->shouldReceive($something)->once();
         }
 
         return new ExpectsHigherOrderMessage($this);
