@@ -232,7 +232,6 @@ class Mock implements MockInterface
         return $lastExpectation;
     }
 
-    // start method allows
     /**
      * @param mixed $something  String method name or map of method => return
      * @return self|\Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
@@ -253,12 +252,9 @@ class Mock implements MockInterface
 
         return $this;
     }
-    // end method allows
 
-    // start method expects
     /**
      * @param mixed $something  String method name (optional)
-     * @return ExpectsHigherOrderMessage
      * @return \Mockery\ExpectationInterface|ExpectsHigherOrderMessage
      */
     public function expects($something = null)
@@ -269,7 +265,6 @@ class Mock implements MockInterface
 
         return new ExpectsHigherOrderMessage($this);
     }
-    // end method expects
 
     /**
      * Shortcut method for setting an expectation that a method should not be called.
