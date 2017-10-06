@@ -14,17 +14,6 @@ object operations and interactions using a human readable Domain Specific Langua
 Mockery is easy to integrate with PHPUnit and can operate alongside
 phpunit-mock-objects without the World ending.
 
-
-⚠️️ Update your remotes! Mockery has transferred to a new location. While your
-existing repositories will redirect transparently for any operations, take some
-time to transition to the new URL.
-```sh
-$ git remote set-url upstream https://github.com/mockery/mockery.git
-```
-Replace `upstream` with the name of the remote you use locally; `upstream` is commonly
-used but you may be using something else. Run `git remote -v` to see what you're actually
-using.
-
 Mockery is released under a New BSD License.
 
 ## Installation
@@ -38,7 +27,16 @@ composer require --dev mockery/mockery
 
 ⚠️️ The remainder of this README refers specifically to the master branch (1.0-dev).
 
-## Test Doubles 
+## Documentation
+
+In older versions, this README file was the documentation for Mockery. Over time
+we have improved this, and have created an extensive documentation for you. Please
+use this README file as a starting point for Mockery, but do read the documentation
+to learn how to use Mockery.
+
+The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
+
+## Test Doubles
 
 Test doubles (often called mocks) simulate the behaviour of real objects. They are
 commonly utilised to offer test isolation, to stand in for objects which do not
@@ -69,7 +67,11 @@ interface BookRepository {
 }
 
 $double = Mockery::mock(BookRepository::class);
-``` 
+```
+
+A detailed explanation of creating and working with test doubles is given in the
+documentation, [Creating test doubles](http://docs.mockery.io/en/latest/reference/creating_test_doubles.html)
+section.
 
 ## Method Stubs 🎫
 
@@ -84,13 +86,32 @@ $double->allows()->find(123)->andReturns(new Book());
 $book = $double->find(123);
 ```
 
+If you have used Mockery before, you might see something new in the example
+above &mdash; we created a method stub using `allows`, instead of the "old"
+`shouldReceive` syntax. This is a new feature of Mockery v1, but fear not,
+the trusty ol' `shouldReceive` is still here.
+
+For new users of Mockery, the above example can also be written as:
+
+``` php
+$double->shouldReceive('find')->with(123)->andReturn(new Book());
+$book = $double->find(123);
+```
+
 If your stub doesn't require specific arguments, you can also use this shortcut
 for setting up multiple calls at once:
 
 ``` php
 $double->allows([
-    "findAll" => [new Book(), new Book()], 
+    "findAll" => [new Book(), new Book()],
 ]);
+```
+
+or
+
+``` php
+$double->shouldReceive('findAll')
+    ->andReturn([new Book(), new Book()]);
 ```
 
 You can also use this shortcut, which creates a double and sets up some stubs in
@@ -98,7 +119,7 @@ one call:
 
 ``` php
 $double = Mockery::mock(BookRepository::class, [
-    "findAll" => [new Book(), new Book()], 
+    "findAll" => [new Book(), new Book()],
 ]);
 ```
 
@@ -118,7 +139,7 @@ $double->expects()->add($book);
 
 During the test, Mockery accept calls to the `add` method as prescribed.
 After you have finished exercising the system under test, you need to
-tell Mockery to check that the method was called as expected, using the 
+tell Mockery to check that the method was called as expected, using the
 `Mockery::close` method. One way to do that is to add it to your `tearDown`
 method in PHPUnit.
 
@@ -131,26 +152,52 @@ public function tearDown()
 ```
 
 The `expects()` method automatically sets up an expectation that the method call
-(and matching parameters) is called once and once only. You can choose to change
+(and matching parameters) is called **once and once only**. You can choose to change
 this if you are expecting more calls.
 
 ``` php
 $double->expects()->add($book)->twice();
 ```
 
+If you have used Mockery before, you might see something new in the example
+above &mdash; we created a method expectation using `expects`, instead of the "old"
+`shouldReceive` syntax. This is a new feature of Mockery v1, but same as with
+`accepts` in the previous section, it can be written in the "old" style.
+
+For new users of Mockery, the above example can also be written as:
+
+``` php
+$double->shouldReceive('find')
+    ->with(123)
+    ->once()
+    ->andReturn(new Book());
+$book = $double->find(123);
+```
+
+A detailed explanation of declaring expectations on method calls, please
+read the documentation, the [Expectation declarations](http://docs.mockery.io/en/latest/reference/expectations.html)
+section. After that, you can also learn about the new `allows` and `expects` methods
+in the [Alternative shouldReceive syntax](http://docs.mockery.io/en/latest/reference/alternative_should_receive_syntax.html)
+section.
+
+It is worth mentioning that one way of setting up expectations is no better or worse
+than the other. Under the hood, `allows` and `expects` are doing the same thing as
+`shouldReceive`, at times in "less words", and as such it comes to a personal preference
+of the programmer which way to use.
+
 ## Test Spies 🕵️
 
 By default, all test doubles created with the `Mockery::mock` method will only
-accept calls that they have been configured to `allow` or `expect`. Sometimes we
-don't necessarily care about all of the calls that are going to be made to an
-object. To facilitate this, we can tell Mockery to ignore any calls it has not been
-told to expect or allow. To do so, we can tell a test double
-`shouldIgnoreMissing`, or we can create the double using the `Mocker::spy`
+accept calls that they have been configured to `allow` or `expect` (or in other words,
+calls that they `shouldReceive`). Sometimes we don't necessarily care about all of the
+calls that are going to be made to an object. To facilitate this, we can tell Mockery
+to ignore any calls it has not been told to expect or allow. To do so, we can tell a
+test double `shouldIgnoreMissing`, or we can create the double using the `Mocker::spy`
 shortcut.
 
 ``` php
 // $double = Mockery::mock()->shouldIgnoreMissing();
-$double = Mockery::spy(); 
+$double = Mockery::spy();
 
 $double->foo(); // null
 $double->bar(); // null
@@ -167,6 +214,9 @@ $double->baz(123);
 $double->shouldHaveReceived()->baz(123); // null
 $double->shouldHaveReceived()->baz(12345); // Uncaught Exception Mockery\Exception\InvalidCountException...
 ```
+
+Please refer to the [Spies](http://docs.mockery.io/en/latest/reference/spies.html) section
+of the documentation to learn more about the spies.
 
 ## Utilities 🔌
 
@@ -210,6 +260,15 @@ $double->allows()->doFoo()->andReturns(123);
 $double->foo(); // int(123)
 ```
 
-## Documentation
+## A new home for Mockery
 
-The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
+⚠️️ Update your remotes! Mockery has transferred to a new location. While it was once
+at `padraic/mockery`, it is now at `mockery/mockery`. While your
+existing repositories will redirect transparently for any operations, take some
+time to transition to the new URL.
+```sh
+$ git remote set-url upstream https://github.com/mockery/mockery.git
+```
+Replace `upstream` with the name of the remote you use locally; `upstream` is commonly
+used but you may be using something else. Run `git remote -v` to see what you're actually
+using.
