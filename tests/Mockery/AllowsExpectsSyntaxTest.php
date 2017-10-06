@@ -87,7 +87,7 @@ class AllowsExpectsSyntaxTest extends TestCase
     public function expects_can_take_a_string()
     {
         $mock = m::mock();
-        $mock->allows("foo")->andReturns(123);
+        $mock->expects("foo")->andReturns(123);
 
         $this->assertEquals(123, $mock->foo(456, 789));
     }
