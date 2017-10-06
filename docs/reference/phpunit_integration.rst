@@ -26,7 +26,7 @@ use the Mockery namespace with a shorter alias. For example:
 
     use \Mockery as m;
 
-    class SimpleTest extends PHPUnit_Framework_TestCase
+    class SimpleTest extends \PHPUnit\Framework\TestCase
     {
         public function testSimpleMock() {
             $mock = m::mock('simplemock');
@@ -67,8 +67,8 @@ generated autoloader file:
     the file name is updated for all your projects.)
 
 To integrate Mockery into PHPUnit and avoid having to call the close method
-and have Mockery remove itself from code coverage reports, use this in a test
-suite:
+and have Mockery remove itself from code coverage reports, have your test case
+extends the ``\Mockery\Adapter\Phpunit\MockeryTestCase``:
 
 .. code-block:: php
 
@@ -84,10 +84,20 @@ An alternative is to use the supplied trait:
     class MyTest extends \PHPUnit\Framework\TestCase
     {
         use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     }
 
-Mockery provides a PHPUnit listener that makes tests fail if
+Extending ``MockeryTestCase`` or using the ``MockeryPHPUnitIntegration``
+trait is **the recommended way** of integrating Mockery with PHPUnit,
+since Mockery 1.0.0.
+
+PHPUnit listener
+----------------
+
+Before the 1.0.0 release, Mockery provided a PHPUnit listener that would
+call ``Mockery::close()`` for us at the end of a test. This has changed
+significantly since the 1.0.0 version.
+
+Now, Mockery provides a PHPUnit listener that makes tests fail if
 ``Mockery::close()`` has not been called. It can help identify tests where
 we've forgotten to include the trait or extend the ``MockeryTestCase``.
 
@@ -104,16 +114,22 @@ Make sure Composer's or Mockery's autoloader is present in the bootstrap file
 or we will need to also define a "file" attribute pointing to the file of the
 ``TestListener`` class.
 
+.. caution::
+
+    The ``TestListener`` will only work for PHPUnit 6+ versions.
+
+    For PHPUnit versions 5 and lower, the test listener does not work.
+
 If we are creating the test suite programmatically we may add the listener
 like this:
 
 .. code-block:: php
 
     // Create the suite.
-    $suite = new PHPUnit_Framework_TestSuite();
+    $suite = new PHPUnit\Framework\TestSuite();
 
     // Create the listener and add it to the suite.
-    $result = new PHPUnit_Framework_TestResult();
+    $result = new PHPUnit\Framework\TestResult();
     $result->addListener(new \Mockery\Adapter\Phpunit\TestListener());
 
     // Run the tests.
