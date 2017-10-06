@@ -268,6 +268,10 @@ change at any time. Just because a class isn't final, or a method isn't marked
 private, does not mean it constitutes part of the API we guarantee under the
 versioning scheme.
 
+### Alternative Runtimes
+
+Mockery will attempt to continue support HHVM, but will not make any guarantees.
+
 ## A new home for Mockery
 
 ⚠️️ Update your remotes! Mockery has transferred to a new location. While it was once
