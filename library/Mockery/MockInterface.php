@@ -23,6 +23,18 @@ namespace Mockery;
 interface MockInterface
 {
     /**
+     * @param mixed $something  String method name or map of method => return
+     * @return self|\Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
+     */
+    public function allows($something = []);
+
+    /**
+     * @param mixed $something  String method name (optional)
+     * @return \Mockery\ExpectationInterface|\Mockery\ExpectsHigherOrderMessage
+     */
+    public function expects($something = null);
+
+    /**
      * Alternative setup method to constructor
      *
      * @param \Mockery\Container $container
