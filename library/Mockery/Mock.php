@@ -780,6 +780,22 @@ class Mock implements MockInterface
         return $this->_mockery_receivedMethodCalls ?: $this->_mockery_receivedMethodCalls = new \Mockery\ReceivedMethodCalls();
     }
 
+    protected function _mockery_findExpectedMethodHandler($method)
+    {
+        if (isset($this->_mockery_expectations[$method])) {
+            return $this->_mockery_expectations[$method];
+        }
+
+        $lowerCasedMockeryExpectations = array_change_key_case($this->_mockery_expectations, CASE_LOWER);
+        $lowerCasedMethod = strtolower($method);
+
+        if (isset($lowerCasedMockeryExpectations[$lowerCasedMethod])) {
+            return $lowerCasedMockeryExpectations[$lowerCasedMethod];
+        }
+
+        return null;
+    }
+
     protected function _mockery_handleMethodCall($method, array $args)
     {
         $this->_mockery_getReceivedMethodCalls()->push(new \Mockery\MethodCall($method, $args));
@@ -802,10 +818,9 @@ class Mock implements MockInterface
             return call_user_func_array("parent::$method", $args);
         }
 
-        if (isset($this->_mockery_expectations[$method])
-        && !$this->_mockery_disableExpectationMatching) {
-            $handler = $this->_mockery_expectations[$method];
+        $handler = $this->_mockery_findExpectedMethodHandler($method);
 
+        if ($handler !== null && !$this->_mockery_disableExpectationMatching) {
             try {
                 return $handler->call($args);
             } catch (\Mockery\Exception\NoMatchingExpectationException $e) {
