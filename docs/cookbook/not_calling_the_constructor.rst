@@ -42,7 +42,7 @@ A better approach is to use runtime partial doubles:
         }
     }
 
-    // This will print "Original constructor called."
+    // This will not print anything
     $mock = \Mockery::mock('MyClass')->makePartial();
     $mock->shouldReceive('foo');
 
