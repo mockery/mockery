@@ -11,7 +11,7 @@ when called. If the closure returns ``true``, Mockery will consider that the
 argument has passed the expectation. If the closure returns ``false``, or a
 "falsey" value, the expectation will not pass.
 
-The ``\Mockery::on()`` matcher can be used in various scenarios &mdash; validating
+The ``\Mockery::on()`` matcher can be used in various scenarios — validating
 an array argument based on multiple keys and values, complex string matching...
 
 Say, for example, we have the following code. It doesn't do much; publishes a

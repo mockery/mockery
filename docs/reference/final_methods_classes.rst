@@ -7,9 +7,9 @@ Dealing with Final Classes/Methods
 One of the primary restrictions of mock objects in PHP, is that mocking
 classes or methods marked final is hard. The final keyword prevents methods so
 marked from being replaced in subclasses (subclassing is how mock objects can
-inherit the type of the class or object being mocked.
+inherit the type of the class or object being mocked).
 
-The simplest solution is not to mark classes or methods as final!
+The simplest solution is to not mark classes or methods as final!
 
 However, in a compromise between mocking functionality and type safety,
 Mockery does allow creating "proxy mocks" from classes marked final, or from
