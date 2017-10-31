@@ -17,7 +17,7 @@
 * Adds ability to create objects using traits
 * `Mockery\Matcher\MustBe` was deprecated
 * Marked `Mockery\MockInterface` as internal
-* Subset matcher matches recusively
+* Subset matcher matches recursively
 * BC BREAK - Spies return `null` by default from ignored (non-mocked) methods with nullable return type
 * Removed extracting getter methods of object instances
 * BC BREAK - Remove implicit regex matching when trying to match string arguments, introduce `\Mockery::pattern()` when regex matching is needed
@@ -47,7 +47,7 @@
 
 ## 0.9.2 (2014-09-03)
 
-* Some workarounds for the serilisation problems created by changes to PHP in 5.5.13, 5.4.29,
+* Some workarounds for the serialisation problems created by changes to PHP in 5.5.13, 5.4.29,
   5.6.
 * Demeter chains attempt to reuse doubles as they see fit, so for foo->bar and
   foo->baz, we'll attempt to use the same foo
