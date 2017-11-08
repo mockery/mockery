@@ -9,32 +9,28 @@ configuration object to store a small subset of core behaviours. The three
 currently present include:
 
 * Option to allow/disallow the mocking of methods which do not actually exist
-* Option to allow/disallow the existence of expectations which are never
   fulfilled (i.e. unused)
 * Setter/Getter for added a parameter map for internal PHP class methods
   (``Reflection`` cannot detect these automatically)
 
-By default, the first two behaviours are enabled. Of course, there are
+By default, the first behaviour is enabled. Of course, there are
 situations where this can lead to unintended consequences. The mocking of
 non-existent methods may allow mocks based on real classes/objects to fall out
 of sync with the actual implementations, especially when some degree of
 integration testing (testing of object wiring) is not being performed.
-Allowing unfulfilled expectations means unnecessary mock expectations go
-unnoticed, cluttering up test code, and potentially confusing test readers.
 
-You may allow or disallow these behaviours (whether for whole test suites or
-just select tests) by using one or both of the following two calls:
+You may allow or disallow this behaviour (whether for whole test suites or
+just select tests) by using the following call:
 
 .. code-block:: php
 
     \Mockery::getConfiguration()->allowMockingNonExistentMethods(bool);
-    \Mockery::getConfiguration()->allowMockingMethodsUnnecessarily(bool);
 
-Passing a true allows the behaviour, false disallows it. Both take effect
-immediately until switched back. In both cases, if either behaviour is
-detected when not allowed, it will result in an Exception being thrown at that
-point. Note that disallowing these behaviours should be carefully considered
-since they necessarily remove at least some of Mockery's flexibility.
+Passing a true allows the behaviour, false disallows it. It takes effect
+immediately until switched back. If the behaviour is detected when not allowed,
+it will result in an Exception being thrown at that point. Note that disallowing
+ths behaviour should be carefully considered since it necessarily removes at
+least some of Mockery's flexibility.
 
 The other two methods are:
 
