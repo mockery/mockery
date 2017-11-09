@@ -63,7 +63,7 @@ class PHPUnitConstraint extends MatcherAbstract
                 throw $e;
             }
             return false;
-        } 
+        }
     }
 
     /**

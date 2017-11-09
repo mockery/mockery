@@ -582,7 +582,7 @@ class ContainerTest extends MockeryTestCase
             MyNameSpace\StaticNoMethod::staticFoo();
         } catch (BadMethodCallException $e) {
             // Mockery + PHPUnit has a fail safe for tests swallowing our
-            // exceptions 
+            // exceptions
             $e->dismiss();
             return;
         }
@@ -661,7 +661,6 @@ class ContainerTest extends MockeryTestCase
         $instance = new MyNamespace\MyClass6;
 
         $this->assertEquals('bar', $instance->foo());
-
     }
 
     public function testInstantiationOfInstanceMockImportsDefaultExpectationsInTheCorrectOrder()
@@ -673,7 +672,6 @@ class ContainerTest extends MockeryTestCase
         $instance = new MyNamespace\MyClass6;
 
         $this->assertEquals(3, $instance->foo());
-
     }
 
     public function testInstantiationOfInstanceMocksIgnoresVerificationOfOriginMock()
