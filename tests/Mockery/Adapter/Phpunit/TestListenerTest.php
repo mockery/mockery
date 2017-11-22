@@ -88,9 +88,9 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
     {
         $suite = \Mockery::mock(\PHPUnit\Framework\TestSuite::class);
 
-        $this->assertArrayNotHasKey(\Mockery\Mock::class, \PHPUnit\Util\Blacklist::$blacklistedClassNames);
+        $this->assertArrayNotHasKey(\Mockery::class, \PHPUnit\Util\Blacklist::$blacklistedClassNames);
         $this->listener->startTestSuite($suite);
-        $this->assertSame(1, \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery\Mockery::class]);
+        $this->assertSame(1, \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery::class]);
     }
 }
 
