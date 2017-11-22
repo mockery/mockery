@@ -251,12 +251,13 @@ class Container
 
     /**
      * @param string $method
+     * @param string $parent
      * @return string|null
      */
-    public function getKeyOfDemeterMockFor($method)
+    public function getKeyOfDemeterMockFor($method, $parent)
     {
         $keys = array_keys($this->_mocks);
-        $match = preg_grep("/__demeter_{$method}$/", $keys);
+        $match = preg_grep("/__demeter_" . md5($parent) . "_{$method}$/", $keys);
         if (count($match) == 1) {
             $res = array_values($match);
             if (count($res) > 0) {

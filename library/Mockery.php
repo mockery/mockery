@@ -729,6 +729,8 @@ class Mockery
             return $add($method);
         };
 
+        $parent = get_class($mock);
+
         while (true) {
             $method = array_shift($methodNames);
             $expectations = $mock->mockery_getExpectationsFor($method);
@@ -739,13 +741,15 @@ class Mockery
                     break;
                 }
 
-                $mock = self::getNewDemeterMock($container, $method, $expectations);
+                $mock = self::getNewDemeterMock($container, $parent, $method, $expectations);
             } else {
-                $demeterMockKey = $container->getKeyOfDemeterMockFor($method);
+                $demeterMockKey = $container->getKeyOfDemeterMockFor($method, $parent);
                 if ($demeterMockKey) {
                     $mock = self::getExistingDemeterMock($container, $demeterMockKey);
                 }
             }
+
+            $parent .= '->' . $method;
 
             $nextExp = function ($n) use ($mock) {
                 return $mock->shouldReceive($n);
@@ -760,6 +764,7 @@ class Mockery
      * mock from the container.
      *
      * @param \Mockery\Container $container
+     * @param string $parent
      * @param string $method
      * @param Mockery\ExpectationInterface $exp
      *
@@ -767,10 +772,11 @@ class Mockery
      */
     private static function getNewDemeterMock(
         Mockery\Container $container,
+        $parent,
         $method,
         Mockery\ExpectationInterface $exp
     ) {
-        $mock = $container->mock('demeter_' . $method);
+        $mock = $container->mock('demeter_' . md5($parent) . '_' . $method);
         $exp->andReturn($mock);
 
         return $mock;
