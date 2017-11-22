@@ -38,21 +38,21 @@ class ContainerTest extends MockeryTestCase
         $m = mock();
         $m->shouldReceive('foo->bar');
         $this->assertRegExp(
-            '/Mockery_(\d+)__demeter_foo/',
-            Mockery::getContainer()->getKeyOfDemeterMockFor('foo')
+            '/Mockery_(\d+)__demeter_([0-9a-f]+)_foo/',
+            Mockery::getContainer()->getKeyOfDemeterMockFor('foo', get_class($m))
         );
     }
     public function testGetKeyOfDemeterMockShouldReturnNullWhenNoMatchingMock()
     {
         $method = 'unknownMethod';
-        $this->assertNull(Mockery::getContainer()->getKeyOfDemeterMockFor($method));
+        $this->assertNull(Mockery::getContainer()->getKeyOfDemeterMockFor($method, 'any'));
 
         $m = mock();
         $m->shouldReceive('method');
-        $this->assertNull(Mockery::getContainer()->getKeyOfDemeterMockFor($method));
+        $this->assertNull(Mockery::getContainer()->getKeyOfDemeterMockFor($method, get_class($m)));
 
         $m->shouldReceive('foo->bar');
-        $this->assertNull(Mockery::getContainer()->getKeyOfDemeterMockFor($method));
+        $this->assertNull(Mockery::getContainer()->getKeyOfDemeterMockFor($method, get_class($m)));
     }
 
 
