@@ -1930,7 +1930,6 @@ class ExpectationTest extends MockeryTestCase
         $this->assertTrue($service->addBookmark('http://example.com/3', 'some_tag3'));
         $this->assertTrue($service->hasBookmarksTagged('php'));
         $this->assertTrue($service->hasBookmarksTagged('php'));
-
     }
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
@@ -2013,7 +2012,6 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals('456', $mock->foo());
         $this->assertEquals('123', $mock->foo("baz"));
         $this->assertEquals('bar', $mock->foo("qux"));
-
     }
 
     public function testCanReturnSelf()

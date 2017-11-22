@@ -11,11 +11,14 @@ class BaseClassStub
 {
     use MockeryPHPUnitIntegration;
 
-    public function finish() {
+    public function finish()
+    {
         $this->checkMockeryExceptions();
     }
 
-    public function markAsRisky() {}
+    public function markAsRisky()
+    {
+    }
 };
 
 class MockeryPHPUnitIntegrationTest extends MockeryTestCase
