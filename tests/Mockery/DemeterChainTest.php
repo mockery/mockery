@@ -167,4 +167,20 @@ class DemeterChainTest extends MockeryTestCase
             $this->mock->levelOne()->levelTwo()->getFirst()
         );
     }
+
+    public function testSimilarDemeterChainsOnDifferentClasses()
+    {
+        $mock1 = Mockery::mock('overload:mock1');
+        $mock1->shouldReceive('select->some->data')->andReturn(1);
+        $mock1->shouldReceive('select->some->other->data')->andReturn(2);
+
+        $mock2 = Mockery::mock('overload:mock2');
+        $mock2->shouldReceive('select->some->data')->andReturn(3);
+        $mock2->shouldReceive('select->some->other->data')->andReturn(4);
+
+        $this->assertEquals(1, mock1::select()->some()->data());
+        $this->assertEquals(2, mock1::select()->some()->other()->data());
+        $this->assertEquals(3, mock2::select()->some()->data());
+        $this->assertEquals(4, mock2::select()->some()->other()->data());
+    }
 }
