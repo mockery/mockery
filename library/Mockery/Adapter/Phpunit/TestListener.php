@@ -72,7 +72,7 @@ class TestListener extends BaseTestListener
 
     public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
     {
-        \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery\Mockery::class] = 1;
+        \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery::class] = 1;
 
         parent::startTestSuite($suite);
     }
