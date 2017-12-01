@@ -53,7 +53,7 @@ class MockingProtectedMethodsTest extends MockeryTestCase
     public function shouldAutomaticallyIgnoreAbstractProtectedMethods()
     {
         $mock = mock("test\Mockery\TestWithProtectedMethods")->shouldDeferMissing();
-        $this->assertEquals(null, $mock->foo());
+        $this->assertNull($mock->foo());
     }
 
     /** @test */

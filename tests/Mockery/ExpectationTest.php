@@ -2023,13 +2023,13 @@ class ExpectationTest extends MockeryTestCase
     public function testReturnsTrueIfTrueIsReturnValue()
     {
         $this->mock->shouldReceive("foo")->andReturnTrue();
-        $this->assertSame(true, $this->mock->foo());
+        $this->assertTrue($this->mock->foo());
     }
 
     public function testReturnsFalseIfFalseIsReturnValue()
     {
         $this->mock->shouldReceive("foo")->andReturnFalse();
-        $this->assertSame(false, $this->mock->foo());
+        $this->assertFalse($this->mock->foo());
     }
 
     public function testExpectationCanBeOverridden()
