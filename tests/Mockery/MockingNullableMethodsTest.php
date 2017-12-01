@@ -184,7 +184,7 @@ class MockingNullableMethodsTest extends MockeryTestCase
 
         $double->shouldReceive("nullableClass")->andReturnNull();
 
-        $this->assertEquals(null, $double->nullableClass());
+        $this->assertNull($double->nullableClass());
     }
 
     /** @test */
@@ -194,7 +194,7 @@ class MockingNullableMethodsTest extends MockeryTestCase
 
         $double->shouldReceive("nullableString")->andReturnNull();
 
-        $this->assertEquals(null, $double->nullableString());
+        $this->assertNull($double->nullableString());
     }
 
     /** @test */
@@ -204,7 +204,7 @@ class MockingNullableMethodsTest extends MockeryTestCase
 
         $double->shouldReceive("nullableInt")->andReturnNull();
 
-        $this->assertEquals(null, $double->nullableInt());
+        $this->assertNull($double->nullableInt());
     }
 
     /** @test */
@@ -212,6 +212,6 @@ class MockingNullableMethodsTest extends MockeryTestCase
     {
         $double = \Mockery::spy(MethodWithNullableReturnType::class);
 
-        $this->assertEquals(null, $double->nullableClass());
+        $this->assertNull($double->nullableClass());
     }
 }
