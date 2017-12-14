@@ -29,7 +29,7 @@ class NamedMockTest extends MockeryTestCase
     public function itCreatesANamedMock()
     {
         $mock = Mockery::namedMock("Mockery\Dave123");
-        $this->assertEquals("Mockery\Dave123", get_class($mock));
+        $this->assertInstanceOf("Mockery\Dave123", $mock);
     }
 
     /** @test */

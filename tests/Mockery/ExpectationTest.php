@@ -221,7 +221,7 @@ class ExpectationTest extends MockeryTestCase
     public function testReturnsUndefined()
     {
         $this->mock->shouldReceive('foo')->andReturnUndefined();
-        $this->assertTrue($this->mock->foo() instanceof \Mockery\Undefined);
+        $this->assertInstanceOf(\Mockery\Undefined::class, $this->mock->foo());
     }
 
     public function testReturnsValuesSetAsArray()
@@ -885,8 +885,8 @@ class ExpectationTest extends MockeryTestCase
         $s = $this->mock->shouldReceive('start')->ordered();
         $m = $this->mock->shouldReceive('mid')->ordered('foobar');
         $e = $this->mock->shouldReceive('end')->ordered();
-        $this->assertTrue($s->getOrderNumber() < $m->getOrderNumber());
-        $this->assertTrue($m->getOrderNumber() < $e->getOrderNumber());
+        $this->assertLessThan($m->getOrderNumber(), $s->getOrderNumber());
+        $this->assertLessThan($e->getOrderNumber(), $m->getOrderNumber());
     }
 
     /**
@@ -1697,23 +1697,23 @@ class ExpectationTest extends MockeryTestCase
     public function testReturnUndefinedIfIgnoreMissingMethodsSet()
     {
         $this->mock->shouldIgnoreMissing()->asUndefined();
-        $this->assertTrue($this->mock->g(1, 2) instanceof \Mockery\Undefined);
+        $this->assertInstanceOf(\Mockery\Undefined::class, $this->mock->g(1, 2));
     }
 
     public function testReturnAsUndefinedAllowsForInfiniteSelfReturningChain()
     {
         $this->mock->shouldIgnoreMissing()->asUndefined();
-        $this->assertTrue($this->mock->g(1, 2)->a()->b()->c() instanceof \Mockery\Undefined);
+        $this->assertInstanceOf(\Mockery\Undefined::class, $this->mock->g(1, 2)->a()->b()->c());
     }
 
     public function testShouldIgnoreMissingFluentInterface()
     {
-        $this->assertTrue($this->mock->shouldIgnoreMissing() instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $this->mock->shouldIgnoreMissing());
     }
 
     public function testShouldIgnoreMissingAsUndefinedFluentInterface()
     {
-        $this->assertTrue($this->mock->shouldIgnoreMissing()->asUndefined() instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $this->mock->shouldIgnoreMissing()->asUndefined());
     }
 
     public function testShouldIgnoreMissingAsDefinedProxiesToUndefinedAllowingToString()
@@ -1745,7 +1745,7 @@ class ExpectationTest extends MockeryTestCase
     public function testOptionalMockRetrieval()
     {
         $m = mock('f')->shouldReceive('foo')->with(1)->andReturn(3)->mock();
-        $this->assertTrue($m instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $m);
     }
 
     public function testNotConstraintMatchesArgument()

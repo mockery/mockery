@@ -47,7 +47,7 @@ class MockConfigurationBuilderTest extends TestCase
         $builder = new MockConfigurationBuilder;
         $builder->addTarget(ClassWithMagicCall::class);
         $methods = $builder->getMockConfiguration()->getMethodsToMock();
-        $this->assertEquals(1, count($methods));
+        $this->assertCount(1, $methods);
         $this->assertEquals("foo", $methods[0]->getName());
     }
 
@@ -57,7 +57,7 @@ class MockConfigurationBuilderTest extends TestCase
         $builder = new MockConfigurationBuilder;
         $builder->addTarget(ClassWithDebugInfo::class);
         $methods = $builder->getMockConfiguration()->getMethodsToMock();
-        $this->assertEquals(1, count($methods));
+        $this->assertCount(1, $methods);
         $this->assertEquals("foo", $methods[0]->getName());
     }
 }
