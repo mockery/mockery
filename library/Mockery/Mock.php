@@ -629,7 +629,7 @@ class Mock implements MockInterface
     public function mockery_isAnonymous()
     {
         $rfc = new \ReflectionClass($this);
-        
+
         // HHVM has a Stringish interface
         $interfaces = array_filter($rfc->getInterfaces(), function ($i) {
             return $i->getName() !== "Stringish";
@@ -846,9 +846,9 @@ class Mock implements MockInterface
                     return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
                 } elseif (null === $this->_mockery_defaultReturnValue) {
                     return $this->mockery_returnValueForMethod($method);
-                } else {
-                    return $this->_mockery_defaultReturnValue;
                 }
+
+                return $this->_mockery_defaultReturnValue;
             }
         }
 
