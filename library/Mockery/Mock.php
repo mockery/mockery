@@ -187,7 +187,7 @@ class Mock implements MockInterface
      *
      * @param array $methodNames,... one or many methods that are expected to be called in this mock
      *
-     * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
+     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldReceive(...$methodNames)
     {
@@ -234,7 +234,7 @@ class Mock implements MockInterface
 
     /**
      * @param mixed $something  String method name or map of method => return
-     * @return self|\Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
+     * @return self|\Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function allows($something = [])
     {
@@ -255,7 +255,7 @@ class Mock implements MockInterface
 
     /**
      * @param mixed $something  String method name (optional)
-     * @return \Mockery\ExpectationInterface|ExpectsHigherOrderMessage
+     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|ExpectsHigherOrderMessage
      */
     public function expects($something = null)
     {
@@ -270,7 +270,7 @@ class Mock implements MockInterface
      * Shortcut method for setting an expectation that a method should not be called.
      *
      * @param array $methodNames one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
+     * @return \\Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames)
     {
