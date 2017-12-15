@@ -188,13 +188,13 @@ class ContainerTest extends MockeryTestCase
         $m = mock('stdClass');
         $m->shouldReceive('foo')->andReturn('bar');
         $this->assertEquals('bar', $m->foo());
-        $this->assertTrue($m instanceof stdClass);
+        $this->assertInstanceOf(stdClass::class, $m);
     }
 
     public function testMockingAKnownUserClassSoMockInheritsClassType()
     {
         $m = mock('MockeryTest_TestInheritedType');
-        $this->assertTrue($m instanceof MockeryTest_TestInheritedType);
+        $this->assertInstanceOf(MockeryTest_TestInheritedType::class, $m);
     }
 
     public function testMockingAConcreteObjectCreatesAPartialWithoutError()
@@ -202,7 +202,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock(new stdClass);
         $m->shouldReceive('foo')->andReturn('bar');
         $this->assertEquals('bar', $m->foo());
-        $this->assertTrue($m instanceof stdClass);
+        $this->assertInstanceOf(stdClass::class, $m);
     }
 
     public function testCreatingAPartialAllowsDynamicExpectationsAndPassesThroughUnexpectedMethods()
@@ -211,7 +211,7 @@ class ContainerTest extends MockeryTestCase
         $m->shouldReceive('bar')->andReturn('bar');
         $this->assertEquals('bar', $m->bar());
         $this->assertEquals('foo', $m->foo());
-        $this->assertTrue($m instanceof MockeryTestFoo);
+        $this->assertInstanceOf(MockeryTestFoo::class, $m);
     }
 
     public function testCreatingAPartialAllowsExpectationsToInterceptCallsToImplementedMethods()
@@ -220,7 +220,7 @@ class ContainerTest extends MockeryTestCase
         $m->shouldReceive('bar')->andReturn('baz');
         $this->assertEquals('baz', $m->bar());
         $this->assertEquals('foo', $m->foo());
-        $this->assertTrue($m instanceof MockeryTestFoo2);
+        $this->assertInstanceOf(MockeryTestFoo2::class, $m);
     }
 
     public function testBlockForwardingToPartialObject()
@@ -264,7 +264,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock(new MockeryFoo3);
         $m->shouldReceive('foo')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
-        $this->assertFalse($m instanceof MockeryFoo3);
+        $this->assertNotInstanceOf(MockeryFoo3::class, $m);
     }
 
     public function testSplClassWithFinalMethodsCanBeMocked()
@@ -272,7 +272,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock('SplFileInfo');
         $m->shouldReceive('foo')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
-        $this->assertTrue($m instanceof SplFileInfo);
+        $this->assertInstanceOf(SplFileInfo::class, $m);
     }
 
     public function testSplClassWithFinalMethodsCanBeMockedMultipleTimes()
@@ -281,7 +281,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock('SplFileInfo');
         $m->shouldReceive('foo')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
-        $this->assertTrue($m instanceof SplFileInfo);
+        $this->assertInstanceOf(SplFileInfo::class, $m);
     }
 
     public function testClassesWithFinalMethodsCanBeProxyPartialMocks()
@@ -290,7 +290,7 @@ class ContainerTest extends MockeryTestCase
         $m->shouldReceive('foo')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
         $this->assertEquals('bar', $m->bar());
-        $this->assertTrue($m instanceof MockeryFoo4);
+        $this->assertInstanceOf(MockeryFoo4::class, $m);
     }
 
     public function testClassesWithFinalMethodsCanBeProperPartialMocks()
@@ -299,7 +299,7 @@ class ContainerTest extends MockeryTestCase
         $m->shouldReceive('bar')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
         $this->assertEquals('baz', $m->bar());
-        $this->assertTrue($m instanceof MockeryFoo4);
+        $this->assertInstanceOf(MockeryFoo4::class, $m);
     }
 
     public function testClassesWithFinalMethodsCanBeProperPartialMocksButFinalMethodsNotPartialed()
@@ -307,7 +307,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock('MockeryFoo4[foo]');
         $m->shouldReceive('foo')->andReturn('foo');
         $this->assertEquals('baz', $m->foo()); // partial expectation ignored - will fail callcount assertion
-        $this->assertTrue($m instanceof MockeryFoo4);
+        $this->assertInstanceOf(MockeryFoo4::class, $m);
     }
 
     public function testSplfileinfoClassMockPassesUserExpectations()
@@ -329,19 +329,19 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockInterface()
     {
         $m = mock('MockeryTest_Interface');
-        $this->assertTrue($m instanceof MockeryTest_Interface);
+        $this->assertInstanceOf(MockeryTest_Interface::class, $m);
     }
 
     public function testCanMockSpl()
     {
         $m = mock('\\SplFixedArray');
-        $this->assertTrue($m instanceof SplFixedArray);
+        $this->assertInstanceOf(SplFixedArray::class, $m);
     }
 
     public function testCanMockInterfaceWithAbstractMethod()
     {
         $m = mock('MockeryTest_InterfaceWithAbstractMethod');
-        $this->assertTrue($m instanceof MockeryTest_InterfaceWithAbstractMethod);
+        $this->assertInstanceOf(MockeryTest_InterfaceWithAbstractMethod::class, $m);
         $m->shouldReceive('foo')->andReturn(1);
         $this->assertEquals(1, $m->foo());
     }
@@ -349,25 +349,25 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockAbstractWithAbstractProtectedMethod()
     {
         $m = mock('MockeryTest_AbstractWithAbstractMethod');
-        $this->assertTrue($m instanceof MockeryTest_AbstractWithAbstractMethod);
+        $this->assertInstanceOf(MockeryTest_AbstractWithAbstractMethod::class, $m);
     }
 
     public function testCanMockInterfaceWithPublicStaticMethod()
     {
         $m = mock('MockeryTest_InterfaceWithPublicStaticMethod');
-        $this->assertTrue($m instanceof MockeryTest_InterfaceWithPublicStaticMethod);
+        $this->assertInstanceOf(MockeryTest_InterfaceWithPublicStaticMethod::class, $m);
     }
 
     public function testCanMockClassWithConstructor()
     {
         $m = mock('MockeryTest_ClassConstructor');
-        $this->assertTrue($m instanceof MockeryTest_ClassConstructor);
+        $this->assertInstanceOf(MockeryTest_ClassConstructor::class, $m);
     }
 
     public function testCanMockClassWithConstructorNeedingClassArgs()
     {
         $m = mock('MockeryTest_ClassConstructor2');
-        $this->assertTrue($m instanceof MockeryTest_ClassConstructor2);
+        $this->assertInstanceOf(MockeryTest_ClassConstructor2::class, $m);
     }
 
     /**
@@ -376,7 +376,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanPartiallyMockANormalClass()
     {
         $m = mock('MockeryTest_PartialNormalClass[foo]');
-        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
+        $this->assertInstanceOf(MockeryTest_PartialNormalClass::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
         $this->assertEquals('cba', $m->foo());
@@ -388,7 +388,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanPartiallyMockAnAbstractClass()
     {
         $m = mock('MockeryTest_PartialAbstractClass[foo]');
-        $this->assertTrue($m instanceof MockeryTest_PartialAbstractClass);
+        $this->assertInstanceOf(MockeryTest_PartialAbstractClass::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
         $this->assertEquals('cba', $m->foo());
@@ -400,7 +400,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanPartiallyMockANormalClassWith2Methods()
     {
         $m = mock('MockeryTest_PartialNormalClass2[foo, baz]');
-        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass2);
+        $this->assertInstanceOf(MockeryTest_PartialNormalClass2::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $m->shouldReceive('baz')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
@@ -414,7 +414,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanPartiallyMockAnAbstractClassWith2Methods()
     {
         $m = mock('MockeryTest_PartialAbstractClass2[foo,baz]');
-        $this->assertTrue($m instanceof MockeryTest_PartialAbstractClass2);
+        $this->assertInstanceOf(MockeryTest_PartialAbstractClass2::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $m->shouldReceive('baz')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
@@ -430,7 +430,7 @@ class ContainerTest extends MockeryTestCase
     {
         $this->markTestSkipped('For now...');
         $m = mock('MockeryTest_PartialNormalClass[foo]');
-        $this->assertTrue($m instanceof MockeryTest_PartialNormalClass);
+        $this->assertInstanceOf(MockeryTest_PartialNormalClass::class, $m);
         $m->shouldReceive('bar')->andReturn('cba');
     }
 
@@ -449,7 +449,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockClassContainingMagicCallMethod()
     {
         $m = mock('MockeryTest_Call1');
-        $this->assertTrue($m instanceof MockeryTest_Call1);
+        $this->assertInstanceOf(MockeryTest_Call1::class, $m);
     }
 
     /**
@@ -458,7 +458,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockClassContainingMagicCallMethodWithoutTypeHinting()
     {
         $m = mock('MockeryTest_Call2');
-        $this->assertTrue($m instanceof MockeryTest_Call2);
+        $this->assertInstanceOf(MockeryTest_Call2::class, $m);
     }
 
     /**
@@ -467,7 +467,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockClassContainingAPublicWakeupMethod()
     {
         $m = mock('MockeryTest_Wakeup1');
-        $this->assertTrue($m instanceof MockeryTest_Wakeup1);
+        $this->assertInstanceOf(MockeryTest_Wakeup1::class, $m);
     }
 
     /**
@@ -514,7 +514,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock('alias:MyNamespace\MyClass');
         $m->shouldReceive('foo')->andReturn('bar');
         $this->assertEquals('bar', $m->foo());
-        $this->assertTrue($m instanceof MyNamespace\MyClass);
+        $this->assertInstanceOf(MyNamespace\MyClass::class, $m);
     }
 
     /**
@@ -523,8 +523,8 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockMultipleInterfaces()
     {
         $m = mock('MockeryTest_Interface1, MockeryTest_Interface2');
-        $this->assertTrue($m instanceof MockeryTest_Interface1);
-        $this->assertTrue($m instanceof MockeryTest_Interface2);
+        $this->assertInstanceOf(MockeryTest_Interface1::class, $m);
+        $this->assertInstanceOf(MockeryTest_Interface2::class, $m);
     }
 
     /**
@@ -532,9 +532,9 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockMultipleInterfacesThatMayNotExist()
     {
         $m = mock('NonExistingClass, MockeryTest_Interface1, MockeryTest_Interface2, \Some\Thing\That\Doesnt\Exist');
-        $this->assertTrue($m instanceof MockeryTest_Interface1);
-        $this->assertTrue($m instanceof MockeryTest_Interface2);
-        $this->assertTrue($m instanceof \Some\Thing\That\Doesnt\Exist);
+        $this->assertInstanceOf(MockeryTest_Interface1::class, $m);
+        $this->assertInstanceOf(MockeryTest_Interface2::class, $m);
+        $this->assertInstanceOf(\Some\Thing\That\Doesnt\Exist::class, $m);
     }
 
     /**
@@ -543,9 +543,9 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockClassAndApplyMultipleInterfaces()
     {
         $m = mock('MockeryTestFoo, MockeryTest_Interface1, MockeryTest_Interface2');
-        $this->assertTrue($m instanceof MockeryTestFoo);
-        $this->assertTrue($m instanceof MockeryTest_Interface1);
-        $this->assertTrue($m instanceof MockeryTest_Interface2);
+        $this->assertInstanceOf(MockeryTestFoo::class, $m);
+        $this->assertInstanceOf(MockeryTest_Interface1::class, $m);
+        $this->assertInstanceOf(MockeryTest_Interface2::class, $m);
     }
 
     /**
@@ -598,7 +598,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock('MockeryTestFoo');
         $m->foo = 'bar';
         $this->assertEquals('bar', $m->foo);
-        //$this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        //$this->assertArrayHasKey('foo', $m->mockery_getMockableProperties());
     }
 
     /**
@@ -609,7 +609,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock('Foo');
         $m->foo = 'bar';
         $this->assertEquals('bar', $m->foo);
-        //$this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        //$this->assertArrayHasKey('foo', $m->mockery_getMockableProperties());
     }
 
     /**
@@ -620,7 +620,7 @@ class ContainerTest extends MockeryTestCase
         $m = mock(new stdClass);
         $m->foo = 'bar';
         $this->assertEquals('bar', $m->foo);
-        //$this->assertTrue(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        //$this->assertArrayHasKey('foo', $m->mockery_getMockableProperties());
     }
 
     /**
@@ -630,20 +630,20 @@ class ContainerTest extends MockeryTestCase
     {
         $m = mock(new MockeryTest_ExistingProperty);
         $this->assertEquals('bar', $m->foo);
-        $this->assertFalse(array_key_exists('foo', $m->mockery_getMockableProperties()));
+        $this->assertArrayNotHasKey('foo', $m->mockery_getMockableProperties());
     }
 
     public function testCreationOfInstanceMock()
     {
         $m = mock('overload:MyNamespace\MyClass4');
-        $this->assertTrue($m instanceof MyNamespace\MyClass4);
+        $this->assertInstanceOf(MyNamespace\MyClass4::class, $m);
     }
 
     public function testInstantiationOfInstanceMock()
     {
         $m = mock('overload:MyNamespace\MyClass5');
         $instance = new MyNamespace\MyClass5;
-        $this->assertTrue($instance instanceof MyNamespace\MyClass5);
+        $this->assertInstanceOf(MyNamespace\MyClass5::class, $instance);
     }
 
     public function testInstantiationOfInstanceMockImportsExpectations()
@@ -717,7 +717,7 @@ class ContainerTest extends MockeryTestCase
     public function testCreationOfInstanceMockWithFullyQualifiedName()
     {
         $m = mock('overload:\MyNamespace\MyClass11');
-        $this->assertTrue($m instanceof MyNamespace\MyClass11);
+        $this->assertInstanceOf(MyNamespace\MyClass11::class, $m);
     }
 
     public function testInstanceMocksShouldIgnoreMissing()
@@ -825,7 +825,7 @@ class ContainerTest extends MockeryTestCase
         );
         $data = array('a'=>1,'b'=>2);
         $m->insert($data, array());
-        $this->assertTrue(isset($data['_id']));
+        $this->assertArrayHasKey('_id', $data);
         $this->assertEquals(123, $data['_id']);
         Mockery::getConfiguration()->resetInternalClassMethodParamMaps();
     }
@@ -861,7 +861,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockAbstractClassWithAbstractPublicMethod()
     {
         $m = mock('MockeryTest_AbstractWithAbstractPublicMethod');
-        $this->assertTrue($m instanceof MockeryTest_AbstractWithAbstractPublicMethod);
+        $this->assertInstanceOf(MockeryTest_AbstractWithAbstractPublicMethod::class, $m);
     }
 
     /**
@@ -886,12 +886,12 @@ class ContainerTest extends MockeryTestCase
     public function testCallingSelfOnlyReturnsLastMockCreatedOrCurrentMockBeingProgrammedSinceTheyAreOneAndTheSame()
     {
         $m = mock('MockeryTestFoo');
-        $this->assertFalse(Mockery::self() instanceof MockeryTestFoo2);
+        $this->assertNotInstanceOf(MockeryTestFoo2::class, Mockery::self());
         //$m = mock('MockeryTestFoo2');
-        //$this->assertTrue(self() instanceof MockeryTestFoo2);
+        //$this->assertInstanceOf(MockeryTestFoo2::class, self());
         //$m = mock('MockeryTestFoo');
-        //$this->assertFalse(Mockery::self() instanceof MockeryTestFoo2);
-        //$this->assertTrue(Mockery::self() instanceof MockeryTestFoo);
+        //$this->assertNotInstanceOf(MockeryTestFoo2::class, Mockery::self());
+        //$this->assertInstanceOf(MockeryTestFoo::class, Mockery::self());
     }
 
     /**
