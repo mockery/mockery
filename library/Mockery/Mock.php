@@ -759,8 +759,8 @@ class Mock implements MockInterface
 
     protected static function _mockery_handleStaticMethodCall($method, array $args)
     {
+        $associatedRealObject = \Mockery::fetchMock(__CLASS__);
         try {
-            $associatedRealObject = \Mockery::fetchMock(__CLASS__);
             return $associatedRealObject->__call($method, $args);
         } catch (BadMethodCallException $e) {
             throw new BadMethodCallException(

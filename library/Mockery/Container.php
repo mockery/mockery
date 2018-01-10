@@ -96,6 +96,7 @@ class Container
         $quickdefs = array();
         $constructorArgs = null;
         $blocks = array();
+        $class = null;
 
         if (count($args) > 1) {
             $finalArg = end($args);
@@ -191,7 +192,6 @@ class Container
         $builder->addBlackListedMethods($blocks);
 
         if (defined('HHVM_VERSION')
-            && isset($class)
             && ($class === 'Exception' || is_subclass_of($class, 'Exception'))) {
             $builder->addBlackListedMethod("setTraceOptions");
             $builder->addBlackListedMethod("getTraceOptions");
