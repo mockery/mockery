@@ -50,7 +50,7 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Apply implementation.
      *
-     * @param int $code
+     * @param string $code
      * @param MockConfiguration $config
      * @return string
      */

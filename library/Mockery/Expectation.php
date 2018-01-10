@@ -31,7 +31,7 @@ class Expectation implements ExpectationInterface
     /**
      * Mock object to which this expectation belongs
      *
-     * @var object
+     * @var \Mockery\MockInterface
      */
     protected $_mock = null;
 
@@ -45,7 +45,7 @@ class Expectation implements ExpectationInterface
     /**
      * Exception message
      *
-     * @var null
+     * @var string|null
      */
     protected $_because = null;
 

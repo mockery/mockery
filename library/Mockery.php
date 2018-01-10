@@ -34,7 +34,7 @@ class Mockery
     /**
      * Global container to hold all mocks for the current unit test running.
      *
-     * @var \Mockery\Container
+     * @var \Mockery\Container|null
      */
     protected static $_container = null;
 
@@ -485,7 +485,7 @@ class Mockery
      * @param mixed $argument
      * @param int $depth
      *
-     * @return string
+     * @return mixed
      */
     private static function formatArgument($argument, $depth = 0)
     {
