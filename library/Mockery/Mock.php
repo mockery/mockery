@@ -201,14 +201,11 @@ class Mock implements MockInterface
             }
         }
 
-        /** @var array $nonPublicMethods */
-        $nonPublicMethods = $this->getNonPublicMethods();
-
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
 
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, $methodNames, function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
+            $this, $methodNames, function ($method) use ($self, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {
