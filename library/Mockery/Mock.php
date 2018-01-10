@@ -215,7 +215,7 @@ class Mock implements MockInterface
                         throw new \InvalidArgumentException("$method() cannot be mocked as it is a private method");
                     }
                     if (!$allowMockingProtectedMethods && $rm->isProtected()) {
-                        throw new \InvalidArgumentException("$method() cannot be mocked as it is a protected method and mocking protected methods is not enabled for the currently used mock object.");
+                        throw new \InvalidArgumentException("$method() cannot be mocked as it is a protected method and mocking protected methods is not enabled for the currently used mock object. Use shouldAllowMockingProtectedMethods() to enable mocking of protected methods.");
                     }
                 }
 
