@@ -85,7 +85,7 @@ class Container
      * names or partials - just so long as it's something that can be mocked.
      * I'll refactor it one day so it's easier to follow.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return Mock
      * @throws Exception\RuntimeException
@@ -427,7 +427,7 @@ class Container
     /**
      * Store a mock and set its container reference
      *
-     * @param \Mockery\Mock
+     * @param \Mockery\Mock $mock
      * @return \Mockery\MockInterface
      */
     public function rememberMock(\Mockery\MockInterface $mock)

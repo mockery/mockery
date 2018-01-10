@@ -28,7 +28,7 @@ class PHPUnitConstraint extends MatcherAbstract
     protected $rethrow;
 
     /**
-     * @param \PHPUnit\Framework\Constraint|\PHPUnit_Framework_Constraint $constraint
+     * @param mixed $constraint
      * @param bool $rethrow
      */
     public function __construct($constraint, $rethrow = false)

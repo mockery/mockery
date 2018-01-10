@@ -41,7 +41,7 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
-     * @param mixed ...
+     * @param mixed ...$args
      */
     public function andReturn(...$args)
     {
@@ -51,7 +51,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed ...
+     * @param mixed ...$args
      * @return self
      */
     public function andReturns(...$args)
@@ -112,7 +112,7 @@ class CompositeExpectation implements ExpectationInterface
      * Starts a new expectation addition on the first mock which is the primary
      * target outside of a demeter chain
      *
-     * @param mixed ...
+     * @param mixed ...$args
      * @return \Mockery\Expectation
      */
     public function shouldReceive(...$args)
