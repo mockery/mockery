@@ -47,6 +47,8 @@ class Configuration
      */
     protected $_internalClassParamMap = array();
 
+    protected $_constantsMap = array();
+
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
@@ -132,5 +134,15 @@ class Configuration
     public function getInternalClassMethodParamMaps()
     {
         return $this->_internalClassParamMap;
+    }
+
+    public function setConstantsMap(array $map)
+    {
+        $this->_constantsMap = $map;
+    }
+
+    public function getConstantsMap()
+    {
+        return $this->_constantsMap;
     }
 }

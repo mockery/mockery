@@ -116,6 +116,7 @@ class Container
         reset($args);
 
         $builder->setParameterOverrides(\Mockery::getConfiguration()->getInternalClassMethodParamMaps());
+        $builder->setConstantsMap(\Mockery::getConfiguration()->getConstantsMap());
 
         while (count($args) > 0) {
             $arg = current($args);
