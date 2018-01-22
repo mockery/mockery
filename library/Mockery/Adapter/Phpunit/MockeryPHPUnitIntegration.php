@@ -56,7 +56,7 @@ trait MockeryPHPUnitIntegration
 
         foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
             if (!$e->dismissed()) {
-                $this->markAsRisky('Mockery found an exception that appears to have been swallowed: '.$e->getMessage());
+                $this->markAsRisky();
             }
         }
     }

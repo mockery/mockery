@@ -68,6 +68,7 @@ class MockConfigurationBuilder
     protected $mockOriginalDestructor = false;
     protected $targets = array();
 
+    protected $constantsMap = array();
 
     public function __construct()
     {
@@ -154,6 +155,11 @@ class MockConfigurationBuilder
         return $this;
     }
 
+    public function setConstantsMap(array $map)
+    {
+        $this->constantsMap = $map;
+    }
+
     public function getMockConfiguration()
     {
         return new MockConfiguration(
@@ -163,7 +169,8 @@ class MockConfigurationBuilder
             $this->name,
             $this->instanceMock,
             $this->parameterOverrides,
-            $this->mockOriginalDestructor
+            $this->mockOriginalDestructor,
+            $this->constantsMap
         );
     }
 }

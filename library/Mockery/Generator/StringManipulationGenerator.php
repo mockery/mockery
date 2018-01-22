@@ -20,18 +20,19 @@
 
 namespace Mockery\Generator;
 
-use Mockery\Generator\StringManipulation\Pass\Pass;
-use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
-use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
 use Mockery\Generator\StringManipulation\Pass\ClassPass;
-use Mockery\Generator\StringManipulation\Pass\TraitPass;
+use Mockery\Generator\StringManipulation\Pass\ConstantsPass;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 use Mockery\Generator\StringManipulation\Pass\InterfacePass;
+use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPass;
+use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
+use Mockery\Generator\StringManipulation\Pass\TraitPass;
 
 class StringManipulationGenerator implements Generator
 {
@@ -56,6 +57,7 @@ class StringManipulationGenerator implements Generator
             new RemoveUnserializeForInternalSerializableClassesPass(),
             new RemoveBuiltinMethodsThatAreFinalPass(),
             new RemoveDestructorPass(),
+            new ConstantsPass(),
         ]);
     }
 

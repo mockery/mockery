@@ -39,7 +39,7 @@ class MockeryPHPUnitIntegrationTest extends MockeryTestCase
         $test = spy(BaseClassStub::class)->makePartial();
         $test->finish();
 
-        $test->shouldHaveReceived()->markAsRisky(m::type("string"));
+        $test->shouldHaveReceived()->markAsRisky();
     }
 
     /**
@@ -58,6 +58,6 @@ class MockeryPHPUnitIntegrationTest extends MockeryTestCase
         $test = spy(BaseClassStub::class)->makePartial();
         $test->finish();
 
-        $test->shouldNotHaveReceived()->markAsRisky(m::any());
+        $test->shouldNotHaveReceived()->markAsRisky();
     }
 }

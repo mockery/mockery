@@ -55,7 +55,7 @@ interface MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param array $methodNames one or many methods that are expected not to be called in this mock
+     * @param array ...$methodNames one or many methods that are expected not to be called in this mock
      * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames);
