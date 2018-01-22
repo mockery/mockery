@@ -31,12 +31,7 @@ class AnyOf extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        foreach ($this->_expected as $exp) {
-            if ($actual === $exp) {
-                return true;
-            }
-        }
-        return false;
+        return in_array($actual, $this->_expected, true);
     }
 
     /**
