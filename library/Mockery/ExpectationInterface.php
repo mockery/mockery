@@ -45,7 +45,7 @@ interface ExpectationInterface
     public function getMock();
 
     /**
-     * @param array $args
+     * @param array ...$args
      * @return self
      */
     public function andReturn(...$args);

@@ -34,7 +34,7 @@ class Mockery
     /**
      * Global container to hold all mocks for the current unit test running.
      *
-     * @var \Mockery\Container
+     * @var \Mockery\Container|null
      */
     protected static $_container = null;
 
@@ -73,7 +73,7 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock().
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -86,7 +86,7 @@ class Mockery
      * Static and semantic shortcut for getting a mock from the container
      * and applying the spy's expected behavior into it.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -98,7 +98,7 @@ class Mockery
     /**
      * Static and Semantic shortcut to \Mockery\Container::mock().
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -110,7 +110,7 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock(), first argument names the mock.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -169,7 +169,7 @@ class Mockery
     /**
      * Static fetching of a mock associated with a name or explicit class poser.
      *
-     * @param $name
+     * @param string $name
      *
      * @return \Mockery\Mock
      */
@@ -299,7 +299,7 @@ class Mockery
     /**
      * Return instance of TYPE matcher.
      *
-     * @param $expected
+     * @param mixed $expected
      *
      * @return \Mockery\Matcher\Type
      */
@@ -311,7 +311,7 @@ class Mockery
     /**
      * Return instance of DUCKTYPE matcher.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\Matcher\Ducktype
      */
@@ -336,7 +336,7 @@ class Mockery
     /**
      * Return instance of CONTAINS matcher.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\Matcher\Contains
      */
@@ -348,7 +348,7 @@ class Mockery
     /**
      * Return instance of HASKEY matcher.
      *
-     * @param $key
+     * @param mixed $key
      *
      * @return \Mockery\Matcher\HasKey
      */
@@ -360,7 +360,7 @@ class Mockery
     /**
      * Return instance of HASVALUE matcher.
      *
-     * @param $val
+     * @param mixed $val
      *
      * @return \Mockery\Matcher\HasValue
      */
@@ -372,7 +372,7 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
-     * @param $closure
+     * @param mixed $closure
      *
      * @return \Mockery\Matcher\Closure
      */
@@ -384,7 +384,7 @@ class Mockery
     /**
      * Return instance of MUSTBE matcher.
      *
-     * @param $expected
+     * @param mixed $expected
      *
      * @return \Mockery\Matcher\MustBe
      */
@@ -396,7 +396,7 @@ class Mockery
     /**
      * Return instance of NOT matcher.
      *
-     * @param $expected
+     * @param mixed $expected
      *
      * @return \Mockery\Matcher\Not
      */
@@ -408,7 +408,7 @@ class Mockery
     /**
      * Return instance of ANYOF matcher.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\Matcher\AnyOf
      */
@@ -420,7 +420,7 @@ class Mockery
     /**
      * Return instance of NOTANYOF matcher.
      *
-     * @param array $args
+     * @param array ...$args
      *
      * @return \Mockery\Matcher\NotAnyOf
      */
@@ -432,7 +432,7 @@ class Mockery
     /**
      * Return instance of PATTERN matcher.
      *
-     * @param $expected
+     * @param mixed $expected
      *
      * @return \Mockery\Matcher\Pattern
      */
@@ -482,10 +482,10 @@ class Mockery
      * Gets the string representation
      * of any passed argument.
      *
-     * @param $argument
-     * @param $depth
+     * @param mixed $argument
+     * @param int $depth
      *
-     * @return string
+     * @return mixed
      */
     private static function formatArgument($argument, $depth = 0)
     {
@@ -572,7 +572,7 @@ class Mockery
     /**
      * Utility function to turn public properties and public get* and is* method values into an array.
      *
-     * @param     $object
+     * @param object $object
      * @param int $nesting
      *
      * @return array
@@ -592,8 +592,8 @@ class Mockery
     /**
      * Returns all public instance properties.
      *
-     * @param $object
-     * @param $nesting
+     * @param mixed $object
+     * @param int $nesting
      *
      * @return array
      */
@@ -617,8 +617,8 @@ class Mockery
      * Utility method used for recursively generating
      * an object or array representation.
      *
-     * @param $argument
-     * @param $nesting
+     * @param mixed $argument
+     * @param int $nesting
      *
      * @return mixed
      */
@@ -670,7 +670,7 @@ class Mockery
      * expectations from such as needed.
      *
      * @param Mockery\MockInterface $mock
-     * @param array $args
+     * @param array ...$args
      * @param callable $add
      * @return \Mockery\CompositeExpectation
      */

@@ -50,7 +50,7 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Apply implementation.
      *
-     * @param $code
+     * @param string $code
      * @param MockConfiguration $config
      * @return string
      */
@@ -90,7 +90,7 @@ class MagicMethodTypeHintsPass implements Pass
      * Applies type hints of magic methods from
      * class to the passed code.
      *
-     * @param $code
+     * @param int $code
      * @param Method $method
      * @return string
      */
@@ -113,7 +113,7 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Checks if the method is declared withing code.
      *
-     * @param $code
+     * @param int $code
      * @param Method $method
      * @return boolean
      */
@@ -129,7 +129,7 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns the method original parameters, as they're
      * described in the $code string.
      *
-     * @param $code
+     * @param int $code
      * @param Method $method
      * @return array
      */

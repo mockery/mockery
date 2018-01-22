@@ -185,7 +185,7 @@ class Mock implements MockInterface
     /**
      * Set expected method calls
      *
-     * @param array $methodNames,... one or many methods that are expected to be called in this mock
+     * @param array ...$methodNames one or many methods that are expected to be called in this mock
      *
      * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
@@ -201,14 +201,11 @@ class Mock implements MockInterface
             }
         }
 
-        /** @var array $nonPublicMethods */
-        $nonPublicMethods = $this->getNonPublicMethods();
-
         $self = $this;
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
 
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, $methodNames, function ($method) use ($self, $nonPublicMethods, $allowMockingProtectedMethods) {
+            $this, $methodNames, function ($method) use ($self, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {
@@ -269,7 +266,7 @@ class Mock implements MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param array $methodNames one or many methods that are expected not to be called in this mock
+     * @param array ...$methodNames one or many methods that are expected not to be called in this mock
      * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames)
@@ -762,8 +759,8 @@ class Mock implements MockInterface
 
     protected static function _mockery_handleStaticMethodCall($method, array $args)
     {
+        $associatedRealObject = \Mockery::fetchMock(__CLASS__);
         try {
-            $associatedRealObject = \Mockery::fetchMock(__CLASS__);
             return $associatedRealObject->__call($method, $args);
         } catch (BadMethodCallException $e) {
             throw new BadMethodCallException(

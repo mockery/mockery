@@ -52,7 +52,7 @@ class Configuration
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
-     * @param bool
+     * @param bool $flag
      */
     public function allowMockingNonExistentMethods($flag = true)
     {
@@ -74,7 +74,7 @@ class Configuration
      *
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
-     * @param bool
+     * @param bool $flag
      */
     public function allowMockingMethodsUnnecessarily($flag = true)
     {
