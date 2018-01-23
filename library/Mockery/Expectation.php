@@ -301,7 +301,7 @@ class Expectation implements ExpectationInterface
     /**
      * Verify this expectation
      *
-     * @return bool
+     * @return void
      */
     public function verify()
     {
