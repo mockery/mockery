@@ -49,3 +49,10 @@ if (!function_exists("anyArgs")) {
         return new AnyArgs();
     }
 }
+
+if (!function_exists("pattern")) {
+    function pattern($expected)
+    {
+        return Mockery::pattern($expected);
+    }
+}
