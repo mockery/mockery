@@ -21,17 +21,6 @@
 
 namespace Mockery;
 
-/**
- * @method Expectation once()
- * @method Expectation zeroOrMoreTimes()
- * @method Expectation twice()
- * @method Expectation times(int $limit)
- * @method Expectation never()
- * @method Expectation atLeast()
- * @method Expectation atMost()
- * @method Expectation between()
- * @method Expectation because(string $message)
- */
 interface ExpectationInterface
 {
     /**
