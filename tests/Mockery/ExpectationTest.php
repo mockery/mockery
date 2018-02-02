@@ -1238,7 +1238,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testObjectConstraintMatchesArgument()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::type('object'))->once();
+        $this->mock->shouldReceive('foo')->with(Mockery::type('stdClass'))->once();
         $this->mock->foo(new stdClass);
         $this->container->mockery_verify();
     }
@@ -1246,7 +1246,7 @@ class ExpectationTest extends MockeryTestCase
     public function testObjectConstraintNonMatchingCase()
     {
         $this->mock->shouldReceive('foo')->times(3);
-        $this->mock->shouldReceive('foo')->with(1, Mockery::type('object`'))->never();
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('stdClass`'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 2, 3);
@@ -1258,7 +1258,7 @@ class ExpectationTest extends MockeryTestCase
      */
     public function testObjectConstraintThrowsExceptionWhenConstraintUnmatched()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::type('object'))->once();
+        $this->mock->shouldReceive('foo')->with(Mockery::type('stdClass'))->once();
         $this->mock->foo('f');
         $this->container->mockery_verify();
     }
