@@ -476,6 +476,21 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
+    public function testExpectsVariadicArguments()
+    {
+        $this->mock->shouldReceive('foo')->withVariadicArgs(1);
+        $this->mock->foo(1, 4, 2);
+    }
+
+    /**
+     * @expectedException \Mockery\Exception
+     */
+    public function testExpectsVariadicArgumentsThrowsException()
+    {
+        $this->mock->shouldReceive('foo')->withVariadicArgs(2);
+        $this->mock->foo(1, 4, 2);
+    }
+
     public function testExpectsAnyArguments()
     {
         $this->mock->shouldReceive('foo')->withAnyArgs();

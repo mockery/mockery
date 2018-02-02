@@ -433,6 +433,39 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Expect a variable number of arguments
+     *
+     * Useful when we want to set up an expectation only for a subset of arguments:
+     *
+     * ``` php
+     * class Foo
+     * {
+     *   public function bar($x, $y) {}
+     * }
+     *
+     * $m = \Mockery::mock(Foo::class);
+     * $m->shouldReceive('bar')
+     *   ->withVariadicArgs(1); // we car only about $x, not about $y
+     * $m->bar(1, 2);
+     * ```
+     *
+     * @param ...mixed
+     * @return self
+     */
+    public function withVariadicArgs(...$args)
+    {
+        return $this->withArgsMatchedByClosure(function (...$innerArgs) use ($args) {
+            $match = true;
+            foreach ($args as $k => $a) {
+                if ($innerArgs[$k] !== $a) {
+                    $match = false;
+                }
+            }
+            return $match;
+        });
+    }
+
+    /**
      * Set with() as no arguments expected
      *
      * @return self
