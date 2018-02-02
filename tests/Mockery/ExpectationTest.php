@@ -1995,9 +1995,9 @@ class ExpectationTest extends MockeryTestCase
         $mock->hasBookmarksTagged("padraic");
     }
 
-    public function testShouldDeferMissingExpectationBasedOnArgs()
+    public function testMakePartialExpectationBasedOnArgs()
     {
-        $mock = mock("MockeryTest_SubjectCall1")->shouldDeferMissing();
+        $mock = mock("MockeryTest_SubjectCall1")->makePartial();
 
         $this->assertEquals('bar', $mock->foo());
         $this->assertEquals('bar', $mock->foo("baz"));

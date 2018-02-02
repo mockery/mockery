@@ -326,22 +326,27 @@ class Mock implements MockInterface
      * This is particularly useless for this class, as it doesn't have a parent,
      * but included for completeness
      *
+     * @deprecated 2.0.0 Please use makePartial() instead
+     *
      * @return Mock
      */
     public function shouldDeferMissing()
     {
-        $this->_mockery_deferMissing = true;
-        return $this;
+        return $this->makePartial();
     }
 
     /**
-     * Create an obviously worded alias to shouldDeferMissing()
+     * Set mock to defer unexpected methods to it's parent
+     *
+     * It was an alias for shouldDeferMissing(), which will be removed
+     * in 2.0.0.
      *
      * @return Mock
      */
     public function makePartial()
     {
-        return $this->shouldDeferMissing();
+        $this->_mockery_deferMissing = true;
+        return $this;
     }
 
     /**

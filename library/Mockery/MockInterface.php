@@ -81,6 +81,8 @@ interface MockInterface
     /**
      * Set mock to defer unexpected methods to its parent if possible
      *
+     * @deprecated 2.0.0 Please use makePartial() instead
+     *
      * @return Mock
      */
     public function shouldDeferMissing();
