@@ -1,5 +1,20 @@
 # Change Log
 
+## x.y.z. (unreleased)
+
+* Allows use of string method names in allows and expects (#794)
+* Finalises allows and expects syntax in API (#799)
+* Search for handlers in a case instensitive way (#801)
+* Deprecate allowMockingMethodsUnnecessarily (#808)
+* Fix risky tests (#769)
+* Fix namespace in TestListener (#812)
+* Fixed conflicting mock names (#813)
+* Clean elses (#819)
+* Updated protected method mocking exception message (#826)
+* Map of constants to mock (#829)
+* Simplify foreach with `in_array` function (#830)
+* Typehinted return value on Expectation#verify. (#832)
+
 ## 1.0.0 (2017-09-06)
 
 * Destructors (`__destruct`) are stubbed out where it makes sense
