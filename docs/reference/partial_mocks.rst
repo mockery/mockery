@@ -38,13 +38,6 @@ define, there is no need to define which methods to mock in advance.
 See the cookbook entry on :doc:`../cookbook/big_parent_class` for an example
 usage of runtime partial test doubles.
 
-.. note::
-
-    The ``makePartial()`` method is identical to the original ``shouldDeferMissing()``
-    method which first introduced this Partial Mock type. To know more about
-    ``shouldDeferMissing()`` method - see the chapter on
-    :ref:`creating-test-doubles-behavior-modifiers`.
-
 Generated Partial Test Doubles
 ------------------------------
 
