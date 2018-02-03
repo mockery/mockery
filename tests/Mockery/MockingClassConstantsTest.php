@@ -23,13 +23,11 @@ namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class MockingAllLowerCasedMethodsTest extends MockeryTestCase
+class MockingClassConstantsTest extends MockeryTestCase
 {
     /** @test */
     public function itShouldAllowToMockClassConstants()
     {
-        require __DIR__."/Fixtures/ClassWithConstants.php";
-
         \Mockery::getConfiguration()->setConstantsMap([
             'ClassWithConstants' => [
                 'FOO' => 'baz',
@@ -37,9 +35,9 @@ class MockingAllLowerCasedMethodsTest extends MockeryTestCase
             ]
         ]);
 
-        $mock = mock('test\Mockery\Fixtures\ClassWithConstants');
+        $mock = \Mockery::mock('overload:ClassWithConstants');
 
-        self::assertSame('baz', $mock::FOO);
-        self::assertSame(2, $mock::X);
+        self::assertEquals('baz', $mock::FOO);
+        self::assertEquals(2, $mock::X);
     }
 }
