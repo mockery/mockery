@@ -14,6 +14,7 @@
 * Map of constants to mock (#829)
 * Simplify foreach with `in_array` function (#830)
 * Typehinted return value on Expectation#verify. (#832)
+* Fix shouldNotHaveReceived with HigherOrderMessage (#842)
 
 ## 1.0.0 (2017-09-06)
 
