@@ -30,6 +30,8 @@ class GeneratorTest extends MockeryTestCase
     {
         $container = new \Mockery\Container;
         $mock = $container->mock('Mockery\Tests\Evenement_EventEmitter', 'Mockery\Tests\Chatroulette_ConnectionInterface');
+
+        $this->assertInstanceOf('Mockery\Tests\Evenement_EventEmitterInterface', $mock);
     }
 }
 
