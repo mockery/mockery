@@ -159,14 +159,14 @@ class ContainerTest extends MockeryTestCase
     public function testNamedMockWithConstructorArgsButNoQuickDefsShouldLeaveConstructorIntact()
     {
         $m = mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
-        $m->shouldDeferMissing();
+        $m->makePartial();
         $this->assertEquals($param1, $m->getParam1());
     }
 
-    public function testNamedMockWithShouldDeferMissing()
+    public function testNamedMockWithMakePartial()
     {
         $m = mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
-        $m->shouldDeferMissing();
+        $m->makePartial();
         $this->assertEquals('foo', $m->bar());
         $m->shouldReceive("bar")->andReturn(123);
         $this->assertEquals(123, $m->bar());
@@ -175,10 +175,10 @@ class ContainerTest extends MockeryTestCase
     /**
      * @expectedException BadMethodCallException
      */
-    public function testNamedMockWithShouldDeferMissingThrowsIfNotAvailable()
+    public function testNamedMockWithMakePartialThrowsIfNotAvailable()
     {
         $m = mock("MockeryTest_ClassConstructor2", array($param1 = new stdClass()));
-        $m->shouldDeferMissing();
+        $m->makePartial();
         $m->foorbar123();
         $m->mockery_verify();
     }
