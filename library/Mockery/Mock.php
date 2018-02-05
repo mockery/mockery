@@ -875,7 +875,7 @@ class Mock implements MockInterface
      */
     protected function mockery_getMethods()
     {
-        if (static::$_mockery_methods) {
+        if (static::$_mockery_methods && \Mockery::getConfiguration()->reflectionCacheEnabled()) {
             return static::$_mockery_methods;
         }
 

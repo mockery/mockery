@@ -50,6 +50,14 @@ class Configuration
     protected $_constantsMap = array();
 
     /**
+     * Boolean assertion is reflection caching enabled or not. It should be
+     * always enabled, except when using PHPUnit's --static-backup option.
+     *
+     * @see https://github.com/mockery/mockery/issues/268
+     */
+    protected $_reflectionCacheEnabled = true;
+
+    /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
      * @param bool $flag
@@ -144,5 +152,26 @@ class Configuration
     public function getConstantsMap()
     {
         return $this->_constantsMap;
+    }
+
+    /**
+     * Toggle reflection caching
+     *
+     * It should be always enabled, except when using
+     * PHPUnit's --static-backup option.
+     *
+     * @see https://github.com/mockery/mockery/issues/268
+     */
+    public function toggleReflectionCache($flag = true)
+    {
+        $this->_reflectionCacheEnabled = (bool) $flag;
+    }
+
+    /**
+     * Is reflection cache enabled?
+     */
+    public function reflectionCacheEnabled()
+    {
+        return $this->_reflectionCacheEnabled;
     }
 }
