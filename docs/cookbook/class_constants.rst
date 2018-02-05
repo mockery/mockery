@@ -5,13 +5,16 @@ Class Constants
 ===============
 
 When creating a test double for a class, Mockery does not create stubs out of
-any class contants defined in the class we are mocking. Sometimes though, the
+any class constants defined in the class we are mocking. Sometimes though, the
 non-existence of these class constants, setup of the test, and the application
 code itself, it can lead to undesired behavior, and even a PHP error:
 ``PHP Fatal error:  Uncaught Error: Undefined class constant 'FOO' in ...```
 
-While supporting class contants in Mockery would be possible, it does require
+While supporting class constants in Mockery would be possible, it does require
 an awful lot of work, for a small number of use cases.
+
+Named Mocks
+-----------
 
 We can, however, deal with these constants in a way supported by Mockery - by
 using :ref:`creating-test-doubles-named-mocks`.
@@ -142,3 +145,39 @@ And the test will have something like this:
     $myClass = new MyClass();
     $myClass->doFetching($mock);
 
+
+Constants Map
+-------------
+
+Another way of mocking class constants can be with the use of the constants map configuration.
+
+Given a class with constants:
+
+.. code-block:: php
+
+    class Fetcher
+    {
+        const SUCCESS = 0;
+        const FAILURE = 1;
+
+        public function fetch()
+        {
+            // Fetcher gets something for us from somewhere...
+            return self::SUCCESS;
+        }
+    }
+
+It can be mocked with:
+
+.. code-block:: php
+
+    \Mockery()->getConfiguration->setConstantsMap([
+        'Fetcher' => [
+            'SUCCESS' => 'success',
+            'FAILURE' => 'fail',
+        ]
+    ]);
+
+    $mock = \Mockery::mock('Fetcher');
+    var_dump($mock::SUCCESS); // (string) 'success'
+    var_dump($mock::FAILURE); // (string) 'fail'

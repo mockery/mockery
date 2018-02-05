@@ -56,7 +56,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnBoolean");
-        $this->assertSame(false, $mock->returnBoolean());
+        $this->assertFalse($mock->returnBoolean());
     }
 
     public function testMockingArrayReturnType()
@@ -80,7 +80,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnCallable");
-        $this->assertTrue(is_callable($mock->returnCallable()));
+        $this->assertInternalType('callable', $mock->returnCallable());
     }
 
     public function testMockingClassReturnTypes()
@@ -108,9 +108,9 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $this->assertSame('', $mock->returnString());
         $this->assertSame(0, $mock->returnInteger());
         $this->assertSame(0.0, $mock->returnFloat());
-        $this->assertSame(false, $mock->returnBoolean());
+        $this->assertFalse( $mock->returnBoolean());
         $this->assertSame([], $mock->returnArray());
-        $this->assertTrue(is_callable($mock->returnCallable()));
+        $this->assertInternalType('callable', $mock->returnCallable());
         $this->assertInstanceOf("\Generator", $mock->returnGenerator());
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
     }

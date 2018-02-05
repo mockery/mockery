@@ -47,10 +47,12 @@ class Configuration
      */
     protected $_internalClassParamMap = array();
 
+    protected $_constantsMap = array();
+
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
-     * @param bool
+     * @param bool $flag
      */
     public function allowMockingNonExistentMethods($flag = true)
     {
@@ -68,12 +70,16 @@ class Configuration
     }
 
     /**
+     * @deprecated
+     *
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
-     * @param bool
+     * @param bool $flag
      */
     public function allowMockingMethodsUnnecessarily($flag = true)
     {
+        trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
+
         $this->_allowMockingMethodsUnnecessarily = (bool) $flag;
     }
 
@@ -84,6 +90,8 @@ class Configuration
      */
     public function mockingMethodsUnnecessarilyAllowed()
     {
+        trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
+
         return $this->_allowMockingMethodsUnnecessarily;
     }
 
@@ -126,5 +134,15 @@ class Configuration
     public function getInternalClassMethodParamMaps()
     {
         return $this->_internalClassParamMap;
+    }
+
+    public function setConstantsMap(array $map)
+    {
+        $this->_constantsMap = $map;
+    }
+
+    public function getConstantsMap()
+    {
+        return $this->_constantsMap;
     }
 }

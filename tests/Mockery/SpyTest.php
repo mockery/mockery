@@ -111,4 +111,42 @@ class SpyTest extends MockeryTestCase
 
         $spy->shouldHaveReceived()->foo(anyArgs());
     }
+
+    /** @test */
+    public function should_have_received_higher_order_message_call_a_method_with_correct_arguments()
+    {
+        $spy = m::spy();
+        $spy->foo(123);
+
+        $spy->shouldHaveReceived()->foo(123);
+    }
+
+    /** @test */
+    public function should_have_received_higher_order_message_call_a_method_with_incorrect_arguments_throws_exception()
+    {
+        $spy = m::spy();
+        $spy->foo(123);
+
+        $this->expectException("Mockery\Exception\InvalidCountException");
+        $spy->shouldHaveReceived()->foo(456);
+    }
+
+    /** @test */
+    public function should_not_have_received_higher_order_message_call_a_method_with_incorrect_arguments()
+    {
+        $spy = m::spy();
+        $spy->foo(123);
+
+        $spy->shouldNotHaveReceived()->foo(456);
+    }
+
+    /** @test */
+    public function should_not_have_received_higher_order_message_call_a_method_with_correct_arguments_throws_an_exception()
+    {
+        $spy = m::spy();
+        $spy->foo(123);
+
+        $this->expectException("Mockery\Exception\InvalidCountException");
+        $spy->shouldNotHaveReceived()->foo(123);
+    }
 }

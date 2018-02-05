@@ -23,17 +23,21 @@ namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-/**
- * @requires PHP 7.1.0RC3
- */
-class MockingMethodsWithIterableTypeHintsTest extends MockeryTestCase
+class MockingAllLowerCasedMethodsTest extends MockeryTestCase
 {
     /** @test */
-    public function itShouldSuccessfullyBuildTheMock()
+    public function itShouldAllowToCallAllLowerCasedMethodAsCamelCased()
     {
-        require __DIR__."/Fixtures/MethodWithIterableTypeHints.php";
-        $mock = mock("test\Mockery\Fixtures\MethodWithIterableTypeHints");
+        require __DIR__."/Fixtures/ClassWithAllLowerCaseMethod.php";
 
-        $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithIterableTypeHints::class, $mock);
+        $mock = mock('test\Mockery\Fixtures\ClassWithAllLowerCaseMethod');
+        $mock->shouldReceive('userExpectsCamelCaseMethod')
+            ->andReturn('mocked');
+
+        $result = $mock->userExpectsCamelCaseMethod();
+
+        $expected = 'mocked';
+
+        self::assertSame($expected, $result);
     }
 }

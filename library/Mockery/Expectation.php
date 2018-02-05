@@ -31,7 +31,7 @@ class Expectation implements ExpectationInterface
     /**
      * Mock object to which this expectation belongs
      *
-     * @var object
+     * @var \Mockery\MockInterface
      */
     protected $_mock = null;
 
@@ -45,7 +45,7 @@ class Expectation implements ExpectationInterface
     /**
      * Exception message
      *
-     * @var null
+     * @var string|null
      */
     protected $_because = null;
 
@@ -301,7 +301,7 @@ class Expectation implements ExpectationInterface
     /**
      * Verify this expectation
      *
-     * @return bool
+     * @return void
      */
     public function verify()
     {
@@ -348,7 +348,7 @@ class Expectation implements ExpectationInterface
      * Check if passed argument matches an argument expectation
      *
      * @param mixed $expected
-     * @param mixed &$actual
+     * @param mixed $actual
      * @return bool
      */
     protected function _matchArg($expected, &$actual)
@@ -377,7 +377,7 @@ class Expectation implements ExpectationInterface
     /**
      * Expected argument setter for the expectation
      *
-     * @param mixed[] ...
+     * @param mixed[] ...$args
      * @return self
      */
     public function with(...$args)
@@ -457,7 +457,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed[] ...
+     * @param mixed[] ...$args
      * @return self
      */
     public function andReturn(...$args)
@@ -469,7 +469,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed[] ...
+     * @param mixed[] ...$args
      * @return self
      */
     public function andReturns(...$args)
@@ -504,7 +504,7 @@ class Expectation implements ExpectationInterface
      * values. The arguments passed to the expected method are passed to the
      * closures as parameters.
      *
-     * @param callable[] $args
+     * @param callable[] ...$args
      * @return self
      */
     public function andReturnUsing(...$args)
@@ -564,6 +564,11 @@ class Expectation implements ExpectationInterface
         return $this;
     }
 
+    public function andThrows($exception, $message = '', $code = 0, \Exception $previous = null)
+    {
+        return $this->andThrow($exception, $message, $code, $previous);
+    }
+
     /**
      * Set Exception classes to be thrown
      *
@@ -585,7 +590,7 @@ class Expectation implements ExpectationInterface
      * Register values to be set to a public property each time this expectation occurs
      *
      * @param string $name
-     * @param array $values
+     * @param array ...$values
      * @return self
      */
     public function andSet($name, ...$values)

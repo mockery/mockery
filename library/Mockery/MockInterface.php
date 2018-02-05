@@ -23,6 +23,18 @@ namespace Mockery;
 interface MockInterface
 {
     /**
+     * @param mixed $something  String method name or map of method => return
+     * @return self|\Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
+     */
+    public function allows($something = []);
+
+    /**
+     * @param mixed $something  String method name (optional)
+     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\ExpectsHigherOrderMessage
+     */
+    public function expects($something = null);
+
+    /**
      * Alternative setup method to constructor
      *
      * @param \Mockery\Container $container
@@ -36,15 +48,15 @@ interface MockInterface
      *
      * @param array ...$methodNames one or many methods that are expected to be called in this mock
      *
-     * @return \Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
+     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldReceive(...$methodNames);
 
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param array $methodNames one or many methods that are expected not to be called in this mock
-     * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
+     * @param array ...$methodNames one or many methods that are expected not to be called in this mock
+     * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames);
 
@@ -69,10 +81,12 @@ interface MockInterface
     /**
      * Set mock to defer unexpected methods to its parent if possible
      *
+     * @deprecated 2.0.0 Please use makePartial() instead
+     *
      * @return Mock
      */
     public function shouldDeferMissing();
-    
+
     /**
      * Set mock to defer unexpected methods to its parent if possible
      *

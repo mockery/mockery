@@ -30,12 +30,16 @@ class Php72LanguageFeaturesTest extends MockeryTestCase
     }
 }
 
-class ArgumentObjectTypeHint 
+class ArgumentObjectTypeHint
 {
-    function foo(object $foo) {}
+    public function foo(object $foo)
+    {
+    }
 }
 
-class ReturnTypeObjectTypeHint 
+class ReturnTypeObjectTypeHint
 {
-    function foo(): object {}
+    public function foo(): object
+    {
+    }
 }

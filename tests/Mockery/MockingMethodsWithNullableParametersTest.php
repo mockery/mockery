@@ -36,7 +36,7 @@ class MockingMethodsWithNullableParametersTest extends MockeryTestCase
         require __DIR__."/Fixtures/MethodWithNullableTypedParameter.php";
         $mock = mock("test\Mockery\Fixtures\MethodWithNullableTypedParameter");
 
-        $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithNullableTypedParameter);
+        $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithNullableTypedParameter::class, $mock);
     }
 
     /**
@@ -47,6 +47,6 @@ class MockingMethodsWithNullableParametersTest extends MockeryTestCase
         require __DIR__."/Fixtures/MethodWithParametersWithDefaultValues.php";
         $mock = mock("test\Mockery\Fixtures\MethodWithParametersWithDefaultValues");
 
-        $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithParametersWithDefaultValues);
+        $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithParametersWithDefaultValues::class, $mock);
     }
 }

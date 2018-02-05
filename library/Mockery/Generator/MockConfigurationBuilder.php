@@ -33,6 +33,7 @@ class MockConfigurationBuilder
         '__toString',
         '__isset',
         '__destruct',
+        '__debugInfo', ## mocking this makes it difficult to debug with xdebug
 
         // below are reserved words in PHP
         "__halt_compiler", "abstract", "and", "array", "as",
@@ -67,6 +68,7 @@ class MockConfigurationBuilder
     protected $mockOriginalDestructor = false;
     protected $targets = array();
 
+    protected $constantsMap = array();
 
     public function __construct()
     {
@@ -153,6 +155,11 @@ class MockConfigurationBuilder
         return $this;
     }
 
+    public function setConstantsMap(array $map)
+    {
+        $this->constantsMap = $map;
+    }
+
     public function getMockConfiguration()
     {
         return new MockConfiguration(
@@ -162,7 +169,8 @@ class MockConfigurationBuilder
             $this->name,
             $this->instanceMock,
             $this->parameterOverrides,
-            $this->mockOriginalDestructor
+            $this->mockOriginalDestructor,
+            $this->constantsMap
         );
     }
 }

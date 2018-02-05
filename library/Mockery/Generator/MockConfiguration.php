@@ -92,6 +92,8 @@ class MockConfiguration
      */
     protected $mockOriginalDestructor = false;
 
+    protected $constantsMap = array();
+
     public function __construct(
         array $targets = array(),
         array $blackListedMethods = array(),
@@ -99,7 +101,8 @@ class MockConfiguration
         $name = null,
         $instanceMock = false,
         array $parameterOverrides = array(),
-        $mockOriginalDestructor = false
+        $mockOriginalDestructor = false,
+        array $constantsMap = array()
     ) {
         $this->addTargets($targets);
         $this->blackListedMethods = $blackListedMethods;
@@ -108,6 +111,7 @@ class MockConfiguration
         $this->instanceMock = $instanceMock;
         $this->parameterOverrides = $parameterOverrides;
         $this->mockOriginalDestructor = $mockOriginalDestructor;
+        $this->constantsMap = $constantsMap;
     }
 
     /**
@@ -247,7 +251,8 @@ class MockConfiguration
             $className,
             $this->instanceMock,
             $this->parameterOverrides,
-            $this->mockOriginalDestructor
+            $this->mockOriginalDestructor,
+            $this->constantsMap
         );
     }
 
@@ -537,5 +542,10 @@ class MockConfiguration
     protected function setTargetObject($object)
     {
         $this->targetObject = $object;
+    }
+
+    public function getConstantsMap()
+    {
+        return $this->constantsMap;
     }
 }

@@ -19,21 +19,11 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace test\Mockery;
+namespace test\Mockery\Fixtures;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-
-/**
- * @requires PHP 7.1.0RC3
- */
-class MockingMethodsWithIterableTypeHintsTest extends MockeryTestCase
+class ClassWithConstants
 {
-    /** @test */
-    public function itShouldSuccessfullyBuildTheMock()
-    {
-        require __DIR__."/Fixtures/MethodWithIterableTypeHints.php";
-        $mock = mock("test\Mockery\Fixtures\MethodWithIterableTypeHints");
+    const FOO = 'bar';
 
-        $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithIterableTypeHints::class, $mock);
-    }
+    const X = 1;
 }

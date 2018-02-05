@@ -35,9 +35,9 @@ class MustBe extends MatcherAbstract
     {
         if (!is_object($actual)) {
             return $this->_expected === $actual;
-        } else {
-            return $this->_expected == $actual;
         }
+
+        return $this->_expected == $actual;
     }
 
     /**

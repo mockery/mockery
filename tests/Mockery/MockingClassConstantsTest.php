@@ -23,17 +23,21 @@ namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-/**
- * @requires PHP 7.1.0RC3
- */
-class MockingMethodsWithIterableTypeHintsTest extends MockeryTestCase
+class MockingClassConstantsTest extends MockeryTestCase
 {
     /** @test */
-    public function itShouldSuccessfullyBuildTheMock()
+    public function itShouldAllowToMockClassConstants()
     {
-        require __DIR__."/Fixtures/MethodWithIterableTypeHints.php";
-        $mock = mock("test\Mockery\Fixtures\MethodWithIterableTypeHints");
+        \Mockery::getConfiguration()->setConstantsMap([
+            'ClassWithConstants' => [
+                'FOO' => 'baz',
+                'X' => 2,
+            ]
+        ]);
 
-        $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithIterableTypeHints::class, $mock);
+        $mock = \Mockery::mock('overload:ClassWithConstants');
+
+        self::assertEquals('baz', $mock::FOO);
+        self::assertEquals(2, $mock::X);
     }
 }

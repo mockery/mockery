@@ -28,7 +28,7 @@ class PHPUnitConstraint extends MatcherAbstract
     protected $rethrow;
 
     /**
-     * @param \PHPUnit\Framework\Constraint $constraint
+     * @param mixed $constraint
      * @param bool $rethrow
      */
     public function __construct($constraint, $rethrow = false)
@@ -63,7 +63,7 @@ class PHPUnitConstraint extends MatcherAbstract
                 throw $e;
             }
             return false;
-        } 
+        }
     }
 
     /**

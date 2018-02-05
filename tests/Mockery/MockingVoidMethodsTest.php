@@ -39,7 +39,7 @@ class MockingVoidMethodsTest extends MockeryTestCase
     {
         $mock = mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
 
-        $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithVoidReturnType);
+        $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithVoidReturnType::class, $mock);
     }
 
     /** @test */

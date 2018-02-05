@@ -26,7 +26,7 @@ method) are reflected in the original variable. An example:
 
     echo $baz; // will echo the integer 2
 
-In the example above, the variable $baz is passed by reference to
+In the example above, the variable ``$baz`` is passed by reference to
 ``Foo::bar()`` (notice the ``&`` symbol in front of the parameter?).  Any
 change ``bar()`` makes to the parameter reference is reflected in the original
 variable, ``$baz``.
