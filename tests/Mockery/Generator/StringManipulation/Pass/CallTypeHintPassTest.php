@@ -39,7 +39,7 @@ class CallTypeHintPassTest extends TestCase
         $pass = new CallTypeHintPass;
         $config = m::mock("Mockery\Generator\MockConfiguration", array(
             "requiresCallTypeHintRemoval" => true,
-        ))->shouldDeferMissing();
+        ))->makePartial();
         $code = $pass->apply(static::CODE, $config);
         $this->assertContains('__call($method, $args)', $code);
     }
@@ -52,7 +52,7 @@ class CallTypeHintPassTest extends TestCase
         $pass = new CallTypeHintPass;
         $config = m::mock("Mockery\Generator\MockConfiguration", array(
             "requiresCallStaticTypeHintRemoval" => true,
-        ))->shouldDeferMissing();
+        ))->makePartial();
         $code = $pass->apply(static::CODE, $config);
         $this->assertContains('__callStatic($method, $args)', $code);
     }
