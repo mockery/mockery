@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    mockery_php71:
+        container_name: mockery_php_71
+        image: php:7.1-cli
+        volumes:
+            - .:/opt/mockery
+        working_dir: /opt/mockery
+
+    mockery_php72:
+        container_name: mockery_php_72
+        image: php:7.2-cli
+        volumes:
+            - .:/opt/mockery
+        working_dir: /opt/mockery
+
+    mockery_php70:
+        container_name: mockery_php_70
+        image: php:7.0-cli
+        volumes:
+            - .:/opt/mockery
+        working_dir: /opt/mockery
