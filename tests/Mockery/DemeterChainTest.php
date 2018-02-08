@@ -186,6 +186,9 @@ class DemeterChainTest extends MockeryTestCase
         $this->assertEquals(4, mock2::select()->some()->other()->data());
     }
 
+    /**
+     * @requires PHP 7.0.0
+     */
     public function testDemeterChainsWithClassReturnTypeHints()
     {
         $a = \Mockery::mock(\DemeterChain\A::class);
