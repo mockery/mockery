@@ -777,24 +777,27 @@ class Mockery
         Mockery\ExpectationInterface $exp
     ) {
         $newMockName = 'demeter_' . md5($parent) . '_' . $method;
-        $parRef = null;
-        $parRefMethod = null;
-        $parRefMethodRetType = null;
 
-        $parentMock = $exp->getMock();
-        if ($parentMock !== null) {
-            $parRef = new ReflectionObject($parentMock);
-        }
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $parRef = null;
+            $parRefMethod = null;
+            $parRefMethodRetType = null;
 
-        if ($parRef !== null && $parRef->hasMethod($method)) {
-            $parRefMethod = $parRef->getMethod($method);
-            $parRefMethodRetType = $parRefMethod->getReturnType();
+            $parentMock = $exp->getMock();
+            if ($parentMock !== null) {
+                $parRef = new ReflectionObject($parentMock);
+            }
 
-            if ($parRefMethodRetType !== null) {
-                $mock = self::namedMock($newMockName, $parRefMethodRetType->getName());
-                $exp->andReturn($mock);
+            if ($parRef !== null && $parRef->hasMethod($method)) {
+                $parRefMethod = $parRef->getMethod($method);
+                $parRefMethodRetType = $parRefMethod->getReturnType();
 
-                return $mock;
+                if ($parRefMethodRetType !== null) {
+                    $mock = self::namedMock($newMockName, (string) $parRefMethodRetType);
+                    $exp->andReturn($mock);
+
+                    return $mock;
+                }
             }
         }
 
