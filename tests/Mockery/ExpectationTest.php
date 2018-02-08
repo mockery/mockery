@@ -1980,6 +1980,14 @@ class ExpectationTest extends MockeryTestCase
         $this->assertSame('Spam!', $demeter->doitWithArgs());
     }
 
+    public function testShouldNotReceiveCanBeAddedToCompositeExpectation()
+    {
+        $mock = mock('Foo');
+        $mock->shouldReceive('a')->once()->andReturn('Spam!')
+             ->shouldNotReceive('b');
+        $mock->a();
+    }
+
     public function testPassthruEnsuresRealMethodCalledForReturnValues()
     {
         $mock = mock('MockeryTest_SubjectCall1');
