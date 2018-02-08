@@ -16,6 +16,7 @@
 * Typehinted return value on Expectation#verify. (#832)
 * Fix shouldNotHaveReceived with HigherOrderMessage (#842)
 * Deprecates shouldDeferMissing (#839)
+* Adds support for return type hints in Demeter chains (#848)
 
 ## 1.0.0 (2017-09-06)
 
