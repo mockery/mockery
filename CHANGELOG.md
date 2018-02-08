@@ -18,6 +18,7 @@
 * Deprecates shouldDeferMissing (#839)
 * Adds support for return type hints in Demeter chains (#848)
 * Adds shouldNotReceive to composite expectation (#847)
+* Fix internal error when using --static-backup (#845)
 
 ## 1.0.0 (2017-09-06)
 
