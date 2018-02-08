@@ -123,6 +123,20 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
+     * Starts a new expectation addition on the first mock which is the primary
+     * target outside of a demeter chain
+     *
+     * @param mixed ...$args
+     * @return \Mockery\Expectation
+     */
+    public function shouldNotReceive(...$args)
+    {
+        reset($this->_expectations);
+        $first = current($this->_expectations);
+        return call_user_func_array(array($first->getMock(), 'shouldNotReceive'), $args);
+    }
+
+    /**
      * Return the string summary of this composite expectation
      *
      * @return string
