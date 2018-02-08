@@ -66,12 +66,12 @@ We suggest turning off the reflection cache as so:
 
 .. code-block:: php
 
-    \Mockery::getConfiguration()->toggleReflectionCache(false);
+    \Mockery::getConfiguration()->disableReflectionCache();
 
 Turning it back on can be done like so:
 
 .. code-block:: php
 
-    \Mockery::getConfiguration()->toggleReflectionCache(true);
+    \Mockery::getConfiguration()->enableReflectionCache();
 
 In no other situation should you be required turn this reflection cache off.

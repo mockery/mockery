@@ -155,16 +155,29 @@ class Configuration
     }
 
     /**
-     * Toggle reflection caching
+     * Disable reflection caching
      *
      * It should be always enabled, except when using
      * PHPUnit's --static-backup option.
      *
      * @see https://github.com/mockery/mockery/issues/268
      */
-    public function toggleReflectionCache($flag = true)
+    public function disableReflectionCache()
     {
-        $this->_reflectionCacheEnabled = (bool) $flag;
+        $this->_reflectionCacheEnabled = false;
+    }
+
+    /**
+     * Enable reflection caching
+     *
+     * It should be always enabled, except when using
+     * PHPUnit's --static-backup option.
+     *
+     * @see https://github.com/mockery/mockery/issues/268
+     */
+    public function enableReflectionCache()
+    {
+        $this->_reflectionCacheEnabled = true;
     }
 
     /**
