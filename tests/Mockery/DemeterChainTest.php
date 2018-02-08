@@ -19,7 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
- require_once __DIR__.'/DummyClasses/DemeterChain.php';
+if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+    require_once __DIR__.'/DummyClasses/DemeterChain.php';
+}
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
