@@ -1,13 +1,34 @@
-.PHONY: test help
+.PHONY: test deps build56
 
-MOCKERY_PHP_VER?=mockery_php72
+vendor/composer/installed.json:
+	composer install
 
-help:
-	@echo "Run Mockery tests locally from PHP 5.6 up to 7.2 with docker"
-	@echo "You need to have docker-ce and docker-compose installed."
-	@echo "Run 'export MOCKERY_PHP_VER=mockery_phpXY' to set the PHP version"
-	@echo "And then run 'make test'"
-	@echo "Available values for MOCKERY_PHP_VER: mockery_php72, mockery_php71, mockery_php70, mockery_php56"
+deps: vendor/composer/installed.json
 
-test:
-	docker-compose run --rm ${MOCKERY_PHP_VER} vendor/bin/phpunit
+test: deps
+	php vendor/bin/phpunit
+
+test-all: test-72 test-71 test-70 test-56
+
+test-all-7: test-72 test-71 test-70
+
+test-72: deps
+	docker run -it --rm -v "$$PWD":/opt/mockery -w /opt/mockery php:7.2-cli php vendor/bin/phpunit
+
+test-71: deps
+	docker run -it --rm -v "$$PWD":/opt/mockery -w /opt/mockery php:7.1-cli php vendor/bin/phpunit
+
+test-70: deps
+	docker run -it --rm -v "$$PWD":/opt/mockery -w /opt/mockery php:7.0-cli php vendor/bin/phpunit
+
+test-56: build56
+	docker run -it --rm \
+		-v "$$PWD/library":/opt/mockery/library \
+		-v "$$PWD/tests":/opt/mockery/tests \
+		-v "$$PWD/phpunit.xml.dist":/opt/mockery/phpunit.xml \
+		-w /opt/mockery \
+		mockery_php56 \
+		php vendor/bin/phpunit
+
+build56:
+	docker build -t mockery_php56 -f "$$PWD/docker/php56/Dockerfile" .
