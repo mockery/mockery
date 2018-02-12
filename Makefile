@@ -1,4 +1,4 @@
-.PHONY: test deps build56
+.PHONY: test test-all test-all-7 test-72 test-71 test-70 test-56 deps build56
 
 vendor/composer/installed.json:
 	composer install
