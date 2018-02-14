@@ -1,4 +1,4 @@
-vendor/composer/installed.json:
+vendor/composer/installed.json: composer.json
 	composer install
 
 .PHONY: deps
