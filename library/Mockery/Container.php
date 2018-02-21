@@ -141,6 +141,13 @@ class Container
                 $builder->addTarget('stdClass');
                 $builder->setName($name);
                 continue;
+            } elseif (is_string($arg) && substr($arg, 0, 4) == 'lsb:') {
+                $name = str_replace('lsb:', '', $arg);
+                $builder->setInstanceMock(true);
+                $builder->addTarget($name);
+                array_shift($args);
+
+                continue;
             } elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
                 $parts = explode('[', $arg);
                 if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {

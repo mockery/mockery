@@ -1331,6 +1331,19 @@ class ContainerTest extends MockeryTestCase
             array(true,  '\\Foo\\Bar'),
         );
     }
+
+    /**
+     * @test
+     */
+    public function objectCreatedWithLateStaticBindingInheritsExpectations()
+    {
+        $mock = mock("lsb:MockeryTest_ClassThatHasLateStaticBinding")->makePartial();
+        $mock->shouldReceive("foo")->andReturn(2);
+
+        $result = $mock->createLSBObject();
+
+        $this->assertSame(2, $result);
+    }
 }
 
 class MockeryTest_CallStatic
@@ -1798,5 +1811,20 @@ class MockeryTest_ClassThatImplementsSerializable implements Serializable
 
     public function unserialize($serialized)
     {
+    }
+}
+
+class MockeryTest_ClassThatHasLateStaticBinding
+{
+    public function createLSBObject()
+    {
+        $object = new static();
+
+        return $object->foo();
+    }
+
+    public function foo()
+    {
+        return 1;
     }
 }
