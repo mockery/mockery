@@ -86,3 +86,14 @@ notifications:
     - dave@atstsolutions.co.uk
 
   irc: irc.freenode.org#mockery
+deploy:
+  overwrite: true
+  provider: pages
+  file_glob: true
+  file: apidocs/*
+  local_dir: apidocs
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
+    php: '7.1'
