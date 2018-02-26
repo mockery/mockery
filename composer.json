@@ -1,6 +1,9 @@
 {
     "name": "mockery/mockery",
     "description": "Mockery is a simple yet flexible PHP mock object framework",
+    "scripts": {
+        "docs": "phpdoc -d library -t apidocs"
+    },
     "keywords": [
         "bdd",
         "library",
@@ -33,7 +36,8 @@
         "hamcrest/hamcrest-php": "~2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.7.10|~6.5"
+        "phpunit/phpunit": "~5.7.10|~6.5",
+        "phpdocumentor/phpdocumentor": "^2.9"
     },
     "autoload": {
         "psr-0": {
