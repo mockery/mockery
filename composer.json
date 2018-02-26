@@ -2,7 +2,7 @@
     "name": "mockery/mockery",
     "description": "Mockery is a simple yet flexible PHP mock object framework",
     "scripts": {
-        "docs": "phpdoc -d library -t apidocs"
+        "docs": "phpdoc -d library -t docs/api"
     },
     "keywords": [
         "bdd",
