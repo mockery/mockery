@@ -79,6 +79,7 @@ after_success:
   - vendor/bin/coveralls -v
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover "$clover"
+  - composer run-script docs
 
 notifications:
   email:
