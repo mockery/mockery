@@ -98,3 +98,4 @@ deploy:
   on:
     branch: master
     php: '7.1'
+    condition: $DEPS = latest
