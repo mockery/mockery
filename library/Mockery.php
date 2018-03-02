@@ -297,6 +297,16 @@ class Mockery
     }
 
     /**
+     * Return instance of AndAnyOther matcher.
+     *
+     * @return \Mockery\Matcher\AndAnyOther
+     */
+    public static function andAnyOther()
+    {
+        return new \Mockery\Matcher\AndAnyOther();
+    }
+
+    /**
      * Return instance of TYPE matcher.
      *
      * @param mixed $expected
