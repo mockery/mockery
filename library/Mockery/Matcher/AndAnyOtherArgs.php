@@ -20,7 +20,7 @@
 
 namespace Mockery\Matcher;
 
-class AndAnyOther extends MatcherAbstract
+class AndAnyOtherArgs extends MatcherAbstract
 {
     /**
      * Check if the actual value matches the expected.
@@ -40,6 +40,6 @@ class AndAnyOther extends MatcherAbstract
      */
     public function __toString()
     {
-        return '<AndAnyOther>';
+        return '<AndAnyOthers>';
     }
 }
