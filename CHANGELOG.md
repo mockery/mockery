@@ -19,6 +19,7 @@
 * Adds support for return type hints in Demeter chains (#848)
 * Adds shouldNotReceive to composite expectation (#847)
 * Fix internal error when using --static-backup (#845)
+* Adds `andAnyOtherArgs` as an optional argument matcher (#860)
 
 ## 1.0.0 (2017-09-06)
 
