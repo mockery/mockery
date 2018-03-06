@@ -8,6 +8,13 @@ deps: vendor/composer/installed.json
 test: deps
 	php vendor/bin/phpunit
 
+.PHONY: apidocs
+apidocs: docs/api/index.html
+
+library_files=$(shell find library -name '*.php')
+docs/api/index.html: vendor/composer/installed.json $(library_files) 
+	vendor/bin/phpdoc -d library -t docs/api
+
 .PHONY: test-all
 test-all: test-72 test-71 test-70 test-56
 
