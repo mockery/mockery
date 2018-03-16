@@ -644,7 +644,7 @@ class Mock implements MockInterface
         $interfaces = array_filter($rfc->getInterfaces(), function ($i) {
             return $i->getName() !== "Stringish";
         });
-        $onlyImplementsMock = 1 == count($interfaces);
+        $onlyImplementsMock = 2 == count($interfaces);
 
         return (false === $rfc->getParentClass()) && $onlyImplementsMock;
     }
