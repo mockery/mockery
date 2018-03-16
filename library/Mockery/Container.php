@@ -222,7 +222,7 @@ class Container
 
         if (class_exists($def->getClassName(), $attemptAutoload = false)) {
             $rfc = new \ReflectionClass($def->getClassName());
-            if (!$rfc->implementsInterface("Mockery\MockInterface")) {
+            if (!$rfc->implementsInterface("Mockery\LegacyMockInterface")) {
                 throw new \Mockery\Exception\RuntimeException("Could not load mock {$def->getClassName()}, class already exists");
             }
         }
@@ -401,7 +401,7 @@ class Container
      * @throws \Mockery\Exception
      * @return void
      */
-    public function mockery_validateOrder($method, $order, \Mockery\MockInterface $mock)
+    public function mockery_validateOrder($method, $order, \Mockery\LegacyMockInterface $mock)
     {
         if ($order < $this->_currentOrder) {
             $exception = new \Mockery\Exception\InvalidOrderException(
@@ -435,9 +435,9 @@ class Container
      * Store a mock and set its container reference
      *
      * @param \Mockery\Mock $mock
-     * @return \Mockery\MockInterface
+     * @return \Mockery\LegacyMockInterface|\Mockery\MockInterface
      */
-    public function rememberMock(\Mockery\MockInterface $mock)
+    public function rememberMock(\Mockery\LegacyMockInterface $mock)
     {
         if (!isset($this->_mocks[get_class($mock)])) {
             $this->_mocks[get_class($mock)] = $mock;
