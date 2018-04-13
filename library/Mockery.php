@@ -70,6 +70,32 @@ class Mockery
         require_once __DIR__.'/helpers.php';
     }
 
+    public static function builtInTypes(): array
+    {
+        $builtInTypes = array(
+            'self',
+            'array',
+            'callable',
+            // Up to php 7
+            'bool',
+            'float',
+            'int',
+            'string',
+            'iterable',
+        );
+
+        if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
+            $builtInTypes[] = 'object';
+        }
+
+        return $builtInTypes;
+    }
+
+    public static function isBuiltInType(string $type): bool
+    {
+        return in_array($type, \Mockery::builtInTypes());
+    }
+
     /**
      * Static shortcut to \Mockery\Container::mock().
      *
