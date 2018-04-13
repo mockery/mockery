@@ -24,6 +24,13 @@ namespace Nature
     class Plant
     {
     }
+
+    class Habitat {}
+
+    class Animal
+    {
+        public function habitat(): Habitat {}
+    }
 }
 
 namespace

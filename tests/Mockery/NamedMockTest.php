@@ -65,4 +65,17 @@ class NamedMockTest extends MockeryTestCase
         );
         $this->assertTrue($gardener->water($cactus));
     }
+
+    /** @test */
+    public function it_gracefully_handles_namespacing()
+    {
+        $animal = Mockery::namedMock(
+            uniqid(Nature\Animall::class, false),
+            Nature\Animal::class
+        );
+
+        $animal->shouldReceive("habitat")->andReturn(new Nature\Habitat());
+
+        $this->assertInstanceOf(Nature\Habitat::class, $animal->habitat());
+    }
 }
