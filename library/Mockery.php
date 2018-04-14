@@ -70,7 +70,10 @@ class Mockery
         require_once __DIR__.'/helpers.php';
     }
 
-    public static function builtInTypes(): array
+    /**
+     * @return array
+     */
+    public static function builtInTypes()
     {
         $builtInTypes = array(
             'self',
@@ -92,7 +95,10 @@ class Mockery
         return $builtInTypes;
     }
 
-    public static function isBuiltInType(string $type): bool
+    /**
+     * @return bool
+     */
+    public static function isBuiltInType(string $type)
     {
         return in_array($type, \Mockery::builtInTypes());
     }
