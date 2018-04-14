@@ -66,9 +66,14 @@ class NamedMockTest extends MockeryTestCase
         $this->assertTrue($gardener->water($cactus));
     }
 
-    /** @test */
+    /** 
+     * @test 
+     * @requires PHP 7.0.0
+     */
     public function it_gracefully_handles_namespacing()
     {
+        require_once __DIR__.'/DummyClasses/NamespacedReturnTypes.php';
+
         $animal = Mockery::namedMock(
             uniqid(Nature\Animal::class, false),
             Nature\Animal::class

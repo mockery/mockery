@@ -21,15 +21,10 @@
 
 namespace Nature
 {
-    class Plant
-    {
-    }
-}
+    class Habitat {}
 
-namespace
-{
-    abstract class Gardener
+    class Animal
     {
-        abstract public function water(Nature\Plant $plant);
+        public function habitat(): Habitat {}
     }
 }
