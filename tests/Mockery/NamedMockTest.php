@@ -70,7 +70,7 @@ class NamedMockTest extends MockeryTestCase
     public function it_gracefully_handles_namespacing()
     {
         $animal = Mockery::namedMock(
-            uniqid(Nature\Animall::class, false),
+            uniqid(Nature\Animal::class, false),
             Nature\Animal::class
         );
 
