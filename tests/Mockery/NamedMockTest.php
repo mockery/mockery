@@ -22,6 +22,8 @@
 require_once __DIR__.'/DummyClasses/Namespaced.php';
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use test\Mockery\Stubs\Animal;
+use test\Mockery\Stubs\Habitat;
 
 class NamedMockTest extends MockeryTestCase
 {
@@ -72,15 +74,13 @@ class NamedMockTest extends MockeryTestCase
      */
     public function it_gracefully_handles_namespacing()
     {
-        require_once __DIR__.'/DummyClasses/NamespacedReturnTypes.php';
-
         $animal = Mockery::namedMock(
-            uniqid(Nature\Animal::class, false),
-            Nature\Animal::class
+            uniqid(Animal::class, false),
+            Animal::class
         );
 
-        $animal->shouldReceive("habitat")->andReturn(new Nature\Habitat());
+        $animal->shouldReceive("habitat")->andReturn(new Habitat());
 
-        $this->assertInstanceOf(Nature\Habitat::class, $animal->habitat());
+        $this->assertInstanceOf(Habitat::class, $animal->habitat());
     }
 }

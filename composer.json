@@ -44,6 +44,11 @@
             "Mockery": "library/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "test\\": "tests/"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"

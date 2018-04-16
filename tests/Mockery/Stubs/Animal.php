@@ -19,12 +19,9 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Nature
-{
-    class Habitat {}
+namespace test\Mockery\Stubs;
 
-    class Animal
-    {
-        public function habitat(): Habitat {}
-    }
+class Animal 
+{
+    public function habitat(): Habitat {}
 }
