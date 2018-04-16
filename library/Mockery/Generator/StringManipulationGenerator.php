@@ -54,7 +54,7 @@ class StringManipulationGenerator implements Generator
             new ClassNamePass(),
             new InstanceMockPass(),
             new InterfacePass(),
-            new AvoidMethodClashPass(),	
+            new AvoidMethodClashPass(),
             new MethodDefinitionPass(),
             new RemoveUnserializeForInternalSerializableClassesPass(),
             new RemoveBuiltinMethodsThatAreFinalPass(),
