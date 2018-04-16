@@ -48,7 +48,7 @@ class Method
 
             if ('self' === $returnType) {
                 $returnType = "\\".$this->method->getDeclaringClass()->getName();
-            } else if (!\Mockery::isBuiltInType($returnType)) {
+            } elseif (!\Mockery::isBuiltInType($returnType)) {
                 $returnType = '\\'.$returnType;
             }
 

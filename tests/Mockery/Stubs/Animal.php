@@ -21,7 +21,9 @@
 
 namespace test\Mockery\Stubs;
 
-class Animal 
+class Animal
 {
-    public function habitat(): Habitat {}
+    public function habitat(): Habitat
+    {
+    }
 }

@@ -21,4 +21,6 @@
 
 namespace test\Mockery\Stubs;
 
-class Habitat {}
+class Habitat
+{
+}
