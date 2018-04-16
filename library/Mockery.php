@@ -96,9 +96,10 @@ class Mockery
     }
 
     /**
+     * @param string $type
      * @return bool
      */
-    public static function isBuiltInType(string $type)
+    public static function isBuiltInType($type)
     {
         return in_array($type, \Mockery::builtInTypes());
     }
