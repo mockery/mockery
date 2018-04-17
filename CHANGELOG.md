@@ -20,6 +20,7 @@
 * Adds shouldNotReceive to composite expectation (#847)
 * Fix internal error when using --static-backup (#845)
 * Adds `andAnyOtherArgs` as an optional argument matcher (#860)
+* Fixes namespace qualifying with namespaced named mocks (#872)
 
 ## 1.0.0 (2017-09-06)
 
