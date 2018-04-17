@@ -71,6 +71,40 @@ class Mockery
     }
 
     /**
+     * @return array
+     */
+    public static function builtInTypes()
+    {
+        $builtInTypes = array(
+            'self',
+            'array',
+            'callable',
+            // Up to php 7
+            'bool',
+            'float',
+            'int',
+            'string',
+            'iterable',
+            'void',
+        );
+
+        if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
+            $builtInTypes[] = 'object';
+        }
+
+        return $builtInTypes;
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    public static function isBuiltInType($type)
+    {
+        return in_array($type, \Mockery::builtInTypes());
+    }
+
+    /**
      * Static shortcut to \Mockery\Container::mock().
      *
      * @param array ...$args
