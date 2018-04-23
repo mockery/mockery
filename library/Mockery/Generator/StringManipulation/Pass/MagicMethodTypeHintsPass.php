@@ -135,7 +135,6 @@ class MagicMethodTypeHintsPass implements Pass
      */
     private function getOriginalParameters($code, Method $method)
     {
-        $methodName = $method->getName();
         $matches = [];
         $parameterMatches = [];
 
@@ -204,7 +203,6 @@ class MagicMethodTypeHintsPass implements Pass
      */
     private function getDeclarationRegex($methodName)
     {
-        $method = strtolower($methodName);
         return "/public\s+(?:static\s+)?function\s+$methodName\s*\(.*\)\s*(?=\{)/i";
     }
 }
