@@ -2,7 +2,7 @@
 
 ## x.y.z. (unreleased)
 
-## 1.1.0 (2018-04-17)
+## 1.1.0 (2018-05-08)
 
 * Allows use of string method names in allows and expects (#794)
 * Finalises allows and expects syntax in API (#799)
