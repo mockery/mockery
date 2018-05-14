@@ -20,14 +20,13 @@
 
 namespace Mockery\Adapter\Phpunit;
 
-use PHPUnit\Runner\Version;
-
-if (version_compare(Version::id(), '7.0.0', '>=')) {
-    class TestListener extends BaseTestListener
-    {
-    }
-} else {
+if (class_exists(\PHPUnit\Framework\BaseTestListener::class)) {
     class TestListener extends LegacyTestListener
     {
     }
+} else {
+    class TestListener extends BaseTestListener
+    {
+    }
 }
+
