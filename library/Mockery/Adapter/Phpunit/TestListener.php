@@ -20,14 +20,20 @@
 
 namespace Mockery\Adapter\Phpunit;
 
-use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestListener as TestListenerInterface;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Runner\BaseTestRunner;
 
-class TestListener extends BaseTestListener
+class TestListener implements TestListenerInterface
 {
+    use TestListenerDefaultImplementation {
+        startTestSuite as baseStartTestSuite;
+        endTest as baseEndTest;
+    }
+
     /**
      * endTest is called after each test and checks if \Mockery::close() has
      * been called, and will let the test fail if it hasn't.
@@ -35,7 +41,7 @@ class TestListener extends BaseTestListener
      * @param Test  $test
      * @param float $time
      */
-    public function endTest(Test $test, $time)
+    public function endTest(Test $test, float $time) : void
     {
         if (!$test instanceof TestCase) {
             // We need the getTestResultObject and getStatus methods which are
@@ -70,10 +76,10 @@ class TestListener extends BaseTestListener
         $result->addFailure($test, $e, $time);
     }
 
-    public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+    public function startTestSuite(\PHPUnit\Framework\TestSuite $suite) : void
     {
         \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery::class] = 1;
 
-        parent::startTestSuite($suite);
+        $this->baseStartTestSuite($suite);
     }
 }
