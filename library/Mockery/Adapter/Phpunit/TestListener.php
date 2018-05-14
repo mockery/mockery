@@ -31,4 +31,3 @@ if (version_compare(Version::id(), '7.0.0', '>=')) {
     {
     }
 }
-
