@@ -96,8 +96,4 @@ class Mockery_Adapter_Phpunit_TestListenerTest extends TestCase
 
 class EmptyTestCase extends TestCase
 {
-    public function getStatus()
-    {
-        return BaseTestRunner::STATUS_PASSED;
-    }
 }
