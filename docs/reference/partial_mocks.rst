@@ -28,7 +28,7 @@ of a default state of being for a mocked object.
 
     $mock = \Mockery::mock('MyClass')->makePartial();
 
-With a generated partial, we assume that all methods will simply defer to the
+With a runtime partial, we assume that all methods will simply defer to the
 parent class (``MyClass``) original methods unless a method call matches a
 known expectation. If we have no matching expectation for a specific method
 call, that call is deferred to the class being mocked. Since the division
@@ -85,7 +85,7 @@ need to get creative.
 
 Yes, the new mock is a Proxy. It intercepts calls and reroutes them to the
 proxied object (which we construct and pass in) for methods which are not
-subject to any expectations. Indirectly, this allows we to mock methods
+subject to any expectations. Indirectly, this allows us to mock methods
 marked final since the Proxy is not subject to those limitations. The tradeoff
 should be obvious - a proxied partial will fail any typehint checks for the
 class being mocked since it cannot extend that class.
