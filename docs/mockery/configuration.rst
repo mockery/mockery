@@ -29,7 +29,7 @@ just select tests) by using the following call:
 Passing a true allows the behaviour, false disallows it. It takes effect
 immediately until switched back. If the behaviour is detected when not allowed,
 it will result in an Exception being thrown at that point. Note that disallowing
-ths behaviour should be carefully considered since it necessarily removes at
+this behaviour should be carefully considered since it necessarily removes at
 least some of Mockery's flexibility.
 
 The other two methods are:
