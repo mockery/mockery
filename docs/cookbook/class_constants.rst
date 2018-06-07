@@ -171,7 +171,7 @@ It can be mocked with:
 
 .. code-block:: php
 
-    \Mockery()->getConfiguration->setConstantsMap([
+    \Mockery::getConfiguration()->setConstantsMap([
         'Fetcher' => [
             'SUCCESS' => 'success',
             'FAILURE' => 'fail',
