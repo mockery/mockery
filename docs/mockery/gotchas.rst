@@ -14,7 +14,7 @@ so it can be documented and resolved where possible. Here is a list to note:
    expectations set for it. This is necessary since Mockery must serialize and
    unserialize objects to avoid some ``__construct()`` insanity and attempting
    to mock a ``__wakeup()`` method as normal leads to a
-   ``BadMethodCallException`` been thrown.
+   ``BadMethodCallException`` being thrown.
 
 2. Classes using non-real methods, i.e. where a method call triggers a
    ``__call()`` method, will throw an exception that the non-real method does
