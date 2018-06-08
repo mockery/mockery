@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mockery
  *
@@ -12,28 +11,27 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
+ *
+ * @category   Mockery
+ * @package    Mockery
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace test\Mockery;
 
+use Mockery\MockInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithUnknownTypeHintTest extends MockeryTestCase
 {
-    protected function setUp()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    protected function tearDown()
-    {
-        $this->container->mockery_close();
-    }
-
     /** @test */
     public function itShouldSuccessfullyBuildTheMock()
     {
-        $this->container->mock("test\Mockery\HasUnknownClassAsTypeHintOnMethod");
+        $mock = mock("test\Mockery\HasUnknownClassAsTypeHintOnMethod");
+
+        $this->assertInstanceOf(MockInterface::class, $mock);
     }
 }
 

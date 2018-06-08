@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -47,10 +47,20 @@ class Configuration
      */
     protected $_internalClassParamMap = array();
 
+    protected $_constantsMap = array();
+
+    /**
+     * Boolean assertion is reflection caching enabled or not. It should be
+     * always enabled, except when using PHPUnit's --static-backup option.
+     *
+     * @see https://github.com/mockery/mockery/issues/268
+     */
+    protected $_reflectionCacheEnabled = true;
+
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
-     * @param bool
+     * @param bool $flag
      */
     public function allowMockingNonExistentMethods($flag = true)
     {
@@ -68,12 +78,16 @@ class Configuration
     }
 
     /**
+     * @deprecated
+     *
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
-     * @param bool
+     * @param bool $flag
      */
     public function allowMockingMethodsUnnecessarily($flag = true)
     {
+        trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
+
         $this->_allowMockingMethodsUnnecessarily = (bool) $flag;
     }
 
@@ -84,6 +98,8 @@ class Configuration
      */
     public function mockingMethodsUnnecessarilyAllowed()
     {
+        trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
+
         return $this->_allowMockingMethodsUnnecessarily;
     }
 
@@ -126,5 +142,49 @@ class Configuration
     public function getInternalClassMethodParamMaps()
     {
         return $this->_internalClassParamMap;
+    }
+
+    public function setConstantsMap(array $map)
+    {
+        $this->_constantsMap = $map;
+    }
+
+    public function getConstantsMap()
+    {
+        return $this->_constantsMap;
+    }
+
+    /**
+     * Disable reflection caching
+     *
+     * It should be always enabled, except when using
+     * PHPUnit's --static-backup option.
+     *
+     * @see https://github.com/mockery/mockery/issues/268
+     */
+    public function disableReflectionCache()
+    {
+        $this->_reflectionCacheEnabled = false;
+    }
+
+    /**
+     * Enable reflection caching
+     *
+     * It should be always enabled, except when using
+     * PHPUnit's --static-backup option.
+     *
+     * @see https://github.com/mockery/mockery/issues/268
+     */
+    public function enableReflectionCache()
+    {
+        $this->_reflectionCacheEnabled = true;
+    }
+
+    /**
+     * Is reflection cache enabled?
+     */
+    public function reflectionCacheEnabled()
+    {
+        return $this->_reflectionCacheEnabled;
     }
 }

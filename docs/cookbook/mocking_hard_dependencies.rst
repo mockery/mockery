@@ -91,3 +91,9 @@ Our test example from above now becomes:
             $this->assertSame('Tested!', $result);
         }
     }
+
+.. note::
+
+    This cookbook entry is an adaption of the blog post titled
+    `"Mocking hard dependencies with Mockery" <https://robertbasic.com/blog/mocking-hard-dependencies-with-mockery/>`_,
+    published by Robert Basic on his blog.

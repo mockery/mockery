@@ -14,7 +14,7 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -33,12 +33,15 @@ class Exact extends CountValidatorAbstract
     public function validate($n)
     {
         if ($this->_limit !== $n) {
+            $because = $this->_expectation->getExceptionMessage();
+
             $exception = new Mockery\Exception\InvalidCountException(
                 'Method ' . (string) $this->_expectation
                 . ' from ' . $this->_expectation->getMock()->mockery_getName()
                 . ' should be called' . PHP_EOL
                 . ' exactly ' . $this->_limit . ' times but called ' . $n
                 . ' times.'
+                . ($because ? ' Because ' . $this->_expectation->getExceptionMessage() : '')
             );
             $exception->setMock($this->_expectation->getMock())
                 ->setMethodName((string) $this->_expectation)

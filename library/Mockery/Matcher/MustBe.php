@@ -14,12 +14,15 @@
  *
  * @category   Mockery
  * @package    Mockery
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Matcher;
 
+/**
+ * @deprecated 2.0 Due to ambiguity, use Hamcrest or PHPUnit equivalents
+ */
 class MustBe extends MatcherAbstract
 {
     /**
@@ -32,9 +35,9 @@ class MustBe extends MatcherAbstract
     {
         if (!is_object($actual)) {
             return $this->_expected === $actual;
-        } else {
-            return $this->_expected == $actual;
         }
+
+        return $this->_expected == $actual;
     }
 
     /**

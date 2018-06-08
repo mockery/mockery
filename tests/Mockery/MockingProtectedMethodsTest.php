@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -25,16 +25,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingProtectedMethodsTest extends MockeryTestCase
 {
-    public function setup()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    public function teardown()
-    {
-        $this->container->mockery_close();
-    }
-
     /**
      * @test
      *
@@ -43,7 +33,7 @@ class MockingProtectedMethodsTest extends MockeryTestCase
      */
     public function shouldAutomaticallyDeferCallsToProtectedMethodsForPartials()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods[foo]");
+        $mock = mock("test\Mockery\TestWithProtectedMethods[foo]");
         $this->assertEquals("bar", $mock->bar());
     }
 
@@ -55,22 +45,22 @@ class MockingProtectedMethodsTest extends MockeryTestCase
      */
     public function shouldAutomaticallyDeferCallsToProtectedMethodsForRuntimePartials()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods")->shouldDeferMissing();
+        $mock = mock("test\Mockery\TestWithProtectedMethods")->makePartial();
         $this->assertEquals("bar", $mock->bar());
     }
 
     /** @test */
     public function shouldAutomaticallyIgnoreAbstractProtectedMethods()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods")->shouldDeferMissing();
-        $this->assertEquals(null, $mock->foo());
+        $mock = mock("test\Mockery\TestWithProtectedMethods")->makePartial();
+        $this->assertNull($mock->foo());
     }
 
     /** @test */
     public function shouldAllowMockingProtectedMethods()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods")
-            ->shouldDeferMissing()
+        $mock = mock("test\Mockery\TestWithProtectedMethods")
+            ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive("protectedBar")->andReturn("notbar");
@@ -80,7 +70,7 @@ class MockingProtectedMethodsTest extends MockeryTestCase
     /** @test */
     public function shouldAllowMockingProtectedMethodOnDefinitionTimePartial()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods[protectedBar]")
+        $mock = mock("test\Mockery\TestWithProtectedMethods[protectedBar]")
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive("protectedBar")->andReturn("notbar");
@@ -90,12 +80,20 @@ class MockingProtectedMethodsTest extends MockeryTestCase
     /** @test */
     public function shouldAllowMockingAbstractProtectedMethods()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithProtectedMethods")
-            ->shouldDeferMissing()
+        $mock = mock("test\Mockery\TestWithProtectedMethods")
+            ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive("abstractProtected")->andReturn("abstractProtected");
         $this->assertEquals("abstractProtected", $mock->foo());
+    }
+
+    /** @test */
+    public function shouldAllowMockingIncreasedVisabilityMethods()
+    {
+        $mock = mock("test\Mockery\TestIncreasedVisibilityChild");
+        $mock->shouldReceive('foobar')->andReturn("foobar");
+        $this->assertEquals('foobar', $mock->foobar());
     }
 }
 
@@ -117,5 +115,19 @@ abstract class TestWithProtectedMethods
     protected function protectedBar()
     {
         return 'bar';
+    }
+}
+
+class TestIncreasedVisibilityParent
+{
+    protected function foobar()
+    {
+    }
+}
+
+class TestIncreasedVisibilityChild extends TestIncreasedVisibilityParent
+{
+    public function foobar()
+    {
     }
 }

@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -39,36 +39,36 @@ class Mockery_AdhocTest extends MockeryTestCase
     public function testSimplestMockCreation()
     {
         $m = $this->container->mock('MockeryTest_NameOfExistingClass');
-        $this->assertTrue($m instanceof MockeryTest_NameOfExistingClass);
+        $this->assertInstanceOf(MockeryTest_NameOfExistingClass::class, $m);
     }
 
     public function testMockeryInterfaceForClass()
     {
         $m = $this->container->mock('SplFileInfo');
-        $this->assertTrue($m instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $m);
     }
 
     public function testMockeryInterfaceForNonExistingClass()
     {
         $m = $this->container->mock('ABC_IDontExist');
-        $this->assertTrue($m instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $m);
     }
 
     public function testMockeryInterfaceForInterface()
     {
         $m = $this->container->mock('MockeryTest_NameOfInterface');
-        $this->assertTrue($m instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $m);
     }
 
     public function testMockeryInterfaceForAbstract()
     {
         $m = $this->container->mock('MockeryTest_NameOfAbstract');
-        $this->assertTrue($m instanceof \Mockery\MockInterface);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $m);
     }
 
     public function testInvalidCountExceptionThrowsRuntimeExceptionOnIllegalComparativeSymbol()
     {
-        $this->setExpectedException('Mockery\Exception\RuntimeException');
+        $this->expectException('Mockery\Exception\RuntimeException');
         $e = new \Mockery\Exception\InvalidCountException;
         $e->setExpectedCountComparative('X');
     }

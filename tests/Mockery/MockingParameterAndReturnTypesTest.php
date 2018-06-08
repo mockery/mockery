@@ -15,7 +15,7 @@
  * @category   Mockery
  * @package    Mockery
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2010-2014 Pádraic Brady (http://blog.astrumfutura.com)
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
@@ -27,19 +27,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingParameterAndReturnTypesTest extends MockeryTestCase
 {
-    public function setup()
-    {
-        $this->container = new \Mockery\Container;
-    }
-
-    public function teardown()
-    {
-        $this->container->mockery_close();
-    }
-
     public function testMockingStringReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnString");
         $this->assertSame("", $mock->returnString());
@@ -47,7 +37,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingIntegerReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnInteger");
         $this->assertSame(0, $mock->returnInteger());
@@ -55,7 +45,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingFloatReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnFloat");
         $this->assertSame(0.0, $mock->returnFloat());
@@ -63,15 +53,15 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingBooleanReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnBoolean");
-        $this->assertSame(false, $mock->returnBoolean());
+        $this->assertFalse($mock->returnBoolean());
     }
 
     public function testMockingArrayReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnArray");
         $this->assertSame([], $mock->returnArray());
@@ -79,7 +69,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingGeneratorReturnTyps()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnGenerator");
         $this->assertInstanceOf("\Generator", $mock->returnGenerator());
@@ -87,15 +77,15 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingCallableReturnType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("returnCallable");
-        $this->assertTrue(is_callable($mock->returnCallable()));
+        $this->assertInternalType('callable', $mock->returnCallable());
     }
 
     public function testMockingClassReturnTypes()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("withClassReturnType");
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
@@ -103,7 +93,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testMockingParameterTypes()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldReceive("withScalarParameters");
         $mock->withScalarParameters(1, 1.0, true, 'string');
@@ -111,21 +101,57 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 
     public function testIgnoringMissingReturnsType()
     {
-        $mock = $this->container->mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
         $mock->shouldIgnoreMissing();
 
         $this->assertSame('', $mock->returnString());
         $this->assertSame(0, $mock->returnInteger());
         $this->assertSame(0.0, $mock->returnFloat());
-        $this->assertSame(false, $mock->returnBoolean());
+        $this->assertFalse( $mock->returnBoolean());
         $this->assertSame([], $mock->returnArray());
-        $this->assertTrue(is_callable($mock->returnCallable()));
+        $this->assertInternalType('callable', $mock->returnCallable());
         $this->assertInstanceOf("\Generator", $mock->returnGenerator());
         $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
     }
+
+    public function testAutoStubbingSelf()
+    {
+        $spy = \Mockery::spy("test\Mockery\TestWithParameterAndReturnType");
+
+        $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $spy->returnSelf());
+    }
+
+    public function testItShouldMockClassWithHintedParamsInMagicMethod()
+    {
+        $this->assertNotNull(
+            \Mockery::mock('test\Mockery\MagicParams')
+        );
+    }
+
+    public function testItShouldMockClassWithHintedReturnInMagicMethod()
+    {
+        $this->assertNotNull(
+            \Mockery::mock('test\Mockery\MagicReturns')
+        );
+    }
 }
 
+class MagicParams
+{
+    public function __isset(string $property)
+    {
+        return false;
+    }
+}
+
+class MagicReturns
+{
+    public function __isset($property) : bool
+    {
+        return false;
+    }
+}
 
 abstract class TestWithParameterAndReturnType
 {
@@ -146,4 +172,6 @@ abstract class TestWithParameterAndReturnType
     public function withClassReturnType(): TestWithParameterAndReturnType {}
 
     public function withScalarParameters(int $integer, float $float, bool $boolean, string $string) {}
+
+    public function returnSelf(): self {}
 }
