@@ -48,6 +48,8 @@ class Method
 
             if ('self' === $returnType) {
                 $returnType = "\\".$this->method->getDeclaringClass()->getName();
+            } elseif (!\Mockery::isBuiltInType($returnType)) {
+                $returnType = '\\'.$returnType;
             }
 
             if (version_compare(PHP_VERSION, '7.1.0-dev') >= 0 && $this->method->getReturnType()->allowsNull()) {

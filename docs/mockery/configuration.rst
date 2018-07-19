@@ -5,7 +5,7 @@ Mockery Global Configuration
 ============================
 
 To allow for a degree of fine-tuning, Mockery utilises a singleton
-configuration object to store a small subset of core behaviours. The three
+configuration object to store a small subset of core behaviours. The two
 currently present include:
 
 * Option to allow/disallow the mocking of methods which do not actually exist
@@ -29,7 +29,7 @@ just select tests) by using the following call:
 Passing a true allows the behaviour, false disallows it. It takes effect
 immediately until switched back. If the behaviour is detected when not allowed,
 it will result in an Exception being thrown at that point. Note that disallowing
-ths behaviour should be carefully considered since it necessarily removes at
+this behaviour should be carefully considered since it necessarily removes at
 least some of Mockery's flexibility.
 
 The other two methods are:
@@ -46,3 +46,32 @@ classes. Most of the time, you never need to do this. It's mainly needed where a
 internal class method uses pass-by-reference for a parameter - you MUST in such
 cases ensure the parameter signature includes the ``&`` symbol correctly as Mockery
 won't correctly add it automatically for internal classes.
+
+Disabling reflection caching
+----------------------------
+
+Mockery heavily uses `"reflection" <https://secure.php.net/manual/en/book.reflection.php>`_
+to do it's job. To speed up things, Mockery caches internally the information it
+gathers via reflection. In some cases, this caching can cause problems.
+
+The **only** known situation when this occurs is when PHPUnit's ``--static-backup`` option
+is used. If you use ``--static-backup`` and you get an error that looks like the
+following:
+
+.. code-block:: php
+
+    Error: Internal error: Failed to retrieve the reflection object
+
+We suggest turning off the reflection cache as so:
+
+.. code-block:: php
+
+    \Mockery::getConfiguration()->disableReflectionCache();
+
+Turning it back on can be done like so:
+
+.. code-block:: php
+
+    \Mockery::getConfiguration()->enableReflectionCache();
+
+In no other situation should you be required turn this reflection cache off.

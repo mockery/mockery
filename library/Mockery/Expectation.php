@@ -21,10 +21,11 @@
 namespace Mockery;
 
 use Closure;
-use Mockery\Matcher\MultiArgumentClosure;
-use Mockery\Matcher\ArgumentListMatcher;
-use Mockery\Matcher\AnyArgs;
 use Mockery\Matcher\NoArgs;
+use Mockery\Matcher\AnyArgs;
+use Mockery\Matcher\AndAnyOtherArgs;
+use Mockery\Matcher\ArgumentListMatcher;
+use Mockery\Matcher\MultiArgumentClosure;
 
 class Expectation implements ExpectationInterface
 {
@@ -319,6 +320,11 @@ class Expectation implements ExpectationInterface
         return (count($this->_expectedArgs) === 1 && ($this->_expectedArgs[0] instanceof ArgumentListMatcher));
     }
 
+    private function isAndAnyOtherArgumentsMatcher($expectedArg)
+    {
+        return $expectedArg instanceof AndAnyOtherArgs;
+    }
+
     /**
      * Check if passed arguments match an argument expectation
      *
@@ -332,15 +338,36 @@ class Expectation implements ExpectationInterface
         }
         $argCount = count($args);
         if ($argCount !== count((array) $this->_expectedArgs)) {
+            $lastExpectedArgument = end($this->_expectedArgs);
+            reset($this->_expectedArgs);
+
+            if ($this->isAndAnyOtherArgumentsMatcher($lastExpectedArgument)) {
+                $argCountToSkipMatching = $argCount - count($this->_expectedArgs);
+                $args = array_slice($args, 0, $argCountToSkipMatching);
+                return $this->_matchArgs($args);
+            }
+
             return false;
         }
+
+        return $this->_matchArgs($args);
+    }
+
+    /**
+     * Check if the passed arguments match the expectations, one by one.
+     *
+     * @param array $args
+     * @return bool
+     */
+    protected function _matchArgs($args)
+    {
+        $argCount = count($args);
         for ($i=0; $i<$argCount; $i++) {
             $param =& $args[$i];
             if (!$this->_matchArg($this->_expectedArgs[$i], $param)) {
                 return false;
             }
         }
-
         return true;
     }
 

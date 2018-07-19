@@ -71,6 +71,40 @@ class Mockery
     }
 
     /**
+     * @return array
+     */
+    public static function builtInTypes()
+    {
+        $builtInTypes = array(
+            'self',
+            'array',
+            'callable',
+            // Up to php 7
+            'bool',
+            'float',
+            'int',
+            'string',
+            'iterable',
+            'void',
+        );
+
+        if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
+            $builtInTypes[] = 'object';
+        }
+
+        return $builtInTypes;
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    public static function isBuiltInType($type)
+    {
+        return in_array($type, \Mockery::builtInTypes());
+    }
+
+    /**
      * Static shortcut to \Mockery\Container::mock().
      *
      * @param array ...$args
@@ -294,6 +328,29 @@ class Mockery
     public static function any()
     {
         return new \Mockery\Matcher\Any();
+    }
+
+    /**
+     * Return instance of AndAnyOtherArgs matcher.
+     *
+     * An alternative name to `andAnyOtherArgs` so
+     * the API stays closer to `any` as well.
+     *
+     * @return \Mockery\Matcher\AndAnyOtherArgs
+     */
+    public static function andAnyOthers()
+    {
+        return new \Mockery\Matcher\AndAnyOtherArgs();
+    }
+
+    /**
+     * Return instance of AndAnyOtherArgs matcher.
+     *
+     * @return \Mockery\Matcher\AndAnyOtherArgs
+     */
+    public static function andAnyOtherArgs()
+    {
+        return new \Mockery\Matcher\AndAnyOtherArgs();
     }
 
     /**
@@ -776,7 +833,32 @@ class Mockery
         $method,
         Mockery\ExpectationInterface $exp
     ) {
-        $mock = $container->mock('demeter_' . md5($parent) . '_' . $method);
+        $newMockName = 'demeter_' . md5($parent) . '_' . $method;
+
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $parRef = null;
+            $parRefMethod = null;
+            $parRefMethodRetType = null;
+
+            $parentMock = $exp->getMock();
+            if ($parentMock !== null) {
+                $parRef = new ReflectionObject($parentMock);
+            }
+
+            if ($parRef !== null && $parRef->hasMethod($method)) {
+                $parRefMethod = $parRef->getMethod($method);
+                $parRefMethodRetType = $parRefMethod->getReturnType();
+
+                if ($parRefMethodRetType !== null) {
+                    $mock = self::namedMock($newMockName, (string) $parRefMethodRetType);
+                    $exp->andReturn($mock);
+
+                    return $mock;
+                }
+            }
+        }
+
+        $mock = $container->mock($newMockName);
         $exp->andReturn($mock);
 
         return $mock;

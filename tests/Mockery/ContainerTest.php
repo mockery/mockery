@@ -1120,14 +1120,6 @@ class ContainerTest extends MockeryTestCase
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_CallStatic'));
     }
 
-    /**
-     * @issue issue/139
-     */
-    public function testCanMockClassWithOldStyleConstructorAndArguments()
-    {
-        $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_OldStyleConstructor'));
-    }
-
     /** @group issue/144 */
     public function testMockeryShouldInterpretEmptyArrayAsConstructorArgs()
     {
@@ -1757,13 +1749,6 @@ class MockeryTest_ImplementsIterator implements Iterator
     }
 
     public function valid()
-    {
-    }
-}
-
-class MockeryTest_OldStyleConstructor
-{
-    public function MockeryTest_OldStyleConstructor($arg)
     {
     }
 }

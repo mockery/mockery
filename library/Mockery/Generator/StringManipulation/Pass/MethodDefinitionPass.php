@@ -101,26 +101,10 @@ class MethodDefinitionPass implements Pass
 
     protected function renderTypeHint(Parameter $param)
     {
-        $languageTypeHints = array(
-            'self',
-            'array',
-            'callable',
-            // Up to php 7
-            'bool',
-            'float',
-            'int',
-            'string',
-            'iterable',
-        );
-
-        if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
-            $languageTypeHints[] = 'object';
-        }
-
         $typeHint = trim($param->getTypeHintAsString());
 
         if (!empty($typeHint)) {
-            if (!in_array($typeHint, $languageTypeHints)) {
+            if (!\Mockery::isBuiltInType($typeHint)) {
                 $typeHint = '\\'.$typeHint;
             }
 

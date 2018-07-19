@@ -2,6 +2,8 @@
 
 ## x.y.z. (unreleased)
 
+## 1.1.0 (2018-05-08)
+
 * Allows use of string method names in allows and expects (#794)
 * Finalises allows and expects syntax in API (#799)
 * Search for handlers in a case instensitive way (#801)
@@ -16,6 +18,11 @@
 * Typehinted return value on Expectation#verify. (#832)
 * Fix shouldNotHaveReceived with HigherOrderMessage (#842)
 * Deprecates shouldDeferMissing (#839)
+* Adds support for return type hints in Demeter chains (#848)
+* Adds shouldNotReceive to composite expectation (#847)
+* Fix internal error when using --static-backup (#845)
+* Adds `andAnyOtherArgs` as an optional argument matcher (#860)
+* Fixes namespace qualifying with namespaced named mocks (#872)
 * Added possibility to add Constructor-Expections on hard dependencies, read: Mockery::mock('overload:...') (#781)
 
 ## 1.0.0 (2017-09-06)
