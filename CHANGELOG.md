@@ -23,6 +23,7 @@
 * Fix internal error when using --static-backup (#845)
 * Adds `andAnyOtherArgs` as an optional argument matcher (#860)
 * Fixes namespace qualifying with namespaced named mocks (#872)
+* Added possibility to add Constructor-Expections on hard dependencies, read: Mockery::mock('overload:...') (#781)
 
 ## 1.0.0 (2017-09-06)
 
@@ -50,7 +51,6 @@
 * BC BREAK - Fix Mockery not trying default expectations if there is any concrete expectation
 * BC BREAK - Mockery's PHPUnit integration will mark a test as risky if it
   thinks one it's exceptions has been swallowed in PHPUnit > 5.7.6. Use `$e->dismiss()` to dismiss.
-
  
 ## 0.9.4 (XXXX-XX-XX)
 

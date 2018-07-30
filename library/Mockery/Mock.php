@@ -782,6 +782,20 @@ class Mock implements MockInterface
         return $this->_mockery_receivedMethodCalls ?: $this->_mockery_receivedMethodCalls = new \Mockery\ReceivedMethodCalls();
     }
 
+    /**
+     * Called when an instance Mock was created and its constructor is getting called
+     *
+     * @see \Mockery\Generator\StringManipulation\Pass\InstanceMockPass
+     * @param array $args
+     */
+    protected function _mockery_constructorCalled(array $args)
+    {
+        if (!isset($this->_mockery_expectations['__construct']) /* _mockery_handleMethodCall runs the other checks */) {
+            return;
+        }
+        $this->_mockery_handleMethodCall('__construct', $args);
+    }
+
     protected function _mockery_findExpectedMethodHandler($method)
     {
         if (isset($this->_mockery_expectations[$method])) {

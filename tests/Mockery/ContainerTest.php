@@ -742,6 +742,44 @@ class ContainerTest extends MockeryTestCase
         $this->assertEquals('baz', $instance->bar);
     }
 
+    public function testInstantiationOfInstanceMockWithConstructorParameterValidation()
+    {
+        $m = mock('overload:MyNamespace\MyClass14');
+        $params = [
+            'value1' => uniqid('test_')
+        ];
+        $m->shouldReceive('__construct')->with($params);
+
+        new MyNamespace\MyClass14($params);
+    }
+
+    /**
+     * @expectedException \Mockery\Exception\NoMatchingExpectationException
+     */
+    public function testInstantiationOfInstanceMockWithConstructorParameterValidationNegative()
+    {
+        $m = mock('overload:MyNamespace\MyClass15');
+        $params = [
+            'value1' => uniqid('test_')
+        ];
+        $m->shouldReceive('__construct')->with($params);
+
+        new MyNamespace\MyClass15([]);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessageRegExp /^instanceMock \d{3}$/
+     */
+    public function testInstantiationOfInstanceMockWithConstructorParameterValidationException()
+    {
+        $m = mock('overload:MyNamespace\MyClass16');
+        $m->shouldReceive('__construct')
+            ->andThrow(new \Exception('instanceMock '.rand(100, 999)));
+
+        new MyNamespace\MyClass16();
+    }
+
     public function testMethodParamsPassedByReferenceHaveReferencePreserved()
     {
         $m = mock('MockeryTestRef1');
