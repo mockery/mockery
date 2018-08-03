@@ -95,7 +95,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
     {
         $mock = mock("test\Mockery\TestWithParameterAndReturnType");
 
-        $mock->shouldReceive("withScalarParameters");
+        $mock->shouldReceive("withScalarParameters")->once();
         $mock->withScalarParameters(1, 1.0, true, 'string');
     }
 

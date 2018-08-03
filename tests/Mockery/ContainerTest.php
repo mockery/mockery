@@ -476,7 +476,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockClassUsingMagicCallMethodsInPlaceOfNormalMethods()
     {
         $m = Mockery::mock('Gateway');
-        $m->shouldReceive('iDoSomethingReallyCoolHere');
+        $m->shouldReceive('iDoSomethingReallyCoolHere')->once();
         $m->iDoSomethingReallyCoolHere();
     }
 
@@ -486,7 +486,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanPartialMockObjectUsingMagicCallMethodsInPlaceOfNormalMethods()
     {
         $m = Mockery::mock(new Gateway);
-        $m->shouldReceive('iDoSomethingReallyCoolHere');
+        $m->shouldReceive('iDoSomethingReallyCoolHere')->once();
         $m->iDoSomethingReallyCoolHere();
     }
 
@@ -951,7 +951,7 @@ class ContainerTest extends MockeryTestCase
     {
         $m = mock();
         $m->shouldReceive('foo')->andReturn('bar');
-        $this->assertEquals(1, Mockery::getContainer()->mockery_getExpectationCount());
+        $this->assertEquals(0, Mockery::getContainer()->mockery_getExpectationCount());
     }
 
     public function testMethodsReturningParamsByReferenceDoesNotErrorOut()
