@@ -25,8 +25,6 @@ version
 composer require --dev mockery/mockery
 ```
 
-⚠️️ The remainder of this README refers specifically to the master branch (1.0-dev).
-
 ## Documentation
 
 In older versions, this README file was the documentation for Mockery. Over time
@@ -271,7 +269,7 @@ $implementationMock->shouldReceive('__construct')
     ->once()
     ->with(['host' => 'localhost]);
 // add other expectations as usual
-    
+
 $implementation = new \Some\Implementation(['host' => 'localhost']);
 ```
 
