@@ -18,18 +18,30 @@
  * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery\Adapter\Phpunit;
+namespace Mockery\Adapter\Phpunit\Legacy;
 
-if (class_exists('PHPUnit_Runner_Version') && version_compare(\PHPUnit_Runner_Version::id(), '6.0.0', '<')) {
-    class_alias('Mockery\Adapter\Phpunit\Legacy\TestListenerForV5', 'Mockery\Adapter\Phpunit\TestListener');
-} elseif (version_compare(\PHPUnit\Runner\Version::id(), '7.0.0', '<')) {
-    class_alias('Mockery\Adapter\Phpunit\Legacy\TestListenerForV6', 'Mockery\Adapter\Phpunit\TestListener');
-} else {
-    class_alias('Mockery\Adapter\Phpunit\Legacy\TestListenerForV7', 'Mockery\Adapter\Phpunit\TestListener');
-}
+class TestListenerForV5 extends \PHPUnit_Framework_BaseTestListener
+{
+    private $trait;
 
-if (false) {
-    class TestListener
+    public function __construct()
     {
+        $this->trait = new TestListenerTrait();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    {
+        $this->trait->endTest($test, $time);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    {
+        $this->trait->startTestSuite();
     }
 }
