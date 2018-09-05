@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="./tests/Bootstrap.php"
+<phpunit bootstrap="./tests/Bootstrap.php"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         syntaxCheck="true"
-         verbose="true">
+         verbose="true"
 >
     <testsuites>
         <testsuite name="Mockery Test Suite">
             <directory suffix="Test.php">./tests</directory>
-            <exclude>./tests/Mockery/MockingOldStyleConstructorTest.php</exclude>
+            <directory phpVersion="7.0.0" phpVersionOperator=">=">./tests/PHP70</directory>
+            <directory phpVersion="7.2.0" phpVersionOperator=">=">./tests/PHP72</directory>
+
+            <exclude>./tests/PHP56</exclude>
             <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
-            <exclude>./tests/Mockery/MockingParameterAndReturnTypesTest.php</exclude>
-            <exclude>./tests/Mockery/Generator/StringManipulation/Pass/MagicMethodTypeHintsPassTest.php</exclude>
-            <exclude>./tests/Mockery/Php72LanguageFeaturesTest.php</exclude>
-            <file phpVersion="7.0.0-dev" phpVersionOperator="&lt;">./tests/Mockery/MockingOldStyleConstructorTest.php</file>
-            <file phpVersion="7.0.0-dev" phpVersionOperator=">=">./tests/Mockery/MockingParameterAndReturnTypesTest.php</file>
-            <file phpVersion="7.0.0-dev" phpVersionOperator=">=">./tests/Mockery/Generator/StringManipulation/Pass/MagicMethodTypeHintsPassTest.php</file>
-            <file phpVersion="7.2.0-dev" phpVersionOperator=">=">./tests/Mockery/Php72LanguageFeaturesTest.php</file>
+        </testsuite>
+
+        <testsuite name="Mockery Test Suite PHP56">
+            <directory suffix="Test.php">./tests</directory>
+            <directory suffix="Test.php">./tests/PHP56</directory>
+
+            <exclude>./tests/PHP70</exclude>
+            <exclude>./tests/PHP72</exclude>
+            <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
         </testsuite>
     </testsuites>
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./library/</directory>
             <exclude>
+                <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
                 <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
             </exclude>
         </whitelist>
     </filter>
+
 </phpunit>

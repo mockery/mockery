@@ -19,24 +19,15 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-use Mockery\MockInterface;
+namespace test\Mockery\Fixtures;
 
-class MockingOldStyleConstructorTest extends MockeryTestCase
+use PHPUnit\Runner\BaseTestRunner;
+use \PHPUnit\Framework\TestCase;
+
+class EmptyTestCaseV6 extends TestCase
 {
-
-    /**
-     * @issue issue/139
-     */
-    public function testCanMockClassWithOldStyleConstructorAndArguments()
+    public function getStatus()
     {
-        $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_OldStyleConstructor'));
-    }
-}
-
-class MockeryTest_OldStyleConstructor
-{
-    public function MockeryTest_OldStyleConstructor($arg)
-    {
+        return BaseTestRunner::STATUS_PASSED;
     }
 }
