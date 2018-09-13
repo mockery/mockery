@@ -102,12 +102,22 @@ interface MockInterface
     public function shouldHaveReceived($method, $args = null);
 
     /**
+     * @return mixed
+     */
+    public function shouldHaveBeenCalled();
+
+    /**
      * @param null|string $method
      * @param null $args
      * @return mixed
      */
     public function shouldNotHaveReceived($method, $args = null);
 
+    /**
+     * @param array $args (optional)
+     * @return mixed
+     */
+    public function shouldNotHaveBeenCalled(array $args = null);
 
     /**
      * In the event shouldReceive() accepting an array of methods/returns
