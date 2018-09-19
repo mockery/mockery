@@ -26,21 +26,21 @@ use Mockery\Matcher\NoArgs;
 if (!function_exists("mock")) {
     function mock(...$args)
     {
-        return call_user_func_array([Mockery::class, "mock"], $args);
+        return Mockery::mock(...$args);
     }
 }
 
 if (!function_exists("spy")) {
     function spy(...$args)
     {
-        return call_user_func_array([Mockery::class, "spy"], $args);
+        return Mockery::spy(...$args);
     }
 }
 
 if (!function_exists("namedMock")) {
     function namedMock(...$args)
     {
-        return call_user_func_array([Mockery::class, "namedMock"], $args);
+        return Mockery::namedMock(...$args);
     }
 }
 
