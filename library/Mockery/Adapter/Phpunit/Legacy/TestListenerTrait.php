@@ -20,11 +20,23 @@
 
 namespace Mockery\Adapter\Phpunit\Legacy;
 
-if (class_exists('PHPUnit_Framework_TestCase') && ! class_exists('PHPUnit\Framework\TestCase')) {
+if (class_exists('PHPUnit_Framework_ExpectationFailedException') && ! class_exists('PHPUnit\Framework\ExpectationFailedException')) {
     class_alias('PHPUnit_Framework_ExpectationFailedException', 'PHPUnit\Framework\ExpectationFailedException');
+}
+
+if (class_exists('PHPUnit_Framework_Test') && ! class_exists('PHPUnit\Framework\Test')) {
     class_alias('PHPUnit_Framework_Test', 'PHPUnit\Framework\Test');
+}
+
+if (class_exists('PHPUnit_Framework_TestCase') && ! class_exists('PHPUnit\Framework\TestCase')) {
     class_alias('PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
+}
+
+if (class_exists('PHPUnit_Util_Blacklist') && ! class_exists('PHPUnit\Util\Blacklist')) {
     class_alias('PHPUnit_Util_Blacklist', 'PHPUnit\Util\Blacklist');
+}
+
+if (class_exists('PHPUnit_Runner_BaseTestRunner') && ! class_exists('PHPUnit\Runner\BaseTestRunner')) {
     class_alias('PHPUnit_Runner_BaseTestRunner', 'PHPUnit\Runner\BaseTestRunner');
 }
 
