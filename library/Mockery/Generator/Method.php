@@ -43,6 +43,24 @@ class Method
 
     public function getReturnType()
     {
+    	if (defined('HHVM_VERSION') && method_exists($this->method, 'getReturnTypeText') && $this->method->hasReturnType()) {
+    		// Available in HHVM
+    		$returnType = $this->method->getReturnTypeText();
+
+    		// Remove tuple, anything with <*>
+    		if (preg_match('/(<.*>)|(\(.+\))/', $returnType)) {
+    			return '';
+    		}
+
+    		// Remove ImmVector, ImmSet, ImmMap, void, and this which cause eval() errors
+    		if (preg_match('/HH\\\\(ImmVector|ImmMap|ImmSet|void|this)/', $returnType)) {
+    			return '';
+    		}
+
+    		// return directly without going through php logic.
+    		return $returnType;
+    	}
+
         if (version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $this->method->hasReturnType()) {
             $returnType = (string) $this->method->getReturnType();
 
