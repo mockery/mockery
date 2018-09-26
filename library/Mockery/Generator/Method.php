@@ -43,6 +43,11 @@ class Method
 
     public function getReturnType()
     {
+        if (defined('HHVM_VERSION') && method_exists($this->method, 'getReturnTypeText')) {
+            // Remove return type for HHVM
+            return '';
+        }
+        
         if (version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $this->method->hasReturnType()) {
             $returnType = (string) $this->method->getReturnType();
 
