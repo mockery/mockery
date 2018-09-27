@@ -11,9 +11,13 @@ test: deps
 .PHONY: apidocs
 apidocs: docs/api/index.html
 
+phpDocumentor.phar: 
+	wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v3.0.0-alpha.2-nightly-gdff5545/phpDocumentor.phar
+	wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v3.0.0-alpha.2-nightly-gdff5545/phpDocumentor.phar.pubkey
+
 library_files=$(shell find library -name '*.php')
-docs/api/index.html: vendor/composer/installed.json $(library_files) 
-	vendor/bin/phpdoc -d library -t docs/api
+docs/api/index.html: vendor/composer/installed.json $(library_files) phpDocumentor.phar
+	php phpDocumentor.phar run -d library -t docs/api
 
 .PHONY: test-all
 test-all: test-72 test-71 test-70 test-56
