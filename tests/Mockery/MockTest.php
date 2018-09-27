@@ -172,8 +172,9 @@ class Mockery_MockTest extends MockeryTestCase
         $mock = new Mock();
         $mock->shouldReceive("doThis")->once()->byDefault();
         $mock->shouldReceive("doThis")->twice();
+        $mock->shouldReceive("andThis")->twice();
 
-        $this->assertEquals(1, $mock->mockery_getExpectationCount());
+        $this->assertEquals(2, $mock->mockery_getExpectationCount());
     }
 
     /** @test */
