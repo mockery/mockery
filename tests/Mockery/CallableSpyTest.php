@@ -41,7 +41,7 @@ class CallableSpyTest extends MockeryTestCase
     {
         $spy = spy(function() {});
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled();
     }
 
@@ -52,7 +52,7 @@ class CallableSpyTest extends MockeryTestCase
 
         $spy();
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled()->with(123, 546);
     }
 
@@ -63,7 +63,7 @@ class CallableSpyTest extends MockeryTestCase
 
         $spy(123);
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled()->with(123, 546);
     }
 
@@ -82,7 +82,7 @@ class CallableSpyTest extends MockeryTestCase
 
         $spy();
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldNotHaveBeenCalled();
     }
 
@@ -113,7 +113,7 @@ class CallableSpyTest extends MockeryTestCase
 
         $spy(123);
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldNotHaveBeenCalled([123]);
     }
 
@@ -146,7 +146,7 @@ class CallableSpyTest extends MockeryTestCase
 
         $spy();
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled()->twice();
     }
 
@@ -158,7 +158,7 @@ class CallableSpyTest extends MockeryTestCase
         $spy();
         $spy(123);
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled()->with(123)->twice();
     }
 
@@ -171,7 +171,7 @@ class CallableSpyTest extends MockeryTestCase
         $spy();
         $spy();
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled()->twice();
     }
 
@@ -184,7 +184,7 @@ class CallableSpyTest extends MockeryTestCase
         $spy(123);
         $spy(123);
 
-        $this->setExpectedException(InvalidCountException::class);
+        $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled()->with(123)->twice();
     }
 
