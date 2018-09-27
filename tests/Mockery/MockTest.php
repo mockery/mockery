@@ -20,6 +20,7 @@
  */
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Mock;
 
 class Mockery_MockTest extends MockeryTestCase
 {
@@ -152,6 +153,38 @@ class Mockery_MockTest extends MockeryTestCase
     public function testShouldThrowExceptionWithInvalidClassName()
     {
         mock('ClassName.CannotContainDot');
+    }
+
+
+    /** @test */
+    public function expectation_count_will_count_expectations()
+    {
+        $mock = new Mock();
+        $mock->shouldReceive("doThis")->once();
+        $mock->shouldReceive("doThat")->once();
+
+        $this->assertEquals(2, $mock->mockery_getExpectationCount());
+    }
+
+    /** @test */
+    public function expectation_count_will_ignore_defaults_if_overriden()
+    {
+        $mock = new Mock();
+        $mock->shouldReceive("doThis")->once()->byDefault();
+        $mock->shouldReceive("doThis")->twice();
+        $mock->shouldReceive("andThis")->twice();
+
+        $this->assertEquals(2, $mock->mockery_getExpectationCount());
+    }
+
+    /** @test */
+    public function expectation_count_will_count_defaults_if_not_overriden()
+    {
+        $mock = new Mock();
+        $mock->shouldReceive("doThis")->once()->byDefault();
+        $mock->shouldReceive("doThat")->once()->byDefault();
+
+        $this->assertEquals(2, $mock->mockery_getExpectationCount());
     }
 }
 

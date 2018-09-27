@@ -213,6 +213,6 @@ class ExpectationDirector
      */
     public function getExpectationCount()
     {
-        return count($this->getExpectations());
+        return count($this->getExpectations()) ?: count($this->getDefaultExpectations());
     }
 }
