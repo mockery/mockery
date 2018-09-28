@@ -48,47 +48,53 @@ class MockingHHVMMethodsTest extends MockeryTestCase
     {
         $mock = mock('test\Mockery\Fixtures\MethodWithHHVMReturnType');
 
-        $this->assertEquals($mock->nullableHHVMArray(), array('key' => true));
+        $mock->shouldReceive('nullableHHVMArray')->andReturn(array('key' => true));
+        $mock->nullableHHVMArray();
     }
 
     /** @test */
     public function it_strip_hhvm_void_return_types()
     {
-        $mock = mock(MethodWithHHVMReturnType::class);
+        $mock = mock('test\Mockery\Fixtures\MethodWithHHVMReturnType');
 
-        $this->assertNull($mock->HHVMVoid());
+        $mock->shouldReceive('HHVMVoid')->andReturnNull();
+        $mock->HHVMVoid();
     }
 
     /** @test */
     public function it_strip_hhvm_mixed_return_types()
     {
-        $mock = mock(MethodWithHHVMReturnType::class);
+        $mock = mock('test\Mockery\Fixtures\MethodWithHHVMReturnType');
 
-        $this->assertNull($mock->HHVMMixed());
+        $mock->shouldReceive('HHVMMixed')->andReturnNull();
+        $mock->HHVMMixed();
     }
 
     /** @test */
     public function it_strip_hhvm_this_return_types()
     {
-        $mock = mock(MethodWithHHVMReturnType::class);
+        $mock = mock('test\Mockery\Fixtures\MethodWithHHVMReturnType');
 
-        $this->assertEquals($mock->HHVMThis(), MethodWithHHVMReturnType::class);
+        $mock->shouldReceive('HHVMThis')->andReturn(new MethodWithHHVMReturnType());
+        $mock->HHVMThis();
     }
 
     /** @test */
     public function it_allow_hhvm_string_return_types()
     {
-        $mock = mock(MethodWithHHVMReturnType::class);
+        $mock = mock('test\Mockery\Fixtures\MethodWithHHVMReturnType');
 
-        $this->assertEquals($mock->HHVMString(), 'a string');
+        $mock->shouldReceive('HHVMString')->andReturn('a string');
+        $mock->HHVMString();
     }
 
     /** @test */
     public function it_allow_hhvm_imm_vector_return_types()
     {
-        $mock = mock(MethodWithHHVMReturnType::class);
+        $mock = mock('test\Mockery\Fixtures\MethodWithHHVMReturnType');
 
-        $this->assertEquals($mock->HHVMImmVector(), new ImmVector([1, 2, 3]));
+        $mock->shouldReceive('HHVMImmVector')->andReturn(new \HH\ImmVector([1, 2, 3]));
+        $mock->HHVMImmVector();
     }
 
     /**
