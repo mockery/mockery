@@ -47,14 +47,20 @@ class Method
             // Available in HHVM
             $returnType = $this->method->getReturnTypeText();
 
-            // Remove tuple, anything with <*>
-            if (preg_match('/(<.*>)|(\(.+\))/', $returnType)) {
+            // Remove tuple, ImmVector<>, ImmSet<>, ImmMap<>, array<>, anything with <>, void, mixed which cause eval() errors
+            if (preg_match('/(\w+<.*>)|(\(.+\))|(HH\\\\(void|mixed))/', $returnType)) {
                 return '';
             }
 
-            // Remove ImmVector, ImmSet, ImmMap, void, and this which cause eval() errors
-            if (preg_match('/HH\\\\(ImmVector|ImmMap|ImmSet|void|this|mixed)/', $returnType)) {
-                return '';
+            // Convert HH\this to declaring class
+            if (preg_match('/HH\\\\this/', $returnType)) {
+                $returnType = $this->method->getDeclaringClass()->name;
+
+                if ($this->method->getReturnType()->allowsNull()) {
+                    return '?'.$returnType;
+                }
+
+                return $returnType;
             }
 
             // return directly without going through php logic.
