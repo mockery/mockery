@@ -53,7 +53,7 @@ class Method
             }
 
             // Remove ImmVector, ImmSet, ImmMap, void, and this which cause eval() errors
-            if (preg_match('/HH\\\\(ImmVector|ImmMap|ImmSet|void|this)/', $returnType)) {
+            if (preg_match('/HH\\\\(ImmVector|ImmMap|ImmSet|void|this|mixed)/', $returnType)) {
                 return '';
             }
 
