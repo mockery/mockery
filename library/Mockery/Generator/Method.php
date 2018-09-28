@@ -57,10 +57,8 @@ class Method
                 $returnType = $this->method->getDeclaringClass()->name;
 
                 if ($this->method->getReturnType()->allowsNull()) {
-                    return '?'.$returnType;
+                    $returnType = '?'.$returnType;
                 }
-
-                return $returnType;
             }
 
             // return directly without going through php logic.
