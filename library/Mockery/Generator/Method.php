@@ -48,17 +48,8 @@ class Method
             $returnType = $this->method->getReturnTypeText();
 
             // Remove tuple, ImmVector<>, ImmSet<>, ImmMap<>, array<>, anything with <>, void, mixed which cause eval() errors
-            if (preg_match('/(\w+<.*>)|(\(.+\))|(HH\\\\(void|mixed))/', $returnType)) {
+            if (preg_match('/(\w+<.*>)|(\(.+\))|(HH\\\\(void|mixed|this))/', $returnType)) {
                 return '';
-            }
-
-            // Convert HH\this to declaring class
-            if (preg_match('/HH\\\\this/', $returnType)) {
-                $returnType = $this->method->getDeclaringClass()->name;
-
-                if ($this->method->getReturnType()->allowsNull()) {
-                    $returnType = '?'.$returnType;
-                }
             }
 
             // return directly without going through php logic.
