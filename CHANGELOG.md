@@ -1,6 +1,6 @@
 # Change Log
 
-## x.x (unreleased)
+## x.y.z (unreleased)
 
 ## 1.2.0 (2018-10-02)
 
