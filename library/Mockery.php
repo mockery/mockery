@@ -135,6 +135,17 @@ class Mockery
     }
 
     /**
+     * @param string $class
+     * @param array $items
+     * @return \Mockery\MockInterface
+     * @throws \Mockery\Exception\RuntimeException
+     */
+    public static function stubTraversable($class, array $items)
+    {
+        return self::getContainer()->stubTraversable($class, $items);
+    }
+
+    /**
      * Static and Semantic shortcut to \Mockery\Container::mock().
      *
      * @param array ...$args
