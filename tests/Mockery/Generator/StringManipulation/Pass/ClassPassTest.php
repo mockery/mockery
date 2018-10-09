@@ -51,7 +51,6 @@ class ClassPassTest extends TestCase
     {
         $config = new MockConfiguration(array("\HH\\this"), array(), array(), "Dave\Dave");
         $code = $this->pass->apply(static::CODE, $config);
-        var_dump($code);
         if (\defined('HHVM_VERSION')) {
             $this->assertNotContains('extends \HH\this', $code);
         } else {
