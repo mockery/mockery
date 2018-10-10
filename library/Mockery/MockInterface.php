@@ -99,7 +99,7 @@ interface MockInterface
      * @param null $args
      * @return mixed
      */
-    public function shouldHaveReceived($method, $args = null);
+    public function shouldHaveReceived($method = null, $args = null);
 
     /**
      * @return mixed
