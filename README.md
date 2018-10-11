@@ -267,7 +267,7 @@ $implementationMock = Mockery::mock('overload:\Some\Implementation');
 
 $implementationMock->shouldReceive('__construct')
     ->once()
-    ->with(['host' => 'localhost]);
+    ->with(['host' => 'localhost']);
 // add other expectations as usual
 
 $implementation = new \Some\Implementation(['host' => 'localhost']);
