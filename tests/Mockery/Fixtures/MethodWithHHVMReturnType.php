@@ -32,7 +32,7 @@ class MethodWithHHVMReturnType extends MockeryTestCase
 
     public function HHVMVoid() : void
     {
-        return null;
+        return;
     }
 
     public function HHVMMixed() : mixed
