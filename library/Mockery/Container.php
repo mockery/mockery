@@ -561,7 +561,8 @@ class Container
         return empty($invalidNames);
     }
 
-    protected function stubTraversableMethods(MockInterface $mockIterator, array $items) {
+    protected function stubTraversableMethods(MockInterface $mockIterator, array $items)
+    {
         $arrayIterator = new \ArrayIterator($items);
 
         if ($mockIterator instanceof \IteratorAggregate) {
