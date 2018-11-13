@@ -2,7 +2,6 @@
 
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\AnyArgs;
-use Mockery\Matcher\NoArgs;
 
 /**
  * Mockery
