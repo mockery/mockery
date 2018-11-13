@@ -38,7 +38,7 @@ class GlobalHelpersTest extends TestCase
         $double = mock();
 
         $this->assertInstanceOf('Mockery\MockInterface', $double);
-        $this->expectException('Exception');
+        $this->setExpectedException('Exception');
         $double->foo();
     }
 
