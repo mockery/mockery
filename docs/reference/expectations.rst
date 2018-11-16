@@ -270,7 +270,7 @@ use when throwing an ``Exception`` from the mocked method:
 
     $mock = \Mockery::mock('MyClass');
     $mock->shouldReceive('name_of_method')
-        ->andThrow(exception_name, message);
+        ->andThrow('exception_name', 'message');
 
 .. _expectations-setting-public-properties:
 
