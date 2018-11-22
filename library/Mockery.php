@@ -108,7 +108,7 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock().
      *
-     * @param array ...$args
+     * @param mixed ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -121,7 +121,7 @@ class Mockery
      * Static and semantic shortcut for getting a mock from the container
      * and applying the spy's expected behavior into it.
      *
-     * @param array ...$args
+     * @param mixed ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -137,7 +137,7 @@ class Mockery
     /**
      * Static and Semantic shortcut to \Mockery\Container::mock().
      *
-     * @param array ...$args
+     * @param mixed ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -149,7 +149,7 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock(), first argument names the mock.
      *
-     * @param array ...$args
+     * @param mixed ...$args
      *
      * @return \Mockery\MockInterface
      */
