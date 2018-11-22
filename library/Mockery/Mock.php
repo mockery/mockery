@@ -185,7 +185,7 @@ class Mock implements MockInterface
     /**
      * Set expected method calls
      *
-     * @param array ...$methodNames one or many methods that are expected to be called in this mock
+     * @param mixed ...$methodNames one or many methods that are expected to be called in this mock
      *
      * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
