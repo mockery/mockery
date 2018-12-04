@@ -40,7 +40,7 @@ mock object for the real service which allows us to test the behaviour of the
 
     use \Mockery;
 
-    class TemperatureTest extends PHPUnit\Framework\TestCase
+    class TemperatureTest extends \PHPUnit\Framework\TestCase
     {
         public function tearDown()
         {
