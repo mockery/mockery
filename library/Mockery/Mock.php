@@ -315,6 +315,14 @@ class Mock implements MockInterface
      */
     public function shouldAllowMockingProtectedMethods()
     {
+        if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
+            foreach ($this->mockery_getMethods() as $method) {
+                if ($method->isProtected() && !$method->isStatic()) {
+                    $this->_mockery_mockableMethods[] = $method->getName();
+                }
+            }
+        }
+
         $this->_mockery_allowMockingProtectedMethods = true;
         return $this;
     }
