@@ -43,6 +43,16 @@ class Mockery_MockTest extends MockeryTestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
+    public function testProtectedMethodMockWithNotAllowingMockingOfNonExistentMethodsWhenShouldAllowMockingProtectedMethodsIsCalled()
+    {
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+        $m = mock('ClassWithProtectedMethod');
+        $m->shouldAllowMockingProtectedMethods();
+        $m->shouldReceive('foo')->andReturn(true);
+        assertThat($m->foo(), equalTo(true));
+        \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+    }
+
     public function testShouldAllowMockingMethodReturnsMockInstance()
     {
         $m = Mockery::mock('someClass');
@@ -215,5 +225,13 @@ class ClassWithMethods
     public function bar()
     {
         return 'bar';
+    }
+}
+
+class ClassWithProtectedMethod
+{
+    protected function foo()
+    {
+        return 'foo';
     }
 }
