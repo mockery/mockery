@@ -246,6 +246,17 @@ interface MockInterface
     public function mockery_getMockableMethods();
 
     /**
+     * Calls a parent class method and returns the result. Used in a passthru
+     * expectation where a real return value is required while still taking
+     * advantage of expectation matching and call count verification.
+     *
+     * @param string $name
+     * @param array $args
+     * @return mixed
+     */
+    public function mockery_callSubjectMethod($name, array $args);
+
+    /**
      * @return bool
      */
     public function mockery_isAnonymous();
