@@ -175,7 +175,7 @@ class Mock implements MockInterface
 
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
             foreach ($this->mockery_getMethods() as $method) {
-                if ($method->isPublic() && !$method->isStatic()) {
+                if ($method->isPublic()) {
                     $this->_mockery_mockableMethods[] = $method->getName();
                 }
             }
@@ -317,7 +317,7 @@ class Mock implements MockInterface
     {
         if (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed()) {
             foreach ($this->mockery_getMethods() as $method) {
-                if ($method->isProtected() && !$method->isStatic()) {
+                if ($method->isProtected()) {
                     $this->_mockery_mockableMethods[] = $method->getName();
                 }
             }
