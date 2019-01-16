@@ -79,7 +79,7 @@ class MockingNullableMethodsTest extends MockeryTestCase
     /**
      * @test
      */
-    public function itShouldAllowPrimitiveNullabeToBeSet()
+    public function itShouldAllowPrimitiveNullableToBeSet()
     {
         $mock = mock("test\Mockery\Fixtures\MethodWithNullableReturnType");
 
