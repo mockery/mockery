@@ -47,12 +47,12 @@ class NamedMockTest extends MockeryTestCase
 
     /**
      * @test
-     * @expectedException Mockery\Exception
-     * @expectedExceptionMessage The mock named 'Mockery\Dave7' has been already defined with a different mock configuration
      */
     public function itShouldThrowIfAttemptingToRedefineNamedMock()
     {
         $mock = Mockery::namedMock("Mockery\Dave7");
+        $this->expectException(\Mockery\Exception::class);
+        $this->expectExceptionMessage("The mock named 'Mockery\Dave7' has been already defined with a different mock configuration");
         $mock = Mockery::namedMock("Mockery\Dave7", "DateTime");
     }
 

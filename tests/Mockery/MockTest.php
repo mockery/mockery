@@ -92,23 +92,19 @@ class Mockery_MockTest extends MockeryTestCase
         $this->assertNull($mock->nonExistingMethod());
     }
 
-    /**
-     * @expectedException Mockery\Exception
-     */
     public function testShouldIgnoreMissingDisallowMockingNonExistentMethodsUsingGlobalConfiguration()
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = mock('ClassWithMethods')->shouldIgnoreMissing();
+        $this->expectException(\Mockery\Exception::class);
         $mock->shouldReceive('nonExistentMethod');
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testShouldIgnoreMissingCallingNonExistentMethodsUsingGlobalConfiguration()
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = mock('ClassWithMethods')->shouldIgnoreMissing();
+        $this->expectException(\BadMethodCallException::class);
         $mock->nonExistentMethod();
     }
 
@@ -157,11 +153,9 @@ class Mockery_MockTest extends MockeryTestCase
         $mock->shouldReceive("");
     }
 
-    /**
-     * @expectedException Mockery\Exception
-     */
     public function testShouldThrowExceptionWithInvalidClassName()
     {
+        $this->expectException(\Mockery\Exception::class);
         mock('ClassName.CannotContainDot');
     }
 
