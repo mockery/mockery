@@ -21,15 +21,14 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\StringManipulation\Pass\ClassPass;
-use PHPUnit\Framework\TestCase;
 
-class ClassPassTest extends TestCase
+class ClassPassTest extends MockeryTestCase
 {
     const CODE = "class Mock implements MockInterface {}";
 
-    public function setup()
+    public function mockeryTestSetUp()
     {
         $this->pass = new ClassPass();
     }
@@ -41,7 +40,7 @@ class ClassPassTest extends TestCase
     {
         $config = new MockConfiguration(array("Testing\TestClass"), array(), array(), "Dave\Dave");
         $code = $this->pass->apply(static::CODE, $config);
-        $this->assertContains('class Mock extends \Testing\TestClass implements MockInterface', $code);
+        $this->assertTrue(\mb_strpos($code, 'class Mock extends \Testing\TestClass implements MockInterface') !== false);
     }
 
     /**

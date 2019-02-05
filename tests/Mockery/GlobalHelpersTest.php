@@ -18,16 +18,16 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-use PHPUnit\Framework\TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class GlobalHelpersTest extends TestCase
+class GlobalHelpersTest extends MockeryTestCase
 {
-    public function setup()
+    public function mockeryTestSetUp()
     {
         \Mockery::globalHelpers();
     }
 
-    public function tearDown()
+    public function mockeryTestTearDown()
     {
         \Mockery::close();
     }

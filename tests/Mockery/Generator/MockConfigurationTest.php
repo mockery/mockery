@@ -110,10 +110,10 @@ class MockConfigurationTest extends TestCase
 
     /**
      * @test
-     * @expectedException Mockery\Exception
      */
     public function shouldThrowIfTargetClassIsFinal()
     {
+        $this->expectException(\Mockery\Exception::class);
         $config = new MockConfiguration(array("Mockery\\Generator\\TestFinal"));
         $config->getTargetClass();
     }

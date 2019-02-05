@@ -29,6 +29,8 @@
             <exclude>
                 <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
                 <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
+                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditionsForV8.php</file>
+                <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUpForV8.php</file>
             </exclude>
         </whitelist>
     </filter>

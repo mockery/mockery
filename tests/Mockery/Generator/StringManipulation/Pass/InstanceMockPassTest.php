@@ -38,8 +38,8 @@ class InstanceMockPassTest extends TestCase
         $config = $builder->getMockConfiguration();
         $pass = new InstanceMockPass;
         $code = $pass->apply('class Dave { }', $config);
-        $this->assertContains('public function __construct', $code);
-        $this->assertContains('protected $_mockery_ignoreVerification', $code);
-        $this->assertContains('this->_mockery_constructorCalled(func_get_args());', $code);
+        $this->assertTrue(\mb_strpos($code, 'public function __construct') !== false);
+        $this->assertTrue(\mb_strpos($code, 'protected $_mockery_ignoreVerification') !== false);
+        $this->assertTrue(\mb_strpos($code, 'this->_mockery_constructorCalled(func_get_args());') !== false);
     }
 }
