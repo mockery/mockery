@@ -2,6 +2,11 @@
 
 ## x.y.z (unreleased)
 
+## 1.2.1 (2019-02-07)
+
+* Support for PHPUnit 8 (#942)
+* Allow mocking static methods called on instance (#938)
+
 ## 1.2.0 (2018-10-02)
 
 * Starts counting default expectations towards count (#910)
