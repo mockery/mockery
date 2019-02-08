@@ -1,7 +1,7 @@
 Mockery
 =======
 
-[![Build Status](https://travis-ci.org/padraic/mockery.png?branch=master)](http://travis-ci.org/padraic/mockery)
+[![Build Status](https://travis-ci.org/mockery/mockery.png?branch=0.9)](http://travis-ci.org/mockery/mockery)
 [![Latest Stable Version](https://poser.pugx.org/mockery/mockery/v/stable.png)](https://packagist.org/packages/mockery/mockery)
 [![Total Downloads](https://poser.pugx.org/mockery/mockery/downloads.png)](https://packagist.org/packages/mockery/mockery)
 
