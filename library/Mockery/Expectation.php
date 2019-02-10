@@ -192,10 +192,17 @@ class Expectation implements ExpectationInterface
      */
     protected function _setValues()
     {
+        $mockClass = get_class($this->_mock);
+        $container = $this->_mock->mockery_getContainer();
+        $mocks = $container->getMocks();
         foreach ($this->_setQueue as $name => &$values) {
             if (count($values) > 0) {
                 $value = array_shift($values);
-                $this->_mock->{$name} = $value;
+                foreach ($mocks as $mock) {
+                    if (is_a($mock, $mockClass)) {
+                        $mock->{$name} = $value;
+                    }
+                }
             }
         }
     }
@@ -232,7 +239,8 @@ class Expectation implements ExpectationInterface
 
                 case 'callable':
                 case 'Closure':
-                    return function () {};
+                    return function () {
+                    };
 
                 case 'Traversable':
                 case 'Generator':
@@ -341,7 +349,8 @@ class Expectation implements ExpectationInterface
         }
         if (is_string($expected) && !is_array($actual) && !is_object($actual)) {
             # push/pop an error handler here to to make sure no error/exception thrown if $expected is not a regex
-            set_error_handler(function () {});
+            set_error_handler(function () {
+            });
             $result = preg_match($expected, (string) $actual);
             restore_error_handler();
 
