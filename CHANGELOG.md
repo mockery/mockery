@@ -1,6 +1,6 @@
 # Change Log
 
-## x.y.z (unreleased)
+## 1.2.2 (2019-02-13)
 
 * Fix a BC breaking change for PHP 5.6/PHPUnit 5.7.27 (#947) 
 
