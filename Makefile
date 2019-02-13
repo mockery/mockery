@@ -12,8 +12,8 @@ test: deps
 apidocs: docs/api/index.html
 
 phpDocumentor.phar: 
-	wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v3.0.0-alpha.2-nightly-gdff5545/phpDocumentor.phar
-	wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v3.0.0-alpha.2-nightly-gdff5545/phpDocumentor.phar.pubkey
+	wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v3.0.0-alpha.3/phpDocumentor.phar
+	wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v3.0.0-alpha.3/phpDocumentor.phar.pubkey
 
 library_files=$(shell find library -name '*.php')
 docs/api/index.html: vendor/composer/installed.json $(library_files) phpDocumentor.phar
