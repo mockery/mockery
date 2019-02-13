@@ -2,6 +2,8 @@
 
 ## x.y.z (unreleased)
 
+* Fix a BC breaking change for PHP 5.6/PHPUnit 5.7.27 (#947) 
+
 ## 1.2.1 (2019-02-07)
 
 * Support for PHPUnit 8 (#942)
