@@ -7,7 +7,7 @@ namespace Mockery\Generator;
         /**
          * @test
          */
-        public function shouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent()
+        public function shouldReturnAbsoluteHintPathIfNamespaceProvided()
         {
             $rfp = new \ReflectionParameter(array('\TestSubjectNameSpace\TestSubject', 'foo'), 0);
             $parameterGenerator = new Parameter($rfp);
