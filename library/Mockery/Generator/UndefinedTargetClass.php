@@ -86,4 +86,9 @@ class UndefinedTargetClass implements TargetClassInterface
     {
         return false;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
