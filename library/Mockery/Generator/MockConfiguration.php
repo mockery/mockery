@@ -26,8 +26,6 @@ namespace Mockery\Generator;
  */
 class MockConfiguration
 {
-    protected static $mockCounter = 0;
-
     /**
      * A class that we'd like to mock
      */
@@ -363,7 +361,7 @@ class MockConfiguration
         foreach ($this->targetInterfaceNames as $targetInterface) {
             if (!interface_exists($targetInterface)) {
                 $this->targetInterfaces[] = UndefinedTargetClass::factory($targetInterface);
-                return;
+                continue;
             }
 
             $dtc = DefinedTargetClass::factory($targetInterface);
@@ -418,24 +416,21 @@ class MockConfiguration
      */
     public function generateName()
     {
-        $name = 'Mockery_' . static::$mockCounter++;
+        $nameBuilder = new MockNameBuilder();
 
         if ($this->getTargetObject()) {
-            $name .= "_" . str_replace("\\", "_", get_class($this->getTargetObject()));
+            $nameBuilder->addPart(get_class($this->getTargetObject()));
         }
 
         if ($this->getTargetClass()) {
-            $name .= "_" . str_replace("\\", "_", $this->getTargetClass()->getName());
+            $nameBuilder->addPart($this->getTargetClass()->getName());
         }
 
-        if ($this->getTargetInterfaces()) {
-            $name .= array_reduce($this->getTargetInterfaces(), function ($tmpname, $i) {
-                $tmpname .= '_' . str_replace("\\", "_", $i->getName());
-                return $tmpname;
-            }, '');
+        foreach ($this->getTargetInterfaces() as $targetInterface) {
+            $nameBuilder->addPart($targetInterface->getName());
         }
 
-        return $name;
+        return $nameBuilder->build();
     }
 
     public function getShortName()

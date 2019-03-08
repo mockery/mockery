@@ -27,6 +27,7 @@ use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 use Mockery\Matcher\MatcherAbstract;
 use Mockery\ClosureWrapper;
+use Mockery\Generator\MockNameBuilder;
 
 class Mockery
 {
@@ -855,7 +856,9 @@ class Mockery
                 $parRefMethodRetType = $parRefMethod->getReturnType();
 
                 if ($parRefMethodRetType !== null) {
-                    $mock = self::namedMock($newMockName, (string) $parRefMethodRetType);
+                    $nameBuilder = new MockNameBuilder();
+                    $nameBuilder->addPart('\\' . $newMockName);
+                    $mock = self::namedMock($nameBuilder->build(), (string) $parRefMethodRetType);
                     $exp->andReturn($mock);
 
                     return $mock;

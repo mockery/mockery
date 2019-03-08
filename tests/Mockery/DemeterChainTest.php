@@ -201,4 +201,18 @@ class DemeterChainTest extends MockeryTestCase
 
         $this->assertInstanceOf(stdClass::class, $result);
     }
+
+    /**
+     * @requires PHP 7.0.0
+     */
+    public function testMultipleDemeterChainsWithClassReturnTypeHints()
+    {
+        $bar = new \DemeterChain\C;
+        $qux = new \DemeterChain\C;
+        $a = \Mockery::mock(\DemeterChain\A::class);
+        $a->shouldReceive('foo->bar')->andReturn($bar);
+        $a->shouldReceive('foo->qux')->andReturn($qux);
+        $this->assertEquals($bar, $a->foo()->bar());
+        $this->assertEquals($qux, $a->foo()->qux());
+    }
 }
