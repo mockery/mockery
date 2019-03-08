@@ -48,7 +48,7 @@ class Parameter
         if ((version_compare(PHP_VERSION, '5.4.1') >= 0)) {
             try {
                 if ($this->rfp->getClass()) {
-                    return $this->getOptionalSign() . $this->rfp->getClass()->getName();
+                    return $this->getOptionalSign() . '\\' . $this->rfp->getClass()->getName();
                 }
             } catch (\ReflectionException $re) {
                 // noop
