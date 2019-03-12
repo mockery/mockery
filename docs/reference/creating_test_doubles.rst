@@ -240,6 +240,22 @@ work.
     $foo->shouldReceive('bar')->andReturn(999);
     $foo->bar(); // int(456)
 
+It's also possible to specify explicitly which methods to run directly using
+the `!method` syntax:
+
+.. code-block:: php
+
+    class Foo {
+        function foo() { return 123; }
+        function bar() { return $this->foo(); }
+    }
+
+    $foo = mock("Foo[!foo]");
+
+    $foo->foo(); // int(123)
+
+    $foo->bar(); // error, no expectation set
+
 .. note::
 
     Even though we support generated partial test doubles, we do not recommend
