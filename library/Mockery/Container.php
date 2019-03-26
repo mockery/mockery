@@ -151,7 +151,13 @@ class Container
                 $parts[1] = str_replace(' ', '', $parts[1]);
                 $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
                 $builder->addTarget($class);
-                $builder->setWhiteListedMethods($partialMethods);
+                foreach ($partialMethods as $partialMethod) {
+                    if ($partialMethod[0] === '!') {
+                        $builder->addBlackListedMethod(substr($partialMethod, 1));
+                        continue;
+                    }
+                    $builder->addWhiteListedMethod($partialMethod);
+                }
                 array_shift($args);
                 continue;
             } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true) || trait_exists($arg, true))) {

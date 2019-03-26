@@ -440,6 +440,36 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
+     * @group partial
+     */
+    public function testCanUseExclamationToBlacklistMethod()
+    {
+        $m = mock('MockeryTest_PartialNormalClass2[!foo]');
+        $this->assertSame('abc', $m->foo());
+    }
+
+    /**
+     * @group partial
+     */
+    public function testCantCallMethodWhenUsingBlacklistAndNoExpectation()
+    {
+        $m = mock('MockeryTest_PartialNormalClass2[!foo]');
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessageRegExp('/::bar\(\), but no expectations were specified/');
+        $m->bar();
+    }
+
+    /**
+     * @group partial
+     */
+    public function testCanUseBlacklistAndExpectionOnNonBlacklistedMethod()
+    {
+        $m = mock('MockeryTest_PartialNormalClass2[!foo]');
+        $m->shouldReceive('bar')->andReturn('test')->once();
+        $this->assertSame('test', $m->bar());
+    }
+
+    /**
      * @group issue/4
      */
     public function testCanMockClassContainingMagicCallMethod()
