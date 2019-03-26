@@ -263,14 +263,14 @@ We can tell the method of mock objects to throw exceptions:
 
 It will throw the given ``Exception`` object when called.
 
-Rather than an object, we can pass in the ``Exception`` class and message to
+Rather than an object, we can pass in the ``Exception`` class, message and/or code to
 use when throwing an ``Exception`` from the mocked method:
 
 .. code-block:: php
 
     $mock = \Mockery::mock('MyClass');
     $mock->shouldReceive('name_of_method')
-        ->andThrow('exception_name', 'message');
+        ->andThrow('exception_name', 'message', 123456789);
 
 .. _expectations-setting-public-properties:
 
