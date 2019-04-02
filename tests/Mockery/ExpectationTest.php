@@ -1923,8 +1923,8 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->once()->andReturn('green');
         $this->mock->shouldReceive('foo')->andReturn('blue');
-        $this->assertEquals($this->mock->foo(), 'green');
-        $this->assertEquals($this->mock->foo(), 'blue');
+        $this->assertEquals('green', $this->mock->foo());
+        $this->assertEquals('blue', $this->mock->foo());
     }
 
     public function testTimesExpectationForbidsFloatNumbers()
