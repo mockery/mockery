@@ -452,6 +452,27 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
+    public function testExpectsSomeOfArgumentsMatchRealArguments()
+    {
+        $this->mock->shouldReceive('foo')->withSomeOfArgs(1, 3, 5)->times(4);
+        $this->mock->foo(1, 2, 3, 4, 5);
+        $this->mock->foo(1, 3, 5, 2, 4);
+        $this->mock->foo(1, 'foo', 3, 'bar', 5);
+        $this->mock->foo(1, 3, 5);
+        $this->mock->shouldReceive('foo')->withSomeOfArgs('foo')->times(2);
+        $this->mock->foo('foo', 'bar');
+        $this->mock->foo('bar', 'foo');
+    }
+
+    /**
+     * @expectedException \Mockery\Exception\NoMatchingExpectationException
+     */
+    public function testExpectsSomeOfArgumentsGivenArgsDoNotMatchRealArgsAndThrowNoMatchingException()
+    {
+        $this->mock->shouldReceive('foo')->withSomeOfArgs(1, 3, 5);
+        $this->mock->foo(1, 2, 4, 5);
+    }
+
     public function testExpectsAnyArguments()
     {
         $this->mock->shouldReceive('foo')->withAnyArgs();
