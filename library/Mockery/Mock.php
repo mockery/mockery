@@ -675,8 +675,7 @@ class Mock implements MockInterface
             return call_user_func_array("parent::$method", $args);
         }
 
-        if (isset($this->_mockery_expectations[$method])
-        && !$this->_mockery_disableExpectationMatching) {
+        if (isset($this->_mockery_expectations[$method]) && !$this->_mockery_disableExpectationMatching) {
             $handler = $this->_mockery_expectations[$method];
 
             try {
@@ -754,5 +753,19 @@ class Mock implements MockInterface
                 return !$method->isPublic();
             })
         );
+    }
+
+    /**
+     * Called when an instance Mock was created and its constructor is getting called
+     *
+     * @see \Mockery\Generator\StringManipulation\Pass\InstanceMockPass
+     * @param array $args
+     */
+    protected function _mockery_constructorCalled(array $args)
+    {
+        if (!isset($this->_mockery_expectations['__construct']) /* _mockery_handleMethodCall runs the other checks */) {
+            return;
+        }
+        $this->_mockery_handleMethodCall('__construct', $args);
     }
 }
