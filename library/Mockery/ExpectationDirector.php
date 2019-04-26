@@ -32,7 +32,7 @@ class ExpectationDirector
     /**
      * Mock object the director is attached to
      *
-     * @var \Mockery\MockInterface
+     * @var \Mockery\MockInterface|\Mockery\LegacyMockInterface
      */
     protected $_mock = null;
 
@@ -61,9 +61,9 @@ class ExpectationDirector
      * Constructor
      *
      * @param string $name
-     * @param \Mockery\MockInterface $mock
+     * @param \Mockery\LegacyMockInterface $mock
      */
-    public function __construct($name, \Mockery\MockInterface $mock)
+    public function __construct($name, \Mockery\LegacyMockInterface $mock)
     {
         $this->_name = $name;
         $this->_mock = $mock;

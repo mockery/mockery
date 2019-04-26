@@ -26,6 +26,23 @@ use Mockery\Spy;
 use Mockery\Exception\InvalidCountException;
 use PHPUnit\Framework\TestCase;
 
+class ClassWithAllowsMethod
+{
+    public function allows()
+    {
+        return 123;
+    }
+}
+    
+class ClassWithExpectsMethod
+{
+    public function expects()
+    {
+        return 123;
+    }
+}
+
+
 class AllowsExpectsSyntaxTest extends TestCase
 {
     /** @test */
@@ -107,5 +124,25 @@ class AllowsExpectsSyntaxTest extends TestCase
         $mock->foo(123);
 
         m::close();
+    }
+
+    /** @test */
+    public function generateSkipsAllowsMethodIfAlreadyExists()
+    {
+        $stub = m::mock("test\Mockery\ClassWithAllowsMethod");
+    
+        $stub->shouldReceive('allows')->andReturn(123);
+    
+        $this->assertEquals(123, $stub->allows());
+    }
+    
+    /** @test */
+    public function generateSkipsExpectsMethodIfAlreadyExists()
+    {
+        $stub = m::mock("test\Mockery\ClassWithExpectsMethod");
+    
+        $stub->shouldReceive('expects')->andReturn(123);
+    
+        $this->assertEquals(123, $stub->expects());
     }
 }

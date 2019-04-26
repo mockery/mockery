@@ -22,6 +22,7 @@ namespace Mockery;
 
 use Mockery\HigherOrderMessage;
 use Mockery\MockInterface;
+use Mockery\LegacyMockInterface;
 use Mockery\ExpectsHigherOrderMessage;
 use Mockery\Exception\BadMethodCallException;
 
@@ -229,6 +230,7 @@ class Mock implements MockInterface
         return $lastExpectation;
     }
 
+    // start method allows
     /**
      * @param mixed $something  String method name or map of method => return
      * @return self|\Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
@@ -249,7 +251,10 @@ class Mock implements MockInterface
 
         return $this;
     }
+    // end method allows
 
+    // start method expects
+    /**
     /**
      * @param mixed $something  String method name (optional)
      * @return \Mockery\ExpectationInterface|\Mockery\Expectation|ExpectsHigherOrderMessage
@@ -262,6 +267,7 @@ class Mock implements MockInterface
 
         return new ExpectsHigherOrderMessage($this);
     }
+    // end method expects
 
     /**
      * Shortcut method for setting an expectation that a method should not be called.
@@ -644,7 +650,7 @@ class Mock implements MockInterface
         $interfaces = array_filter($rfc->getInterfaces(), function ($i) {
             return $i->getName() !== "Stringish";
         });
-        $onlyImplementsMock = 1 == count($interfaces);
+        $onlyImplementsMock = 2 == count($interfaces);
 
         return (false === $rfc->getParentClass()) && $onlyImplementsMock;
     }

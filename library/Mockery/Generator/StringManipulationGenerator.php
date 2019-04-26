@@ -33,6 +33,7 @@ use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPa
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
 use Mockery\Generator\StringManipulation\Pass\TraitPass;
+use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
 
 class StringManipulationGenerator implements Generator
 {
@@ -53,6 +54,7 @@ class StringManipulationGenerator implements Generator
             new ClassNamePass(),
             new InstanceMockPass(),
             new InterfacePass(),
+            new AvoidMethodClashPass(),
             new MethodDefinitionPass(),
             new RemoveUnserializeForInternalSerializableClassesPass(),
             new RemoveBuiltinMethodsThatAreFinalPass(),

@@ -30,7 +30,7 @@ class NoMatchingExpectationException extends Mockery\Exception
 
     protected $mockObject = null;
 
-    public function setMock(Mockery\MockInterface $mock)
+    public function setMock(Mockery\LegacyMockInterface $mock)
     {
         $this->mockObject = $mock;
         return $this;

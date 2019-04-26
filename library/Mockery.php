@@ -111,7 +111,7 @@ class Mockery
      *
      * @param mixed ...$args
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
      */
     public static function mock(...$args)
     {
@@ -124,7 +124,7 @@ class Mockery
      *
      * @param mixed ...$args
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
      */
     public static function spy(...$args)
     {
@@ -140,7 +140,7 @@ class Mockery
      *
      * @param mixed ...$args
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
      */
     public static function instanceMock(...$args)
     {
@@ -152,7 +152,7 @@ class Mockery
      *
      * @param mixed ...$args
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
      */
     public static function namedMock(...$args)
     {
@@ -171,7 +171,7 @@ class Mockery
      *
      * @throws LogicException
      *
-     * @return \Mockery\MockInterface
+     * @return \Mockery\MockInterface|\Mockery\LegacyMockInterface
      */
     public static function self()
     {
@@ -732,12 +732,12 @@ class Mockery
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
      *
-     * @param Mockery\MockInterface $mock
+     * @param Mockery\LegacyMockInterface $mock
      * @param array ...$args
      * @param callable $add
      * @return \Mockery\CompositeExpectation
      */
-    public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
+    public static function parseShouldReturnArgs(\Mockery\LegacyMockInterface $mock, $args, $add)
     {
         $composite = new \Mockery\CompositeExpectation();
 
@@ -760,13 +760,13 @@ class Mockery
      * Sets up expectations on the members of the CompositeExpectation and
      * builds up any demeter chain that was passed to shouldReceive.
      *
-     * @param \Mockery\MockInterface $mock
+     * @param \Mockery\LegacyMockInterface $mock
      * @param string $arg
      * @param callable $add
      * @throws Mockery\Exception
      * @return \Mockery\ExpectationInterface
      */
-    protected static function buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
+    protected static function buildDemeterChain(\Mockery\LegacyMockInterface $mock, $arg, $add)
     {
         /** @var Mockery\Container $container */
         $container = $mock->mockery_getContainer();
