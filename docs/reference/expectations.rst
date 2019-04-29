@@ -135,6 +135,32 @@ arguments make the closure evaluate to true:
     $mock->foo(4); // matches the expectation
     $mock->foo(3); // throws a NoMatchingExpectationException
 
+Argument matching with some of given values
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We can provide expected arguments that match passed arguments when mocked method
+is called.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->withSomeOfArgs(arg1, arg2, arg3, ...);
+
+The given expected arguments order doesn't matter.
+Check if expected values are inclued or not, but type should be matched:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('foo')
+        ->withSomeOfArgs(1, 2);
+
+    $mock->foo(1, 2, 3);  // matches the expectation
+    $mock->foo(3, 2, 1);  // matches the expectation (passed order doesn't matter)
+    $mock->foo('1', '2'); // throws a NoMatchingExpectationException (type should be matched) 
+    $mock->foo(3);        // throws a NoMatchingExpectationException 
+
 Any, or no arguments
 ^^^^^^^^^^^^^^^^^^^^
 
