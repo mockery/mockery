@@ -19,7 +19,7 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace test\Mockery\Fixtures;
+namespace MockeryTest\Fixtures;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 

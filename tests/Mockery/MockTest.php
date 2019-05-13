@@ -152,6 +152,14 @@ class Mockery_MockTest extends MockeryTestCase
         $exception = Mockery::mock('Exception');
         $this->assertInstanceOf('Exception', $exception);
     }
+
+    public function testCanMockCloneMethod()
+    {
+        self::assertInstanceOf(
+            'MockeryTest\Fixtures\CloneInterface',
+            Mockery::mock('MockeryTest\Fixtures\CloneInterface')
+        );
+    }
 }
 
 
