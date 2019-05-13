@@ -482,6 +482,24 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Expected arguments should partially match the real arguments
+     *
+     * @param mixed[] ...$expectedArgs
+     * @return self
+     */
+    public function withSomeOfArgs(...$expectedArgs)
+    {
+        return $this->withArgs(function (...$args) use ($expectedArgs) {
+            foreach ($expectedArgs as $expectedArg) {
+                if (!in_array($expectedArg, $args, true)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
+    /**
      * Set a return value, or sequential queue of return values
      *
      * @param mixed[] ...$args
