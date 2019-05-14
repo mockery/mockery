@@ -16,19 +16,13 @@ so it can be documented and resolved where possible. Here is a list to note:
    to mock a ``__wakeup()`` method as normal leads to a
    ``BadMethodCallException`` being thrown.
 
-2. Classes using non-real methods, i.e. where a method call triggers a
-   ``__call()`` method, will throw an exception that the non-real method does
-   not exist unless you first define at least one expectation (a simple
-   ``shouldReceive()`` call would suffice). This is necessary since there is
-   no other way for Mockery to be aware of the method name.
-
-3. Mockery has two scenarios where real classes are replaced: Instance mocks
+2. Mockery has two scenarios where real classes are replaced: Instance mocks
    and alias mocks. Both will generate PHP fatal errors if the real class is
    loaded, usually via a require or include statement. Only use these two mock
    types where autoloading is in place and where classes are not explicitly
    loaded on a per-file basis using ``require()``, ``require_once()``, etc.
 
-4. Internal PHP classes are not entirely capable of being fully analysed using
+3. Internal PHP classes are not entirely capable of being fully analysed using
    ``Reflection``. For example, ``Reflection`` cannot reveal details of
    expected parameters to the methods of such internal classes. As a result,
    there will be problems where a method parameter is defined to accept a
@@ -37,7 +31,7 @@ so it can be documented and resolved where possible. Here is a list to note:
    method parameters are needed, you should use the
    ``\Mockery\Configuration::setInternalClassMethodParamMap()`` method.
 
-5. Creating a mock implementing a certain interface with incorrect case in the
+4. Creating a mock implementing a certain interface with incorrect case in the
    interface name, and then creating a second mock implementing the same
    interface, but this time with the correct case, will have undefined behavior
    due to PHP's ``class_exists`` and related functions being case insensitive.

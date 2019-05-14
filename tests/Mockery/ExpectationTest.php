@@ -464,12 +464,10 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo('bar', 'foo');
     }
 
-    /**
-     * @expectedException \Mockery\Exception\NoMatchingExpectationException
-     */
     public function testExpectsSomeOfArgumentsGivenArgsDoNotMatchRealArgsAndThrowNoMatchingException()
     {
         $this->mock->shouldReceive('foo')->withSomeOfArgs(1, 3, 5);
+        $this->expectException(\Mockery\Exception\NoMatchingExpectationException::class);
         $this->mock->foo(1, 2, 4, 5);
     }
 
@@ -1895,6 +1893,13 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals('bar', $mock->foo());
     }
 
+    public function testPassthruCallMagic()
+    {
+        $mock = mock('Mockery_Magic');
+        $mock->shouldReceive('theAnswer')->once()->passthru();
+        $this->assertSame(42, $mock->theAnswer());
+    }
+
     public function testShouldIgnoreMissingExpectationBasedOnArgs()
     {
         $mock = mock("MyService2")->shouldIgnoreMissing();
@@ -2126,5 +2131,13 @@ class MockeryTest_Foo
 {
     public function foo()
     {
+    }
+}
+
+class Mockery_Magic
+{
+    public function __call($method, $args)
+    {
+        return 42;
     }
 }

@@ -628,6 +628,9 @@ class Mock implements MockInterface
      */
     public function mockery_callSubjectMethod($name, array $args)
     {
+        if (!method_exists($this, $name) && method_exists(get_parent_class($this), '__call')) {
+            return call_user_func('parent::__call', $name, $args);
+        }
         return call_user_func_array('parent::' . $name, $args);
     }
 
@@ -870,11 +873,15 @@ class Mock implements MockInterface
             }
         }
 
-        if (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) {
+        if (!is_null($this->_mockery_partial) &&
+            (method_exists($this->_mockery_partial, $method) || method_exists($this->_mockery_partial, '__call'))
+        ) {
             return call_user_func_array(array($this->_mockery_partial, $method), $args);
         } elseif ($this->_mockery_deferMissing && is_callable("parent::$method")
             && (!$this->hasMethodOverloadingInParentClass() || method_exists(get_parent_class($this), $method))) {
             return call_user_func_array("parent::$method", $args);
+        } elseif ($this->_mockery_deferMissing && method_exists(get_parent_class($this), '__call')) {
+            return call_user_func('parent::__call', $method, $args);
         } elseif ($method == '__toString') {
             // __toString is special because we force its addition to the class API regardless of the
             // original implementation.  Thus, we should always return a string rather than honor
