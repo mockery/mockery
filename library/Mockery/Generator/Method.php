@@ -54,7 +54,7 @@ class Method
         }
 
         if (version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $this->method->hasReturnType()) {
-            $returnType = (string) $this->method->getReturnType();
+            $returnType = PHP_VERSION_ID >= 70100 ? $this->method->getReturnType()->getName() : (string) $this->method->getReturnType();
 
             if ('self' === $returnType) {
                 $returnType = "\\".$this->method->getDeclaringClass()->getName();

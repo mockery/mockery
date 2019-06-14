@@ -606,7 +606,7 @@ class Mock implements MockInterface
     public function __isset($name)
     {
         if (false === stripos($name, '_mockery_') && method_exists(get_parent_class($this), '__isset')) {
-            return parent::__isset($name);
+            return call_user_func('parent::__isset', array($name));
         }
 
         return false;
@@ -706,7 +706,7 @@ class Mock implements MockInterface
             return null;
         }
 
-        $type = (string) $returnType;
+        $type = PHP_VERSION_ID >= 70100 ? $returnType->getName() : (string) $returnType;
         switch ($type) {
             case '':       return;
             case 'string': return '';

@@ -858,7 +858,8 @@ class Mockery
                 if ($parRefMethodRetType !== null) {
                     $nameBuilder = new MockNameBuilder();
                     $nameBuilder->addPart('\\' . $newMockName);
-                    $mock = self::namedMock($nameBuilder->build(), (string) $parRefMethodRetType);
+                    $type = PHP_VERSION_ID >= 70100 ? $parRefMethodRetType->getName() : (string)$parRefMethodRetType;
+                    $mock = self::namedMock($nameBuilder->build(), $type);
                     $exp->andReturn($mock);
 
                     return $mock;
