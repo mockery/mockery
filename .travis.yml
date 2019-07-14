@@ -42,6 +42,12 @@ matrix:
     - php: 7.3
       env:
         - DEPS=latest
+    - php: 7.4snapshot
+      env:
+        - DEPS=lowest
+    - php: 7.4snapshot
+      env:
+        - DEPS=latest
     - php: nightly
       env:
         - DEPS=lowest
