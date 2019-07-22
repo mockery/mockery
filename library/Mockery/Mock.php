@@ -606,7 +606,7 @@ class Mock implements MockInterface
     public function __isset($name)
     {
         if (false === stripos($name, '_mockery_') && method_exists(get_parent_class($this), '__isset')) {
-            return call_user_func('parent::__isset', array($name));
+            return call_user_func('parent::__isset', $name);
         }
 
         return false;
