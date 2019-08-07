@@ -1,6 +1,14 @@
 # Change Log
 
+## 1.2.4 (YYYY-MM-DD)
+
+## 1.2.3 (2019-08-07)
+
+* Allow mocking classes that have allows and expects methods (#868)
 * Allow passing thru __call method in all mock types (experimental) (#969)
+* Add support for `!` to blacklist methods (#959)
+* Added `withSomeOfArgs` to partial match a list of args (#967)
+* Fix chained demeter calls with type hint (#956)
 
 ## 1.2.2 (2019-02-13)
 
