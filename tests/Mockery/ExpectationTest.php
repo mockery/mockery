@@ -1276,14 +1276,14 @@ class ExpectationTest extends MockeryTestCase
 
     public function testRealConstraintMatchesArgument()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::type('real'))->once();
+        $this->mock->shouldReceive('foo')->with(Mockery::type('float'))->once();
         $this->mock->foo(2.25);
     }
 
     public function testRealConstraintNonMatchingCase()
     {
         $this->mock->shouldReceive('foo')->times(3);
-        $this->mock->shouldReceive('foo')->with(1, Mockery::type('real'))->never();
+        $this->mock->shouldReceive('foo')->with(1, Mockery::type('float'))->never();
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 2, 3);
@@ -1291,7 +1291,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testRealConstraintThrowsExceptionWhenConstraintUnmatched()
     {
-        $this->mock->shouldReceive('foo')->with(Mockery::type('real'));
+        $this->mock->shouldReceive('foo')->with(Mockery::type('float'));
         $this->expectException(\Mockery\Exception::class);
         $this->mock->foo('f');
         Mockery::close();
