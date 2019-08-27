@@ -468,6 +468,13 @@ class ContainerTest extends MockeryTestCase
         $m->shouldReceive('bar')->andReturn('test')->once();
         $this->assertSame('test', $m->bar());
     }
+    /**
+     * @group partial
+     */
+    public function testCanUseEmptyMethodlist()
+    {
+        $m = mock('MockeryTest_PartialNormalClass2[]');
+    }
 
     /**
      * @group issue/4

@@ -152,7 +152,7 @@ class Container
                 $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
                 $builder->addTarget($class);
                 foreach ($partialMethods as $partialMethod) {
-                    if ($partialMethod[0] === '!') {
+                    if (!empty($partialMethod) && $partialMethod[0] === '!') {
                         $builder->addBlackListedMethod(substr($partialMethod, 1));
                         continue;
                     }
