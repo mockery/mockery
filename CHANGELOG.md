@@ -1,6 +1,7 @@
 # Change Log
 
 ## 1.2.4 (YYYY-MM-DD)
+* Added `andReturnArgument` to echo back an argument passed to a an expectation (#992)
 
 ## 1.2.3 (2019-08-07)
 
