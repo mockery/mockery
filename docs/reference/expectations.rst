@@ -262,9 +262,23 @@ method which accepts one or more closure:
 
 Closures can be queued by passing them as extra parameters as for ``andReturn()``.
 
+Occasionally, it can be useful to echo back one of the arguments that a method
+is called with. In this case we can use the ``andReturnArgument()`` method; the
+argument to be returned is specified by its index in the arguments list:
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive('name_of_method')
+        ->andReturnArgument(1);
+
+This returns the second argument (index #1) from the list of arguments when the
+method is called.
+
 .. note::
 
-    We cannot currently mix ``andReturnUsing()`` with ``andReturn()``.
+    We cannot currently mix ``andReturnUsing()`` or ``andReturnArgument`` with
+    ``andReturn()``.
 
 If we are mocking fluid interfaces, the following method will be helpful:
 
