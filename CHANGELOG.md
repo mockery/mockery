@@ -2,6 +2,8 @@
 
 ## 1.2.4 (YYYY-MM-DD)
 
+* Fix a bug introduced with previous release, for empty method definition lists (#1009)
+
 ## 1.2.3 (2019-08-07)
 
 * Allow mocking classes that have allows and expects methods (#868)
