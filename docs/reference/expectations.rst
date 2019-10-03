@@ -285,7 +285,7 @@ We can tell the method of mock objects to throw exceptions:
 
     $mock = \Mockery::mock('MyClass');
     $mock->shouldReceive('name_of_method')
-        ->andThrow(Exception);
+        ->andThrow(new Exception);
 
 It will throw the given ``Exception`` object when called.
 
