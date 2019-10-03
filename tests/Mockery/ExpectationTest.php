@@ -179,6 +179,27 @@ class ExpectationTest extends MockeryTestCase
         $this->assertNull($this->mock->bar);
     }
 
+    /**
+     * @group issue/1005
+     */
+    public function testSetsPublicPropertiesCorrectlyForDifferentInstancesOfSameClass()
+    {
+        $mockInstanceOne = mock('MockeryTest_Foo');
+        $mockInstanceTwo = mock('MockeryTest_Foo');
+
+        $mockInstanceOne->shouldReceive('foo')
+            ->andSet('bar', 'baz');
+
+        $mockInstanceTwo->shouldReceive('foo')
+            ->andSet('bar', 'bazz');
+
+        $mockInstanceOne->foo();
+        $mockInstanceTwo->foo();
+
+        $this->assertEquals('baz', $mockInstanceOne->bar);
+        $this->assertEquals('bazz', $mockInstanceTwo->bar);
+    }
+
     public function testReturnsSameValueForAllIfNoArgsExpectationAndSomeGiven()
     {
         $this->mock->shouldReceive('foo')->andReturn(1);
