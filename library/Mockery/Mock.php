@@ -156,15 +156,18 @@ class Mock implements MockInterface
      */
     protected $_mockery_thrownExceptions = [];
 
+    protected $_mockery_instanceMock = true;
+
     /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
      *
      * @param \Mockery\Container $container
      * @param object $partialObject
+     * @param bool $instanceMock
      * @return void
      */
-    public function mockery_init(\Mockery\Container $container = null, $partialObject = null)
+    public function mockery_init(\Mockery\Container $container = null, $partialObject = null, $instanceMock = true)
     {
         if (is_null($container)) {
             $container = new \Mockery\Container;
@@ -181,6 +184,8 @@ class Mock implements MockInterface
                 }
             }
         }
+
+        $this->_mockery_instanceMock = $instanceMock;
     }
 
     /**
@@ -656,6 +661,11 @@ class Mock implements MockInterface
         $onlyImplementsMock = 2 == count($interfaces);
 
         return (false === $rfc->getParentClass()) && $onlyImplementsMock;
+    }
+
+    public function mockery_isInstance()
+    {
+        return $this->_mockery_instanceMock;
     }
 
     public function __wakeup()
