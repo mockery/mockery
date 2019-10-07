@@ -222,20 +222,20 @@ class ExpectationTest extends MockeryTestCase
     {
         $args = [1, 2, 3, 4, 5];
         $index = 2;
-        $this->mock->shouldReceive('foo')->withArgs($args)->andReturnArgument($index);
+        $this->mock->shouldReceive('foo')->withArgs($args)->andReturnArg($index);
         $this->assertEquals($args[$index], $this->mock->foo(...$args));
     }
 
     public function testExceptionOnInvalidArgumentIndexValue()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->mock->shouldReceive('foo')->andReturnArgument("invalid");
+        $this->mock->shouldReceive('foo')->andReturnArg("invalid");
     }
 
     public function testExceptionOnArgumentIndexOutOfRange()
     {
         $this->expectException(\Mockery\Exception::class);
-        $this->mock->shouldReceive('foo')->andReturnArgument(2);
+        $this->mock->shouldReceive('foo')->andReturnArg(2);
         $this->mock->foo(0, 1); // only pass 2 arguments so index #2 won't exist
     }
 

@@ -564,7 +564,7 @@ class Expectation implements ExpectationInterface
      * @param int $index
      * @return self
      */
-    public function andReturnArgument($index)
+    public function andReturnArg($index)
     {
         if (!is_int($index) || $index < 0) {
             throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a positive integer.");
