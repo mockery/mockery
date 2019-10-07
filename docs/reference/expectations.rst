@@ -7,7 +7,7 @@ Expectation Declarations
 .. note::
 
     In order for our expectations to work we MUST call ``Mockery::close()``,
-    preferably in a callback method such as ``tearDown`` or ``_before``
+    preferably in a callback method such as ``tearDown`` or ``_after``
     (depending on whether or not we're integrating Mockery with another
     framework). This static call cleans up the Mockery container used by the
     current test, and run any verification tasks needed for our expectations.
