@@ -234,7 +234,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testExceptionOnArgumentIndexOutOfRange()
     {
-        $this->expectException(\Mockery\Exception::class);
+        $this->expectException(\OutOfBoundsException::class);
         $this->mock->shouldReceive('foo')->andReturnArg(2);
         $this->mock->foo(0, 1); // only pass 2 arguments so index #2 won't exist
     }

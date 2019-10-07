@@ -573,7 +573,7 @@ class Expectation implements ExpectationInterface
             if (isset($args[$index])) {
                 return $args[$index];
             }
-            throw new Exception("Cannot return an argument value. No argument exists for the index $index");
+            throw new \OutOfBoundsException("Cannot return an argument value. No argument exists for the index $index");
         };
 
         $this->_closureQueue = [$closure];
