@@ -570,7 +570,7 @@ class Expectation implements ExpectationInterface
             throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a positive integer.");
         }
         $closure = function (...$args) use ($index) {
-            if (isset($args[$index])) {
+            if (array_key_exists($index, $args)) {
                 return $args[$index];
             }
             throw new \OutOfBoundsException("Cannot return an argument value. No argument exists for the index $index");

@@ -226,6 +226,14 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals($args[$index], $this->mock->foo(...$args));
     }
 
+    public function testReturnsNullArgument()
+    {
+        $args = [1, null, 3];
+        $index = 1;
+        $this->mock->shouldReceive('foo')->withArgs($args)->andReturnArg($index);
+        $this->assertNull($this->mock->foo(...$args));
+    }
+
     public function testExceptionOnInvalidArgumentIndexValue()
     {
         $this->expectException(\InvalidArgumentException::class);
