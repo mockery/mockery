@@ -559,6 +559,28 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Sets up a closure to return the nth argument from the expected method call
+     *
+     * @param int $index
+     * @return self
+     */
+    public function andReturnArg($index)
+    {
+        if (!is_int($index) || $index < 0) {
+            throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a positive integer.");
+        }
+        $closure = function (...$args) use ($index) {
+            if (array_key_exists($index, $args)) {
+                return $args[$index];
+            }
+            throw new \OutOfBoundsException("Cannot return an argument value. No argument exists for the index $index");
+        };
+
+        $this->_closureQueue = [$closure];
+        return $this;
+    }
+
+    /**
      * Return a self-returning black hole object.
      *
      * @return self

@@ -2,6 +2,8 @@
 
 ## 1.2.5 (XXXX-XX-XX)
 
+* Added `andReturnArg` to echo back an argument passed to a an expectation (#992)
+
 ## 1.2.4 (2019-09-30)
 
 * Fix a bug introduced with previous release, for empty method definition lists (#1009)

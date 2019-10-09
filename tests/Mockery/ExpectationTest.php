@@ -218,6 +218,35 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals(6, $this->mock->foo(5));
     }
 
+    public function testReturnsValueOfArgument()
+    {
+        $args = [1, 2, 3, 4, 5];
+        $index = 2;
+        $this->mock->shouldReceive('foo')->withArgs($args)->andReturnArg($index);
+        $this->assertEquals($args[$index], $this->mock->foo(...$args));
+    }
+
+    public function testReturnsNullArgument()
+    {
+        $args = [1, null, 3];
+        $index = 1;
+        $this->mock->shouldReceive('foo')->withArgs($args)->andReturnArg($index);
+        $this->assertNull($this->mock->foo(...$args));
+    }
+
+    public function testExceptionOnInvalidArgumentIndexValue()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->mock->shouldReceive('foo')->andReturnArg("invalid");
+    }
+
+    public function testExceptionOnArgumentIndexOutOfRange()
+    {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->mock->shouldReceive('foo')->andReturnArg(2);
+        $this->mock->foo(0, 1); // only pass 2 arguments so index #2 won't exist
+    }
+
     public function testReturnsUndefined()
     {
         $this->mock->shouldReceive('foo')->andReturnUndefined();
