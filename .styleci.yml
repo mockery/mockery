@@ -5,3 +5,6 @@ finder:
     - MethodWithHHVMReturnType.php
     - MockingParameterAndReturnTypesTest.php
     - SemiReservedWordsAsMethods.php
+
+disabled:
+  - braces
