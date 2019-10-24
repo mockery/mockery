@@ -224,12 +224,14 @@ class Expectation implements ExpectationInterface
     {
         $mockClass = get_class($this->_mock);
         $container = $this->_mock->mockery_getContainer();
+        /** @var Mock[] $mocks */
         $mocks = $container->getMocks();
         foreach ($this->_setQueue as $name => &$values) {
             if (count($values) > 0) {
                 $value = array_shift($values);
+                $this->_mock->{$name} = $value;
                 foreach ($mocks as $mock) {
-                    if (is_a($mock, $mockClass)) {
+                    if (is_a($mock, $mockClass) && $mock->mockery_isInstance()) {
                         $mock->{$name} = $value;
                     }
                 }
