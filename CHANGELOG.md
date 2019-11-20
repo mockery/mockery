@@ -2,6 +2,7 @@
 
 ## 1.2.5 (XXXX-XX-XX)
 
+* Added capture `Mockery::capture` convenience matcher (#1020)
 * Added `andReturnArg` to echo back an argument passed to a an expectation (#992)
 
 ## 1.2.4 (2019-09-30)
