@@ -1555,6 +1555,25 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
+    public function testCaptureStoresArgumentOfTypeScalar_ClosureEvaluatesToTrue()
+    {
+        $temp = null;
+        $this->mock->shouldReceive('foo')->with(Mockery::capture($temp))->once();
+        $this->mock->foo(4);
+
+        $this->assertSame(4, $temp);
+    }
+
+    public function testCaptureStoresArgumentOfTypeArgument_ClosureEvaluatesToTrue()
+    {
+        $object = new stdClass();
+        $temp = null;
+        $this->mock->shouldReceive('foo')->with(Mockery::capture($temp))->once();
+        $this->mock->foo($object);
+
+        $this->assertSame($object, $temp);
+    }
+
     public function testOnConstraintMatchesArgument_ClosureEvaluatesToTrue()
     {
         $function = function ($arg) {

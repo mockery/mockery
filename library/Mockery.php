@@ -435,6 +435,23 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
+     * @param $reference
+     *
+     * @return \Mockery\Matcher\Closure
+     */
+    public static function capture(&$reference)
+    {
+        $closure = function ($argument) use (&$reference) {
+            $reference = $argument;
+            return true;
+        };
+
+        return new \Mockery\Matcher\Closure($closure);
+    }
+
+    /**
+     * Return instance of CLOSURE matcher.
+     *
      * @param mixed $closure
      *
      * @return \Mockery\Matcher\Closure
