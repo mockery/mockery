@@ -1,9 +1,11 @@
 # Change Log
 
-## 1.2.5 (XXXX-XX-XX)
+## 1.3.0 (2019-11-24)
 
 * Added capture `Mockery::capture` convenience matcher (#1020)
 * Added `andReturnArg` to echo back an argument passed to a an expectation (#992)
+* Improved exception debugging (#1000)
+* Fixed `andSet` to not reuse properties between mock objects (#1012)
 
 ## 1.2.4 (2019-09-30)
 
