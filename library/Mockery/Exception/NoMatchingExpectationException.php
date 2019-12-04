@@ -129,6 +129,14 @@ class NoMatchingExpectationException extends Mockery\Exception
     }
 
     /**
+     * @return array
+     */
+    public function getActualArguments()
+    {
+        return $this->actual;
+    }
+
+    /**
      * @return Mockery\MockInterface
      */
     private function getMock()
