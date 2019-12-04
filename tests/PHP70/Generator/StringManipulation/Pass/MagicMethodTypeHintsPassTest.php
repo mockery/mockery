@@ -28,6 +28,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\DefinedTargetClass;
 use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 
+/**
+ * @requires PHP 7.0.0-dev
+ */
 class MagicMethodTypeHintsPassTest extends MockeryTestCase
 {
     /**
