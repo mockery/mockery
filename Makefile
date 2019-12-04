@@ -20,10 +20,14 @@ docs/api/index.html: vendor/composer/installed.json $(library_files) phpDocument
 	php phpDocumentor.phar run -d library -t docs/api
 
 .PHONY: test-all
-test-all: test-73 test-72 test-71 test-70 test-56
+test-all: test-74 test-73 test-72 test-71 test-70 test-56
 
 .PHONY: test-all-7
-test-all-7: test-73 test-72 test-71 test-70
+test-all-7: test-74 test-73 test test-71 test-70
+
+.PHONY: test-74
+test-74: deps
+	docker run -it --rm -v "$$PWD":/opt/mockery -w /opt/mockery php:7.4-cli php vendor/bin/phpunit
 
 .PHONY: test-73
 test-73: deps
