@@ -1,11 +1,8 @@
-sudo: false
-
 language: php
 
 matrix:
   allow_failures:
-    - php: hhvm
-    - php: 7.4snapshot
+    - php: hhvm-3.18
     - php: nightly
   fast_finish: true
   include:
@@ -43,10 +40,10 @@ matrix:
     - php: 7.3
       env:
         - DEPS=latest
-    - php: 7.4snapshot
+    - php: 7.4
       env:
         - DEPS=lowest
-    - php: 7.4snapshot
+    - php: 7.4
       env:
         - DEPS=latest
     - php: nightly
@@ -55,10 +52,10 @@ matrix:
     - php: nightly
       env:
         - DEPS=latest
-    - php: hhvm
+    - php: hhvm-3.18
       env:
         - DEPS=lowest
-    - php: hhvm
+    - php: hhvm-3.18
       env:
         - DEPS=latest
 
