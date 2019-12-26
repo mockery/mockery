@@ -1436,7 +1436,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->with(Mockery::type('stdClass'));
         $this->expectException(\Mockery\Exception::class);
-        $this->mock->foo(new \DateTime());
+        $this->mock->foo(new Exception);
         Mockery::close();
     }
 
