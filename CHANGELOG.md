@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.3.1 (2019-12-26)
+* Revert improved exception debugging due to BC breaks (#1032)
+
 ## 1.3.0 (2019-11-24)
 
 * Added capture `Mockery::capture` convenience matcher (#1020)
