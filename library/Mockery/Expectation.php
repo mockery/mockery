@@ -911,12 +911,4 @@ class Expectation implements ExpectationInterface
     {
         return $this->_because;
     }
-
-    /**
-     * @return array
-     */
-    public function getExpectedArgs()
-    {
-        return $this->_expectedArgs;
-    }
 }
