@@ -1,11 +1,7 @@
-sudo: false
-
 language: php
 
 matrix:
   allow_failures:
-    - php: hhvm
-    - php: 7.4snapshot
     - php: nightly
   fast_finish: true
   include:
@@ -43,24 +39,20 @@ matrix:
     - php: 7.3
       env:
         - DEPS=latest
-    - php: 7.4snapshot
+    - php: 7.4
       env:
         - DEPS=lowest
-    - php: 7.4snapshot
+    - php: 7.4
       env:
         - DEPS=latest
     - php: nightly
       env:
         - DEPS=lowest
+        - COMPOSER_FLAGS="--ignore-platform-reqs"
     - php: nightly
       env:
         - DEPS=latest
-    - php: hhvm
-      env:
-        - DEPS=lowest
-    - php: hhvm
-      env:
-        - DEPS=latest
+        - COMPOSER_FLAGS="--ignore-platform-reqs"
 
 cache:
   directories:
@@ -71,8 +63,8 @@ before_install:
 
 install:
   - if [[ $PHPUNIT == 'minimum' ]]; then sed -i 's/~5.7|/5.4.*|/g' ./composer.json ; fi
-  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction ; fi
-  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
+  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction $COMPOSER_FLAGS ; fi
+  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction $COMPOSER_FLAGS ; fi
 
 before_script:
   # Install extensions for PHP 5.x series. 7.x includes them by default.
