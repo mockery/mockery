@@ -25,6 +25,9 @@ namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
+/**
+ * @requires PHP 7.0.0-dev
+ */
 class MockingParameterAndReturnTypesTest extends MockeryTestCase
 {
     public function testMockingStringReturnType()
