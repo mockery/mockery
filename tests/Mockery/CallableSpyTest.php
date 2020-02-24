@@ -29,7 +29,7 @@ class CallableSpyTest extends MockeryTestCase
     /** @test */
     public function it_verifies_the_closure_was_called()
     {
-        $spy = spy(function() {});
+        $spy = spy(function () {});
 
         $spy();
 
@@ -39,7 +39,7 @@ class CallableSpyTest extends MockeryTestCase
     /** @test */
     public function it_throws_if_the_callable_was_not_called_at_all()
     {
-        $spy = spy(function() {});
+        $spy = spy(function () {});
 
         $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled();
@@ -48,7 +48,7 @@ class CallableSpyTest extends MockeryTestCase
     /** @test */
     public function it_throws_if_there_were_no_arguments_but_we_expected_some()
     {
-        $spy = spy(function() {});
+        $spy = spy(function () {});
 
         $spy();
 
@@ -59,7 +59,7 @@ class CallableSpyTest extends MockeryTestCase
     /** @test */
     public function it_throws_if_the_arguments_do_not_match()
     {
-        $spy = spy(function() {});
+        $spy = spy(function () {});
 
         $spy(123);
 
