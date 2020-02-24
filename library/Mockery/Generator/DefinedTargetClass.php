@@ -23,20 +23,22 @@ namespace Mockery\Generator;
 class DefinedTargetClass implements TargetClassInterface
 {
     private $rfc;
+    private $name;
 
-    public function __construct(\ReflectionClass $rfc)
+    public function __construct(\ReflectionClass $rfc, $alias = null)
     {
         $this->rfc = $rfc;
+        $this->name = $alias === null ? $rfc->getName() : $alias;
     }
 
-    public static function factory($name)
+    public static function factory($name, $alias = null)
     {
-        return new self(new \ReflectionClass($name));
+        return new self(new \ReflectionClass($name), $alias);
     }
 
     public function getName()
     {
-        return $this->rfc->getName();
+        return $this->name;
     }
 
     public function isAbstract()
