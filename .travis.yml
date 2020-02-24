@@ -54,13 +54,6 @@ matrix:
         - DEPS=latest
         - COMPOSER_FLAGS="--ignore-platform-reqs"
 
-cache:
-  directories:
-    - .composer/cache
-
-before_install:
-  - alias composer=composer\ -n && composer self-update
-
 install:
   - if [[ $PHPUNIT == 'minimum' ]]; then sed -i 's/~5.7|/5.4.*|/g' ./composer.json ; fi
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction $COMPOSER_FLAGS ; fi
