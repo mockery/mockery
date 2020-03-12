@@ -1,10 +1,7 @@
-preset: psr2
+preset: psr12
 
 finder:
   not-name:
     - MethodWithHHVMReturnType.php
     - MockingParameterAndReturnTypesTest.php
     - SemiReservedWordsAsMethods.php
-
-disabled:
-  - braces
