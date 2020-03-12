@@ -455,7 +455,7 @@ class Expectation implements ExpectationInterface
         } elseif ($argsOrClosure instanceof Closure) {
             $this->withArgsMatchedByClosure($argsOrClosure);
         } else {
-            throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and '.
+            throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and ' .
                 'closure are allowed', __METHOD__, $argsOrClosure));
         }
         return $this;
@@ -589,7 +589,7 @@ class Expectation implements ExpectationInterface
      */
     public function andReturnUndefined()
     {
-        $this->andReturn(new \Mockery\Undefined);
+        $this->andReturn(new \Mockery\Undefined());
         return $this;
     }
 

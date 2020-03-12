@@ -54,7 +54,7 @@ class GlobalHelpersTest extends MockeryTestCase
     /** @test */
     public function named_mock_creates_a_named_mock()
     {
-        $className = "Class".uniqid();
+        $className = "Class" . uniqid();
         $double = namedMock($className);
 
         $this->assertInstanceOf(\Mockery\MockInterface::class, $double);

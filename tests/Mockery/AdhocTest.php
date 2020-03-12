@@ -69,7 +69,7 @@ class Mockery_AdhocTest extends MockeryTestCase
     public function testInvalidCountExceptionThrowsRuntimeExceptionOnIllegalComparativeSymbol()
     {
         $this->expectException('Mockery\Exception\RuntimeException');
-        $e = new \Mockery\Exception\InvalidCountException;
+        $e = new \Mockery\Exception\InvalidCountException();
         $e->setExpectedCountComparative('X');
     }
 

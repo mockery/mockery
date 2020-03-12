@@ -170,7 +170,7 @@ class Mock implements MockInterface
     public function mockery_init(\Mockery\Container $container = null, $partialObject = null, $instanceMock = true)
     {
         if (is_null($container)) {
-            $container = new \Mockery\Container;
+            $container = new \Mockery\Container();
         }
         $this->_mockery_container = $container;
         if (!is_null($partialObject)) {
@@ -211,7 +211,9 @@ class Mock implements MockInterface
         $allowMockingProtectedMethods = $this->_mockery_allowMockingProtectedMethods;
 
         $lastExpectation = \Mockery::parseShouldReturnArgs(
-            $this, $methodNames, function ($method) use ($self, $allowMockingProtectedMethods) {
+            $this,
+            $methodNames,
+            function ($method) use ($self, $allowMockingProtectedMethods) {
                 $rm = $self->mockery_getMethod($method);
                 if ($rm) {
                     if ($rm->isPrivate()) {
@@ -317,7 +319,7 @@ class Mock implements MockInterface
     public function asUndefined()
     {
         $this->_mockery_ignoreMissing = true;
-        $this->_mockery_defaultReturnValue = new \Mockery\Undefined;
+        $this->_mockery_defaultReturnValue = new \Mockery\Undefined();
         return $this;
     }
 

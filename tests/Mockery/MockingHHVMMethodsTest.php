@@ -40,7 +40,7 @@ class MockingHHVMMethodsTest extends MockeryTestCase
 
         parent::mockeryTestSetUp();
 
-        require_once __DIR__."/Fixtures/MethodWithHHVMReturnType.php";
+        require_once __DIR__ . "/Fixtures/MethodWithHHVMReturnType.php";
     }
 
     /** @test */

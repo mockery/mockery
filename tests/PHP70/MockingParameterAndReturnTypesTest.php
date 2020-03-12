@@ -32,79 +32,79 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
 {
     public function testMockingStringReturnType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnString");
-        $this->assertSame("", $mock->returnString());
+        $mock->shouldReceive('returnString');
+        $this->assertSame('', $mock->returnString());
     }
 
     public function testMockingIntegerReturnType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnInteger");
+        $mock->shouldReceive('returnInteger');
         $this->assertSame(0, $mock->returnInteger());
     }
 
     public function testMockingFloatReturnType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnFloat");
+        $mock->shouldReceive('returnFloat');
         $this->assertSame(0.0, $mock->returnFloat());
     }
 
     public function testMockingBooleanReturnType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnBoolean");
+        $mock->shouldReceive('returnBoolean');
         $this->assertFalse($mock->returnBoolean());
     }
 
     public function testMockingArrayReturnType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnArray");
+        $mock->shouldReceive('returnArray');
         $this->assertSame([], $mock->returnArray());
     }
 
     public function testMockingGeneratorReturnTyps()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnGenerator");
-        $this->assertInstanceOf("\Generator", $mock->returnGenerator());
+        $mock->shouldReceive('returnGenerator');
+        $this->assertInstanceOf('\Generator', $mock->returnGenerator());
     }
 
     public function testMockingCallableReturnType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("returnCallable");
+        $mock->shouldReceive('returnCallable');
         $this->assertTrue(is_callable($mock->returnCallable()));
     }
 
     public function testMockingClassReturnTypes()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("withClassReturnType");
-        $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
+        $mock->shouldReceive('withClassReturnType');
+        $this->assertInstanceOf('test\Mockery\TestWithParameterAndReturnType', $mock->withClassReturnType());
     }
 
     public function testMockingParameterTypes()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
-        $mock->shouldReceive("withScalarParameters");
+        $mock->shouldReceive('withScalarParameters');
         $mock->withScalarParameters(1, 1.0, true, 'string');
     }
 
     public function testIgnoringMissingReturnsType()
     {
-        $mock = mock("test\Mockery\TestWithParameterAndReturnType");
+        $mock = mock('test\Mockery\TestWithParameterAndReturnType');
 
         $mock->shouldIgnoreMissing();
 
@@ -114,15 +114,15 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $this->assertFalse( $mock->returnBoolean());
         $this->assertSame([], $mock->returnArray());
         $this->assertTrue(is_callable($mock->returnCallable()));
-        $this->assertInstanceOf("\Generator", $mock->returnGenerator());
-        $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $mock->withClassReturnType());
+        $this->assertInstanceOf('\Generator', $mock->returnGenerator());
+        $this->assertInstanceOf('test\Mockery\TestWithParameterAndReturnType', $mock->withClassReturnType());
     }
 
     public function testAutoStubbingSelf()
     {
-        $spy = \Mockery::spy("test\Mockery\TestWithParameterAndReturnType");
+        $spy = \Mockery::spy('test\Mockery\TestWithParameterAndReturnType');
 
-        $this->assertInstanceOf("test\Mockery\TestWithParameterAndReturnType", $spy->returnSelf());
+        $this->assertInstanceOf('test\Mockery\TestWithParameterAndReturnType', $spy->returnSelf());
     }
 
     public function testItShouldMockClassWithHintedParamsInMagicMethod()

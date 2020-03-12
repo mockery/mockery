@@ -19,7 +19,7 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-require_once __DIR__.'/DummyClasses/Namespaced.php';
+require_once __DIR__ . '/DummyClasses/Namespaced.php';
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use test\Mockery\Stubs\Animal;

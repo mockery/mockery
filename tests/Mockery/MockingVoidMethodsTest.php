@@ -30,7 +30,7 @@ class MockingVoidMethodsTest extends MockeryTestCase
 {
     protected function mockeryTestSetUp()
     {
-        require_once __DIR__."/Fixtures/MethodWithVoidReturnType.php";
+        require_once __DIR__ . "/Fixtures/MethodWithVoidReturnType.php";
     }
 
 

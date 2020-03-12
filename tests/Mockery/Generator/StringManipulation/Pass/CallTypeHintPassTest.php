@@ -36,7 +36,7 @@ class CallTypeHintPassTest extends TestCase
      */
     public function shouldRemoveCallTypeHintIfRequired()
     {
-        $pass = new CallTypeHintPass;
+        $pass = new CallTypeHintPass();
         $config = m::mock("Mockery\Generator\MockConfiguration", array(
             "requiresCallTypeHintRemoval" => true,
         ))->makePartial();
@@ -49,7 +49,7 @@ class CallTypeHintPassTest extends TestCase
      */
     public function shouldRemoveCallStaticTypeHintIfRequired()
     {
-        $pass = new CallTypeHintPass;
+        $pass = new CallTypeHintPass();
         $config = m::mock("Mockery\Generator\MockConfiguration", array(
             "requiresCallStaticTypeHintRemoval" => true,
         ))->makePartial();
