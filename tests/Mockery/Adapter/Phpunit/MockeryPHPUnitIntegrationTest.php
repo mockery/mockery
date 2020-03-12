@@ -19,7 +19,7 @@ class BaseClassStub
     public function markAsRisky()
     {
     }
-};
+}
 
 class MockeryPHPUnitIntegrationTest extends MockeryTestCase
 {

@@ -33,7 +33,7 @@ class ClassWithAllowsMethod
         return 123;
     }
 }
-    
+
 class ClassWithExpectsMethod
 {
     public function expects()
@@ -130,19 +130,19 @@ class AllowsExpectsSyntaxTest extends TestCase
     public function generateSkipsAllowsMethodIfAlreadyExists()
     {
         $stub = m::mock("test\Mockery\ClassWithAllowsMethod");
-    
+
         $stub->shouldReceive('allows')->andReturn(123);
-    
+
         $this->assertEquals(123, $stub->allows());
     }
-    
+
     /** @test */
     public function generateSkipsExpectsMethodIfAlreadyExists()
     {
         $stub = m::mock("test\Mockery\ClassWithExpectsMethod");
-    
+
         $stub->shouldReceive('expects')->andReturn(123);
-    
+
         $this->assertEquals(123, $stub->expects());
     }
 }

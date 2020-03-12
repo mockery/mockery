@@ -35,7 +35,7 @@ class ConstantsPassTest extends TestCase
      */
     public function shouldAddConstants()
     {
-        $pass = new ConstantsPass;
+        $pass = new ConstantsPass();
         $config = new MockConfiguration(
             array(),
             array(),

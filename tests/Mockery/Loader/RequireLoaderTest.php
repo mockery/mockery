@@ -24,7 +24,7 @@ namespace Mockery\Loader;
 use Mockery as m;
 use Mockery\Loader\RequireLoader;
 
-require_once __DIR__.'/LoaderTestCase.php';
+require_once __DIR__ . '/LoaderTestCase.php';
 
 class RequireLoaderTest extends LoaderTestCase
 {

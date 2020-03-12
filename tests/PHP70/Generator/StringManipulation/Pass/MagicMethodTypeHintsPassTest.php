@@ -49,7 +49,7 @@ class MagicMethodTypeHintsPassTest extends MockeryTestCase
      */
     public function mockeryTestSetUp()
     {
-        $this->pass = new MagicMethodTypeHintsPass;
+        $this->pass = new MagicMethodTypeHintsPass();
         $this->mockedConfiguration = m::mock(
             'Mockery\Generator\MockConfiguration'
         );
@@ -328,12 +328,12 @@ class MagicMethodTypeHintsPassTest extends MockeryTestCase
 
 class MagicDummy
 {
-    public function __isset(string $name) : bool
+    public function __isset(string $name): bool
     {
         return false;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return '';
     }
@@ -346,11 +346,11 @@ class MagicDummy
     {
     }
 
-    public function __call(string $name, array $arguments) : string
+    public function __call(string $name, array $arguments): string
     {
     }
 
-    public static function __callStatic(string $name, array $arguments) : int
+    public static function __callStatic(string $name, array $arguments): int
     {
     }
 
@@ -369,17 +369,17 @@ class MagicReturnDummy
 
 interface MagicInterfaceDummy
 {
-    public function __isset(string $name) : bool;
+    public function __isset(string $name): bool;
 
-    public function __toString() : string;
+    public function __toString(): string;
 
     public function __wakeup();
 
     public function __destruct();
 
-    public function __call(string $name, array $arguments) : string;
+    public function __call(string $name, array $arguments): string;
 
-    public static function __callStatic(string $name, array $arguments) : int;
+    public static function __callStatic(string $name, array $arguments): int;
 
     public function nonMagicMethod();
 }

@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
-    
+
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\Method;
@@ -31,7 +31,7 @@ class AvoidMethodClashPass implements Pass
         $names = array_map(function ($method) {
             return $method->getName();
         }, $config->getMethodsToMock());
-    
+
         foreach (["allows", "expects"] as $method) {
             if (in_array($method, $names)) {
                 $code = preg_replace(

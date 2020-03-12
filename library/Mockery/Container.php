@@ -487,7 +487,7 @@ class Container
         }
 
         try {
-            $instantiator = new Instantiator;
+            $instantiator = new Instantiator();
             $instance = $instantiator->instantiate($mockName);
         } catch (\Exception $ex) {
             $internalMockName = $mockName . '_Internal';

@@ -24,7 +24,7 @@ namespace Mockery\Adapter\Phpunit;
 
 trait MockeryPHPUnitIntegrationAssertPostConditionsForV8
 {
-    protected function assertPostConditions() : void
+    protected function assertPostConditions(): void
     {
         $this->mockeryAssertPostConditions();
     }

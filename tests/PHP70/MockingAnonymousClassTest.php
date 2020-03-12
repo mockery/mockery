@@ -29,7 +29,8 @@ class MockingAnonymousClassTest extends MockeryTestCase
 {
     public function testMockFromAnonymousClassName()
     {
-        $anonymousClassName = get_class(new class {});
+        $anonymousClassName = get_class(new class() {
+        });
 
         $mock = mock($anonymousClassName);
 
@@ -38,7 +39,8 @@ class MockingAnonymousClassTest extends MockeryTestCase
 
     public function testMockFromAnonymousClassInstance()
     {
-        $anonymousClass = new class {};
+        $anonymousClass = new class() {
+        };
 
         $mock = mock($anonymousClass);
 

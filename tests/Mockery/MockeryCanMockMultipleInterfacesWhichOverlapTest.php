@@ -28,7 +28,7 @@ class GeneratorTest extends MockeryTestCase
     /** @test */
     public function shouldNotDuplicateDoublyInheritedMethods()
     {
-        $container = new \Mockery\Container;
+        $container = new \Mockery\Container();
         $mock = $container->mock('Mockery\Tests\Evenement_EventEmitter', 'Mockery\Tests\Chatroulette_ConnectionInterface');
     }
 }

@@ -28,7 +28,7 @@ class MockingAllLowerCasedMethodsTest extends MockeryTestCase
     /** @test */
     public function itShouldAllowToCallAllLowerCasedMethodAsCamelCased()
     {
-        require __DIR__."/Fixtures/ClassWithAllLowerCaseMethod.php";
+        require __DIR__ . "/Fixtures/ClassWithAllLowerCaseMethod.php";
 
         $mock = mock('test\Mockery\Fixtures\ClassWithAllLowerCaseMethod');
         $mock->shouldReceive('userExpectsCamelCaseMethod')

@@ -27,7 +27,8 @@ if (class_exists('PHPUnit_Framework_TestCase') || version_compare(\PHPUnit\Runne
 }
 abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
 {
-    use MockeryPHPUnitIntegration, MockeryTestCaseSetUp;
+    use MockeryPHPUnitIntegration;
+    use MockeryTestCaseSetUp;
 
     protected function mockeryTestSetUp()
     {

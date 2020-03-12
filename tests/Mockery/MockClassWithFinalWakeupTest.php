@@ -27,7 +27,7 @@ class MockClassWithFinalWakeupTest extends MockeryTestCase
 {
     protected function mockeryTestSetUp()
     {
-        $this->container = new \Mockery\Container;
+        $this->container = new \Mockery\Container();
     }
 
     protected function mockeryTestTearDown()
