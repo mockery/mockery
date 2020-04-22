@@ -94,10 +94,15 @@ class TestListenerTest extends MockeryTestCase
 
     public function testMockeryIsAddedToBlacklist()
     {
+        if (!isset(\PHPUnit\Util\Blacklist::$blacklistedClassNames)) {
+            $this->markTestSkipped("PHPUnit converted this to a constant");
+        }
+
         $suite = \Mockery::mock(\PHPUnit\Framework\TestSuite::class);
 
         $this->assertArrayNotHasKey(\Mockery::class, \PHPUnit\Util\Blacklist::$blacklistedClassNames);
         $this->listener->startTestSuite($suite);
+
         $this->assertSame(1, \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery::class]);
     }
 }

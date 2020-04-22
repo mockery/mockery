@@ -37,4 +37,13 @@ abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
     protected function mockeryTestTearDown()
     {
     }
+    
+    public function expectExceptionMessageRegExp($regularExpression)
+    {
+        if (method_exists(get_parent_class(), 'expectExceptionMessageRegExp')) {
+            return parent::expectExceptionMessageRegExp($regularExpression);
+        }
+
+        return $this->expectExceptionMessageMatches($regularExpression);
+    }
 }
