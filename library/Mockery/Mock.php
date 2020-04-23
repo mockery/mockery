@@ -36,7 +36,7 @@ class Mock implements MockInterface
     protected $_mockery_expectations = array();
 
     /**
-     * Stores an inital number of expectations that can be manipulated
+     * Stores an initial number of expectations that can be manipulated
      * while using the getter method.
      *
      * @var int

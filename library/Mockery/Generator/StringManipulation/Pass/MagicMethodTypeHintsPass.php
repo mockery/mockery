@@ -111,7 +111,7 @@ class MagicMethodTypeHintsPass implements Pass
     }
 
     /**
-     * Checks if the method is declared withing code.
+     * Checks if the method is declared within code.
      *
      * @param int $code
      * @param Method $method

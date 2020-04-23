@@ -92,8 +92,8 @@ such as::
 
 That basically means that the loading prevents mocking and for each such
 a loading initiator there needs to be implemented a workaround.
-Overloading is one approach, however it polutes the global state. In this case
-we try to completely avoid the global state polution with custom
+Overloading is one approach, however it pollutes the global state. In this case
+we try to completely avoid the global state pollution with custom
 ``new Class()`` behavior per loading initiator and that can be mocked easily
 in few critical places.
 
