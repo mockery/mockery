@@ -259,7 +259,7 @@ class MagicMethodTypeHintsPassTest extends MockeryTestCase
      * Tests if the pass correclty replaces all the magic
      * method parameters with those found in the
      * Mock class. This is made to avoid variable
-     * conflicts withing Mock's magic methods
+     * conflicts within Mock's magic methods
      * implementations.
      *
      * @test
