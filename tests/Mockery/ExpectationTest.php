@@ -1092,7 +1092,7 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
-    public function testAndAnyOtherConstraintMultipleExpectations()
+    public function testAndAnyOtherConstraintMultipleExpectationsButNoOthers()
     {
         $this->mock->shouldReceive('foo')->with('a', Mockery::andAnyOthers())->andReturn('a');
         $this->mock->shouldReceive('foo')->with('b', Mockery::andAnyOthers())->andReturn('b');
