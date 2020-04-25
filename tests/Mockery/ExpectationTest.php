@@ -1092,13 +1092,13 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
-	public function testAndAnyOtherConstraintMultipleExpectations()
-	{
-		$this->mock->shouldReceive('foo')->with('a', Mockery::andAnyOthers())->andReturn('a');
-		$this->mock->shouldReceive('foo')->with('b', Mockery::andAnyOthers())->andReturn('b');
-		$this->assertEquals('a', $this->mock->foo('a'));
-		$this->assertEquals('b', $this->mock->foo('b'));
-	}
+    public function testAndAnyOtherConstraintMultipleExpectations()
+    {
+        $this->mock->shouldReceive('foo')->with('a', Mockery::andAnyOthers())->andReturn('a');
+        $this->mock->shouldReceive('foo')->with('b', Mockery::andAnyOthers())->andReturn('b');
+        $this->assertEquals('a', $this->mock->foo('a'));
+        $this->assertEquals('b', $this->mock->foo('b'));
+    }
 
     public function testArrayConstraintMatchesArgument()
     {
