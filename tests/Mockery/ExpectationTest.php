@@ -1081,7 +1081,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->with(1, 2, Mockery::andAnyOthers())->twice();
         $this->mock->foo(1, 2, 3, 4, 5);
-        $this->mock->foo(1, 'str', 3, 4);
+        $this->mock->foo(1, 2, 'str', 3, 4);
     }
 
     public function testAndAnyOtherConstraintDoesNotPreventMatchingOfRegularArguments()
@@ -1091,6 +1091,14 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo(10, 2, 3, 4, 5);
         Mockery::close();
     }
+
+	public function testAndAnyOtherConstraintMultipleExpectations()
+	{
+		$this->mock->shouldReceive('foo')->with('a', Mockery::andAnyOthers())->andReturn('a');
+		$this->mock->shouldReceive('foo')->with('b', Mockery::andAnyOthers())->andReturn('b');
+		$this->assertEquals('a', $this->mock->foo('a'));
+		$this->assertEquals('b', $this->mock->foo('b'));
+	}
 
     public function testArrayConstraintMatchesArgument()
     {
