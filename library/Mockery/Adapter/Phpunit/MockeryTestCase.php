@@ -46,4 +46,13 @@ abstract class MockeryTestCase extends \PHPUnit\Framework\TestCase
 
         return $this->expectExceptionMessageMatches($regularExpression);
     }
+
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
+    {
+        if (method_exists(get_parent_class(), 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pattern, $string, $message);
+        }
+
+        self::assertRegExp($pattern, $string, $message);
+    }
 }
