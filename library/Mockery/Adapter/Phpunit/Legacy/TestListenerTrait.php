@@ -85,6 +85,11 @@ class TestListenerTrait
 
     public function startTestSuite()
     {
-        Blacklist::$blacklistedClassNames[\Mockery::class] = 1;
+        if (method_exists(Blacklist::class, 'addDirectory')) {
+            (new BlackList())->getBlacklistedDirectories();
+            Blacklist::addDirectory(\dirname((new \ReflectionClass(\Mockery::class))->getFileName()));
+        } else {
+            Blacklist::$blacklistedClassNames[\Mockery::class] = 1;
+        }
     }
 }

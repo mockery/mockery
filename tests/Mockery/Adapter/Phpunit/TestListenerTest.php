@@ -96,8 +96,24 @@ class TestListenerTest extends MockeryTestCase
     {
         $suite = \Mockery::mock(\PHPUnit\Framework\TestSuite::class);
 
-        $this->assertArrayNotHasKey(\Mockery::class, \PHPUnit\Util\Blacklist::$blacklistedClassNames);
-        $this->listener->startTestSuite($suite);
-        $this->assertSame(1, \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery::class]);
+        if (method_exists(\PHPUnit\Util\Blacklist::class, 'addDirectory')) {
+            $this->assertFalse(
+                (new \PHPUnit\Util\Blacklist())->isBlacklisted(
+                    (new \ReflectionClass(\Mockery::class))->getFileName()
+                )
+            );
+
+            $this->listener->startTestSuite($suite);
+
+            $this->assertTrue(
+                (new \PHPUnit\Util\Blacklist())->isBlacklisted(
+                    (new \ReflectionClass(\Mockery::class))->getFileName()
+                )
+            );
+        } else {
+            $this->assertArrayNotHasKey(\Mockery::class, \PHPUnit\Util\Blacklist::$blacklistedClassNames);
+            $this->listener->startTestSuite($suite);
+            $this->assertSame(1, \PHPUnit\Util\Blacklist::$blacklistedClassNames[\Mockery::class]);
+        }
     }
 }
