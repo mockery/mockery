@@ -37,7 +37,7 @@ class ContainerTest extends MockeryTestCase
     {
         $m = mock();
         $m->shouldReceive('foo->bar');
-        $this->assertMatchesRegularExpression(
+        $this->expectExceptionMessageRegExp(
             '/Mockery_(\d+)__demeter_([0-9a-f]+)_foo/',
             Mockery::getContainer()->getKeyOfDemeterMockFor('foo', get_class($m))
         );
