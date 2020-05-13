@@ -428,7 +428,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->withArgs(array('a string'));
         $this->expectException(\Mockery\Exception::class);
-        $this->expectExceptionMessageMatches('/foo\(NULL\)/');
+        $this->expectExceptionMessageRegExp('/foo\(NULL\)/');
         $this->mock->foo(null);
         Mockery::close();
     }
@@ -436,7 +436,7 @@ class ExpectationTest extends MockeryTestCase
     public function testExpectsArgumentsArrayThrowsExceptionIfPassedWrongArgumentType()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessageMatches('/invalid argument (.+), only array and closure are allowed/');
+        $this->expectExceptionMessageRegExp('/invalid argument (.+), only array and closure are allowed/');
         $this->mock->shouldReceive('foo')->withArgs(5);
         Mockery::close();
     }
@@ -2086,7 +2086,7 @@ class ExpectationTest extends MockeryTestCase
     public function testCountWithBecauseExceptionMessage()
     {
         $this->expectException(InvalidCountException::class);
-        $this->expectExceptionMessageMatches(
+        $this->expectExceptionMessageRegExp(
             '/Method foo\(<Any Arguments>\) from Mockery_[\d]+ should be called' . PHP_EOL . ' ' .
             'exactly 1 times but called 0 times. Because We like foo/'
         );
