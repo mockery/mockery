@@ -344,8 +344,7 @@ class Expectation implements ExpectationInterface
             reset($this->_expectedArgs);
 
             if ($this->isAndAnyOtherArgumentsMatcher($lastExpectedArgument)) {
-                $argCountToSkipMatching = $argCount - count($this->_expectedArgs);
-                $args = array_slice($args, 0, $argCountToSkipMatching);
+                $args = array_slice($args, 0, array_search($lastExpectedArgument, $this->_expectedArgs, true));
                 return $this->_matchArgs($args);
             }
 
