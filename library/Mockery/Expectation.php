@@ -406,7 +406,8 @@ class Expectation implements ExpectationInterface
     /**
      * Expected argument setter for the expectation
      *
-     * @param mixed|mixed[] ...$args
+     * @param mixed ...$args
+     *
      * @return self
      */
     public function with(...$args)
@@ -486,7 +487,7 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments should partially match the real arguments
      *
-     * @param mixed[] ...$expectedArgs
+     * @param mixed ...$expectedArgs
      * @return self
      */
     public function withSomeOfArgs(...$expectedArgs)
@@ -504,7 +505,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed|mixed[] ...$args
+     * @param mixed ...$args
      * @return self
      */
     public function andReturn(...$args)
@@ -516,7 +517,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed|mixed[] ...$args
+     * @param mixed ...$args
      * @return self
      */
     public function andReturns(...$args)
@@ -551,7 +552,7 @@ class Expectation implements ExpectationInterface
      * values. The arguments passed to the expected method are passed to the
      * closures as parameters.
      *
-     * @param callable[] ...$args
+     * @param callable ...$args
      * @return self
      */
     public function andReturnUsing(...$args)
