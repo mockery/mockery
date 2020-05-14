@@ -88,11 +88,8 @@ class Mockery
             'string',
             'iterable',
             'void',
+            'object',
         );
-
-        if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
-            $builtInTypes[] = 'object';
-        }
 
         return $builtInTypes;
     }
@@ -858,29 +855,27 @@ class Mockery
     ) {
         $newMockName = 'demeter_' . md5($parent) . '_' . $method;
 
-        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-            $parRef = null;
-            $parRefMethod = null;
-            $parRefMethodRetType = null;
+        $parRef = null;
+        $parRefMethod = null;
+        $parRefMethodRetType = null;
 
-            $parentMock = $exp->getMock();
-            if ($parentMock !== null) {
-                $parRef = new ReflectionObject($parentMock);
-            }
+        $parentMock = $exp->getMock();
+        if ($parentMock !== null) {
+            $parRef = new ReflectionObject($parentMock);
+        }
 
-            if ($parRef !== null && $parRef->hasMethod($method)) {
-                $parRefMethod = $parRef->getMethod($method);
-                $parRefMethodRetType = $parRefMethod->getReturnType();
+        if ($parRef !== null && $parRef->hasMethod($method)) {
+            $parRefMethod = $parRef->getMethod($method);
+            $parRefMethodRetType = $parRefMethod->getReturnType();
 
-                if ($parRefMethodRetType !== null) {
-                    $nameBuilder = new MockNameBuilder();
-                    $nameBuilder->addPart('\\' . $newMockName);
-                    $type = PHP_VERSION_ID >= 70100 ? $parRefMethodRetType->getName() : (string)$parRefMethodRetType;
-                    $mock = self::namedMock($nameBuilder->build(), $type);
-                    $exp->andReturn($mock);
+            if ($parRefMethodRetType !== null) {
+                $nameBuilder = new MockNameBuilder();
+                $nameBuilder->addPart('\\' . $newMockName);
+                $type = $parRefMethodRetType->getName();
+                $mock = self::namedMock($nameBuilder->build(), $type);
+                $exp->andReturn($mock);
 
-                    return $mock;
-                }
+                return $mock;
             }
         }
 
