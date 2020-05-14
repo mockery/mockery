@@ -78,17 +78,16 @@ class Mockery
     public static function builtInTypes()
     {
         $builtInTypes = array(
-            'self',
             'array',
-            'callable',
-            // Up to php 7
             'bool',
+            'callable',
             'float',
             'int',
-            'string',
             'iterable',
-            'void',
             'object',
+            'self',
+            'string',
+            'void',
         );
 
         return $builtInTypes;
