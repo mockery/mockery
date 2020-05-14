@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.3.2 (XXXX-XX-XX)
+* Fix andAnyOthers() to properly match earlier expectations (#1051)
+
 ## 1.3.1 (2019-12-26)
 * Revert improved exception debugging due to BC breaks (#1032)
 
@@ -24,7 +27,7 @@
 
 ## 1.2.2 (2019-02-13)
 
-* Fix a BC breaking change for PHP 5.6/PHPUnit 5.7.27 (#947) 
+* Fix a BC breaking change for PHP 5.6/PHPUnit 5.7.27 (#947)
 
 ## 1.2.1 (2019-02-07)
 
@@ -67,7 +70,7 @@
 ## 1.0.0 (2017-09-06)
 
 * Destructors (`__destruct`) are stubbed out where it makes sense
-* Allow passing a closure argument to `withArgs()` to validate multiple arguments at once. 
+* Allow passing a closure argument to `withArgs()` to validate multiple arguments at once.
 * `Mockery\Adapter\Phpunit\TestListener` has been rewritten because it
   incorrectly marked some tests as risky. It will no longer verify mock
   expectations but instead check that tests do that themselves. PHPUnit 6 is
@@ -90,7 +93,7 @@
 * BC BREAK - Fix Mockery not trying default expectations if there is any concrete expectation
 * BC BREAK - Mockery's PHPUnit integration will mark a test as risky if it
   thinks one it's exceptions has been swallowed in PHPUnit > 5.7.6. Use `$e->dismiss()` to dismiss.
- 
+
 ## 0.9.4 (XXXX-XX-XX)
 
 * `shouldIgnoreMissing` will respect global `allowMockingNonExistentMethods`
