@@ -21,10 +21,13 @@
 
 namespace test\Mockery\Fixtures;
 
-class EmptyTestCaseV5 extends \PHPUnit_Framework_TestCase
+use PHPUnit\Runner\BaseTestRunner;
+use PHPUnit\Framework\TestCase;
+
+class EmptyTestCase extends TestCase
 {
-    public function getStatus()
+    public function getStatus(): int
     {
-        return \PHPUnit_Runner_BaseTestRunner::STATUS_PASSED;
+        return BaseTestRunner::STATUS_PASSED;
     }
 }
