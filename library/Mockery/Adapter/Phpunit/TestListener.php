@@ -36,18 +36,11 @@ class TestListener implements PHPUnitTestListener
         $this->trait = new TestListenerTrait();
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function endTest(Test $test, float $time): void
     {
         $this->trait->endTest($test, $time);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function startTestSuite(TestSuite $suite): void
     {
         $this->trait->startTestSuite();
