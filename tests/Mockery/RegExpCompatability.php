@@ -2,7 +2,7 @@
 
 namespace test\Mockery;
 
-trait RegExpCompatability 
+trait RegExpCompatability
 {
     public function expectExceptionMessageRegEx($regularExpression)
     {
