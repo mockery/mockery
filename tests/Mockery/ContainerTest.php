@@ -37,7 +37,7 @@ class ContainerTest extends MockeryTestCase
     {
         $m = mock();
         $m->shouldReceive('foo->bar');
-        $this->assertRegExp(
+        $this->assertMatchesRegEx(
             '/Mockery_(\d+)__demeter_([0-9a-f]+)_foo/',
             Mockery::getContainer()->getKeyOfDemeterMockFor('foo', get_class($m))
         );
@@ -455,7 +455,7 @@ class ContainerTest extends MockeryTestCase
     {
         $m = mock('MockeryTest_PartialNormalClass2[!foo]');
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessageRegExp('/::bar\(\), but no expectations were specified/');
+        $this->expectExceptionMessageRegEx('/::bar\(\), but no expectations were specified/');
         $m->bar();
     }
 
@@ -801,7 +801,7 @@ class ContainerTest extends MockeryTestCase
             ->andThrow(new \Exception('instanceMock ' . rand(100, 999)));
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessageRegExp('/^instanceMock \d{3}$/');
+        $this->expectExceptionMessageRegEx('/^instanceMock \d{3}$/');
         new MyNamespace\MyClass16();
     }
 
