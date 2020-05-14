@@ -23,9 +23,12 @@ use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use Mockery\Exception\BadMethodCallException;
+use test\Mockery\RegExpCompatability;
 
 class ContainerTest extends MockeryTestCase
 {
+    use RegExpCompatability;
+
     public function testSimplestMockCreation()
     {
         $m = mock();
