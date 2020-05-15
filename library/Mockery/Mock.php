@@ -705,10 +705,6 @@ class Mock implements MockInterface
      */
     public function mockery_returnValueForMethod($name)
     {
-        if (version_compare(PHP_VERSION, '7.0.0-dev') < 0) {
-            return;
-        }
-
         $rm = $this->mockery_getMethod($name);
         if (!$rm || !$rm->hasReturnType()) {
             return;
@@ -721,7 +717,7 @@ class Mock implements MockInterface
             return null;
         }
 
-        $type = PHP_VERSION_ID >= 70100 ? $returnType->getName() : (string) $returnType;
+        $type = $returnType->getName();
         switch ($type) {
             case '':       return;
             case 'string': return '';
@@ -738,7 +734,7 @@ class Mock implements MockInterface
             case 'Traversable':
             case 'Generator':
                 // Remove eval() when minimum version >=5.5
-                $generator = eval('return function () { yield; };');
+                $generator = function () { yield; };
                 return $generator();
 
             case 'self':
@@ -748,9 +744,7 @@ class Mock implements MockInterface
                 return null;
 
             case 'object':
-                if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
-                    return \Mockery::mock();
-                }
+                return \Mockery::mock();
 
             default:
                 return \Mockery::mock($type);

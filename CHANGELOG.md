@@ -1,7 +1,9 @@
 # Change Log
 
-## 1.3.2 (XXXX-XX-XX)
+## 1.4.0 (XXXX-XX-XX)
+
 * Fix andAnyOthers() to properly match earlier expectations (#1051)
+* Drops support for PHP < 7.3 and PHPUnit < 8
 
 ## 1.3.1 (2019-12-26)
 * Revert improved exception debugging due to BC breaks (#1032)

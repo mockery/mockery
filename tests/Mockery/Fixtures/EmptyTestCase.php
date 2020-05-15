@@ -19,34 +19,15 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-declare(strict_types=1); // Use strict types to ensure exact types are returned or passed
+namespace test\Mockery\Fixtures;
 
-namespace test\Mockery;
+use PHPUnit\Runner\BaseTestRunner;
+use PHPUnit\Framework\TestCase;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-
-/**
- * @requires PHP 7.0.0-dev
- */
-class MockingAnonymousClassTest extends MockeryTestCase
+class EmptyTestCase extends TestCase
 {
-    public function testMockFromAnonymousClassName()
+    public function getStatus(): int
     {
-        $anonymousClassName = get_class(new class() {
-        });
-
-        $mock = mock($anonymousClassName);
-
-        $this->assertInstanceOf($anonymousClassName, $mock);
-    }
-
-    public function testMockFromAnonymousClassInstance()
-    {
-        $anonymousClass = new class() {
-        };
-
-        $mock = mock($anonymousClass);
-
-        $this->assertInstanceOf(get_class($anonymousClass), $mock);
+        return BaseTestRunner::STATUS_PASSED;
     }
 }

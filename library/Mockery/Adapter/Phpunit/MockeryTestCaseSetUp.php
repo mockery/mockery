@@ -18,17 +18,19 @@
  * @license    https://github.com/mockery/mockery/blob/master/LICENSE New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Mockery\Adapter\Phpunit;
 
-trait MockeryTestCaseSetUpForV7AndPrevious
+trait MockeryTestCaseSetUp
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mockeryTestSetUp();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->mockeryTestTearDown();
         parent::tearDown();

@@ -6,19 +6,6 @@
     <testsuites>
         <testsuite name="Mockery Test Suite">
             <directory suffix="Test.php">./tests</directory>
-            <directory phpVersion="7.0.0" phpVersionOperator=">=">./tests/PHP70</directory>
-            <directory phpVersion="7.2.0" phpVersionOperator=">=">./tests/PHP72</directory>
-
-            <exclude>./tests/PHP56</exclude>
-            <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
-        </testsuite>
-
-        <testsuite name="Mockery Test Suite PHP56">
-            <directory suffix="Test.php">./tests</directory>
-            <directory suffix="Test.php">./tests/PHP56</directory>
-
-            <exclude>./tests/PHP70</exclude>
-            <exclude>./tests/PHP72</exclude>
             <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
         </testsuite>
     </testsuites>
@@ -29,8 +16,8 @@
             <exclude>
                 <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
                 <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditionsForV8.php</file>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUpForV8.php</file>
+                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+                <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
             </exclude>
         </whitelist>
     </filter>

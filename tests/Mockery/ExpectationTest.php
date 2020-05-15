@@ -22,9 +22,12 @@
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\InvalidCountException;
 use Mockery\MockInterface;
+use test\Mockery\RegExpCompatability;
 
 class ExpectationTest extends MockeryTestCase
 {
+    use RegExpCompatability;
+
     public function mockeryTestSetUp()
     {
         parent::mockeryTestSetUp();
