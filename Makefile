@@ -13,7 +13,7 @@ apidocs: docs/api/index.html
 
 phpDocumentor.phar: 
 	wget https://github.com/phpDocumentor/phpDocumentor/releases/download/v3.0.0-rc/phpDocumentor.phar
-	wget https://github.com/phpDocumentor/phpDocumentor/releases/download/v3.0.0-rc/phpDocumentor.phar.pubkey
+	wget https://github.com/phpDocumentor/phpDocumentor/releases/download/v3.0.0-rc/phpDocumentor.phar.asc
 
 library_files=$(shell find library -name '*.php')
 docs/api/index.html: vendor/composer/installed.json $(library_files) phpDocumentor.phar
