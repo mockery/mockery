@@ -16,9 +16,9 @@ trait RegExpCompatability
     public static function assertMatchesRegEx($pattern, $string, $message = '')
     {
         if (method_exists(get_parent_class(), 'assertMatchesRegularExpression')) {
-            parent::assertMatchesRegularExpression($pattern, $string, $message);
+            return parent::assertMatchesRegularExpression($pattern, $string, $message);
         }
 
-        self::assertRegExp($pattern, $string, $message);
+        return self::assertRegExp($pattern, $string, $message);
     }
 }
