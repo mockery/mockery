@@ -1877,6 +1877,22 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
+    public function testGlobalConfigQuickDefinitionsConfigurationDefaultExpectation()
+    {
+        \Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(false);
+        mock(array('foo'=>1));
+        $this->expectNotToPerformAssertions();
+        Mockery::close();
+    }
+
+    public function testGlobalConfigQuickDefinitionsConfigurationMockAtLeastOnce()
+    {
+        \Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(true);
+        mock(array('foo'=>1));
+        $this->expectException(\Mockery\Exception\InvalidCountException::class);
+        Mockery::close();
+    }
+
     public function testAnExampleWithSomeExpectationAmends()
     {
         $service = mock('MyService');

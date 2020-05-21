@@ -41,6 +41,11 @@ class Configuration
     protected $_allowMockingMethodsUnnecessarily = true;
 
     /**
+     * @var QuickDefinitionsConfiguration
+     */
+    protected $_quickDefinitionsConfiguration;
+
+    /**
      * Parameter map for use with PHP internal classes.
      *
      * @var array
@@ -56,6 +61,11 @@ class Configuration
      * @see https://github.com/mockery/mockery/issues/268
      */
     protected $_reflectionCacheEnabled = true;
+
+    public function __construct()
+    {
+        $this->_quickDefinitionsConfiguration = new QuickDefinitionsConfiguration();
+    }
 
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
@@ -152,6 +162,14 @@ class Configuration
     public function getConstantsMap()
     {
         return $this->_constantsMap;
+    }
+
+    /**
+     * Returns the quick definitions configuration
+     */
+    public function getQuickDefinitions(): QuickDefinitionsConfiguration
+    {
+        return $this->_quickDefinitionsConfiguration;
     }
 
     /**

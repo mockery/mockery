@@ -5,13 +5,15 @@ Mockery Global Configuration
 ============================
 
 To allow for a degree of fine-tuning, Mockery utilises a singleton
-configuration object to store a small subset of core behaviours. The two
+configuration object to store a small subset of core behaviours. The three
 currently present include:
 
 * Option to allow/disallow the mocking of methods which do not actually exist
   fulfilled (i.e. unused)
 * Setter/Getter for added a parameter map for internal PHP class methods
   (``Reflection`` cannot detect these automatically)
+* Option to drive if quick definitions should define a stub or a mock with
+  an 'at least once' expectation.
 
 By default, the first behaviour is enabled. Of course, there are
 situations where this can lead to unintended consequences. The mocking of
@@ -46,6 +48,19 @@ classes. Most of the time, you never need to do this. It's mainly needed where a
 internal class method uses pass-by-reference for a parameter - you MUST in such
 cases ensure the parameter signature includes the ``&`` symbol correctly as Mockery
 won't correctly add it automatically for internal classes.
+
+Finally there is the possibility to change what a quick definition produces.
+By default quick definitions create stubs but you can change this behaviour
+by asking Mockery to use 'at least once' expectations.
+
+.. code-block:: php
+
+    \Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(bool)
+
+Passing a true allows the behaviour, false disallows it. It takes effect
+immediately until switched back. By doing so you can avoid the proliferating of
+quick definitions that accumulate overtime in your code since the test would
+fail in case the 'at least once' expectation is not fulfilled.
 
 Disabling reflection caching
 ----------------------------
