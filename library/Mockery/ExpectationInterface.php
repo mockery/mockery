@@ -21,7 +21,7 @@
 
 namespace Mockery;
 
-interface ExpectationInterface extends Throwable
+interface ExpectationInterface extends \Throwable
 {
     /**
      * @return int
