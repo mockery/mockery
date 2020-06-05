@@ -212,7 +212,7 @@ the ``\Mockery::pattern()``:
 
     // Hamcrest equivalent
     $mock->shouldReceive('foo')
-        with(matchesPattern('/^foo/'));
+        ->with(matchesPattern('/^foo/'));
 
 The ``ducktype()`` matcher is an alternative to matching by class type:
 
