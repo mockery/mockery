@@ -20,6 +20,8 @@
 
 namespace Mockery\Generator;
 
+use Mockery\Reflector;
+
 /**
  * This class describes the configuration of mocks and hides away some of the
  * reflection implementation
@@ -199,7 +201,7 @@ class MockConfiguration
         foreach ($this->getAllMethods() as $method) {
             if ("__call" === $method->getName()) {
                 $params = $method->getParameters();
-                return !$params[1]->isArray();
+                return !Reflector::isArray($params[1]);
             }
         }
 
@@ -215,7 +217,7 @@ class MockConfiguration
         foreach ($this->getAllMethods() as $method) {
             if ("__callStatic" === $method->getName()) {
                 $params = $method->getParameters();
-                return !$params[1]->isArray();
+                return !Reflector::isArray($params[1]);
             }
         }
 

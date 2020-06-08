@@ -20,6 +20,8 @@
 
 namespace Mockery\Generator;
 
+use Mockery\Reflector;
+
 class Parameter
 {
     private static $parameterCounter;
@@ -38,52 +40,14 @@ class Parameter
 
     public function getClass()
     {
-        return new DefinedTargetClass($this->rfp->getClass());
+        if ($class = Reflector::getClass($this->rfp)) {
+            return new DefinedTargetClass($class);
+        }
     }
 
     public function getTypeHintAsString()
     {
-        if (method_exists($this->rfp, 'getTypehintText')) {
-            // Available in HHVM
-            $typehint = $this->rfp->getTypehintText();
-
-            // not exhaustive, but will do for now
-            if (in_array($typehint, array('int', 'integer', 'float', 'string', 'bool', 'boolean'))) {
-                return '';
-            }
-
-            return $typehint;
-        }
-
-        if ($this->rfp->isArray()) {
-            return 'array';
-        }
-
-        /*
-         * PHP < 5.4.1 has some strange behaviour with a typehint of self and
-         * subclass signatures, so we risk the regexp instead
-         */
-        if ((version_compare(PHP_VERSION, '5.4.1') >= 0)) {
-            try {
-                if ($this->rfp->getClass()) {
-                    return $this->rfp->getClass()->getName();
-                }
-            } catch (\ReflectionException $re) {
-                // noop
-            }
-        }
-
-        if (version_compare(PHP_VERSION, '7.0.0-dev') >= 0 && $this->rfp->hasType()) {
-            return PHP_VERSION_ID >= 70100 ? $this->rfp->getType()->getName() : (string) $this->rfp->getType();
-        }
-
-        if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $this->rfp->getName() . ' .*\]$/', $this->rfp->__toString(), $typehintMatch)) {
-            if (!empty($typehintMatch['typehint'])) {
-                return $typehintMatch['typehint'];
-            }
-        }
-
-        return '';
+        return Reflector::getTypeHint($this->rfp);
     }
 
     /**
