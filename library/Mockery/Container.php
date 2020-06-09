@@ -233,7 +233,11 @@ class Container
         $mock->mockery_init($this, $config->getTargetObject(), $config->isInstanceMock());
 
         if (!empty($quickdefs)) {
-            $mock->shouldReceive($quickdefs)->byDefault();
+            if (\Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce()) {
+                $mock->shouldReceive($quickdefs)->atLeast()->once();
+            } else {
+                $mock->shouldReceive($quickdefs)->byDefault();
+            }
         }
         if (!empty($expectationClosure)) {
             $expectationClosure($mock);

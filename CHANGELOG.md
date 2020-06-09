@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.4.1 (XXXX-XX-XX)
+
+* Allow quick definitions to use 'at least once' expectation
+  `\Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(true)` (#1056)
+
 ## 1.4.0 (2020-05-19)
 
 * Fix andAnyOthers() to properly match earlier expectations (#1051)
