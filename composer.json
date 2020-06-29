@@ -31,7 +31,7 @@
         }
     ],
     "require": {
-        "php": "^7.3.0",
+        "php": "^7.3.0 || ^8.0",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "~2.0"
     },
