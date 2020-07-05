@@ -73,7 +73,7 @@ class MethodDefinitionPass implements Pass
             $paramDef .= $param->isVariadic() ? '...' : '';
             $paramDef .= '$' . $param->getName();
 
-            if (PHP_VERSION_ID < 50600 || !$param->isVariadic()) {
+            if (!$param->isVariadic()) {
                 if (false !== $param->isDefaultValueAvailable()) {
                     $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
                 } elseif ($param->isOptional()) {

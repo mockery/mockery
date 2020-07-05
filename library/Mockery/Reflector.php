@@ -110,13 +110,16 @@ class Reflector
      */
     private static function getLegacyTypeHint(\ReflectionParameter $param)
     {
-        // Handle arrays first
-        if (\PHP_VERSION_ID < 71000 && $param->isArray()) {
-            return 'array';
-        }
-
         // Handle HHVM typing
         if (\method_exists($param, 'getTypehintText')) {
+            if ($param->isArray()) {
+                return 'array';
+            }
+
+            if ($param->isCallable()) {
+                return 'callable';
+            }
+
             $typeHint = $param->getTypehintText();
 
             // throw away HHVM scalar types
@@ -127,22 +130,50 @@ class Reflector
             return sprintf('\\%s', $typeHint);
         }
 
-        // Handle PHP 5 typing. Note that PHP < 5.4.1 has some incorrect
-        // behaviour with a typehint of self and subclass signatures, so we
-        // will process the type manually with regexp, falling back if needed!
+        // Handle PHP 5 typing
         if (\PHP_VERSION_ID < 70000) {
-            if (
-                \PHP_VERSION_ID < 50401 && 
-                \preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $param->getName() . ' .*\]$/', (string) $param, $typeHintMatch) && 
-                !empty($typeHintMatch['typehint'])
-            ) {
-                return $typeHintMatch['typehint'];
+            if ($param->isArray()) {
+                return 'array';
             }
 
-            return sprintf('\\%s', $param->getClass());
+            if ($param->isCallable()) {
+                return 'callable';
+            }
+
+            $typeHint = self::getLegacyClassName($param);
+
+            return $typeHint === null ? null : sprintf('\\%s', $typeHint);
         }
 
         return false;
+    }
+
+    /**
+     * Compute the class name using legacy APIs, if possible.
+     *
+     * @param \ReflectionParameter $param
+     *
+     * @return string|null
+     */
+    private static function getLegacyClassName(\ReflectionParameter $param)
+    {
+        try {
+            $class = $param->getClass();
+
+            $typeHint = $class === null ? null : $class->getName();
+        } catch (\ReflectionException $e) {
+            $typeHint = null;
+        }
+
+        if ($typeHint === null) {
+            if (preg_match('/^Parameter #[0-9]+ \[ \<(required|optional)\> (?<typehint>\S+ )?.*\$' . $param->getName() . ' .*\]$/', (string) $param, $typehintMatch)) {
+                if (!empty($typehintMatch['typehint']) && $typehintMatch['typehint']) {
+                    $typeHint = $typehintMatch['typehint'];
+                }
+            }
+        }
+
+        return $typeHint;
     }
 
     /**

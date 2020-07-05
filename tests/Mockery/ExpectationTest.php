@@ -1909,10 +1909,6 @@ class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
     {
-        if (\PHP_MAJOR_VERSION > 7) {
-            $this->markTestSkipped('phpunit/phpunit-mock-objects isn\'t supported on PHP 8.');
-        }
-
         $service = $this->createMock('MyService2');
         $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
         $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')

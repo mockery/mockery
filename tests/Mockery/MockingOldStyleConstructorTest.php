@@ -22,9 +22,6 @@
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 
-/**
- * @requires PHP 5.6.0-dev
- */
 class MockingOldStyleConstructorTest extends MockeryTestCase
 {
     /**
@@ -32,19 +29,13 @@ class MockingOldStyleConstructorTest extends MockeryTestCase
      */
     public function testCanMockClassWithOldStyleConstructorAndArguments()
     {
-        if (\PHP_MAJOR_VERSION > 7) {
-            $this->markTestSkipped('Legacy constructors dropped from PHP 8.');
-        }
-
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_OldStyleConstructor'));
     }
 }
 
-if (\PHP_MAJOR_VERSION <= 7) {
-    class MockeryTest_OldStyleConstructor
+class MockeryTest_OldStyleConstructor
+{
+    public function MockeryTest_OldStyleConstructor($arg)
     {
-        public function MockeryTest_OldStyleConstructor($arg)
-        {
-        }
     }
 }

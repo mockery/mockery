@@ -8,9 +8,6 @@
             <directory suffix="Test.php">./tests</directory>
             <directory phpVersion="7.0.0" phpVersionOperator=">=">./tests/PHP70</directory>
             <directory phpVersion="7.2.0" phpVersionOperator=">=">./tests/PHP72</directory>
-
-            <exclude>./tests/PHP56</exclude>
-            <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
         </testsuite>
 
         <testsuite name="Mockery Test Suite PHP56">
@@ -19,7 +16,6 @@
 
             <exclude>./tests/PHP70</exclude>
             <exclude>./tests/PHP72</exclude>
-            <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
         </testsuite>
     </testsuites>
 

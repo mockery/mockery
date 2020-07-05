@@ -733,12 +733,8 @@ class Mock implements MockInterface
 
             case '\Traversable':
             case '\Generator':
-                // Remove eval() when minimum version >=5.5
-                $generator = eval('return function () { yield; };');
+                $generator = function () { yield; };
                 return $generator();
-
-            case 'static':
-                return \Mockery::mock($rm->getDeclaringClass()->getName()); // TODO: fix for PHP 8
 
             case 'void':
                 return null;

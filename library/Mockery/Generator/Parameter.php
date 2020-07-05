@@ -110,6 +110,6 @@ class Parameter
      */
     public function isVariadic()
     {
-        return \PHP_VERSION_ID >= 50600 && $this->rfp->isVariadic();
+        return $this->rfp->isVariadic();
     }
 }
