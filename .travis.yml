@@ -1,9 +1,6 @@
 language: php
 
 matrix:
-  allow_failures:
-    - php: nightly
-  fast_finish: true
   include:
     - php: 5.6
       env:

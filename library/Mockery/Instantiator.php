@@ -204,6 +204,6 @@ final class Instantiator
      */
     private function isPhpVersionWithBrokenSerializationFormat()
     {
-        return PHP_VERSION_ID === 50429 || PHP_VERSION_ID === 50513;
+        return \PHP_VERSION_ID === 50429 || \PHP_VERSION_ID === 50513;
     }
 }

@@ -72,7 +72,7 @@ class MockConfigurationBuilder
 
     public function __construct()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+        if (\PHP_VERSION_ID >= 70000) {
             $this->blackListedMethods = array_diff($this->blackListedMethods, $this->php7SemiReservedKeywords);
         }
     }

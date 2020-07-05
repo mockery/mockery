@@ -45,7 +45,9 @@ ext/mongo's MongoCollection. Reflection cannot analyse the parameters of interna
 classes. Most of the time, you never need to do this. It's mainly needed where an
 internal class method uses pass-by-reference for a parameter - you MUST in such
 cases ensure the parameter signature includes the ``&`` symbol correctly as Mockery
-won't correctly add it automatically for internal classes.
+won't correctly add it automatically for internal classes. Note that internal class
+parameter overriding is not available in PHP 8. This is because incompatible
+signatures have been reclassified as fatal errors.
 
 Disabling reflection caching
 ----------------------------

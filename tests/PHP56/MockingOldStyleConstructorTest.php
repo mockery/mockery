@@ -32,13 +32,19 @@ class MockingOldStyleConstructorTest extends MockeryTestCase
      */
     public function testCanMockClassWithOldStyleConstructorAndArguments()
     {
+        if (\PHP_MAJOR_VERSION > 7) {
+            $this->markTestSkipped('Legacy constructors dropped from PHP 8.');
+        }
+
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_OldStyleConstructor'));
     }
 }
 
-class MockeryTest_OldStyleConstructor
-{
-    public function MockeryTest_OldStyleConstructor($arg)
+if (\PHP_MAJOR_VERSION <= 7) {
+    class MockeryTest_OldStyleConstructor
     {
+        public function MockeryTest_OldStyleConstructor($arg)
+        {
+        }
     }
 }

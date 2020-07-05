@@ -30,6 +30,8 @@ so it can be documented and resolved where possible. Here is a list to note:
    pass by value on scalars and arrays). If references as internal class
    method parameters are needed, you should use the
    ``\Mockery\Configuration::setInternalClassMethodParamMap()`` method.
+   Note, however that internal class parameter overriding is not available in
+   PHP 8 since incompatible signatures have been reclassified as fatal errors.
 
 4. Creating a mock implementing a certain interface with incorrect case in the
    interface name, and then creating a second mock implementing the same
