@@ -846,6 +846,10 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanOverrideExpectedParametersOfInternalPHPClassesToPreserveRefs()
     {
+        if (\PHP_MAJOR_VERSION > 7) {
+            $this->expectException('LogicException');
+        }
+
         Mockery::getConfiguration()->setInternalClassMethodParamMap(
             'DateTime',
             'modify',
@@ -875,6 +879,9 @@ class ContainerTest extends MockeryTestCase
         if (!class_exists('MongoCollection', false)) {
             $this->markTestSkipped('ext/mongo not installed');
         }
+        if (\PHP_MAJOR_VERSION > 7) {
+            $this->expectException('LogicException');
+        }
         Mockery::getConfiguration()->setInternalClassMethodParamMap(
             'MongoCollection',
             'insert',
@@ -899,6 +906,10 @@ class ContainerTest extends MockeryTestCase
 
     public function testCanCreateNonOverridenInstanceOfPreviouslyOverridenInternalClasses()
     {
+        if (\PHP_MAJOR_VERSION > 7) {
+            $this->expectException('LogicException');
+        }
+
         Mockery::getConfiguration()->setInternalClassMethodParamMap(
             'DateTime',
             'modify',

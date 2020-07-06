@@ -20,11 +20,12 @@
 
 namespace Mockery;
 
-use Mockery\HigherOrderMessage;
-use Mockery\MockInterface;
-use Mockery\LegacyMockInterface;
-use Mockery\ExpectsHigherOrderMessage;
 use Mockery\Exception\BadMethodCallException;
+use Mockery\ExpectsHigherOrderMessage;
+use Mockery\HigherOrderMessage;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
+use Mockery\Reflector;
 
 class Mock implements MockInterface
 {
@@ -656,13 +657,12 @@ class Mock implements MockInterface
     {
         $rfc = new \ReflectionClass($this);
 
-        // HHVM has a Stringish interface
+        // HHVM has a Stringish interface and PHP 8 has Stringable
         $interfaces = array_filter($rfc->getInterfaces(), function ($i) {
-            return $i->getName() !== "Stringish";
+            return $i->getName() !== 'Stringish' && $i->getName() !== 'Stringable';
         });
-        $onlyImplementsMock = 2 == count($interfaces);
 
-        return (false === $rfc->getParentClass()) && $onlyImplementsMock;
+        return false === $rfc->getParentClass() && 2 === count($interfaces);
     }
 
     public function mockery_isInstance()
@@ -705,25 +705,21 @@ class Mock implements MockInterface
      */
     public function mockery_returnValueForMethod($name)
     {
-        if (version_compare(PHP_VERSION, '7.0.0-dev') < 0) {
-            return;
-        }
-
-        $rm = $this->mockery_getMethod($name);
-        if (!$rm || !$rm->hasReturnType()) {
-            return;
-        }
-
-        $returnType = $rm->getReturnType();
-
-        // Default return value for methods with nullable type is null
-        if ($returnType->allowsNull()) {
+        if (\PHP_VERSION_ID < 70000) {
             return null;
         }
 
-        $type = PHP_VERSION_ID >= 70100 ? $returnType->getName() : (string) $returnType;
-        switch ($type) {
-            case '':       return;
+        $rm = $this->mockery_getMethod($name);
+
+        // Default return value for methods with nullable type is null
+        if ($rm === null || $rm->getReturnType() === null || $rm->getReturnType()->allowsNull()) {
+            return null;
+        }
+
+        $returnType = Reflector::getReturnType($rm, true);
+
+        switch ($returnType) {
+            case null:     return null;
             case 'string': return '';
             case 'int':    return 0;
             case 'float':  return 0.0;
@@ -731,29 +727,25 @@ class Mock implements MockInterface
             case 'array':  return [];
 
             case 'callable':
-            case 'Closure':
+            case '\Closure':
                 return function () {
                 };
 
-            case 'Traversable':
-            case 'Generator':
-                // Remove eval() when minimum version >=5.5
-                $generator = eval('return function () { yield; };');
+            case '\Traversable':
+            case '\Generator':
+                $generator = function () { yield; };
                 return $generator();
-
-            case 'self':
-                return \Mockery::mock($rm->getDeclaringClass()->getName());
 
             case 'void':
                 return null;
 
             case 'object':
-                if (version_compare(PHP_VERSION, '7.2.0-dev') >= 0) {
+                if (\PHP_VERSION_ID >= 70200) {
                     return \Mockery::mock();
                 }
 
             default:
-                return \Mockery::mock($type);
+                return \Mockery::mock($returnType);
         }
     }
 
@@ -900,7 +892,7 @@ class Mock implements MockInterface
             // _mockery_ignoreMissing and break the API with an error.
             return sprintf("%s#%s", __CLASS__, spl_object_hash($this));
         } elseif ($this->_mockery_ignoreMissing) {
-            if (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (method_exists($this->_mockery_partial, $method) || is_callable("parent::$method"))) {
+            if (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) || is_callable("parent::$method")) {
                 if ($this->_mockery_defaultReturnValue instanceof \Mockery\Undefined) {
                     return call_user_func_array(array($this->_mockery_defaultReturnValue, $method), $args);
                 } elseif (null === $this->_mockery_defaultReturnValue) {

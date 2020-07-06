@@ -22,9 +22,6 @@
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 
-/**
- * @requires PHP 5.6.0-dev
- */
 class MockingOldStyleConstructorTest extends MockeryTestCase
 {
     /**
