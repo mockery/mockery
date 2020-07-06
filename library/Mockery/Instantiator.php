@@ -46,8 +46,6 @@ final class Instantiator
     /**
      * Builds a {@see \Closure} capable of instantiating the given $className without
      * invoking its constructor.
-     * This method is only exposed as public because of PHP 5.3 compatibility. Do not
-     * use this method in your own code
      *
      * @param string $className
      *
