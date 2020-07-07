@@ -6,7 +6,6 @@
     <testsuites>
         <testsuite name="Mockery Test Suite">
             <directory suffix="Test.php">./tests</directory>
-            <exclude>./tests/Mockery/MockingVariadicArgumentsTest.php</exclude>
         </testsuite>
     </testsuites>
 

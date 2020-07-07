@@ -1,9 +1,6 @@
 language: php
 
 matrix:
-  allow_failures:
-    - php: nightly
-  fast_finish: true
   include:
     - php: 7.3
       env:
@@ -26,13 +23,15 @@ matrix:
         - DEPS=latest
         - COMPOSER_FLAGS="--ignore-platform-reqs"
 
+before_install:
+  - composer self-update --2
+
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction $COMPOSER_FLAGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction $COMPOSER_FLAGS ; fi
 
 script:
-- |
-    ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite";
+  - ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite";
 
 after_success:
   - composer require satooshi/php-coveralls

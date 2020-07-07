@@ -89,6 +89,7 @@ class MethodDefinitionPass implements Pass
     protected function renderReturnType(Method $method)
     {
         $type = $method->getReturnType();
+
         return $type ? sprintf(': %s', $type) : '';
     }
 
@@ -101,19 +102,9 @@ class MethodDefinitionPass implements Pass
 
     protected function renderTypeHint(Parameter $param)
     {
-        $typeHint = trim($param->getTypeHintAsString());
+        $typeHint = $param->getTypeHint();
 
-        if (!empty($typeHint)) {
-            if (!\Mockery::isBuiltInType($typeHint)) {
-                $typeHint = '\\' . $typeHint;
-            }
-
-            if ($param->allowsNull()) {
-                $typeHint = "?" . $typeHint;
-            }
-        }
-
-        return $typeHint .= ' ';
+        return $typeHint === null ? '' : sprintf('%s ', $typeHint);
     }
 
     private function renderMethodBody($method, $config)

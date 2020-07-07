@@ -194,7 +194,7 @@ class Expectation implements ExpectationInterface
     /**
      * Throws an exception if the expectation has been configured to do so
      *
-     * @throws \Exception|\Throwable
+     * @throws \Throwable
      * @return void
      */
     private function throwAsNecessary($return)

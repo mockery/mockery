@@ -18,16 +18,17 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
+use Mockery\ClosureWrapper;
 use Mockery\ExpectationInterface;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
+use Mockery\Generator\MockNameBuilder;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 use Mockery\Matcher\MatcherAbstract;
-use Mockery\ClosureWrapper;
-use Mockery\Generator\MockNameBuilder;
+use Mockery\Reflector;
 
 class Mockery
 {
@@ -74,10 +75,12 @@ class Mockery
 
     /**
      * @return array
+     *
+     * @deprecated since 1.3.2 and will be removed in 2.0.
      */
     public static function builtInTypes()
     {
-        $builtInTypes = array(
+        return array(
             'array',
             'bool',
             'callable',
@@ -89,13 +92,13 @@ class Mockery
             'string',
             'void',
         );
-
-        return $builtInTypes;
     }
 
     /**
      * @param string $type
      * @return bool
+     *
+     * @deprecated since 1.3.2 and will be removed in 2.0.
      */
     public static function isBuiltInType($type)
     {
@@ -865,13 +868,12 @@ class Mockery
 
         if ($parRef !== null && $parRef->hasMethod($method)) {
             $parRefMethod = $parRef->getMethod($method);
-            $parRefMethodRetType = $parRefMethod->getReturnType();
+            $parRefMethodRetType = Reflector::getReturnType($parRefMethod, true);
 
             if ($parRefMethodRetType !== null) {
                 $nameBuilder = new MockNameBuilder();
                 $nameBuilder->addPart('\\' . $newMockName);
-                $type = $parRefMethodRetType->getName();
-                $mock = self::namedMock($nameBuilder->build(), $type);
+                $mock = self::namedMock($nameBuilder->build(), $parRefMethodRetType);
                 $exp->andReturn($mock);
 
                 return $mock;
