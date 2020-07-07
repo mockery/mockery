@@ -45,9 +45,7 @@ class NamedMockTest extends MockeryTestCase
         $this->assertEquals("dave", $mock->getDave());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itShouldThrowIfAttemptingToRedefineNamedMock()
     {
         $mock = Mockery::namedMock("Mockery\Dave7");
@@ -68,10 +66,7 @@ class NamedMockTest extends MockeryTestCase
         $this->assertTrue($gardener->water($cactus));
     }
 
-    /**
-     * @test
-     * @requires PHP 7.0.0
-     */
+    /** @test */
     public function it_gracefully_handles_namespacing()
     {
         $animal = Mockery::namedMock(

@@ -2,6 +2,5 @@ preset: psr12
 
 finder:
   not-name:
-    - MethodWithHHVMReturnType.php
     - MockingParameterAndReturnTypesTest.php
     - SemiReservedWordsAsMethods.php

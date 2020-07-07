@@ -23,9 +23,6 @@ namespace test\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-/**
- * @requires PHP 7.1.0RC3
- */
 class MockingVoidMethodsTest extends MockeryTestCase
 {
     protected function mockeryTestSetUp()

@@ -42,18 +42,4 @@ class ClassPassTest extends MockeryTestCase
         $code = $this->pass->apply(static::CODE, $config);
         $this->assertTrue(\mb_strpos($code, 'class Mock extends \Testing\TestClass implements MockInterface') !== false);
     }
-
-    /**
-     * @test
-     */
-    public function shouldNotExtendHHVMClass()
-    {
-        $config = new MockConfiguration(array("\HH\\this"), array(), array(), "Dave\Dave");
-        $code = $this->pass->apply(static::CODE, $config);
-        if (\defined('HHVM_VERSION')) {
-            $this->assertNotContains('extends \HH\this', $code);
-        } else {
-            $this->assertSame('class Mock extends \HH\this implements MockInterface {}', $code);
-        }
-    }
 }

@@ -6,9 +6,6 @@ use Mockery as m;
 use Mockery\Fixtures\SemiReservedWordsAsMethods;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @requires PHP 7.0.0
- */
 class MockeryCanMockClassesWithSemiReservedWordsTest extends TestCase
 {
     /**
