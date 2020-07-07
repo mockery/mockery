@@ -88,7 +88,7 @@ class Configuration
     }
 
     /**
-     * @deprecated
+     * @deprecated since 1.4.0
      *
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
@@ -96,7 +96,7 @@ class Configuration
      */
     public function allowMockingMethodsUnnecessarily($flag = true)
     {
-        trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
 
         $this->_allowMockingMethodsUnnecessarily = (bool) $flag;
     }
@@ -104,11 +104,11 @@ class Configuration
     /**
      * Return flag indicating whether mocking non-existent methods allowed
      *
-     * @return bool
+     * @return bool since 1.4.0
      */
     public function mockingMethodsUnnecessarilyAllowed()
     {
-        trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
 
         return $this->_allowMockingMethodsUnnecessarily;
     }
