@@ -724,7 +724,10 @@ class Mock implements MockInterface
             case 'int':    return 0;
             case 'float':  return 0.0;
             case 'bool':   return false;
-            case 'array':  return [];
+
+            case 'array':
+            case 'iterable':
+                return [];
 
             case 'callable':
             case '\Closure':
@@ -740,9 +743,7 @@ class Mock implements MockInterface
                 return null;
 
             case 'object':
-                if (\PHP_VERSION_ID >= 70200) {
-                    return \Mockery::mock();
-                }
+                return \Mockery::mock();
 
             default:
                 return \Mockery::mock($returnType);
