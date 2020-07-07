@@ -88,11 +88,11 @@ class Configuration
     }
 
     /**
-     * @deprecated since 1.4.0
-     *
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
      * @param bool $flag
+     *
+     * @deprecated since 1.4.0
      */
     public function allowMockingMethodsUnnecessarily($flag = true)
     {
@@ -104,7 +104,9 @@ class Configuration
     /**
      * Return flag indicating whether mocking non-existent methods allowed
      *
-     * @return bool since 1.4.0
+     * @return bool
+     *
+     * @deprecated since 1.4.0
      */
     public function mockingMethodsUnnecessarilyAllowed()
     {
