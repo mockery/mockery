@@ -31,6 +31,7 @@ install:
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction $COMPOSER_FLAGS ; fi
 
 script:
+  - composer normalize --dry-run
   - ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite";
 
 after_success:
