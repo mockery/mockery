@@ -35,13 +35,9 @@ class Reflector
      */
     public static function isArray(\ReflectionParameter $param)
     {
-        if (\PHP_VERSION_ID < 70100) {
-            return $param->isArray();
-        }
-
         $type = $param->getType();
 
-        return $type instanceof \ReflectionNamedType ? $type->getName() === 'array' : false;
+        return $type instanceof \ReflectionNamedType && $type->getName();
     }
 
     /**
@@ -62,8 +58,7 @@ class Reflector
         $declaringClass = $param->getDeclaringClass()->getName();
         $typeHint = self::typeToString($type, $declaringClass);
 
-        // PHP 7.1+ supports nullable types via a leading question mark
-        return (!$withoutNullable && \PHP_VERSION_ID >= 70100 && $type->allowsNull()) ? sprintf('?%s', $typeHint) : $typeHint;
+        return (!$withoutNullable && $type->allowsNull()) ? sprintf('?%s', $typeHint) : $typeHint;
     }
 
     /**
@@ -84,14 +79,11 @@ class Reflector
         $declaringClass = $method->getDeclaringClass()->getName();
         $typeHint = self::typeToString($type, $declaringClass);
 
-        // PHP 7.1+ supports nullable types via a leading question mark
-        return (!$withoutNullable && \PHP_VERSION_ID >= 70100 && $type->allowsNull()) ? sprintf('?%s', $typeHint) : $typeHint;
+        return (!$withoutNullable && $type->allowsNull()) ? sprintf('?%s', $typeHint) : $typeHint;
     }
 
     /**
      * Get the string representation of the given type.
-     *
-     * This method MUST only be called on PHP 7+.
      *
      * @param \ReflectionType $type
      * @param string $declaringClass
@@ -107,8 +99,8 @@ class Reflector
             }, $type->getTypes()));
         }
 
-        // PHP 7.0 doesn't have named types, but 7.1+ does
-        $typeHint = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
+        // $type must be an instance of \ReflectionNamedType
+        $typeHint = $type->getName();
 
         // 'self' needs to be resolved to the name of the declaring class and
         // 'static' is a special type reserved as a return type in PHP 8

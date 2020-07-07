@@ -705,10 +705,6 @@ class Mock implements MockInterface
      */
     public function mockery_returnValueForMethod($name)
     {
-        if (\PHP_VERSION_ID < 70000) {
-            return null;
-        }
-
         $rm = $this->mockery_getMethod($name);
 
         // Default return value for methods with nullable type is null
@@ -740,9 +736,7 @@ class Mock implements MockInterface
                 return null;
 
             case 'object':
-                if (\PHP_VERSION_ID >= 70200) {
-                    return \Mockery::mock();
-                }
+                return \Mockery::mock();
 
             default:
                 return \Mockery::mock($returnType);
