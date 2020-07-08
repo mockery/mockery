@@ -25,7 +25,6 @@ class MockeryPHPUnitIntegrationTest extends MockeryTestCase
 {
     /**
      * @test
-     * @requires PHPUnit 5.7.6
      */
     public function it_marks_a_passing_test_as_risky_if_we_threw_exceptions()
     {
@@ -44,7 +43,6 @@ class MockeryPHPUnitIntegrationTest extends MockeryTestCase
 
     /**
      * @test
-     * @requires PHPUnit 5.7.6
      */
     public function the_user_can_manually_dismiss_an_exception_to_avoid_the_risky_test()
     {

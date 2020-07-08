@@ -37,11 +37,6 @@ class ClassPass implements Pass
         }
 
         $className = ltrim($target->getName(), "\\");
-        if (defined('HHVM_VERSION') && preg_match('/^HH\\\\/', $className)) {
-            // HH\ namespace is reserved for HHVM class and doesnt require
-            // class declaration and extension.
-            return $code;
-        }
 
         if (!class_exists($className)) {
             \Mockery::declareClass($className);

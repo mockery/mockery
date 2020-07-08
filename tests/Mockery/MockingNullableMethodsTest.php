@@ -25,9 +25,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\Method;
 use test\Mockery\Fixtures\MethodWithNullableReturnType;
 
-/**
- * @requires PHP 7.1.0RC3
- */
 class MockingNullableMethodsTest extends MockeryTestCase
 {
     /**

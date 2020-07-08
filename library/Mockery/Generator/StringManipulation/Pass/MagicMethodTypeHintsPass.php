@@ -23,6 +23,7 @@ namespace Mockery\Generator\StringManipulation\Pass;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\TargetClassInterface;
 use Mockery\Generator\Method;
+use Mockery\Generator\Parameter;
 
 class MagicMethodTypeHintsPass implements Pass
 {
@@ -176,10 +177,8 @@ class MagicMethodTypeHintsPass implements Pass
         $declaration .= ' function ' . $method->getName() . '(';
 
         foreach ($method->getParameters() as $index => $parameter) {
-            $declaration .= $parameter->getTypeHintAsString() . ' ';
-            $name = isset($namedParameters[$index]) ?
-                $namedParameters[$index]            :
-                $parameter->getName();
+            $declaration .= $this->renderTypeHint($parameter);
+            $name = isset($namedParameters[$index]) ? $namedParameters[$index] : $parameter->getName();
             $declaration .= '$' . $name;
             $declaration .= ',';
         }
@@ -187,11 +186,18 @@ class MagicMethodTypeHintsPass implements Pass
         $declaration .= ') ';
 
         $returnType = $method->getReturnType();
-        if (!empty($returnType)) {
-            $declaration .= ': ' . $returnType;
+        if ($returnType !== null) {
+            $declaration .= sprintf(': %s', $returnType);
         }
 
         return $declaration;
+    }
+
+    protected function renderTypeHint(Parameter $param)
+    {
+        $typeHint = $param->getTypeHint();
+
+        return $typeHint === null ? '' : sprintf('%s ', $typeHint);
     }
 
     /**

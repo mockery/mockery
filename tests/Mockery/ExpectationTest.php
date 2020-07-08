@@ -302,10 +302,7 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo();
     }
 
-    /**
-     * @test
-     * @requires PHP 7.0.0
-     */
+    /** @test */
     public function it_can_throw_a_throwable()
     {
         $this->expectException(\Error::class);

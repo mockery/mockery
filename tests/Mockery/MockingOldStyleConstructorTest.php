@@ -1,4 +1,4 @@
-<?hh
+<?php
 /**
  * Mockery
  *
@@ -19,39 +19,23 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace test\Mockery\Fixtures;
-
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\MockInterface;
 
-class MethodWithHHVMReturnType extends MockeryTestCase
+class MockingOldStyleConstructorTest extends MockeryTestCase
 {
-    public function nullableHHVMArray(): ?array<string, bool>
+    /**
+     * @issue issue/139
+     */
+    public function testCanMockClassWithOldStyleConstructorAndArguments()
     {
-        return array('key' => true);
+        $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_OldStyleConstructor'));
     }
+}
 
-    public function HHVMVoid(): void
+class MockeryTest_OldStyleConstructor
+{
+    public function MockeryTest_OldStyleConstructor($arg)
     {
-        return;
-    }
-
-    public function HHVMMixed(): mixed
-    {
-        return null;
-    }
-
-    public function HHVMThis(): this
-    {
-        return $this;
-    }
-
-    public function HHVMString(): string
-    {
-        return 'a string';
-    }
-
-    public function HHVMImmVector(): ImmVector<int>
-    {
-        return new ImmVector([1, 2, 3]);
     }
 }
