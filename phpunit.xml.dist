@@ -7,6 +7,7 @@
         <testsuite name="Mockery Test Suite">
             <directory suffix="Test.php">./tests</directory>
             <directory phpVersion="7.0.0" phpVersionOperator=">=">./tests/PHP70</directory>
+            <directory phpVersion="7.1.0" phpVersionOperator=">=">./tests/PHP71</directory>
             <directory phpVersion="7.2.0" phpVersionOperator=">=">./tests/PHP72</directory>
         </testsuite>
 
@@ -15,6 +16,7 @@
             <directory suffix="Test.php">./tests/PHP56</directory>
 
             <exclude>./tests/PHP70</exclude>
+            <exclude>./tests/PHP71</exclude>
             <exclude>./tests/PHP72</exclude>
         </testsuite>
     </testsuites>
