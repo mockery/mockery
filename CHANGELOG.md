@@ -1,6 +1,9 @@
 # Change Log
 
-## 1.3.2 (XXXX-XX-XX)
+## 1.3.2 (2020-07-09)
+
+* Support for PHP 8 (#1072)
+* Support for iterable pseudo-type (#1075)
 * Fix andAnyOthers() to properly match earlier expectations (#1051)
 
 ## 1.3.1 (2019-12-26)
