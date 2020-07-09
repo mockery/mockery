@@ -1,7 +1,9 @@
 # Change Log
 
-## 1.4.1 (XXXX-XX-XX)
+## 1.4.1 (2020-07-09)
 
+* Support for PHP 8 (#1072, merged in #1076)
+* Support for iterable pseudo-type (#1075, merged in #1077)
 * Allow quick definitions to use 'at least once' expectation
   `\Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(true)` (#1056)
 
