@@ -1,7 +1,10 @@
 # Change Log
 
-## 1.3.2 (XXXX-XX-XX)
+## 1.3.2 (2020-07-09)
+* Fix mocking with anonymous classes (#1039)
 * Fix andAnyOthers() to properly match earlier expectations (#1051)
+* Added provisional support for PHP 8.0 (#1068, #1072,#1079)
+* Fix mocking methods with iterable return type without specifying a return value (#1075)
 
 ## 1.3.1 (2019-12-26)
 * Revert improved exception debugging due to BC breaks (#1032)
