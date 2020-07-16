@@ -32,6 +32,9 @@ class MockingClassConstantsTest extends MockeryTestCase
             'ClassWithConstants' => [
                 'FOO' => 'baz',
                 'X' => 2,
+                'BAZ' => [
+                    'qux' => 'daz'
+                ]
             ]
         ]);
 
@@ -39,5 +42,6 @@ class MockingClassConstantsTest extends MockeryTestCase
 
         self::assertEquals('baz', $mock::FOO);
         self::assertEquals(2, $mock::X);
+        self::assertEquals(['qux' => 'daz'], $mock::BAZ);
     }
 }
