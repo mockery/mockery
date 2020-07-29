@@ -21,7 +21,7 @@ class ConstantsPass implements Pass
 
         $constantsCode = '';
         foreach ($cm as $constant => $value) {
-            $constantsCode .= sprintf("\n    const %s = '%s';\n", $constant, $value);
+            $constantsCode .= sprintf("\n    const %s = %s;\n", $constant, var_export($value, true));
         }
 
         $i = strrpos($code, '}');
