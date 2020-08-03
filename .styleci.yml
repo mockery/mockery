@@ -1,7 +1,12 @@
 preset: psr12
 
+enabled:
+  - symfony_braces
+
+disabled:
+  - const_visibility_required
+  - psr12_braces
+
 finder:
   not-name:
-    - MethodWithHHVMReturnType.php
-    - MockingParameterAndReturnTypesTest.php
     - SemiReservedWordsAsMethods.php

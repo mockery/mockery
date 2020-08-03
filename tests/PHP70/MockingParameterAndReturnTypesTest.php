@@ -111,7 +111,7 @@ class MockingParameterAndReturnTypesTest extends MockeryTestCase
         $this->assertSame('', $mock->returnString());
         $this->assertSame(0, $mock->returnInteger());
         $this->assertSame(0.0, $mock->returnFloat());
-        $this->assertFalse( $mock->returnBoolean());
+        $this->assertFalse($mock->returnBoolean());
         $this->assertSame([], $mock->returnArray());
         $this->assertTrue(is_callable($mock->returnCallable()));
         $this->assertInstanceOf('\Generator', $mock->returnGenerator());
@@ -150,7 +150,7 @@ class MagicParams
 
 class MagicReturns
 {
-    public function __isset($property) : bool
+    public function __isset($property): bool
     {
         return false;
     }
@@ -158,23 +158,43 @@ class MagicReturns
 
 abstract class TestWithParameterAndReturnType
 {
-    public function returnString(): string {}
+    public function returnString(): string
+    {
+    }
 
-    public function returnInteger(): int {}
+    public function returnInteger(): int
+    {
+    }
 
-    public function returnFloat(): float {}
+    public function returnFloat(): float
+    {
+    }
 
-    public function returnBoolean(): bool {}
+    public function returnBoolean(): bool
+    {
+    }
 
-    public function returnArray(): array {}
+    public function returnArray(): array
+    {
+    }
 
-    public function returnCallable(): callable {}
+    public function returnCallable(): callable
+    {
+    }
 
-    public function returnGenerator(): \Generator {}
+    public function returnGenerator(): \Generator
+    {
+    }
 
-    public function withClassReturnType(): TestWithParameterAndReturnType {}
+    public function withClassReturnType(): TestWithParameterAndReturnType
+    {
+    }
 
-    public function withScalarParameters(int $integer, float $float, bool $boolean, string $string) {}
+    public function withScalarParameters(int $integer, float $float, bool $boolean, string $string)
+    {
+    }
 
-    public function returnSelf(): self {}
+    public function returnSelf(): self
+    {
+    }
 }
