@@ -58,7 +58,7 @@ before_install:
       ' >> ~/.phpenv/versions/"$(phpenv version-name)"/etc/conf.d/travis.ini
     fi
     if [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
-      composer require --dev --no-update "phpunit/phpunit:^8.5|^9.0"
+      composer require --dev --no-update "phpunit/phpunit:^9.3.2"
     fi
 
 install:
@@ -68,9 +68,11 @@ install:
 script:
 - |
     if [[ $TRAVIS_PHP_VERSION == 5.6 ]]; then
-      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP56";
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP5";
+    elif [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP8";
     else
-      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite";
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP7";
     fi
 
 after_success:
