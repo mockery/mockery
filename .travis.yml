@@ -24,7 +24,11 @@ matrix:
         - COMPOSER_FLAGS="--ignore-platform-reqs"
 
 before_install:
-  - composer self-update --2
+  - |
+    composer self-update --2
+    if [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      composer require --dev --no-update "phpunit/phpunit:^9.3.2"
+    fi
 
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction $COMPOSER_FLAGS ; fi
