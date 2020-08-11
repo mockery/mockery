@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.3.3 (2020-08-11)
+* Fix array to string conversion in ConstantsPass (#1086)
+* Fixed nullable PHP 8.0 union types (#1088)
+* Fixed support for PHP 8.0 parent type (#1088)
+* Fixed PHP 8.0 mixed type support (#1088)
+* Fixed PHP 8.0 union return types (#1088)
+
 ## 1.3.2 (2020-07-09)
 * Fix mocking with anonymous classes (#1039)
 * Fix andAnyOthers() to properly match earlier expectations (#1051)
