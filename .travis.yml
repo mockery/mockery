@@ -31,7 +31,12 @@ install:
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction $COMPOSER_FLAGS ; fi
 
 script:
-  - ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite";
+- |
+    if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP8";
+    else
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP7";
+    fi
 
 after_success:
   - composer require satooshi/php-coveralls
