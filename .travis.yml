@@ -24,14 +24,23 @@ matrix:
         - COMPOSER_FLAGS="--ignore-platform-reqs"
 
 before_install:
-  - composer self-update --2
+  - |
+    composer self-update --2
+    if [[ $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      composer require --dev --no-update "phpunit/phpunit:^9.3.2"
+    fi
 
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction $COMPOSER_FLAGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction $COMPOSER_FLAGS ; fi
 
 script:
-  - ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite";
+- |
+    if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP8";
+    else
+      ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP7";
+    fi
 
 after_success:
   - composer require satooshi/php-coveralls

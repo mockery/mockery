@@ -11,6 +11,7 @@
 
         <testsuite name="Mockery Test Suite PHP7">
             <directory suffix="Test.php">./tests</directory>
+            <exclude>./tests/PHP80</exclude>
         </testsuite>
     </testsuites>
 
