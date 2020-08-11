@@ -22,7 +22,6 @@ namespace Mockery\Matcher;
 
 class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatcher
 {
-
     /**
      * Check if the actual value matches the expected.
      * Actual passed by reference to preserve reference trail (where applicable)
