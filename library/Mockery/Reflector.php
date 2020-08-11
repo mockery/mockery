@@ -66,11 +66,11 @@ class Reflector
         }
 
         $type = $param->getType();
-        $declaringClass = $param->getDeclaringClass()->getName();
+        $declaringClass = $param->getDeclaringClass();
         $typeHint = self::typeToString($type, $declaringClass);
 
         // PHP 7.1+ supports nullable types via a leading question mark
-        return (!$withoutNullable && \PHP_VERSION_ID >= 70100 && $type->allowsNull()) ? sprintf('?%s', $typeHint) : $typeHint;
+        return (!$withoutNullable && \PHP_VERSION_ID >= 70100 && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
     }
 
     /**
@@ -89,11 +89,11 @@ class Reflector
         }
 
         $type = $method->getReturnType();
-        $declaringClass = $method->getDeclaringClass()->getName();
+        $declaringClass = $method->getDeclaringClass();
         $typeHint = self::typeToString($type, $declaringClass);
 
         // PHP 7.1+ supports nullable types via a leading question mark
-        return (!$withoutNullable && \PHP_VERSION_ID >= 70100 && $type->allowsNull()) ? sprintf('?%s', $typeHint) : $typeHint;
+        return (!$withoutNullable && \PHP_VERSION_ID >= 70100 && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
     }
 
     /**
@@ -151,6 +151,8 @@ class Reflector
     /**
      * Compute the class name using legacy APIs, if possible.
      *
+     * This method MUST only be called on PHP 5.
+     *
      * @param \ReflectionParameter $param
      *
      * @return string|null
@@ -181,12 +183,12 @@ class Reflector
      *
      * This method MUST only be called on PHP 7+.
      *
-     * @param \ReflectionType $type
-     * @param string $declaringClass
+     * @param \ReflectionType  $type
+     * @param \ReflectionClass $declaringClass
      *
      * @return string|null
      */
-    private static function typeToString(\ReflectionType $type, $declaringClass)
+    private static function typeToString(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
         // PHP 8 union types can be recursively processed
         if ($type instanceof \ReflectionUnionType) {
@@ -198,8 +200,40 @@ class Reflector
         // PHP 7.0 doesn't have named types, but 7.1+ does
         $typeHint = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
 
-        // 'self' needs to be resolved to the name of the declaring class and
-        // 'static' is a special type reserved as a return type in PHP 8
-        return ($type->isBuiltin() || $typeHint === 'static') ? $typeHint : sprintf('\\%s', $typeHint === 'self' ? $declaringClass : $typeHint);
+        // builtins and 'static' can be returned as is
+        if (($type->isBuiltin() || $typeHint === 'static')) {
+            return $typeHint;
+        }
+
+        // 'self' needs to be resolved to the name of the declaring class
+        if ($typeHint === 'self') {
+            $typeHint = $declaringClass->getName();
+        }
+
+        // 'parent' needs to be resolved to the name of the parent class
+        if ($typeHint === 'parent') {
+            $typeHint = $declaringClass->getParentClass()->getName();
+        }
+
+        // class names need prefixing with a slash
+        return sprintf('\\%s', $typeHint);
+    }
+
+    /**
+     * Format the given type as a nullable type.
+     *
+     * This method MUST only be called on PHP 7.1+.
+     *
+     * @param string $typeHint
+     *
+     * @return string
+     */
+    private static function formatNullableType($typeHint)
+    {
+        if (\PHP_VERSION_ID < 80000) {
+            return sprintf('?%s', $typeHint);
+        }
+
+        return $typeHint === 'mixed' ? 'mixed' : sprintf('%s|null', $typeHint);
     }
 }

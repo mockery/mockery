@@ -120,80 +120,72 @@ class Container
         $builder->setConstantsMap(\Mockery::getConfiguration()->getConstantsMap());
 
         while (count($args) > 0) {
-            $arg = current($args);
+            $arg = array_shift($args);
             // check for multiple interfaces
-            if (is_string($arg) && strpos($arg, ',') && !strpos($arg, ']')) {
-                $interfaces = explode(',', str_replace(' ', '', $arg));
-                $builder->addTargets($interfaces);
-                array_shift($args);
-
-                continue;
-            } elseif (is_string($arg) && substr($arg, 0, 6) == 'alias:') {
-                $name = array_shift($args);
-                $name = str_replace('alias:', '', $name);
-                $builder->addTarget('stdClass');
-                $builder->setName($name);
-                continue;
-            } elseif (is_string($arg) && substr($arg, 0, 9) == 'overload:') {
-                $name = array_shift($args);
-                $name = str_replace('overload:', '', $name);
-                $builder->setInstanceMock(true);
-                $builder->addTarget('stdClass');
-                $builder->setName($name);
-                continue;
-            } elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
-                $parts = explode('[', $arg);
-                if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
-                    throw new \Mockery\Exception('Can only create a partial mock from'
-                    . ' an existing class or interface');
-                }
-                $class = $parts[0];
-                $parts[1] = str_replace(' ', '', $parts[1]);
-                $partialMethods = array_filter(explode(',', strtolower(rtrim($parts[1], ']'))));
-                $builder->addTarget($class);
-                foreach ($partialMethods as $partialMethod) {
-                    if ($partialMethod[0] === '!') {
-                        $builder->addBlackListedMethod(substr($partialMethod, 1));
-                        continue;
+            if (is_string($arg)) {
+                foreach (explode('|', $arg) as $type) {
+                    if ($arg === 'null') {
+                        // skip PHP 8 'null's
+                    } elseif (strpos($type, ',') && !strpos($type, ']')) {
+                        $interfaces = explode(',', str_replace(' ', '', $type));
+                        $builder->addTargets($interfaces);
+                    } elseif (substr($type, 0, 6) == 'alias:') {
+                        $type = str_replace('alias:', '', $type);
+                        $builder->addTarget('stdClass');
+                        $builder->setName($type);
+                    } elseif (substr($type, 0, 9) == 'overload:') {
+                        $type = str_replace('overload:', '', $type);
+                        $builder->setInstanceMock(true);
+                        $builder->addTarget('stdClass');
+                        $builder->setName($type);
+                    } elseif (substr($type, strlen($type)-1, 1) == ']') {
+                        $parts = explode('[', $type);
+                        if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
+                            throw new \Mockery\Exception('Can only create a partial mock from'
+                            . ' an existing class or interface');
+                        }
+                        $class = $parts[0];
+                        $parts[1] = str_replace(' ', '', $parts[1]);
+                        $partialMethods = array_filter(explode(',', strtolower(rtrim($parts[1], ']'))));
+                        $builder->addTarget($class);
+                        foreach ($partialMethods as $partialMethod) {
+                            if ($partialMethod[0] === '!') {
+                                $builder->addBlackListedMethod(substr($partialMethod, 1));
+                                continue;
+                            }
+                            $builder->addWhiteListedMethod($partialMethod);
+                        }
+                    } elseif (class_exists($type, true) || interface_exists($type, true) || trait_exists($type, true)) {
+                        $builder->addTarget($type);
+                    } elseif (!\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() && (!class_exists($type, true) && !interface_exists($type, true))) {
+                        throw new \Mockery\Exception("Mockery can't find '$type' so can't mock it");
+                    } else {
+                        if (!$this->isValidClassName($type)) {
+                            throw new \Mockery\Exception('Class name contains invalid characters');
+                        }
+                        $builder->addTarget($type);
                     }
-                    $builder->addWhiteListedMethod($partialMethod);
+                    break; // unions are "sum" types and not "intersections", and so we must only process the first part
                 }
-                array_shift($args);
-                continue;
-            } elseif (is_string($arg) && (class_exists($arg, true) || interface_exists($arg, true) || trait_exists($arg, true))) {
-                $class = array_shift($args);
-                $builder->addTarget($class);
-                continue;
-            } elseif (is_string($arg) && !\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() && (!class_exists($arg, true) && !interface_exists($arg, true))) {
-                throw new \Mockery\Exception("Mockery can't find '$arg' so can't mock it");
-            } elseif (is_string($arg)) {
-                if (!$this->isValidClassName($arg)) {
-                    throw new \Mockery\Exception('Class name contains invalid characters');
-                }
-                $class = array_shift($args);
-                $builder->addTarget($class);
-                continue;
             } elseif (is_object($arg)) {
-                $partial = array_shift($args);
-                $builder->addTarget($partial);
-                continue;
-            } elseif (is_array($arg) && !empty($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
-                // if associative array
-                if (array_key_exists(self::BLOCKS, $arg)) {
-                    $blocks = $arg[self::BLOCKS];
-                }
-                unset($arg[self::BLOCKS]);
-                $quickdefs = array_shift($args);
-                continue;
+                $builder->addTarget($arg);
             } elseif (is_array($arg)) {
-                $constructorArgs = array_shift($args);
-                continue;
+                if (!empty($arg) && array_keys($arg) !== range(0, count($arg) - 1)) {
+                    // if associative array
+                    if (array_key_exists(self::BLOCKS, $arg)) {
+                        $blocks = $arg[self::BLOCKS];
+                    }
+                    unset($arg[self::BLOCKS]);
+                    $quickdefs = $arg;
+                } else {
+                    $constructorArgs = $arg;
+                }
+            } else {
+                throw new \Mockery\Exception(
+                    'Unable to parse arguments sent to '
+                    . get_class($this) . '::mock()'
+                );
             }
-
-            throw new \Mockery\Exception(
-                'Unable to parse arguments sent to '
-                . get_class($this) . '::mock()'
-            );
         }
 
         $builder->addBlackListedMethods($blocks);

@@ -46,6 +46,8 @@ class Parameter
      * This will be null if there was no type, or it was a scalar or a union.
      *
      * @return \ReflectionClass|null
+     *
+     * @deprecated since 1.3.3 and will be removed in 2.0.
      */
     public function getClass()
     {

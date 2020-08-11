@@ -9,4 +9,5 @@ disabled:
 
 finder:
   not-name:
+    - Php80LanguageFeaturesTest.php
     - SemiReservedWordsAsMethods.php
