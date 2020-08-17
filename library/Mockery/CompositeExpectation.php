@@ -41,6 +41,49 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
+     * Expected argument setter for the expectation
+     *
+     * @param mixed[] ...$args
+     * @return self
+     */
+    public function with(...$args)
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Expected arguments for the expectation passed as an array or a closure that matches each passed argument on
+     * each function call.
+     *
+     * @param array|\Closure $argsOrClosure
+     * @return self
+     */
+    public function withArgs($argsOrClosure)
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Set with() as no arguments expected
+     *
+     * @return self
+     */
+    public function withNoArgs()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Set expectation that any arguments are acceptable
+     *
+     * @return self
+     */
+    public function withAnyArgs()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
      * @param mixed ...$args
      */
     public function andReturn(...$args)
@@ -57,6 +100,89 @@ class CompositeExpectation implements ExpectationInterface
     public function andReturns(...$args)
     {
         return call_user_func_array([$this, 'andReturn'], $args);
+    }
+
+    /**
+     * Indicates the number of times this expectation should occur
+     *
+     * @param int $limit
+     * @throws \InvalidArgumentException
+     * @return self
+     */
+    public function times($limit = null)
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Indicates that this expectation is never expected to be called
+     *
+     * @return self
+     */
+    public function never()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Indicates that this expectation is expected exactly once
+     *
+     * @return self
+     */
+    public function once()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Indicates that this expectation is expected exactly twice
+     *
+     * @return self
+     */
+    public function twice()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Sets next count validator to the AtLeast instance
+     *
+     * @return self
+     */
+    public function atLeast()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Sets next count validator to the AtMost instance
+     *
+     * @return self
+     */
+    public function atMost()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Indicates this expectation should occur zero or more times
+     *
+     * @return self
+     */
+    public function zeroOrMoreTimes()
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
+    }
+
+    /**
+     * Shorthand for setting minimum and maximum constraints on call counts
+     *
+     * @param int $minimum
+     * @param int $maximum
+     */
+    public function between($minimum, $maximum)
+    {
+        return $this->__call(__FUNCTION__, \func_get_args());
     }
 
     /**
