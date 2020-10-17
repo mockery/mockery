@@ -25,7 +25,7 @@ abstract class MatcherAbstract
     /**
      * The expected value (or part thereof)
      *
-     * @var mixed
+     * @var array|mixed[]
      */
     protected $_expected = null;
 

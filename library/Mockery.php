@@ -398,7 +398,7 @@ class Mockery
     /**
      * Return instance of CONTAINS matcher.
      *
-     * @param array ...$args
+     * @param mixed $args
      *
      * @return \Mockery\Matcher\Contains
      */
