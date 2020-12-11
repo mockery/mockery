@@ -94,9 +94,11 @@ class Reflector
     {
         // PHP 8 union types can be recursively processed
         if ($type instanceof \ReflectionUnionType) {
-            return \implode('|', \array_map(function (\ReflectionType $type) use ($declaringClass) {
-                return self::typeToString($type, $declaringClass);
-            }, $type->getTypes()));
+            return \implode('|', \array_filter(\array_map(function (\ReflectionType $type) use ($declaringClass) {
+                $typeHint = self::typeToString($type, $declaringClass);
+
+                return $typeHint === 'null' ? null : $typeHint;
+            }, $type->getTypes())));
         }
 
         // $type must be an instance of \ReflectionNamedType

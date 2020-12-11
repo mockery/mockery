@@ -3,25 +3,8 @@ language: php
 matrix:
   include:
     - php: 7.3
-      env:
-        - DEPS=lowest
-    - php: 7.3
-      env:
-        - DEPS=latest
     - php: 7.4
-      env:
-        - DEPS=lowest
-    - php: 7.4
-      env:
-        - DEPS=latest
-    - php: nightly
-      env:
-        - DEPS=lowest
-        - COMPOSER_FLAGS="--ignore-platform-reqs"
-    - php: nightly
-      env:
-        - DEPS=latest
-        - COMPOSER_FLAGS="--ignore-platform-reqs"
+    - php: 8.0
 
 before_install:
   - |
@@ -31,12 +14,11 @@ before_install:
     fi
 
 install:
-  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update --no-interaction $COMPOSER_FLAGS ; fi
-  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction $COMPOSER_FLAGS ; fi
+  - travis_retry composer update --no-interaction
 
 script:
 - |
-    if [[ $TRAVIS_PHP_VERSION == 'nightly' ]]; then
+    if [[ $TRAVIS_PHP_VERSION == '8.0' ]]; then
       ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP8";
     else
       ./vendor/bin/phpunit --coverage-text --coverage-clover="build/logs/clover.xml" --testsuite="Mockery Test Suite PHP7";
@@ -66,4 +48,3 @@ deploy:
   on:
     branch: master
     php: '7.3'
-    condition: $DEPS = latest
