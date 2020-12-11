@@ -30,6 +30,15 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
     }
 
     /** @test */
+    public function it_can_mock_a_class_with_a_union_argument_type_hint_including_null()
+    {
+        $mock = mock(ArgumentUnionTypeHintWithNull::class);
+        $mock->allows()->foo(null);
+
+        $mock->foo(null);
+    }
+
+    /** @test */
     public function it_can_mock_a_class_with_a_parent_argument_type_hint()
     {
         $mock = mock(ArgumentParentTypeHint::class);
@@ -74,6 +83,13 @@ class ArgumentMixedTypeHint
 class ArgumentUnionTypeHint
 {
     public function foo(string|array|self $foo)
+    {
+    }
+}
+
+class ArgumentUnionTypeHintWithNull
+{
+    public function foo(string|array|null $foo)
     {
     }
 }
