@@ -224,7 +224,7 @@ class Configuration
         $this->_objectFormatters[$class] = $formatterCallback;
     }
 
-    public function findObjectFormatter($class)
+    public function getObjectFormatter($class, $defaultFormatter)
     {
         $parentClass = $class;
         do {
@@ -234,14 +234,9 @@ class Configuration
         $classesAndInterfaces = array_merge($classes, class_implements($class));
         foreach ($classesAndInterfaces as $type) {
             if (isset($this->_objectFormatters[$type])) {
-                return $type;
+                return $this->_objectFormatters[$type];
             }
         }
-        return null;
-    }
-
-    public function getObjectFormatter($class)
-    {
-        return $this->_objectFormatters[$class];
+        return $defaultFormatter;
     }
 }

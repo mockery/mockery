@@ -662,23 +662,20 @@ class Mockery
             return array('...');
         }
 
+        $defaultFormatter = function ($object, $nesting) {
+            return array('properties' => self::extractInstancePublicProperties($object, $nesting));
+        };
+
         $class = get_class($object);
-        $customFormatterClass = self::getConfiguration()->findObjectFormatter($class);
+
+        $formatter = self::getConfiguration()->getObjectFormatter($class, $defaultFormatter);
 
         $array = array(
           'class' => $class,
           'identity' => '#' . md5(spl_object_hash($object))
         );
 
-        if ($customFormatterClass) {
-            $customFormatter = self::getConfiguration()->getObjectFormatter($customFormatterClass);
-            $array = array_merge($array, $customFormatter($object));
-        } else {
-            $array = array_merge(
-                $array,
-                array('properties' => self::extractInstancePublicProperties($object, $nesting))
-            );
-        }
+        $array = array_merge($array, $formatter($object, $nesting));
 
         return $array;
     }
