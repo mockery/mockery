@@ -316,7 +316,7 @@ class Mock implements MockInterface
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      * @param mixed $returnValue the default return value for calls to missing functions on this mock
-     * @param bool $recursive Speficy if returned mocks should also have shouldIgnoreMissing set
+     * @param bool $recursive Specify if returned mocks should also have shouldIgnoreMissing set
      * @return Mock
      */
     public function shouldIgnoreMissing($returnValue = null, $recursive = false)
