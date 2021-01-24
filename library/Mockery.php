@@ -220,7 +220,7 @@ class Mockery
      */
     public static function fetchMock($name)
     {
-        return self::$_container->fetchMock($name);
+        return self::getContainer()->fetchMock($name);
     }
 
     /**
