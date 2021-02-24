@@ -14,4 +14,4 @@ phpunit.xml
 docs/api
 phpDocumentor.phar*
 .phpunit.result.cache
-.phpdoc
+.phpdoc/
