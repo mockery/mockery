@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.4 (2021-02-24)
+
+* Fixes calls to fetchMock before initialisation #1113
+
 ## 1.3.3 (2020-08-11)
 * Fix array to string conversion in ConstantsPass (#1086)
 * Fixed nullable PHP 8.0 union types (#1088)
