@@ -68,6 +68,13 @@ class Configuration
     }
 
     /**
+     * Custom object formatters
+     *
+     * @var array
+     */
+    protected $_objectFormatters = array();
+
+    /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
      * @param bool $flag
@@ -210,5 +217,26 @@ class Configuration
     public function reflectionCacheEnabled()
     {
         return $this->_reflectionCacheEnabled;
+    }
+
+    public function setObjectFormatter($class, $formatterCallback)
+    {
+        $this->_objectFormatters[$class] = $formatterCallback;
+    }
+
+    public function getObjectFormatter($class, $defaultFormatter)
+    {
+        $parentClass = $class;
+        do {
+            $classes[] = $parentClass;
+            $parentClass = get_parent_class($parentClass);
+        } while ($parentClass);
+        $classesAndInterfaces = array_merge($classes, class_implements($class));
+        foreach ($classesAndInterfaces as $type) {
+            if (isset($this->_objectFormatters[$type])) {
+                return $this->_objectFormatters[$type];
+            }
+        }
+        return $defaultFormatter;
     }
 }
