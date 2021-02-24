@@ -4,6 +4,7 @@
 * Fixes calls to fetchMock before initialisation #1113
 * Allow shouldIgnoreMissing() to behave in a recursive fashion #1097
 * Custom object formatters #766 (Needs Docs)
+* Fix crash on a union type including null #1106
 
 ## 1.3.4 (2021-02-24)
 * Fixes calls to fetchMock before initialisation #1113
