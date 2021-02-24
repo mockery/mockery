@@ -389,6 +389,12 @@ class Expectation implements ExpectationInterface
                 return true;
             }
         }
+        if (is_object($expected)) {
+            $matcher = \Mockery::getConfiguration()->getDefaultMatcher(get_class($expected));
+            if ($matcher !== null) {
+                $expected = new $matcher($expected);
+            }
+        }
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }

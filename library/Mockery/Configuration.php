@@ -75,6 +75,13 @@ class Configuration
     protected $_objectFormatters = array();
 
     /**
+     * Default argument matchers
+     *
+     * @var array
+     */
+    protected $_defaultMatchers = array();
+
+    /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
      * @param bool $flag
@@ -238,5 +245,39 @@ class Configuration
             }
         }
         return $defaultFormatter;
+    }
+
+    /**
+     * @param string $class
+     * @param string $matcherClass
+     */
+    public function setDefaultMatcher($class, $matcherClass)
+    {
+        if (!is_a($matcherClass, \Mockery\Matcher\MatcherAbstract::class, true) &&
+            !is_a($matcherClass, \Hamcrest\Matcher::class, true) &&
+            !is_a($matcherClass, \Hamcrest_Matcher::class, true)
+        ) {
+            throw new \InvalidArgumentException(
+                "Matcher class must be either Hamcrest matcher or extend \Mockery\Matcher\MatcherAbstract, " .
+                  "'$matcherClass' given."
+            );
+        }
+        $this->_defaultMatchers[$class] = $matcherClass;
+    }
+
+    public function getDefaultMatcher($class)
+    {
+        $parentClass = $class;
+        do {
+            $classes[] = $parentClass;
+            $parentClass = get_parent_class($parentClass);
+        } while ($parentClass);
+        $classesAndInterfaces = array_merge($classes, class_implements($class));
+        foreach ($classesAndInterfaces as $type) {
+            if (isset($this->_defaultMatchers[$type])) {
+                return $this->_defaultMatchers[$type];
+            }
+        }
+        return null;
     }
 }
