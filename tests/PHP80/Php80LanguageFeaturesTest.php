@@ -2,7 +2,9 @@
 
 namespace test\Mockery;
 
+use DateTime;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use ReturnTypeWillChange;
 
 /**
  * @requires PHP 8.0.0-dev
@@ -71,6 +73,33 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertInstanceOf(\stdClass::class, $mock->foo());
     }
+
+    /**
+     * @test
+     * @requires PHP 8.1
+     */
+    public function it_can_mock_an_internal_class_with_tentative_return_types()
+    {
+        $mock = spy(DateTime::class);
+
+        $this->assertSame(0, $mock->getTimestamp());
+    }
+
+    /** @test */
+    public function it_can_mock_a_class_with_return_type_will_change_attribute_and_no_return_type()
+    {
+        $mock = spy(ReturnTypeWillChangeAttributeNoReturnType::class);
+
+        $this->assertNull($mock->getTimestamp());
+    }
+
+    /** @test */
+    public function it_can_mock_a_class_with_return_type_will_change_attribute_and_wrong_return_type()
+    {
+        $mock = spy(ReturnTypeWillChangeAttributeWrongReturnType::class);
+
+        $this->assertSame(0.0, $mock->getTimestamp());
+    }
 }
 
 class ArgumentMixedTypeHint
@@ -118,6 +147,22 @@ class ReturnTypeUnionTypeHint
 class ReturnTypeParentTypeHint extends \stdClass
 {
     public function foo(): parent
+    {
+    }
+}
+
+class ReturnTypeWillChangeAttributeNoReturnType extends DateTime
+{
+    #[ReturnTypeWillChange]
+    public function getTimestamp()
+    {
+    }
+}
+
+class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
+{
+    #[ReturnTypeWillChange]
+    public function getTimestamp(): float
     {
     }
 }
