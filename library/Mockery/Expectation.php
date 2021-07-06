@@ -665,6 +665,25 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Sets up a closure that will yield each of the provided args
+     *
+     * @param mixed ...$args
+     * @return self
+     */
+    public function andYield(...$args)
+    {
+        $this->_closureQueue = [
+            static function () use ($args) {
+                foreach ($args as $arg) {
+                    yield $arg;
+                }
+            },
+        ];
+
+        return $this;
+    }
+
+    /**
      * Alias to andSet(). Allows the natural English construct
      * - set('foo', 'bar')->andReturn('bar')
      *
