@@ -285,6 +285,12 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals(3, $this->mock->foo());
     }
 
+    public function testAndYield(): void
+    {
+        $this->mock->shouldReceive('foo')->andYield(1, 2, 3);
+        self::assertSame([1, 2, 3], iterator_to_array($this->mock->foo()));
+    }
+
     public function testThrowsException()
     {
         $this->mock->shouldReceive('foo')->andThrow(new OutOfBoundsException());

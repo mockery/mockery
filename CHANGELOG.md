@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.4.4 (TBC)
+* Add method that allows defining a set of arguments the mock should yield #1133
+
 ## 1.4.3 (2021-02-24)
 * Fixes calls to fetchMock before initialisation #1113
 * Allow shouldIgnoreMissing() to behave in a recursive fashion #1097
