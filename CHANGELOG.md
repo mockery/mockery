@@ -2,6 +2,7 @@
 
 ## 1.4.4 (TBC)
 * Add method that allows defining a set of arguments the mock should yield #1133
+* Added option to configure default matchers for objects `\Mockery::getConfiguration()->setDefaultMatcher($class, $matcherClass)` #1120
 
 ## 1.4.3 (2021-02-24)
 * Fixes calls to fetchMock before initialisation #1113
