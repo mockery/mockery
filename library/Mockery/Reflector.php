@@ -84,11 +84,20 @@ class Reflector
     public static function getReturnType(\ReflectionMethod $method, $withoutNullable = false)
     {
         // Strip all return types for HHVM and skip PHP 5.
-        if (method_exists($method, 'getReturnTypeText') || \PHP_VERSION_ID < 70000 || !$method->hasReturnType()) {
+        if (method_exists($method, 'getReturnTypeText') || \PHP_VERSION_ID < 70000) {
             return null;
         }
 
         $type = $method->getReturnType();
+
+        if (is_null($type) && method_exists($method, 'getTentativeReturnType')) {
+            $type = $method->getTentativeReturnType();
+        }
+
+        if (is_null($type)) {
+            return null;
+        }
+
         $declaringClass = $method->getDeclaringClass();
         $typeHint = self::typeToString($type, $declaringClass);
 

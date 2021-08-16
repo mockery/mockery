@@ -1356,6 +1356,7 @@ class ContainerTest extends MockeryTestCase
     /**
      * @test
      * @group issue/339
+     * @requires PHP <8.1
      */
     public function canMockClassesThatImplementSerializable()
     {
@@ -1844,13 +1845,15 @@ class MockeryTest_ClassThatDescendsFromInternalClass extends DateTime
 {
 }
 
-class MockeryTest_ClassThatImplementsSerializable implements Serializable
-{
-    public function serialize()
+if (PHP_VERSION_ID < 80100) {
+    class MockeryTest_ClassThatImplementsSerializable implements Serializable
     {
-    }
+        public function serialize()
+        {
+        }
 
-    public function unserialize($serialized)
-    {
+        public function unserialize($serialized)
+        {
+        }
     }
 }
