@@ -250,14 +250,14 @@ class Mock implements MockInterface
 
     public function shouldReceiveExisting(...$methodNames)
     {
-        return $this->mockery_withMockingNonExistentMethodsAllowed(false, function() use ($methodNames) {
+        return $this->mockery_withMockingNonExistentMethodsAllowed(false, function () use ($methodNames) {
             return  $this->shouldReceive(...$methodNames);
         });
     }
 
     public function shouldReceiveNonExistent(...$methodNames)
     {
-        return $this->mockery_withMockingNonExistentMethodsAllowed(true, function() use ($methodNames) {
+        return $this->mockery_withMockingNonExistentMethodsAllowed(true, function () use ($methodNames) {
             return  $this->shouldReceive(...$methodNames);
         });
     }
@@ -269,9 +269,7 @@ class Mock implements MockInterface
         $config->allowMockingNonExistentMethods($flag);
 
         try {
-
             $result = $callback();
-
         } finally {
             $config->allowMockingNonExistentMethods($allowed);
         }
