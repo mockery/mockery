@@ -6,7 +6,6 @@
 .gitattributes export-ignore
 .gitignore export-ignore
 .php_cs export-ignore
-.scrutinizer.yml export-ignore
 .styleci.yml export-ignore
 Makefile export-ignore
 phpunit.xml.dist export-ignore
