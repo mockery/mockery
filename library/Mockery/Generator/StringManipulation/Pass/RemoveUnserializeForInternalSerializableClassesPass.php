@@ -30,7 +30,8 @@ use Mockery\Generator\MockConfiguration;
  */
 class RemoveUnserializeForInternalSerializableClassesPass
 {
-    const DUMMY_METHOD_DEFINITION = 'public function unserialize($string) {} ';
+    const DUMMY_METHOD_DEFINITION_LEGACY = 'public function unserialize($string) {} ';
+    const DUMMY_METHOD_DEFINITION = 'public function unserialize(string $data): void {} ';
 
     public function apply($code, MockConfiguration $config)
     {
@@ -44,7 +45,7 @@ class RemoveUnserializeForInternalSerializableClassesPass
             return $code;
         }
 
-        $code = $this->appendToClass($code, self::DUMMY_METHOD_DEFINITION);
+        $code = $this->appendToClass($code, \PHP_VERSION_ID < 80100 ? self::DUMMY_METHOD_DEFINITION_LEGACY : self::DUMMY_METHOD_DEFINITION);
 
         return $code;
     }

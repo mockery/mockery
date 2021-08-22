@@ -2,7 +2,10 @@
 
 namespace test\Mockery;
 
+use ArrayIterator;
 use DateTime;
+use Iterator;
+use IteratorAggregate;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
 
@@ -11,6 +14,21 @@ use ReturnTypeWillChange;
  */
 class Php80LanguageFeaturesTest extends MockeryTestCase
 {
+    public function testMockingIteratorAggregateDoesNotImplementIterator()
+    {
+        $mock = mock('test\Mockery\ImplementsIteratorAggregate');
+        $this->assertInstanceOf('IteratorAggregate', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+        $this->assertNotInstanceOf('Iterator', $mock);
+    }
+
+    public function testMockingIteratorDoesNotImplementIterator()
+    {
+        $mock = mock('test\Mockery\ImplementsIterator');
+        $this->assertInstanceOf('Iterator', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+    }
+
     /** @test */
     public function it_can_mock_a_class_with_a_mixed_argument_type_hint()
     {
@@ -73,32 +91,36 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertInstanceOf(\stdClass::class, $mock->foo());
     }
+}
 
-    /**
-     * @test
-     * @requires PHP 8.1
-     */
-    public function it_can_mock_an_internal_class_with_tentative_return_types()
+class ImplementsIteratorAggregate implements IteratorAggregate
+{
+    public function getIterator(): ArrayIterator
     {
-        $mock = spy(DateTime::class);
+        return new ArrayIterator([]);
+    }
+}
 
-        $this->assertSame(0, $mock->getTimestamp());
+class ImplementsIterator implements Iterator
+{
+    public function rewind(): void
+    {
     }
 
-    /** @test */
-    public function it_can_mock_a_class_with_return_type_will_change_attribute_and_no_return_type()
+    public function current(): mixed
     {
-        $mock = spy(ReturnTypeWillChangeAttributeNoReturnType::class);
-
-        $this->assertNull($mock->getTimestamp());
     }
 
-    /** @test */
-    public function it_can_mock_a_class_with_return_type_will_change_attribute_and_wrong_return_type()
+    public function key(): mixed
     {
-        $mock = spy(ReturnTypeWillChangeAttributeWrongReturnType::class);
+    }
 
-        $this->assertSame(0.0, $mock->getTimestamp());
+    public function next(): void
+    {
+    }
+
+    public function valid(): bool
+    {
     }
 }
 
@@ -147,22 +169,6 @@ class ReturnTypeUnionTypeHint
 class ReturnTypeParentTypeHint extends \stdClass
 {
     public function foo(): parent
-    {
-    }
-}
-
-class ReturnTypeWillChangeAttributeNoReturnType extends DateTime
-{
-    #[ReturnTypeWillChange]
-    public function getTimestamp()
-    {
-    }
-}
-
-class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
-{
-    #[ReturnTypeWillChange]
-    public function getTimestamp(): float
     {
     }
 }

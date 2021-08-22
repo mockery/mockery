@@ -6,24 +6,26 @@
     <testsuites>
         <testsuite name="Mockery Test Suite PHP8">
             <directory suffix="Test.php">./tests</directory>
-            <directory phpVersion="8.0.0" phpVersionOperator=">=">./tests/PHP80</directory>
+            <directory phpVersion="8.0.0-dev" phpVersionOperator=">=">./tests/PHP80</directory>
+            <directory phpVersion="8.1.0-dev" phpVersionOperator=">=">./tests/PHP81</directory>
         </testsuite>
 
         <testsuite name="Mockery Test Suite PHP7">
             <directory suffix="Test.php">./tests</directory>
-            <directory phpVersion="7.0.0" phpVersionOperator=">=">./tests/PHP70</directory>
-            <directory phpVersion="7.1.0" phpVersionOperator=">=">./tests/PHP71</directory>
-            <directory phpVersion="7.2.0" phpVersionOperator=">=">./tests/PHP72</directory>
+            <directory phpVersion="7.0.0-dev" phpVersionOperator=">=">./tests/PHP70</directory>
+            <directory phpVersion="7.1.0-dev" phpVersionOperator=">=">./tests/PHP71</directory>
+            <directory phpVersion="7.2.0-dev" phpVersionOperator=">=">./tests/PHP72</directory>
             <exclude>./tests/PHP80</exclude>
+            <exclude>./tests/PHP81</exclude>
         </testsuite>
 
         <testsuite name="Mockery Test Suite PHP5">
             <directory suffix="Test.php">./tests</directory>
-            <directory suffix="Test.php">./tests/PHP56</directory>
             <exclude>./tests/PHP70</exclude>
             <exclude>./tests/PHP71</exclude>
             <exclude>./tests/PHP72</exclude>
             <exclude>./tests/PHP80</exclude>
+            <exclude>./tests/PHP81</exclude>
         </testsuite>
     </testsuites>
 
