@@ -1093,6 +1093,9 @@ class ContainerTest extends MockeryTestCase
         $m->foo();
     }
 
+    /**
+     * @requires PHP < 8.0
+     */
     public function testMockingIteratorAggregateDoesNotImplementIterator()
     {
         $mock = mock('MockeryTest_ImplementsIteratorAggregate');
@@ -1131,6 +1134,9 @@ class ContainerTest extends MockeryTestCase
         $this->assertInstanceOf('Traversable', $mock);
     }
 
+    /**
+     * @requires PHP < 8.0
+     */
     public function testMockingIteratorDoesNotImplementIterator()
     {
         $mock = mock('MockeryTest_ImplementsIterator');
@@ -1359,6 +1365,7 @@ class ContainerTest extends MockeryTestCase
     /**
      * @test
      * @group issue/339
+     * @requires PHP <8.1
      */
     public function canMockClassesThatImplementSerializable()
     {
@@ -1754,34 +1761,36 @@ class MockeryTest_WithToString
     }
 }
 
-class MockeryTest_ImplementsIteratorAggregate implements IteratorAggregate
-{
-    public function getIterator()
+if (\PHP_VERSION_ID < 80000) {
+    class MockeryTest_ImplementsIteratorAggregate implements IteratorAggregate
     {
-        return new ArrayIterator(array());
-    }
-}
-
-class MockeryTest_ImplementsIterator implements Iterator
-{
-    public function rewind()
-    {
+        public function getIterator()
+        {
+            return new ArrayIterator(array());
+        }
     }
 
-    public function current()
+    class MockeryTest_ImplementsIterator implements Iterator
     {
-    }
+        public function rewind()
+        {
+        }
 
-    public function key()
-    {
-    }
+        public function current()
+        {
+        }
 
-    public function next()
-    {
-    }
+        public function key()
+        {
+        }
 
-    public function valid()
-    {
+        public function next()
+        {
+        }
+
+        public function valid()
+        {
+        }
     }
 }
 
@@ -1845,13 +1854,15 @@ class MockeryTest_ClassThatDescendsFromInternalClass extends DateTime
 {
 }
 
-class MockeryTest_ClassThatImplementsSerializable implements Serializable
-{
-    public function serialize()
+if (PHP_VERSION_ID < 80100) {
+    class MockeryTest_ClassThatImplementsSerializable implements Serializable
     {
-    }
+        public function serialize()
+        {
+        }
 
-    public function unserialize($serialized)
-    {
+        public function unserialize($serialized)
+        {
+        }
     }
 }

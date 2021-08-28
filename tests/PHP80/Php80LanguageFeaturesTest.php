@@ -2,13 +2,33 @@
 
 namespace test\Mockery;
 
+use ArrayIterator;
+use DateTime;
+use Iterator;
+use IteratorAggregate;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use ReturnTypeWillChange;
 
 /**
  * @requires PHP 8.0.0-dev
  */
 class Php80LanguageFeaturesTest extends MockeryTestCase
 {
+    public function testMockingIteratorAggregateDoesNotImplementIterator()
+    {
+        $mock = mock('test\Mockery\ImplementsIteratorAggregate');
+        $this->assertInstanceOf('IteratorAggregate', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+        $this->assertNotInstanceOf('Iterator', $mock);
+    }
+
+    public function testMockingIteratorDoesNotImplementIterator()
+    {
+        $mock = mock('test\Mockery\ImplementsIterator');
+        $this->assertInstanceOf('Iterator', $mock);
+        $this->assertInstanceOf('Traversable', $mock);
+    }
+
     /** @test */
     public function it_can_mock_a_class_with_a_mixed_argument_type_hint()
     {
@@ -70,6 +90,37 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
         $mock = spy(ReturnTypeParentTypeHint::class);
 
         $this->assertInstanceOf(\stdClass::class, $mock->foo());
+    }
+}
+
+class ImplementsIteratorAggregate implements IteratorAggregate
+{
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator([]);
+    }
+}
+
+class ImplementsIterator implements Iterator
+{
+    public function rewind(): void
+    {
+    }
+
+    public function current(): mixed
+    {
+    }
+
+    public function key(): mixed
+    {
+    }
+
+    public function next(): void
+    {
+    }
+
+    public function valid(): bool
+    {
     }
 }
 
