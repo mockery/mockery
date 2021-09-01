@@ -71,11 +71,16 @@ class Reflector
      */
     public static function getReturnType(\ReflectionMethod $method, $withoutNullable = false)
     {
-        if (!$method->hasReturnType()) {
+        $type = $method->getReturnType();
+
+        if (is_null($type) && method_exists($method, 'getTentativeReturnType')) {
+            $type = $method->getTentativeReturnType();
+        }
+
+        if (is_null($type)) {
             return null;
         }
 
-        $type = $method->getReturnType();
         $declaringClass = $method->getDeclaringClass();
         $typeHint = self::typeToString($type, $declaringClass);
 
