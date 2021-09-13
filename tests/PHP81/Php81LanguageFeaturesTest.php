@@ -4,6 +4,7 @@ namespace test\Mockery;
 
 use DateTime;
 use Serializable;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
 
@@ -28,6 +29,24 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
         $mock = spy(DateTime::class);
 
         $this->assertSame(0, $mock->getTimestamp());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_mock_an_internal_class_with_tentative_union_return_types()
+    {
+        $mock = m::mock('PDO');
+
+        $this->assertInstanceOf('PDO', $mock);
+
+        $mock->shouldReceive('exec')->once();
+
+        try {
+            $this->assertSame(0, $mock->exec('select * from foo.bar'));
+        } finally {
+            m::close();
+        }
     }
 
     /** @test */

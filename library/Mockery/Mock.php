@@ -717,12 +717,11 @@ class Mock implements MockInterface
     {
         $rm = $this->mockery_getMethod($name);
 
-        // Default return value for methods with nullable type is null
-        if ($rm === null || $rm->getReturnType() === null || $rm->getReturnType()->allowsNull()) {
+        if ($rm === null) {
             return null;
         }
 
-        $returnType = Reflector::getReturnType($rm, true);
+        $returnType = Reflector::getSimplestReturnType($rm);
 
         switch ($returnType) {
             case null:     return null;
