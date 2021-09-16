@@ -683,6 +683,22 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo();
     }
 
+    public function testExpectsStringArgumentCalledAtLeastOnceOverridingDefaultOnceCall()
+    {
+        $this->mock->expects('foo')->atLeast()->once();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+    }
+
+    public function testExpectsNoArgumentCalledAtLeastOnceOverridingDefaultOnceCall()
+    {
+        $this->mock->expects()->foo()->atLeast()->once();
+        $this->mock->foo();
+        $this->mock->foo();
+        $this->mock->foo();
+    }
+
     public function testCalledAtLeastThrowsExceptionOnTooFewCalls()
     {
         $this->mock->shouldReceive('foo')->atLeast()->twice();
