@@ -729,7 +729,7 @@ class Expectation implements ExpectationInterface
         }
         $this->_countValidators[$this->_countValidatorClass] = new $this->_countValidatorClass($this, $limit);
 
-        if('Mockery\CountValidator\Exact' !== $this->_countValidatorClass){
+        if ('Mockery\CountValidator\Exact' !== $this->_countValidatorClass) {
             $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
             unset($this->_countValidators[$this->_countValidatorClass]);
         }
