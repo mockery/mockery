@@ -20,7 +20,6 @@
 
 namespace Mockery;
 
-
 use Mockery\Exception\BadMethodCallException;
 use Mockery\ExpectsHigherOrderMessage;
 use Mockery\HigherOrderMessage;
