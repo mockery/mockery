@@ -20,8 +20,7 @@
 
 namespace Mockery;
 
-use Closure;
-use Mockery;
+
 use Mockery\Exception\BadMethodCallException;
 use Mockery\ExpectsHigherOrderMessage;
 use Mockery\HigherOrderMessage;
@@ -262,9 +261,9 @@ class Mock implements MockInterface
         });
     }
 
-    private function mockery_withMockingNonExistentMethodsAllowed($flag, Closure $callback)
+    private function mockery_withMockingNonExistentMethodsAllowed($flag, \Closure $callback)
     {
-        $config = Mockery::getConfiguration();
+        $config = \Mockery::getConfiguration();
         $allowed = $config->mockingNonExistentMethodsAllowed();
         $config->allowMockingNonExistentMethods($flag);
 
