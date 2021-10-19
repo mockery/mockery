@@ -728,7 +728,12 @@ class Expectation implements ExpectationInterface
             throw new \InvalidArgumentException('The passed Times limit should be an integer value');
         }
         $this->_countValidators[$this->_countValidatorClass] = new $this->_countValidatorClass($this, $limit);
-        $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
+
+        if ('Mockery\CountValidator\Exact' !== $this->_countValidatorClass) {
+            $this->_countValidatorClass = 'Mockery\CountValidator\Exact';
+            unset($this->_countValidators[$this->_countValidatorClass]);
+        }
+
         return $this;
     }
 
