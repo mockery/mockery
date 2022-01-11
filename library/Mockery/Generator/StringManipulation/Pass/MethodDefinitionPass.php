@@ -75,7 +75,8 @@ class MethodDefinitionPass implements Pass
 
             if (!$param->isVariadic()) {
                 if (false !== $param->isDefaultValueAvailable()) {
-                    $paramDef .= ' = ' . var_export($param->getDefaultValue(), true);
+                    $defaultValue = $param->getDefaultValue();
+                    $paramDef .= ' = ' . (is_object($defaultValue) ? get_class($defaultValue) : var_export($defaultValue, true));
                 } elseif ($param->isOptional()) {
                     $paramDef .= ' = null';
                 }
