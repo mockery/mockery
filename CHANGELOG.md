@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.5.0 (XXXX-XX-XX)
+
+* Override default call count expectations via expects() #1146
+* Mock methods with static return types #1157
+* Mock methods with mixed return type #1156
+
 ## 1.4.4 (2021-09-13)
 * Fixes auto-generated return values #1144
 * Adds support for tentative types #1130
