@@ -85,8 +85,9 @@ class NullLogger implements LoggerInterface
 class ClassWithNewInInitializer
 {
     public function __construct(
-        private Logger $logger = new NullLogger,
-    ) {}
+        private Logger $logger = new NullLogger(),
+    ) {
+    }
 }
 
 class ClassThatImplementsSerializable implements Serializable
