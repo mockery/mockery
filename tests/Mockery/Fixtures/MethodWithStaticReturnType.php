@@ -21,10 +21,12 @@
 
 namespace test\Mockery\Fixtures;
 
-class MethodWithStaticReturnType
-{
-    public function returnType(): static
+if (\PHP_VERSION_ID >= 80000) {
+    class MethodWithStaticReturnType
     {
-        return $this;
+        public function returnType(): static
+        {
+            return $this;
+        }
     }
 }

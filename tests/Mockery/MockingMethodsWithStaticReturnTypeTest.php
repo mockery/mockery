@@ -28,6 +28,10 @@ class MockingMethodsWithStaticReturnTypeTest extends MockeryTestCase
 {
     public function testMockingStaticReturnType()
     {
+        if (\PHP_VERSION_ID < 80000) {
+            $this->markTestSkipped('Requires PHP >= 8');
+        }
+        
         $mock = mock(MethodWithStaticReturnType::class);
 
         $mock->shouldReceive("returnType");
