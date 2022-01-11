@@ -886,7 +886,7 @@ class Mockery
             $parRefMethod = $parRef->getMethod($method);
             $parRefMethodRetType = Reflector::getReturnType($parRefMethod, true);
 
-            if ($parRefMethodRetType !== null) {
+            if ($parRefMethodRetType !== null && $parRefMethodRetType !== 'mixed') {
                 $nameBuilder = new MockNameBuilder();
                 $nameBuilder->addPart('\\' . $newMockName);
                 $mock = self::namedMock($nameBuilder->build(), $parRefMethodRetType);
