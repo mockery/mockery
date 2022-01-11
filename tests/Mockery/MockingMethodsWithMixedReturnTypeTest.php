@@ -34,6 +34,7 @@ class MockingMethodsWithMixedReturnTypeTest extends MockeryTestCase
     }
 }
 
-interface MyInterface {
+interface MyInterface
+{
     public function getFoo(): mixed;
 }
