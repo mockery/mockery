@@ -3,10 +3,10 @@
 namespace test\Mockery;
 
 use DateTime;
-use Serializable;
-use Mockery as m;
+use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
+use Serializable;
 
 /**
  * @requires PHP 8.1.0-dev
@@ -36,7 +36,7 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
      */
     public function it_can_mock_an_internal_class_with_tentative_union_return_types()
     {
-        $mock = m::mock('PDO');
+        $mock = Mockery::mock('PDO');
 
         $this->assertInstanceOf('PDO', $mock);
 
@@ -45,7 +45,7 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
         try {
             $this->assertSame(0, $mock->exec('select * from foo.bar'));
         } finally {
-            m::close();
+            Mockery::close();
         }
     }
 
@@ -63,6 +63,30 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
         $mock = spy(ReturnTypeWillChangeAttributeWrongReturnType::class);
 
         $this->assertSame(0.0, $mock->getTimestamp());
+    }
+
+    /** @test */
+    public function testMockingClassWithNewInInitializer()
+    {
+        $mock = Mockery::mock(ClassWithNewInInitializer::class);
+
+        $this->assertInstanceOf(ClassWithNewInInitializer::class, $mock);
+    }
+}
+
+interface LoggerInterface
+{
+}
+
+class NullLogger implements LoggerInterface
+{
+}
+
+class ClassWithNewInInitializer
+{
+    public function __construct(
+        private Logger $logger = new NullLogger(),
+    ) {
     }
 }
 
