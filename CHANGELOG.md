@@ -6,6 +6,7 @@
 * Mock methods with static return types #1157
 * Mock methods with mixed return type #1156
 * Mock classes with new in initializers on PHP 8.1 #1160
+* Removes redundant PHPUnitConstraint #1158
 
 ## 1.4.4 (2021-09-13)
 
