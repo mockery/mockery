@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.5.0 (XXXX-XX-XX)
+## 1.5.0 (2022-01-20)
 
 * Override default call count expectations via expects() #1146
 * Mock methods with static return types #1157
