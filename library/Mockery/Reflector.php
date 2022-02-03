@@ -147,7 +147,7 @@ class Reflector
      */
     private static function getTypeInformation(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
-        // PHP 8 union types can be recursively processed
+        // PHP 8 union types and PHP 8.1 intersection type can be recursively processed
         if ($type instanceof \ReflectionUnionType || $type instanceof \ReflectionIntersectionType) {
             $types = [];
 
