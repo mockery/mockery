@@ -1,5 +1,7 @@
 preset: psr12
 
+version: 8.1
+
 enabled:
   - symfony_braces
 
