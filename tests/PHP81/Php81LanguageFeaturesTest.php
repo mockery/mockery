@@ -75,7 +75,7 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
 
     /** @test */
     public function it_can_mock_a_class_with_an_intersection_argument_type_hint()
-    {       
+    {
         $mock = Mockery::mock(ArgumentIntersectionTypeHint::class);
         $object = new IntersectionTypeHelperClass();
         $mock->allows()->foo($object);
@@ -135,8 +135,12 @@ class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
     }
 }
 
-class IntersectionTypeHelperClass {}
-interface IntersectionTypeHelperInterface {}
+class IntersectionTypeHelperClass
+{
+}
+interface IntersectionTypeHelperInterface
+{
+}
 
 class ArgumentIntersectionTypeHint
 {
