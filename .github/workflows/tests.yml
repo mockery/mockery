@@ -11,7 +11,9 @@ jobs:
 
     strategy:
       matrix:
-        php: ['7.4', '8.0', '8.1']
+        php: ['7.4', '8.0', '8.1', '8.2']
+
+    continue-on-error: ${{ matrix.php == '8.2' }}
 
     steps:
       - name: Checkout Code
@@ -29,11 +31,20 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install Dependencies
+        if: ${{ matrix.php != '8.2' }}
         uses: nick-invision/retry@v1
         with:
           timeout_minutes: 5
           max_attempts: 5
           command: composer update --no-interaction --no-progress
+
+      - name: Install Dependencies (ignore platform)
+        if: ${{ matrix.php == '8.2' }}
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --no-interaction --no-progress --ignore-platform-req=php
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit
