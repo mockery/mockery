@@ -50,6 +50,8 @@ class CustomValueObject implements CustomValueObjectInterface
 
 class DefaultMatchersTest extends MockeryTestCase
 {
+    protected $mock;
+
     public function mockeryTestSetUp()
     {
         parent::mockeryTestSetUp();

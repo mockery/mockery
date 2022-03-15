@@ -23,6 +23,8 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class HamcrestExpectationTest extends MockeryTestCase
 {
+    protected $mock;
+
     public function mockeryTestSetUp()
     {
         parent::mockeryTestSetUp();
