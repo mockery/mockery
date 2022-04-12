@@ -72,6 +72,16 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertInstanceOf(ClassWithNewInInitializer::class, $mock);
     }
+
+    /** @test */
+    public function it_can_mock_a_class_with_an_intersection_argument_type_hint()
+    {
+        $mock = Mockery::mock(ArgumentIntersectionTypeHint::class);
+        $object = new IntersectionTypeHelperClass();
+        $mock->allows()->foo($object);
+
+        $mock->foo($object);
+    }
 }
 
 interface LoggerInterface
@@ -121,6 +131,20 @@ class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
 {
     #[ReturnTypeWillChange]
     public function getTimestamp(): float
+    {
+    }
+}
+
+class IntersectionTypeHelperClass
+{
+}
+interface IntersectionTypeHelperInterface
+{
+}
+
+class ArgumentIntersectionTypeHint
+{
+    public function foo(IntersectionTypeHelperClass&IntersectionTypeHelperInterface $foo)
     {
     }
 }
