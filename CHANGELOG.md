@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.1 (2022-xx-xx)
+
+* [PHP 8.2] Various tests: explicitly declare properties #1170
+* [PHP 8.2] Fix "Use of "parent" in callables is deprecated" notice #1169
+* [PHP 8.1] Support intersection types #1164
+* Handle final `__toString` methods #1162
+
 ## 1.5.0 (2022-01-20)
 
 * Override default call count expectations via expects() #1146
