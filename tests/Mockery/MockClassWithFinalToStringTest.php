@@ -25,6 +25,8 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithFinalToStringTest extends MockeryTestCase
 {
+    protected $container;
+
     protected function mockeryTestSetUp()
     {
         $this->container = new \Mockery\Container();
