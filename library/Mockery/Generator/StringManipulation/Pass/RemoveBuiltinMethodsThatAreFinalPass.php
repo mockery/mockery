@@ -32,6 +32,7 @@ class RemoveBuiltinMethodsThatAreFinalPass
 {
     protected $methods = array(
         '__wakeup' => '/public function __wakeup\(\)\s+\{.*?\}/sm',
+        '__toString' => '/public function __toString\(\)\s+(:\s+string)?\s*\{.*?\}/sm',
     );
 
     public function apply($code, MockConfiguration $config)
