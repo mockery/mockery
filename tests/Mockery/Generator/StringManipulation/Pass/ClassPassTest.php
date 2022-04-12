@@ -28,6 +28,8 @@ class ClassPassTest extends MockeryTestCase
 {
     const CODE = "class Mock implements MockInterface {}";
 
+    protected $pass;
+
     public function mockeryTestSetUp()
     {
         $this->pass = new ClassPass();

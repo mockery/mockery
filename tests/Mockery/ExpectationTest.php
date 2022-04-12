@@ -28,6 +28,8 @@ class ExpectationTest extends MockeryTestCase
 {
     use RegExpCompatability;
 
+    protected $mock;
+
     public function mockeryTestSetUp()
     {
         parent::mockeryTestSetUp();
@@ -2228,6 +2230,8 @@ class Mockery_Demeterowski
 
 class Mockery_UseDemeter
 {
+    protected $demeter;
+
     public function __construct($demeter)
     {
         $this->demeter = $demeter;

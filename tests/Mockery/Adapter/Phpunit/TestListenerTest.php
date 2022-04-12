@@ -28,6 +28,11 @@ use test\Mockery\Fixtures\EmptyTestCase;
 
 class TestListenerTest extends MockeryTestCase
 {
+    protected $container;
+    protected $listener;
+    protected $testResult;
+    protected $test;
+
     protected function mockeryTestSetUp()
     {
         // We intentionally test the static container here. That is what the

@@ -28,6 +28,8 @@ class ClassNamePassTest extends MockeryTestCase
 {
     const CODE = "namespace Mockery; class Mock {}";
 
+    protected $pass;
+
     public function mockeryTestSetUp()
     {
         $this->pass = new ClassNamePass();
