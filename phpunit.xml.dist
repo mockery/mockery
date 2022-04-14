@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="./tests/Bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertWarningsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertDeprecationsToExceptions="true"
          colors="true"
          verbose="true"
 >
