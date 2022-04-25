@@ -448,6 +448,34 @@ This is actually identical to using ``atLeast()->times($min)->atMost()->times($m
 but is provided as a shorthand. It may be followed by a ``times()`` call with no
 parameter to preserve the APIs natural language readability.
 
+Multiple Calls with Different Expectations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If a method is expected to get called multiple times with different arguments
+and/or return values we can simply repeat the expectations. The same of course
+also works if we expect multiple calls to different methods.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+    // Expectations for the 1st call
+    $mock->shouldReceive('name_of_method');
+        ->once()
+        ->with('arg1')
+        ->andReturn($value1)
+
+        // 2nd call to same method
+        ->shouldReceive('name_of_method')
+        ->once()
+        ->with('arg2')
+        ->andReturn($value2)
+
+        // final call to another method
+        ->shouldReceive('other_method')
+        ->once()
+        ->with('other')
+        ->andReturn($value_other);
+
 Expectation Declaration Utilities
 ---------------------------------
 
