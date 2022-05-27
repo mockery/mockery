@@ -992,10 +992,34 @@ class ContainerTest extends MockeryTestCase
         $this->assertEquals(0, Mockery::getContainer()->mockery_getExpectationCount());
     }
 
-    public function testGetExpectationCount_simplestMock()
+    public function testGetExpectationCount_stub()
     {
         $m = mock();
-        $m->shouldReceive('foo')->andReturn('bar');
+        $m->shouldReceive('foo');
+        $this->assertEquals(0, Mockery::getContainer()->mockery_getExpectationCount());
+    }
+
+    public function testGetExpectationCount_mockWithOnce()
+    {
+        $m = mock();
+        $m->shouldReceive('foo')->once();
+        $this->assertEquals(1, Mockery::getContainer()->mockery_getExpectationCount());
+        $m->foo();
+    }
+
+    public function testGetExpectationCount_mockWithAtLeast()
+    {
+        $m = mock();
+        $m->shouldReceive('foo')->atLeast()->once();
+        $this->assertEquals(1, Mockery::getContainer()->mockery_getExpectationCount());
+        $m->foo();
+        $m->foo();
+    }
+
+    public function testGetExpectationCount_mockWithNever()
+    {
+        $m = mock();
+        $m->shouldReceive('foo')->never();
         $this->assertEquals(1, Mockery::getContainer()->mockery_getExpectationCount());
     }
 
