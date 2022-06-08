@@ -6,6 +6,7 @@ use DateTime;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
+use RuntimeException;
 use Serializable;
 
 /**
@@ -82,6 +83,15 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
 
         $mock->foo($object);
     }
+
+    /** @test */
+    public function it_can_mock_a_class_with_a_never_returning_type_hint()
+    {
+        $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
+
+        $this->expectException(RuntimeException::class);
+        $mock->throws();
+    }
 }
 
 interface LoggerInterface
@@ -135,6 +145,18 @@ class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
     }
 }
 
+class NeverReturningTypehintClass
+{
+    public function throws(): never
+    {
+        throw new RuntimeException('Never!');
+    }
+
+    public function exits(): never
+    {
+        exit;
+    }
+}
 class IntersectionTypeHelperClass
 {
 }
