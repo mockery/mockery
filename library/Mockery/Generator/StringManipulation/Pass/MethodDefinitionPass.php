@@ -157,7 +157,7 @@ BODY;
 
         $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
 
-        if ($method->getReturnType() !== "void") {
+        if (! in_array($method->getReturnType(), ['never','void'], true)) {
             $body .= "return \$ret;\n";
         }
 

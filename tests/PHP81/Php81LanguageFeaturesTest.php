@@ -6,7 +6,11 @@ use DateTime;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
+use RuntimeException;
 use Serializable;
+use function pcntl_fork;
+use function pcntl_waitpid;
+use function pcntl_wexitstatus;
 
 /**
  * @requires PHP 8.1.0-dev
@@ -82,6 +86,39 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
 
         $mock->foo($object);
     }
+
+    /** @test */
+    public function it_can_mock_a_class_with_a_never_returning_type_hint()
+    {
+        $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
+
+        $this->expectException(RuntimeException::class);
+        $mock->throws();
+    }
+
+    /**
+     * @requires extension pcntl
+     * @test
+     */
+    public function it_can_mock_a_class_with_a_never_returning_type_hint_with_exit()
+    {
+        $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
+
+        $pid = pcntl_fork();
+
+        if (-1 === $pid) {
+            $this->markTestSkipped("Couldn't fork for exit test");
+
+            return;
+        } elseif ($pid) {
+            pcntl_waitpid($pid, $status);
+            $this->assertEquals(123, pcntl_wexitstatus($status));
+
+            return;
+        }
+
+        $mock->exits();
+    }
 }
 
 interface LoggerInterface
@@ -135,6 +172,18 @@ class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
     }
 }
 
+class NeverReturningTypehintClass
+{
+    public function throws(): never
+    {
+        throw new RuntimeException('Never!');
+    }
+
+    public function exits(): never
+    {
+        exit(123);
+    }
+}
 class IntersectionTypeHelperClass
 {
 }
