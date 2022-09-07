@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.5.2 (2022-09-07)
+* PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
+
 ## 1.3.6 (2022-09-07)
 * PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
 
