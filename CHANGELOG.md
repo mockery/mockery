@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.3.6 (2022-09-07)
+* PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
+
 ## 1.3.5 (2021-09-13)
 * Fix auto-generated return values with union types #1143
 * Adds support for tentative types #1130
