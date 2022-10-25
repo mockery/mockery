@@ -167,7 +167,7 @@ $double->expects()->add($book)->twice();
 If you have used Mockery before, you might see something new in the example
 above &mdash; we created a method expectation using `expects`, instead of the "old"
 `shouldReceive` syntax. This is a new feature of Mockery v1, but same as with
-`accepts` in the previous section, it can be written in the "old" style.
+`allows` in the previous section, it can be written in the "old" style.
 
 For new users of Mockery, the above example can also be written as:
 
