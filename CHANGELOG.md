@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.5.2 (2022-xx-xx)
+
+* Updated changelog for version 1.5.1 to include changes from #1180
+
 ## 1.3.6 (2022-09-07)
 * PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
 
@@ -9,6 +13,7 @@
 * [PHP 8.2] Fix "Use of "parent" in callables is deprecated" notice #1169
 * [PHP 8.1] Support intersection types #1164
 * Handle final `__toString` methods #1162
+* Only count assertions on expectations which can fail a test #1180
 
 ## 1.5.0 (2022-01-20)
 
