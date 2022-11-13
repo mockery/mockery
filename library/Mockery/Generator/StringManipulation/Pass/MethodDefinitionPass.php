@@ -76,7 +76,7 @@ class MethodDefinitionPass implements Pass
             if (!$param->isVariadic()) {
                 if (false !== $param->isDefaultValueAvailable()) {
                     $defaultValue = $param->getDefaultValue();
-                    $paramDef .= ' = ' . (is_object($defaultValue) ? get_class($defaultValue) : var_export($defaultValue, true));
+                    $paramDef .= ' = ' . ((is_object($defaultValue) && ! enum_exists($defaultValue::class)) ? get_class($defaultValue) : var_export($defaultValue, true));
                 } elseif ($param->isOptional()) {
                     $paramDef .= ' = null';
                 }
