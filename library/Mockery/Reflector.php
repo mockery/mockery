@@ -220,6 +220,10 @@ class Reflector
             return sprintf('?%s', $typeHint);
         }
 
+        if ($typeHint === 'null') {
+            return 'null';
+        }
+
         return $typeHint === 'mixed' ? 'mixed' : sprintf('%s|null', $typeHint);
     }
 }
