@@ -34,6 +34,11 @@ class UndefinedTargetClass implements TargetClassInterface
         return new self($name);
     }
 
+    public function getAttributes()
+    {
+        return ['\AllowDynamicProperties'];
+    }
+
     public function getName()
     {
         return $this->name;
