@@ -12,15 +12,22 @@
             <directory suffix="Test.php">./tests</directory>
             <exclude>./tests/PHP80</exclude>
             <exclude>./tests/PHP81</exclude>
+            <exclude>./tests/PHP82</exclude>
         </testsuite>
 
         <testsuite name="Mockery Test Suite PHP80">
             <directory phpVersion="8.0.0-dev" phpVersionOperator=">=">./tests</directory>
             <exclude>./tests/PHP81</exclude>
+            <exclude>./tests/PHP82</exclude>
         </testsuite>
         
         <testsuite name="Mockery Test Suite PHP81">
             <directory phpVersion="8.1.0-dev" phpVersionOperator=">=">./tests</directory>
+            <exclude>./tests/PHP82</exclude>
+        </testsuite>
+
+        <testsuite name="Mockery Test Suite PHP82">
+            <directory phpVersion="8.2.0-dev" phpVersionOperator=">=">./tests</directory>
         </testsuite>
     </testsuites>
 
