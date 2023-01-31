@@ -33,7 +33,7 @@ class ExpectationTest extends MockeryTestCase
     public function mockeryTestSetUp()
     {
         parent::mockeryTestSetUp();
-        $this->mock = mock();
+        $this->mock = mock('Foo');
     }
 
     public function mockeryTestTearDown()
@@ -2246,6 +2246,7 @@ class Mockery_UseDemeter
     }
 }
 
+#[\AllowDynamicProperties]
 class MockeryTest_Foo
 {
     public function foo()
