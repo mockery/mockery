@@ -1506,6 +1506,7 @@ class MockeryTest_UnsetMethod
     }
 }
 
+#[\AllowDynamicProperties]
 class MockeryTestFoo
 {
     public function foo()
@@ -1514,6 +1515,7 @@ class MockeryTestFoo
     }
 }
 
+#[\AllowDynamicProperties]
 class MockeryTestFoo2
 {
     public function foo()
