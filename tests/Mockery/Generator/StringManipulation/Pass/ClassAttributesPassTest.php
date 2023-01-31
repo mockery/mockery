@@ -24,8 +24,7 @@ class ClassAttributesPassTest extends MockeryTestCase
     public function testCanApplyClassAttributes(
         array $attributes,
         string $expected
-    ) : void
-    {
+    ): void {
 
         $undefinedTargetClass = $this->createPartialMock(UndefinedTargetClass::class, ['getAttributes']);
         $undefinedTargetClass->expects($this->once())
@@ -45,7 +44,7 @@ class ClassAttributesPassTest extends MockeryTestCase
     }
 
     /** @see testCanApplyClassAttributes */
-    public function providerCanApplyClassAttributes() : Generator
+    public function providerCanApplyClassAttributes(): Generator
     {
         yield 'has no attributes' => [
             'attributes' => [],

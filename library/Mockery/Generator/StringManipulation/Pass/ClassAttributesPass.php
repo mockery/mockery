@@ -6,7 +6,6 @@ use Mockery\Generator\MockConfiguration;
 
 class ClassAttributesPass implements Pass
 {
-
     public function apply($code, MockConfiguration $config)
     {
         $class =  $config->getTargetClass();
@@ -29,4 +28,5 @@ class ClassAttributesPass implements Pass
 
         return $code;
     }
+
 }

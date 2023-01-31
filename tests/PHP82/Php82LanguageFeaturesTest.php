@@ -6,7 +6,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class Php82LanguageFeaturesTest extends MockeryTestCase
 {
-
     public function testCanMockUndefinedClasses()
     {
         $class = mock('UndefinedClass');
@@ -15,4 +14,5 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertSame('bar', $class->foo);
     }
+
 }
