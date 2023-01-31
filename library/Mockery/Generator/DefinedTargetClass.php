@@ -36,6 +36,11 @@ class DefinedTargetClass implements TargetClassInterface
         return new self(new \ReflectionClass($name), $alias);
     }
 
+    public function getAttributes()
+    {
+        return [];
+    }
+
     public function getName()
     {
         return $this->name;
