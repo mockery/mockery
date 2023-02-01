@@ -11,7 +11,6 @@ use Mockery\Generator\UndefinedTargetClass;
 
 class ClassAttributesPassTest extends MockeryTestCase
 {
-
     const CODE = "namespace Mockery; class Mock {}";
 
     /**
@@ -25,7 +24,6 @@ class ClassAttributesPassTest extends MockeryTestCase
         array $attributes,
         string $expected
     ): void {
-
         $undefinedTargetClass = $this->createPartialMock(UndefinedTargetClass::class, ['getAttributes']);
         $undefinedTargetClass->expects($this->once())
             ->method('getAttributes')
@@ -66,7 +64,5 @@ class ClassAttributesPassTest extends MockeryTestCase
                             ],
             'expected'   => '#[Attribute1,Attribute2,Attribute3()]',
         ];
-
-
     }
 }

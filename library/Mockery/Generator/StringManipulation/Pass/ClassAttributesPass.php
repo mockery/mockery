@@ -28,5 +28,4 @@ class ClassAttributesPass implements Pass
 
         return $code;
     }
-
 }

@@ -14,5 +14,4 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertSame('bar', $class->foo);
     }
-
 }
