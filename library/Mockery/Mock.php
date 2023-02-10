@@ -23,7 +23,6 @@ namespace Mockery;
 use Mockery\Exception\BadMethodCallException;
 use Mockery\ExpectsHigherOrderMessage;
 use Mockery\HigherOrderMessage;
-use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Mockery\Reflector;
 
