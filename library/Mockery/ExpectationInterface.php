@@ -35,12 +35,12 @@ interface ExpectationInterface
 
     /**
      * @param mixed $args
-     * @return self
+     * @return static
      */
     public function andReturn(...$args);
 
     /**
-     * @return self
+     * @return static
      */
     public function andReturns();
 }
