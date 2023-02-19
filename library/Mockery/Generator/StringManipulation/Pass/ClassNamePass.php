@@ -40,7 +40,7 @@ class ClassNamePass implements Pass
 
         $code = str_replace(
             'class Mock',
-            'class ' . $className,
+            sprintf("#[\AllowDynamicProperties]\nclass %s", $className),
             $code
         );
 
