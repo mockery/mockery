@@ -132,7 +132,8 @@ class Reflector
      */
     private static function typeToString(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
-        return \implode('|', \array_map(function (array $typeInformation) {
+        $char = $type instanceof \ReflectionIntersectionType ? "&" : "|";
+        return \implode($char, \array_map(function (array $typeInformation) {
             return $typeInformation['typeHint'];
         }, self::getTypeInformation($type, $declaringClass)));
     }
