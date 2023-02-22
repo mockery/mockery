@@ -93,15 +93,6 @@ class Mock implements MockInterface
     protected $_mockery_partial = null;
 
     /**
-     * Flag to indicate we should ignore all expectations temporarily. Used
-     * mainly to prevent expectation matching when in the middle of a mock
-     * object recording session.
-     *
-     * @var bool
-     */
-    protected $_mockery_disableExpectationMatching = false;
-
-    /**
      * Stores all stubbed public methods separate from any on-object public
      * properties that may exist.
      *
@@ -868,7 +859,7 @@ class Mock implements MockInterface
 
         $handler = $this->_mockery_findExpectedMethodHandler($method);
 
-        if ($handler !== null && !$this->_mockery_disableExpectationMatching) {
+        if ($handler !== null) {
             try {
                 return $handler->call($args);
             } catch (\Mockery\Exception\NoMatchingExpectationException $e) {
