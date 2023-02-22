@@ -22,6 +22,6 @@ namespace Mockery;
 
 use Mockery\Exception\MockeryExceptionInterface;
 
-class Exception extends \UnexpectedValueException  implements MockeryExceptionInterface
+class Exception extends \UnexpectedValueException implements MockeryExceptionInterface
 {
 }
