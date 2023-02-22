@@ -164,7 +164,11 @@ class Mock implements MockInterface
 
     public function mockInternals(): MockInternals
     {
-        return $this->mockInternals;
+        if (isset($this->mockInternals)) {
+            return $this->mockInternals;
+        }
+
+        return $this->mockInternals = new \Mockery\MockInternals(new \Mockery\Container());
     }
 
     /**
