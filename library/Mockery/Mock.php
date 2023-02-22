@@ -63,13 +63,6 @@ class Mock implements MockInterface
     protected $_mockery_deferMissing = false;
 
     /**
-     * Given name of the mock
-     *
-     * @var string
-     */
-    protected $_mockery_name = null;
-
-    /**
      * Order number of allocation
      *
      * @var int
