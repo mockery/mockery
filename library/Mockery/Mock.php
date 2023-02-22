@@ -39,14 +39,6 @@ class Mock implements MockInterface
     protected $_mockery_expectations = array();
 
     /**
-     * Stores an initial number of expectations that can be manipulated
-     * while using the getter method.
-     *
-     * @var int
-     */
-    protected $_mockery_expectations_count = 0;
-
-    /**
      * Flag to indicate whether we can ignore method calls missing from our
      * expectations
      *
@@ -550,7 +542,7 @@ class Mock implements MockInterface
      */
     public function mockery_getExpectationCount()
     {
-        $count = $this->_mockery_expectations_count;
+        $count = $this->mockInternals()->dynamicExpectationVerifications();
         foreach ($this->_mockery_expectations as $director) {
             $count += $director->getExpectationCount();
         }
@@ -784,7 +776,7 @@ class Mock implements MockInterface
         }
         $expectation->atLeast()->once();
         $director = new \Mockery\VerificationDirector($this->_mockery_getReceivedMethodCalls(), $expectation);
-        $this->_mockery_expectations_count++;
+        $this->mockInternals()->incrementDynamicExpectationVerifications();
         $director->verify();
         return $director;
     }
@@ -806,7 +798,7 @@ class Mock implements MockInterface
         }
         $expectation->never();
         $director = new \Mockery\VerificationDirector($this->_mockery_getReceivedMethodCalls(), $expectation);
-        $this->_mockery_expectations_count++;
+        $this->mockInternals()->incrementDynamicExpectationVerifications();
         $director->verify();
         return null;
     }

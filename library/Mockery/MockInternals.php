@@ -22,6 +22,7 @@ namespace Mockery;
 class MockInternals
 {
     private Container $container;
+    private int $dynamicExpectationVerifications = 0;
 
     function __construct(Container $container)
     {
@@ -31,5 +32,25 @@ class MockInternals
     public function container(): Container
     {
         return $this->container;
+    }
+
+    /**
+     * Get a count of expectation verifications that happened other than those
+     * stored in the expectation directors
+     */
+    public function dynamicExpectationVerifications(): int
+    {
+        return $this->dynamicExpectationVerifications;
+    }
+
+    /**
+     * Spy style verifications happen on the fly, so  we count them here, rather
+     * than keeping the directors around for later querying
+     */
+    public function incrementDynamicExpectationVerifications(): self
+    {
+        $this->dynamicExpectationVerifications++;
+
+        return $this;
     }
 }
