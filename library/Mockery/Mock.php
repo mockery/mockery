@@ -26,9 +26,11 @@ use Mockery\HigherOrderMessage;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Mockery\Reflector;
+use Mockery\MockInternals;
 
 class Mock implements MockInterface
 {
+    protected MockInternals $mockInternals;
     /**
      * Stores an array of all expectation directors for this mock
      *
@@ -104,13 +106,6 @@ class Mock implements MockInterface
     protected $_mockery_groups = array();
 
     /**
-     * Mock container containing this mock object
-     *
-     * @var \Mockery\Container
-     */
-    protected $_mockery_container = null;
-
-    /**
      * Instance of a core object on which methods are called in the event
      * it has been set, and an expectation for one of the object's methods
      * does not exist. This implements a simple partial mock proxy system.
@@ -167,6 +162,11 @@ class Mock implements MockInterface
 
     protected $_mockery_instanceMock = true;
 
+    public function mockInternals(): MockInternals
+    {
+        return $this->mockInternals;
+    }
+
     /**
      * We want to avoid constructors since class is copied to Generator.php
      * for inclusion on extending class definitions.
@@ -181,7 +181,8 @@ class Mock implements MockInterface
         if (is_null($container)) {
             $container = new \Mockery\Container();
         }
-        $this->_mockery_container = $container;
+        $this->mockInternals = new MockInternals($container);
+
         if (!is_null($partialObject)) {
             $this->_mockery_partial = $partialObject;
         }
@@ -596,11 +597,12 @@ class Mock implements MockInterface
     /**
      * Return the container for this mock
      *
+     * @deprecated use ->mockInternals()->container()
      * @return \Mockery\Container
      */
     public function mockery_getContainer()
     {
-        return $this->_mockery_container;
+        return $this->mockInternals()->container();
     }
 
     /**
