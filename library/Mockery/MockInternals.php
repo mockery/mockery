@@ -23,6 +23,7 @@ class MockInternals
 {
     private Container $container;
     private int $dynamicExpectationVerifications = 0;
+    private bool $hasBeenVerified = false;
 
     function __construct(Container $container)
     {
@@ -50,6 +51,18 @@ class MockInternals
     public function incrementDynamicExpectationVerifications(): self
     {
         $this->dynamicExpectationVerifications++;
+
+        return $this;
+    }
+
+    public function hasBeenVerified(): bool
+    {
+        return $this->hasBeenVerified;
+    }
+
+    public function markAsVerified(): self
+    {
+        $this->hasBeenVerified = true;
 
         return $this;
     }

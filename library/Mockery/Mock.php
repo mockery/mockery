@@ -63,13 +63,6 @@ class Mock implements MockInterface
     protected $_mockery_deferMissing = false;
 
     /**
-     * Flag to indicate whether this mock was verified
-     *
-     * @var bool
-     */
-    protected $_mockery_verified = false;
-
-    /**
      * Given name of the mock
      *
      * @var string
@@ -425,14 +418,14 @@ class Mock implements MockInterface
      */
     public function mockery_verify()
     {
-        if ($this->_mockery_verified) {
+        if ($this->mockInternals()->hasBeenVerified()) {
             return;
         }
         if (isset($this->_mockery_ignoreVerification)
             && $this->_mockery_ignoreVerification == true) {
             return;
         }
-        $this->_mockery_verified = true;
+        $this->mockInternals()->markAsVerified();
         foreach ($this->_mockery_expectations as $director) {
             $director->verify();
         }
