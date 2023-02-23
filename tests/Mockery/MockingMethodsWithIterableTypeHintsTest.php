@@ -28,7 +28,7 @@ class MockingMethodsWithIterableTypeHintsTest extends MockeryTestCase
     /** @test */
     public function itShouldSuccessfullyBuildTheMock()
     {
-        require __DIR__ . "/Fixtures/MethodWithIterableTypeHints.php";
+        require_once __DIR__ . "/Fixtures/MethodWithIterableTypeHints.php";
         $mock = mock("test\Mockery\Fixtures\MethodWithIterableTypeHints");
 
         $this->assertInstanceOf(\test\Mockery\Fixtures\MethodWithIterableTypeHints::class, $mock);
