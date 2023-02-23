@@ -13,11 +13,11 @@ class MockeryCanMockClassesWithSemiReservedWordsTest extends TestCase
      */
     public function smoke_test()
     {
-        require __DIR__ . '/Fixtures/SemiReservedWordsAsMethods.php';
+        require_once __DIR__ . '/Fixtures/SemiReservedWordsAsMethods.php';
 
         $mock = m::mock("Mockery\Fixtures\SemiReservedWordsAsMethods");
 
-        $mock->shouldReceive("include")->andReturn("foo");
+        $mock->shouldReceive("include")->andReturn("foo")->once();
 
         $this->assertTrue(method_exists($mock, "include"));
         $this->assertEquals("foo", $mock->include());
