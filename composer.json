@@ -38,7 +38,8 @@
         "hamcrest/hamcrest-php": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "10.1.x-dev"
+        "phpunit/phpunit": "10.1.x-dev",
+        "vimeo/psalm": "^5.7"
     },
     "autoload": {
         "psr-4": {
