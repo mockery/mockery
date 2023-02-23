@@ -21,9 +21,7 @@
 
 namespace test\Mockery\Fixtures;
 
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-
-class MethodWithNullableReturnType extends MockeryTestCase
+class MethodWithNullableReturnType
 {
     public function nonNullablePrimitive(): string
     {
