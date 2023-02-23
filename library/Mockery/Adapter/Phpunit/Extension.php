@@ -6,7 +6,6 @@ namespace Mockery\Adapter\Phpunit;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\Subscriber\ApplicationStartedSubscriber;
-use Mockery\Adapter\Phpunit\Subscriber\TestFinishedSubscriber;
 use Mockery\Adapter\Phpunit\Subscriber\TestPassedSubscriber;
 use Mockery\Adapter\Phpunit\Subscriber\TestPreparedSubscriber;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -24,7 +23,6 @@ final class Extension implements PHPUnitExtension
     {
         $facade->registerSubscribers(
             new ApplicationStartedSubscriber(),
-            new TestFinishedSubscriber(),
             new TestPassedSubscriber(),
             new TestPreparedSubscriber(),
         );
