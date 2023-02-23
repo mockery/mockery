@@ -41,11 +41,12 @@
         "phpunit/phpunit": "10.1.x-dev"
     },
     "autoload": {
-        "psr-0": {
-            "Mockery": "library/"
+        "psr-4": {
+            "Mockery\\": "library/Mockery"
         },
         "files": [
-            "library/helpers.php"
+            "library/helpers.php",
+            "library/Mockery.php"
         ]
     },
     "autoload-dev": {
