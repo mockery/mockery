@@ -80,11 +80,14 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
     /** @test */
     public function it_can_mock_a_class_with_an_intersection_argument_type_hint()
     {
-        $mock = Mockery::mock(ArgumentIntersectionTypeHint::class);
+        $mock = Mockery::spy(ArgumentIntersectionTypeHint::class);
         $object = new IntersectionTypeHelperClass();
         $mock->allows()->foo($object);
 
         $mock->foo($object);
+
+        $this->expectException(\TypeError::class);
+        $mock->foo(Mockery::mock(IntersectionTypeHelper1Interface::class));
     }
 
     /** @test */
@@ -184,16 +187,23 @@ class NeverReturningTypehintClass
         exit(123);
     }
 }
-class IntersectionTypeHelperClass
+class IntersectionTypeHelperClass implements IntersectionTypeHelper1Interface, IntersectionTypeHelper2Interface
 {
+    function foo(): int { return 123; }
+    function bar(): int { return 123; }
 }
-interface IntersectionTypeHelperInterface
+interface IntersectionTypeHelper2Interface
 {
+    function foo(): int;
+}
+interface IntersectionTypeHelper1Interface
+{
+    function bar(): int;
 }
 
 class ArgumentIntersectionTypeHint
 {
-    public function foo(IntersectionTypeHelperClass&IntersectionTypeHelperInterface $foo)
+    public function foo(IntersectionTypeHelper1Interface&IntersectionTypeHelper2Interface $foo)
     {
     }
 }
