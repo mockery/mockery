@@ -73,7 +73,7 @@ class WithCustomFormatterExpectationTest extends TestCase
         );
     }
 
-    public function getObjectFormatterDataProvider()
+    public static function getObjectFormatterDataProvider()
     {
         return array(
             array(
@@ -113,7 +113,7 @@ class WithCustomFormatterExpectationTest extends TestCase
         }
     }
 
-    public function formatObjectsDataProvider()
+    public static function formatObjectsDataProvider()
     {
         return array(
             array(
