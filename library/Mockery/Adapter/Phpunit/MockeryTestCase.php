@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Mockery
  *
@@ -24,7 +27,6 @@ use PHPUnit\Framework\TestCase;
 
 abstract class MockeryTestCase extends TestCase
 {
-    use MockeryPHPUnitIntegration;
     use MockeryTestCaseSetUp;
 
     protected function mockeryTestSetUp()
