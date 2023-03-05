@@ -268,6 +268,19 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->foo('bar');
     }
 
+    public function testDumperDoesNotBreakOtherListeners()
+    {
+        $this->mock->shouldReceive('foo')->andReturn('f');
+        $this->mock->shouldReceive('bar')->andDump();
+        $this->mock->shouldReceive('baz')->with('b')->andReturn('z');
+        
+        $this->assertSame('f', $this->mock->foo());
+        $this->assertSame('z', $this->mock->baz('b'));
+
+        $this->expectException(Mockery\Exception\Dump::class);
+        $this->mock->bar();
+    }
+
     public function testDumperIgnoresMatchers()
     {
         $this->expectException(Mockery\Exception\Dump::class);
