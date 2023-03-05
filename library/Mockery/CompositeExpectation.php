@@ -58,6 +58,23 @@ class CompositeExpectation implements ExpectationInterface
     {
         return call_user_func_array([$this, 'andReturn'], $args);
     }
+        
+    /**
+     * Dump the args supplied by the method call.
+     *
+     * @return self
+     */
+    public function andDump()
+    {
+        foreach ($this->_expectations as $expectation) {
+            $expectation->andDump();
+        }
+
+        // Return a new instance so the following modifiers do not affect the
+        // dumpable expectation. The new expectation listens for a string that
+        // is not a valid PHP method name.
+        return $this->getMock()->shouldReceive(' ');
+    }
 
     /**
      * Intercept any expectation calls and direct against all expectations
