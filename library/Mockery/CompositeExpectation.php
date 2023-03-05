@@ -58,7 +58,7 @@ class CompositeExpectation implements ExpectationInterface
     {
         return call_user_func_array([$this, 'andReturn'], $args);
     }
-        
+
     /**
      * Dump the args supplied by the method call.
      *

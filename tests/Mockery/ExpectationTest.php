@@ -273,7 +273,7 @@ class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')->andReturn('f');
         $this->mock->shouldReceive('bar')->andDump();
         $this->mock->shouldReceive('baz')->with('b')->andReturn('z');
-        
+
         $this->assertSame('f', $this->mock->foo());
         $this->assertSame('z', $this->mock->baz('b'));
 
