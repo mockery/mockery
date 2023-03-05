@@ -2,4 +2,6 @@
 
 namespace Mockery\Exception;
 
-class BadMethodCallException extends \Mockery\Exception {}
+class BadMethodCallException extends \Mockery\Exception
+{
+}

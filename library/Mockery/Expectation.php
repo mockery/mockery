@@ -623,7 +623,7 @@ class Expectation implements ExpectationInterface
     public function andDump()
     {
         $this->_closureQueue = [
-            fn(...$args) => throw new Exception\Dump(
+            fn (...$args) => throw new Exception\Dump(
                 'Called ' . \Mockery::formatArgs($this->_name, $args)
             ),
         ];
