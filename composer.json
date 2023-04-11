@@ -29,8 +29,9 @@
     "homepage": "https://github.com/mockery/mockery",
     "require": {
         "php": "^7.3 || ^8.0",
-        "lib-pcre": ">=7.0",
-        "hamcrest/hamcrest-php": "^2.0.1"
+        "ext-mbstring": "*",
+        "ext-json": "*",
+        "ext-pcre": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5 || ^9.3",
