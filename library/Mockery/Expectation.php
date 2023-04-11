@@ -398,9 +398,7 @@ class Expectation implements ExpectationInterface
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
-        if ($expected instanceof \Hamcrest\Matcher || $expected instanceof \Hamcrest_Matcher) {
-            return $expected->matches($actual);
-        }
+
         return false;
     }
 
