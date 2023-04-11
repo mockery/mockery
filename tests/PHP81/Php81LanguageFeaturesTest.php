@@ -8,6 +8,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
 use RuntimeException;
 use Serializable;
+
 use function pcntl_fork;
 use function pcntl_waitpid;
 use function pcntl_wexitstatus;
@@ -189,16 +190,22 @@ class NeverReturningTypehintClass
 }
 class IntersectionTypeHelperClass implements IntersectionTypeHelper1Interface, IntersectionTypeHelper2Interface
 {
-    function foo(): int { return 123; }
-    function bar(): int { return 123; }
+    public function foo(): int
+    {
+        return 123;
+    }
+    public function bar(): int
+    {
+        return 123;
+    }
 }
 interface IntersectionTypeHelper2Interface
 {
-    function foo(): int;
+    public function foo(): int;
 }
 interface IntersectionTypeHelper1Interface
 {
-    function bar(): int;
+    public function bar(): int;
 }
 
 class ArgumentIntersectionTypeHint
