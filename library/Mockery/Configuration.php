@@ -253,12 +253,9 @@ class Configuration
      */
     public function setDefaultMatcher($class, $matcherClass)
     {
-        if (!is_a($matcherClass, \Mockery\Matcher\MatcherAbstract::class, true) &&
-            !is_a($matcherClass, \Hamcrest\Matcher::class, true) &&
-            !is_a($matcherClass, \Hamcrest_Matcher::class, true)
-        ) {
+        if (!is_a($matcherClass, \Mockery\Matcher\MatcherAbstract::class, true)) {
             throw new \InvalidArgumentException(
-                "Matcher class must be either Hamcrest matcher or extend \Mockery\Matcher\MatcherAbstract, " .
+                "Matcher class must extend \Mockery\Matcher\MatcherAbstract, " .
                   "'$matcherClass' given."
             );
         }
