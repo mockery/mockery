@@ -33,7 +33,7 @@ class GeneratorTest extends MockeryTestCase
             'Mockery\Tests\Evenement_EventEmitter',
             'Mockery\Tests\Chatroulette_ConnectionInterface'
         );
-        self::assertInstanceOf(\Mockery\Tests\Evenement_EventEmitter::class,$mock);
+        self::assertInstanceOf(\Mockery\Tests\Evenement_EventEmitter::class, $mock);
     }
 }
 
