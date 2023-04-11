@@ -42,14 +42,21 @@
         "phpunit/phpunit": "<8.0"
     },
     "autoload": {
-        "psr-0": {
-            "Mockery": "library/"
-        }
+        "psr-4": {
+            "Mockery\\": "library/Mockery"
+        },
+        "files": [
+            "library/helpers.php",
+            "library/Mockery.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "test\\": "tests/"
-        }
+        },
+        "files": [
+            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
+        ]
     },
     "config": {
         "preferred-install": "dist"
