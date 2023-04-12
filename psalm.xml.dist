@@ -10,9 +10,12 @@
     errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
-        <directory name="library" />
+        <directory name="library"/>
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>
