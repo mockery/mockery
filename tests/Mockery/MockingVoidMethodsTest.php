@@ -44,7 +44,7 @@ class MockingVoidMethodsTest extends MockeryTestCase
     {
         $mock = mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
 
-        $mock->shouldReceive("foo");
+        $mock->shouldReceive("foo")->once();
         $mock->foo();
     }
 }
