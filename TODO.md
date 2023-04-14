@@ -1,0 +1,43 @@
+# Todo
+
+ - [ ] MockBuilder: A class for creating mock objects.
+ - [ ] Mock: A class for defining and managing a mock object.
+ - [ ] Expectation: A class for defining expected behavior of mock objects.
+ - [ ] MockObject: A base class for all mock objects.
+ - [ ] MockMethod: A class for defining methods on a mock object.
+ - [ ] MockProperty: A class for defining properties on a mock object.
+ - [ ] Matcher: A class for defining argument matchers in expectations.
+ - [ ] Invocation: A class for defining method invocations on a mock object.
+ - [ ] Verifier: A class for verifying the behavior of a mock object.
+ - [ ] MockGenerator: A class for generating mock classes dynamically.
+ - [ ] MockClass: A class for defining and managing a mock class.
+ - [ ] MockClassMethod: A class for defining methods on a mock class.
+ - [ ] MockClassProperty: A class for defining properties on a mock class.
+ - [ ] MockClassConstant: A class for defining constants on a mock class.
+ - [ ] MockClassLoader: A class for loading mock classes at runtime.
+ - [ ] Argument: A class for defining arguments in expectations.
+ - [ ] ArgumentList: A class for defining lists of arguments in expectations.
+ - [ ] ReturnValue: A class for defining return values in expectations.
+ - [ ] ExceptionThrower: A class for defining exceptions to throw in expectations.
+ - [ ] Callback: A class for defining callbacks in expectations.
+ - [ ] AnyArgumentMatcher: A class for matching any argument in expectations.
+ - [ ] ArrayArgumentMatcher: A class for matching arrays in expectations.
+ - [ ] TypeMatcher: A class for matching argument types in expectations.
+ - [ ] ArgumentCountMatcher: A class for matching argument counts in expectations.
+ - [ ] SequenceMatcher: A class for matching argument sequences in expectations.
+ - [ ] MockConfiguration: A class for configuring mock objects and mock classes.
+ - [ ] MockException: A base class for all exceptions thrown by the mocking library.
+ - [ ] MockAssertionException: An exception thrown when a mock assertion fails.
+ - [ ] MockBuilderException: An exception thrown when a mock builder fails.
+ - [ ] MockConfigurationException: An exception thrown when a mock configuration is invalid.
+ - [ ] MockGenerationException: An exception thrown when mock generation fails.
+ - [ ] MockInvocationException: An exception thrown when a mock invocation fails.
+ - [ ] MockVerificationException: An exception thrown when mock verification fails.
+ - [ ] MockClassNotFoundException: An exception thrown when a mock class cannot be found.
+ - [ ] MockClassNotWritableException: An exception thrown when a mock class cannot be written.
+ - [ ] MockMethodNotFoundException: An exception thrown when a mock method is not found.
+ - [ ] MockPropertyNotFoundException: An exception thrown when a mock property is not found.
+ - [ ] MockConstantNotFoundException: An exception thrown when a mock constant is not found.
+ - [ ] MockClassLoaderException: An exception thrown when a mock class cannot be loaded.
+ - [ ] MockConfigurationException: An exception thrown when a mock configuration is invalid.
+ 
