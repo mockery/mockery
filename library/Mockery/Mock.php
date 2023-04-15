@@ -26,7 +26,7 @@ use Mockery\HigherOrderMessage;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Mockery\Reflector;
-
+#[\AllowDynamicProperties]
 class Mock implements MockInterface
 {
     /**
