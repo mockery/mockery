@@ -21,6 +21,7 @@
 
 namespace test\Mockery;
 
+use test\Mockery\Fixtures\ClassWithAllLowerCaseMethod;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingAllLowerCasedMethodsTest extends MockeryTestCase
@@ -28,9 +29,7 @@ class MockingAllLowerCasedMethodsTest extends MockeryTestCase
     /** @test */
     public function itShouldAllowToCallAllLowerCasedMethodAsCamelCased()
     {
-        require __DIR__ . "/Fixtures/ClassWithAllLowerCaseMethod.php";
-
-        $mock = mock('test\Mockery\Fixtures\ClassWithAllLowerCaseMethod');
+        $mock = mock(ClassWithAllLowerCaseMethod::class);
         $mock->shouldReceive('userExpectsCamelCaseMethod')
             ->andReturn('mocked');
 
