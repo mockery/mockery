@@ -1,0 +1,31 @@
+name: Codecov
+on:
+  pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up php 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install dependencies
+        run: composer self-update && composer install && composer dump-autoload
+
+      - name: Run tests and collect coverage
+        run: composer phpunit
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ${{ github.workspace }}/.cache/phpunit/
+          verbose: true
