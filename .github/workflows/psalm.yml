@@ -2,15 +2,26 @@ name: Psalm Static analysis
 
 on: [push, pull_request]
 
+concurrency:
+  group: psalm-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   psalm:
     name: Psalm
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Psalm
-        uses: docker://ghcr.io/psalm/psalm-github-actions:5.9.0
+      - name: Set up php
+        uses: shivammathur/setup-php@v3
         with:
-          args: --shepherd
+          php-version: 8.1
+          coverage: xdebug
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run Psalm
+        run: composer psalm
