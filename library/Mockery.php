@@ -860,8 +860,6 @@ class Mockery
         $newMockName = 'demeter_' . md5($parent) . '_' . $method;
 
         $parRef = null;
-        $parRefMethod = null;
-        $parRefMethodRetType = null;
 
         $parentMock = $exp->getMock();
         if ($parentMock !== null) {

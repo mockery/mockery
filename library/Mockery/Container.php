@@ -97,7 +97,6 @@ class Container
         $quickdefs = array();
         $constructorArgs = null;
         $blocks = array();
-        $class = null;
 
         if (count($args) > 1) {
             $finalArg = end($args);
