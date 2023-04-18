@@ -1,8 +1,10 @@
 name: Tests
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
   # Allow manually triggering the workflow.
   workflow_dispatch:
 

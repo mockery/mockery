@@ -1,6 +1,12 @@
 name: Psalm Static analysis
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
 
 concurrency:
   group: psalm-${{ github.head_ref || github.run_id }}
