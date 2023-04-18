@@ -6,8 +6,8 @@
       <code>$expectation</code>
     </ArgumentTypeCoercion>
     <DeprecatedClass>
-      <code>\Mockery\Matcher\MustBe</code>
-      <code>new \Mockery\Matcher\MustBe($expected)</code>
+      <code>MustBe</code>
+      <code>new MustBe($expected)</code>
     </DeprecatedClass>
     <DeprecatedMethod>
       <code>\Mockery::builtInTypes()</code>
@@ -83,11 +83,11 @@
       <code>$formatter($object, $nesting)</code>
     </MixedFunctionCall>
     <MixedInferredReturnType>
+      <code>MockInterface|LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
       <code>\Mockery\ExpectationInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
     </MixedInferredReturnType>
     <MixedMethodCall>
       <code>mockery_getExpectationsFor</code>
@@ -106,7 +106,7 @@
       <code><![CDATA[call_user_func_array([self::getContainer(), 'mock'], $args)->shouldIgnoreMissing()]]></code>
     </MixedReturnStatement>
     <MoreSpecificReturnType>
-      <code>\Mockery\Mock</code>
+      <code>Mock</code>
     </MoreSpecificReturnType>
     <PossiblyNullPropertyAssignmentValue>
       <code>null</code>
@@ -114,6 +114,7 @@
     <PossiblyUnusedMethod>
       <code>andAnyOtherArgs</code>
       <code>andAnyOthers</code>
+      <code>any</code>
       <code>anyOf</code>
       <code>capture</code>
       <code>contains</code>
@@ -126,6 +127,7 @@
       <code>mustBe</code>
       <code>not</code>
       <code>notAnyOf</code>
+      <code>on</code>
       <code>pattern</code>
       <code>resetContainer</code>
       <code>setContainer</code>
@@ -134,6 +136,9 @@
       <code>subset</code>
       <code>type</code>
     </PossiblyUnusedMethod>
+    <PossiblyUnusedReturnValue>
+      <code>MockInterface|LegacyMockInterface</code>
+    </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
     </RedundantConditionGivenDocblockType>
