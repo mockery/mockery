@@ -46,10 +46,6 @@
     <MissingReturnType>
       <code>declareClass</code>
       <code>declareInterface</code>
-      <code>declareType</code>
-      <code>registerFileForCleanUp</code>
-      <code>setGenerator</code>
-      <code>setLoader</code>
     </MissingReturnType>
     <MixedArgument>
       <code>$expectations</code>
@@ -138,6 +134,7 @@
       <code>setGenerator</code>
       <code>setLoader</code>
       <code>subset</code>
+      <code>type</code>
     </PossiblyUnusedMethod>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
@@ -160,14 +157,6 @@
     <MissingPropertyType>
       <code>$mockeryOpen</code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code>addMockeryExpectationsToAssertionCount</code>
-      <code>checkMockeryExceptions</code>
-      <code>closeMockery</code>
-      <code>mockeryAssertPostConditions</code>
-      <code>purgeMockeryContainer</code>
-      <code>startMockery</code>
-    </MissingReturnType>
     <MixedAssignment>
       <code>$e</code>
     </MixedAssignment>
@@ -230,10 +219,6 @@
             )
         )]]></code>
     </InternalMethod>
-    <MissingReturnType>
-      <code>endTest</code>
-      <code>startTestSuite</code>
-    </MissingReturnType>
     <PossiblyUnusedMethod>
       <code>endTest</code>
       <code>startTestSuite</code>
@@ -298,20 +283,10 @@
       <code>$_reflectionCacheEnabled</code>
     </MissingPropertyType>
     <MissingReturnType>
-      <code>allowMockingMethodsUnnecessarily</code>
-      <code>allowMockingNonExistentMethods</code>
-      <code>disableReflectionCache</code>
-      <code>enableReflectionCache</code>
       <code>getConstantsMap</code>
       <code>getDefaultMatcher</code>
-      <code>getInternalClassMethodParamMaps</code>
       <code>getObjectFormatter</code>
       <code>reflectionCacheEnabled</code>
-      <code>resetInternalClassMethodParamMaps</code>
-      <code>setConstantsMap</code>
-      <code>setDefaultMatcher</code>
-      <code>setInternalClassMethodParamMap</code>
-      <code>setObjectFormatter</code>
     </MissingReturnType>
     <MixedArgument>
       <code>$class</code>
@@ -362,8 +337,10 @@
       <code>enableReflectionCache</code>
       <code>getInternalClassMethodParamMap</code>
       <code>mockingMethodsUnnecessarilyAllowed</code>
+      <code>resetInternalClassMethodParamMaps</code>
       <code>setConstantsMap</code>
       <code>setDefaultMatcher</code>
+      <code>setInternalClassMethodParamMap</code>
       <code>setObjectFormatter</code>
     </PossiblyUnusedMethod>
     <RedundantCastGivenDocblockType>
@@ -400,23 +377,18 @@
     </MissingParamType>
     <MissingReturnType>
       <code>_getInstance</code>
-      <code>checkForNamedMockClashes</code>
-      <code>getGenerator</code>
-      <code>getLoader</code>
-      <code>instanceMock</code>
-      <code>mockery_setGroup</code>
     </MissingReturnType>
     <MixedArgument>
       <code>$arg</code>
       <code>$blocks</code>
       <code>$constructorArgs</code>
+      <code>$def</code>
       <code><![CDATA[$def->getClassName()]]></code>
       <code><![CDATA[$def->getClassName()]]></code>
       <code>$mock</code>
       <code><![CDATA[$mock->mockery_thrownExceptions()]]></code>
       <code>$mockName</code>
       <code><![CDATA[\Mockery::getConfiguration()->getConstantsMap()]]></code>
-      <code><![CDATA[\Mockery::getConfiguration()->getInternalClassMethodParamMaps()]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code>$keys</code>
@@ -429,7 +401,6 @@
     </MixedArrayOffset>
     <MixedAssignment>
       <code>$blocks</code>
-      <code>$config</code>
       <code>$count</code>
       <code>$def</code>
       <code>$hash</code>
@@ -449,25 +420,17 @@
     <MixedMethodCall>
       <code>atLeast</code>
       <code>byDefault</code>
-      <code>generate</code>
-      <code>getClassName</code>
       <code>getClassName</code>
       <code>getClassName</code>
       <code>getClassName</code>
       <code>getHash</code>
       <code>getName</code>
-      <code>getTargetObject</code>
-      <code>isInstanceMock</code>
-      <code>load</code>
       <code>mockery_getExpectationCount</code>
       <code>mockery_init</code>
       <code>mockery_teardown</code>
       <code>mockery_thrownExceptions</code>
       <code>mockery_verify</code>
       <code>once</code>
-      <code>setActualOrder</code>
-      <code>setExpectedOrder</code>
-      <code>setMethodName</code>
       <code>shouldReceive</code>
       <code>shouldReceive</code>
     </MixedMethodCall>
@@ -514,12 +477,6 @@
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
-    <MixedMethodCall>
-      <code>setActualCount</code>
-      <code>setExpectedCount</code>
-      <code>setExpectedCountComparative</code>
-      <code>setMethodName</code>
-    </MixedMethodCall>
     <UnusedClass>
       <code>AtLeast</code>
     </UnusedClass>
@@ -528,12 +485,6 @@
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
-    <MixedMethodCall>
-      <code>setActualCount</code>
-      <code>setExpectedCount</code>
-      <code>setExpectedCountComparative</code>
-      <code>setMethodName</code>
-    </MixedMethodCall>
     <UnusedClass>
       <code>AtMost</code>
     </UnusedClass>
@@ -553,18 +504,9 @@
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
-    <MixedAssignment>
-      <code>$because</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>setActualCount</code>
-      <code>setExpectedCount</code>
-      <code>setExpectedCountComparative</code>
-      <code>setMethodName</code>
-    </MixedMethodCall>
-    <MixedOperand>
+    <PossiblyNullOperand>
       <code><![CDATA[$this->_expectation->getExceptionMessage()]]></code>
-    </MixedOperand>
+    </PossiblyNullOperand>
     <UnusedClass>
       <code>Exact</code>
     </UnusedClass>
@@ -574,7 +516,6 @@
       <code>$dismissed</code>
     </MissingPropertyType>
     <MissingReturnType>
-      <code>dismiss</code>
       <code>dismissed</code>
     </MissingReturnType>
     <PossiblyUnusedMethod>
@@ -608,11 +549,6 @@
       <code>getMethodName</code>
       <code>getMock</code>
       <code>getMockName</code>
-      <code>setActualCount</code>
-      <code>setExpectedCount</code>
-      <code>setExpectedCountComparative</code>
-      <code>setMethodName</code>
-      <code>setMock</code>
     </MissingReturnType>
     <MixedMethodCall>
       <code>mockery_getName</code>
@@ -626,10 +562,6 @@
       <code>getExpectedCountComparative</code>
       <code>getMethodName</code>
       <code>getMockName</code>
-      <code>setActualCount</code>
-      <code>setExpectedCount</code>
-      <code>setExpectedCountComparative</code>
-      <code>setMethodName</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Exception/InvalidOrderException.php">
@@ -650,10 +582,6 @@
       <code>getMethodName</code>
       <code>getMock</code>
       <code>getMockName</code>
-      <code>setActualOrder</code>
-      <code>setExpectedOrder</code>
-      <code>setMethodName</code>
-      <code>setMock</code>
     </MissingReturnType>
     <MixedMethodCall>
       <code>mockery_getName</code>
@@ -663,9 +591,6 @@
       <code>getExpectedOrder</code>
       <code>getMethodName</code>
       <code>getMockName</code>
-      <code>setActualOrder</code>
-      <code>setExpectedOrder</code>
-      <code>setMethodName</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Exception/NoMatchingExpectationException.php">
@@ -683,9 +608,6 @@
       <code>getMethodName</code>
       <code>getMock</code>
       <code>getMockName</code>
-      <code>setActualArguments</code>
-      <code>setMethodName</code>
-      <code>setMock</code>
     </MissingReturnType>
     <MixedMethodCall>
       <code>mockery_getName</code>
@@ -694,8 +616,6 @@
       <code>getActualArguments</code>
       <code>getMethodName</code>
       <code>getMockName</code>
-      <code>setActualArguments</code>
-      <code>setMethodName</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Expectation.php">
@@ -730,15 +650,6 @@
       <code>$message</code>
       <code>$return</code>
     </MissingParamType>
-    <MissingReturnType>
-      <code>andReturnFalse</code>
-      <code>andReturnTrue</code>
-      <code>andThrows</code>
-      <code>between</code>
-      <code>getExceptionMessage</code>
-      <code>getName</code>
-      <code>isAndAnyOtherArgumentsMatcher</code>
-    </MissingReturnType>
     <MixedArgument>
       <code>$code</code>
       <code>$exception</code>
@@ -862,10 +773,6 @@
     </UnusedDocblockParam>
   </file>
   <file src="library/Mockery/ExpectationDirector.php">
-    <MissingReturnType>
-      <code>addExpectation</code>
-      <code>makeExpectationDefault</code>
-    </MissingReturnType>
     <MixedAssignment>
       <code>$exp</code>
       <code>$exp</code>
@@ -882,8 +789,6 @@
       <code>isEligible</code>
       <code>matchArgs</code>
       <code>matchArgs</code>
-      <code>setActualArguments</code>
-      <code>setMethodName</code>
       <code>verify</code>
       <code>verify</code>
       <code>verifyCall</code>
@@ -1040,19 +945,12 @@
       <code>$whiteListedMethods</code>
     </MissingPropertyType>
     <MissingReturnType>
-      <code>addTarget</code>
-      <code>addTargetInterfaceName</code>
-      <code>addTargetTraitName</code>
-      <code>addTargets</code>
       <code>generateName</code>
       <code>getAllMethods</code>
       <code>getBlackListedMethods</code>
       <code>getConstantsMap</code>
-      <code>getMethodsToMock</code>
       <code>getName</code>
-      <code>getNamespaceName</code>
       <code>getParameterOverrides</code>
-      <code>getShortName</code>
       <code>getTargetClass</code>
       <code>getTargetClassName</code>
       <code>getTargetInterfaces</code>
@@ -1061,14 +959,8 @@
       <code>getWhiteListedMethods</code>
       <code>isInstanceMock</code>
       <code>isMockOriginalDestructor</code>
-      <code>rename</code>
-      <code>requiresCallStaticTypeHintRemoval</code>
-      <code>requiresCallTypeHintRemoval</code>
-      <code>setTargetClassName</code>
-      <code>setTargetObject</code>
     </MissingReturnType>
     <MixedArgument>
-      <code>$alias</code>
       <code><![CDATA[$class->getMethods()]]></code>
       <code>$className</code>
       <code>$className</code>
@@ -1135,7 +1027,6 @@
       <code>$methods[$key]</code>
     </MixedArrayOffset>
     <MixedAssignment>
-      <code>$alias</code>
       <code>$class</code>
       <code>$className</code>
       <code>$classes</code>
@@ -1158,8 +1049,6 @@
       <code>$trait</code>
     </MixedAssignment>
     <MixedMethodCall>
-      <code>addPart</code>
-      <code>build</code>
       <code>getMethods</code>
       <code>getMethods</code>
       <code>getName</code>
@@ -1187,6 +1076,9 @@
     <PossiblyUnusedMethod>
       <code>getParameterOverrides</code>
     </PossiblyUnusedMethod>
+    <PossiblyUnusedReturnValue>
+      <code>null|static</code>
+    </PossiblyUnusedReturnValue>
   </file>
   <file src="library/Mockery/Generator/MockConfigurationBuilder.php">
     <MissingParamType>
@@ -1209,22 +1101,6 @@
       <code>$targets</code>
       <code>$whiteListedMethods</code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code>addBlackListedMethod</code>
-      <code>addBlackListedMethods</code>
-      <code>addTarget</code>
-      <code>addTargets</code>
-      <code>addWhiteListedMethod</code>
-      <code>addWhiteListedMethods</code>
-      <code>getMockConfiguration</code>
-      <code>setBlackListedMethods</code>
-      <code>setConstantsMap</code>
-      <code>setInstanceMock</code>
-      <code>setMockOriginalDestructor</code>
-      <code>setName</code>
-      <code>setParameterOverrides</code>
-      <code>setWhiteListedMethods</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$this->blackListedMethods]]></code>
       <code><![CDATA[$this->blackListedMethods]]></code>
@@ -1278,10 +1154,6 @@
       <code>$mockCounter</code>
       <code>$parts</code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code>addPart</code>
-      <code>build</code>
-    </MissingReturnType>
     <MixedArgument>
       <code>$part</code>
     </MixedArgument>
@@ -1319,9 +1191,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/AvoidMethodClashPass.php">
-    <MissingClosureParamType>
-      <code>$method</code>
-    </MissingClosureParamType>
     <MissingClosureReturnType>
       <code>function ($method) {</code>
     </MissingClosureReturnType>
@@ -1333,7 +1202,6 @@
     </MissingReturnType>
     <MixedArgument>
       <code>$code</code>
-      <code><![CDATA[$config->getMethodsToMock()]]></code>
     </MixedArgument>
     <MixedMethodCall>
       <code>getName</code>
@@ -1355,20 +1223,9 @@
     <MissingParamType>
       <code>$code</code>
     </MissingParamType>
-    <MissingReturnType>
-      <code>apply</code>
-    </MissingReturnType>
     <MixedArgument>
       <code>$code</code>
-      <code>$namespace</code>
     </MixedArgument>
-    <MixedAssignment>
-      <code>$className</code>
-      <code>$namespace</code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code>$className</code>
-    </MixedOperand>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/ClassPass.php">
     <MissingParamType>
@@ -1425,16 +1282,12 @@
       <code>$code</code>
     </MissingParamType>
     <MissingReturnType>
-      <code>appendToClass</code>
       <code>apply</code>
     </MissingReturnType>
     <MixedArgument>
       <code>$class</code>
       <code>$class</code>
     </MixedArgument>
-    <MixedAssignment>
-      <code>$code</code>
-    </MixedAssignment>
     <MixedOperand>
       <code>$code</code>
     </MixedOperand>
@@ -1449,9 +1302,6 @@
     <MissingParamType>
       <code>$code</code>
     </MissingParamType>
-    <MissingReturnType>
-      <code>apply</code>
-    </MissingReturnType>
     <MixedArgument>
       <code>$code</code>
       <code><![CDATA[$i->getName()]]></code>
@@ -1481,9 +1331,6 @@
     <InvalidReturnType>
       <code>string</code>
     </InvalidReturnType>
-    <MissingReturnType>
-      <code>renderTypeHint</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$config->getTargetClass()]]></code>
       <code>$interface</code>
@@ -1500,7 +1347,6 @@
     <MixedOperand>
       <code><![CDATA[$method->getName()]]></code>
       <code>$name</code>
-      <code><![CDATA[$this->renderTypeHint($parameter)]]></code>
     </MixedOperand>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPass.php">
@@ -1521,12 +1367,7 @@
       <code>$method</code>
     </MissingParamType>
     <MissingReturnType>
-      <code>appendToClass</code>
       <code>apply</code>
-      <code>renderMethodBody</code>
-      <code>renderParams</code>
-      <code>renderReturnType</code>
-      <code>renderTypeHint</code>
     </MissingReturnType>
     <MixedArgument>
       <code>$class</code>
@@ -1557,12 +1398,10 @@
     <MixedAssignment>
       <code>$class</code>
       <code>$class</code>
-      <code>$code</code>
       <code>$defaultValue</code>
       <code>$method</code>
       <code>$overrides</code>
       <code>$overrides</code>
-      <code>$paramDef</code>
     </MixedAssignment>
     <MixedMethodCall>
       <code>getDeclaringClass</code>
@@ -1586,10 +1425,6 @@
     <MixedOperand>
       <code>$code</code>
       <code><![CDATA[$method->getName()]]></code>
-      <code>$paramDef</code>
-      <code><![CDATA[$this->renderMethodBody($method, $config)]]></code>
-      <code><![CDATA[$this->renderParams($method, $config)]]></code>
-      <code><![CDATA[$this->renderReturnType($method)]]></code>
     </MixedOperand>
     <PossiblyFalseArgument>
       <code>$lastBrace</code>
@@ -1665,7 +1500,6 @@
       <code>$code</code>
     </MissingParamType>
     <MissingReturnType>
-      <code>appendToClass</code>
       <code>apply</code>
     </MissingReturnType>
     <MixedArgument>
@@ -1673,7 +1507,6 @@
       <code>$class</code>
     </MixedArgument>
     <MixedAssignment>
-      <code>$code</code>
       <code>$target</code>
     </MixedAssignment>
     <MixedMethodCall>
@@ -1713,17 +1546,9 @@
     </MixedMethodCall>
   </file>
   <file src="library/Mockery/Generator/StringManipulationGenerator.php">
-    <MissingReturnType>
-      <code>addPass</code>
-      <code>generate</code>
-    </MissingReturnType>
-    <MixedArgument>
-      <code>$namedConfig</code>
-    </MixedArgument>
     <MixedAssignment>
       <code>$className</code>
       <code>$code</code>
-      <code>$namedConfig</code>
       <code>$pass</code>
     </MixedAssignment>
     <MixedMethodCall>
@@ -1877,9 +1702,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="library/Mockery/Loader/EvalLoader.php">
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$definition->getClassName()]]></code>
     </MixedArgument>
@@ -1891,9 +1713,6 @@
     <MissingReturnType>
       <code>load</code>
     </MissingReturnType>
-    <PossiblyUnusedMethod>
-      <code>load</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Loader/RequireLoader.php">
     <MissingParamType>
@@ -1902,9 +1721,6 @@
     <MissingPropertyType>
       <code>$path</code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$definition->getClassName()]]></code>
       <code><![CDATA[$definition->getCode()]]></code>
@@ -2064,18 +1880,12 @@
       <code>$_mockery_receivedMethodCalls</code>
     </MissingPropertyType>
     <MissingReturnType>
-      <code>_mockery_constructorCalled</code>
       <code>_mockery_findExpectedMethodHandler</code>
       <code>_mockery_getReceivedMethodCalls</code>
       <code>_mockery_handleMethodCall</code>
       <code>_mockery_handleStaticMethodCall</code>
-      <code>asUndefined</code>
-      <code>hasMethodOverloadingInParentClass</code>
-      <code>mockery_getExpectations</code>
       <code>mockery_getMethod</code>
       <code>mockery_isInstance</code>
-      <code>mockery_setCurrentOrder</code>
-      <code>mockery_setGroup</code>
     </MissingReturnType>
     <MixedArgument>
       <code>$method</code>
@@ -2145,9 +1955,6 @@
       <code>isPublic</code>
       <code>never</code>
       <code>push</code>
-      <code>setActualOrder</code>
-      <code>setExpectedOrder</code>
-      <code>setMethodName</code>
       <code>verify</code>
     </MixedMethodCall>
     <MixedOperand>
@@ -2199,6 +2006,7 @@
     </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
       <code>\Mockery\ExpectationDirector|null</code>
+      <code>int</code>
     </PossiblyUnusedReturnValue>
     <RedundantCondition>
       <code><![CDATA[$i->getName() !== 'Stringable']]></code>
@@ -2229,10 +2037,6 @@
     <MissingPropertyType>
       <code>$methodCalls</code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code>push</code>
-      <code>verify</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$methodCall->getArgs()]]></code>
       <code><![CDATA[$methodCall->getArgs()]]></code>
@@ -2334,8 +2138,6 @@
       <code>atLeast</code>
       <code>atMost</code>
       <code>between</code>
-      <code>cloneApplyAndVerify</code>
-      <code>cloneWithoutCountValidatorsApplyAndVerify</code>
       <code>once</code>
       <code>times</code>
       <code>twice</code>
@@ -2358,24 +2160,11 @@
       <code>withNoArgs</code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="library/Mockery/VerificationExpectation.php">
-    <MissingReturnType>
-      <code>clearCountValidators</code>
-    </MissingReturnType>
-  </file>
   <file src="library/helpers.php">
     <MissingParamType>
       <code>$args</code>
       <code>$args</code>
       <code>$args</code>
     </MissingParamType>
-    <MissingReturnType>
-      <code>andAnyOtherArgs</code>
-      <code>andAnyOthers</code>
-      <code>anyArgs</code>
-      <code>mock</code>
-      <code>namedMock</code>
-      <code>spy</code>
-    </MissingReturnType>
   </file>
 </files>
