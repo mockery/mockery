@@ -328,7 +328,10 @@ class Mock implements MockInterface
         return $this;
     }
 
-    public function asUndefined()
+    /**
+     * @return static
+     */
+    public function asUndefined(): self
     {
         $this->_mockery_ignoreMissing = true;
         $this->_mockery_defaultReturnValue = new \Mockery\Undefined();
@@ -477,6 +480,8 @@ class Mock implements MockInterface
      *
      * @param mixed $group
      * @param int $order
+     *
+     * @return void
      */
     public function mockery_setGroup($group, $order)
     {
@@ -497,6 +502,8 @@ class Mock implements MockInterface
      * Set current ordered number
      *
      * @param int $order
+     *
+     * @return int
      */
     public function mockery_setCurrentOrder($order)
     {
@@ -631,7 +638,7 @@ class Mock implements MockInterface
         return false;
     }
 
-    public function mockery_getExpectations()
+    public function mockery_getExpectations(): array
     {
         return $this->_mockery_expectations;
     }
@@ -835,7 +842,10 @@ class Mock implements MockInterface
      * Called when an instance Mock was created and its constructor is getting called
      *
      * @see \Mockery\Generator\StringManipulation\Pass\InstanceMockPass
+     *
      * @param array $args
+     *
+     * @return void
      */
     protected function _mockery_constructorCalled(array $args)
     {
@@ -955,7 +965,7 @@ class Mock implements MockInterface
         return static::$_mockery_methods = $reflected->getMethods();
     }
 
-    private function hasMethodOverloadingInParentClass()
+    private function hasMethodOverloadingInParentClass(): bool
     {
         // if there's __call any name would be callable
         return is_callable(get_parent_class($this) . '::aFunctionNameThatNoOneWouldEverUseInRealLife12345');

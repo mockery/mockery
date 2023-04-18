@@ -191,7 +191,7 @@ class MagicMethodTypeHintsPass implements Pass
         return $declaration;
     }
 
-    protected function renderTypeHint(Parameter $param)
+    protected function renderTypeHint(Parameter $param): string
     {
         $typeHint = $param->getTypeHint();
 

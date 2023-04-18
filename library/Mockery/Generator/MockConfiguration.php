@@ -141,7 +141,7 @@ class MockConfiguration
      * filters them appropriately. Lot's of filtering going on, perhaps we could
      * have filter classes to iterate through
      */
-    public function getMethodsToMock()
+    public function getMethodsToMock(): array
     {
         $methods = $this->getAllMethods();
 
@@ -194,7 +194,7 @@ class MockConfiguration
      * We declare the __call method to handle undefined stuff, if the class
      * we're mocking has also defined it, we need to comply with their interface
      */
-    public function requiresCallTypeHintRemoval()
+    public function requiresCallTypeHintRemoval(): bool
     {
         foreach ($this->getAllMethods() as $method) {
             if ("__call" === $method->getName()) {
@@ -210,7 +210,7 @@ class MockConfiguration
      * We declare the __callStatic method to handle undefined stuff, if the class
      * we're mocking has also defined it, we need to comply with their interface
      */
-    public function requiresCallStaticTypeHintRemoval()
+    public function requiresCallStaticTypeHintRemoval(): bool
     {
         foreach ($this->getAllMethods() as $method) {
             if ("__callStatic" === $method->getName()) {
@@ -222,7 +222,7 @@ class MockConfiguration
         return false;
     }
 
-    public function rename($className)
+    public function rename($className): self
     {
         $targets = array();
 
@@ -254,6 +254,9 @@ class MockConfiguration
         );
     }
 
+    /**
+     * @return null|static
+     */
     protected function addTarget($target)
     {
         if (is_object($target)) {
@@ -295,7 +298,7 @@ class MockConfiguration
         $this->setTargetClassName($target);
     }
 
-    protected function addTargets($interfaces)
+    protected function addTargets($interfaces): void
     {
         foreach ($interfaces as $interface) {
             $this->addTarget($interface);
@@ -443,13 +446,13 @@ class MockConfiguration
         return $nameBuilder->build();
     }
 
-    public function getShortName()
+    public function getShortName(): string
     {
         $parts = explode("\\", $this->getName());
         return array_pop($parts);
     }
 
-    public function getNamespaceName()
+    public function getNamespaceName(): string
     {
         $parts = explode("\\", $this->getName());
         array_pop($parts);
@@ -486,7 +489,7 @@ class MockConfiguration
         return $this->mockOriginalDestructor;
     }
 
-    protected function setTargetClassName($targetClassName)
+    protected function setTargetClassName($targetClassName): void
     {
         $this->targetClassName = $targetClassName;
     }
@@ -534,17 +537,17 @@ class MockConfiguration
      * implementing either Iterator or IteratorAggregate, and that whichever one
      * it is comes before Traversable in the list of implements.
      */
-    protected function addTargetInterfaceName($targetInterface)
+    protected function addTargetInterfaceName($targetInterface): void
     {
         $this->targetInterfaceNames[] = $targetInterface;
     }
 
-    protected function addTargetTraitName($targetTraitName)
+    protected function addTargetTraitName($targetTraitName): void
     {
         $this->targetTraitNames[] = $targetTraitName;
     }
 
-    protected function setTargetObject($object)
+    protected function setTargetObject($object): void
     {
         $this->targetObject = $object;
     }

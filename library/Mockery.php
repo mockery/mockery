@@ -226,7 +226,7 @@ class Mockery
      *
      * @param \Mockery\Generator\Generator $generator
      */
-    public static function setGenerator(Generator $generator)
+    public static function setGenerator(Generator $generator): void
     {
         self::$_generator = $generator;
     }
@@ -262,7 +262,7 @@ class Mockery
      *
      * @param Loader $loader
      */
-    public static function setLoader(Loader $loader)
+    public static function setLoader(Loader $loader): void
     {
         self::$_loader = $loader;
     }
@@ -930,7 +930,7 @@ class Mockery
         return static::declareType($fqn, "interface");
     }
 
-    private static function declareType($fqn, $type)
+    private static function declareType($fqn, $type): void
     {
         $targetCode = "<?php ";
         $shortName = $fqn;
@@ -962,7 +962,7 @@ class Mockery
      *
      * @param string $fileName
      */
-    public static function registerFileForCleanUp($fileName)
+    public static function registerFileForCleanUp($fileName): void
     {
         self::$_filesToCleanUp[] = $fileName;
     }

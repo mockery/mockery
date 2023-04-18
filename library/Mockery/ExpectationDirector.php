@@ -74,7 +74,7 @@ class ExpectationDirector
      *
      * @param \Mockery\Expectation $expectation
      */
-    public function addExpectation(\Mockery\Expectation $expectation)
+    public function addExpectation(\Mockery\Expectation $expectation): void
     {
         $this->_expectations[] = $expectation;
     }
@@ -151,6 +151,8 @@ class ExpectationDirector
      * correctly created last
      *
      * @param \Mockery\Expectation $expectation
+     *
+     * @return void
      */
     public function makeExpectationDefault(\Mockery\Expectation $expectation)
     {

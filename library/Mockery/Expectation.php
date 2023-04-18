@@ -318,7 +318,7 @@ class Expectation implements ExpectationInterface
         return (count($this->_expectedArgs) === 1 && ($this->_expectedArgs[0] instanceof ArgumentListMatcher));
     }
 
-    private function isAndAnyOtherArgumentsMatcher($expectedArg)
+    private function isAndAnyOtherArgumentsMatcher($expectedArg): bool
     {
         return $expectedArg instanceof AndAnyOtherArgs;
     }
@@ -605,12 +605,12 @@ class Expectation implements ExpectationInterface
         return $this->andReturn(null);
     }
 
-    public function andReturnFalse()
+    public function andReturnFalse(): self
     {
         return $this->andReturn(false);
     }
 
-    public function andReturnTrue()
+    public function andReturnTrue(): self
     {
         return $this->andReturn(true);
     }
@@ -635,7 +635,7 @@ class Expectation implements ExpectationInterface
         return $this;
     }
 
-    public function andThrows($exception, $message = '', $code = 0, \Exception $previous = null)
+    public function andThrows($exception, $message = '', $code = 0, \Exception $previous = null): self
     {
         return $this->andThrow($exception, $message, $code, $previous);
     }
@@ -795,7 +795,7 @@ class Expectation implements ExpectationInterface
      * @param int $minimum
      * @param int $maximum
      */
-    public function between($minimum, $maximum)
+    public function between($minimum, $maximum): self
     {
         return $this->atLeast()->times($minimum)->atMost()->times($maximum);
     }
@@ -928,12 +928,12 @@ class Expectation implements ExpectationInterface
         $this->_countValidators = $newValidators;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->_name;
     }
 
-    public function getExceptionMessage()
+    public function getExceptionMessage(): ?string
     {
         return $this->_because;
     }

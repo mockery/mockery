@@ -36,7 +36,7 @@ trait MockeryPHPUnitIntegration
      * Performs assertions shared by all tests of a test case. This method is
      * called before execution of a test ends and before the tearDown method.
      */
-    protected function mockeryAssertPostConditions()
+    protected function mockeryAssertPostConditions(): void
     {
         $this->addMockeryExpectationsToAssertionCount();
         $this->checkMockeryExceptions();
@@ -45,11 +45,14 @@ trait MockeryPHPUnitIntegration
         parent::assertPostConditions();
     }
 
-    protected function addMockeryExpectationsToAssertionCount()
+    protected function addMockeryExpectationsToAssertionCount(): void
     {
         $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
     }
 
+    /**
+     * @return void
+     */
     protected function checkMockeryExceptions()
     {
         if (!method_exists($this, "markAsRisky")) {
@@ -63,7 +66,7 @@ trait MockeryPHPUnitIntegration
         }
     }
 
-    protected function closeMockery()
+    protected function closeMockery(): void
     {
         Mockery::close();
         $this->mockeryOpen = false;
@@ -72,7 +75,7 @@ trait MockeryPHPUnitIntegration
     /**
      * @before
      */
-    protected function startMockery()
+    protected function startMockery(): void
     {
         $this->mockeryOpen = true;
     }
@@ -80,7 +83,7 @@ trait MockeryPHPUnitIntegration
     /**
      * @after
      */
-    protected function purgeMockeryContainer()
+    protected function purgeMockeryContainer(): void
     {
         if ($this->mockeryOpen) {
             // post conditions wasn't called, so test probably failed

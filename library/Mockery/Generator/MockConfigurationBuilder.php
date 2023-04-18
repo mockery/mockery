@@ -75,14 +75,20 @@ class MockConfigurationBuilder
         $this->blackListedMethods = array_diff($this->blackListedMethods, $this->php7SemiReservedKeywords);
     }
 
-    public function addTarget($target)
+    /**
+     * @return static
+     */
+    public function addTarget($target): self
     {
         $this->targets[] = $target;
 
         return $this;
     }
 
-    public function addTargets($targets)
+    /**
+     * @return static
+     */
+    public function addTargets($targets): self
     {
         foreach ($targets as $target) {
             $this->addTarget($target);
@@ -91,19 +97,28 @@ class MockConfigurationBuilder
         return $this;
     }
 
-    public function setName($name)
+    /**
+     * @return static
+     */
+    public function setName($name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    public function addBlackListedMethod($blackListedMethod)
+    /**
+     * @return static
+     */
+    public function addBlackListedMethod($blackListedMethod): self
     {
         $this->blackListedMethods[] = $blackListedMethod;
         return $this;
     }
 
-    public function addBlackListedMethods(array $blackListedMethods)
+    /**
+     * @return static
+     */
+    public function addBlackListedMethods(array $blackListedMethods): self
     {
         foreach ($blackListedMethods as $method) {
             $this->addBlackListedMethod($method);
@@ -111,19 +126,28 @@ class MockConfigurationBuilder
         return $this;
     }
 
-    public function setBlackListedMethods(array $blackListedMethods)
+    /**
+     * @return static
+     */
+    public function setBlackListedMethods(array $blackListedMethods): self
     {
         $this->blackListedMethods = $blackListedMethods;
         return $this;
     }
 
-    public function addWhiteListedMethod($whiteListedMethod)
+    /**
+     * @return static
+     */
+    public function addWhiteListedMethod($whiteListedMethod): self
     {
         $this->whiteListedMethods[] = $whiteListedMethod;
         return $this;
     }
 
-    public function addWhiteListedMethods(array $whiteListedMethods)
+    /**
+     * @return static
+     */
+    public function addWhiteListedMethods(array $whiteListedMethods): self
     {
         foreach ($whiteListedMethods as $method) {
             $this->addWhiteListedMethod($method);
@@ -131,34 +155,40 @@ class MockConfigurationBuilder
         return $this;
     }
 
-    public function setWhiteListedMethods(array $whiteListedMethods)
+    /**
+     * @return static
+     */
+    public function setWhiteListedMethods(array $whiteListedMethods): self
     {
         $this->whiteListedMethods = $whiteListedMethods;
         return $this;
     }
 
-    public function setInstanceMock($instanceMock)
+    public function setInstanceMock($instanceMock): void
     {
         $this->instanceMock = (bool) $instanceMock;
     }
 
-    public function setParameterOverrides(array $overrides)
+    public function setParameterOverrides(array $overrides): void
     {
         $this->parameterOverrides = $overrides;
     }
 
-    public function setMockOriginalDestructor($mockDestructor)
+    /**
+     * @return static
+     */
+    public function setMockOriginalDestructor($mockDestructor): self
     {
         $this->mockOriginalDestructor = $mockDestructor;
         return $this;
     }
 
-    public function setConstantsMap(array $map)
+    public function setConstantsMap(array $map): void
     {
         $this->constantsMap = $map;
     }
 
-    public function getMockConfiguration()
+    public function getMockConfiguration(): MockConfiguration
     {
         return new MockConfiguration(
             $this->targets,

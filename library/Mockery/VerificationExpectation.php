@@ -22,7 +22,7 @@ namespace Mockery;
 
 class VerificationExpectation extends Expectation
 {
-    public function clearCountValidators()
+    public function clearCountValidators(): void
     {
         $this->_countValidators = array();
     }

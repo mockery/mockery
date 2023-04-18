@@ -35,31 +35,46 @@ class InvalidCountException extends Mockery\CountValidator\Exception
 
     protected $mockObject = null;
 
-    public function setMock(Mockery\LegacyMockInterface $mock)
+    /**
+     * @return static
+     */
+    public function setMock(Mockery\LegacyMockInterface $mock): self
     {
         $this->mockObject = $mock;
         return $this;
     }
 
-    public function setMethodName($name)
+    /**
+     * @return static
+     */
+    public function setMethodName($name): self
     {
         $this->method = $name;
         return $this;
     }
 
-    public function setActualCount($count)
+    /**
+     * @return static
+     */
+    public function setActualCount($count): self
     {
         $this->actual = $count;
         return $this;
     }
 
-    public function setExpectedCount($count)
+    /**
+     * @return static
+     */
+    public function setExpectedCount($count): self
     {
         $this->expected = $count;
         return $this;
     }
 
-    public function setExpectedCountComparative($comp)
+    /**
+     * @return static
+     */
+    public function setExpectedCountComparative($comp): self
     {
         if (!in_array($comp, array('=', '>', '<', '>=', '<='))) {
             throw new RuntimeException(

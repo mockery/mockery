@@ -74,7 +74,7 @@ MOCK;
         return $code;
     }
 
-    protected function appendToClass($class, $code)
+    protected function appendToClass($class, $code): string
     {
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";

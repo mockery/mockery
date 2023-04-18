@@ -32,6 +32,9 @@ class RequireLoader implements Loader
         $this->path = realpath($path) ?: sys_get_temp_dir();
     }
 
+    /**
+     * @return void
+     */
     public function load(MockDefinition $definition)
     {
         if (class_exists($definition->getClassName(), false)) {

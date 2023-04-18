@@ -25,6 +25,9 @@ use Mockery\Loader\Loader;
 
 class EvalLoader implements Loader
 {
+    /**
+     * @return void
+     */
     public function load(MockDefinition $definition)
     {
         if (class_exists($definition->getClassName(), false)) {

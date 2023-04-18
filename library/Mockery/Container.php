@@ -232,16 +232,16 @@ class Container
         return $mock;
     }
 
-    public function instanceMock()
+    public function instanceMock(): void
     {
     }
 
-    public function getLoader()
+    public function getLoader(): LoaderInterface
     {
         return $this->_loader;
     }
 
-    public function getGenerator()
+    public function getGenerator(): Generator
     {
         return $this->_generator;
     }
@@ -346,7 +346,7 @@ class Container
      * @param mixed $group
      * @param int $order
      */
-    public function mockery_setGroup($group, $order)
+    public function mockery_setGroup($group, $order): void
     {
         $this->_groups[$group] = $order;
     }
@@ -494,6 +494,9 @@ class Container
         return $instance;
     }
 
+    /**
+     * @return void
+     */
     protected function checkForNamedMockClashes($config)
     {
         $name = $config->getName();

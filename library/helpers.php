@@ -23,42 +23,42 @@ use Mockery\Matcher\AnyArgs;
  */
 
 if (!function_exists("mock")) {
-    function mock(...$args)
+    function mock(...$args): \Mockery\LegacyMockInterface
     {
         return Mockery::mock(...$args);
     }
 }
 
 if (!function_exists("spy")) {
-    function spy(...$args)
+    function spy(...$args): \Mockery\LegacyMockInterface
     {
         return Mockery::spy(...$args);
     }
 }
 
 if (!function_exists("namedMock")) {
-    function namedMock(...$args)
+    function namedMock(...$args): \Mockery\LegacyMockInterface
     {
         return Mockery::namedMock(...$args);
     }
 }
 
 if (!function_exists("anyArgs")) {
-    function anyArgs()
+    function anyArgs(): AnyArgs
     {
         return new AnyArgs();
     }
 }
 
 if (!function_exists("andAnyOtherArgs")) {
-    function andAnyOtherArgs()
+    function andAnyOtherArgs(): AndAnyOtherArgs
     {
         return new AndAnyOtherArgs();
     }
 }
 
 if (!function_exists("andAnyOthers")) {
-    function andAnyOthers()
+    function andAnyOthers(): AndAnyOtherArgs
     {
         return new AndAnyOtherArgs();
     }

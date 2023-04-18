@@ -24,6 +24,9 @@ use Mockery\Generator\MockConfiguration;
 
 class InterfacePass implements Pass
 {
+    /**
+     * @return string
+     */
     public function apply($code, MockConfiguration $config)
     {
         foreach ($config->getTargetInterfaces() as $i) {

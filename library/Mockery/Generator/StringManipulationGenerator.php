@@ -68,6 +68,9 @@ class StringManipulationGenerator implements Generator
         $this->passes = $passes;
     }
 
+    /**
+     * @return MockDefinition
+     */
     public function generate(MockConfiguration $config)
     {
         $code = file_get_contents(__DIR__ . '/../Mock.php');
@@ -82,7 +85,7 @@ class StringManipulationGenerator implements Generator
         return new MockDefinition($namedConfig, $code);
     }
 
-    public function addPass(Pass $pass)
+    public function addPass(Pass $pass): void
     {
         $this->passes[] = $pass;
     }

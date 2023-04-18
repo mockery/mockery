@@ -86,7 +86,7 @@ class Configuration
      *
      * @param bool $flag
      */
-    public function allowMockingNonExistentMethods($flag = true)
+    public function allowMockingNonExistentMethods($flag = true): void
     {
         $this->_allowMockingNonExistentMethod = (bool) $flag;
     }
@@ -108,7 +108,7 @@ class Configuration
      *
      * @deprecated since 1.4.0
      */
-    public function allowMockingMethodsUnnecessarily($flag = true)
+    public function allowMockingMethodsUnnecessarily($flag = true): void
     {
         @trigger_error(sprintf("The %s method is deprecated and will be removed in a future version of Mockery", __METHOD__), E_USER_DEPRECATED);
 
@@ -136,6 +136,8 @@ class Configuration
      * @param string $class
      * @param string $method
      * @param array $map
+     *
+     * @return void
      */
     public function setInternalClassMethodParamMap($class, $method, array $map)
     {
@@ -152,7 +154,7 @@ class Configuration
     /**
      * Remove all overridden parameter maps from internal PHP classes.
      */
-    public function resetInternalClassMethodParamMaps()
+    public function resetInternalClassMethodParamMaps(): void
     {
         $this->_internalClassParamMap = array();
     }
@@ -169,12 +171,12 @@ class Configuration
         }
     }
 
-    public function getInternalClassMethodParamMaps()
+    public function getInternalClassMethodParamMaps(): array
     {
         return $this->_internalClassParamMap;
     }
 
-    public function setConstantsMap(array $map)
+    public function setConstantsMap(array $map): void
     {
         $this->_constantsMap = $map;
     }
@@ -200,7 +202,7 @@ class Configuration
      *
      * @see https://github.com/mockery/mockery/issues/268
      */
-    public function disableReflectionCache()
+    public function disableReflectionCache(): void
     {
         $this->_reflectionCacheEnabled = false;
     }
@@ -213,7 +215,7 @@ class Configuration
      *
      * @see https://github.com/mockery/mockery/issues/268
      */
-    public function enableReflectionCache()
+    public function enableReflectionCache(): void
     {
         $this->_reflectionCacheEnabled = true;
     }
@@ -226,7 +228,7 @@ class Configuration
         return $this->_reflectionCacheEnabled;
     }
 
-    public function setObjectFormatter($class, $formatterCallback)
+    public function setObjectFormatter($class, $formatterCallback): void
     {
         $this->_objectFormatters[$class] = $formatterCallback;
     }
@@ -250,6 +252,8 @@ class Configuration
     /**
      * @param string $class
      * @param string $matcherClass
+     *
+     * @return void
      */
     public function setDefaultMatcher($class, $matcherClass)
     {

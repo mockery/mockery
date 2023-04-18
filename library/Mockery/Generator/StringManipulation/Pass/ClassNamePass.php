@@ -24,6 +24,9 @@ use Mockery\Generator\MockConfiguration;
 
 class ClassNamePass implements Pass
 {
+    /**
+     * @return string
+     */
     public function apply($code, MockConfiguration $config)
     {
         $namespace = $config->getNamespaceName();

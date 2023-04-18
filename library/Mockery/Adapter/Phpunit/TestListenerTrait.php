@@ -34,6 +34,8 @@ class TestListenerTrait
      *
      * @param Test  $test
      * @param float $time
+     *
+     * @return void
      */
     public function endTest(Test $test, $time)
     {
@@ -75,7 +77,7 @@ class TestListenerTrait
         }
     }
 
-    public function startTestSuite()
+    public function startTestSuite(): void
     {
         if (method_exists(Blacklist::class, 'addDirectory')) {
             (new BlackList())->getBlacklistedDirectories();

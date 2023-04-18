@@ -6,7 +6,7 @@ class BadMethodCallException extends \BadMethodCallException
 {
     private $dismissed = false;
 
-    public function dismiss()
+    public function dismiss(): void
     {
         $this->dismissed = true;
 

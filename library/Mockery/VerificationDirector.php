@@ -86,7 +86,7 @@ class VerificationDirector
         return $this->cloneWithoutCountValidatorsApplyAndVerify("between", array($minimum, $maximum));
     }
 
-    protected function cloneWithoutCountValidatorsApplyAndVerify($method, $args)
+    protected function cloneWithoutCountValidatorsApplyAndVerify($method, $args): self
     {
         $expectation = clone $this->expectation;
         $expectation->clearCountValidators();
@@ -96,7 +96,7 @@ class VerificationDirector
         return $director;
     }
 
-    protected function cloneApplyAndVerify($method, $args)
+    protected function cloneApplyAndVerify($method, $args): self
     {
         $expectation = clone $this->expectation;
         call_user_func_array(array($expectation, $method), $args);
