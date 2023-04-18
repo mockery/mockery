@@ -38,10 +38,7 @@
     </MissingClosureReturnType>
     <MissingParamType>
       <code>$fqn</code>
-      <code>$fqn</code>
-      <code>$fqn</code>
       <code>$reference</code>
-      <code>$type</code>
     </MissingParamType>
     <MissingReturnType>
       <code>declareClass</code>
@@ -54,6 +51,7 @@
       <code>$fqn</code>
       <code>$fqn</code>
       <code>$n</code>
+      <code>$name</code>
       <code>$nesting</code>
       <code>$object</code>
     </MixedArgument>
@@ -272,9 +270,6 @@
     <MissingParamType>
       <code>$class</code>
       <code>$class</code>
-      <code>$class</code>
-      <code>$class</code>
-      <code>$defaultFormatter</code>
       <code>$formatterCallback</code>
       <code>$method</code>
     </MissingParamType>
@@ -289,8 +284,6 @@
       <code>reflectionCacheEnabled</code>
     </MissingReturnType>
     <MixedArgument>
-      <code>$class</code>
-      <code>$class</code>
       <code>$class</code>
       <code>$class</code>
       <code>$method</code>
@@ -313,10 +306,6 @@
       <code><![CDATA[$this->_objectFormatters[$type]]]></code>
     </MixedArrayTypeCoercion>
     <MixedAssignment>
-      <code>$classes[]</code>
-      <code>$classes[]</code>
-      <code>$parentClass</code>
-      <code>$parentClass</code>
       <code>$type</code>
       <code>$type</code>
     </MixedAssignment>
@@ -354,6 +343,7 @@
   <file src="library/Mockery/Container.php">
     <ArgumentTypeCoercion>
       <code><![CDATA["Mockery\LegacyMockInterface"]]></code>
+      <code>$constructorArgs</code>
     </ArgumentTypeCoercion>
     <DocblockTypeContradiction>
       <code>$arg instanceof MockConfigurationBuilder</code>
@@ -370,10 +360,7 @@
       <code>$mock</code>
     </LessSpecificReturnStatement>
     <MissingParamType>
-      <code>$config</code>
-      <code>$constructorArgs</code>
       <code>$mockName</code>
-      <code>$reference</code>
     </MissingParamType>
     <MissingReturnType>
       <code>_getInstance</code>
@@ -381,7 +368,6 @@
     <MixedArgument>
       <code>$arg</code>
       <code>$blocks</code>
-      <code>$constructorArgs</code>
       <code>$def</code>
       <code><![CDATA[$def->getClassName()]]></code>
       <code><![CDATA[$def->getClassName()]]></code>
@@ -395,7 +381,6 @@
     </MixedArgumentTypeCoercion>
     <MixedArrayOffset>
       <code><![CDATA[$this->_groups[$group]]]></code>
-      <code><![CDATA[$this->_mocks[$reference]]]></code>
       <code><![CDATA[$this->_namedMocks[$name]]]></code>
       <code><![CDATA[$this->_namedMocks[$name]]]></code>
     </MixedArrayOffset>
@@ -403,7 +388,6 @@
       <code>$blocks</code>
       <code>$count</code>
       <code>$def</code>
-      <code>$hash</code>
       <code>$instance</code>
       <code>$mock</code>
       <code>$mock</code>
@@ -423,8 +407,6 @@
       <code>getClassName</code>
       <code>getClassName</code>
       <code>getClassName</code>
-      <code>getHash</code>
-      <code>getName</code>
       <code>mockery_getExpectationCount</code>
       <code>mockery_init</code>
       <code>mockery_teardown</code>
@@ -529,12 +511,6 @@
     </UnusedClass>
   </file>
   <file src="library/Mockery/Exception/InvalidCountException.php">
-    <MissingParamType>
-      <code>$comp</code>
-      <code>$count</code>
-      <code>$count</code>
-      <code>$name</code>
-    </MissingParamType>
     <MissingPropertyType>
       <code>$actual</code>
       <code>$expected</code>
@@ -553,9 +529,6 @@
     <MixedMethodCall>
       <code>mockery_getName</code>
     </MixedMethodCall>
-    <MixedOperand>
-      <code>$comp</code>
-    </MixedOperand>
     <PossiblyUnusedMethod>
       <code>getActualCount</code>
       <code>getExpectedCount</code>
@@ -565,11 +538,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Exception/InvalidOrderException.php">
-    <MissingParamType>
-      <code>$count</code>
-      <code>$count</code>
-      <code>$name</code>
-    </MissingParamType>
     <MissingPropertyType>
       <code>$actual</code>
       <code>$expected</code>
@@ -594,10 +562,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Exception/NoMatchingExpectationException.php">
-    <MissingParamType>
-      <code>$count</code>
-      <code>$name</code>
-    </MissingParamType>
     <MissingPropertyType>
       <code>$actual</code>
       <code>$method</code>
@@ -918,14 +882,10 @@
     <MissingParamType>
       <code>$className</code>
       <code>$instanceMock</code>
-      <code>$interfaces</code>
       <code>$mockOriginalDestructor</code>
       <code>$name</code>
-      <code>$object</code>
       <code>$target</code>
       <code>$targetClassName</code>
-      <code>$targetInterface</code>
-      <code>$targetTraitName</code>
     </MissingParamType>
     <MissingPropertyType>
       <code>$allMethods</code>
@@ -971,6 +931,7 @@
       <code>$methods</code>
       <code>$methods</code>
       <code>$names</code>
+      <code>$target</code>
       <code>$target</code>
       <code>$target</code>
       <code>$target</code>
@@ -1073,9 +1034,6 @@
     <MixedOperand>
       <code>$target</code>
     </MixedOperand>
-    <PossiblyUnusedMethod>
-      <code>getParameterOverrides</code>
-    </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
       <code>null|static</code>
     </PossiblyUnusedReturnValue>
@@ -1083,12 +1041,7 @@
   <file src="library/Mockery/Generator/MockConfigurationBuilder.php">
     <MissingParamType>
       <code>$blackListedMethod</code>
-      <code>$instanceMock</code>
-      <code>$mockDestructor</code>
-      <code>$name</code>
       <code>$target</code>
-      <code>$targets</code>
-      <code>$whiteListedMethod</code>
     </MissingParamType>
     <MissingPropertyType>
       <code>$blackListedMethods</code>
@@ -1102,6 +1055,7 @@
       <code>$whiteListedMethods</code>
     </MissingPropertyType>
     <MixedArgument>
+      <code>$method</code>
       <code><![CDATA[$this->blackListedMethods]]></code>
       <code><![CDATA[$this->blackListedMethods]]></code>
       <code><![CDATA[$this->constantsMap]]></code>
@@ -1125,6 +1079,9 @@
       <code>setBlackListedMethods</code>
       <code>setWhiteListedMethods</code>
     </PossiblyUnusedMethod>
+    <RedundantCast>
+      <code>(bool) $instanceMock</code>
+    </RedundantCast>
   </file>
   <file src="library/Mockery/Generator/MockDefinition.php">
     <MissingParamType>
@@ -1354,17 +1311,9 @@
       <code>$param</code>
       <code>$param</code>
     </InvalidCast>
-    <InvalidMethodCall>
-      <code>getName</code>
-      <code>isPassedByReference</code>
-    </InvalidMethodCall>
     <MissingParamType>
       <code>$class</code>
       <code>$code</code>
-      <code>$code</code>
-      <code>$config</code>
-      <code>$config</code>
-      <code>$method</code>
     </MissingParamType>
     <MissingReturnType>
       <code>apply</code>
@@ -1376,7 +1325,6 @@
       <code><![CDATA[$class->getName()]]></code>
       <code><![CDATA[$class->getName()]]></code>
       <code>$method</code>
-      <code><![CDATA[$method->getParameters()]]></code>
       <code><![CDATA[$overrides[$class_name][$method->getName()]]]></code>
       <code><![CDATA[$overrides[strtolower($class->getName())][$method->getName()]]]></code>
     </MixedArgument>
@@ -1404,26 +1352,17 @@
       <code>$overrides</code>
     </MixedAssignment>
     <MixedMethodCall>
-      <code>getDeclaringClass</code>
       <code>getName</code>
       <code>getName</code>
       <code>getName</code>
       <code>getName</code>
-      <code>getName</code>
-      <code>getName</code>
-      <code>getParameterOverrides</code>
-      <code>getParameterOverrides</code>
-      <code>getParameters</code>
-      <code>getReturnType</code>
       <code>isInternal</code>
       <code>isProtected</code>
       <code>isPublic</code>
       <code>isStatic</code>
-      <code>isStatic</code>
       <code>returnsReference</code>
     </MixedMethodCall>
     <MixedOperand>
-      <code>$code</code>
       <code><![CDATA[$method->getName()]]></code>
     </MixedOperand>
     <PossiblyFalseArgument>
@@ -1497,7 +1436,6 @@
     <MissingParamType>
       <code>$class</code>
       <code>$code</code>
-      <code>$code</code>
     </MissingParamType>
     <MissingReturnType>
       <code>apply</code>
@@ -1513,9 +1451,6 @@
       <code>hasInternalAncestor</code>
       <code>implementsInterface</code>
     </MixedMethodCall>
-    <MixedOperand>
-      <code>$code</code>
-    </MixedOperand>
     <PossiblyFalseArgument>
       <code>$lastBrace</code>
     </PossiblyFalseArgument>
@@ -1870,8 +1805,6 @@
       <code>$method</code>
       <code>$method</code>
       <code>$method</code>
-      <code>$method</code>
-      <code>$name</code>
       <code>$name</code>
     </MissingParamType>
     <MissingPropertyType>
@@ -1888,10 +1821,6 @@
       <code>mockery_isInstance</code>
     </MissingReturnType>
     <MixedArgument>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
       <code>$method</code>
       <code>$method</code>
       <code>$method</code>
@@ -1959,12 +1888,6 @@
     </MixedMethodCall>
     <MixedOperand>
       <code>$count</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
       <code>$method</code>
     </MixedOperand>
     <MixedReturnStatement>
@@ -2126,12 +2049,8 @@
     <MissingParamType>
       <code>$args</code>
       <code>$args</code>
-      <code>$args</code>
-      <code>$args</code>
       <code>$limit</code>
       <code>$maximum</code>
-      <code>$method</code>
-      <code>$method</code>
       <code>$minimum</code>
     </MissingParamType>
     <MissingReturnType>
