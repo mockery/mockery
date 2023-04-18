@@ -106,10 +106,10 @@
     <MixedReturnStatement>
       <code>$expectations</code>
       <code>$expectations</code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)]]></code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)]]></code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)]]></code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing()]]></code>
+      <code><![CDATA[call_user_func_array([self::getContainer(), 'mock'], $args)]]></code>
+      <code><![CDATA[call_user_func_array([self::getContainer(), 'mock'], $args)]]></code>
+      <code><![CDATA[call_user_func_array([self::getContainer(), 'mock'], $args)]]></code>
+      <code><![CDATA[call_user_func_array([self::getContainer(), 'mock'], $args)->shouldIgnoreMissing()]]></code>
     </MixedReturnStatement>
     <MoreSpecificReturnType>
       <code>\Mockery\Mock</code>
@@ -120,7 +120,6 @@
     <PossiblyUnusedMethod>
       <code>andAnyOtherArgs</code>
       <code>andAnyOthers</code>
-      <code>any</code>
       <code>anyOf</code>
       <code>capture</code>
       <code>contains</code>
@@ -133,18 +132,13 @@
       <code>mustBe</code>
       <code>not</code>
       <code>notAnyOf</code>
-      <code>on</code>
       <code>pattern</code>
       <code>resetContainer</code>
       <code>setContainer</code>
       <code>setGenerator</code>
       <code>setLoader</code>
       <code>subset</code>
-      <code>type</code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedReturnValue>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-    </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
     </RedundantConditionGivenDocblockType>
@@ -368,10 +362,8 @@
       <code>enableReflectionCache</code>
       <code>getInternalClassMethodParamMap</code>
       <code>mockingMethodsUnnecessarilyAllowed</code>
-      <code>resetInternalClassMethodParamMaps</code>
       <code>setConstantsMap</code>
       <code>setDefaultMatcher</code>
-      <code>setInternalClassMethodParamMap</code>
       <code>setObjectFormatter</code>
     </PossiblyUnusedMethod>
     <RedundantCastGivenDocblockType>
@@ -2044,6 +2036,9 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Mock.php">
+    <InvalidAttribute>
+      <code>\AllowDynamicProperties</code>
+    </InvalidAttribute>
     <MissingClosureParamType>
       <code>$method</code>
     </MissingClosureParamType>
