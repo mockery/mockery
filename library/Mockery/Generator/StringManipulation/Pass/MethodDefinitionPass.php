@@ -54,7 +54,7 @@ class MethodDefinitionPass implements Pass
         return $code;
     }
 
-    protected function renderParams(Method $method, $config): string
+    protected function renderParams(Method $method, MockConfiguration $config): string
     {
         $class = $method->getDeclaringClass();
         if ($class->isInternal()) {
@@ -94,7 +94,7 @@ class MethodDefinitionPass implements Pass
         return $type ? sprintf(': %s', $type) : '';
     }
 
-    protected function appendToClass($class, $code): string
+    protected function appendToClass($class, string $code): string
     {
         $lastBrace = strrpos($class, "}");
         $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
@@ -108,7 +108,7 @@ class MethodDefinitionPass implements Pass
         return $typeHint === null ? '' : sprintf('%s ', $typeHint);
     }
 
-    private function renderMethodBody($method, $config): string
+    private function renderMethodBody(Method $method, MockConfiguration $config): string
     {
         $invoke = $method->isStatic() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
         $body = <<<BODY

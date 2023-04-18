@@ -88,7 +88,7 @@ class MockConfigurationBuilder
     /**
      * @return static
      */
-    public function addTargets($targets): self
+    public function addTargets(array $targets): self
     {
         foreach ($targets as $target) {
             $this->addTarget($target);
@@ -100,7 +100,7 @@ class MockConfigurationBuilder
     /**
      * @return static
      */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -138,7 +138,7 @@ class MockConfigurationBuilder
     /**
      * @return static
      */
-    public function addWhiteListedMethod($whiteListedMethod): self
+    public function addWhiteListedMethod(string $whiteListedMethod): self
     {
         $this->whiteListedMethods[] = $whiteListedMethod;
         return $this;
@@ -164,7 +164,7 @@ class MockConfigurationBuilder
         return $this;
     }
 
-    public function setInstanceMock($instanceMock): void
+    public function setInstanceMock(bool $instanceMock): void
     {
         $this->instanceMock = (bool) $instanceMock;
     }
@@ -177,7 +177,7 @@ class MockConfigurationBuilder
     /**
      * @return static
      */
-    public function setMockOriginalDestructor($mockDestructor): self
+    public function setMockOriginalDestructor(bool $mockDestructor): self
     {
         $this->mockOriginalDestructor = $mockDestructor;
         return $this;

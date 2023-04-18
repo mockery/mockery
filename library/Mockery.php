@@ -920,17 +920,17 @@ class Mockery
         return empty($methodNames);
     }
 
-    public static function declareClass($fqn)
+    public static function declareClass(string $fqn)
     {
         return static::declareType($fqn, "class");
     }
 
-    public static function declareInterface($fqn)
+    public static function declareInterface(string $fqn)
     {
         return static::declareType($fqn, "interface");
     }
 
-    private static function declareType($fqn, $type): void
+    private static function declareType($fqn, string $type): void
     {
         $targetCode = "<?php ";
         $shortName = $fqn;

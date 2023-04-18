@@ -47,7 +47,7 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     /**
      * @return static
      */
-    public function setMethodName($name): self
+    public function setMethodName(string $name): self
     {
         $this->method = $name;
         return $this;
@@ -56,7 +56,7 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     /**
      * @return static
      */
-    public function setActualCount($count): self
+    public function setActualCount(int $count): self
     {
         $this->actual = $count;
         return $this;
@@ -65,7 +65,7 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     /**
      * @return static
      */
-    public function setExpectedCount($count): self
+    public function setExpectedCount(int $count): self
     {
         $this->expected = $count;
         return $this;
@@ -74,7 +74,7 @@ class InvalidCountException extends Mockery\CountValidator\Exception
     /**
      * @return static
      */
-    public function setExpectedCountComparative($comp): self
+    public function setExpectedCountComparative(string $comp): self
     {
         if (!in_array($comp, array('=', '>', '<', '>=', '<='))) {
             throw new RuntimeException(

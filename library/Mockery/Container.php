@@ -21,6 +21,7 @@
 namespace Mockery;
 
 use Mockery\Generator\Generator;
+use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Loader\Loader as LoaderInterface;
 
@@ -462,14 +463,14 @@ class Container
      *
      * @return \Mockery\Mock
      */
-    public function fetchMock($reference)
+    public function fetchMock(string $reference)
     {
         if (isset($this->_mocks[$reference])) {
             return $this->_mocks[$reference];
         }
     }
 
-    protected function _getInstance($mockName, $constructorArgs = null)
+    protected function _getInstance($mockName, ?array $constructorArgs = null)
     {
         if ($constructorArgs !== null) {
             $r = new \ReflectionClass($mockName);
@@ -497,7 +498,7 @@ class Container
     /**
      * @return void
      */
-    protected function checkForNamedMockClashes($config)
+    protected function checkForNamedMockClashes(MockConfiguration $config)
     {
         $name = $config->getName();
 

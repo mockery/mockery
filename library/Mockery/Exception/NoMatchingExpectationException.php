@@ -42,7 +42,7 @@ class NoMatchingExpectationException extends Mockery\Exception
     /**
      * @return static
      */
-    public function setMethodName($name): self
+    public function setMethodName(string $name): self
     {
         $this->method = $name;
         return $this;
@@ -51,7 +51,7 @@ class NoMatchingExpectationException extends Mockery\Exception
     /**
      * @return static
      */
-    public function setActualArguments($count): self
+    public function setActualArguments(array $count): self
     {
         $this->actual = $count;
         return $this;

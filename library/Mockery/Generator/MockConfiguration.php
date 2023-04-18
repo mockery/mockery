@@ -298,7 +298,7 @@ class MockConfiguration
         $this->setTargetClassName($target);
     }
 
-    protected function addTargets($interfaces): void
+    protected function addTargets(array $interfaces): void
     {
         foreach ($interfaces as $interface) {
             $this->addTarget($interface);
@@ -537,17 +537,17 @@ class MockConfiguration
      * implementing either Iterator or IteratorAggregate, and that whichever one
      * it is comes before Traversable in the list of implements.
      */
-    protected function addTargetInterfaceName($targetInterface): void
+    protected function addTargetInterfaceName(string $targetInterface): void
     {
         $this->targetInterfaceNames[] = $targetInterface;
     }
 
-    protected function addTargetTraitName($targetTraitName): void
+    protected function addTargetTraitName(string $targetTraitName): void
     {
         $this->targetTraitNames[] = $targetTraitName;
     }
 
-    protected function setTargetObject($object): void
+    protected function setTargetObject(object $object): void
     {
         $this->targetObject = $object;
     }

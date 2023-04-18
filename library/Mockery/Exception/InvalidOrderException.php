@@ -44,7 +44,7 @@ class InvalidOrderException extends Mockery\Exception
     /**
      * @return static
      */
-    public function setMethodName($name): self
+    public function setMethodName(string $name): self
     {
         $this->method = $name;
         return $this;
@@ -53,7 +53,7 @@ class InvalidOrderException extends Mockery\Exception
     /**
      * @return static
      */
-    public function setActualOrder($count): self
+    public function setActualOrder(int $count): self
     {
         $this->actual = $count;
         return $this;
@@ -62,7 +62,7 @@ class InvalidOrderException extends Mockery\Exception
     /**
      * @return static
      */
-    public function setExpectedOrder($count): self
+    public function setExpectedOrder(int $count): self
     {
         $this->expected = $count;
         return $this;

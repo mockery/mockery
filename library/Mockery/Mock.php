@@ -705,7 +705,7 @@ class Mock implements MockInterface
          */
     }
 
-    public function mockery_getMethod($name)
+    public function mockery_getMethod(string $name)
     {
         foreach ($this->mockery_getMethods() as $method) {
             if ($method->getName() == $name) {
@@ -871,7 +871,7 @@ class Mock implements MockInterface
         return null;
     }
 
-    protected function _mockery_handleMethodCall($method, array $args)
+    protected function _mockery_handleMethodCall(string $method, array $args)
     {
         $this->_mockery_getReceivedMethodCalls()->push(new \Mockery\MethodCall($method, $args));
 

@@ -233,7 +233,7 @@ class Configuration
         $this->_objectFormatters[$class] = $formatterCallback;
     }
 
-    public function getObjectFormatter($class, $defaultFormatter)
+    public function getObjectFormatter(string $class, \Closure $defaultFormatter)
     {
         $parentClass = $class;
         do {
@@ -269,7 +269,7 @@ class Configuration
         $this->_defaultMatchers[$class] = $matcherClass;
     }
 
-    public function getDefaultMatcher($class)
+    public function getDefaultMatcher(string $class)
     {
         $parentClass = $class;
         do {
