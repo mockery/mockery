@@ -143,10 +143,6 @@
     <UnresolvableInclude>
       <code>require $tmpfname</code>
     </UnresolvableInclude>
-    <UnusedVariable>
-      <code>$parRefMethod</code>
-      <code>$parRefMethodRetType</code>
-    </UnusedVariable>
   </file>
   <file src="library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php">
     <InternalMethod>
@@ -451,9 +447,6 @@
       <code><![CDATA[is_callable($finalArg) && is_object($finalArg)]]></code>
       <code>is_object($finalArg)</code>
     </TypeDoesNotContainType>
-    <UnusedVariable>
-      <code>$class</code>
-    </UnusedVariable>
   </file>
   <file src="library/Mockery/CountValidator/AtLeast.php">
     <InvalidReturnType>
