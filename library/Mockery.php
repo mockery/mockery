@@ -32,7 +32,7 @@ use Mockery\Reflector;
 
 class Mockery
 {
-    const BLOCKS = 'Mockery_Forward_Blocks';
+    public const BLOCKS = 'Mockery_Forward_Blocks';
 
     /**
      * Global container to hold all mocks for the current unit test running.
@@ -80,18 +80,7 @@ class Mockery
      */
     public static function builtInTypes()
     {
-        return array(
-            'array',
-            'bool',
-            'callable',
-            'float',
-            'int',
-            'iterable',
-            'object',
-            'self',
-            'string',
-            'void',
-        );
+        return ['array', 'bool', 'callable', 'float', 'int', 'iterable', 'object', 'self', 'string', 'void'];
     }
 
     /**
@@ -114,7 +103,7 @@ class Mockery
      */
     public static function mock(...$args)
     {
-        return call_user_func_array(array(self::getContainer(), 'mock'), $args);
+        return call_user_func_array([self::getContainer(), 'mock'], $args);
     }
 
     /**
@@ -131,7 +120,7 @@ class Mockery
             $args[0] = new ClosureWrapper($args[0]);
         }
 
-        return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing();
+        return call_user_func_array([self::getContainer(), 'mock'], $args)->shouldIgnoreMissing();
     }
 
     /**
@@ -143,7 +132,7 @@ class Mockery
      */
     public static function instanceMock(...$args)
     {
-        return call_user_func_array(array(self::getContainer(), 'mock'), $args);
+        return call_user_func_array([self::getContainer(), 'mock'], $args);
     }
 
     /**
@@ -162,7 +151,7 @@ class Mockery
 
         array_unshift($args, $builder);
 
-        return call_user_func_array(array(self::getContainer(), 'mock'), $args);
+        return call_user_func_array([self::getContainer(), 'mock'], $args);
     }
 
     /**
@@ -549,7 +538,7 @@ class Mockery
             return $method . '()';
         }
 
-        $formattedArguments = array();
+        $formattedArguments = [];
         foreach ($arguments as $argument) {
             $formattedArguments[] = self::formatArgument($argument);
         }
@@ -584,7 +573,7 @@ class Mockery
             if ($depth === 1) {
                 $argument = '[...]';
             } else {
-                $sample = array();
+                $sample = [];
                 foreach ($argument as $key => $value) {
                     $key = is_int($key) ? $key : "'$key'";
                     $value = self::formatArgument($value, $depth + 1);
@@ -637,7 +626,7 @@ class Mockery
         }
 
         $formatting = true;
-        $parts = array();
+        $parts = [];
 
         foreach ($objects as $object) {
             $parts[get_class($object)] = self::objectToArray($object);
@@ -659,21 +648,18 @@ class Mockery
     private static function objectToArray($object, $nesting = 3)
     {
         if ($nesting == 0) {
-            return array('...');
+            return ['...'];
         }
 
         $defaultFormatter = function ($object, $nesting) {
-            return array('properties' => self::extractInstancePublicProperties($object, $nesting));
+            return ['properties' => self::extractInstancePublicProperties($object, $nesting)];
         };
 
         $class = get_class($object);
 
         $formatter = self::getConfiguration()->getObjectFormatter($class, $defaultFormatter);
 
-        $array = array(
-          'class' => $class,
-          'identity' => '#' . md5(spl_object_hash($object))
-        );
+        $array = ['class' => $class, 'identity' => '#' . md5(spl_object_hash($object))];
 
         $array = array_merge($array, $formatter($object, $nesting));
 
@@ -692,7 +678,7 @@ class Mockery
     {
         $reflection = new \ReflectionClass(get_class($object));
         $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
-        $cleanedProperties = array();
+        $cleanedProperties = [];
 
         foreach ($properties as $publicProperty) {
             if (!$publicProperty->isStatic()) {
