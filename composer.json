@@ -51,7 +51,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "test\\": "tests/"
+            "MockeryTest\\": "tests/"
         },
         "files": [
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
