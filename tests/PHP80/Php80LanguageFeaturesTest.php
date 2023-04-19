@@ -1,13 +1,22 @@
 <?php
 
-namespace test\Mockery;
+namespace MockeryTest\PHP80;
 
-use ArrayIterator;
-use DateTime;
 use Iterator;
 use IteratorAggregate;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use ReturnTypeWillChange;
+use stdClass;
+use MockeryTest\Fixture\PHP80000\ArgumentMixedTypeHint;
+use MockeryTest\Fixture\PHP80000\ArgumentUnionTypeHint;
+use MockeryTest\Fixture\PHP80000\ArgumentUnionTypeHintWithNull;
+use MockeryTest\Fixture\PHP80000\ImplementsIterator;
+use MockeryTest\Fixture\PHP80000\ImplementsIteratorAggregate;
+use MockeryTest\Fixture\PHP80000\ReturnTypeParentTypeHint;
+use MockeryTest\Fixture\PHP80000\ReturnTypeUnionTypeHint;
+use Traversable;
+use function is_object;
+use function mock;
+use function spy;
 
 /**
  * @requires PHP 8.0.0-dev
@@ -16,24 +25,24 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
 {
     public function testMockingIteratorAggregateDoesNotImplementIterator()
     {
-        $mock = mock('test\Mockery\ImplementsIteratorAggregate');
-        $this->assertInstanceOf('IteratorAggregate', $mock);
-        $this->assertInstanceOf('Traversable', $mock);
-        $this->assertNotInstanceOf('Iterator', $mock);
+        $mock = mock(ImplementsIteratorAggregate::class);
+        $this->assertInstanceOf(IteratorAggregate::class, $mock);
+        $this->assertInstanceOf(Traversable::class, $mock);
+        $this->assertNotInstanceOf(Iterator::class, $mock);
     }
 
     public function testMockingIteratorDoesNotImplementIterator()
     {
-        $mock = mock('test\Mockery\ImplementsIterator');
-        $this->assertInstanceOf('Iterator', $mock);
-        $this->assertInstanceOf('Traversable', $mock);
+        $mock = mock(ImplementsIterator::class);
+        $this->assertInstanceOf(Traversable::class, $mock);
+        $this->assertInstanceOf(Iterator::class, $mock);
     }
 
     /** @test */
     public function it_can_mock_a_class_with_a_mixed_argument_type_hint()
     {
         $mock = mock(ArgumentMixedTypeHint::class);
-        $object = new \stdClass();
+        $object = new stdClass();
         $mock->allows()->foo($object)->once();
 
         $mock->foo($object);
@@ -61,8 +70,8 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
     /** @test */
     public function it_can_mock_a_class_with_a_parent_argument_type_hint()
     {
-        $mock = mock(ArgumentParentTypeHint::class);
-        $object = new ArgumentParentTypeHint();
+        $mock = mock(\MockeryTest\Mockery\ArgumentParentTypeHint::class);
+        $object = new \MockeryTest\Mockery\ArgumentParentTypeHint();
         $mock->allows()->foo($object)->once();
 
         $mock->foo($object);
@@ -71,7 +80,7 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
     /** @test */
     public function it_can_mock_a_class_with_a_mixed_return_type_hint()
     {
-        $mock = spy(ReturnTypeMixedTypeHint::class);
+        $mock = spy(\MockeryTest\Mockery\ReturnTypeMixedTypeHint::class);
 
         $this->assertNull($mock->foo());
     }
@@ -89,86 +98,6 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = spy(ReturnTypeParentTypeHint::class);
 
-        $this->assertInstanceOf(\stdClass::class, $mock->foo());
-    }
-}
-
-class ImplementsIteratorAggregate implements IteratorAggregate
-{
-    public function getIterator(): ArrayIterator
-    {
-        return new ArrayIterator([]);
-    }
-}
-
-class ImplementsIterator implements Iterator
-{
-    public function rewind(): void
-    {
-    }
-
-    public function current(): mixed
-    {
-    }
-
-    public function key(): mixed
-    {
-    }
-
-    public function next(): void
-    {
-    }
-
-    public function valid(): bool
-    {
-    }
-}
-
-class ArgumentMixedTypeHint
-{
-    public function foo(mixed $foo)
-    {
-    }
-}
-
-class ArgumentUnionTypeHint
-{
-    public function foo(string|array|self $foo)
-    {
-    }
-}
-
-class ArgumentUnionTypeHintWithNull
-{
-    public function foo(string|array|null $foo)
-    {
-    }
-}
-
-class ArgumentParentTypeHint extends \stdClass
-{
-    public function foo(parent $foo)
-    {
-    }
-}
-
-class ReturnTypeMixedTypeHint
-{
-    public function foo(): mixed
-    {
-    }
-}
-
-class ReturnTypeUnionTypeHint
-{
-    public function foo(): ReturnTypeMixedTypeHint|self
-    {
-    }
-}
-
-class ReturnTypeParentTypeHint extends \stdClass
-{
-    public function foo(): parent
-    {
+        $this->assertInstanceOf(stdClass::class, $mock->foo());
     }
 }
