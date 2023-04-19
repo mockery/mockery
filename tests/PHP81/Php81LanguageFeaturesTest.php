@@ -1,17 +1,25 @@
 <?php
 
-namespace test\Mockery;
+namespace MockeryTest\PHP81;
 
 use DateTime;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use ReturnTypeWillChange;
 use RuntimeException;
 use Serializable;
-
+use MockeryTest\Fixture\PHP80100\ArgumentIntersectionTypeHint;
+use MockeryTest\Fixture\PHP80100\ClassThatImplementsSerializable;
+use MockeryTest\Fixture\PHP80100\ClassWithNewInInitializer;
+use MockeryTest\Fixture\PHP80100\IntersectionTypeHelper1Interface;
+use MockeryTest\Fixture\PHP80100\IntersectionTypeHelperClass;
+use MockeryTest\Fixture\PHP80100\NeverReturningTypehintClass;
+use MockeryTest\Fixture\PHP80100\ReturnTypeWillChangeAttributeWrongReturnType;
+use TypeError;
+use function mock;
 use function pcntl_fork;
 use function pcntl_waitpid;
 use function pcntl_wexitstatus;
+use function spy;
 
 /**
  * @requires PHP 8.1.0-dev
@@ -24,8 +32,8 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
      */
     public function canMockClassesThatImplementSerializable()
     {
-        $mock = mock("test\Mockery\ClassThatImplementsSerializable");
-        $this->assertInstanceOf("Serializable", $mock);
+        $mock = mock(ClassThatImplementsSerializable::class);
+        $this->assertInstanceOf(Serializable::class, $mock);
     }
 
     /** @test */
@@ -57,7 +65,7 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
     /** @test */
     public function it_can_mock_a_class_with_return_type_will_change_attribute_and_no_return_type()
     {
-        $mock = spy(ReturnTypeWillChangeAttributeNoReturnType::class);
+        $mock = spy(\MockeryTest\Mockery\ReturnTypeWillChangeAttributeNoReturnType::class);
 
         $this->assertNull($mock->getTimestamp());
     }
@@ -87,7 +95,7 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
 
         $mock->foo($object);
 
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         $mock->foo(Mockery::mock(IntersectionTypeHelper1Interface::class));
     }
 
@@ -122,95 +130,5 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
         }
 
         $mock->exits();
-    }
-}
-
-interface LoggerInterface
-{
-}
-
-class NullLogger implements LoggerInterface
-{
-}
-
-class ClassWithNewInInitializer
-{
-    public function __construct(
-        private Logger $logger = new NullLogger(),
-    ) {
-    }
-}
-
-class ClassThatImplementsSerializable implements Serializable
-{
-    public function serialize(): ?string
-    {
-    }
-
-    public function __serialize(): array
-    {
-    }
-
-    public function unserialize(string $data): void
-    {
-    }
-
-    public function __unserialize(array $data): void
-    {
-    }
-}
-
-class ReturnTypeWillChangeAttributeNoReturnType extends DateTime
-{
-    #[ReturnTypeWillChange]
-    public function getTimestamp()
-    {
-    }
-}
-
-class ReturnTypeWillChangeAttributeWrongReturnType extends DateTime
-{
-    #[ReturnTypeWillChange]
-    public function getTimestamp(): float
-    {
-    }
-}
-
-class NeverReturningTypehintClass
-{
-    public function throws(): never
-    {
-        throw new RuntimeException('Never!');
-    }
-
-    public function exits(): never
-    {
-        exit(123);
-    }
-}
-class IntersectionTypeHelperClass implements IntersectionTypeHelper1Interface, IntersectionTypeHelper2Interface
-{
-    public function foo(): int
-    {
-        return 123;
-    }
-    public function bar(): int
-    {
-        return 123;
-    }
-}
-interface IntersectionTypeHelper2Interface
-{
-    public function foo(): int;
-}
-interface IntersectionTypeHelper1Interface
-{
-    public function bar(): int;
-}
-
-class ArgumentIntersectionTypeHint
-{
-    public function foo(IntersectionTypeHelper1Interface&IntersectionTypeHelper2Interface $foo)
-    {
     }
 }
