@@ -87,6 +87,7 @@ use Some\Thing\That\Doesnt\Exist;
 use SplFileInfo;
 use SplFixedArray;
 use stdClass;
+
 use function class_exists;
 use function extension_loaded;
 use function fopen;
@@ -97,6 +98,7 @@ use function preg_match;
 use function rand;
 use function time;
 use function uniqid;
+
 use const PHP_MAJOR_VERSION;
 use const PHP_VERSION_ID;
 
@@ -254,7 +256,7 @@ class ContainerTest extends MockeryTestCase
 
     public function testNamedMockWithConstructorArgs()
     {
-        $m = mock(MockeryTest_ClassConstructor2::class.'[foo]', [$param1 = new stdClass()]);
+        $m = mock(MockeryTest_ClassConstructor2::class . '[foo]', [$param1 = new stdClass()]);
         $m->shouldReceive('foo')->andReturn(123);
         $this->assertEquals(123, $m->foo());
         $this->assertEquals($param1, $m->getParam1());
@@ -263,7 +265,7 @@ class ContainerTest extends MockeryTestCase
     public function testNamedMockWithConstructorArgsAndArrayDefs()
     {
         $m = mock(
-            MockeryTest_ClassConstructor2::class.'[foo]',
+            MockeryTest_ClassConstructor2::class . '[foo]',
             [$param1 = new stdClass()],
             ['foo' => 123]
         );
@@ -273,7 +275,7 @@ class ContainerTest extends MockeryTestCase
 
     public function testNamedMockWithConstructorArgsWithInternalCallToMockedMethod()
     {
-        $m = mock(MockeryTest_ClassConstructor2::class.'[foo]', [$param1 = new stdClass()]);
+        $m = mock(MockeryTest_ClassConstructor2::class . '[foo]', [$param1 = new stdClass()]);
         $m->shouldReceive('foo')->andReturn(123);
         $this->assertEquals(123, $m->bar());
     }
@@ -413,7 +415,7 @@ class ContainerTest extends MockeryTestCase
 
     public function testClassesWithFinalMethodsCanBeProperPartialMocks()
     {
-        $m = mock(MockeryFoo4::class.'[bar]');
+        $m = mock(MockeryFoo4::class . '[bar]');
         $m->shouldReceive('bar')->andReturn('baz');
         $this->assertEquals('baz', $m->foo());
         $this->assertEquals('baz', $m->bar());
@@ -422,7 +424,7 @@ class ContainerTest extends MockeryTestCase
 
     public function testClassesWithFinalMethodsCanBeProperPartialMocksButFinalMethodsNotPartialed()
     {
-        $m = mock(MockeryFoo4::class.'[foo]');
+        $m = mock(MockeryFoo4::class . '[foo]');
         $m->shouldReceive('foo')->andReturn('foo');
         $this->assertEquals('baz', $m->foo()); // partial expectation ignored - will fail callcount assertion
         $this->assertInstanceOf(MockeryFoo4::class, $m);
@@ -493,7 +495,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanPartiallyMockANormalClass()
     {
-        $m = mock(MockeryTest_PartialNormalClass::class.'[foo]');
+        $m = mock(MockeryTest_PartialNormalClass::class . '[foo]');
         $this->assertInstanceOf(MockeryTest_PartialNormalClass::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
@@ -505,7 +507,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanPartiallyMockAnAbstractClass()
     {
-        $m = mock(MockeryTest_PartialAbstractClass::class.'[foo]');
+        $m = mock(MockeryTest_PartialAbstractClass::class . '[foo]');
         $this->assertInstanceOf(MockeryTest_PartialAbstractClass::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $this->assertEquals('abc', $m->bar());
@@ -517,7 +519,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanPartiallyMockANormalClassWith2Methods()
     {
-        $m = mock(MockeryTest_PartialNormalClass2::class.'[foo, baz]');
+        $m = mock(MockeryTest_PartialNormalClass2::class . '[foo, baz]');
         $this->assertInstanceOf(MockeryTest_PartialNormalClass2::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $m->shouldReceive('baz')->andReturn('cba');
@@ -531,7 +533,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanPartiallyMockAnAbstractClassWith2Methods()
     {
-        $m = mock(MockeryTest_PartialAbstractClass2::class.'[foo,baz]');
+        $m = mock(MockeryTest_PartialAbstractClass2::class . '[foo,baz]');
         $this->assertInstanceOf(MockeryTest_PartialAbstractClass2::class, $m);
         $m->shouldReceive('foo')->andReturn('cba');
         $m->shouldReceive('baz')->andReturn('cba');
@@ -546,7 +548,7 @@ class ContainerTest extends MockeryTestCase
     public function testThrowsExceptionIfSettingExpectationForNonMockedMethodOfPartialMock()
     {
         $this->markTestSkipped('For now...');
-        $m = mock(MockeryTest_PartialNormalClass::class.'[foo]');
+        $m = mock(MockeryTest_PartialNormalClass::class . '[foo]');
         $this->assertInstanceOf(MockeryTest_PartialNormalClass::class, $m);
         $this->expectException(Mockery\Exception::class);
         $m->shouldReceive('bar')->andReturn('cba');
@@ -559,7 +561,7 @@ class ContainerTest extends MockeryTestCase
     {
         $this->expectException(Mockery\Exception::class);
 
-        mock(MockeryTest_PartialNormalClassXYZ::class.'[foo]');
+        mock(MockeryTest_PartialNormalClassXYZ::class . '[foo]');
     }
 
     /**
@@ -567,7 +569,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanUseExclamationToBlacklistMethod()
     {
-        $m = mock(MockeryTest_PartialNormalClass2::class.'[!foo]');
+        $m = mock(MockeryTest_PartialNormalClass2::class . '[!foo]');
         $this->assertSame('abc', $m->foo());
     }
 
@@ -576,7 +578,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCantCallMethodWhenUsingBlacklistAndNoExpectation()
     {
-        $m = mock(MockeryTest_PartialNormalClass2::class.'[!foo]');
+        $m = mock(MockeryTest_PartialNormalClass2::class . '[!foo]');
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessageRegEx('/::bar\(\), but no expectations were specified/');
         $m->bar();
@@ -587,7 +589,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanUseBlacklistAndExpectionOnNonBlacklistedMethod()
     {
-        $m = mock(MockeryTest_PartialNormalClass2::class.'[!foo]');
+        $m = mock(MockeryTest_PartialNormalClass2::class . '[!foo]');
         $m->shouldReceive('bar')->andReturn('test')->once();
         $this->assertSame('test', $m->bar());
     }
@@ -596,7 +598,7 @@ class ContainerTest extends MockeryTestCase
      */
     public function testCanUseEmptyMethodlist()
     {
-        $m = mock(MockeryTest_PartialNormalClass2::class.'[]');
+        $m = mock(MockeryTest_PartialNormalClass2::class . '[]');
         $this->assertInstanceOf(MockeryTest_PartialNormalClass2::class, $m);
     }
 
@@ -1317,10 +1319,12 @@ class ContainerTest extends MockeryTestCase
     public function testMockeryShouldDistinguishBetweenConstructorParamsAndClosures()
     {
         $obj = new MockeryTestFoo();
-        $this->assertInstanceOf(MockInterface::class,
-            mock(MockeryTest_ClassMultipleConstructorParams::class.'[dave]', [
+        $this->assertInstanceOf(
+            MockInterface::class,
+            mock(MockeryTest_ClassMultipleConstructorParams::class . '[dave]', [
             &$obj, 'foo'
-        ]));
+        ])
+        );
     }
 
     /** @group nette */
@@ -1339,7 +1343,7 @@ class ContainerTest extends MockeryTestCase
     /** @group issue/144 */
     public function testMockeryShouldCallConstructorByDefaultWhenRequestingPartials()
     {
-        $mock = mock(EmptyConstructorTest::class.'[foo]');
+        $mock = mock(EmptyConstructorTest::class . '[foo]');
         $this->assertSame(0, $mock->numberOfConstructorArgs);
     }
 
@@ -1358,7 +1362,7 @@ class ContainerTest extends MockeryTestCase
     /** @group issue/175 */
     public function testExistingStaticMethodMocking()
     {
-        $mock = mock(MockeryTest_PartialStatic::class.'[mockMe]');
+        $mock = mock(MockeryTest_PartialStatic::class . '[mockMe]');
 
         $mock->shouldReceive('mockMe')->with(5)->andReturn(10);
 

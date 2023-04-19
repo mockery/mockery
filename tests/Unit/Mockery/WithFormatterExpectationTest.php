@@ -29,6 +29,7 @@ use MockeryTest\Fixture\ClassWithGetterWithParam;
 use MockeryTest\Fixture\ClassWithPublicStaticGetter;
 use MockeryTest\Fixture\ClassWithPublicStaticProperty;
 use PHPUnit\Framework\TestCase;
+
 use function mb_strpos;
 
 class WithFormatterExpectationTest extends TestCase

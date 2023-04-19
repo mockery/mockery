@@ -24,6 +24,7 @@ namespace MockeryTest\Unit\Mockery\Loader;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\MockDefinition;
 use PHPUnit\Framework\TestCase;
+
 use function class_exists;
 use function uniqid;
 

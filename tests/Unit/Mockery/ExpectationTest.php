@@ -1391,7 +1391,7 @@ class ExpectationTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
     public function testResourceConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(\Mockery::type('resource'))->once();
-        $r = \fopen(\dirname(__DIR__,2) . '/Fixture/_files/file.txt', 'r');
+        $r = \fopen(\dirname(__DIR__, 2) . '/Fixture/_files/file.txt', 'r');
         $this->mock->foo($r);
     }
 
@@ -1977,7 +1977,7 @@ class ExpectationTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 
     public function testMockedMethodsCallableFromWithinOriginalClass()
     {
-        $mock = \mock(MockeryTest_InterMethod1::class.'[doThird]');
+        $mock = \mock(MockeryTest_InterMethod1::class . '[doThird]');
         $mock->shouldReceive('doThird')->andReturn(true);
         $this->assertTrue($mock->doFirst());
     }

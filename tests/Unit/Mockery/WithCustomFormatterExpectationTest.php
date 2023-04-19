@@ -30,6 +30,7 @@ use MockeryTest\Fixture\ClassWithoutCustomFormatter;
 use MockeryTest\Fixture\InterfaceWithCustomFormatter;
 use PHPUnit\Framework\TestCase;
 use StdClass;
+
 use function get_class;
 
 class WithCustomFormatterExpectationTest extends TestCase

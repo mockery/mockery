@@ -32,6 +32,7 @@ use MockeryTest\Fixture\Generator\TestTraversableInterface;
 use MockeryTest\Fixture\Generator\TestTraversableInterface2;
 use MockeryTest\Fixture\Generator\TestTraversableInterface3;
 use PHPUnit\Framework\TestCase;
+
 use function array_shift;
 
 class MockConfigurationTest extends TestCase

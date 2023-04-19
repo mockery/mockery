@@ -23,7 +23,6 @@ namespace MockeryTest\Unit\Mockery;
 
 use Mockery\Spy;
 
-
 class AllowsExpectsSyntaxTest extends \Mockery\Adapter\Phpunit\MockeryTestCase
 {
     /** @test */

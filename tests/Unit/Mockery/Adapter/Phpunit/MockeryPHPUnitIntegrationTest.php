@@ -6,6 +6,7 @@ use Exception;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\BadMethodCallException;
 use MockeryTest\Fixture\Adapter\Phpunit\BaseClassStub;
+
 use function mock;
 use function spy;
 

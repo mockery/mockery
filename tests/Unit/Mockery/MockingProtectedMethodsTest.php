@@ -24,6 +24,7 @@ namespace MockeryTest\Unit\Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use MockeryTest\Fixture\TestIncreasedVisibilityChild;
 use MockeryTest\Fixture\TestWithProtectedMethods;
+
 use function mock;
 
 class MockingProtectedMethodsTest extends MockeryTestCase
@@ -36,7 +37,7 @@ class MockingProtectedMethodsTest extends MockeryTestCase
      */
     public function shouldAutomaticallyDeferCallsToProtectedMethodsForPartials()
     {
-        $mock = mock(TestWithProtectedMethods::class.'[foo]');
+        $mock = mock(TestWithProtectedMethods::class . '[foo]');
         $this->assertEquals('bar', $mock->bar());
     }
 
@@ -73,7 +74,7 @@ class MockingProtectedMethodsTest extends MockeryTestCase
     /** @test */
     public function shouldAllowMockingProtectedMethodOnDefinitionTimePartial()
     {
-        $mock = mock(TestWithProtectedMethods::class.'[protectedBar]')
+        $mock = mock(TestWithProtectedMethods::class . '[protectedBar]')
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive('protectedBar')->andReturn('notbar');

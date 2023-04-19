@@ -24,6 +24,7 @@ namespace MockeryTest\Unit\Mockery;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use MockeryTest\Fixture\ClassWithStaticMethods;
+
 use function mock;
 
 class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase

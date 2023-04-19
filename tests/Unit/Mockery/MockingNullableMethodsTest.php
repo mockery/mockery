@@ -26,6 +26,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Container;
 use MockeryTest\Fixture\MethodWithNullableReturnType;
 use TypeError;
+
 use function mock;
 
 class MockingNullableMethodsTest extends MockeryTestCase

@@ -23,6 +23,7 @@ namespace MockeryTest\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use MockeryTest\Fixture\MethodWithVoidReturnType;
+
 use function mock;
 
 class MockingVoidMethodsTest extends MockeryTestCase

@@ -4,6 +4,7 @@ namespace MockeryTest\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use MockeryTest\Fixture\ReturnTypeIterableTypeHint;
+
 use function mock;
 
 class MockClassWithIterableReturnTypeTest extends MockeryTestCase

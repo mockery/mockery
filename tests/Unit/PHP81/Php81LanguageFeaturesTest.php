@@ -15,6 +15,7 @@ use MockeryTest\Fixture\PHP80100\ReturnTypeWillChangeAttributeWrongReturnType;
 use RuntimeException;
 use Serializable;
 use TypeError;
+
 use function mock;
 use function pcntl_fork;
 use function pcntl_waitpid;

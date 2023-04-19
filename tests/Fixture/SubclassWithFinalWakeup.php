@@ -19,6 +19,7 @@
  * @copyright  Copyright (c) 2012 Philip Graham <philip.robert.graham@gmail.com>
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
+
 namespace MockeryTest\Fixture;
 
 class SubclassWithFinalWakeup extends \MockeryTest\Fixture\TestWithFinalWakeup

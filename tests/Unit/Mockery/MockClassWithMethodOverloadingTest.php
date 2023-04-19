@@ -6,6 +6,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\BadMethodCallException;
 use MockeryTest\Fixture\TestWithMethodOverloading;
 use MockeryTest\Fixture\TestWithMethodOverloadingWithoutCall;
+
 use function mock;
 
 class MockClassWithMethodOverloadingTest extends MockeryTestCase

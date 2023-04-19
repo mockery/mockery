@@ -18,6 +18,7 @@
  * @copyright  Copyright (c) 2017 Dave Marshall (dave@atst.io)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
+
 namespace MockeryTest\Fixture;
 
 trait SimpleTrait

@@ -13,6 +13,7 @@ use MockeryTest\Fixture\ClassWithNoToString;
 use MockeryTest\Fixture\ClassWithProtectedMethod;
 use MockeryTest\Fixture\ClassWithToString;
 use MockeryTest\Fixture\ExampleClassForTestingNonExistentMethod;
+
 use function method_exists;
 use function mock;
 

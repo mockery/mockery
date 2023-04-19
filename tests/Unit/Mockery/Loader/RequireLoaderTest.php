@@ -22,6 +22,7 @@
 namespace MockeryTest\Unit\Mockery\Loader;
 
 use Mockery\Loader\RequireLoader;
+
 use function sys_get_temp_dir;
 
 class RequireLoaderTest extends AbstractLoaderTestCase

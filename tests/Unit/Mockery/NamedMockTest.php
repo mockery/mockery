@@ -28,6 +28,7 @@ use Mockery\Exception;
 use MockeryTest\Mockery\DummyClasses\Plant;
 use MockeryTest\Mockery\Stubs\Animal;
 use MockeryTest\Mockery\Stubs\Habitat;
+
 use function uniqid;
 
 class NamedMockTest extends MockeryTestCase

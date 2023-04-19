@@ -29,6 +29,7 @@ use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Blacklist;
 use ReflectionClass;
+
 use function method_exists;
 
 class TestListenerTest extends MockeryTestCase
