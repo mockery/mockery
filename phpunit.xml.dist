@@ -8,17 +8,11 @@
          cacheResultFile=".cache/phpunit/result.cache"
          colors="true"
          executionOrder="depends,defects"
-         failOnEmptyTestSuite="false"
-         failOnIncomplete="false"
-         failOnRisky="true"
-         failOnSkipped="false"
-         failOnWarning="true"
          stopOnDefect="true"
          stopOnError="true"
          stopOnFailure="true"
          stopOnIncomplete="true"
          stopOnRisky="true"
-         stopOnSkipped="false"
          stopOnWarning="true"
          testdox="true"
 >
@@ -45,16 +39,15 @@
             <directory phpVersion="8.2.0-dev" phpVersionOperator=">=">./tests</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage>
+        <include>
             <directory suffix=".php">./library/</directory>
-            <exclude>
-                <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
-                <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+        </include>
+        <exclude>
+            <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
+            <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
+            <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+            <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+        </exclude>
+    </coverage>
 </phpunit>
