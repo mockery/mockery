@@ -1176,7 +1176,7 @@ class ContainerTest extends MockeryTestCase
             $this->markTestSkipped('phpredis not installed');
         }
 
-        mock('Redis');
+        self::assertInstanceOf('Redis', mock('Redis'));
     }
 
     public function testUndeclaredClassIsDeclared()
