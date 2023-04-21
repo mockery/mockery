@@ -20,6 +20,8 @@
 
 namespace Mockery\Generator;
 
+use ReflectionAttribute;
+
 class DefinedTargetClass implements TargetClassInterface
 {
     private $rfc;
@@ -38,7 +40,14 @@ class DefinedTargetClass implements TargetClassInterface
 
     public function getAttributes()
     {
-        return [];
+        if (\PHP_VERSION_ID < 80000) {
+            return [];
+        }
+
+        return array_map(
+            static fn(ReflectionAttribute $attribute): string => $attribute->getName(),
+            $this->rfc->getAttributes()
+        );
     }
 
     public function getName()
