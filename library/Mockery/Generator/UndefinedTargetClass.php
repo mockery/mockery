@@ -20,8 +20,6 @@
 
 namespace Mockery\Generator;
 
-use AllowDynamicProperties;
-
 class UndefinedTargetClass implements TargetClassInterface
 {
     private $name;

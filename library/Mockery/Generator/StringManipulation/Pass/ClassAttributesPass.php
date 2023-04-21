@@ -17,7 +17,7 @@ class ClassAttributesPass implements Pass
         $attributes = $class->getAttributes();
 
         if (!empty($attributes)) {
-            $attributes = '#[' . implode(',', $attributes) . ']';
+            $attributes = '#[' . implode(',', $attributes) . ']'.PHP_EOL;
 
             return str_replace(
                 'class Mock',
