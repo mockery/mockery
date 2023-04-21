@@ -17,7 +17,7 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertInstanceOf(HasNullReturnType::class, $mock);
     }
-    
+
     public function testCanMockUndefinedClasses()
     {
         $class = mock('UndefinedClass');

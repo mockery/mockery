@@ -8,6 +8,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
 use Mockery\Generator\UndefinedTargetClass;
+
 use function mb_strpos;
 
 class ClassAttributesPassTest extends MockeryTestCase
