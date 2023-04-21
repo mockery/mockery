@@ -2127,7 +2127,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->expectException(InvalidCountException::class);
         $this->expectExceptionMessageRegex(
-            '/Method foo\(<Any Arguments>\) from Mockery_[\d]+ should be called' . PHP_EOL . ' ' .
+            '/Method foo\(<Any Arguments>\) from Mockery_(.*?) should be called' . PHP_EOL . ' ' .
             'exactly 1 times but called 0 times. Because We like foo/'
         );
 
