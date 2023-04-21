@@ -16,6 +16,18 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <PossiblyInvalidArgument>
+            <errorLevel type="suppress">
+                <file name="library/Mockery/Mock.php" />
+            </errorLevel>
+        </PossiblyInvalidArgument>
+        <MixedArgument>
+            <errorLevel type="suppress">
+                <file name="library/Mockery/Mock.php" />
+            </errorLevel>
+        </MixedArgument>
+    </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
