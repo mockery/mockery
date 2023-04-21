@@ -20,6 +20,8 @@
 
 namespace Mockery\Generator;
 
+use AllowDynamicProperties;
+
 class UndefinedTargetClass implements TargetClassInterface
 {
     private $name;
@@ -36,6 +38,10 @@ class UndefinedTargetClass implements TargetClassInterface
 
     public function getAttributes()
     {
+        if (\PHP_VERSION_ID < 80000) {
+            return [];
+        }
+
         return ['\AllowDynamicProperties'];
     }
 
