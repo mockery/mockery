@@ -8,6 +8,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
 use Mockery\Generator\UndefinedTargetClass;
+use function mb_strpos;
 
 class ClassAttributesPassTest extends MockeryTestCase
 {
@@ -24,21 +25,21 @@ class ClassAttributesPassTest extends MockeryTestCase
         array $attributes,
         string $expected
     ): void {
-        $undefinedTargetClass = $this->createPartialMock(UndefinedTargetClass::class, ['getAttributes']);
-        $undefinedTargetClass->expects($this->once())
-            ->method('getAttributes')
-            ->willReturn($attributes);
+        $undefinedTargetClass = mock(UndefinedTargetClass::class);
+        $undefinedTargetClass->expects('getAttributes')
+            ->once()
+            ->andReturn($attributes);
 
-        $config = $this->createPartialMock(MockConfiguration::class, ['getTargetClass']);
-        $config->expects($this->once())
-            ->method('getTargetClass')
-            ->willReturn($undefinedTargetClass);
+        $config = mock(MockConfiguration::class);
+        $config->expects('getTargetClass')
+            ->once()
+            ->andReturn($undefinedTargetClass);
 
         $pass = new ClassAttributesPass();
 
         $code = $pass->apply(static::CODE, $config);
 
-        $this->assertTrue(\mb_strpos($code, $expected) !== false);
+        self::assertStringContainsString($expected, $code);
     }
 
     /** @see testCanApplyClassAttributes */
