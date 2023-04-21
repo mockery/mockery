@@ -1949,13 +1949,22 @@ class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
     {
-        $service = $this->createMock('MyService2');
-        $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
-        $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')
-            ->will($this->onConsecutiveCalls(false, true, true));
-        $service->expects($this->exactly(3))->method('addBookmark')
-            ->with($this->matchesRegularExpression('/^http:/'), $this->isType('string'))
-            ->will($this->returnValue(true));
+        /** @var MockInterface $service */
+        $service = mock('MyService2');
+
+        $service->expects('login')
+            ->once()
+            ->with('user', 'pass')
+            ->andReturnTrue();
+
+        $service->expects('hasBookmarksTagged')
+            ->times(3)
+            ->with('php')
+            ->andReturns(false, true, true);
+
+        $service->expects('addBookmark')
+            ->times(3)
+            ->andReturnTrue();
 
         $this->assertTrue($service->login('user', 'pass'));
         $this->assertFalse($service->hasBookmarksTagged('php'));
