@@ -33,7 +33,7 @@ class ExpectationTest extends MockeryTestCase
     public function mockeryTestSetUp()
     {
         parent::mockeryTestSetUp();
-        $this->mock = mock();
+        $this->mock = mock('Foo');
     }
 
     public function mockeryTestTearDown()
@@ -1949,13 +1949,22 @@ class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts_PHPUnitTest()
     {
-        $service = $this->createMock('MyService2');
-        $service->expects($this->once())->method('login')->with('user', 'pass')->will($this->returnValue(true));
-        $service->expects($this->exactly(3))->method('hasBookmarksTagged')->with('php')
-            ->will($this->onConsecutiveCalls(false, true, true));
-        $service->expects($this->exactly(3))->method('addBookmark')
-            ->with($this->matchesRegularExpression('/^http:/'), $this->isType('string'))
-            ->will($this->returnValue(true));
+        /** @var MockInterface $service */
+        $service = mock('MyService2');
+
+        $service->expects('login')
+            ->once()
+            ->with('user', 'pass')
+            ->andReturnTrue();
+
+        $service->expects('hasBookmarksTagged')
+            ->times(3)
+            ->with('php')
+            ->andReturns(false, true, true);
+
+        $service->expects('addBookmark')
+            ->times(3)
+            ->andReturnTrue();
 
         $this->assertTrue($service->login('user', 'pass'));
         $this->assertFalse($service->hasBookmarksTagged('php'));
@@ -2127,7 +2136,7 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->expectException(InvalidCountException::class);
         $this->expectExceptionMessageRegex(
-            '/Method foo\(<Any Arguments>\) from Mockery_[\d]+ should be called' . PHP_EOL . ' ' .
+            '/Method foo\(<Any Arguments>\) from Mockery_(.*?) should be called' . PHP_EOL . ' ' .
             'exactly 1 times but called 0 times. Because We like foo/'
         );
 
@@ -2246,6 +2255,7 @@ class Mockery_UseDemeter
     }
 }
 
+#[\AllowDynamicProperties]
 class MockeryTest_Foo
 {
     public function foo()
