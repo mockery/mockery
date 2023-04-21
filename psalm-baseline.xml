@@ -946,6 +946,9 @@
     <ArgumentTypeCoercion>
       <code>$name</code>
     </ArgumentTypeCoercion>
+    <InvalidNullableReturnType>
+      <code>getAttributes</code>
+    </InvalidNullableReturnType>
     <MissingClosureParamType>
       <code>$interface</code>
       <code>$method</code>
@@ -979,8 +982,10 @@
       <code>isFinal</code>
     </MixedInferredReturnType>
     <MixedMethodCall>
+      <code>getAttributes</code>
       <code>getInterfaces</code>
       <code>getMethods</code>
+      <code>getName</code>
       <code>getNamespaceName</code>
       <code>getParentClass</code>
       <code>getShortName</code>
@@ -1000,6 +1005,13 @@
       <code><![CDATA[$this->rfc->isAbstract()]]></code>
       <code><![CDATA[$this->rfc->isFinal()]]></code>
     </MixedReturnStatement>
+    <UndefinedConstant>
+      <code>string</code>
+    </UndefinedConstant>
+    <UndefinedVariable>
+      <code>$attribute</code>
+      <code>$attribute</code>
+    </UndefinedVariable>
   </file>
   <file src="library/Mockery/Generator/Generator.php">
     <MissingReturnType>
@@ -1358,6 +1370,25 @@
       <code>$code</code>
       <code>$code</code>
     </MixedArgument>
+  </file>
+  <file src="library/Mockery/Generator/StringManipulation/Pass/ClassAttributesPass.php">
+    <MissingParamType>
+      <code>$code</code>
+    </MissingParamType>
+    <MissingReturnType>
+      <code>apply</code>
+    </MissingReturnType>
+    <MixedArgument>
+      <code>$attributes</code>
+      <code>$code</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$attributes</code>
+      <code>$class</code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code>getAttributes</code>
+    </MixedMethodCall>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/ClassNamePass.php">
     <MissingParamType>
@@ -1755,11 +1786,13 @@
             new RemoveBuiltinMethodsThatAreFinalPass(),
             new RemoveDestructorPass(),
             new ConstantsPass(),
+            new ClassAttributesPass(),
         ])</code>
     </UnsafeInstantiation>
   </file>
   <file src="library/Mockery/Generator/TargetClassInterface.php">
     <PossiblyUnusedMethod>
+      <code>getAttributes</code>
       <code>getShortName</code>
       <code>hasInternalAncestor</code>
       <code>implementsInterface</code>
