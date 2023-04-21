@@ -390,7 +390,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testExpectsNoArguments()
     {
-        $this->mock->shouldReceive('foo')->withNoArgs();
+        $this->mock->shouldReceive('foo')->withNoArgs()->once();
         $this->mock->foo();
     }
 
@@ -404,7 +404,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testExpectsArgumentsArray()
     {
-        $this->mock->shouldReceive('foo')->withArgs(array(1, 2));
+        $this->mock->shouldReceive('foo')->withArgs([1, 2])->once();
         $this->mock->foo(1, 2);
     }
 
@@ -454,7 +454,7 @@ class ExpectationTest extends MockeryTestCase
         $closure = function ($odd, $even) {
             return ($odd % 2 != 0) && ($even % 2 == 0);
         };
-        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->shouldReceive('foo')->withArgs($closure)->once();
         $this->mock->foo(1, 2);
     }
 
@@ -478,7 +478,7 @@ class ExpectationTest extends MockeryTestCase
             }
             return $result;
         };
-        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->shouldReceive('foo')->withArgs($closure)->once();
         $this->mock->foo(1, 4);
     }
 
@@ -491,7 +491,7 @@ class ExpectationTest extends MockeryTestCase
             }
             return $result;
         };
-        $this->mock->shouldReceive('foo')->withArgs($closure);
+        $this->mock->shouldReceive('foo')->withArgs($closure)->once();
         $this->mock->foo(1, 4, 5);
     }
 
@@ -531,7 +531,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testExpectsAnyArguments()
     {
-        $this->mock->shouldReceive('foo')->withAnyArgs();
+        $this->mock->shouldReceive('foo')->withAnyArgs()->times(3);
         $this->mock->foo();
         $this->mock->foo(1);
         $this->mock->foo(1, 'k', new stdClass());
@@ -539,7 +539,7 @@ class ExpectationTest extends MockeryTestCase
 
     public function testExpectsArgumentMatchingObjectType()
     {
-        $this->mock->shouldReceive('foo')->with('\stdClass');
+        $this->mock->shouldReceive('foo')->with('\stdClass')->once();
         $this->mock->foo(new stdClass());
     }
 
@@ -816,8 +816,8 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOrderedCallsWithoutError()
     {
-        $this->mock->shouldReceive('foo')->ordered();
-        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->shouldReceive('foo')->ordered()->once();
+        $this->mock->shouldReceive('bar')->ordered()->once();
         $this->mock->foo();
         $this->mock->bar();
     }
@@ -834,8 +834,8 @@ class ExpectationTest extends MockeryTestCase
 
     public function testDifferentArgumentsAndOrderingsPassWithoutException()
     {
-        $this->mock->shouldReceive('foo')->with(1)->ordered();
-        $this->mock->shouldReceive('foo')->with(2)->ordered();
+        $this->mock->shouldReceive('foo')->with(1)->ordered()->once();
+        $this->mock->shouldReceive('foo')->with(2)->ordered()->once();
         $this->mock->foo(1);
         $this->mock->foo(2);
     }
@@ -852,9 +852,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testUnorderedCallsIgnoredForOrdering()
     {
-        $this->mock->shouldReceive('foo')->with(1)->ordered();
-        $this->mock->shouldReceive('foo')->with(2);
-        $this->mock->shouldReceive('foo')->with(3)->ordered();
+        $this->mock->shouldReceive('foo')->with(1)->ordered()->once();
+        $this->mock->shouldReceive('foo')->with(2)->times(3);
+        $this->mock->shouldReceive('foo')->with(3)->ordered()->once();
         $this->mock->foo(2);
         $this->mock->foo(1);
         $this->mock->foo(2);
@@ -864,8 +864,8 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOrderingOfDefaultGrouping()
     {
-        $this->mock->shouldReceive('foo')->ordered();
-        $this->mock->shouldReceive('bar')->ordered();
+        $this->mock->shouldReceive('foo')->ordered()->once();
+        $this->mock->shouldReceive('bar')->ordered()->once();
         $this->mock->foo();
         $this->mock->bar();
     }
@@ -882,10 +882,10 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOrderingUsingNumberedGroups()
     {
-        $this->mock->shouldReceive('start')->ordered(1);
-        $this->mock->shouldReceive('foo')->ordered(2);
-        $this->mock->shouldReceive('bar')->ordered(2);
-        $this->mock->shouldReceive('final')->ordered();
+        $this->mock->shouldReceive('start')->ordered(1)->once();
+        $this->mock->shouldReceive('foo')->ordered(2)->once();
+        $this->mock->shouldReceive('bar')->ordered(2)->twice();
+        $this->mock->shouldReceive('final')->ordered()->once();
         $this->mock->start();
         $this->mock->bar();
         $this->mock->foo();
@@ -895,10 +895,10 @@ class ExpectationTest extends MockeryTestCase
 
     public function testOrderingUsingNamedGroups()
     {
-        $this->mock->shouldReceive('start')->ordered('start');
-        $this->mock->shouldReceive('foo')->ordered('foobar');
-        $this->mock->shouldReceive('bar')->ordered('foobar');
-        $this->mock->shouldReceive('final')->ordered();
+        $this->mock->shouldReceive('start')->ordered('start')->once();
+        $this->mock->shouldReceive('foo')->ordered('foobar')->once();
+        $this->mock->shouldReceive('bar')->ordered('foobar')->twice();
+        $this->mock->shouldReceive('final')->ordered()->once();
         $this->mock->start();
         $this->mock->bar();
         $this->mock->foo();
@@ -950,9 +950,9 @@ class ExpectationTest extends MockeryTestCase
 
     public function testEnsuresOrderingIsNotCrossMockByDefault()
     {
-        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->shouldReceive('foo')->ordered()->once();
         $mock2 = mock('bar');
-        $mock2->shouldReceive('bar')->ordered();
+        $mock2->shouldReceive('bar')->ordered()->once();
         $mock2->bar();
         $this->mock->foo();
     }
@@ -1043,8 +1043,8 @@ class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')->ordered()->byDefault();
         $this->mock->shouldReceive('bar')->ordered()->byDefault();
-        $this->mock->shouldReceive('bar')->ordered();
-        $this->mock->shouldReceive('foo')->ordered();
+        $this->mock->shouldReceive('bar')->ordered()->once();
+        $this->mock->shouldReceive('foo')->ordered()->once();
         $this->mock->bar();
         $this->mock->foo();
     }
