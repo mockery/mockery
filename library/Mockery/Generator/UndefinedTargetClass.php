@@ -38,11 +38,7 @@ class UndefinedTargetClass implements TargetClassInterface
 
     public function getAttributes()
     {
-        if (\PHP_VERSION_ID < 80000) {
-            return [];
-        }
-
-        return ['AllowDynamicProperties'];
+        return [];
     }
 
     public function getName()
