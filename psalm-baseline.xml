@@ -2148,9 +2148,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Mock.php">
-    <InvalidAttribute>
-      <code>\AllowDynamicProperties</code>
-    </InvalidAttribute>
     <MethodSignatureMustProvideReturnType>
       <code>__toString</code>
     </MethodSignatureMustProvideReturnType>
