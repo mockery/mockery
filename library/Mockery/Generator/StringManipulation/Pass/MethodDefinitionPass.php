@@ -78,12 +78,12 @@ class MethodDefinitionPass implements Pass
                 if (false !== $param->isDefaultValueAvailable()) {
                     $defaultValue = $param->getDefaultValue();
 
-                    if (is_object($defaultValue)){
+                    if (is_object($defaultValue)) {
                         $prefix = get_class($defaultValue);
                         if ($isPhp81 && enum_exists($prefix)) {
                             $prefix = var_export($defaultValue, true);
                         }
-                    }else{
+                    } else {
                         $prefix = var_export($defaultValue, true);
                     }
 

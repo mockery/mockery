@@ -22,8 +22,10 @@ namespace Mockery\Generator;
 
 use ReflectionAttribute;
 use ReflectionClass;
+
 use function array_map;
 use function array_unique;
+
 use const PHP_VERSION_ID;
 
 class DefinedTargetClass implements TargetClassInterface
