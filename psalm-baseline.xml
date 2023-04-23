@@ -120,7 +120,6 @@
     <PossiblyUnusedMethod>
       <code>andAnyOtherArgs</code>
       <code>andAnyOthers</code>
-      <code>any</code>
       <code>anyOf</code>
       <code>capture</code>
       <code>contains</code>
@@ -133,18 +132,13 @@
       <code>mustBe</code>
       <code>not</code>
       <code>notAnyOf</code>
-      <code>on</code>
       <code>pattern</code>
       <code>resetContainer</code>
       <code>setContainer</code>
       <code>setGenerator</code>
       <code>setLoader</code>
       <code>subset</code>
-      <code>type</code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedReturnValue>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-    </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
     </RedundantConditionGivenDocblockType>
@@ -159,31 +153,14 @@
       <code>$parRefMethodRetType</code>
     </UnusedVariable>
   </file>
-  <file src="library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php">
+  <file src="library/Mockery/Adapter/Phpunit/Extension.php">
+    <InternalClass>
+      <code><![CDATA[new ExpectationFailedException('Mockery is not enabled.')]]></code>
+    </InternalClass>
     <InternalMethod>
       <code>addToAssertionCount</code>
+      <code><![CDATA[new ExpectationFailedException('Mockery is not enabled.')]]></code>
     </InternalMethod>
-    <MissingPropertyType>
-      <code>$mockeryOpen</code>
-    </MissingPropertyType>
-    <MissingReturnType>
-      <code>addMockeryExpectationsToAssertionCount</code>
-      <code>checkMockeryExceptions</code>
-      <code>closeMockery</code>
-      <code>mockeryAssertPostConditions</code>
-      <code>purgeMockeryContainer</code>
-      <code>startMockery</code>
-    </MissingReturnType>
-    <MixedAssignment>
-      <code>$e</code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code>dismissed</code>
-    </MixedMethodCall>
-    <PossiblyUnusedMethod>
-      <code>purgeMockeryContainer</code>
-      <code>startMockery</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Adapter/Phpunit/MockeryTestCase.php">
     <MissingReturnType>
@@ -191,68 +168,42 @@
       <code>mockeryTestTearDown</code>
     </MissingReturnType>
   </file>
-  <file src="library/Mockery/Adapter/Phpunit/TestListener.php">
-    <DeprecatedInterface>
-      <code>TestListener</code>
-    </DeprecatedInterface>
-    <DeprecatedTrait>
-      <code>TestListenerDefaultImplementation</code>
-    </DeprecatedTrait>
-    <MissingPropertyType>
-      <code>$trait</code>
-    </MissingPropertyType>
+  <file src="library/Mockery/Adapter/Phpunit/Subscriber/ApplicationStartedSubscriber.php">
+    <ArgumentTypeCoercion>
+      <code>dirname($filename)</code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code>$filename</code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code>$excludeList</code>
+      <code>$filename</code>
+    </MixedAssignment>
     <MixedMethodCall>
-      <code>endTest</code>
-      <code>startTestSuite</code>
+      <code>isExcluded</code>
     </MixedMethodCall>
-    <UnusedClass>
-      <code>TestListener</code>
-    </UnusedClass>
   </file>
-  <file src="library/Mockery/Adapter/Phpunit/TestListenerTrait.php">
-    <DeprecatedClass>
-      <code><![CDATA[Blacklist::addDirectory(\dirname((new \ReflectionClass(\Mockery::class))->getFileName()))]]></code>
-      <code>Blacklist::class</code>
-      <code>new BlackList()</code>
-    </DeprecatedClass>
+  <file src="library/Mockery/Adapter/Phpunit/Subscriber/TestPassedSubscriber.php">
     <InternalClass>
-      <code>BaseTestRunner::STATUS_PASSED</code>
-      <code><![CDATA[new ExpectationFailedException(
-            \sprintf(
-                "Mockery's expectations have not been verified. Make sure that \Mockery::close() is called at the end of the test. Consider using %s\MockeryPHPUnitIntegration or extending %s\MockeryTestCase.",
-                __NAMESPACE__,
-                __NAMESPACE__
-            )
-        )]]></code>
+      <code><![CDATA[new ExpectationFailedException(sprintf(
+                implode("\n", [
+                    "Mockery's expectations have not been verified.",
+                    'Make sure that \Mockery::close() is called at the end of the test.',
+                    'Consider extending %s.',
+                ]),
+                MockeryTestCase::class
+            ))]]></code>
     </InternalClass>
     <InternalMethod>
-      <code>addFailure</code>
-      <code>getTestResultObject</code>
-      <code><![CDATA[new ExpectationFailedException(
-            \sprintf(
-                "Mockery's expectations have not been verified. Make sure that \Mockery::close() is called at the end of the test. Consider using %s\MockeryPHPUnitIntegration or extending %s\MockeryTestCase.",
-                __NAMESPACE__,
-                __NAMESPACE__
-            )
-        )]]></code>
+      <code><![CDATA[new ExpectationFailedException(sprintf(
+                implode("\n", [
+                    "Mockery's expectations have not been verified.",
+                    'Make sure that \Mockery::close() is called at the end of the test.',
+                    'Consider extending %s.',
+                ]),
+                MockeryTestCase::class
+            ))]]></code>
     </InternalMethod>
-    <MissingReturnType>
-      <code>endTest</code>
-      <code>startTestSuite</code>
-    </MissingReturnType>
-    <PossiblyUnusedMethod>
-      <code>endTest</code>
-      <code>startTestSuite</code>
-    </PossiblyUnusedMethod>
-    <RedundantConditionGivenDocblockType>
-      <code>$result !== null</code>
-    </RedundantConditionGivenDocblockType>
-    <UndefinedPropertyAssignment>
-      <code>Blacklist::$blacklistedClassNames</code>
-    </UndefinedPropertyAssignment>
-    <UndefinedPropertyFetch>
-      <code>Blacklist::$blacklistedClassNames</code>
-    </UndefinedPropertyFetch>
   </file>
   <file src="library/Mockery/CompositeExpectation.php">
     <MethodSignatureMustProvideReturnType>
@@ -375,10 +326,8 @@
       <code>enableReflectionCache</code>
       <code>getInternalClassMethodParamMap</code>
       <code>mockingMethodsUnnecessarilyAllowed</code>
-      <code>resetInternalClassMethodParamMaps</code>
       <code>setConstantsMap</code>
       <code>setDefaultMatcher</code>
-      <code>setInternalClassMethodParamMap</code>
       <code>setObjectFormatter</code>
     </PossiblyUnusedMethod>
     <RedundantCastGivenDocblockType>
@@ -504,6 +453,7 @@
       <code>mockery_getCurrentOrder</code>
       <code>mockery_getGroups</code>
       <code>mockery_setGroup</code>
+      <code>mockery_thrownExceptions</code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
       <code>\Mockery\LegacyMockInterface|\Mockery\MockInterface</code>
@@ -1644,9 +1594,6 @@
     <MissingReturnType>
       <code>apply</code>
     </MissingReturnType>
-    <PossiblyUnusedMethod>
-      <code>apply</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php">
     <MissingParamType>
