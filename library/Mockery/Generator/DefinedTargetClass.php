@@ -51,7 +51,7 @@ class DefinedTargetClass implements TargetClassInterface
         }
 
         return array_unique(['\AllowDynamicProperties', ...array_map(
-            static fn (ReflectionAttribute $attribute): string => '\\'.$attribute->getName(),
+            static fn (ReflectionAttribute $attribute): string => '\\' . $attribute->getName(),
             $this->rfc->getAttributes()
         )]);
     }
