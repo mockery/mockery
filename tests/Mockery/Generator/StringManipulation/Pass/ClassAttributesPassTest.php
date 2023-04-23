@@ -44,7 +44,7 @@ class ClassAttributesPassTest extends MockeryTestCase
     }
 
     /** @see testCanApplyClassAttributes */
-    public function providerCanApplyClassAttributes(): Generator
+    public static function providerCanApplyClassAttributes(): Generator
     {
         yield 'has no attributes' => [
             'attributes' => [],
