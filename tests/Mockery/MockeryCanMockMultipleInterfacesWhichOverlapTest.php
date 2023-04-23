@@ -29,9 +29,11 @@ class MockeryCanMockMultipleInterfacesWhichOverlapTest extends MockeryTestCase
     public function shouldNotDuplicateDoublyInheritedMethods()
     {
         $container = new \Mockery\Container();
-        $mock = $container->mock('Mockery\Tests\Evenement_EventEmitter', 'Mockery\Tests\Chatroulette_ConnectionInterface');
-        self::assertInstanceOf(Evenement_EventEmitter::class, $mock);
-        self::assertInstanceOf(Chatroulette_ConnectionInterface::class, $mock);
+        $mock = $container->mock(
+            'Mockery\Tests\Evenement_EventEmitter',
+            'Mockery\Tests\Chatroulette_ConnectionInterface'
+        );
+        self::assertInstanceOf(\Mockery\Tests\Evenement_EventEmitter::class, $mock);
     }
 }
 

@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
-        cacheDirectory=".cache/phpunit"
-        colors="true"
-        displayDetailsOnTestsThatTriggerErrors="true"
-        displayDetailsOnTestsThatTriggerWarnings="true"
-        displayDetailsOnIncompleteTests="true"
-        displayDetailsOnSkippedTests="true"
-        displayDetailsOnTestsThatTriggerNotices="true"
-        displayDetailsOnTestsThatTriggerDeprecations="true"
-        beStrictAboutChangesToGlobalState="true"
-        beStrictAboutOutputDuringTests="true"
-        beStrictAboutTodoAnnotatedTests="true"
-        beStrictAboutCoverageMetadata="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         cacheDirectory=".cache/phpunit"
+         colors="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnIncompleteTests="true"
+         displayDetailsOnSkippedTests="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         beStrictAboutCoverageMetadata="false"
 >
 <extensions>
     <bootstrap class="\Mockery\Adapter\Phpunit\Extension"/>
@@ -28,19 +27,30 @@
       <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
       <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
     </exclude>
+    <report>
+      <html outputDirectory=".cache/phpunit/coverage-html"/>
+      <clover outputFile=".cache/phpunit/clover.xml"/>
+      <text outputFile=".cache/phpunit/coverage.txt"/>
+    </report>
   </coverage>
   <testsuites>
     <testsuite name="Mockery Test Suite PHP7">
       <directory suffix="Test.php">./tests</directory>
       <exclude>./tests/PHP80</exclude>
       <exclude>./tests/PHP81</exclude>
+      <exclude>./tests/PHP82</exclude>
     </testsuite>
     <testsuite name="Mockery Test Suite PHP80">
       <directory phpVersion="8.0.0-dev" phpVersionOperator="&gt;=">./tests</directory>
       <exclude>./tests/PHP81</exclude>
+      <exclude>./tests/PHP82</exclude>
     </testsuite>
     <testsuite name="Mockery Test Suite PHP81">
       <directory phpVersion="8.1.0-dev" phpVersionOperator="&gt;=">./tests</directory>
+      <exclude>./tests/PHP82</exclude>
+    </testsuite>
+    <testsuite name="Mockery Test Suite PHP82">
+      <directory phpVersion="8.2.0-dev" phpVersionOperator="&gt;=">./tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>

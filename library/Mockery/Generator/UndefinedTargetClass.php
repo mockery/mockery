@@ -34,6 +34,15 @@ class UndefinedTargetClass implements TargetClassInterface
         return new self($name);
     }
 
+    public function getAttributes()
+    {
+        if (\PHP_VERSION_ID < 80000) {
+            return [];
+        }
+
+        return ['\AllowDynamicProperties'];
+    }
+
     public function getName()
     {
         return $this->name;

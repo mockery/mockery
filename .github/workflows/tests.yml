@@ -1,8 +1,10 @@
 name: Tests
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -20,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
@@ -36,7 +38,7 @@ jobs:
 
       - name: Install Dependencies
         if: ${{ matrix.php != '8.2' }}
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 5
           max_attempts: 5
@@ -44,11 +46,11 @@ jobs:
 
       - name: Install Dependencies (ignore platform)
         if: ${{ matrix.php == '8.2' }}
-        uses: nick-invision/retry@v1
+        uses: nick-invision/retry@v2
         with:
           timeout_minutes: 5
           max_attempts: 5
           command: composer update --ansi --no-interaction --no-progress --ignore-platform-req=php
 
       - name: Execute PHPUnit
-        run: vendor/bin/phpunit --coverage-text
+        run: vendor/bin/phpunit
