@@ -18,11 +18,9 @@ class ClassAttributesPass implements Pass
         $attributes = $class->getAttributes();
 
         if ($attributes !== []) {
-            $attributes = '#[' . implode(',', $attributes) . ']';
-
             return str_replace(
                 '#[\AllowDynamicProperties]',
-                $attributes,
+                '#[' . implode(',', $attributes) . ']',
                 $code
             );
         }
