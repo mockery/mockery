@@ -20,6 +20,8 @@
 
 namespace Mockery\Generator;
 
+use const PHP_VERSION_ID;
+
 class UndefinedTargetClass implements TargetClassInterface
 {
     private $name;
@@ -40,7 +42,7 @@ class UndefinedTargetClass implements TargetClassInterface
             return [];
         }
 
-        return ['\AllowDynamicProperties'];
+        return ['AllowDynamicProperties'];
     }
 
     public function getName()
