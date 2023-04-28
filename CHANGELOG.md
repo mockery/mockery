@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.6.0 (2023-xx-xx)
+## 1.6.0 (2023-05-01)
 
 * [#1192](https://github.com/mockery/mockery/pull/1192) Updated changelog for version 1.5.1 to include changes from #1180
 * [#1196](https://github.com/mockery/mockery/pull/1196) Update example in README.md
