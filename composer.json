@@ -53,10 +53,7 @@
     "autoload-dev": {
         "psr-4": {
             "test\\": "tests/"
-        },
-        "files": [
-            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
-        ]
+        }
     },
     "config": {
         "preferred-install": "dist"
