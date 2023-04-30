@@ -2,27 +2,31 @@
 
 ## 1.6.0 (2023-05-01)
 
-* [#1192](https://github.com/mockery/mockery/pull/1192) Updated changelog for version 1.5.1 to include changes from #1180
-* [#1196](https://github.com/mockery/mockery/pull/1196) Update example in README.md
-* [#1199](https://github.com/mockery/mockery/pull/1199) Fix function parameter default enum value
-* [#1205](https://github.com/mockery/mockery/pull/1205) Deal with null type in PHP8.2
-* [#1208](https://github.com/mockery/mockery/pull/1208) Import MockeryTestCase fully qualified class name
-* [#1210](https://github.com/mockery/mockery/pull/1210) Add support for target class attributes
-* [#1212](https://github.com/mockery/mockery/pull/1212) docs: Add missing comma
-* [#1216](https://github.com/mockery/mockery/pull/1216) Fixes code generation for intersection types
-* [#1218](https://github.com/mockery/mockery/pull/1218) tidy: avoids require
-* [#1222](https://github.com/mockery/mockery/pull/1222) Add .editorconfig
-* [#1225](https://github.com/mockery/mockery/pull/1225) Switch to PSR-4 autoload
-* [#1226](https://github.com/mockery/mockery/pull/1226) Refactoring risky tests
-* [#1230](https://github.com/mockery/mockery/pull/1230) Add vimeo/psalm and psalm/plugin-phpunit
-* [#1232](https://github.com/mockery/mockery/pull/1232) Split PHPUnit TestSuites for PHP 8.2
-* [#1233](https://github.com/mockery/mockery/pull/1233) Bump actions/checkout to v3
-* [#1234](https://github.com/mockery/mockery/pull/1234) Bump nick-invision/retry to v2
-* [#1235](https://github.com/mockery/mockery/pull/1235) Setup Codecov for code coverage
-* [#1236](https://github.com/mockery/mockery/pull/1236) Add Psalm CI Check
-* [#1237](https://github.com/mockery/mockery/pull/1237) Unignore composer.lock file
-* [#1239](https://github.com/mockery/mockery/pull/1239) Prevent CI run duplication
-* [#1244](https://github.com/mockery/mockery/pull/1244) Improve ClassAttributesPass for Dynamic Properties
+* [#1192 Updated changelog for version 1.5.1 to include changes from #1180](https://github.com/mockery/mockery/pull/1192)
+* [#1196 Update example in README.md](https://github.com/mockery/mockery/pull/1196)
+* [#1199 Fix function parameter default enum value](https://github.com/mockery/mockery/pull/1199)
+* [#1205 Deal with null type in PHP8.2](https://github.com/mockery/mockery/pull/1205)
+* [#1208 Import MockeryTestCase fully qualified class name](https://github.com/mockery/mockery/pull/1208)
+* [#1210 Add support for target class attributes](https://github.com/mockery/mockery/pull/1210)
+* [#1212 docs: Add missing comma](https://github.com/mockery/mockery/pull/1212)
+* [#1216 Fixes code generation for intersection types](https://github.com/mockery/mockery/pull/1216)
+* [#1217 Add MockeryExceptionInterface](https://github.com/mockery/mockery/pull/1217)
+* [#1218 tidy: avoids require](https://github.com/mockery/mockery/pull/1218)
+* [#1222 Add .editorconfig](https://github.com/mockery/mockery/pull/1222)
+* [#1225 Switch to PSR-4 autoload](https://github.com/mockery/mockery/pull/1225)
+* [#1226 Refactoring risky tests](https://github.com/mockery/mockery/pull/1226)
+* [#1230 Add vimeo/psalm and psalm/plugin-phpunit](https://github.com/mockery/mockery/pull/1230)
+* [#1232 Split PHPUnit TestSuites for PHP 8.2](https://github.com/mockery/mockery/pull/1232)
+* [#1233 Bump actions/checkout to v3](https://github.com/mockery/mockery/pull/1233)
+* [#1234 Bump nick-invision/retry to v2](https://github.com/mockery/mockery/pull/1234)
+* [#1235 Setup Codecov for code coverage](https://github.com/mockery/mockery/pull/1235)
+* [#1236 Add Psalm CI Check](https://github.com/mockery/mockery/pull/1236)
+* [#1237 Unignore composer.lock file](https://github.com/mockery/mockery/pull/1237)
+* [#1239 Prevent CI run duplication](https://github.com/mockery/mockery/pull/1239)
+* [#1241 Add PHPUnit workflow for PHP 8.3](https://github.com/mockery/mockery/pull/1241)
+* [#1244 Improve ClassAttributesPass for Dynamic Properties](https://github.com/mockery/mockery/pull/1244)
+* [#1245 Deprecate hamcrest/hamcrest-php package](https://github.com/mockery/mockery/pull/1245)
+* [#1246 Add BUG_REPORT.yml Issue template](https://github.com/mockery/mockery/pull/1246)
 
 ## 1.3.6 (2022-09-07)
 * PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
