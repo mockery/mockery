@@ -264,7 +264,7 @@ class Configuration
         }
 
         if ($isHamcrest) {
-            trigger_error('Hamcrest matcher has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+            trigger_error('Hamcrest package has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
         }
 
         $this->_defaultMatchers[$class] = $matcherClass;
