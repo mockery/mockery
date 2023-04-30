@@ -259,7 +259,7 @@ class Configuration
             !$isHamcrest
         ) {
             throw new \InvalidArgumentException(
-                "Matcher class must extend " .MatcherAbstract::class. ", '".$matcherClass."' given."
+                "Matcher class must extend " . MatcherAbstract::class . ", '" . $matcherClass . "' given."
             );
         }
 
