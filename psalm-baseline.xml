@@ -361,6 +361,9 @@
     <MixedInferredReturnType>
       <code>array|null</code>
     </MixedInferredReturnType>
+    <MixedOperand>
+      <code>MatcherAbstract::class</code>
+    </MixedOperand>
     <MixedReturnStatement>
       <code><![CDATA[$this->_internalClassParamMap[strtolower($class)][strtolower($method)]]]></code>
     </MixedReturnStatement>
@@ -386,6 +389,7 @@
       <code>(bool) $flag</code>
     </RedundantCastGivenDocblockType>
     <UndefinedClass>
+      <code>MatcherAbstract</code>
       <code>\Hamcrest_Matcher</code>
     </UndefinedClass>
   </file>
