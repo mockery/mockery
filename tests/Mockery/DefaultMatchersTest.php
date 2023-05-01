@@ -65,15 +65,6 @@ class DefaultMatchersTest extends MockeryTestCase
         parent::mockeryTestTearDown();
     }
 
-    /** Just a quickie roundup of a few Hamcrest matchers to check nothing obvious out of place **/
-
-    public function testDefaultMatcherHamcrest()
-    {
-        \Mockery::getConfiguration()->setDefaultMatcher(\DateTime::class, \Hamcrest\Core\IsEqual::class);
-        $this->mock->shouldReceive('foo')->with(new DateTime("2000-01-01"))->once();
-        $this->mock->foo(new DateTime("2000-01-01"));
-    }
-
     public function testDefaultMatcherClass()
     {
         \Mockery::getConfiguration()->setDefaultMatcher(CustomValueObject::class, CustomValueObjectMatcher::class);

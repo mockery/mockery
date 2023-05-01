@@ -333,7 +333,6 @@
       <code>$parentClass</code>
       <code>$parentClass</code>
       <code>$parentClass</code>
-      <code>\Hamcrest_Matcher::class</code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$this->_internalClassParamMap[strtolower($class)][strtolower($method)]]]></code>
@@ -385,9 +384,6 @@
       <code>(bool) $flag</code>
       <code>(bool) $flag</code>
     </RedundantCastGivenDocblockType>
-    <UndefinedClass>
-      <code>\Hamcrest_Matcher</code>
-    </UndefinedClass>
   </file>
   <file src="library/Mockery/Container.php">
     <ArgumentTypeCoercion>
@@ -792,7 +788,6 @@
       <code><![CDATA[call_user_func_array(current($this->_closureQueue), $args)]]></code>
     </MixedFunctionCall>
     <MixedInferredReturnType>
-      <code>bool</code>
       <code>int</code>
       <code>self</code>
       <code>self</code>
@@ -866,9 +861,6 @@
     <TooManyArguments>
       <code>mockery_validateOrder</code>
     </TooManyArguments>
-    <UndefinedClass>
-      <code>\Hamcrest_Matcher</code>
-    </UndefinedClass>
     <UndefinedInterfaceMethod>
       <code>mockery_callSubjectMethod</code>
       <code>mockery_returnValueForMethod</code>
