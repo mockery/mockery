@@ -27,6 +27,7 @@
 * [#1244 Improve ClassAttributesPass for Dynamic Properties](https://github.com/mockery/mockery/pull/1244)
 * [#1245 Deprecate hamcrest/hamcrest-php package](https://github.com/mockery/mockery/pull/1245)
 * [#1246 Add BUG_REPORT.yml Issue template](https://github.com/mockery/mockery/pull/1246)
+* [#1250 Deprecate PHP <=8.0](https://github.com/mockery/mockery/issues/1250)
 
 ## 1.3.6 (2022-09-07)
 * PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
