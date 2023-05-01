@@ -14,14 +14,13 @@ class ClassAttributesPass implements Pass
             return $code;
         }
 
+        /** @var array<string> $attributes */
         $attributes = $class->getAttributes();
 
-        if (!empty($attributes)) {
-            $attributes = '#[' . implode(',', $attributes) . ']' . PHP_EOL;
-
+        if ($attributes !== []) {
             return str_replace(
-                'class Mock',
-                $attributes . ' class Mock',
+                '#[\AllowDynamicProperties]',
+                '#[' . implode(',', $attributes) . ']',
                 $code
             );
         }

@@ -20,6 +20,8 @@
 
 namespace Mockery;
 
-class Exception extends \UnexpectedValueException
+use Mockery\Exception\MockeryExceptionInterface;
+
+class Exception extends \UnexpectedValueException implements MockeryExceptionInterface
 {
 }
