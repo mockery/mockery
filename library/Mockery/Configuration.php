@@ -259,6 +259,7 @@ class Configuration
                   "'$matcherClass' given."
             );
         }
+
         $this->_defaultMatchers[$class] = $matcherClass;
     }
 

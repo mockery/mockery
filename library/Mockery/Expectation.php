@@ -398,7 +398,6 @@ class Expectation implements ExpectationInterface
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
-
         return false;
     }
 
