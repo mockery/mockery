@@ -87,7 +87,7 @@
         "psalm:dry-run": "vendor/bin/psalm --alter --issues=all --dry-run",
         "psalm:missing": "vendor/bin/psalm --alter --issues=MissingReturnType",
         "psalm:security": "vendor/bin/psalm --taint-analysis",
-        "psalm:shepherd": "vendor/bin/psalm --shepherd --stats --no-diff --no-cache",
+        "psalm:shepherd": "vendor/bin/psalm --shepherd --show-info=false --stats --no-diff --no-cache",
         "test": [
             "@phpunit",
             "@psalm"

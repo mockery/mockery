@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
       matrix:
-        php: ['8.1', '8.2', '8.3']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        dev: ['8.3']
 
-    continue-on-error: ${{ matrix.php == '8.3' }}
+    continue-on-error: ${{ matrix.php == matrix.dev }}
 
     steps:
       - name: Checkout Code
@@ -30,27 +30,27 @@ jobs:
           php-version: ${{ matrix.php }}
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           tools: composer:v2
-          extensions: mongodb, redis, mbstring
+          extensions: mongodb, redis
           coverage: xdebug
 
       - name: Setup Problem Matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install Dependencies
-        if: ${{ matrix.php != '8.2' }}
+        if: ${{ matrix.php != matrix.dev }}
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 5
           max_attempts: 5
-          command: composer update --ansi --no-interaction --no-progress
+          command: composer update --no-interaction --no-progress
 
-      - name: Install Dependencies (ignore platform)
-        if: ${{ matrix.php == '8.2' }}
+      - name: Install Dependencies (ignore platform php:${{ matrix.dev }})
+        if: ${{ matrix.php == matrix.dev }}
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 5
           max_attempts: 5
-          command: composer update --ansi --no-interaction --no-progress --ignore-platform-req=php
+          command: composer update --no-interaction --no-progress --ignore-platform-req=php
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit

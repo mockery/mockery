@@ -1332,11 +1332,9 @@
       <code>apply</code>
     </MissingReturnType>
     <MixedArgument>
-      <code>$attributes</code>
       <code>$code</code>
     </MixedArgument>
     <MixedAssignment>
-      <code>$attributes</code>
       <code>$class</code>
     </MixedAssignment>
     <MixedMethodCall>

@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mockery\Exception;
 
-interface MockeryExceptionInterface extends \Throwable
+use Throwable;
+
+interface MockeryExceptionInterface extends Throwable
 {
 }

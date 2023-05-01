@@ -38,7 +38,7 @@ class ClassAttributesPassTest extends MockeryTestCase
 
         $pass = new ClassAttributesPass();
 
-        $code = $pass->apply(static::CODE, $config);
+        $code = $pass->apply(file_get_contents(__FILE__), $config);
 
         self::assertStringContainsString($expected, $code);
     }
