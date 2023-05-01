@@ -50,17 +50,9 @@ if (!file_exists($autoloadPath)) {
 
 require_once $autoloadPath;
 
-$hamcrestRelativePath = 'hamcrest/hamcrest-php/hamcrest/Hamcrest.php';
-if (DIRECTORY_SEPARATOR !== '/') {
-    $hamcrestRelativePath = str_replace('/', DIRECTORY_SEPARATOR, $hamcrestRelativePath);
-}
-$hamcrestPath = $composerVendorDirectory . DIRECTORY_SEPARATOR . $hamcrestRelativePath;
-
-require_once $hamcrestPath;
-
 Mockery::globalHelpers();
 
 /*
  * Unset global variables that are no longer needed.
  */
-unset($root, $autoloadPath, $hamcrestPath, $composerVendorDirectory);
+unset($root, $autoloadPath, $composerVendorDirectory);
