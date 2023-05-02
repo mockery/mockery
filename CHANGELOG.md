@@ -1,7 +1,8 @@
 # Change Log
 
-## 1.5.2 (2022-xx-xx)
+## 1.5.2 (2023-xx-xx)
 
+* Prevent array to string conversion when serialising a Subset matcher #1252
 * Updated changelog for version 1.5.1 to include changes from #1180
 
 ## 1.3.6 (2022-09-07)
