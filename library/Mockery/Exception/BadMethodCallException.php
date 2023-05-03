@@ -2,7 +2,7 @@
 
 namespace Mockery\Exception;
 
-class BadMethodCallException extends \BadMethodCallException
+class BadMethodCallException extends \BadMethodCallException implements MockeryExceptionInterface
 {
     private $dismissed = false;
 

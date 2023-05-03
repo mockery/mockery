@@ -27,9 +27,11 @@ class Mockery_MockTest extends MockeryTestCase
     public function testAnonymousMockWorksWithNotAllowingMockingOfNonExistentMethods()
     {
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+
         $m = mock();
         $m->shouldReceive("test123")->andReturn(true);
-        assertThat($m->test123(), equalTo(true));
+        self::assertTrue($m->test123());
+
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
@@ -38,8 +40,8 @@ class Mockery_MockTest extends MockeryTestCase
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = mock('ExampleClassForTestingNonExistentMethod');
         $m->shouldAllowMockingMethod('testSomeNonExistentMethod');
-        $m->shouldReceive("testSomeNonExistentMethod")->andReturn(true);
-        assertThat($m->testSomeNonExistentMethod(), equalTo(true));
+        $m->shouldReceive("testSomeNonExistentMethod")->andReturn(true)->once();
+        self::assertTrue($m->testSomeNonExistentMethod());
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
@@ -49,7 +51,7 @@ class Mockery_MockTest extends MockeryTestCase
         $m = mock('ClassWithProtectedMethod');
         $m->shouldAllowMockingProtectedMethods();
         $m->shouldReceive('foo')->andReturn(true);
-        assertThat($m->foo(), equalTo(true));
+        self::assertTrue($m->foo());
         \Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
@@ -112,24 +114,29 @@ class Mockery_MockTest extends MockeryTestCase
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = mock('ClassWithMethods')->shouldIgnoreMissing();
-        assertThat(nullValue($mock->foo()));
+
+        self::assertNull($mock->foo());
+
         $mock->shouldReceive('bar')->passthru();
-        assertThat($mock->bar(), equalTo('bar'));
+
+        self::assertSame('bar', $mock->bar());
     }
 
     public function testShouldIgnoreMissingCallingNonExistentMethods()
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
         $mock = mock('ClassWithMethods')->shouldIgnoreMissing();
-        assertThat(nullValue($mock->foo()));
-        assertThat(nullValue($mock->bar()));
-        assertThat(nullValue($mock->nonExistentMethod()));
+
+        self::assertNull($mock->foo());
+        self::assertNull($mock->bar());
+        self::assertNull($mock->nonExistentMethod());
 
         $mock->shouldReceive(array('foo' => 'new_foo', 'nonExistentMethod' => 'result'));
         $mock->shouldReceive('bar')->passthru();
-        assertThat($mock->foo(), equalTo('new_foo'));
-        assertThat($mock->bar(), equalTo('bar'));
-        assertThat($mock->nonExistentMethod(), equalTo('result'));
+
+        self::assertSame('new_foo', $mock->foo());
+        self::assertSame('bar', $mock->bar());
+        self::assertSame('result', $mock->nonExistentMethod());
     }
 
     public function testCanMockException()

@@ -1,0 +1,55 @@
+# Docs https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository#creating-issue-forms
+name: Bug report
+description: File a bug report to help us improve Mockery
+labels:
+  - bug
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    attributes:
+      label: Mockery Version
+      description: What version of Mockery do you have installed?
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: PHP Version
+      description: What version of PHP do you have installed?
+      multiple: true
+      options:
+        - PHP 8.0
+        - PHP 8.1
+        - PHP 8.2
+        - PHP 8.3
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Issue Description
+      description: Please describe the issue you are experiencing.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: Please provide clear steps to reproduce the issue, if applicable.
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: Please describe what you expected to happen.
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: Please describe what actually happened.
+  - type: textarea
+    attributes:
+      label: Exception or Error
+      description: Please provide error logs, if applicable.
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: Please provide any additional information that may be helpful in resolving this issue.

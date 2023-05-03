@@ -29,7 +29,11 @@ class GeneratorTest extends MockeryTestCase
     public function shouldNotDuplicateDoublyInheritedMethods()
     {
         $container = new \Mockery\Container();
-        $mock = $container->mock('Mockery\Tests\Evenement_EventEmitter', 'Mockery\Tests\Chatroulette_ConnectionInterface');
+        $mock = $container->mock(
+            'Mockery\Tests\Evenement_EventEmitter',
+            'Mockery\Tests\Chatroulette_ConnectionInterface'
+        );
+        self::assertInstanceOf(\Mockery\Tests\Evenement_EventEmitter::class, $mock);
     }
 }
 

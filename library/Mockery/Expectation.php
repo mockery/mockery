@@ -399,6 +399,8 @@ class Expectation implements ExpectationInterface
             return $expected->match($actual);
         }
         if ($expected instanceof \Hamcrest\Matcher || $expected instanceof \Hamcrest_Matcher) {
+            @trigger_error('Hamcrest package has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+
             return $expected->matches($actual);
         }
         return false;

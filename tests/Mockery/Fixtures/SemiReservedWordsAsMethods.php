@@ -1,6 +1,6 @@
 <?php
 
-namespace Mockery\Fixtures;
+namespace test\Mockery\Fixtures;
 
 class SemiReservedWordsAsMethods
 {

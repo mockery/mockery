@@ -253,15 +253,21 @@ class Configuration
      */
     public function setDefaultMatcher($class, $matcherClass)
     {
-        if (!is_a($matcherClass, \Mockery\Matcher\MatcherAbstract::class, true) &&
-            !is_a($matcherClass, \Hamcrest\Matcher::class, true) &&
-            !is_a($matcherClass, \Hamcrest_Matcher::class, true)
+        $isHamcrest = is_a($matcherClass, \Hamcrest\Matcher::class, true) || is_a($matcherClass, \Hamcrest_Matcher::class, true);
+        if (
+            !is_a($matcherClass, \Mockery\Matcher\MatcherAbstract::class, true) &&
+            !$isHamcrest
         ) {
             throw new \InvalidArgumentException(
-                "Matcher class must be either Hamcrest matcher or extend \Mockery\Matcher\MatcherAbstract, " .
-                  "'$matcherClass' given."
+                "Matcher class must extend \Mockery\Matcher\MatcherAbstract, " .
+                "'$matcherClass' given."
             );
         }
+
+        if ($isHamcrest) {
+            @trigger_error('Hamcrest package has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+        }
+
         $this->_defaultMatchers[$class] = $matcherClass;
     }
 

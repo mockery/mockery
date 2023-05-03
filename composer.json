@@ -1,9 +1,7 @@
 {
     "name": "mockery/mockery",
     "description": "Mockery is a simple yet flexible PHP mock object framework",
-    "scripts": {
-        "docs": "phpdoc -d library -t docs/api"
-    },
+    "license": "BSD-3-Clause",
     "keywords": [
         "bdd",
         "library",
@@ -16,8 +14,6 @@
         "test double",
         "testing"
     ],
-    "homepage": "https://github.com/mockery/mockery",
-    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Pádraic Brady",
@@ -30,26 +26,36 @@
             "homepage": "http://davedevelopment.co.uk"
         }
     ],
+    "homepage": "https://github.com/mockery/mockery",
     "require": {
         "php": "^7.3 || ^8.0",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.3"
+        "phpunit/phpunit": "^8.5 || ^9.3",
+        "psalm/plugin-phpunit": "^0.18",
+        "vimeo/psalm": "^5.9"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
     },
     "autoload": {
-        "psr-0": {
-            "Mockery": "library/"
-        }
+        "psr-4": {
+            "Mockery\\": "library/Mockery"
+        },
+        "files": [
+            "library/helpers.php",
+            "library/Mockery.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "test\\": "tests/"
-        }
+        },
+        "files": [
+            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
+        ]
     },
     "config": {
         "preferred-install": "dist"
@@ -58,5 +64,34 @@
         "branch-alias": {
             "dev-master": "1.4.x-dev"
         }
+    },
+    "scripts": {
+        "check": [
+            "@composer validate",
+            "@test",
+            "@psalm:security",
+            "@psalm:dry-run"
+        ],
+        "docs": "phpdoc -d library -t docs/api",
+        "phpunit": [
+            "@xdebug",
+            "vendor/bin/phpunit --colors=always --testdox --stop-on-failure"
+        ],
+        "psalm": [
+            "@xdebug",
+            "@psalm:shepherd"
+        ],
+        "psalm:baseline": "vendor/bin/psalm --set-baseline=psalm-baseline.xml",
+        "psalm:dry-run": "vendor/bin/psalm --alter --issues=all --dry-run",
+        "psalm:missing": "vendor/bin/psalm --alter --issues=MissingReturnType",
+        "psalm:security": "vendor/bin/psalm --taint-analysis",
+        "psalm:shepherd": "vendor/bin/psalm --shepherd --show-info=false --stats --no-diff --no-cache",
+        "test": [
+            "@phpunit",
+            "@psalm"
+        ],
+        "xdebug": [
+            "@putenv XDEBUG_MODE=coverage"
+        ]
     }
 }
