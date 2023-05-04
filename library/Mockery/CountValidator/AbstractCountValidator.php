@@ -16,8 +16,7 @@ abstract class AbstractCountValidator
     public function __construct(
         protected readonly Expectation $expectation,
         protected readonly int $limit = 0
-    )
-    {
+    ) {
     }
 
     /**
