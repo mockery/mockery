@@ -1,22 +1,6 @@
 <?php
-/**
- * Mockery
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://github.com/padraic/mockery/blob/master/LICENSE
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to padraic@php.net so we can send you a copy immediately.
- *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
- */
+
+declare(strict_types=1);
 
 namespace Mockery\Generator;
 
@@ -36,18 +20,14 @@ use Mockery\Generator\StringManipulation\Pass\TraitPass;
 use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
 
-class StringManipulationGenerator implements Generator
+final class StringManipulationGenerator implements Generator
 {
-    protected $passes = array();
-
     /**
      * Creates a new StringManipulationGenerator with the default passes
-     *
-     * @return StringManipulationGenerator
      */
-    public static function withDefaultPasses()
+    public static function withDefaultPasses(): self
     {
-        return new static([
+        return new self([
             new CallTypeHintPass(),
             new MagicMethodTypeHintsPass(),
             new ClassPass(),
@@ -65,12 +45,12 @@ class StringManipulationGenerator implements Generator
         ]);
     }
 
-    public function __construct(array $passes)
-    {
-        $this->passes = $passes;
+    public function __construct(
+        private array $passes = []
+    ) {
     }
 
-    public function generate(MockConfiguration $config)
+    public function generate(MockConfiguration $config): MockDefinition
     {
         $code = file_get_contents(__DIR__ . '/../Mock.php');
         $className = $config->getName() ?: $config->generateName();
@@ -84,7 +64,7 @@ class StringManipulationGenerator implements Generator
         return new MockDefinition($namedConfig, $code);
     }
 
-    public function addPass(Pass $pass)
+    public function addPass(Pass $pass): void
     {
         $this->passes[] = $pass;
     }
