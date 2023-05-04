@@ -23,6 +23,6 @@ final class Ducktype extends AbstractMatcher
 
     public function __toString(): string
     {
-        return '<Ducktype[' . implode(', ', $this->expected) . ']>';
+        return sprintf('<Ducktype[%s]>', implode(', ', $this->expected));
     }
 }
