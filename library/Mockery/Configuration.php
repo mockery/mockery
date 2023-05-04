@@ -253,7 +253,7 @@ class Configuration
      */
     public function setDefaultMatcher($class, $matcherClass)
     {
-        if (!is_a($matcherClass, \Mockery\Matcher\MatcherAbstract::class, true)) {
+        if (!is_a($matcherClass, \Mockery\Matcher\AbstractMatcher::class, true)) {
             throw new \InvalidArgumentException(
                 "Matcher class must extend \Mockery\Matcher\MatcherAbstract, " .
                   "'$matcherClass' given."

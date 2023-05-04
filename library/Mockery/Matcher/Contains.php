@@ -1,40 +1,18 @@
 <?php
-/**
- * Mockery
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://github.com/padraic/mockery/blob/master/LICENSE
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to padraic@php.net so we can send you a copy immediately.
- *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
- */
+
+declare(strict_types=1);
 
 namespace Mockery\Matcher;
 
-class Contains extends MatcherAbstract
+final class Contains extends AbstractMatcher
 {
-    /**
-     * Check if the actual value matches the expected.
-     *
-     * @param mixed $actual
-     * @return bool
-     */
-    public function match(&$actual)
+    public function match(mixed &$actual): bool
     {
         $values = array_values($actual);
-        foreach ($this->_expected as $exp) {
+        foreach ($this->expected as $expectation) {
             $match = false;
-            foreach ($values as $val) {
-                if ($exp === $val || $exp == $val) {
+            foreach ($values as $value) {
+                if ($expectation === $value || $expectation == $value) {
                     $match = true;
                     break;
                 }
@@ -46,19 +24,12 @@ class Contains extends MatcherAbstract
         return true;
     }
 
-    /**
-     * Return a string representation of this Matcher
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        $return = '<Contains[';
-        $elements = array();
-        foreach ($this->_expected as $v) {
-            $elements[] = (string) $v;
+        $elements = [];
+        foreach ($this->expected as $value) {
+            $elements[] = (string) $value;
         }
-        $return .= implode(', ', $elements) . ']>';
-        return $return;
+        return sprintf('<Contains[%s]>', implode(', ', $elements));
     }
 }

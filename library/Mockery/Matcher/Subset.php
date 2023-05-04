@@ -1,67 +1,39 @@
 <?php
-/**
- * Mockery
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://github.com/padraic/mockery/blob/master/LICENSE
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to padraic@php.net so we can send you a copy immediately.
- *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
- */
+
+declare(strict_types=1);
 
 namespace Mockery\Matcher;
 
-class Subset extends MatcherAbstract
+final class Subset extends AbstractMatcher
 {
-    private $expected;
-    private $strict = true;
-
     /**
      * @param array $expected Expected subset of data
      * @param bool $strict Whether to run a strict or loose comparison
      */
-    public function __construct(array $expected, $strict = true)
-    {
-        $this->expected = $expected;
-        $this->strict = $strict;
+    public function __construct(
+        array $expected,
+        private readonly bool $strict = true
+    ) {
+        parent::__construct($expected);
     }
 
     /**
      * @param array $expected Expected subset of data
-     *
-     * @return Subset
      */
-    public static function strict(array $expected)
+    public static function strict(array $expected): self
     {
-        return new static($expected, true);
+        return new self($expected, true);
     }
 
     /**
      * @param array $expected Expected subset of data
-     *
-     * @return Subset
      */
     public static function loose(array $expected)
     {
-        return new static($expected, false);
+        return new self($expected, false);
     }
 
-    /**
-     * Check if the actual value matches the expected.
-     *
-     * @param mixed $actual
-     * @return bool
-     */
-    public function match(&$actual)
+    public function match(mixed &$actual): bool
     {
         if (!is_array($actual)) {
             return false;
@@ -74,19 +46,25 @@ class Subset extends MatcherAbstract
         return $actual == array_replace_recursive($actual, $this->expected);
     }
 
+    public function __toString(): string
+    {
+        return sprintf('<Subset%s>', $this->formatArray($this->expected));
+    }
+
     /**
-     * Return a string representation of this Matcher
+     * Recursively format an array into the string representation for this matcher
      *
+     * @param array $array
      * @return string
      */
-    public function __toString()
+    private function formatArray(array $array): string
     {
-        $return = '<Subset[';
-        $elements = array();
-        foreach ($this->expected as $k=>$v) {
-            $elements[] = $k . '=' . (string) $v;
+        $elements = [];
+
+        foreach ($array as $key => $value) {
+            $elements[] = $key . '=' . (is_array($value) ? $this->formatArray($value) : (string) $value);
         }
-        $return .= implode(', ', $elements) . ']>';
-        return $return;
+
+        return sprintf('[%s]', implode(', ', $elements));
     }
 }

@@ -21,11 +21,11 @@
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class CustomValueObjectMatcher extends \Mockery\Matcher\MatcherAbstract
+class CustomValueObjectMatcher extends \Mockery\Matcher\AbstractMatcher
 {
-    public function match(&$actual)
+    public function match(mixed &$actual): bool
     {
-        return $actual->value === $this->_expected->value;
+        return $actual->value === $this->expected->value;
     }
 
     public function __toString()

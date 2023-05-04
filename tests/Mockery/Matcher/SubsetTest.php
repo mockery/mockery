@@ -94,4 +94,28 @@ class SubsetTest extends MockeryTestCase
 
         $this->assertFalse($matcher->match($actual));
     }
+
+    /** @test */
+    public function it_correctly_formats_nested_arrays_into_a_string()
+    {
+        $expected = [
+            "foo" => 123,
+            "bar" => [
+                "baz" => 456
+            ]
+        ];
+
+        $matcher = new Subset($expected);
+        $actual = $matcher->__toString();
+
+        $tests = [
+            "/foo=123/",
+            "/bar=\\[[^[\\]]+\\]/", // e.g. bar=[<anything other than square brackets>]
+            "/baz=456/"
+        ];
+
+        foreach ($tests as $pattern) {
+            $this->assertMatchesRegularExpression($pattern, $actual);
+        }
+    }
 }

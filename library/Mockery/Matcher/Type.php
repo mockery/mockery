@@ -1,56 +1,35 @@
 <?php
-/**
- * Mockery
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://github.com/padraic/mockery/blob/master/LICENSE
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to padraic@php.net so we can send you a copy immediately.
- *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
- */
+
+declare(strict_types=1);
 
 namespace Mockery\Matcher;
 
-class Type extends MatcherAbstract
+final class Type extends AbstractMatcher
 {
-    /**
-     * Check if the actual value matches the expected.
-     *
-     * @param mixed $actual
-     * @return bool
-     */
-    public function match(&$actual)
+    public function match(mixed &$actual): bool
     {
-        if ($this->_expected == 'real') {
+        if ($this->expected == 'real') {
             $function = 'is_float';
         } else {
-            $function = 'is_' . strtolower($this->_expected);
+            $function = 'is_' . strtolower($this->expected);
         }
+
         if (function_exists($function)) {
             return $function($actual);
-        } elseif (is_string($this->_expected)
-        && (class_exists($this->_expected) || interface_exists($this->_expected))) {
-            return $actual instanceof $this->_expected;
         }
+
+        if (
+            is_string($this->expected) &&
+            (class_exists($this->expected) || interface_exists($this->expected))
+        ) {
+            return $actual instanceof $this->expected;
+        }
+
         return false;
     }
 
-    /**
-     * Return a string representation of this Matcher
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
-        return '<' . ucfirst($this->_expected) . '>';
+        return sprintf('<%s>', ucfirst($this->expected));
     }
 }
