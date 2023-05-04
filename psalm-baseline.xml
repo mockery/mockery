@@ -589,7 +589,6 @@
       <code>dismissed</code>
     </MissingReturnType>
     <PossiblyUnusedMethod>
-      <code>dismiss</code>
       <code>dismissed</code>
     </PossiblyUnusedMethod>
   </file>
@@ -928,21 +927,15 @@
     </MissingParamType>
   </file>
   <file src="library/Mockery/Generator/CachingGenerator.php">
-    <MissingPropertyType>
-      <code>$cache</code>
-    </MissingPropertyType>
-    <MissingReturnType>
-      <code>generate</code>
-    </MissingReturnType>
-    <MixedArrayAccess>
-      <code><![CDATA[$this->cache[$hash]]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$this->cache[$hash]]]></code>
-    </MixedArrayAssignment>
-    <MixedAssignment>
-      <code>$definition</code>
-    </MixedAssignment>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$this->cache]]></code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement>
+      <code><![CDATA[$this->cache[$config->getHash()] ??= $this->generator->generate($config)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>MockDefinition</code>
+    </InvalidReturnType>
   </file>
   <file src="library/Mockery/Generator/DefinedTargetClass.php">
     <ArgumentTypeCoercion>
@@ -1007,11 +1000,6 @@
       <code><![CDATA[$this->rfc->isAbstract()]]></code>
       <code><![CDATA[$this->rfc->isFinal()]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="library/Mockery/Generator/Generator.php">
-    <MissingReturnType>
-      <code>generate</code>
-    </MissingReturnType>
   </file>
   <file src="library/Mockery/Generator/Method.php">
     <MissingParamType>
@@ -1745,10 +1733,6 @@
     </MixedMethodCall>
   </file>
   <file src="library/Mockery/Generator/StringManipulationGenerator.php">
-    <MissingReturnType>
-      <code>addPass</code>
-      <code>generate</code>
-    </MissingReturnType>
     <MixedArgument>
       <code>$namedConfig</code>
     </MixedArgument>
@@ -1764,24 +1748,6 @@
     <PossiblyUnusedMethod>
       <code>addPass</code>
     </PossiblyUnusedMethod>
-    <UnsafeInstantiation>
-      <code>new static([
-            new CallTypeHintPass(),
-            new MagicMethodTypeHintsPass(),
-            new ClassPass(),
-            new TraitPass(),
-            new ClassNamePass(),
-            new InstanceMockPass(),
-            new InterfacePass(),
-            new AvoidMethodClashPass(),
-            new MethodDefinitionPass(),
-            new RemoveUnserializeForInternalSerializableClassesPass(),
-            new RemoveBuiltinMethodsThatAreFinalPass(),
-            new RemoveDestructorPass(),
-            new ConstantsPass(),
-            new ClassAttributesPass(),
-        ])</code>
-    </UnsafeInstantiation>
   </file>
   <file src="library/Mockery/Generator/TargetClassInterface.php">
     <PossiblyUnusedMethod>
