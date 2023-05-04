@@ -6,6 +6,9 @@ namespace Mockery\Generator;
 
 final class CachingGenerator implements Generator
 {
+    /**
+     * @var array<string,MockConfiguration>
+     */
     private array $cache = [];
     public function __construct(
         private readonly Generator $generator
