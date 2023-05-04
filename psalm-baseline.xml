@@ -120,7 +120,6 @@
     <PossiblyUnusedMethod>
       <code>andAnyOtherArgs</code>
       <code>andAnyOthers</code>
-      <code>any</code>
       <code>anyOf</code>
       <code>capture</code>
       <code>contains</code>
@@ -133,18 +132,13 @@
       <code>mustBe</code>
       <code>not</code>
       <code>notAnyOf</code>
-      <code>on</code>
       <code>pattern</code>
       <code>resetContainer</code>
       <code>setContainer</code>
       <code>setGenerator</code>
       <code>setLoader</code>
       <code>subset</code>
-      <code>type</code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedReturnValue>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-    </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
     </RedundantConditionGivenDocblockType>
@@ -374,10 +368,8 @@
       <code>enableReflectionCache</code>
       <code>getInternalClassMethodParamMap</code>
       <code>mockingMethodsUnnecessarilyAllowed</code>
-      <code>resetInternalClassMethodParamMaps</code>
       <code>setConstantsMap</code>
       <code>setDefaultMatcher</code>
-      <code>setInternalClassMethodParamMap</code>
       <code>setObjectFormatter</code>
     </PossiblyUnusedMethod>
     <RedundantCastGivenDocblockType>
@@ -521,10 +513,14 @@
       <code>$class</code>
     </UnusedVariable>
   </file>
+  <file src="library/Mockery/CountValidator/AbstractCountValidator.php">
+    <PossiblyUnusedMethod>
+      <code>__construct</code>
+      <code>isEligible</code>
+      <code>validate</code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="library/Mockery/CountValidator/AtLeast.php">
-    <InvalidReturnType>
-      <code>bool</code>
-    </InvalidReturnType>
     <MixedMethodCall>
       <code>setActualCount</code>
       <code>setExpectedCount</code>
@@ -536,9 +532,6 @@
     </UnusedClass>
   </file>
   <file src="library/Mockery/CountValidator/AtMost.php">
-    <InvalidReturnType>
-      <code>bool</code>
-    </InvalidReturnType>
     <MixedMethodCall>
       <code>setActualCount</code>
       <code>setExpectedCount</code>
@@ -549,21 +542,7 @@
       <code>AtMost</code>
     </UnusedClass>
   </file>
-  <file src="library/Mockery/CountValidator/CountValidatorAbstract.php">
-    <PossiblyNullPropertyAssignmentValue>
-      <code>null</code>
-      <code>null</code>
-    </PossiblyNullPropertyAssignmentValue>
-    <PossiblyUnusedMethod>
-      <code>__construct</code>
-      <code>isEligible</code>
-      <code>validate</code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="library/Mockery/CountValidator/Exact.php">
-    <InvalidReturnType>
-      <code>bool</code>
-    </InvalidReturnType>
     <MixedAssignment>
       <code>$because</code>
     </MixedAssignment>
@@ -574,7 +553,7 @@
       <code>setMethodName</code>
     </MixedMethodCall>
     <MixedOperand>
-      <code><![CDATA[$this->_expectation->getExceptionMessage()]]></code>
+      <code><![CDATA[$this->expectation->getExceptionMessage()]]></code>
     </MixedOperand>
     <UnusedClass>
       <code>Exact</code>
