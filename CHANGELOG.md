@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.0 (2023-xx-xx)
+
+* [#1256 Removed support for PHP 8.0 and lower](https://github.com/mockery/mockery/pull/1256)
+
 ## 1.6.0 (2023-05-01)
 
 * [#1192 Updated changelog for version 1.5.1 to include changes from #1180](https://github.com/mockery/mockery/pull/1192)
