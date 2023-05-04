@@ -1881,9 +1881,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="library/Mockery/Loader/EvalLoader.php">
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$definition->getClassName()]]></code>
     </MixedArgument>
@@ -1892,33 +1889,17 @@
     </MixedOperand>
   </file>
   <file src="library/Mockery/Loader/Loader.php">
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <PossiblyUnusedMethod>
       <code>load</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Loader/RequireLoader.php">
-    <MissingParamType>
-      <code>$path</code>
-    </MissingParamType>
-    <MissingPropertyType>
-      <code>$path</code>
-    </MissingPropertyType>
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$definition->getClassName()]]></code>
       <code><![CDATA[$definition->getCode()]]></code>
-      <code>$path</code>
     </MixedArgument>
-    <MixedOperand>
-      <code><![CDATA[$this->path]]></code>
-    </MixedOperand>
     <UnresolvableInclude>
-      <code>require $tmpfname</code>
+      <code>require $temporaryFilePath</code>
     </UnresolvableInclude>
     <UnusedClass>
       <code>RequireLoader</code>
