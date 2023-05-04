@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        php: ['8.1', '8.2', '8.3']
         dev: ['8.3']
 
     continue-on-error: ${{ matrix.php == matrix.dev }}
@@ -53,4 +53,4 @@ jobs:
           command: composer update --no-interaction --no-progress --ignore-platform-req=php
 
       - name: Execute PHPUnit
-        run: vendor/bin/phpunit
+        run: composer phpunit
