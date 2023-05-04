@@ -27,7 +27,7 @@ use Mockery\Generator\MockNameBuilder;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
-use Mockery\Matcher\MatcherAbstract;
+use Mockery\Matcher\AbstractMatcher;
 use Mockery\Reflector;
 
 class Mockery
@@ -568,7 +568,7 @@ class Mockery
      */
     private static function formatArgument($argument, $depth = 0)
     {
-        if ($argument instanceof MatcherAbstract) {
+        if ($argument instanceof AbstractMatcher) {
             return (string) $argument;
         }
 

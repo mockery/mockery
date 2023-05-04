@@ -5,10 +5,6 @@
       <code>$expectation</code>
       <code>$expectation</code>
     </ArgumentTypeCoercion>
-    <DeprecatedClass>
-      <code>\Mockery\Matcher\MustBe</code>
-      <code>new \Mockery\Matcher\MustBe($expected)</code>
-    </DeprecatedClass>
     <DeprecatedMethod>
       <code>\Mockery::builtInTypes()</code>
     </DeprecatedMethod>
@@ -119,25 +115,13 @@
     </PossiblyNullPropertyAssignmentValue>
     <PossiblyUnusedMethod>
       <code>andAnyOtherArgs</code>
-      <code>andAnyOthers</code>
-      <code>anyOf</code>
-      <code>capture</code>
-      <code>contains</code>
-      <code>ducktype</code>
       <code>globalHelpers</code>
-      <code>hasKey</code>
-      <code>hasValue</code>
       <code>instanceMock</code>
       <code>isBuiltInType</code>
-      <code>mustBe</code>
-      <code>not</code>
-      <code>notAnyOf</code>
-      <code>pattern</code>
       <code>resetContainer</code>
       <code>setContainer</code>
       <code>setGenerator</code>
       <code>setLoader</code>
-      <code>subset</code>
     </PossiblyUnusedMethod>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
@@ -363,7 +347,6 @@
     </PossiblyUndefinedVariable>
     <PossiblyUnusedMethod>
       <code>allowMockingMethodsUnnecessarily</code>
-      <code>allowMockingNonExistentMethods</code>
       <code>disableReflectionCache</code>
       <code>enableReflectionCache</code>
       <code>getInternalClassMethodParamMap</code>
@@ -1832,7 +1815,6 @@
       <code>@var string $method</code>
     </PossiblyInvalidDocblockTag>
     <PossiblyUnusedMethod>
-      <code>byDefault</code>
       <code>mockery_allocateOrder</code>
       <code>mockery_findExpectation</code>
       <code>mockery_getCurrentOrder</code>
@@ -1884,168 +1866,105 @@
       <code>RequireLoader</code>
     </UnusedClass>
   </file>
-  <file src="library/Mockery/Matcher/AndAnyOtherArgs.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-  </file>
-  <file src="library/Mockery/Matcher/Any.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-  </file>
-  <file src="library/Mockery/Matcher/AnyArgs.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-  </file>
   <file src="library/Mockery/Matcher/AnyOf.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
-      <code><![CDATA[$this->_expected]]></code>
-    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="library/Mockery/Matcher/Closure.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedAssignment>
-      <code>$closure</code>
-      <code>$result</code>
-    </MixedAssignment>
     <MixedFunctionCall>
-      <code>$closure($actual)</code>
+      <code><![CDATA[($this->expected)($actual)]]></code>
     </MixedFunctionCall>
   </file>
   <file src="library/Mockery/Matcher/Contains.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
+    <MixedArgumentTypeCoercion>
       <code>$actual</code>
-    </MixedArgument>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code>$exp</code>
-      <code>$v</code>
+      <code>$expectation</code>
+      <code>$value</code>
     </MixedAssignment>
   </file>
   <file src="library/Mockery/Matcher/Ducktype.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
     <MixedArgument>
       <code>$method</code>
-      <code><![CDATA[$this->_expected]]></code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
       <code>$method</code>
     </MixedAssignment>
   </file>
   <file src="library/Mockery/Matcher/HasKey.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
+    <MixedArgumentTypeCoercion>
       <code>$actual</code>
-      <code><![CDATA[$this->_expected]]></code>
-    </MixedArgument>
+      <code><![CDATA[$this->expected]]></code>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="library/Mockery/Matcher/HasValue.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
+    <MixedArgumentTypeCoercion>
       <code>$actual</code>
-    </MixedArgument>
-  </file>
-  <file src="library/Mockery/Matcher/MatcherAbstract.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="library/Mockery/Matcher/MultiArgumentClosure.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedAssignment>
-      <code>$closure</code>
-    </MixedAssignment>
     <MixedFunctionCall>
-      <code>call_user_func_array($closure, $actual)</code>
+      <code><![CDATA[($this->expected)(...$actual)]]></code>
     </MixedFunctionCall>
   </file>
   <file src="library/Mockery/Matcher/MustBe.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-  </file>
-  <file src="library/Mockery/Matcher/NoArgs.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
-      <code>$actual</code>
-    </MixedArgument>
+    <DocblockTypeContradiction>
+      <code><![CDATA[$this->expected === $actual]]></code>
+    </DocblockTypeContradiction>
+    <UndefinedThisPropertyFetch>
+      <code><![CDATA[$this->_expected]]></code>
+    </UndefinedThisPropertyFetch>
   </file>
   <file src="library/Mockery/Matcher/Not.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
+    <DocblockTypeContradiction>
+      <code><![CDATA[$actual !== $this->expected]]></code>
+    </DocblockTypeContradiction>
   </file>
   <file src="library/Mockery/Matcher/NotAnyOf.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
     <MixedAssignment>
       <code>$exp</code>
     </MixedAssignment>
   </file>
   <file src="library/Mockery/Matcher/Pattern.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
-      <code><![CDATA[$this->_expected]]></code>
-    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
   </file>
   <file src="library/Mockery/Matcher/Subset.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MissingPropertyType>
-      <code>$strict</code>
-    </MissingPropertyType>
+    <MissingReturnType>
+      <code>loose</code>
+    </MissingReturnType>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->expected]]></code>
+      <code><![CDATA[$this->expected]]></code>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedAssignment>
-      <code>$v</code>
+      <code>$value</code>
     </MixedAssignment>
     <PossiblyUnusedMethod>
       <code>loose</code>
       <code>strict</code>
     </PossiblyUnusedMethod>
-    <UnsafeInstantiation>
-      <code>new static($expected, false)</code>
-      <code>new static($expected, true)</code>
-    </UnsafeInstantiation>
   </file>
   <file src="library/Mockery/Matcher/Type.php">
-    <MethodSignatureMustProvideReturnType>
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
-    <MixedArgument>
-      <code><![CDATA[$this->_expected]]></code>
-      <code><![CDATA[$this->_expected]]></code>
-    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->expected]]></code>
+      <code><![CDATA[$this->expected]]></code>
+    </MixedArgumentTypeCoercion>
     <MixedInferredReturnType>
       <code>bool</code>
     </MixedInferredReturnType>
     <MixedReturnStatement>
       <code>$function($actual)</code>
     </MixedReturnStatement>
-    <TypeDoesNotContainType>
-      <code>function_exists($function)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="library/Mockery/MethodCall.php">
     <MissingParamType>
@@ -2241,7 +2160,6 @@
   <file src="library/Mockery/MockInterface.php">
     <PossiblyUnusedMethod>
       <code>allows</code>
-      <code>expects</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/ReceivedMethodCalls.php">
