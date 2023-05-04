@@ -30,6 +30,6 @@ final class Contains extends AbstractMatcher
         foreach ($this->expected as $value) {
             $elements[] = (string) $value;
         }
-        return '<Contains['.implode(', ', $elements) . ']>';
+        return sprintf('<Contains[%s]>', implode(', ', $elements));
     }
 }
