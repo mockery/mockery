@@ -26,40 +26,35 @@ final class Parser implements ParserInterface
 
     /**
      * @param string $path
-     * @return Generator<Stmt|null>
+     * @return @return null|Stmt[]
      */
-    public function parseFile(string $path): Generator
+    public function parseFile(string $path): array|null
     {
-        yield from $this->parseSource(new SplFileInfo($path));
+        return $this->parseSource(new SplFileInfo($path));
     }
 
     /**
      * @param SplFileInfo $source
-     * @return Generator<Stmt|null>
+     * @return null|Stmt[]
      */
-    public function parseSource(SplFileInfo $source): Generator
+    public function parseSource(SplFileInfo $source): array|null
     {
-        yield from $this->parse(file_get_contents($source->getRealPath()));
+        return $this->parse(file_get_contents($source->getRealPath()));
     }
 
     /**
      * @param string $code
-     * @return Generator<Stmt|null>
+     * @return null|Stmt[]
      */
-    public function parse(string $code): Generator
+    public function parse(string $code): array|null
     {
-        $ast = $this->parser->parse($code);
-        if($ast === null) {
-            throw new RuntimeException('Invalid AST!');
-        }
-
-        yield from $ast;
+        return $this->parser->parse($code);
     }
 
     /**
      * @param string $path
      * @param string $fileExtension
-     * @return Generator<string, Generator<Stmt|null>>
+     * @return Generator<SplFileInfo,Stmt[]|null>
      */
     public function parseDirectory(string $path, string $fileExtension = 'php'): Generator
     {
@@ -83,7 +78,7 @@ final class Parser implements ParserInterface
 
         /** @var SplFileInfo $splFileInfo */
         foreach ($regexIterator as $path => $splFileInfo) {
-            yield $path => $this->parseSource($splFileInfo);
+            yield $splFileInfo => $this->parseSource($splFileInfo);
         }
     }
 
