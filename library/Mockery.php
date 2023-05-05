@@ -265,6 +265,7 @@ class Mockery
      */
     public static function getDefaultGenerator()
     {
+        // return new CachingGenerator(PhpParserGenerator::withDefaultVisitors());
         return new CachingGenerator(StringManipulationGenerator::withDefaultPasses());
     }
 
