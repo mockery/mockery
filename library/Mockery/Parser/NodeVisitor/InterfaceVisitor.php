@@ -25,7 +25,7 @@ final class InterfaceVisitor extends AbstractNodeVisitor
             if (! interface_exists($name)) {
                 Mockery::declareInterface($name);
             }
-            $node->implements[] = new Node\Name('\\'.$name);
+            $node->implements[] = new Node\Name('\\' . $name);
         }
 
         return $node;
