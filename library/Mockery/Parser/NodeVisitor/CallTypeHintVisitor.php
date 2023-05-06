@@ -9,7 +9,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 
 final class CallTypeHintVisitor extends AbstractNodeVisitor
 {
-
     private bool $requiresCallTypeHintRemoval = false;
     private bool $requiresCallStaticTypeHintRemoval = false;
 
@@ -29,7 +28,7 @@ final class CallTypeHintVisitor extends AbstractNodeVisitor
             return null;
         }
 
-        foreach ($node->params as &$param){
+        foreach ($node->params as &$param) {
             $param->type = null;
         }
 
