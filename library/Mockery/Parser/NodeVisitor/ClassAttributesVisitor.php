@@ -15,7 +15,7 @@ final class ClassAttributesVisitor extends AbstractNodeVisitor
 {
     public function enterNode(Node $node)
     {
-        if (!$node instanceof AttributeGroup){
+        if (!$node instanceof AttributeGroup) {
             return null;
         }
 
@@ -32,7 +32,7 @@ final class ClassAttributesVisitor extends AbstractNodeVisitor
         }
 
         $node->attrs = array_map(
-            static fn(string $attributeName): Attribute => new Attribute(new Name($attributeName)),
+            static fn (string $attributeName): Attribute => new Attribute(new Name($attributeName)),
             $attributes
         );
 
