@@ -13,7 +13,7 @@ final class ClassVisitor extends AbstractNodeVisitor
 {
     public function leaveNode(Node $node)
     {
-        if (!$node instanceof Class_){
+        if (!$node instanceof Class_) {
             return null;
         }
 
