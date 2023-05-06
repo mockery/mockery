@@ -18,14 +18,13 @@ final class AvoidMethodClashVisitor extends AbstractNodeVisitor
 
     public function beforeTraverse(array $nodes)
     {
-        if ($this->mocksAllowsOrExpectsMethod)
-        {
+        if ($this->mocksAllowsOrExpectsMethod) {
             return null;
         }
 
         /** @var array<Method> $methodsToMock */
         $methodsToMock = $this->configuration->getMethodsToMock();
-        foreach ($methodsToMock as $method){
+        foreach ($methodsToMock as $method) {
             $methodName = $method->getName();
             if ($methodName === 'allows' || $methodName === 'expects') {
                 $this->mocksAllowsOrExpectsMethod = true;
@@ -39,15 +38,13 @@ final class AvoidMethodClashVisitor extends AbstractNodeVisitor
 
     public function leaveNode(Node $node)
     {
-        if (! $this->mocksAllowsOrExpectsMethod)
-        {
+        if (! $this->mocksAllowsOrExpectsMethod) {
             return null;
         }
 
         return match (true) {
             $node instanceof ClassMethod => (static function (ClassMethod $node): int|Node {
-                if (in_array(NodeExtractor::getName($node), ['allows', 'expects']))
-                {
+                if (in_array(NodeExtractor::getName($node), ['allows', 'expects'])) {
                     return NodeTraverser::REMOVE_NODE;
                 }
 
