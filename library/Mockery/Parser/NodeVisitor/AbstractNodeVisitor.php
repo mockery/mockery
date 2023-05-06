@@ -11,7 +11,7 @@ use PhpParser\NodeVisitorAbstract;
 abstract class AbstractNodeVisitor extends NodeVisitorAbstract implements NodeVisitor
 {
     final public function __construct(
-        private readonly MockConfiguration $configuration
+        protected readonly MockConfiguration $configuration
     ) {
     }
 }
