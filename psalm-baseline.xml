@@ -1980,18 +1980,6 @@
       <code>mockery_setCurrentOrder</code>
       <code>mockery_setGroup</code>
     </MissingReturnType>
-    <MixedArgument>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$method</code>
-      <code>$name</code>
-      <code>$rm</code>
-    </MixedArgument>
     <MixedArrayOffset>
       <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
       <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
