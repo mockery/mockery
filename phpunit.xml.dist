@@ -24,7 +24,7 @@
     </extensions>
     <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory>library</directory>
+            <directory>src</directory>
         </include>
         <exclude>
             <directory>library/Mockery/Adapter/Phpunit/Legacy</directory>
