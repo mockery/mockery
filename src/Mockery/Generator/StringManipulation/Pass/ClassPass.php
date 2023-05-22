@@ -16,17 +16,13 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
- * @author     Boris Avdeev <elephant@lislon.ru>
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
 
-/**
- * Remove mock's empty destructor if we tend to use original class destructor
- */
-class RemoveDestructorPass
+class ClassPass implements Pass
 {
     public function apply($code, MockConfiguration $config)
     {
@@ -36,9 +32,21 @@ class RemoveDestructorPass
             return $code;
         }
 
-        if (!$config->isMockOriginalDestructor()) {
-            $code = preg_replace('/public function __destruct\(\)\s+\{.*?\}/sm', '', $code);
+        if ($target->isFinal()) {
+            return $code;
         }
+
+        $className = ltrim((string) $target->getName(), "\\");
+
+        if (!class_exists($className)) {
+            \Mockery::declareClass($className);
+        }
+
+        $code = str_replace(
+            "implements MockInterface",
+            "extends \\" . $className . " implements MockInterface",
+            (string) $code
+        );
 
         return $code;
     }

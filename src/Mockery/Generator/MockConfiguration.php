@@ -157,7 +157,7 @@ class MockConfiguration
         if (count($this->getWhiteListedMethods())) {
             $whitelist = array_map('strtolower', $this->getWhiteListedMethods());
             $methods = array_filter($methods, function ($method) use ($whitelist) {
-                return $method->isAbstract() || in_array(strtolower($method->getName()), $whitelist);
+                return $method->isAbstract() || in_array(strtolower((string) $method->getName()), $whitelist);
             });
 
             return $methods;
@@ -169,7 +169,7 @@ class MockConfiguration
         if (count($this->getBlackListedMethods())) {
             $blacklist = array_map('strtolower', $this->getBlackListedMethods());
             $methods = array_filter($methods, function ($method) use ($blacklist) {
-                return !in_array(strtolower($method->getName()), $blacklist);
+                return !in_array(strtolower((string) $method->getName()), $blacklist);
             });
         }
 
@@ -433,7 +433,7 @@ class MockConfiguration
 
         if ($this->getTargetClass()) {
             $className = $this->getTargetClass()->getName();
-            $nameBuilder->addPart(strpos($className, '@') !== false ? md5($className) : $className);
+            $nameBuilder->addPart(strpos((string) $className, '@') !== false ? md5((string) $className) : $className);
         }
 
         foreach ($this->getTargetInterfaces() as $targetInterface) {
@@ -445,13 +445,13 @@ class MockConfiguration
 
     public function getShortName()
     {
-        $parts = explode("\\", $this->getName());
+        $parts = explode("\\", (string) $this->getName());
         return array_pop($parts);
     }
 
     public function getNamespaceName()
     {
-        $parts = explode("\\", $this->getName());
+        $parts = explode("\\", (string) $this->getName());
         array_pop($parts);
 
         if (count($parts)) {

@@ -26,7 +26,7 @@ use Mockery\Loader\Loader as LoaderInterface;
 
 class Container
 {
-    const BLOCKS = \Mockery::BLOCKS;
+    final const BLOCKS = \Mockery::BLOCKS;
 
     /**
      * Store of mock objects

@@ -32,7 +32,7 @@ use Mockery\Reflector;
 
 class Mockery
 {
-    const BLOCKS = 'Mockery_Forward_Blocks';
+    final const BLOCKS = 'Mockery_Forward_Blocks';
 
     /**
      * Global container to hold all mocks for the current unit test running.
@@ -949,8 +949,8 @@ class Mockery
         $targetCode = "<?php ";
         $shortName = $fqn;
 
-        if (strpos($fqn, "\\")) {
-            $parts = explode("\\", $fqn);
+        if (strpos((string) $fqn, "\\")) {
+            $parts = explode("\\", (string) $fqn);
 
             $shortName = trim(array_pop($parts));
             $namespace = implode("\\", $parts);

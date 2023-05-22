@@ -23,15 +23,17 @@ namespace Mockery\Generator\StringManipulation\Pass;
 use Mockery\Generator\MockConfiguration;
 
 /**
- * Internal classes can not be instantiated with the newInstanceWithoutArgs
- * reflection method, so need the serialization hack. If the class also
- * implements Serializable, we need to replace the standard unserialize method
- * definition with a dummy
+ * The standard Mockery\Mock class includes some methods to ease mocking, such
+ * as __wakeup, however if the target has a final __wakeup method, it can't be
+ * mocked. This pass removes the builtin methods where they are final on the
+ * target
  */
-class RemoveUnserializeForInternalSerializableClassesPass
+class RemoveBuiltinMethodsThatAreFinalPass
 {
-    const DUMMY_METHOD_DEFINITION_LEGACY = 'public function unserialize($string) {} ';
-    const DUMMY_METHOD_DEFINITION = 'public function unserialize(string $data): void {} ';
+    protected $methods = array(
+        '__wakeup' => '/public function __wakeup\(\)\s+\{.*?\}/sm',
+        '__toString' => '/public function __toString\(\)\s+(:\s+string)?\s*\{.*?\}/sm',
+    );
 
     public function apply($code, MockConfiguration $config)
     {
@@ -41,19 +43,12 @@ class RemoveUnserializeForInternalSerializableClassesPass
             return $code;
         }
 
-        if (!$target->hasInternalAncestor() || !$target->implementsInterface("Serializable")) {
-            return $code;
+        foreach ($target->getMethods() as $method) {
+            if ($method->isFinal() && isset($this->methods[$method->getName()])) {
+                $code = preg_replace($this->methods[$method->getName()], '', (string) $code);
+            }
         }
 
-        $code = $this->appendToClass($code, \PHP_VERSION_ID < 80100 ? self::DUMMY_METHOD_DEFINITION_LEGACY : self::DUMMY_METHOD_DEFINITION);
-
         return $code;
-    }
-
-    protected function appendToClass($class, $code)
-    {
-        $lastBrace = strrpos($class, "}");
-        $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
-        return $class;
     }
 }

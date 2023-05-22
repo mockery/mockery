@@ -22,29 +22,25 @@ namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
 
-class ClassPass implements Pass
+class ClassNamePass implements Pass
 {
     public function apply($code, MockConfiguration $config)
     {
-        $target = $config->getTargetClass();
+        $namespace = $config->getNamespaceName();
 
-        if (!$target) {
-            return $code;
-        }
+        $namespace = ltrim((string) $namespace, "\\");
 
-        if ($target->isFinal()) {
-            return $code;
-        }
-
-        $className = ltrim($target->getName(), "\\");
-
-        if (!class_exists($className)) {
-            \Mockery::declareClass($className);
-        }
+        $className = $config->getShortName();
 
         $code = str_replace(
-            "implements MockInterface",
-            "extends \\" . $className . " implements MockInterface",
+            'namespace Mockery;',
+            $namespace ? 'namespace ' . $namespace . ';' : '',
+            (string) $code
+        );
+
+        $code = str_replace(
+            'class Mock',
+            'class ' . $className,
             $code
         );
 
