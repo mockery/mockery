@@ -24,8 +24,8 @@ class ConstantsPass implements Pass
             $constantsCode .= sprintf("\n    const %s = %s;\n", $constant, var_export($value, true));
         }
 
-        $i = strrpos($code, '}');
-        $code = substr_replace($code, $constantsCode, $i);
+        $i = strrpos((string) $code, '}');
+        $code = substr_replace((string) $code, $constantsCode, $i);
         $code .= "}\n";
 
         return $code;

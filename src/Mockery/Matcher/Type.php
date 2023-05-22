@@ -11,7 +11,7 @@ final class Type extends AbstractMatcher
         if ($this->expected == 'real') {
             $function = 'is_float';
         } else {
-            $function = 'is_' . strtolower($this->expected);
+            $function = 'is_' . strtolower((string) $this->expected);
         }
 
         if (function_exists($function)) {
@@ -30,6 +30,6 @@ final class Type extends AbstractMatcher
 
     public function __toString(): string
     {
-        return sprintf('<%s>', ucfirst($this->expected));
+        return sprintf('<%s>', ucfirst((string) $this->expected));
     }
 }

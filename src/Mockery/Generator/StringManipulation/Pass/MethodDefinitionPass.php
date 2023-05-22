@@ -60,8 +60,8 @@ class MethodDefinitionPass implements Pass
         if ($class->isInternal()) {
             $overrides = $config->getParameterOverrides();
 
-            if (isset($overrides[strtolower($class->getName())][$method->getName()])) {
-                return '(' . implode(',', $overrides[strtolower($class->getName())][$method->getName()]) . ')';
+            if (isset($overrides[strtolower((string) $class->getName())][$method->getName()])) {
+                return '(' . implode(',', $overrides[strtolower((string) $class->getName())][$method->getName()]) . ')';
             }
         }
 
@@ -107,8 +107,8 @@ class MethodDefinitionPass implements Pass
 
     protected function appendToClass($class, $code)
     {
-        $lastBrace = strrpos($class, "}");
-        $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+        $lastBrace = strrpos((string) $class, "}");
+        $class = substr((string) $class, 0, $lastBrace) . $code . "\n    }\n";
         return $class;
     }
 
@@ -133,14 +133,14 @@ BODY;
         // in case more parameters are passed in than the function definition
         // says - eg varargs.
         $class = $method->getDeclaringClass();
-        $class_name = strtolower($class->getName());
+        $class_name = strtolower((string) $class->getName());
         $overrides = $config->getParameterOverrides();
         if (isset($overrides[$class_name][$method->getName()])) {
             $params = array_values($overrides[$class_name][$method->getName()]);
             $paramCount = count($params);
             for ($i = 0; $i < $paramCount; ++$i) {
                 $param = $params[$i];
-                if (strpos($param, '&') !== false) {
+                if (strpos((string) $param, '&') !== false) {
                     $body .= <<<BODY
 if (\$argc > $i) {
     \$argv[$i] = {$param};

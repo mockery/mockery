@@ -24,7 +24,7 @@ use Mockery\Generator\MockConfiguration;
 
 class InstanceMockPass
 {
-    const INSTANCE_MOCK_CODE = <<<MOCK
+    final const INSTANCE_MOCK_CODE = <<<MOCK
 
     protected \$_mockery_ignoreVerification = true;
 
@@ -76,8 +76,8 @@ MOCK;
 
     protected function appendToClass($class, $code)
     {
-        $lastBrace = strrpos($class, "}");
-        $class = substr($class, 0, $lastBrace) . $code . "\n    }\n";
+        $lastBrace = strrpos((string) $class, "}");
+        $class = substr((string) $class, 0, $lastBrace) . $code . "\n    }\n";
         return $class;
     }
 }

@@ -20,29 +20,28 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\Method;
-use Mockery\Generator\Parameter;
 use Mockery\Generator\MockConfiguration;
 
-class AvoidMethodClashPass implements Pass
+class InterfacePass implements Pass
 {
     public function apply($code, MockConfiguration $config)
     {
-        $names = array_map(function ($method) {
-            return $method->getName();
-        }, $config->getMethodsToMock());
-
-        foreach (["allows", "expects"] as $method) {
-            if (in_array($method, $names)) {
-                $code = preg_replace(
-                    "#// start method {$method}.*// end method {$method}#ms",
-                    "",
-                    $code
-                );
-
-                $code = str_replace(" implements MockInterface", " implements LegacyMockInterface", $code);
+        foreach ($config->getTargetInterfaces() as $i) {
+            $name = ltrim((string) $i->getName(), "\\");
+            if (!interface_exists($name)) {
+                \Mockery::declareInterface($name);
             }
         }
+
+        $interfaces = array_reduce((array) $config->getTargetInterfaces(), function ($code, $i) {
+            return $code . ", \\" . ltrim((string) $i->getName(), "\\");
+        }, "");
+
+        $code = str_replace(
+            "implements MockInterface",
+            "implements MockInterface" . $interfaces,
+            (string) $code
+        );
 
         return $code;
     }

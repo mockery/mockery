@@ -20,26 +20,28 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+use Mockery\Generator\Method;
+use Mockery\Generator\Parameter;
 use Mockery\Generator\MockConfiguration;
 
-class CallTypeHintPass implements Pass
+class AvoidMethodClashPass implements Pass
 {
     public function apply($code, MockConfiguration $config)
     {
-        if ($config->requiresCallTypeHintRemoval()) {
-            $code = str_replace(
-                'public function __call($method, array $args)',
-                'public function __call($method, $args)',
-                $code
-            );
-        }
+        $names = array_map(function ($method) {
+            return $method->getName();
+        }, $config->getMethodsToMock());
 
-        if ($config->requiresCallStaticTypeHintRemoval()) {
-            $code = str_replace(
-                'public static function __callStatic($method, array $args)',
-                'public static function __callStatic($method, $args)',
-                $code
-            );
+        foreach (["allows", "expects"] as $method) {
+            if (in_array($method, $names)) {
+                $code = preg_replace(
+                    "#// start method {$method}.*// end method {$method}#ms",
+                    "",
+                    (string) $code
+                );
+
+                $code = str_replace(" implements MockInterface", " implements LegacyMockInterface", $code);
+            }
         }
 
         return $code;

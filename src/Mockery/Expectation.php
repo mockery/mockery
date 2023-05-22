@@ -520,7 +520,7 @@ class Expectation implements ExpectationInterface
      */
     public function andReturns(...$args)
     {
-        return call_user_func_array([$this, 'andReturn'], $args);
+        return call_user_func_array($this->andReturn(...), $args);
     }
 
     /**
@@ -541,7 +541,7 @@ class Expectation implements ExpectationInterface
      */
     public function andReturnValues(array $values)
     {
-        call_user_func_array(array($this, 'andReturn'), $values);
+        call_user_func_array($this->andReturn(...), $values);
         return $this;
     }
 
@@ -696,7 +696,7 @@ class Expectation implements ExpectationInterface
      */
     public function set($name, $value)
     {
-        return call_user_func_array(array($this, 'andSet'), func_get_args());
+        return call_user_func_array($this->andSet(...), func_get_args());
     }
 
     /**

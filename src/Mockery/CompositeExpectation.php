@@ -56,7 +56,7 @@ class CompositeExpectation implements ExpectationInterface
      */
     public function andReturns(...$args)
     {
-        return call_user_func_array([$this, 'andReturn'], $args);
+        return call_user_func_array($this->andReturn(...), $args);
     }
 
     /**

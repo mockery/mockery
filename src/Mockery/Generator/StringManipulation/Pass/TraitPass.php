@@ -18,29 +18,30 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace Mockery\Generator;
+namespace Mockery\Generator\StringManipulation\Pass;
 
-class MockNameBuilder
+use Mockery\Generator\MockConfiguration;
+
+class TraitPass implements Pass
 {
-    protected static $mockCounter = 0;
-
-    protected $parts = [];
-
-    public function addPart($part)
+    public function apply($code, MockConfiguration $config)
     {
-        $this->parts[] = $part;
+        $traits = $config->getTargetTraits();
 
-        return $this;
-    }
-
-    public function build()
-    {
-        $parts = ['Mockery', static::$mockCounter++];
-
-        foreach ($this->parts as $part) {
-            $parts[] = str_replace("\\", "_", $part);
+        if (empty($traits)) {
+            return $code;
         }
 
-        return implode('_', $parts);
+        $useStatements = array_map(function ($trait) {
+            return "use \\\\" . ltrim((string) $trait->getName(), "\\") . ";";
+        }, $traits);
+
+        $code = preg_replace(
+            '/^{$/m',
+            "{\n    " . implode("\n    ", $useStatements) . "\n",
+            (string) $code
+        );
+
+        return $code;
     }
 }

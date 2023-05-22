@@ -21,7 +21,7 @@ class ClassAttributesPass implements Pass
             return str_replace(
                 '#[\AllowDynamicProperties]',
                 '#[' . implode(',', $attributes) . ']',
-                $code
+                (string) $code
             );
         }
 

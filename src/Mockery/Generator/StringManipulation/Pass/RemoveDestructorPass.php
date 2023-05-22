@@ -16,32 +16,29 @@
  * @package    Mockery
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @author     Boris Avdeev <elephant@lislon.ru>
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
 
-class InterfacePass implements Pass
+/**
+ * Remove mock's empty destructor if we tend to use original class destructor
+ */
+class RemoveDestructorPass
 {
     public function apply($code, MockConfiguration $config)
     {
-        foreach ($config->getTargetInterfaces() as $i) {
-            $name = ltrim($i->getName(), "\\");
-            if (!interface_exists($name)) {
-                \Mockery::declareInterface($name);
-            }
+        $target = $config->getTargetClass();
+
+        if (!$target) {
+            return $code;
         }
 
-        $interfaces = array_reduce((array) $config->getTargetInterfaces(), function ($code, $i) {
-            return $code . ", \\" . ltrim($i->getName(), "\\");
-        }, "");
-
-        $code = str_replace(
-            "implements MockInterface",
-            "implements MockInterface" . $interfaces,
-            $code
-        );
+        if (!$config->isMockOriginalDestructor()) {
+            $code = preg_replace('/public function __destruct\(\)\s+\{.*?\}/sm', '', (string) $code);
+        }
 
         return $code;
     }

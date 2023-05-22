@@ -164,8 +164,8 @@ class Configuration
      */
     public function getInternalClassMethodParamMap($class, $method)
     {
-        if (isset($this->_internalClassParamMap[strtolower($class)][strtolower($method)])) {
-            return $this->_internalClassParamMap[strtolower($class)][strtolower($method)];
+        if (isset($this->_internalClassParamMap[strtolower((string) $class)][strtolower((string) $method)])) {
+            return $this->_internalClassParamMap[strtolower((string) $class)][strtolower((string) $method)];
         }
     }
 
