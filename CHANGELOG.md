@@ -1,7 +1,8 @@
 # Change Log
 
-## 1.6.0 (2023-05-01)
+## 1.6.1 (2023-06-05)
 
+* [#1267 Drops support for PHP <7.4](https://github.com/mockery/mockery/pull/1267)
 * [#1192 Updated changelog for version 1.5.1 to include changes from #1180](https://github.com/mockery/mockery/pull/1192)
 * [#1196 Update example in README.md](https://github.com/mockery/mockery/pull/1196)
 * [#1199 Fix function parameter default enum value](https://github.com/mockery/mockery/pull/1199)
@@ -29,6 +30,11 @@
 * [#1246 Add BUG_REPORT.yml Issue template](https://github.com/mockery/mockery/pull/1246)
 * [#1250 Deprecate PHP <=8.0](https://github.com/mockery/mockery/issues/1250)
 * [#1253 Prevent array to string conversion when serialising a Subset matcher](https://github.com/mockery/mockery/issues/1253)
+
+## 1.6.0 (2023-06-05) [DELETED]
+
+This tag was deleted due to a mistake with the composer.json PHP version
+constraint, see [#1266](https://github.com/mockery/mockery/issues/1266)
 
 ## 1.3.6 (2022-09-07)
 * PHP 8.2 | Fix "Use of "parent" in callables is deprecated" notice #1169
