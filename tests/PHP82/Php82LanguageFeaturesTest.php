@@ -26,7 +26,8 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertSame('bar', $class->foo);
     }
-    public function testCanMockReservedWordFalse()
+
+    public function testCanMockReservedWordFalse(): void
     {
         $mock = mock(HasReservedWordFalse::class);
 
@@ -35,6 +36,16 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertFalse($mock->testFalseMethod());
         self::assertInstanceOf(HasReservedWordFalse::class, $mock);
     }
+
+    public function testCanMockReservedWordTrue(): void
+    {
+        $mock = mock(HasReservedWordTrue::class);
+
+        $mock->expects('testTrueMethod')->once();
+
+        self::assertTrue($mock->testTrueMethod());
+        self::assertInstanceOf(HasReservedWordTrue::class, $mock);
+    }
 }
 
 class HasReservedWordFalse
@@ -42,6 +53,14 @@ class HasReservedWordFalse
     public function testFalseMethod(): false
     {
         return false;
+    }
+}
+
+class HasReservedWordTrue
+{
+    public function testTrueMethod(): true
+    {
+        return true;
     }
 }
 
