@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    phpVersion='8.2'
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="true"
+    errorBaseline="psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="library"/>
+        <ignoreFiles>
+            <directory name="tests"/>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <PossiblyInvalidArgument>
+            <errorLevel type="suppress">
+                <file name="library/Mockery/Mock.php" />
+            </errorLevel>
+        </PossiblyInvalidArgument>
+        <MixedArgument>
+            <errorLevel type="suppress">
+                <file name="library/Mockery/Mock.php" />
+            </errorLevel>
+        </MixedArgument>
+    </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>

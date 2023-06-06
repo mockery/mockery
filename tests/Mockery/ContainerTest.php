@@ -477,6 +477,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanUseEmptyMethodlist()
     {
         $m = mock('MockeryTest_PartialNormalClass2[]');
+        $this->assertInstanceOf(MockeryTest_PartialNormalClass2::class, $m);
     }
 
     /**
@@ -512,7 +513,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanMockClassUsingMagicCallMethodsInPlaceOfNormalMethods()
     {
         $m = Mockery::mock('Gateway');
-        $m->shouldReceive('iDoSomethingReallyCoolHere');
+        $m->shouldReceive('iDoSomethingReallyCoolHere')->once();
         $m->iDoSomethingReallyCoolHere();
     }
 
@@ -522,7 +523,7 @@ class ContainerTest extends MockeryTestCase
     public function testCanPartialMockObjectUsingMagicCallMethodsInPlaceOfNormalMethods()
     {
         $m = Mockery::mock(new Gateway());
-        $m->shouldReceive('iDoSomethingReallyCoolHere');
+        $m->shouldReceive('iDoSomethingReallyCoolHere')->once();
         $m->iDoSomethingReallyCoolHere();
     }
 
@@ -614,12 +615,14 @@ class ContainerTest extends MockeryTestCase
     public function testMockedStaticThrowsExceptionWhenMethodDoesNotExist()
     {
         $m = mock('alias:MyNamespace\StaticNoMethod');
+
         try {
             MyNameSpace\StaticNoMethod::staticFoo();
         } catch (BadMethodCallException $e) {
             // Mockery + PHPUnit has a fail safe for tests swallowing our
             // exceptions
             $e->dismiss();
+            self::assertTrue($e->dismissed());
             return;
         }
 
@@ -780,7 +783,7 @@ class ContainerTest extends MockeryTestCase
         $params = [
             'value1' => uniqid('test_')
         ];
-        $m->shouldReceive('__construct')->with($params);
+        $m->shouldReceive('__construct')->with($params)->once();
 
         new MyNamespace\MyClass14($params);
     }
@@ -1506,6 +1509,7 @@ class MockeryTest_UnsetMethod
     }
 }
 
+#[\AllowDynamicProperties]
 class MockeryTestFoo
 {
     public function foo()
@@ -1514,6 +1518,7 @@ class MockeryTestFoo
     }
 }
 
+#[\AllowDynamicProperties]
 class MockeryTestFoo2
 {
     public function foo()

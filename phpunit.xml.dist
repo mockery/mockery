@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./tests/Bootstrap.php"
-         convertErrorsToExceptions="true"
-         convertWarningsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertDeprecationsToExceptions="true"
-         colors="true"
-         verbose="true"
+<phpunit
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        bootstrap="./tests/Bootstrap.php"
+        convertErrorsToExceptions="true"
+        convertWarningsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertDeprecationsToExceptions="true"
+        colors="true"
+        verbose="true"
+        testdox="true"
 >
-    <testsuites>
-        <testsuite name="Mockery Test Suite PHP7">
-            <directory suffix="Test.php">./tests</directory>
-            <exclude>./tests/PHP80</exclude>
-            <exclude>./tests/PHP81</exclude>
-        </testsuite>
-
-        <testsuite name="Mockery Test Suite PHP80">
-            <directory phpVersion="8.0.0-dev" phpVersionOperator=">=">./tests</directory>
-            <exclude>./tests/PHP81</exclude>
-        </testsuite>
-        
-        <testsuite name="Mockery Test Suite PHP81">
-            <directory phpVersion="8.1.0-dev" phpVersionOperator=">=">./tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./library/</directory>
-            <exclude>
-                <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
-                <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-                <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+ <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./library/</directory>
+    </include>
+    <exclude>
+      <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
+      <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
+      <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+      <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+    </exclude>
+    <report>
+      <html outputDirectory=".cache/phpunit/coverage-html"/>
+      <clover outputFile=".cache/phpunit/clover.xml"/>
+      <text outputFile=".cache/phpunit/coverage.txt"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="Mockery Test Suite PHP7">
+      <directory suffix="Test.php">./tests</directory>
+      <exclude>./tests/PHP80</exclude>
+      <exclude>./tests/PHP81</exclude>
+      <exclude>./tests/PHP82</exclude>
+    </testsuite>
+    <testsuite name="Mockery Test Suite PHP80">
+      <directory phpVersion="8.0.0-dev" phpVersionOperator="&gt;=">./tests</directory>
+      <exclude>./tests/PHP81</exclude>
+      <exclude>./tests/PHP82</exclude>
+    </testsuite>
+    <testsuite name="Mockery Test Suite PHP81">
+      <directory phpVersion="8.1.0-dev" phpVersionOperator="&gt;=">./tests</directory>
+      <exclude>./tests/PHP82</exclude>
+    </testsuite>
+    <testsuite name="Mockery Test Suite PHP82">
+      <directory phpVersion="8.2.0-dev" phpVersionOperator="&gt;=">./tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

@@ -8,6 +8,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use ReturnTypeWillChange;
 use RuntimeException;
 use Serializable;
+
 use function pcntl_fork;
 use function pcntl_waitpid;
 use function pcntl_wexitstatus;
@@ -122,6 +123,15 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
 
         $mock->exits();
     }
+
+    /** @test */
+    public function it_can_parse_enum_as_default_value_correctly()
+    {
+        $mock = Mockery::mock(UsesEnums::class);
+        $mock->shouldReceive('set')->once();
+        $mock->set();
+        $this->assertEquals(SimpleEnum::first, $mock->enum); // check that mock did not set internal variable
+    }
 }
 
 interface LoggerInterface
@@ -189,21 +199,42 @@ class NeverReturningTypehintClass
 }
 class IntersectionTypeHelperClass implements IntersectionTypeHelper1Interface, IntersectionTypeHelper2Interface
 {
-    function foo(): int { return 123; }
-    function bar(): int { return 123; }
+    public function foo(): int
+    {
+        return 123;
+    }
+    public function bar(): int
+    {
+        return 123;
+    }
 }
 interface IntersectionTypeHelper2Interface
 {
-    function foo(): int;
+    public function foo(): int;
 }
 interface IntersectionTypeHelper1Interface
 {
-    function bar(): int;
+    public function bar(): int;
 }
 
 class ArgumentIntersectionTypeHint
 {
     public function foo(IntersectionTypeHelper1Interface&IntersectionTypeHelper2Interface $foo)
     {
+    }
+}
+
+enum SimpleEnum
+{
+    case first;
+    case second;
+}
+
+class UsesEnums
+{
+    public SimpleEnum $enum = SimpleEnum::first;
+    public function set(SimpleEnum $enum = SimpleEnum::second)
+    {
+        $this->enum = $enum;
     }
 }

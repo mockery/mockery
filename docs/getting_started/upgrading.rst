@@ -30,7 +30,7 @@ Read the documentation for a detailed overview of ":doc:`/reference/phpunit_inte
 +++++++++++++++++++++++++++++++++++++++++
 
 As of 1.0.0 the ``\Mockery\Matcher\MustBe`` matcher is deprecated and will be removed in
-Mockery 2.0.0. We recommend instead to use the PHPUnit or Hamcrest equivalents of the
+Mockery 2.0.0. We recommend instead to use the PHPUnit equivalents of the
 MustBe matcher.
 
 ``allows`` and ``expects``

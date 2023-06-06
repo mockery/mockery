@@ -20,6 +20,6 @@
 
 namespace Mockery\Exception;
 
-class RuntimeException extends \Exception
+class RuntimeException extends \Exception implements MockeryExceptionInterface
 {
 }
