@@ -10,7 +10,7 @@ class IsSameTest extends MockeryTestCase
     use MatcherDataProviderTrait;
 
     /** @dataProvider isSameDataProvider */
-    public function testItWorks(mixed $expected, mixed $actual)
+    public function testItWorks($expected, $actual)
     {
         self::assertTrue((new IsSame($expected))->match($actual));
     }
