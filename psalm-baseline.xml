@@ -2042,6 +2042,14 @@
       <code>$actual</code>
     </MixedArgument>
   </file>
+  <file src="library/Mockery/Matcher/IsEqual.php">
+    <MethodSignatureMustProvideReturnType>
+      <code>__toString</code>
+    </MethodSignatureMustProvideReturnType>
+    <UnusedClass>
+      <code>IsEqual</code>
+    </UnusedClass>
+  </file>
   <file src="library/Mockery/Matcher/IsSame.php">
     <MethodSignatureMustProvideReturnType>
       <code>__toString</code>
