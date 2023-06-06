@@ -731,6 +731,7 @@ class Mock implements MockInterface
             case 'float':  return 0.0;
             case 'bool':   return false;
             case 'true':   return true;
+            case 'false':   return false;
 
             case 'array':
             case 'iterable':
