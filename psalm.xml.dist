@@ -13,6 +13,7 @@
     <projectFiles>
         <directory name="library"/>
         <ignoreFiles>
+            <directory name="tests"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
