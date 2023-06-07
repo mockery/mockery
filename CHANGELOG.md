@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.6.2 (2023-06-07)
+
+* [#1276: Add `IsEqual` Argument Matcher](https://github.com/mockery/mockery/pull/1276)
+* [#1275: Add `IsSame` Argument Matcher](https://github.com/mockery/mockery/pull/1275)
+* [#1274: Update composer branch alias](https://github.com/mockery/mockery/pull/1274)
+* [#1271: Support PHP 8.2 `true` Literal Type](https://github.com/mockery/mockery/pull/1271)
+* [#1270: Support PHP 8.0 `false` Literal Type](https://github.com/mockery/mockery/pull/1270)
+
 ## 1.6.1 (2023-06-05)
 
 * [#1267 Drops support for PHP <7.4](https://github.com/mockery/mockery/pull/1267)
