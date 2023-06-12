@@ -35,7 +35,7 @@
     "require-dev": {
         "phpunit/phpunit": "^8.5 || ^9.3",
         "psalm/plugin-phpunit": "^0.18",
-        "vimeo/psalm": "^5.9"
+        "vimeo/psalm": "^5.12"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
