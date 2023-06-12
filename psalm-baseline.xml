@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
+<files psalm-version="5.12.0@f90118cdeacd0088e7215e64c0c99ceca819e176">
   <file src="library/Mockery.php">
     <ArgumentTypeCoercion>
       <code>$expectation</code>
@@ -55,7 +55,6 @@
       <code>$expectations</code>
       <code>$fileName</code>
       <code>$formatter($object, $nesting)</code>
-      <code>$fqn</code>
       <code>$fqn</code>
       <code>$n</code>
       <code>$nesting</code>
@@ -1094,7 +1093,6 @@
       <code>$alias</code>
       <code><![CDATA[$class->getMethods()]]></code>
       <code>$className</code>
-      <code>$className</code>
       <code><![CDATA[$method->getName()]]></code>
       <code><![CDATA[$method->getName()]]></code>
       <code>$methods</code>
@@ -1546,7 +1544,6 @@
   <file src="library/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPass.php">
     <InvalidCast>
       <code>$param</code>
-      <code>$param</code>
     </InvalidCast>
     <InvalidMethodCall>
       <code>getName</code>
@@ -1634,6 +1631,9 @@
     <PossiblyFalseArgument>
       <code>$lastBrace</code>
     </PossiblyFalseArgument>
+    <TypeDoesNotContainType>
+      <code><![CDATA[strpos($param, '&') !== false]]></code>
+    </TypeDoesNotContainType>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/Pass.php">
     <MissingParamType>
@@ -2377,14 +2377,6 @@
     <InvalidArgument>
       <code>$declaringClass</code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code><![CDATA[[
-                [
-                    'typeHint' => $typeHint,
-                    'isPrimitive' => in_array($typeHint, ['array', 'bool', 'int', 'float', 'null', 'object', 'string']),
-                ],
-            ]]]></code>
-    </InvalidReturnStatement>
     <LessSpecificReturnType>
       <code>string|null</code>
     </LessSpecificReturnType>
@@ -2397,9 +2389,15 @@
     <MixedAssignment>
       <code>$typeHint</code>
     </MixedAssignment>
-    <MoreSpecificReturnType>
+    <MixedReturnTypeCoercion>
+      <code><![CDATA[[
+                [
+                    'typeHint' => $typeHint,
+                    'isPrimitive' => in_array($typeHint, ['array', 'bool', 'int', 'float', 'null', 'object', 'string']),
+                ],
+            ]]]></code>
       <code><![CDATA[list<array{typeHint: string, isPrimitive: bool}>]]></code>
-    </MoreSpecificReturnType>
+    </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code>$declaringClass</code>
       <code>$typeHint</code>
