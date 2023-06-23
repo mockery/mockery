@@ -13,13 +13,13 @@
 >
  <coverage processUncoveredFiles="true">
     <include>
-      <directory suffix=".php">./library/</directory>
+      <directory suffix=".php">./src/</directory>
     </include>
     <exclude>
-      <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
-      <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
-      <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-      <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+      <directory>./src/Mockery/Adapter/Phpunit/Legacy</directory>
+      <file>./src/Mockery/Adapter/Phpunit/TestListener.php</file>
+      <file>./src/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+      <file>./src/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
     </exclude>
     <report>
       <html outputDirectory=".cache/phpunit/coverage-html"/>

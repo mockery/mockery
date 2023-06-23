@@ -26,6 +26,42 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $this->assertSame('bar', $class->foo);
     }
+
+    public function testCanMockReservedWordFalse(): void
+    {
+        $mock = mock(HasReservedWordFalse::class);
+
+        $mock->expects('testFalseMethod')->once();
+
+        self::assertFalse($mock->testFalseMethod());
+        self::assertInstanceOf(HasReservedWordFalse::class, $mock);
+    }
+
+    public function testCanMockReservedWordTrue(): void
+    {
+        $mock = mock(HasReservedWordTrue::class);
+
+        $mock->expects('testTrueMethod')->once();
+
+        self::assertTrue($mock->testTrueMethod());
+        self::assertInstanceOf(HasReservedWordTrue::class, $mock);
+    }
+}
+
+class HasReservedWordFalse
+{
+    public function testFalseMethod(): false
+    {
+        return false;
+    }
+}
+
+class HasReservedWordTrue
+{
+    public function testTrueMethod(): true
+    {
+        return true;
+    }
 }
 
 class HasNullReturnType
