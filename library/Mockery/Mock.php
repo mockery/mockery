@@ -8,7 +8,6 @@
  * @link      https://github.com/mockery/mockery for the canonical source repository
  */
 
-
 namespace Mockery;
 
 use Mockery\Exception\BadMethodCallException;
