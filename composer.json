@@ -58,7 +58,10 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "platform": {
+            "php": "7.4.999"
+        }
     },
     "extra": {
         "branch-alias": {
