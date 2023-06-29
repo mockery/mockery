@@ -2474,20 +2474,18 @@
     </MissingReturnType>
   </file>
   <file src="src/helpers.php">
-    <LessSpecificReturnStatement>
-      <code>Mockery::mock(...$args)</code>
-      <code>Mockery::namedMock(...$args)</code>
-      <code>Mockery::spy(...$args)</code>
-    </LessSpecificReturnStatement>
     <MissingParamType>
       <code>$args</code>
       <code>$args</code>
       <code>$args</code>
     </MissingParamType>
-    <MoreSpecificReturnType>
-      <code>MockInterface</code>
-      <code>MockInterface</code>
-      <code>MockInterface</code>
-    </MoreSpecificReturnType>
+    <MissingReturnType>
+      <code>andAnyOtherArgs</code>
+      <code>andAnyOthers</code>
+      <code>anyArgs</code>
+      <code>mock</code>
+      <code>namedMock</code>
+      <code>spy</code>
+    </MissingReturnType>
   </file>
 </files>
