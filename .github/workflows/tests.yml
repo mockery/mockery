@@ -10,12 +10,13 @@ on:
 
 jobs:
   phpunit:
-    name: PHPUnit on PHP ${{ matrix.php }}
+    name: PHPUnit on PHP ${{ matrix.php }} with ${{ matrix.dependencies }} Dependencies
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        dependencies: ['lowest','highest','locked']
         dev: ['8.3']
 
     continue-on-error: ${{ matrix.php == matrix.dev }}
@@ -28,29 +29,21 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
           tools: composer:v2
           extensions: mongodb, redis
-          coverage: xdebug
+          coverage: pcov
+
+      - name: Setup problem matchers for PHP
+        run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
 
       - name: Setup Problem Matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install Dependencies
-        if: ${{ matrix.php != matrix.dev }}
-        uses: nick-invision/retry@v2
+      - name: Install ${{ matrix.dependencies }} Dependencies
+        uses: ramsey/composer-install@v2
         with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer update --no-interaction --no-progress
-
-      - name: Install Dependencies (ignore platform php:${{ matrix.dev }})
-        if: ${{ matrix.php == matrix.dev }}
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer update --no-interaction --no-progress --ignore-platform-req=php
+          dependency-versions: ${{ matrix.dependencies }}
 
       - name: Execute PHPUnit
-        run: vendor/bin/phpunit
+        run: composer phpunit

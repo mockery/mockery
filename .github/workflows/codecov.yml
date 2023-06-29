@@ -4,28 +4,34 @@ on:
   push:
     branches:
       - "[0-9]+.[0-9]+.x"
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
 
 jobs:
   run:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.1']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up php 8.1
+      - name: Set up PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.php }}
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+          tools: composer:v2
+          extensions: mongodb, redis
 
-      - name: Install dependencies
-        run: composer self-update && composer install && composer dump-autoload
+      - name: Install locked dependencies
+        uses: ramsey/composer-install@v2
 
-      - name: Run tests and collect coverage
-        run: composer phpunit
+      - name: Run PHPUnit to collect coverage
+        run: composer phpunit:coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ${{ github.workspace }}/.cache/phpunit/
-          verbose: true

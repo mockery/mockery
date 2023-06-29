@@ -24,10 +24,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
-          coverage: xdebug
+          coverage: pcov
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
       - name: Install dependencies
-        run: composer install
+        uses: ramsey/composer-install@v2
 
       - name: Run Psalm
         run: composer psalm
