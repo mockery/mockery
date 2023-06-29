@@ -28,7 +28,7 @@
     ],
     "homepage": "https://github.com/mockery/mockery",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": ">=7.4,<8.3",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "^2.0.1"
     },
@@ -42,11 +42,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Mockery\\": "library/Mockery"
+            "Mockery\\": "src/Mockery"
         },
         "files": [
-            "library/helpers.php",
-            "library/Mockery.php"
+            "src/helpers.php",
+            "src/Mockery.php"
         ]
     },
     "autoload-dev": {
@@ -73,7 +73,7 @@
             "@composer validate",
             "@test"
         ],
-        "docs": "vendor/bin/phpdoc -d library -t docs/api",
+        "docs": "vendor/bin/phpdoc -d src -t docs/api",
         "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
         "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
         "psalm": [

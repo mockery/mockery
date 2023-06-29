@@ -9,7 +9,7 @@
 build/
 composer.phar
 docs/api
-library/Hamcrest/*
+src/Hamcrest/*
 pearfarm.spec
 phpDocumentor.phar*
 phpunit.xml
