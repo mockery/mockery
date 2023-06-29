@@ -34,8 +34,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5 || ^9.3",
-        "psalm/plugin-phpunit": "^0.18",
-        "vimeo/psalm": "^5.12"
+        "psalm/plugin-phpunit": "^0.18.4",
+        "vimeo/psalm": "^5.13.1"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
@@ -71,31 +71,23 @@
     "scripts": {
         "check": [
             "@composer validate",
-            "@test",
+            "@test"
+        ],
+        "docs": "vendor/bin/phpdoc -d library -t docs/api",
+        "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
+        "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
+        "psalm": [
+            "@psalm:shepherd",
             "@psalm:security",
             "@psalm:dry-run"
         ],
-        "docs": "phpdoc -d library -t docs/api",
-        "phpunit": [
-            "@xdebug",
-            "vendor/bin/phpunit --colors=always --testdox --stop-on-failure"
-        ],
-        "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
-        "psalm": [
-            "@xdebug",
-            "@psalm:shepherd"
-        ],
-        "psalm:baseline": "vendor/bin/psalm --set-baseline=psalm-baseline.xml",
-        "psalm:dry-run": "vendor/bin/psalm --alter --issues=all --dry-run",
-        "psalm:missing": "vendor/bin/psalm --alter --issues=MissingReturnType",
-        "psalm:security": "vendor/bin/psalm --taint-analysis",
-        "psalm:shepherd": "vendor/bin/psalm --shepherd --show-info=false --stats --no-diff --no-cache",
+        "psalm:baseline": "vendor/bin/psalm --no-diff --no-cache --set-baseline=psalm-baseline.xml",
+        "psalm:dry-run": "vendor/bin/psalm --no-cache  --alter --issues=all --dry-run",
+        "psalm:security": "vendor/bin/psalm --no-diff --no-cache --taint-analysis",
+        "psalm:shepherd": "vendor/bin/psalm --no-diff --no-cache  --shepherd --stats --output-format=github",
         "test": [
             "@phpunit",
             "@psalm"
-        ],
-        "xdebug": [
-            "@putenv XDEBUG_MODE=coverage"
         ]
     }
 }
