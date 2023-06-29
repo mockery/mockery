@@ -75,6 +75,7 @@
         ],
         "docs": "vendor/bin/phpdoc -d library -t docs/api",
         "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
+        "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
         "psalm": [
             "@psalm:shepherd",
             "@psalm:security",

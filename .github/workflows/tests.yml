@@ -10,7 +10,7 @@ on:
 
 jobs:
   phpunit:
-    name: PHPUnit on PHP ${{ matrix.php }}
+    name: PHPUnit on PHP ${{ matrix.php }} with ${{ matrix.dependencies }} Dependencies
     runs-on: ubuntu-latest
 
     strategy:
