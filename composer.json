@@ -80,6 +80,7 @@
             "@xdebug",
             "vendor/bin/phpunit --colors=always --testdox --stop-on-failure"
         ],
+        "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
         "psalm": [
             "@xdebug",
             "@psalm:shepherd"
