@@ -5,7 +5,7 @@ use Symfony\CS\Finder\DefaultFinder;
 
 if (class_exists('PhpCsFixer\Finder')) {    // PHP-CS-Fixer 2.x
     $finder = PhpCsFixer\Finder::create()->in([
-        'library',
+        'src',
         'tests',
     ]);
 
@@ -21,7 +21,7 @@ if (class_exists('PhpCsFixer\Finder')) {    // PHP-CS-Fixer 2.x
 
 $finder = DefaultFinder::create()->in(
     [
-        'library',
+        'src',
         'tests',
     ]);
 
