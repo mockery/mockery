@@ -308,7 +308,7 @@ class Mock implements MockInterface
      * Set mock to ignore unexpected methods and return Undefined class
      * @param mixed $returnValue the default return value for calls to missing functions on this mock
      * @param bool $recursive Specify if returned mocks should also have shouldIgnoreMissing set
-     * @return Mock
+     * @return $this
      */
     public function shouldIgnoreMissing($returnValue = null, $recursive = false)
     {
@@ -326,7 +326,7 @@ class Mock implements MockInterface
     }
 
     /**
-     * @return Mock
+     * @return $this
      */
     public function shouldAllowMockingProtectedMethods()
     {
@@ -351,7 +351,7 @@ class Mock implements MockInterface
      *
      * @deprecated 2.0.0 Please use makePartial() instead
      *
-     * @return Mock
+     * @return $this
      */
     public function shouldDeferMissing()
     {
@@ -364,7 +364,7 @@ class Mock implements MockInterface
      * It was an alias for shouldDeferMissing(), which will be removed
      * in 2.0.0.
      *
-     * @return Mock
+     * @return $this
      */
     public function makePartial()
     {
