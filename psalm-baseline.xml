@@ -1914,8 +1914,8 @@
       <code>shouldNotReceive</code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
-      <code>Mock</code>
       <code>\Mockery\ExpectationDirector|null</code>
+      <code>static</code>
     </PossiblyUnusedReturnValue>
     <UndefinedDocblockClass>
       <code>null|array|Closure</code>
