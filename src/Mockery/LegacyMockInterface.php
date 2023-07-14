@@ -47,12 +47,12 @@ interface LegacyMockInterface
     /**
      * Set mock to ignore unexpected methods and return Undefined class
      * @param mixed $returnValue the default return value for calls to missing functions on this mock
-     * @return Mock
+     * @return static
      */
     public function shouldIgnoreMissing($returnValue = null);
 
     /**
-     * @return Mock
+     * @return static
      */
     public function shouldAllowMockingProtectedMethods();
 
@@ -61,14 +61,14 @@ interface LegacyMockInterface
      *
      * @deprecated since 1.4.0. Please use makePartial() instead.
      *
-     * @return Mock
+     * @return static
      */
     public function shouldDeferMissing();
 
     /**
      * Set mock to defer unexpected methods to its parent if possible
      *
-     * @return Mock
+     * @return static
      */
     public function makePartial();
 
