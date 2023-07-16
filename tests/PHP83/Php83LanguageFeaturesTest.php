@@ -46,6 +46,18 @@ class Php83LanguageFeaturesTest extends MockeryTestCase
         self::assertSame(Enums::FOO, $mock->foo());
         self::assertSame(Enums::FOO, $mock::BAR);
     }
+
+    public function testCanMockWithDynamicClassConstantFetch(): void
+    {
+        $mock = mock(ClassName::class);
+
+        $constant = 'CONSTANT';
+
+        self::assertSame(ClassName::CONSTANT, $mock::CONSTANT);
+        self::assertSame(ClassName::CONSTANT, $mock::{$constant});
+        self::assertSame(ClassName::{$constant}, $mock::CONSTANT);
+        self::assertSame(ClassName::{$constant}, $mock::{$constant});
+    }
 }
 
 enum Enums {
@@ -69,4 +81,8 @@ trait Traits {
     {
         return Interfaces::BAR;
     }
+}
+
+class ClassName {
+    public const CONSTANT = 42;
 }
