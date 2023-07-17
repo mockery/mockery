@@ -1575,6 +1575,7 @@
       <code><![CDATA[$method->getParameters()]]></code>
       <code><![CDATA[$overrides[$class_name][$method->getName()]]]></code>
       <code><![CDATA[$overrides[strtolower($class->getName())][$method->getName()]]]></code>
+      <code><![CDATA[$param->__toString()]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code>$param</code>
