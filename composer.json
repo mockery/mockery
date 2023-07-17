@@ -51,6 +51,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Fixture\\": "tests/Fixture/",
             "test\\": "tests/"
         },
         "files": [
