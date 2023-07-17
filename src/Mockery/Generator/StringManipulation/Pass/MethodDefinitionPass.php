@@ -70,8 +70,20 @@ class MethodDefinitionPass implements Pass
 
                     if (is_object($defaultValue)) {
                         $prefix = get_class($defaultValue);
-                        if ($isPhp81 && enum_exists($prefix)) {
-                            $prefix = var_export($defaultValue, true);
+                        if ($isPhp81) {
+                            if (enum_exists($prefix)) {
+                                $prefix = var_export($defaultValue, true);
+                            } elseif (
+                                !$param->isDefaultValueConstant() &&
+                                // "Parameter #1 [ <optional> F\Q\CN $a = new \F\Q\CN(param1, param2: 2) ]
+                                preg_match(
+                                    '#<optional>\s.*?\s=\snew\s(.*?)\s]$#',
+                                    $param->__toString(),
+                                    $matches
+                                ) === 1
+                            ) {
+                                $prefix = 'new ' . $matches[1];
+                            }
                         }
                     } else {
                         $prefix = var_export($defaultValue, true);
@@ -158,7 +170,7 @@ BODY;
 
         $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
 
-        if (! in_array($method->getReturnType(), ['never','void'], true)) {
+        if (! in_array($method->getReturnType(), ['never', 'void'], true)) {
             $body .= "return \$ret;\n";
         }
 
