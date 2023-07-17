@@ -8,6 +8,14 @@ use DateTime;
 
 class MockClass
 {
+    public function __construct(
+        public A $a = new A(),
+        protected B $b = new B(1),
+        private C $c = new C(b: new B(1), x: 2),
+        public DateTime $dateTime = new DateTime(),
+    ) {
+    }
+
     public function test(
         string $msg,
         A $a = new A(),
