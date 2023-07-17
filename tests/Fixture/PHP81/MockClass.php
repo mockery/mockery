@@ -18,6 +18,7 @@ class MockClass
 
     public function test(
         string $msg,
+        #[SomeAttribute(param: new A())]
         A $a = new A(),
         B $b = new B(1),
         C $c = new C(x: 2),
