@@ -73,9 +73,7 @@ class MethodDefinitionPass implements Pass
                         if ($isPhp81) {
                             if (enum_exists($prefix)) {
                                 $prefix = var_export($defaultValue, true);
-                            }
-
-                            else if (
+                            } elseif (
                                 !$param->isDefaultValueConstant() &&
                                 // "Parameter #1 [ <optional> F\Q\CN $a = new \F\Q\CN(param1, param2: 2) ]
                                 preg_match(

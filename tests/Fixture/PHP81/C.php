@@ -12,7 +12,8 @@ class C
     ) {
     }
 
-    function test() : int {
+    public function test(): int
+    {
         return $this->x + $this->b->test();
     }
 }

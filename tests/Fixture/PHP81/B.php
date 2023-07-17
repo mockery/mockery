@@ -11,7 +11,8 @@ class B
     ) {
     }
 
-    function test() : int {
+    public function test(): int
+    {
         return $this->x;
     }
 }
