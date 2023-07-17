@@ -77,7 +77,7 @@ class MethodDefinitionPass implements Pass
                                 !$param->isDefaultValueConstant() &&
                                 // "Parameter #1 [ <optional> F\Q\CN $a = new \F\Q\CN(param1, param2: 2) ]
                                 preg_match(
-                                    '/<optional>\s.*?\s=\snew\s(.*?)\s]/',
+                                    '#<optional>\s.*?\s=\snew\s(.*?)\s]$#',
                                     $param->__toString(),
                                     $matches
                                 ) === 1
