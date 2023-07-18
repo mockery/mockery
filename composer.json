@@ -24,7 +24,8 @@
         {
             "name": "Dave Marshall",
             "email": "dave.marshall@atstsolutions.co.uk",
-            "homepage": "http://davedevelopment.co.uk"
+            "homepage": "https://davedevelopment.co.uk",
+            "role": "Developer"
         }
     ],
     "homepage": "https://github.com/mockery/mockery",
