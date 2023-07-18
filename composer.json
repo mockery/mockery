@@ -2,6 +2,7 @@
     "name": "mockery/mockery",
     "description": "Mockery is a simple yet flexible PHP mock object framework",
     "license": "BSD-3-Clause",
+    "type": "library",
     "keywords": [
         "bdd",
         "library",
@@ -35,6 +36,13 @@
         }
     ],
     "homepage": "https://github.com/mockery/mockery",
+    "support": {
+        "issues": "https://github.com/mockery/mockery/issues",
+        "source": "https://github.com/mockery/mockery",
+        "docs": "https://docs.mockery.io/",
+        "rss": "https://github.com/mockery/mockery/releases.atom",
+        "security": "https://github.com/mockery/mockery/security/advisories"
+    },
     "require": {
         "php": ">=7.4,<8.3",
         "lib-pcre": ">=7.0",
