@@ -26,6 +26,12 @@
             "email": "dave.marshall@atstsolutions.co.uk",
             "homepage": "https://davedevelopment.co.uk",
             "role": "Developer"
+        },
+        {
+            "name": "Nathanael Esayeas",
+            "email": "nathanael.esayeas@protonmail.com",
+            "homepage": "https://github.com/ghostwriter",
+            "role": "Lead Developer"
         }
     ],
     "homepage": "https://github.com/mockery/mockery",
