@@ -2,6 +2,9 @@
 
 ## 1.6.3 (2023-07-18)
 
+* [#1304: Remove `extra.branch-alias` and update composer information](https://github.com/mockery/mockery/pull/1304)
+* [#1303: Update `.gitattributes`](https://github.com/mockery/mockery/pull/1303)
+* [#1302: Changelog v1.6.3](https://github.com/mockery/mockery/pull/1302)
 * [#1301: Fix mocking classes with `new` initializers in method and attribute params on PHP 8.1](https://github.com/mockery/mockery/pull/1301)
 * [#1298: Update default repository branch to latest release branch](https://github.com/mockery/mockery/issues/1298)
 * [#1297: Update `Makefile` for contributors](https://github.com/mockery/mockery/pull/1297)
