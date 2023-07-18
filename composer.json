@@ -51,6 +51,7 @@
     "require-dev": {
         "phpunit/phpunit": "^8.5 || ^9.3",
         "psalm/plugin-phpunit": "^0.18.4",
+        "symplify/easy-coding-standard": "^11.5.0",
         "vimeo/psalm": "^5.13.1"
     },
     "conflict": {
@@ -85,9 +86,16 @@
     "scripts": {
         "check": [
             "@composer validate",
+            "@ecs",
             "@test"
         ],
         "docs": "vendor/bin/phpdoc -d src -t docs/api",
+        "ecs": [
+            "@ecs:fix",
+            "@ecs:check"
+        ],
+        "ecs:check": "ecs check --clear-cache || true",
+        "ecs:fix": "ecs check --clear-cache --fix",
         "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
         "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
         "psalm": [
