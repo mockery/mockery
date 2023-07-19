@@ -59,11 +59,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Mockery\\": "src/Mockery"
+            "Mockery\\": "library/Mockery"
         },
         "files": [
-            "src/helpers.php",
-            "src/Mockery.php"
+          "library/helpers.php",
+          "library/Mockery.php"
         ]
     },
     "autoload-dev": {
@@ -89,7 +89,7 @@
             "@ecs",
             "@test"
         ],
-        "docs": "vendor/bin/phpdoc -d src -t docs/api",
+        "docs": "vendor/bin/phpdoc -d library -t docs/api",
         "ecs": [
             "@ecs:fix",
             "@ecs:check"

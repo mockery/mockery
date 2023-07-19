@@ -70,12 +70,12 @@ return function (ECSConfig $ecsConfig): void {
 
     $ecsConfig->paths([
         __FILE__,
-        __DIR__ . '/src',
+        __DIR__ . '/library',
         __DIR__ . '/tests',
     ]);
 
     $ecsConfig->skip([
-        __DIR__ . '/src/Mockery/Mock.php',
+        __DIR__ . '/library/Mockery/Mock.php',
         __DIR__ . '/tests/Fixture/*',
         __DIR__ . '/tests/Mockery/*', // skip temporarily, it still has legacy code
     ]);
