@@ -1,5 +1,28 @@
 # Change Log
 
+## 1.6.4 (2023-07-19)
+
+* [#1308: Changelog v1.6.4](https://github.com/mockery/mockery/pull/1308)
+* [#1307: Revert `src` to `library` for `1.6.x`](https://github.com/mockery/mockery/pull/1307)
+
+## 1.6.3 (2023-07-18)
+
+* [#1304: Remove `extra.branch-alias` and update composer information](https://github.com/mockery/mockery/pull/1304)
+* [#1303: Update `.gitattributes`](https://github.com/mockery/mockery/pull/1303)
+* [#1302: Changelog v1.6.3](https://github.com/mockery/mockery/pull/1302)
+* [#1301: Fix mocking classes with `new` initializers in method and attribute params on PHP 8.1](https://github.com/mockery/mockery/pull/1301)
+* [#1298: Update default repository branch to latest release branch](https://github.com/mockery/mockery/issues/1298)
+* [#1297: Update `Makefile` for contributors](https://github.com/mockery/mockery/pull/1297)
+* [#1294: Correct return types of Mock for phpstan](https://github.com/mockery/mockery/pull/1294)
+* [#1290: Rename directory `library` to `src`](https://github.com/mockery/mockery/pull/1290)
+* [#1288: Update codecov workflow](https://github.com/mockery/mockery/pull/1288)
+* [#1287: Update psalm configuration and workflow](https://github.com/mockery/mockery/pull/1287)
+* [#1286: Update phpunit workflow](https://github.com/mockery/mockery/pull/1286)
+* [#1285: Enforce the minimum required PHP version](https://github.com/mockery/mockery/pull/1285)
+* [#1283: Update license and copyright information](https://github.com/mockery/mockery/pull/1283)
+* [#1282: Create `COPYRIGHT.md` file](https://github.com/mockery/mockery/pull/1282)
+* [#1279: Bump `vimeo/psalm` from `5.9.0` to `5.12.0`](https://github.com/mockery/mockery/pull/1279)
+
 ## 1.6.2 (2023-06-07)
 
 * [#1276: Add `IsEqual` Argument Matcher](https://github.com/mockery/mockery/pull/1276)

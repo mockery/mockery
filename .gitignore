@@ -3,13 +3,12 @@
 *~
 .cache/
 .idea/*
-.php_cs.cache
 .phpdoc/
 .phpunit.result.cache
 build/
 composer.phar
 docs/api
-src/Hamcrest/*
+library/Hamcrest/*
 pearfarm.spec
 phpDocumentor.phar*
 phpunit.xml

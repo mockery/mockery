@@ -10,7 +10,7 @@
     errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
-        <directory name="src"/>
+        <directory name="library"/>
         <ignoreFiles>
             <directory name="tests"/>
             <directory name="vendor"/>
@@ -19,12 +19,12 @@
     <issueHandlers>
         <PossiblyInvalidArgument>
             <errorLevel type="suppress">
-                <file name="src/Mockery/Mock.php" />
+                <file name="library/Mockery/Mock.php" />
             </errorLevel>
         </PossiblyInvalidArgument>
         <MixedArgument>
             <errorLevel type="suppress">
-                <file name="src/Mockery/Mock.php" />
+                <file name="library/Mockery/Mock.php" />
             </errorLevel>
         </MixedArgument>
     </issueHandlers>

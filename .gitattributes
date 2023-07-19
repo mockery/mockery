@@ -6,7 +6,9 @@
 .editorconfig export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
-.php_cs export-ignore
-.styleci.yml export-ignore
+codecov.yml export-ignore
+ecs.php export-ignore
 Makefile export-ignore
 phpunit.xml.dist export-ignore
+psalm-baseline.xml export-ignore
+psalm.xml.dist export-ignore

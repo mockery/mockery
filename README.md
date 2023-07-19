@@ -39,10 +39,10 @@ The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
 ## PHPUnit Integration
 
 Mockery ships with some helpers if you are using PHPUnit. You can extend the
-[`Mockery\Adapter\Phpunit\MockeryTestCase`](src/Mockery/Adapter/Phpunit/MockeryTestCase.php)
+[`Mockery\Adapter\Phpunit\MockeryTestCase`](library/Mockery/Adapter/Phpunit/MockeryTestCase.php)
 class instead of `PHPUnit\Framework\TestCase`, or if you are already using a
 custom base class for your tests, take a look at the traits available in the
-[`Mockery\Adapter\Phpunit`](src/Mockery/Adapter/Phpunit) namespace.
+[`Mockery\Adapter\Phpunit`](library/Mockery/Adapter/Phpunit) namespace.
 
 ## Test Doubles
 
