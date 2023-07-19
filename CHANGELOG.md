@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.6.4 (2023-07-19)
+
+* [#1308: Changelog v1.6.4](https://github.com/mockery/mockery/pull/1308)
+* [#1307: Revert `src` to `library` for `1.6.x`](https://github.com/mockery/mockery/pull/1307)
+
 ## 1.6.3 (2023-07-18)
 
 * [#1304: Remove `extra.branch-alias` and update composer information](https://github.com/mockery/mockery/pull/1304)
