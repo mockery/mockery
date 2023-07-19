@@ -6,7 +6,7 @@ trait RegExpCompatability
 {
     public function expectExceptionMessageRegEx($regularExpression)
     {
-        if (method_exists(get_parent_class(), 'expectExceptionMessageRegExp')) {
+        if (method_exists(get_parent_class($this), 'expectExceptionMessageRegExp')) {
             return parent::expectExceptionMessageRegExp($regularExpression);
         }
 
@@ -15,7 +15,7 @@ trait RegExpCompatability
 
     public static function assertMatchesRegEx($pattern, $string, $message = '')
     {
-        if (method_exists(get_parent_class(), 'assertMatchesRegularExpression')) {
+        if (method_exists(get_parent_class(static::class), 'assertMatchesRegularExpression')) {
             return parent::assertMatchesRegularExpression($pattern, $string, $message);
         }
 
