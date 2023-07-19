@@ -3,7 +3,6 @@
 *~
 .cache/
 .idea/*
-.php_cs.cache
 .phpdoc/
 .phpunit.result.cache
 build/
