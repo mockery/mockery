@@ -52,3 +52,13 @@ if (!function_exists("andAnyOthers")) {
         return new AndAnyOtherArgs();
     }
 }
+//
+//$currentDirectory = dirname(__FILE__,2);
+//$libraryDirectory = $currentDirectory . '/library';
+//if (! file_exists($libraryDirectory))
+//{
+//    symlink(
+//        $currentDirectory . '/library',
+//        $libraryDirectory
+//    );
+//}
