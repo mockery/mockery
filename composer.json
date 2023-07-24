@@ -69,6 +69,7 @@
     "autoload-dev": {
         "psr-4": {
             "Fixture\\": "tests/Fixture/",
+            "Mockery\\Tests\\Unit\\": "tests/Unit",
             "test\\": "tests/"
         },
         "files": [

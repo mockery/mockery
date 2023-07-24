@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
-namespace test\Mockery;
+namespace Mockery\Tests\Unit\PHP83;
 
-use Mockery;
+use Fixture\PHP83\Classes;
+use Fixture\PHP83\ClassName;
+use Fixture\PHP83\Enums;
+use Fixture\PHP83\Interfaces;
+use Fixture\PHP83\Traits;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
 
@@ -13,16 +17,6 @@ use Mockery\Exception;
  */
 class Php83LanguageFeaturesTest extends MockeryTestCase
 {
-    /**
-     * Enumerations ( enum ) are final classes and therefore cannot be mocked.
-     */
-    public function testCanNotMockEnumsFinalClasses(): void
-    {
-        $this->expectException(Exception::class);
-
-        mock(Enums::class);
-    }
-
     public function testCanMockClassTypedClassConstants(): void
     {
         $mock = mock(Classes::class);
@@ -58,31 +52,14 @@ class Php83LanguageFeaturesTest extends MockeryTestCase
         self::assertSame(ClassName::{$constant}, $mock::CONSTANT);
         self::assertSame(ClassName::{$constant}, $mock::{$constant});
     }
-}
 
-enum Enums {
-    const string FOO = "bar";
-}
-
-class Classes implements Interfaces {
-    use Traits;
-}
-
-interface Interfaces {
-    const string BAR = Enums::FOO;
-
-    public function foo(): string;
-}
-
-trait Traits {
-    const string BAR = Enums::FOO;
-
-    public function foo(): string
+    /**
+     * Enumerations ( enum ) are final classes and therefore cannot be mocked.
+     */
+    public function testCanNotMockEnumsFinalClasses(): void
     {
-        return Interfaces::BAR;
-    }
-}
+        $this->expectException(Exception::class);
 
-class ClassName {
-    public const CONSTANT = 42;
+        mock(Enums::class);
+    }
 }
