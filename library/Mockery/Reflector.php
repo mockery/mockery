@@ -45,7 +45,7 @@ class Reflector
 
         $type = $param->getType();
         $declaringClass = $param->getDeclaringClass();
-        $typeHint = self::typeToString($type, $declaringClass);
+        $typeHint = self::getTypeFromReflectionType($type, $declaringClass);
 
         return (!$withoutNullable && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
     }
@@ -70,7 +70,7 @@ class Reflector
             return null;
         }
 
-        $typeHint = self::typeToString($type, $method->getDeclaringClass());
+        $typeHint = self::getTypeFromReflectionType($type, $method->getDeclaringClass());
 
         return (!$withoutNullable && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
     }
@@ -109,22 +109,6 @@ class Reflector
         }
 
         return null;
-    }
-
-    /**
-     * Get the string representation of the given type.
-     *
-     * @param \ReflectionType $type
-     * @param string $declaringClass
-     *
-     * @return string|null
-     */
-    private static function typeToString(\ReflectionType $type, \ReflectionClass $declaringClass)
-    {
-        $char = $type instanceof \ReflectionIntersectionType ? "&" : "|";
-        return \implode($char, \array_map(function (array $typeInformation) {
-            return $typeInformation['typeHint'];
-        }, self::getTypeInformation($type, $declaringClass)));
     }
 
     /**
@@ -205,14 +189,78 @@ class Reflector
      */
     private static function formatNullableType($typeHint)
     {
+        if ($typeHint === 'mixed') {
+            return $typeHint;
+        }
+
+        if (strpos($typeHint, 'null') !== false) {
+            return $typeHint;
+        }
+
         if (\PHP_VERSION_ID < 80000) {
             return sprintf('?%s', $typeHint);
         }
 
-        if ($typeHint === 'null' || $typeHint === 'mixed') {
-            return $typeHint;
+        return sprintf('%s|null', $typeHint);
+    }
+
+    public static function getTypeFromReflectionType(\ReflectionType $type, \ReflectionClass $declaringClass): string
+    {
+        if ($type instanceof \ReflectionNamedType) {
+            $typeHint = $type->getName();
+
+            if ($type->isBuiltin()) {
+                return $typeHint;
+            }
+
+            if ($typeHint === 'static') {
+                return $typeHint;
+            }
+
+            // 'self' needs to be resolved to the name of the declaring class
+            if ($typeHint === 'self'){
+                $typeHint = $declaringClass->getName();
+            }
+
+            // 'parent' needs to be resolved to the name of the parent class
+            if ($typeHint === 'parent'){
+                $typeHint = $declaringClass->getParentClass()->getName();
+            }
+
+            // class names need prefixing with a slash
+            return sprintf('\\%s', $typeHint);
         }
 
-        return sprintf('%s|null', $typeHint);
+        if ($type instanceof \ReflectionIntersectionType) {
+            $types = array_map(
+                fn (\ReflectionType $type) => self::getTypeFromReflectionType($type, $declaringClass),
+                $type->getTypes()
+            );
+
+            return implode(
+                '&',
+                array_map(
+                    fn (string $type): string => $type,
+                    $types
+                )
+            );
+        }
+
+        if ($type instanceof \ReflectionUnionType) {
+            $types = array_map(
+                fn (\ReflectionType $type) => self::getTypeFromReflectionType($type, $declaringClass),
+                $type->getTypes()
+            );
+
+            return implode(
+                '|',
+                array_map(
+                    fn (string $type): string => strpos($type, '&') === false ? $type : sprintf('(%s)', $type),
+                    $types
+                )
+            );
+        }
+
+        throw new \InvalidArgumentException('Unknown ReflectionType: ' . get_debug_type($type));
     }
 }
