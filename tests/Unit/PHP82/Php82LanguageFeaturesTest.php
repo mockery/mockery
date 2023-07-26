@@ -10,7 +10,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class Php82LanguageFeaturesTest extends MockeryTestCase
 {
-    public function testCanMockDisjunctiveNormalFormType(): void
+    public function testCanMockDisjunctiveNormalFormTypes(): void
     {
         $mock = mock(Sut::class);
 
