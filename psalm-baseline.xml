@@ -2371,19 +2371,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Reflector.php">
-    <ImplicitToStringCast>
-      <code>$declaringClass</code>
-      <code><![CDATA[$method->getDeclaringClass()]]></code>
-    </ImplicitToStringCast>
-    <InvalidArgument>
-      <code>$declaringClass</code>
-    </InvalidArgument>
-    <LessSpecificReturnType>
-      <code>string|null</code>
-    </LessSpecificReturnType>
-    <MismatchingDocblockParamType>
-      <code>string</code>
-    </MismatchingDocblockParamType>
     <MixedArgument>
       <code>$typeHint</code>
     </MixedArgument>
@@ -2401,8 +2388,6 @@
     </MixedReturnTypeCoercion>
     <PossiblyNullArgument>
       <code>$declaringClass</code>
-      <code>$typeHint</code>
-      <code>$typeHint</code>
     </PossiblyNullArgument>
     <RedundantCondition>
       <code><![CDATA[is_null($type) && method_exists($method, 'getTentativeReturnType')]]></code>
