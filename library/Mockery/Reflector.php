@@ -204,7 +204,7 @@ class Reflector
         return sprintf('%s|null', $typeHint);
     }
 
-    public static function getTypeFromReflectionType(\ReflectionType $type, \ReflectionClass $declaringClass): string
+    private static function getTypeFromReflectionType(\ReflectionType $type, \ReflectionClass $declaringClass): string
     {
         if ($type instanceof \ReflectionNamedType) {
             $typeHint = $type->getName();
