@@ -239,10 +239,7 @@ class Reflector
 
             return implode(
                 '&',
-                array_map(
-                    fn (string $type): string => $type,
-                    $types
-                )
+                $types,
             );
         }
 
