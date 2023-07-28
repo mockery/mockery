@@ -64,3 +64,9 @@ Mockery::globalHelpers();
  * Unset global variables that are no longer needed.
  */
 unset($root, $autoloadPath, $hamcrestPath, $composerVendorDirectory);
+
+// $mocksDirectory = __DIR__ . '/_mocks/';
+// if (! file_exists($mocksDirectory)) {
+//     mkdir($mocksDirectory, 0777, true);
+// }
+// Mockery::setLoader(new Mockery\Loader\RequireLoader($mocksDirectory));

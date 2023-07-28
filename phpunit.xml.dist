@@ -34,6 +34,7 @@
       <exclude>./tests/PHP81</exclude>
       <exclude>./tests/PHP82</exclude>
       <exclude>./tests/Unit/PHP81</exclude>
+      <exclude>./tests/Unit/PHP82</exclude>
       <exclude>./tests/Unit/PHP83</exclude>
     </testsuite>
     <testsuite name="Mockery Test Suite PHP80">
@@ -41,11 +42,13 @@
       <exclude>./tests/PHP81</exclude>
       <exclude>./tests/PHP82</exclude>
       <exclude>./tests/Unit/PHP81</exclude>
+      <exclude>./tests/Unit/PHP82</exclude>
       <exclude>./tests/Unit/PHP83</exclude>
     </testsuite>
     <testsuite name="Mockery Test Suite PHP81">
       <directory phpVersion="8.1.0-dev" phpVersionOperator="&gt;=">./tests</directory>
       <exclude>./tests/PHP82</exclude>
+      <exclude>./tests/Unit/PHP82</exclude>
       <exclude>./tests/Unit/PHP83</exclude>
     </testsuite>
     <testsuite name="Mockery Test Suite PHP82">
