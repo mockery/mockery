@@ -2,12 +2,8 @@
 
 namespace Mockery\Tests\Unit\PHP82;
 
-use Fixture\PHP82\DisjunctiveNormalFormTypes\ParameterContraVariance;
-use Fixture\PHP82\DisjunctiveNormalFormTypes\ReturnCoVariance;
-use Fixture\PHP82\Sut;
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use Reflection;
 use ReflectionType;
 
 /**
@@ -65,9 +61,9 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
     {
         $fixtures = [
             Sut::class,
-            ParameterContraVariance\TestOne::class,
-            ParameterContraVariance\TestTwo::class,
-            ParameterContraVariance\TestThree::class,
+            TestOne::class,
+            TestTwo::class,
+            TestThree::class,
         ];
 
         foreach ($fixtures as $fixture) {
@@ -77,13 +73,115 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
     public static function returnCoVarianceDataProvider(): Generator
     {
         $fixtures = [
-            ReturnCoVariance\TestOne::class,
-            ReturnCoVariance\TestTwo::class,
-            ReturnCoVariance\TestThree::class,
+            TestReturnCoVarianceOne::class,
+            TestReturnCoVarianceTwo::class,
+            TestReturnCoVarianceThree::class,
         ];
 
         foreach ($fixtures as $fixture) {
             yield $fixture => [$fixture];
         }
+    }
+}
+
+/**
+ * The test fixtures in this directory have been directly copied and pasted from the source mentioned,
+ * which is the PHP RFC (Request for Comments) titled "DNF Types" available at https://wiki.php.net/rfc/dnf_types.
+ *
+ * Please note that the copyrights for these test fixtures belong to:
+ *
+ * Copyright (c) George Peter Banyard <girgias@php.net>
+ * Copyright (c) Larry Garfield <crell@php.net>
+ *
+ * All rights are reserved by the respective authors.
+ */
+
+interface A
+{
+}
+interface B
+{
+}
+interface C extends A, B
+{
+}
+interface D
+{
+}
+
+class W implements A
+{
+}
+class X implements B
+{
+}
+class Y implements C
+{
+}
+class Z extends Y implements D
+{
+}
+
+class Sut
+{
+    public function foo(A|(B&C)$arg)
+    {
+        var_dump($arg);
+    }
+}
+
+interface ITest {
+    public function stuff((A&B)|D $arg): void;
+}
+
+// Acceptable. Everything that ITest accepts is still valid
+// and then some.
+class TestOne implements ITest {
+    public function stuff((A&B)|D|Z $arg): void {}
+}
+
+// Acceptable. This accepts objects that implement just
+// A, which is a super-set of those that implement A&B.
+class TestTwo implements ITest {
+    public function stuff(A|D $arg): void {}
+}
+
+interface ITestTwo {
+    public function things(C|D $arg): void;
+}
+
+// Anything that implements C implements A&B,
+// but this rule also allows classes that implement A&B
+// directly, and thus is wider.
+class TestThree implements ITestTwo {
+    public function things((A&B)|D $arg): void
+    {
+
+    }
+}
+
+interface IReturnCoVarianceTest
+{
+    public function stuff(): (A&B)|D;
+}
+
+// A&B is more restrictive.
+class TestReturnCoVarianceOne implements IReturnCoVarianceTest {
+    public function stuff(): A&B {
+        return new Y;
+    }
+}
+
+// D is is a subset of A&B|D
+class TestReturnCoVarianceTwo implements IReturnCoVarianceTest {
+    public function stuff(): D {
+        return new Z;
+    }
+}
+
+// Since C is a subset of A&B, even though it is not identical.
+class TestReturnCoVarianceThree implements IReturnCoVarianceTest {
+    public function stuff(): C|D {
+        return new Y;
     }
 }
