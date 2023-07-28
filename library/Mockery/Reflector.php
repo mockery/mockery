@@ -249,6 +249,12 @@ class Reflector
                 $type->getTypes()
             );
 
+            $find = ['\Traversable','object', 'array'];
+            $intersect = array_intersect($find, $types);
+            if ($find === $intersect) {
+                $types = ['iterable', 'object'];
+            }
+
             return implode(
                 '|',
                 array_map(
