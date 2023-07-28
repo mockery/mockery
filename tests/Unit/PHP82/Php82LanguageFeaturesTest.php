@@ -4,6 +4,7 @@ namespace Mockery\Tests\Unit\PHP82;
 
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Reflector;
 use ReflectionType;
 
 /**
@@ -81,6 +82,25 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
         foreach ($fixtures as $fixture) {
             yield $fixture => [$fixture];
         }
+    }
+
+    public function testTypeHintIterableObject(): void
+    {
+        $refClass = new \ReflectionClass(ExampleClass::class);
+        $refMethod = $refClass->getMethods()[0];
+        $refParam = $refMethod->getParameters()[0];
+
+        self::assertSame(
+            'iterable|object', 
+            Reflector::getTypeHint($refParam)
+        );
+    }
+}
+
+class ExampleClass
+{
+    public function __invoke(iterable|object $arg): void
+    {
     }
 }
 
