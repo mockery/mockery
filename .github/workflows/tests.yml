@@ -19,7 +19,7 @@ jobs:
         dependencies: ['lowest','highest','locked']
         dev: ['8.3']
 
-    continue-on-error: ${{ matrix.php == matrix.dev }}
+    continue-on-error: ${{ matrix.php == matrix.dev || matrix.dependencies == 'lowest' }}
 
     steps:
       - name: Checkout Code
