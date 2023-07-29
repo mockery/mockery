@@ -252,7 +252,7 @@ class Reflector
             $find = ['\Traversable','object', 'array'];
             $intersect = array_intersect($find, $types);
             if ($find === $intersect) {
-                $types = ['iterable', 'object'];
+                $types = ['iterable', 'object'] + array_diff($types, $find);
             }
 
             return implode(
