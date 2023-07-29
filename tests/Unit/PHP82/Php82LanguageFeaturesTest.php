@@ -4,6 +4,7 @@ namespace Mockery\Tests\Unit\PHP82;
 
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Reflector;
 use ReflectionType;
 
 /**
@@ -81,6 +82,63 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
         foreach ($fixtures as $fixture) {
             yield $fixture => [$fixture];
         }
+    }
+
+    public function testTypeHintIterableObject(): void
+    {
+        $refClass = new \ReflectionClass(IterableObject::class);
+        $refMethod = $refClass->getMethods()[0];
+        $refParam = $refMethod->getParameters()[0];
+
+        self::assertSame(
+            'iterable|object',
+            Reflector::getTypeHint($refParam)
+        );
+    }
+
+    public function testTypeHintIterableObjectString(): void
+    {
+        $refClass = new \ReflectionClass(IterableObjectString::class);
+        $refMethod = $refClass->getMethods()[0];
+        $refParam = $refMethod->getParameters()[0];
+
+        self::assertSame(
+            'iterable|object|string',
+            Reflector::getTypeHint($refParam)
+        );
+    }
+
+    public function testTypeHintIIterableStdClassString(): void
+    {
+        $refClass = new \ReflectionClass(IterableStdClassString::class);
+        $refMethod = $refClass->getMethods()[0];
+        $refParam = $refMethod->getParameters()[0];
+
+        self::assertSame(
+            'iterable|\stdClass|string',
+            Reflector::getTypeHint($refParam)
+        );
+    }
+}
+
+class IterableObject
+{
+    public function __invoke(iterable|object $arg): void
+    {
+    }
+}
+
+class IterableObjectString
+{
+    public function __invoke(iterable|object|string $arg): void
+    {
+    }
+}
+
+class IterableStdClassString
+{
+    public function __invoke(iterable|\stdClass|string $arg): void
+    {
     }
 }
 
