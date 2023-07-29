@@ -86,20 +86,58 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
     public function testTypeHintIterableObject(): void
     {
-        $refClass = new \ReflectionClass(ExampleClass::class);
+        $refClass = new \ReflectionClass(IterableObject::class);
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
         self::assertSame(
-            'iterable|object', 
+            'iterable|object',
+            Reflector::getTypeHint($refParam)
+        );
+    }
+
+    public function testTypeHintIterableObjectString(): void
+    {
+        $refClass = new \ReflectionClass(IterableObjectString::class);
+        $refMethod = $refClass->getMethods()[0];
+        $refParam = $refMethod->getParameters()[0];
+
+        self::assertSame(
+            'iterable|object|string',
+            Reflector::getTypeHint($refParam)
+        );
+    }
+
+    public function testTypeHintIIterableStdClassString(): void
+    {
+        $refClass = new \ReflectionClass(IterableStdClassString::class);
+        $refMethod = $refClass->getMethods()[0];
+        $refParam = $refMethod->getParameters()[0];
+
+        self::assertSame(
+            '\Traversable|\stdClass|array|string',
             Reflector::getTypeHint($refParam)
         );
     }
 }
 
-class ExampleClass
+class IterableObject
 {
     public function __invoke(iterable|object $arg): void
+    {
+    }
+}
+
+class IterableObjectString
+{
+    public function __invoke(iterable|object|string $arg): void
+    {
+    }
+}
+
+class IterableStdClassString
+{
+    public function __invoke(iterable|\stdClass|string $arg): void
     {
     }
 }
