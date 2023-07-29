@@ -10,6 +10,8 @@
 
 namespace Mockery;
 
+use ReflectionType;
+
 /**
  * @internal
  */
@@ -64,11 +66,11 @@ class Reflector
     {
         $type = $method->getReturnType();
 
-        if (is_null($type) && method_exists($method, 'getTentativeReturnType')) {
-            $type = $method->getTentativeReturnType();
+        if (!$type instanceof ReflectionType && method_exists($method, 'getTentativeReturnType')) {
+            $type = $method->getTentativeReturnType();    
         }
 
-        if (is_null($type)) {
+        if (!$type instanceof ReflectionType) {
             return null;
         }
 
@@ -88,11 +90,11 @@ class Reflector
     {
         $type = $method->getReturnType();
 
-        if (is_null($type) && method_exists($method, 'getTentativeReturnType')) {
+        if (!$type instanceof ReflectionType && method_exists($method, 'getTentativeReturnType')) {
             $type = $method->getTentativeReturnType();
         }
 
-        if (is_null($type) || $type->allowsNull()) {
+        if (!$type instanceof ReflectionType || $type->allowsNull()) {
             return null;
         }
 
@@ -235,7 +237,9 @@ class Reflector
 
         if ($type instanceof \ReflectionIntersectionType) {
             $types = array_map(
-                fn (\ReflectionType $type) => self::getTypeFromReflectionType($type, $declaringClass),
+                static function (\ReflectionType $type) use ($declaringClass): string {
+                    return self::getTypeFromReflectionType($type, $declaringClass);
+                },
                 $type->getTypes()
             );
 
@@ -247,7 +251,9 @@ class Reflector
 
         if ($type instanceof \ReflectionUnionType) {
             $types = array_map(
-                fn (\ReflectionType $type) => self::getTypeFromReflectionType($type, $declaringClass),
+                static function (\ReflectionType $type) use ($declaringClass): string {
+                    return self::getTypeFromReflectionType($type, $declaringClass);
+                },
                 $type->getTypes()
             );
 
@@ -259,7 +265,10 @@ class Reflector
             return implode(
                 '|',
                 array_map(
-                    fn (string $type): string => strpos($type, '&') === false ? $type : sprintf('(%s)', $type),
+                    static function (string $type): string
+                    {
+                        return strpos($type, '&') === false ? $type : sprintf('(%s)', $type);
+                    },
                     $types
                 )
             );
