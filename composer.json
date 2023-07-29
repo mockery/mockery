@@ -44,15 +44,15 @@
         "security": "https://github.com/mockery/mockery/security/advisories"
     },
     "require": {
-        "php": ">=7.4,<8.3",
+        "php": ">=7.3,<8.3",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.3",
+        "phpunit/phpunit": "^8.5 || ^9.6.10",
         "psalm/plugin-phpunit": "^0.18.4",
         "symplify/easy-coding-standard": "^11.5.0",
-        "vimeo/psalm": "^5.13.1"
+        "vimeo/psalm": "^4.30"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
@@ -79,7 +79,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.4.999"
+            "php": "7.3.999"
         },
         "preferred-install": "dist",
         "sort-packages": true
