@@ -15,6 +15,8 @@ namespace Mockery;
  */
 class Reflector
 {
+    private const TRAVERSABLE_OBJECT_ARRAY = ['\Traversable','object', 'array'];
+    private const ITERABLE_OBJECT = ['iterable','object'];
     /**
      * Determine if the parameter is typed as an array.
      *
@@ -249,10 +251,9 @@ class Reflector
                 $type->getTypes()
             );
 
-            $find = ['\Traversable','object', 'array'];
-            $intersect = array_intersect($find, $types);
-            if ($find === $intersect) {
-                $types = ['iterable', 'object'] + array_diff($types, $find);
+            $intersect = array_intersect(self::TRAVERSABLE_OBJECT_ARRAY, $types);
+            if (self::TRAVERSABLE_OBJECT_ARRAY === $intersect) {
+                $types = self::ITERABLE_OBJECT + array_diff($types, self::TRAVERSABLE_OBJECT_ARRAY);
             }
 
             return implode(
