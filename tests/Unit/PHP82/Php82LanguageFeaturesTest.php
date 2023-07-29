@@ -115,7 +115,7 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
         $refParam = $refMethod->getParameters()[0];
 
         self::assertSame(
-            '\Traversable|\stdClass|array|string',
+            'iterable|\stdClass|string',
             Reflector::getTypeHint($refParam)
         );
     }
