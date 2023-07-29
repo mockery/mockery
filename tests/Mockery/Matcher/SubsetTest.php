@@ -22,9 +22,11 @@ namespace tests\Mockery\Matcher;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Matcher\Subset;
+use test\Mockery\RegExpCompatability;
 
 class SubsetTest extends MockeryTestCase
 {
+    use RegExpCompatability;
     /** @test */
     public function it_matches_a_shallow_subset()
     {
@@ -115,7 +117,7 @@ class SubsetTest extends MockeryTestCase
         ];
 
         foreach ($tests as $pattern) {
-            $this->assertMatchesRegularExpression($pattern, $actual);
+            self::assertMatchesRegEx($pattern, $actual);
         }
     }
 }
