@@ -1,0 +1,41 @@
+name: Blackfire
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+concurrency:
+  group: psalm-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Blackfire via setup-php Action
+      uses: shivammathur/setup-php@v2
+      with:
+        # PHP Only: Setup PHP extensions, including Blackfire Probe.
+        # It is recommended to disable xdebug.
+        # Not needed for other languages.
+        extensions: blackfire, :xdebug
+        # Setup Blackfire Agent and CLI tool, and Blackfire Player
+        tools: blackfire, blackfire-player
+      env:
+        # Blackfire credentials
+        BLACKFIRE_SERVER_ID: ${{ secrets.BLACKFIRE_SERVER_ID }}
+        BLACKFIRE_SERVER_TOKEN: ${{ secrets.BLACKFIRE_SERVER_TOKEN }}
+        BLACKFIRE_CLIENT_ID: ${{ secrets.BLACKFIRE_CLIENT_ID }}
+        BLACKFIRE_CLIENT_TOKEN: ${{ secrets.BLACKFIRE_CLIENT_TOKEN }}
+
+    # Trigger a profile using Blackfire CLI tool.
+    - name: Profile list-users command
+      env:
+        APP_ENV: testing
+      run: blackfire run php vendor/bin/phpunit --no-coverage
