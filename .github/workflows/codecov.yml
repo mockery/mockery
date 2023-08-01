@@ -25,8 +25,29 @@ jobs:
           tools: composer:v2
           extensions: mongodb, redis
 
-      - name: Install locked dependencies
-        uses: ramsey/composer-install@v2
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        working-directory: ${{ github.workspace }}
+        run: |
+          composerCommand="install"
+          composerOptions=("--no-interaction" "--no-progress" "--ansi")
+          # Use `update` if there is no composer.lock file
+          if [ ! -f "composer.lock" ]; then
+            composerCommand="update"
+          fi
+          fullCommand="composer ${composerCommand} ${composerOptions[*]}"
+          echo "Running: ${fullCommand}"
+          ${fullCommand}
 
       - name: Run PHPUnit to collect coverage
         run: composer phpunit:coverage
