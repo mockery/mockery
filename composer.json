@@ -44,7 +44,7 @@
         "security": "https://github.com/mockery/mockery/security/advisories"
     },
     "require": {
-        "php": ">=7.3,<8.3",
+        "php": ">=7.3",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "^2.0.1"
     },
