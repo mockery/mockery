@@ -15,11 +15,11 @@ jobs:
 
     strategy:
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        php: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
         dependencies: ['lowest','highest','locked']
         dev: ['8.3']
 
-    continue-on-error: ${{ matrix.php == matrix.dev }}
+    continue-on-error: ${{ matrix.php == matrix.dev || matrix.dependencies == 'lowest' }}
 
     steps:
       - name: Checkout Code
@@ -40,10 +40,35 @@ jobs:
       - name: Setup Problem Matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install ${{ matrix.dependencies }} Dependencies
-        uses: ramsey/composer-install@v2
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
         with:
-          dependency-versions: ${{ matrix.dependencies }}
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.dependencies }}-
+
+      - name: Install ${{ matrix.dependencies }} dependencies
+        working-directory: ${{ github.workspace }}
+        run: |
+          composerDependency="${{ matrix.dependencies }}"
+          composerCommand="update"
+          composerOptions=("--no-interaction" "--no-progress" "--ansi")
+          case ${composerDependency} in
+              highest) composerCommand="update" ;;
+              lowest) composerOptions+=("--prefer-lowest" "--prefer-stable") ;;
+              *) composerCommand="install" ;;
+          esac
+          # Use `update` if there is no composer.lock file
+          if [ ! -f "composer.lock" ]; then
+            composerCommand="update"
+          fi
+          fullCommand="composer ${composerCommand} ${composerOptions[*]}"
+          echo "Running: ${fullCommand}"
+          ${fullCommand}
 
       - name: Execute PHPUnit
         run: composer phpunit

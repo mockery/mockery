@@ -40,10 +40,17 @@ class DefinedTargetClass implements TargetClassInterface
             return [];
         }
 
-        return array_unique(['\AllowDynamicProperties', ...array_map(
-            static fn (ReflectionAttribute $attribute): string => '\\' . $attribute->getName(),
-            $this->rfc->getAttributes()
-        )]);
+        return array_unique(
+            array_merge(
+                ['\AllowDynamicProperties'],
+                array_map(
+                    static function (ReflectionAttribute $attribute): string {
+                        return '\\' . $attribute->getName();
+                    },
+                    $this->rfc->getAttributes()
+                )
+            )
+        );
     }
 
     public function getName()
