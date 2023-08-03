@@ -105,8 +105,6 @@ interface TargetClassInterface
 
     /**
      * Returns whether the targetClass is readonly.
-     *
-     * @return bool
      */
-    public function isReadOnly();
+    public function isReadOnly(): bool;
 }
