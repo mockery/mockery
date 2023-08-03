@@ -89,7 +89,7 @@ class UndefinedTargetClass implements TargetClassInterface
         return $this->name;
     }
 
-    public function isReadOnly()
+    public function isReadOnly(): bool
     {
         return false;
     }
