@@ -2,6 +2,7 @@
 
 /.github export-ignore
 /docker export-ignore
+/fixtures export-ignore
 /tests export-ignore
 .editorconfig export-ignore
 .gitattributes export-ignore
