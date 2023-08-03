@@ -124,4 +124,13 @@ class DefinedTargetClass implements TargetClassInterface
 
         return false;
     }
+
+    public function isReadOnly(): bool
+    {
+        if (PHP_VERSION_ID >= 80200) {
+            return $this->rfc->isReadOnly();
+        }
+
+        return false;
+    }
 }
