@@ -2,10 +2,14 @@
 
 namespace Mockery\Tests\Unit\PHP82;
 
+use AbstractReadOnlyClass;
+use FinalReadOnlyClass;
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Reflector;
+use ReflectionClass;
 use ReflectionType;
+use stdClass;
 
 /**
  * @requires PHP 8.2.0-dev
@@ -18,7 +22,7 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
      */
     public function testMockParameterDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
-        $expectedReflectionClass = new \ReflectionClass($fullyQualifiedClassName);
+        $expectedReflectionClass = new ReflectionClass($fullyQualifiedClassName);
         $expectedMethod = $expectedReflectionClass->getMethods()[0];
         $expectedType = $expectedMethod
             ->getParameters()[0]
@@ -26,7 +30,7 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $mock = mock($fullyQualifiedClassName);
 
-        $reflectionClass = new \ReflectionClass($mock);
+        $reflectionClass = new ReflectionClass($mock);
         $type = $reflectionClass->getMethod($expectedMethod->getName())
             ->getParameters()[0]
             ->getType();
@@ -117,6 +121,35 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertSame(
             'iterable|\stdClass|string',
             Reflector::getTypeHint($refParam)
+        );
+    }
+
+    public function testMockAbstractReadOnlyClass(): void
+    {
+        $mock = mock(AbstractReadOnlyClass::class);
+
+        self::assertSame(
+            ReadOnlyClass::class,
+            $mock
+        );
+    }
+
+    public function testMockFinalReadOnlyClass(): void
+    {
+        $mock = mock(FinalReadOnlyClass::class);
+
+        self::assertSame(
+            ReadOnlyClass::class,
+            $mock
+        );
+    }
+    public function testMockReadOnlyClass(): void
+    {
+        $mock = mock(\ReadOnlyClass::class);
+
+        self::assertSame(
+            ReadOnlyClass::class,
+            $mock
         );
     }
 }
