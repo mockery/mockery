@@ -28,6 +28,23 @@ class ClassNamePass implements Pass
             $code
         );
 
+        $target = $config->getTargetClass();
+        if ($target && $target->isReadOnly()) {
+            // dd($config, $namespace, $className);
+            $code = str_replace(
+                'class Mock',
+                'readonly class Mock',
+                $code
+            );
+
+            // remove \AllowDynamicProperties trait
+            $code = str_replace(
+                '#[\AllowDynamicProperties]',
+                '',
+                $code
+            );
+        }
+
         $code = str_replace(
             'class Mock',
             'class ' . $className,
