@@ -2,11 +2,16 @@
 
 namespace Mockery\Tests\Unit\PHP82;
 
-use AbstractReadOnlyClass;
-use FinalReadOnlyClass;
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Reflector;
+use Mockery\Tests\Fixtures\PHP82\ReadOnlyClass;
+use Mockery\Tests\Fixtures\PHP82\ReadOnlyClassAbstract;
+use Mockery\Tests\Fixtures\PHP82\ReadOnlyClassFinal;
+use Mockery\Tests\Fixtures\PHP82\ReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute;
+use Mockery\Tests\Fixtures\PHP82\ReadonlyClassesMustNotUseDynamicProperties;
+use Mockery\Tests\Fixtures\PHP82\ReadonlyClassesMustOnlyContainTypedProperties;
+use Mockery\Tests\Fixtures\PHP82\User;
 use ReflectionClass;
 use ReflectionType;
 use stdClass;
@@ -124,33 +129,39 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
         );
     }
 
-    public function testMockAbstractReadOnlyClass(): void
+    public function testMockReadOnlyClassAbstract(): void
     {
-        $mock = mock(AbstractReadOnlyClass::class);
-
-        self::assertSame(
-            ReadOnlyClass::class,
-            $mock
-        );
+        self::assertSame(ReadOnlyClassAbstract::class, mock(ReadOnlyClassAbstract::class));
     }
 
-    public function testMockFinalReadOnlyClass(): void
+    public function testMockReadOnlyClassFinal(): void
     {
-        $mock = mock(FinalReadOnlyClass::class);
-
-        self::assertSame(
-            ReadOnlyClass::class,
-            $mock
-        );
+        self::assertSame(ReadOnlyClassFinal::class, mock(ReadOnlyClassFinal::class));
     }
+
     public function testMockReadOnlyClass(): void
     {
-        $mock = mock(\ReadOnlyClass::class);
+        self::assertSame(ReadOnlyClass::class, mock(ReadOnlyClass::class));
+    }
 
-        self::assertSame(
-            ReadOnlyClass::class,
-            $mock
-        );
+    public function testMockUser(): void
+    {
+        self::assertSame(User::class, mock(User::class));
+    }
+
+    public function testMockReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute(): void
+    {
+        self::assertSame(ReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute::class, mock(ReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute::class));
+    }
+
+    public function testMockReadonlyClassesMustNotUseDynamicProperties(): void
+    {
+        self::assertSame(ReadonlyClassesMustNotUseDynamicProperties::class, mock(ReadonlyClassesMustNotUseDynamicProperties::class));
+    }
+
+    public function testMockReadonlyClassesMustOnlyContainTypedProperties(): void
+    {
+        self::assertSame(ReadonlyClassesMustOnlyContainTypedProperties::class, mock(ReadonlyClassesMustOnlyContainTypedProperties::class));
     }
 }
 
