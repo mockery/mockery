@@ -88,4 +88,9 @@ class UndefinedTargetClass implements TargetClassInterface
     {
         return $this->name;
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }
