@@ -35,7 +35,7 @@ function isAbsolutePath($path)
 $root = realpath(dirname(dirname(__FILE__)));
 $composerVendorDirectory = getenv('COMPOSER_VENDOR_DIR') ?: 'vendor';
 
-if (! isAbsolutePath($composerVendorDirectory)) {
+if (!isAbsolutePath($composerVendorDirectory)) {
     $composerVendorDirectory = $root . DIRECTORY_SEPARATOR . $composerVendorDirectory;
 }
 
@@ -43,7 +43,7 @@ if (! isAbsolutePath($composerVendorDirectory)) {
  * Check that composer installation was done
  */
 $autoloadPath = $composerVendorDirectory . DIRECTORY_SEPARATOR . 'autoload.php';
-if (! file_exists($autoloadPath)) {
+if (!file_exists($autoloadPath)) {
     throw new Exception(
         'Please run "php composer.phar install" in root directory '
         . 'to setup unit test dependencies before running the tests'
@@ -67,17 +67,16 @@ Mockery::globalHelpers();
  */
 unset($root, $autoloadPath, $hamcrestPath, $composerVendorDirectory);
 
-$dev = false;
 
-if ($dev) {
-    $mocksDirectory = __DIR__ . '/_mocks/';
-    if (! file_exists($mocksDirectory)) {
-        mkdir($mocksDirectory, 0777, true);
-    }
+$mocksDirectory = __DIR__ . '/_mocks/';
+if (!file_exists($mocksDirectory)) {
+    mkdir($mocksDirectory, 0777, true);
+}
 
-    Mockery::setLoader(new Mockery\Loader\RequireLoader($mocksDirectory));
+Mockery::setLoader(new Mockery\Loader\RequireLoader($mocksDirectory));
 
-    function vdd()
+if (!function_exists('dd')) {
+    function dd(): void
     {
         var_dump(func_get_args());
 
