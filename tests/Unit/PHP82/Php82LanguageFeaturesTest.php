@@ -5,6 +5,8 @@ namespace Mockery\Tests\Unit\PHP82;
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Reflector;
+use Mockery\Tests\Fixtures\PHP82\Subclass\ReadonlySubclassMustAlsoBeDeclaredReadonlyChildInvalid;
+use Mockery\Tests\Fixtures\PHP82\Subclass\ReadonlySubclassMustAlsoBeDeclaredReadonlyChildValid;
 use Mockery\Tests\Fixtures\PHP82\ReadOnlyClass;
 use Mockery\Tests\Fixtures\PHP82\ReadOnlyClassAbstract;
 use Mockery\Tests\Fixtures\PHP82\ReadOnlyClassFinal;
@@ -147,6 +149,14 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
     public function testMockUser(): void
     {
         self::assertSame(User::class, mock(User::class));
+    }
+    public function testReadonlySubclassMustAlsoBeDeclaredReadonlyInvalid(): void
+    {
+        self::assertSame(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildInvalid::class, mock(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildInvalid::class));
+    }
+    public function testReadonlySubclassMustAlsoBeDeclaredReadonlyValid(): void
+    {
+        self::assertSame(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildValid::class, mock(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildValid::class));
     }
 
     public function testMockReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute(): void
