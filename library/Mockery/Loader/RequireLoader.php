@@ -22,15 +22,23 @@ class RequireLoader implements Loader
         $this->path = realpath($path) ?: sys_get_temp_dir();
     }
 
+    public function __destruct()
+    {
+        foreach (glob($this->path . DIRECTORY_SEPARATOR . 'Mockery_*.php') as $file) {
+            @unlink($file);
+        }
+    }
+
     public function load(MockDefinition $definition)
     {
         if (class_exists($definition->getClassName(), false)) {
             return;
         }
 
-        $tmpfname = $this->path . DIRECTORY_SEPARATOR . "Mockery_" . uniqid() . ".php";
-        file_put_contents($tmpfname, $definition->getCode());
+        $fileName = sprintf('%s%s%s.php', $this->path, DIRECTORY_SEPARATOR, uniqid('Mockery_'));
 
-        require $tmpfname;
+        file_put_contents($fileName, $definition->getCode());
+
+        require $fileName;
     }
 }
