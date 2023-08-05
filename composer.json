@@ -73,6 +73,7 @@
             "test\\": "tests/"
         },
         "files": [
+            "fixtures/autoload.php",
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
         ]
     },
