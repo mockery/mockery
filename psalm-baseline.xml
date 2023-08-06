@@ -981,9 +981,6 @@
       <code>isInternal</code>
       <code>isInternal</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="1">
-      <code>$attribute-&gt;getName()</code>
-    </MixedOperand>
     <MixedReturnStatement occurrences="7">
       <code>$this-&gt;name</code>
       <code>$this-&gt;rfc-&gt;getNamespaceName()</code>
@@ -993,6 +990,9 @@
       <code>$this-&gt;rfc-&gt;isAbstract()</code>
       <code>$this-&gt;rfc-&gt;isFinal()</code>
     </MixedReturnStatement>
+    <UndefinedClass occurrences="1">
+      <code>ReflectionAttribute</code>
+    </UndefinedClass>
   </file>
   <file src="library/Mockery/Generator/Generator.php">
     <MissingReturnType occurrences="1">
@@ -1603,6 +1603,9 @@
     <PossiblyFalseArgument occurrences="1">
       <code>$lastBrace</code>
     </PossiblyFalseArgument>
+    <UndefinedFunction occurrences="1">
+      <code>enum_exists($prefix)</code>
+    </UndefinedFunction>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/Pass.php">
     <MissingParamType occurrences="1">
@@ -2067,35 +2070,27 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Reflector.php">
-    <LessSpecificReturnStatement occurrences="1"/>
-    <MixedArgument occurrences="4">
-      <code>$innterType</code>
-      <code>$type-&gt;getTypes()</code>
-      <code>$type-&gt;getTypes()</code>
-      <code>$typeHint</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="4">
-      <code>$innterType</code>
+    <MixedAssignment occurrences="2">
       <code>$type</code>
       <code>$type</code>
-      <code>$typeHint</code>
     </MixedAssignment>
-    <MoreSpecificReturnType occurrences="1">
+    <MixedInferredReturnType occurrences="2">
       <code>list&lt;array{typeHint: string, isPrimitive: bool}&gt;</code>
-    </MoreSpecificReturnType>
+      <code>string</code>
+    </MixedInferredReturnType>
     <PossiblyNullArgument occurrences="1">
       <code>$declaringClass</code>
     </PossiblyNullArgument>
     <PossiblyUnusedMethod occurrences="1">
       <code>getSimplestReturnType</code>
     </PossiblyUnusedMethod>
-    <RedundantCondition occurrences="2">
-      <code>!$type instanceof ReflectionType &amp;&amp; method_exists($method, 'getTentativeReturnType')</code>
-      <code>!$type instanceof ReflectionType &amp;&amp; method_exists($method, 'getTentativeReturnType')</code>
-    </RedundantCondition>
-    <UndefinedMethod occurrences="1">
-      <code>getName</code>
-    </UndefinedMethod>
+    <UndefinedClass occurrences="2">
+      <code>\ReflectionIntersectionType</code>
+      <code>\ReflectionUnionType</code>
+    </UndefinedClass>
+    <UnusedParam occurrences="1">
+      <code>$declaringClass</code>
+    </UnusedParam>
   </file>
   <file src="library/Mockery/Undefined.php">
     <PossiblyUnusedMethod occurrences="1">
