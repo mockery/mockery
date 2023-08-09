@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.6.6 (2023-08-08)
+
+- [#1327: Changelog v1.6.6](https://github.com/mockery/mockery/pull/1327)
+- [#1325: Keep the file that caused an error for inspection](https://github.com/mockery/mockery/pull/1325)
+- [#1324: Fix Regression - Replace `+` Array Union Operator with `array_merge`](https://github.com/mockery/mockery/pull/1324)
+
 ## 1.6.5 (2023-08-05)
 
 - [#1322: Changelog v1.6.5](https://github.com/mockery/mockery/pull/1322)
