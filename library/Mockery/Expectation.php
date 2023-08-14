@@ -41,6 +41,13 @@ class Expectation implements ExpectationInterface
     protected $_because = null;
 
     /**
+     * Expected count of calls to this expectation
+     *
+     * @var int
+     */
+    protected $_expectedCount = -1;
+
+    /**
      * Arguments expected by this expectation
      *
      * @var array
@@ -719,6 +726,13 @@ class Expectation implements ExpectationInterface
         if (!is_int($limit)) {
             throw new \InvalidArgumentException('The passed Times limit should be an integer value');
         }
+
+        if ($this->_expectedCount === 0) {
+            throw new \InvalidArgumentException('\Mockery\Expectation::shouldNotReceive() method does not accept chaining additional invocation count methods.');
+        }
+
+        $this->_expectedCount = $limit;
+
         $this->_countValidators[$this->_countValidatorClass] = new $this->_countValidatorClass($this, $limit);
 
         if ('Mockery\CountValidator\Exact' !== $this->_countValidatorClass) {
