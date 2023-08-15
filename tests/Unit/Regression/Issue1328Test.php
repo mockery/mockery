@@ -1,11 +1,12 @@
 <?php
 
-namespace Mockery\Tests\Unit\Issues;
+namespace Mockery\Tests\Unit\Regression;
 
 use DateTime;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\Exception\InvalidCountException;
+use Mockery\Expectation;
 use PHPUnit\Framework\TestCase;
 
 final class Issue1328Test extends TestCase
@@ -25,7 +26,16 @@ final class Issue1328Test extends TestCase
 
     public function testThrowsInvalidArgumentExceptionWhenInvocationCountChanges(): void
     {
+        set_error_handler(
+            static function (int $errorCode, string $errorMessage): void {
+                restore_error_handler();
+                throw new InvalidArgumentException($errorMessage, $errorCode);
+            },
+            E_ALL
+        );
+
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(Expectation::ERROR_ZERO_INVOCATION);
 
         $mock = Mockery::mock(DateTime::class);
 
@@ -38,7 +48,16 @@ final class Issue1328Test extends TestCase
 
     public function testThrowsInvalidArgumentExceptionForChainingAdditionalInvocationCountMethod(): void
     {
+        set_error_handler(
+            static function (int $errorCode, string $errorMessage): void {
+                restore_error_handler();
+                throw new InvalidArgumentException($errorMessage, $errorCode);
+            },
+            E_ALL
+        );
+
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(Expectation::ERROR_ZERO_INVOCATION);
 
         $mock = Mockery::mock(DateTime::class);
 

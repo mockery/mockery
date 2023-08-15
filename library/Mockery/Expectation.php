@@ -19,6 +19,7 @@ use Mockery\Matcher\MultiArgumentClosure;
 
 class Expectation implements ExpectationInterface
 {
+    public const ERROR_ZERO_INVOCATION = 'shouldNotReceive(), never(), times(0) chaining additional invocation count methods has been deprecated and will throw an exception in a future version of Mockery';
     /**
      * Mock object to which this expectation belongs
      *
@@ -728,7 +729,12 @@ class Expectation implements ExpectationInterface
         }
 
         if ($this->_expectedCount === 0) {
-            throw new \InvalidArgumentException('\Mockery\Expectation::shouldNotReceive() method does not accept chaining additional invocation count methods.');
+            @trigger_error(self::ERROR_ZERO_INVOCATION, E_USER_DEPRECATED);
+            // throw new \InvalidArgumentException(self::ERROR_ZERO_INVOCATION);
+        }
+
+        if ($limit === 0) {
+            $this->_countValidators = [];
         }
 
         $this->_expectedCount = $limit;
