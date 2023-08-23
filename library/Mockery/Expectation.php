@@ -19,6 +19,7 @@ use Mockery\Matcher\MultiArgumentClosure;
 
 class Expectation implements ExpectationInterface
 {
+    public const ERROR_ZERO_INVOCATION = 'shouldNotReceive(), never(), times(0) chaining additional invocation count methods has been deprecated and will throw an exception in a future version of Mockery';
     /**
      * Mock object to which this expectation belongs
      *
@@ -39,6 +40,13 @@ class Expectation implements ExpectationInterface
      * @var string|null
      */
     protected $_because = null;
+
+    /**
+     * Expected count of calls to this expectation
+     *
+     * @var int
+     */
+    protected $_expectedCount = -1;
 
     /**
      * Arguments expected by this expectation
@@ -719,6 +727,18 @@ class Expectation implements ExpectationInterface
         if (!is_int($limit)) {
             throw new \InvalidArgumentException('The passed Times limit should be an integer value');
         }
+
+        if ($this->_expectedCount === 0) {
+            @trigger_error(self::ERROR_ZERO_INVOCATION, E_USER_DEPRECATED);
+            // throw new \InvalidArgumentException(self::ERROR_ZERO_INVOCATION);
+        }
+
+        if ($limit === 0) {
+            $this->_countValidators = [];
+        }
+
+        $this->_expectedCount = $limit;
+
         $this->_countValidators[$this->_countValidatorClass] = new $this->_countValidatorClass($this, $limit);
 
         if ('Mockery\CountValidator\Exact' !== $this->_countValidatorClass) {
