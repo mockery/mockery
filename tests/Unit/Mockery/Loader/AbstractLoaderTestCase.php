@@ -13,7 +13,10 @@ declare(strict_types=1);
 namespace Mockery\Tests\Unit\Mockery\Loader;
 
 use Mockery\Generator\MockDefinition;
+use Mockery\LegacyMockInterface;
 use Mockery\Loader\Loader;
+use Mockery\Mock;
+use Mockery\MockInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
