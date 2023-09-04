@@ -5,11 +5,15 @@
         bootstrap="./tests/Bootstrap.php"
         cacheResult="false"
         forceCoversAnnotation="false"
-        stopOnFailure="true"
+        beStrictAboutCoversAnnotation="true"
+        beStrictAboutTodoAnnotatedTests="true"
+        beStrictAboutTestsThatDoNotTestAnything="true"
+        beStrictAboutResourceUsageDuringSmallTests="true"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutChangesToGlobalState="true"
         convertDeprecationsToExceptions="true"
         colors="true"
         verbose="true"
-        testdox="true"
 >
  <coverage processUncoveredFiles="true">
     <include>
