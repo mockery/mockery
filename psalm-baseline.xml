@@ -23,6 +23,9 @@
     <LessSpecificReturnStatement occurrences="1">
       <code>$mock</code>
     </LessSpecificReturnStatement>
+    <LessSpecificReturnType occurrences="1">
+      <code>array</code>
+    </LessSpecificReturnType>
     <MissingClosureParamType occurrences="5">
       <code>$argument</code>
       <code>$method</code>
@@ -51,6 +54,10 @@
       <code>setGenerator</code>
       <code>setLoader</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="2">
+      <code>mock</code>
+      <code>mockery_teardown</code>
+    </MissingThrowsDocblock>
     <MixedArgument occurrences="8">
       <code>$expectations</code>
       <code>$fileName</code>
@@ -112,9 +119,23 @@
     <MoreSpecificReturnType occurrences="1">
       <code>\Mockery\Mock</code>
     </MoreSpecificReturnType>
+    <PossiblyFalseArgument occurrences="2">
+      <code>$tmpfname</code>
+      <code>$tmpfname</code>
+    </PossiblyFalseArgument>
+    <PossiblyFalseOperand occurrences="1">
+      <code>substr($argument, 0, 1000)</code>
+    </PossiblyFalseOperand>
+    <PossiblyNullArgument occurrences="2">
+      <code>$method</code>
+      <code>$method</code>
+    </PossiblyNullArgument>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
+    <PossiblyUndefinedIntArrayOffset occurrences="1">
+      <code>$args[0]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod occurrences="25">
       <code>andAnyOtherArgs</code>
       <code>andAnyOthers</code>
@@ -226,6 +247,9 @@
       <code>endTest</code>
       <code>startTestSuite</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="1">
+      <code>getBlacklistedDirectories</code>
+    </MissingThrowsDocblock>
     <PossiblyUnusedMethod occurrences="2">
       <code>endTest</code>
       <code>startTestSuite</code>
@@ -269,6 +293,12 @@
       <code>call_user_func_array(array($first-&gt;getMock(), 'shouldNotReceive'), $args)</code>
       <code>call_user_func_array(array($first-&gt;getMock(), 'shouldReceive'), $args)</code>
     </MixedReturnStatement>
+    <PossiblyFalseReference occurrences="4">
+      <code>getMock</code>
+      <code>getMock</code>
+      <code>getMock</code>
+      <code>getOrderNumber</code>
+    </PossiblyFalseReference>
     <PossiblyUnusedMethod occurrences="3">
       <code>mock</code>
       <code>shouldNotReceive</code>
@@ -305,6 +335,9 @@
       <code>setInternalClassMethodParamMap</code>
       <code>setObjectFormatter</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="2">
+      <code>throw new \LogicException('Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.');</code>
+    </MissingThrowsDocblock>
     <MixedArgument occurrences="7">
       <code>$class</code>
       <code>$class</code>
@@ -325,10 +358,6 @@
       <code>$this-&gt;_objectFormatters[$class]</code>
       <code>$this-&gt;_objectFormatters[$type]</code>
     </MixedArrayOffset>
-    <MixedArrayTypeCoercion occurrences="2">
-      <code>$this-&gt;_defaultMatchers[$type]</code>
-      <code>$this-&gt;_objectFormatters[$type]</code>
-    </MixedArrayTypeCoercion>
     <MixedAssignment occurrences="6">
       <code>$classes[]</code>
       <code>$classes[]</code>
@@ -343,6 +372,10 @@
     <MixedReturnStatement occurrences="1">
       <code>$this-&gt;_internalClassParamMap[strtolower($class)][strtolower($method)]</code>
     </MixedReturnStatement>
+    <PossiblyFalseArgument occurrences="2">
+      <code>class_implements($class)</code>
+      <code>class_implements($class)</code>
+    </PossiblyFalseArgument>
     <PossiblyUndefinedVariable occurrences="2">
       <code>$classes</code>
       <code>$classes</code>
@@ -398,6 +431,7 @@
       <code>instanceMock</code>
       <code>mockery_setGroup</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="1"/>
     <MixedArgument occurrences="10">
       <code>$arg</code>
       <code>$blocks</code>
@@ -475,6 +509,12 @@
     <MoreSpecificReturnType occurrences="1">
       <code>Mock</code>
     </MoreSpecificReturnType>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$className</code>
+    </PossiblyFalseArgument>
+    <PossiblyUndefinedIntArrayOffset occurrences="1">
+      <code>$parts[1]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod occurrences="5">
       <code>instanceMock</code>
       <code>mockery_allocateOrder</code>
@@ -505,6 +545,9 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
+    <MissingThrowsDocblock occurrences="1">
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedMethodCall occurrences="4">
       <code>setActualCount</code>
       <code>setExpectedCount</code>
@@ -519,6 +562,9 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
+    <MissingThrowsDocblock occurrences="1">
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedMethodCall occurrences="4">
       <code>setActualCount</code>
       <code>setExpectedCount</code>
@@ -544,6 +590,9 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
+    <MissingThrowsDocblock occurrences="1">
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedAssignment occurrences="1">
       <code>$because</code>
     </MixedAssignment>
@@ -605,6 +654,7 @@
       <code>setMethodName</code>
       <code>setMock</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="1"/>
     <MixedMethodCall occurrences="1">
       <code>mockery_getName</code>
     </MixedMethodCall>
@@ -706,6 +756,10 @@
       <code>new $exception($message, $code, $previous)</code>
       <code>new $this-&gt;_countValidatorClass($this, $limit)</code>
     </InvalidStringClass>
+    <LessSpecificReturnType occurrences="2">
+      <code>self</code>
+      <code>self</code>
+    </LessSpecificReturnType>
     <MissingClosureParamType occurrences="2">
       <code>$args</code>
       <code>$args</code>
@@ -730,6 +784,17 @@
       <code>getName</code>
       <code>isAndAnyOtherArgumentsMatcher</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="11">
+      <code>mockery_validateOrder</code>
+      <code>mockery_validateOrder</code>
+      <code>throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a non-negative integer.");</code>
+      <code>throwAsNecessary</code>
+      <code>times</code>
+      <code>times</code>
+      <code>times</code>
+      <code>times</code>
+      <code>times</code>
+    </MissingThrowsDocblock>
     <MixedArgument occurrences="5">
       <code>$code</code>
       <code>$exception</code>
@@ -801,6 +866,10 @@
       <code>null</code>
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
+    <PossiblyUndefinedIntArrayOffset occurrences="2">
+      <code>$this-&gt;_expectedArgs[0]</code>
+      <code>$this-&gt;_expectedArgs[0]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod occurrences="24">
       <code>__construct</code>
       <code>andReturnArg</code>
@@ -857,6 +926,9 @@
       <code>addExpectation</code>
       <code>makeExpectationDefault</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="2">
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedAssignment occurrences="9">
       <code>$exp</code>
       <code>$exp</code>
@@ -981,6 +1053,9 @@
       <code>isInternal</code>
       <code>isInternal</code>
     </MixedMethodCall>
+    <MixedOperand occurrences="1">
+      <code>$attribute-&gt;getName()</code>
+    </MixedOperand>
     <MixedReturnStatement occurrences="7">
       <code>$this-&gt;name</code>
       <code>$this-&gt;rfc-&gt;getNamespaceName()</code>
@@ -990,9 +1065,6 @@
       <code>$this-&gt;rfc-&gt;isAbstract()</code>
       <code>$this-&gt;rfc-&gt;isFinal()</code>
     </MixedReturnStatement>
-    <UndefinedClass occurrences="1">
-      <code>ReflectionAttribute</code>
-    </UndefinedClass>
   </file>
   <file src="library/Mockery/Generator/Generator.php">
     <MissingReturnType occurrences="1">
@@ -1068,6 +1140,7 @@
       <code>setTargetClassName</code>
       <code>setTargetObject</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="1"/>
     <MixedArgument occurrences="34">
       <code>$alias</code>
       <code>$class-&gt;getMethods()</code>
@@ -1262,6 +1335,9 @@
       <code>getCode</code>
       <code>getConfig</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="1">
+      <code>throw new \InvalidArgumentException("MockConfiguration must contain a name");</code>
+    </MissingThrowsDocblock>
     <MixedMethodCall occurrences="1">
       <code>getName</code>
     </MixedMethodCall>
@@ -1337,6 +1413,9 @@
     <MixedMethodCall occurrences="1">
       <code>getName</code>
     </MixedMethodCall>
+    <PossiblyNullArgument occurrences="1">
+      <code>$code</code>
+    </PossiblyNullArgument>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/CallTypeHintPass.php">
     <MissingParamType occurrences="1">
@@ -1497,6 +1576,11 @@
       <code>$code</code>
       <code>$code</code>
     </InvalidScalarArgument>
+    <LessSpecificReturnType occurrences="3">
+      <code>array</code>
+      <code>string</code>
+      <code>string</code>
+    </LessSpecificReturnType>
     <MissingReturnType occurrences="1">
       <code>renderTypeHint</code>
     </MissingReturnType>
@@ -1513,11 +1597,24 @@
       <code>$method</code>
       <code>$name</code>
     </MixedAssignment>
-    <MixedOperand occurrences="3">
-      <code>$method-&gt;getName()</code>
+    <MixedOperand occurrences="2">
       <code>$name</code>
       <code>$this-&gt;renderTypeHint($parameter)</code>
     </MixedOperand>
+    <NullableReturnStatement occurrences="1">
+      <code>$code</code>
+    </NullableReturnStatement>
+    <PossiblyUndefinedIntArrayOffset occurrences="1">
+      <code>$matches[0]</code>
+    </PossiblyUndefinedIntArrayOffset>
+    <UndefinedMagicMethod occurrences="6">
+      <code>getName</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>isStatic</code>
+    </UndefinedMagicMethod>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPass.php">
     <MissingParamType occurrences="6">
@@ -1603,9 +1700,20 @@
     <PossiblyFalseArgument occurrences="1">
       <code>$lastBrace</code>
     </PossiblyFalseArgument>
-    <UndefinedFunction occurrences="1">
-      <code>enum_exists($prefix)</code>
-    </UndefinedFunction>
+    <PossiblyUndefinedIntArrayOffset occurrences="1">
+      <code>$matches[1]</code>
+    </PossiblyUndefinedIntArrayOffset>
+    <UndefinedMagicMethod occurrences="9">
+      <code>__toString</code>
+      <code>getDeclaringClass</code>
+      <code>getDefaultValue</code>
+      <code>getName</code>
+      <code>getName</code>
+      <code>isDefaultValueAvailable</code>
+      <code>isDefaultValueConstant</code>
+      <code>isOptional</code>
+      <code>isPassedByReference</code>
+    </UndefinedMagicMethod>
   </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/Pass.php">
     <MissingParamType occurrences="1">
@@ -1649,6 +1757,9 @@
       <code>getName</code>
       <code>isFinal</code>
     </MixedMethodCall>
+    <PossiblyNullArgument occurrences="1">
+      <code>$code</code>
+    </PossiblyNullArgument>
     <PossiblyUnusedMethod occurrences="1">
       <code>apply</code>
     </PossiblyUnusedMethod>
@@ -1795,6 +1906,9 @@
   </file>
   <file src="library/Mockery/Instantiator.php">
     <InvalidArgument occurrences="1"/>
+    <LessSpecificReturnType occurrences="1">
+      <code>Closure</code>
+    </LessSpecificReturnType>
     <MissingClosureReturnType occurrences="1">
       <code>function () use ($serializedString) {</code>
     </MissingClosureReturnType>
@@ -1804,6 +1918,10 @@
     <MissingReturnType occurrences="1">
       <code>instantiate</code>
     </MissingReturnType>
+    <MissingThrowsDocblock occurrences="2">
+      <code>attemptInstantiationViaUnSerialization</code>
+      <code>getReflectionClass</code>
+    </MissingThrowsDocblock>
     <MixedArgument occurrences="1">
       <code>$className</code>
     </MixedArgument>
@@ -1865,9 +1983,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="library/Mockery/Loader/EvalLoader.php">
-    <MissingReturnType occurrences="1">
-      <code>load</code>
-    </MissingReturnType>
     <MixedArgument occurrences="1">
       <code>$definition-&gt;getClassName()</code>
     </MixedArgument>
@@ -1876,35 +1991,18 @@
     </MixedOperand>
   </file>
   <file src="library/Mockery/Loader/Loader.php">
-    <MissingReturnType occurrences="1">
-      <code>load</code>
-    </MissingReturnType>
     <PossiblyUnusedMethod occurrences="1">
       <code>load</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Loader/RequireLoader.php">
-    <MissingParamType occurrences="1">
-      <code>$path</code>
-    </MissingParamType>
-    <MissingPropertyType occurrences="1">
-      <code>$path</code>
-    </MissingPropertyType>
-    <MissingReturnType occurrences="1">
-      <code>load</code>
-    </MissingReturnType>
-    <MixedArgument occurrences="4">
+    <MissingThrowsDocblock occurrences="1">
+      <code>throw new RuntimeException(sprintf('Unable to write file "%s"', $lastPath));</code>
+    </MissingThrowsDocblock>
+    <MixedArgument occurrences="2">
       <code>$definition-&gt;getClassName()</code>
       <code>$definition-&gt;getCode()</code>
-      <code>$path</code>
-      <code>$this-&gt;path</code>
     </MixedArgument>
-    <MixedOperand occurrences="1">
-      <code>$this-&gt;path</code>
-    </MixedOperand>
-    <UnresolvableInclude occurrences="1">
-      <code>require $fileName</code>
-    </UnresolvableInclude>
     <UnusedClass occurrences="1">
       <code>RequireLoader</code>
     </UnusedClass>
@@ -2070,27 +2168,38 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Reflector.php">
-    <MixedAssignment occurrences="2">
+    <LessSpecificReturnStatement occurrences="1"/>
+    <MissingThrowsDocblock occurrences="1">
+      <code>throw new \InvalidArgumentException('Unknown ReflectionType: ' . get_debug_type($type));</code>
+    </MissingThrowsDocblock>
+    <MixedArgument occurrences="4">
+      <code>$innterType</code>
+      <code>$type-&gt;getTypes()</code>
+      <code>$type-&gt;getTypes()</code>
+      <code>$typeHint</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="4">
+      <code>$innterType</code>
       <code>$type</code>
       <code>$type</code>
+      <code>$typeHint</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MoreSpecificReturnType occurrences="1">
       <code>list&lt;array{typeHint: string, isPrimitive: bool}&gt;</code>
-      <code>string</code>
-    </MixedInferredReturnType>
+    </MoreSpecificReturnType>
     <PossiblyNullArgument occurrences="1">
       <code>$declaringClass</code>
     </PossiblyNullArgument>
     <PossiblyUnusedMethod occurrences="1">
       <code>getSimplestReturnType</code>
     </PossiblyUnusedMethod>
-    <UndefinedClass occurrences="2">
-      <code>\ReflectionIntersectionType</code>
-      <code>\ReflectionUnionType</code>
-    </UndefinedClass>
-    <UnusedParam occurrences="1">
-      <code>$declaringClass</code>
-    </UnusedParam>
+    <RedundantCondition occurrences="2">
+      <code>!$type instanceof ReflectionType &amp;&amp; method_exists($method, 'getTentativeReturnType')</code>
+      <code>!$type instanceof ReflectionType &amp;&amp; method_exists($method, 'getTentativeReturnType')</code>
+    </RedundantCondition>
+    <UndefinedMethod occurrences="1">
+      <code>getName</code>
+    </UndefinedMethod>
   </file>
   <file src="library/Mockery/Undefined.php">
     <PossiblyUnusedMethod occurrences="1">
