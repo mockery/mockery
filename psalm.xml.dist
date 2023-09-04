@@ -8,6 +8,21 @@
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
     errorBaseline="psalm-baseline.xml"
+    findUnusedPsalmSuppress="true"
+    findUnusedVariablesAndParams="true"
+    ignoreInternalFunctionFalseReturn="false"
+    ignoreInternalFunctionNullReturn="false"
+    inferPropertyTypesFromConstructor="true"
+    limitMethodComplexity="true"
+    reportInfo="true"
+    reportMixedIssues="true"
+    restrictReturnTypes="true"
+    sealAllMethods="true"
+    sealAllProperties="true"
+    useDocblockPropertyTypes="true"
+    useDocblockTypes="true"
+    usePhpDocMethodsWithoutMagicCall="true"
+    usePhpDocPropertiesWithoutMagicCall="true"
 >
     <projectFiles>
         <directory name="library"/>
@@ -17,7 +32,4 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
-    <plugins>
-        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-    </plugins>
 </psalm>
