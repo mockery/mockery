@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Mockery\Tests\Unit\Mockery\Loader;
 
+use Mockery\Loader\Loader;
 use Mockery\Loader\RequireLoader;
 
 /**
@@ -20,7 +21,7 @@ use Mockery\Loader\RequireLoader;
  */
 final class RequireLoaderTest extends AbstractLoaderTestCase
 {
-    public function getLoader(): RequireLoader
+    public function getLoader(): Loader
     {
         return new RequireLoader(sys_get_temp_dir());
     }

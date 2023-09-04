@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Mockery\Tests\Unit\Mockery\Loader;
 
 use Mockery\Loader\EvalLoader;
+use Mockery\Loader\Loader;
 
 /**
  * @covers \Mockery\Loader\EvalLoader
@@ -20,7 +21,7 @@ use Mockery\Loader\EvalLoader;
  */
 final class EvalLoaderTest extends AbstractLoaderTestCase
 {
-    public function getLoader(): EvalLoader
+    public function getLoader(): Loader
     {
         return new EvalLoader();
     }
