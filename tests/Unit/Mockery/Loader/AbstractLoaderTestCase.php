@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Mockery\Tests\Unit\Mockery\Loader;
 
-use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\MockDefinition;
 use Mockery\Loader\Loader;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractLoaderTestCase extends TestCase
