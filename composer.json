@@ -49,10 +49,7 @@
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.6.10",
-        "psalm/plugin-phpunit": "^0.18.4",
-        "symplify/easy-coding-standard": "^11.5.0",
-        "vimeo/psalm": "^4.30"
+        "phpunit/phpunit": ">=9.6.11 <10.4"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
@@ -68,9 +65,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Fixture\\": "tests/Fixture/",
-            "Mockery\\Tests\\Unit\\": "tests/Unit",
-            "test\\": "tests/"
+            "Mockery\\Tests\\": "tests"
         },
         "files": [
             "fixtures/autoload.php",
@@ -82,36 +77,38 @@
         "platform": {
             "php": "7.3.999"
         },
-        "preferred-install": "dist",
         "sort-packages": true
     },
     "scripts": {
+        "up": "@composer update --no-interaction --no-progress --prefer-stable",
         "check": [
             "@composer validate",
-            "@ecs",
-            "@test"
+            "@cs",
+            "@test",
+            "@psalm"
         ],
-        "docs": "vendor/bin/phpdoc -d library -t docs/api",
-        "ecs": [
-            "@ecs:fix",
-            "@ecs:check"
-        ],
-        "ecs:check": "ecs check --clear-cache || true",
-        "ecs:fix": "ecs check --clear-cache --fix",
-        "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
-        "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
-        "psalm": [
-            "@psalm:shepherd",
+        "docs": "tools/phpdocumentor -d library -t docs/api",
+        "cs": "tools/php-cs-fixer fix --verbose --diff || true",
+        "phpunit": "tools/phpunit --colors=always --testdox --stop-on-failure",
+        "phpunit:coverage": "tools/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
+        "psalm": "@psalm:shepherd",
+        "psalm:dev": [
+            "@psalm:baseline",
             "@psalm:security",
             "@psalm:dry-run"
         ],
-        "psalm:baseline": "vendor/bin/psalm --no-diff --no-cache --set-baseline=psalm-baseline.xml",
-        "psalm:dry-run": "vendor/bin/psalm --no-cache  --alter --issues=all --dry-run",
-        "psalm:security": "vendor/bin/psalm --no-diff --no-cache --taint-analysis",
-        "psalm:shepherd": "vendor/bin/psalm --no-diff --no-cache  --shepherd --stats --output-format=github",
+        "psalm:baseline": "tools/psalm --no-diff --no-cache --set-baseline=psalm-baseline.xml --stats --php-version=7.3",
+        "psalm:dry-run": "tools/psalm --no-cache  --alter --issues=all --dry-run",
+        "psalm:security": "tools/psalm --no-diff --no-cache --taint-analysis --php-version=7.3",
+        "psalm:shepherd": "tools/psalm --no-diff --no-cache --shepherd --stats --php-version=7.3",
         "test": [
             "@phpunit",
             "@psalm"
+        ],
+        "phive:install": "phive install --copy --force-accept-unsigned ",
+        "phive:update": [
+            "phive update --force-accept-unsigned",
+            "phive purge"
         ]
     }
 }
