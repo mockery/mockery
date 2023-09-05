@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Mockery (https://docs.mockery.io/)
@@ -35,7 +37,6 @@ use ReflectionType;
  */
 final class Php82LanguageFeaturesTest extends MockeryTestCase
 {
-
     public static function provideMockParameterDisjunctiveNormalFormTypesCases(): iterable
     {
         $fixtures = [

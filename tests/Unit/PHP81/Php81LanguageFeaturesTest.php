@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Mockery (https://docs.mockery.io/)
@@ -123,7 +125,7 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = Mockery::mock(PDO::class);
 
-        static::assertInstanceOf(    PDO::class, $mock);
+        static::assertInstanceOf(PDO::class, $mock);
 
         $mock->shouldReceive('exec')->once();
 

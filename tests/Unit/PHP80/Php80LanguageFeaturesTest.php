@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Mockery (https://docs.mockery.io/)
@@ -32,8 +34,6 @@ use Traversable;
  */
 final class Php80LanguageFeaturesTest extends MockeryTestCase
 {
-
-
     public function testItCanMockAClassWithAMixedArgumentTypeHint(): void
     {
         $mock = mock(ArgumentMixedTypeHint::class);
