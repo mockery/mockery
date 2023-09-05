@@ -91,7 +91,7 @@ class MockingProtectedMethodsTest extends MockeryTestCase
     /** @test */
     public function shouldAllowMockingIncreasedVisabilityMethods()
     {
-        $mock = mock("test\Mockery\TestIncreasedVisibilityChild");
+        $mock = mock(TestIncreasedVisibilityChild::class);
         $mock->shouldReceive('foobar')->andReturn("foobar");
         $this->assertEquals('foobar', $mock->foobar());
     }

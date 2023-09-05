@@ -18,9 +18,9 @@ class MockClassWithMethodOverloadingTest extends MockeryTestCase
 
     public function testThrowsWhenMethodDoesNotExist()
     {
-        $mock = mock('test\Mockery\TestWithMethodOverloadingWithoutCall')
-            ->makePartial();
-        $this->assertInstanceOf('test\Mockery\TestWithMethodOverloadingWithoutCall', $mock);
+        $mock = mock(TestWithMethodOverloadingWithoutCall::class)->makePartial();
+
+        $this->assertInstanceOf(TestWithMethodOverloadingWithoutCall::class, $mock);
 
         $this->expectException(BadMethodCallException::class);
 

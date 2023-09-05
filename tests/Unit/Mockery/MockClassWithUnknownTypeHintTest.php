@@ -29,7 +29,7 @@ class MockClassWithUnknownTypeHintTest extends MockeryTestCase
     /** @test */
     public function itShouldSuccessfullyBuildTheMock()
     {
-        $mock = mock("test\Mockery\HasUnknownClassAsTypeHintOnMethod");
+        $mock = mock(HasUnknownClassAsTypeHintOnMethod::class);
 
         $this->assertInstanceOf(MockInterface::class, $mock);
     }

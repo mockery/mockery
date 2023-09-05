@@ -28,7 +28,7 @@ class MockingVariadicArgumentsTest extends MockeryTestCase
     /** @test */
     public function shouldAllowMockingVariadicArguments()
     {
-        $mock = mock("test\Mockery\TestWithVariadicArguments");
+        $mock = mock(TestWithVariadicArguments::class);
 
         $mock->shouldReceive("foo")->andReturn("notbar");
         $this->assertEquals("notbar", $mock->foo());
