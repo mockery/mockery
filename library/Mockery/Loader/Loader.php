@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -14,5 +16,5 @@ use Mockery\Generator\MockDefinition;
 
 interface Loader
 {
-    public function load(MockDefinition $definition);
+    public function load(MockDefinition $definition): void;
 }

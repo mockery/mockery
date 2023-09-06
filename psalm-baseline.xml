@@ -54,6 +54,11 @@
       <code>setGenerator</code>
       <code>setLoader</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code>getMethod</code>
+      <code>mock</code>
+      <code>mockery_teardown</code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$expectations</code>
       <code>$fileName</code>
@@ -133,6 +138,9 @@
     <PossiblyNullPropertyAssignmentValue>
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
+    <PossiblyUndefinedIntArrayOffset>
+      <code>$args[0]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod>
       <code>andAnyOtherArgs</code>
       <code>andAnyOthers</code>
@@ -258,6 +266,9 @@
       <code>endTest</code>
       <code>startTestSuite</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code>getBlacklistedDirectories</code>
+    </MissingThrowsDocblock>
     <PossiblyUnusedMethod>
       <code>endTest</code>
       <code>startTestSuite</code>
@@ -343,6 +354,13 @@
       <code>setInternalClassMethodParamMap</code>
       <code>setObjectFormatter</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new \InvalidArgumentException(
+                "Matcher class must extend \Mockery\Matcher\MatcherAbstract, " .
+                "'$matcherClass' given."
+            );]]></code>
+      <code><![CDATA[throw new \LogicException('Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.');]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$class</code>
       <code>$class</code>
@@ -439,6 +457,11 @@
       <code>instanceMock</code>
       <code>mockery_setGroup</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new \Mockery\Exception(
+                    "The mock named '$name' has been already defined with a different mock configuration"
+                );]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$arg</code>
       <code>$blocks</code>
@@ -519,6 +542,9 @@
     <PossiblyFalseArgument>
       <code>$className</code>
     </PossiblyFalseArgument>
+    <PossiblyUndefinedIntArrayOffset>
+      <code>$parts[1]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod>
       <code>instanceMock</code>
       <code>mockery_allocateOrder</code>
@@ -550,6 +576,9 @@
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
+    <MissingThrowsDocblock>
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedMethodCall>
       <code>setActualCount</code>
       <code>setExpectedCount</code>
@@ -564,6 +593,9 @@
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
+    <MissingThrowsDocblock>
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedMethodCall>
       <code>setActualCount</code>
       <code>setExpectedCount</code>
@@ -589,6 +621,9 @@
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
+    <MissingThrowsDocblock>
+      <code>throw $exception;</code>
+    </MissingThrowsDocblock>
     <MixedAssignment>
       <code>$because</code>
     </MixedAssignment>
@@ -650,6 +685,11 @@
       <code>setMethodName</code>
       <code>setMock</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new RuntimeException(
+                'Illegal comparative for expected call counts set: ' . $comp
+            );]]></code>
+    </MissingThrowsDocblock>
     <MixedMethodCall>
       <code>mockery_getName</code>
     </MixedMethodCall>
@@ -779,6 +819,23 @@
       <code>getName</code>
       <code>isAndAnyOtherArgumentsMatcher</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code>mockery_validateOrder</code>
+      <code>mockery_validateOrder</code>
+      <code><![CDATA[throw new Exception(
+                'Mock Objects not created from a loaded/existing class are '
+                . 'incapable of passing method calls through to a parent class'
+            );]]></code>
+      <code><![CDATA[throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a non-negative integer.");]]></code>
+      <code><![CDATA[throw new \InvalidArgumentException(sprintf('Call to %s with an invalid argument (%s), only array and ' .
+                'closure are allowed', __METHOD__, $argsOrClosure));]]></code>
+      <code>throwAsNecessary</code>
+      <code>times</code>
+      <code>times</code>
+      <code>times</code>
+      <code>times</code>
+      <code>times</code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$code</code>
       <code>$exception</code>
@@ -846,6 +903,10 @@
       <code>null</code>
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
+    <PossiblyUndefinedIntArrayOffset>
+      <code><![CDATA[$this->_expectedArgs[0]]]></code>
+      <code><![CDATA[$this->_expectedArgs[0]]]></code>
+    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod>
       <code>__construct</code>
       <code>andReturnArg</code>
@@ -907,6 +968,12 @@
       <code>addExpectation</code>
       <code>makeExpectationDefault</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code>throw $exception;</code>
+      <code><![CDATA[throw new \Mockery\Exception(
+                'Cannot turn a previously defined expectation into a default'
+            );]]></code>
+    </MissingThrowsDocblock>
     <MixedAssignment>
       <code>$exp</code>
       <code>$exp</code>
@@ -1118,6 +1185,15 @@
       <code>setTargetClassName</code>
       <code>setTargetObject</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new \Mockery\Exception(
+                    'The class ' . $this->targetClassName . ' is marked final and its methods'
+                    . ' cannot be replaced. Classes marked final can be passed in'
+                    . ' to \Mockery::mock() as instantiated objects to create a'
+                    . ' partial mock, but only if the mock is not subject to type'
+                    . ' hinting checks.'
+                );]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$alias</code>
       <code><![CDATA[$class->getMethods()]]></code>
@@ -1313,6 +1389,9 @@
       <code>getCode</code>
       <code>getConfig</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new \InvalidArgumentException("MockConfiguration must contain a name");]]></code>
+    </MissingThrowsDocblock>
     <MixedMethodCall>
       <code>getName</code>
     </MixedMethodCall>
@@ -1587,6 +1666,9 @@
     <NullableReturnStatement>
       <code>$code</code>
     </NullableReturnStatement>
+    <PossiblyUndefinedIntArrayOffset>
+      <code>$matches[0]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <UndefinedMagicMethod>
       <code>getName</code>
       <code>getName</code>
@@ -1687,6 +1769,9 @@
     <PossiblyFalseArgument>
       <code>$lastBrace</code>
     </PossiblyFalseArgument>
+    <PossiblyUndefinedIntArrayOffset>
+      <code>$matches[1]</code>
+    </PossiblyUndefinedIntArrayOffset>
     <TypeDoesNotContainType>
       <code><![CDATA[strpos($param, '&') !== false]]></code>
     </TypeDoesNotContainType>
@@ -1933,6 +2018,10 @@
     <MissingReturnType>
       <code>instantiate</code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code>attemptInstantiationViaUnSerialization</code>
+      <code>getReflectionClass</code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$className</code>
     </MixedArgument>
@@ -1994,9 +2083,6 @@
     </UndefinedDocblockClass>
   </file>
   <file src="library/Mockery/Loader/EvalLoader.php">
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$definition->getClassName()]]></code>
     </MixedArgument>
@@ -2005,25 +2091,21 @@
     </MixedOperand>
   </file>
   <file src="library/Mockery/Loader/Loader.php">
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
     <PossiblyUnusedMethod>
       <code>load</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Loader/RequireLoader.php">
-    <MissingParamType>
-      <code>$path</code>
-    </MissingParamType>
-    <MissingReturnType>
-      <code>load</code>
-    </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new RuntimeException(sprintf('Unable to write file "%s"', $lastPath));]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$definition->getClassName()]]></code>
       <code><![CDATA[$definition->getCode()]]></code>
-      <code>$path</code>
     </MixedArgument>
+    <UnsupportedPropertyReferenceUsage>
+      <code><![CDATA[$lastPath = &$this->lastPath]]></code>
+    </UnsupportedPropertyReferenceUsage>
     <UnusedClass>
       <code>RequireLoader</code>
     </UnusedClass>
@@ -2191,6 +2273,9 @@
     <LessSpecificReturnType>
       <code>string</code>
     </LessSpecificReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[throw new \InvalidArgumentException('Unknown ReflectionType: ' . get_debug_type($type));]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code>$innterType</code>
       <code><![CDATA[$type->getTypes()]]></code>

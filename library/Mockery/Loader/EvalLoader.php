@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -11,16 +13,18 @@
 namespace Mockery\Loader;
 
 use Mockery\Generator\MockDefinition;
-use Mockery\Loader\Loader;
 
-class EvalLoader implements Loader
+/**
+ * @see \Mockery\Tests\Unit\Mockery\LoaderTest
+ */
+final class EvalLoader implements Loader
 {
-    public function load(MockDefinition $definition)
+    public function load(MockDefinition $definition): void
     {
         if (class_exists($definition->getClassName(), false)) {
             return;
         }
 
-        eval("?>" . $definition->getCode());
+        eval('?>' . $definition->getCode());
     }
 }
