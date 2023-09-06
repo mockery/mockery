@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="1"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
@@ -14,6 +13,7 @@
     ensureArrayIntOffsetsExist="true"
     ensureArrayStringOffsetsExist="true"
     errorBaseline="psalm-baseline.xml"
+    errorLevel="1"
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
     findUnusedPsalmSuppress="true"
@@ -22,7 +22,6 @@
     ignoreInternalFunctionNullReturn="false"
     inferPropertyTypesFromConstructor="true"
     limitMethodComplexity="true"
-    phpVersion="7.3"
     reportInfo="true"
     reportMixedIssues="true"
     restrictReturnTypes="true"
