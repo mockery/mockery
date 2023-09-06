@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mockery
  *
@@ -18,42 +19,14 @@
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
-
 namespace DemeterChain;
+
+use stdClass;
 
 class C
 {
-    public function baz(): \stdClass
+    public function baz(): stdClass
     {
-        return new \stdClass();
-    }
-}
-
-class B
-{
-    public function bar(): C
-    {
-        return new C();
-    }
-
-    public function qux(): C
-    {
-        return new C();
-    }
-}
-
-class A
-{
-    public function foo(): B
-    {
-        return new B();
-    }
-}
-
-class Main
-{
-    public function callDemeter(A $a)
-    {
-        return $a->foo()->bar()->baz();
+        return new stdClass();
     }
 }
