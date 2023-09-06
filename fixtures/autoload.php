@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link      https://github.com/mockery/mockery for the canonical source repository
+ */
+
+use Composer\Autoload\ClassLoader;
+
 if (!function_exists('recursiveGlob')) {
     function globRecursively($pattern)
     {
@@ -13,8 +23,28 @@ if (!function_exists('recursiveGlob')) {
     }
 }
 
-// Autoload test fixtures for supported PHP versions (current and previous)
+/** @var ClassLoader $autoloader */
+$autoloader = array_reduce(
+    spl_autoload_functions(),
+    static function (?ClassLoader $found, $autoload): ?ClassLoader {
+        if ($found instanceof ClassLoader) {
+            return $found;
+        }
 
+        if (is_array($autoload) && $autoload[0] instanceof ClassLoader) {
+            return $autoload[0];
+        }
+
+        if ($autoload instanceof ClassLoader) {
+            return $autoload;
+        }
+
+        return null;
+    },
+    null
+);
+
+// Autoload test fixtures for supported PHP versions (current and previous)
 $phpVersions = [
     'PHP83' => 80300,
     'PHP82' => 80200,
@@ -25,39 +55,22 @@ $phpVersions = [
     'PHP72' => 70200,
 ];
 
-$allVersions = implode('|', array_keys($phpVersions));
-
-$currentSupportedVersion = implode('|', array_keys(array_filter($phpVersions, static function (int $version): bool {
-    return PHP_VERSION_ID >= $version;
-})));
-
-$allTestsAndFixtures = globRecursively(dirname(__DIR__) . '/fixtures/*.php');
-
-$currentSupportedVersionTestsAndFixtures = array_filter(
-    $allTestsAndFixtures,
-    static function (string $filePath) use ($currentSupportedVersion): bool {
-        return preg_match('#' . $currentSupportedVersion . '#', $filePath) === 1;
+foreach ($phpVersions as $version => $versionId) {
+    if (PHP_VERSION_ID < $versionId) {
+        continue;
     }
-);
 
-$allPhpVersionTestsAndFixtures = array_filter(
-    $allTestsAndFixtures,
-    static function (string $filePath) use ($allVersions): bool {
-        return preg_match('#' . $allVersions . '#', $filePath) === 1;
-    }
-);
+    // Add a directory to the autoloader
+    $autoloader->addPsr4($version . '\\', [__DIR__ . '/' . $version]);
+}
 
-$excludedPhpVersions = array_diff($allPhpVersionTestsAndFixtures, $currentSupportedVersionTestsAndFixtures);
-
-$autoloadTestsAndFixtures = array_diff($allTestsAndFixtures, $excludedPhpVersions);
-
+// Autoload Shared files
 array_map(
     static function (string $file): void {
         if (!file_exists($file)) {
             return;
         }
-
         require_once $file;
     },
-    $autoloadTestsAndFixtures
+    globRecursively(dirname(__DIR__) . '/fixtures/Shared/*.php')
 );
