@@ -401,6 +401,11 @@ class Expectation implements ExpectationInterface
         if ($expected instanceof \Mockery\Matcher\Matcher) {
             return $expected->match($actual);
         }
+
+        if ($expected instanceof Constraint) {
+            return $expected->evaluate($actual, '', true);
+        }
+
         if ($expected instanceof \Hamcrest\Matcher || $expected instanceof \Hamcrest_Matcher) {
             @trigger_error('Hamcrest package has been deprecated and will be removed in 2.0', E_USER_DEPRECATED);
 
