@@ -10,7 +10,7 @@
 
 namespace Mockery\Matcher;
 
-abstract class MatcherAbstract
+abstract class MatcherAbstract implements Matcher
 {
     /**
      * The expected value (or part thereof)
@@ -28,21 +28,4 @@ abstract class MatcherAbstract
     {
         $this->_expected = $expected;
     }
-
-    /**
-     * Check if the actual value matches the expected.
-     * Actual passed by reference to preserve reference trail (where applicable)
-     * back to the original method parameter.
-     *
-     * @param mixed $actual
-     * @return bool
-     */
-    abstract public function match(&$actual);
-
-    /**
-     * Return a string representation of this Matcher
-     *
-     * @return string
-     */
-    abstract public function __toString();
 }

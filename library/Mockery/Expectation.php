@@ -11,11 +11,13 @@
 namespace Mockery;
 
 use Closure;
+use Mockery\Adapter\Phpunit\ConstraintMatcher;
 use Mockery\Matcher\NoArgs;
 use Mockery\Matcher\AnyArgs;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\ArgumentListMatcher;
 use Mockery\Matcher\MultiArgumentClosure;
+use PHPUnit\Framework\Constraint\Constraint;
 
 class Expectation implements ExpectationInterface
 {
@@ -393,7 +395,10 @@ class Expectation implements ExpectationInterface
                 $expected = new $matcher($expected);
             }
         }
-        if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
+        if ($expected instanceof Constraint) {
+            $expected = new ConstraintMatcher($expected);
+        }
+        if ($expected instanceof \Mockery\Matcher\Matcher) {
             return $expected->match($actual);
         }
         if ($expected instanceof \Hamcrest\Matcher || $expected instanceof \Hamcrest_Matcher) {
