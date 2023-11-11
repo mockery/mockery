@@ -3,21 +3,31 @@
     errorLevel="1"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    phpVersion="7.3"
+    xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
+    errorBaseline="psalm-baseline.xml"
+    ensureArrayIntOffsetsExist="true"
+    ensureArrayStringOffsetsExist="true"
+    sealAllProperties="true"
+    sealAllMethods="true"
+    checkForThrowsDocblock="true"
+    cacheDirectory=".cache/psalm"
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
-    errorBaseline="psalm-baseline.xml"
+    findUnusedVariablesAndParams="true"
+    findUnusedPsalmSuppress="true"
+    phpVersion="7.3"
 >
     <projectFiles>
         <directory name="library"/>
         <ignoreFiles>
-            <file name="library/Mockery/Mock.php" />
             <directory name="tests"/>
+            <file name="library/Mockery/Mock.php" />
+            <directory name="fixtures"/>
+            <directory name="tests/Fixture"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
     <plugins>
-        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+<!--        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>-->
     </plugins>
 </psalm>
