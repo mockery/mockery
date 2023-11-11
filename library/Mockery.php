@@ -17,6 +17,8 @@ use Mockery\Generator\MockNameBuilder;
 use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
+use Mockery\Matcher\IsEqual;
+use Mockery\Matcher\IsSame;
 use Mockery\Matcher\MatcherAbstract;
 use Mockery\Reflector;
 
@@ -460,6 +462,28 @@ class Mockery
     public static function mustBe($expected)
     {
         return new \Mockery\Matcher\MustBe($expected);
+    }
+
+    /**
+     * Return instance of IsEqual matcher.
+     *
+     * @template TExpected
+     * @param TExpected $expected
+     */
+    public static function isEqual($expected): IsEqual
+    {
+        return new IsEqual($expected);
+    }
+
+    /**
+     * Return instance of IsSame matcher.
+     *
+     * @template TExpected
+     * @param TExpected $expected
+     */
+    public static function isSame($expected): IsSame
+    {
+        return new IsSame($expected);
     }
 
     /**

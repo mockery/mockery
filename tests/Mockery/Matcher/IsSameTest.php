@@ -2,6 +2,7 @@
 
 namespace test\Mockery\Matcher;
 
+use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Matcher\IsSame;
 
@@ -12,6 +13,6 @@ class IsSameTest extends MockeryTestCase
     /** @dataProvider isSameDataProvider */
     public function testItWorks($expected, $actual)
     {
-        self::assertTrue((new IsSame($expected))->match($actual));
+        self::assertTrue(Mockery::isSame($expected)->match($actual));
     }
 }
