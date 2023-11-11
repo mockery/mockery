@@ -19,7 +19,7 @@ use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 use Mockery\Matcher\IsEqual;
 use Mockery\Matcher\IsSame;
-use Mockery\Matcher\Matcher;
+use Mockery\Matcher\MatcherInterface;
 use Mockery\Reflector;
 
 class Mockery
@@ -582,7 +582,7 @@ class Mockery
      */
     private static function formatArgument($argument, $depth = 0)
     {
-        if ($argument instanceof Matcher) {
+        if ($argument instanceof MatcherInterface) {
             return (string) $argument;
         }
 

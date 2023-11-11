@@ -10,7 +10,7 @@
 
 namespace Mockery\Matcher;
 
-abstract class MatcherAbstract implements Matcher
+abstract class MatcherAbstract implements MatcherInterface
 {
     /**
      * The expected value (or part thereof)

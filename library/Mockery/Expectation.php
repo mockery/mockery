@@ -11,7 +11,6 @@
 namespace Mockery;
 
 use Closure;
-use Mockery\Adapter\Phpunit\ConstraintMatcher;
 use Mockery\Matcher\NoArgs;
 use Mockery\Matcher\AnyArgs;
 use Mockery\Matcher\AndAnyOtherArgs;
@@ -395,15 +394,13 @@ class Expectation implements ExpectationInterface
                 $expected = new $matcher($expected);
             }
         }
-        if ($expected instanceof Constraint) {
-            $expected = new ConstraintMatcher($expected);
-        }
-        if ($expected instanceof \Mockery\Matcher\Matcher) {
+
+        if ($expected instanceof \Mockery\Matcher\MatcherInterface) {
             return $expected->match($actual);
         }
 
         if ($expected instanceof Constraint) {
-            return $expected->evaluate($actual, '', true);
+            return (bool) $expected->evaluate($actual, '', true);
         }
 
         if ($expected instanceof \Hamcrest\Matcher || $expected instanceof \Hamcrest_Matcher) {

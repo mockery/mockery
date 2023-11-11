@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -10,14 +12,16 @@
 
 namespace Mockery\Matcher;
 
-interface Matcher
+interface MatcherInterface
 {
     /**
      * Check if the actual value matches the expected.
      * Actual passed by reference to preserve reference trail (where applicable)
      * back to the original method parameter.
      *
-     * @param mixed $actual
+     * @template TActual
+     *
+     * @param TActual $actual
      * @return bool
      */
     public function match(&$actual);
