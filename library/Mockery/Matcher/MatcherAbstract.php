@@ -10,6 +10,9 @@
 
 namespace Mockery\Matcher;
 
+/**
+ * @deprecated Implement \Mockery\Matcher\MatcherInterface instead of extending this class
+ */
 abstract class MatcherAbstract implements MatcherInterface
 {
     /**
