@@ -19,9 +19,7 @@ interface MatcherInterface
      * Actual passed by reference to preserve reference trail (where applicable)
      * back to the original method parameter.
      *
-     * @template TActual
-     *
-     * @param TActual $actual
+     * @param mixed $actual
      * @return bool
      */
     public function match(&$actual);
