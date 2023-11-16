@@ -51,4 +51,4 @@ jobs:
           ${fullCommand}
 
       - name: Run Psalm
-        run: composer psalm
+        run: composer psalm:shepherd
