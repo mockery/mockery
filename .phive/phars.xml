@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phive xmlns="https://phar.io/phive">
+  <phar name="psalm" version="^5.15.0" installed="5.15.0" location="./.phive/tools/psalm" copy="true"/>
+</phive>
