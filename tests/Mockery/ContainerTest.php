@@ -61,12 +61,12 @@ class ContainerTest extends MockeryTestCase
 
     public function testNamedMocksAddNameToExceptions()
     {
-        $m = mock('Foo');
+        $m = mock(__FUNCTION__);
         $m->shouldReceive('foo')->with(1)->andReturn('bar');
         try {
             $m->foo();
         } catch (\Mockery\Exception $e) {
-            $this->assertTrue((bool) preg_match("/Foo/", $e->getMessage()));
+            self::assertStringContainsString(__FUNCTION__, $e->getMessage());
         }
     }
 
@@ -92,20 +92,20 @@ class ContainerTest extends MockeryTestCase
 
     public function testNamedMockWithArrayDefs()
     {
-        $m = mock('Foo', array('foo'=>1, 'bar'=>2));
+        $m = mock(__FUNCTION__, array('foo'=>1, 'bar'=>2));
         $this->assertEquals(1, $m->foo());
         $this->assertEquals(2, $m->bar());
         try {
             $m->f();
         } catch (BadMethodCallException $e) {
-            $this->assertTrue((bool) preg_match("/Foo/", $e->getMessage()));
+            self::assertStringContainsString(__FUNCTION__, $e->getMessage());
         }
     }
 
     public function testNamedMockWithArrayDefsCanBeOverridden()
     {
         // eg. In shared test setup
-        $m = mock('Foo', array('foo' => 1));
+        $m = mock(__FUNCTION__, array('foo' => 1));
 
         // and then overridden in one test
         $m->shouldReceive('foo')->with('bar')->once()->andReturn(2);
@@ -115,7 +115,7 @@ class ContainerTest extends MockeryTestCase
         try {
             $m->f();
         } catch (BadMethodCallException $e) {
-            $this->assertTrue((bool) preg_match("/Foo/", $e->getMessage()));
+            self::assertStringContainsString(__FUNCTION__, $e->getMessage());
         }
     }
 
@@ -1419,7 +1419,7 @@ class ContainerTest extends MockeryTestCase
         $this->assertSame($expected, $container->isValidClassName($className));
     }
 
-    public function classNameProvider()
+    public static function classNameProvider()
     {
         return array(
             array(false, ' '), // just a space

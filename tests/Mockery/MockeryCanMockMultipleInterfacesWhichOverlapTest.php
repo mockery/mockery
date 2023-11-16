@@ -23,7 +23,7 @@ namespace Mockery\Tests;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class GeneratorTest extends MockeryTestCase
+class MockeryCanMockMultipleInterfacesWhichOverlapTest extends MockeryTestCase
 {
     /** @test */
     public function shouldNotDuplicateDoublyInheritedMethods()

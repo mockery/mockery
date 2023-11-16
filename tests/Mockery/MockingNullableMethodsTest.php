@@ -32,13 +32,6 @@ class MockingNullableMethodsTest extends MockeryTestCase
      */
     private $container;
 
-    protected function mockeryTestSetUp()
-    {
-        parent::mockeryTestSetUp();
-
-        require_once __DIR__ . "/Fixtures/MethodWithNullableReturnType.php";
-    }
-
     /**
      * @test
      */

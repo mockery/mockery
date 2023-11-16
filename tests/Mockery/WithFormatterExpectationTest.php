@@ -47,7 +47,7 @@ class WithFormatterExpectationTest extends TestCase
         $obj->getFoo();
     }
 
-    public function formatObjectsDataProvider()
+    public static function formatObjectsDataProvider()
     {
         return array(
             array(
