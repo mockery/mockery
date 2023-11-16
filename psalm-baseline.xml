@@ -334,10 +334,6 @@
       <code>setObjectFormatter</code>
     </MissingReturnType>
     <MissingThrowsDocblock>
-      <code><![CDATA[throw new \InvalidArgumentException(
-                "Matcher class must extend \Mockery\Matcher\MatcherAbstract, " .
-                "'$matcherClass' given."
-            );]]></code>
       <code><![CDATA[throw new \LogicException('Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.');]]></code>
     </MissingThrowsDocblock>
     <MixedArgument>
@@ -401,6 +397,7 @@
       <code>(bool) $flag</code>
     </RedundantCastGivenDocblockType>
     <UndefinedClass>
+      <code>InvalidArgumentException</code>
       <code>\Hamcrest_Matcher</code>
     </UndefinedClass>
   </file>
@@ -792,6 +789,8 @@
       <code>isAndAnyOtherArgumentsMatcher</code>
     </MissingReturnType>
     <MissingThrowsDocblock>
+      <code>evaluate</code>
+      <code>evaluate</code>
       <code>mockery_validateOrder</code>
       <code>mockery_validateOrder</code>
       <code><![CDATA[throw new Exception(
@@ -2072,12 +2071,33 @@
       <code>RequireLoader</code>
     </UnusedClass>
   </file>
+  <file src="library/Mockery/Matcher/AndAnyOtherArgs.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
+  <file src="library/Mockery/Matcher/Any.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
+  <file src="library/Mockery/Matcher/AnyArgs.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
   <file src="library/Mockery/Matcher/AnyOf.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code><![CDATA[$this->_expected]]></code>
     </MixedArgument>
   </file>
   <file src="library/Mockery/Matcher/Closure.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedAssignment>
       <code>$closure</code>
       <code>$result</code>
@@ -2087,6 +2107,9 @@
     </MixedFunctionCall>
   </file>
   <file src="library/Mockery/Matcher/Contains.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code>$actual</code>
     </MixedArgument>
@@ -2096,6 +2119,9 @@
     </MixedAssignment>
   </file>
   <file src="library/Mockery/Matcher/Ducktype.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code>$method</code>
       <code><![CDATA[$this->_expected]]></code>
@@ -2105,17 +2131,36 @@
     </MixedAssignment>
   </file>
   <file src="library/Mockery/Matcher/HasKey.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code>$actual</code>
       <code><![CDATA[$this->_expected]]></code>
     </MixedArgument>
   </file>
   <file src="library/Mockery/Matcher/HasValue.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code>$actual</code>
     </MixedArgument>
   </file>
+  <file src="library/Mockery/Matcher/IsEqual.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
+  <file src="library/Mockery/Matcher/IsSame.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
   <file src="library/Mockery/Matcher/MultiArgumentClosure.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedAssignment>
       <code>$closure</code>
     </MixedAssignment>
@@ -2123,22 +2168,44 @@
       <code>call_user_func_array($closure, $actual)</code>
     </MixedFunctionCall>
   </file>
+  <file src="library/Mockery/Matcher/MustBe.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
   <file src="library/Mockery/Matcher/NoArgs.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code>$actual</code>
     </MixedArgument>
   </file>
+  <file src="library/Mockery/Matcher/Not.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
+  </file>
   <file src="library/Mockery/Matcher/NotAnyOf.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedAssignment>
       <code>$exp</code>
     </MixedAssignment>
   </file>
   <file src="library/Mockery/Matcher/Pattern.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code><![CDATA[$this->_expected]]></code>
     </MixedArgument>
   </file>
   <file src="library/Mockery/Matcher/Subset.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MissingPropertyType>
       <code>$strict</code>
     </MissingPropertyType>
@@ -2155,6 +2222,9 @@
     </UnsafeInstantiation>
   </file>
   <file src="library/Mockery/Matcher/Type.php">
+    <DeprecatedClass>
+      <code>MatcherAbstract</code>
+    </DeprecatedClass>
     <MixedArgument>
       <code><![CDATA[$this->_expected]]></code>
       <code><![CDATA[$this->_expected]]></code>
