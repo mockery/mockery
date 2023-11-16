@@ -103,18 +103,15 @@
         ],
         "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
         "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
-        "psalm": [
-            "@psalm:shepherd",
-            "@psalm:security",
-            "@psalm:dry-run"
-        ],
+        "psalm": ".phive/tools/psalm --no-diff --no-cache --shepherd --stats --output-format=github",
         "psalm:baseline": ".phive/tools/psalm --no-diff --no-cache --set-baseline=psalm-baseline.xml",
         "psalm:dry-run": ".phive/tools/psalm --no-cache  --alter --issues=all --dry-run",
         "psalm:security": ".phive/tools/psalm --no-diff --no-cache --taint-analysis",
-        "psalm:shepherd": ".phive/tools/psalm --no-diff --no-cache  --shepherd --stats --output-format=github",
         "test": [
-            "@phpunit",
-            "@psalm"
+            "@phpunit --stop-on-defect",
+            "@psalm",
+            "@psalm:security",
+            "@psalm:dry-run"
         ]
     }
 }
