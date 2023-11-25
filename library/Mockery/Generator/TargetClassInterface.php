@@ -102,4 +102,9 @@ interface TargetClassInterface
      * @return boolean
      */
     public function hasInternalAncestor();
+
+    /**
+     * Returns whether the targetClass is readonly.
+     */
+    public function isReadOnly(): bool;
 }

@@ -5,7 +5,18 @@ namespace Mockery\Tests\Unit\PHP82;
 use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Reflector;
+use Mockery\Tests\Fixtures\PHP82\Subclass\ReadonlySubclassMustAlsoBeDeclaredReadonlyChildInvalid;
+use Mockery\Tests\Fixtures\PHP82\Subclass\ReadonlySubclassMustAlsoBeDeclaredReadonlyChildValid;
+use Mockery\Tests\Fixtures\PHP82\ReadOnlyClass;
+use Mockery\Tests\Fixtures\PHP82\ReadOnlyClassAbstract;
+use Mockery\Tests\Fixtures\PHP82\ReadOnlyClassFinal;
+use Mockery\Tests\Fixtures\PHP82\ReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute;
+use Mockery\Tests\Fixtures\PHP82\ReadonlyClassesMustNotUseDynamicProperties;
+use Mockery\Tests\Fixtures\PHP82\ReadonlyClassesMustOnlyContainTypedProperties;
+use Mockery\Tests\Fixtures\PHP82\User;
+use ReflectionClass;
 use ReflectionType;
+use stdClass;
 
 /**
  * @requires PHP 8.2.0-dev
@@ -18,7 +29,7 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
      */
     public function testMockParameterDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
-        $expectedReflectionClass = new \ReflectionClass($fullyQualifiedClassName);
+        $expectedReflectionClass = new ReflectionClass($fullyQualifiedClassName);
         $expectedMethod = $expectedReflectionClass->getMethods()[0];
         $expectedType = $expectedMethod
             ->getParameters()[0]
@@ -26,7 +37,7 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
 
         $mock = mock($fullyQualifiedClassName);
 
-        $reflectionClass = new \ReflectionClass($mock);
+        $reflectionClass = new ReflectionClass($mock);
         $type = $reflectionClass->getMethod($expectedMethod->getName())
             ->getParameters()[0]
             ->getType();
@@ -118,6 +129,49 @@ class Php82LanguageFeaturesTest extends MockeryTestCase
             'iterable|\stdClass|string',
             Reflector::getTypeHint($refParam)
         );
+    }
+
+    public function testMockReadOnlyClassAbstract(): void
+    {
+        self::assertSame(ReadOnlyClassAbstract::class, mock(ReadOnlyClassAbstract::class));
+    }
+
+    public function testMockReadOnlyClassFinal(): void
+    {
+        self::assertSame(ReadOnlyClassFinal::class, mock(ReadOnlyClassFinal::class));
+    }
+
+    public function testMockReadOnlyClass(): void
+    {
+        self::assertSame(ReadOnlyClass::class, mock(ReadOnlyClass::class));
+    }
+
+    public function testMockUser(): void
+    {
+        self::assertSame(User::class, mock(User::class));
+    }
+    public function testReadonlySubclassMustAlsoBeDeclaredReadonlyInvalid(): void
+    {
+        self::assertSame(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildInvalid::class, mock(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildInvalid::class));
+    }
+    public function testReadonlySubclassMustAlsoBeDeclaredReadonlyValid(): void
+    {
+        self::assertSame(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildValid::class, mock(ReadonlySubclassMustAlsoBeDeclaredReadonlyChildValid::class));
+    }
+
+    public function testMockReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute(): void
+    {
+        self::assertSame(ReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute::class, mock(ReadonlyClassesMustNotUseAllowDynamicPropertiesAttribute::class));
+    }
+
+    public function testMockReadonlyClassesMustNotUseDynamicProperties(): void
+    {
+        self::assertSame(ReadonlyClassesMustNotUseDynamicProperties::class, mock(ReadonlyClassesMustNotUseDynamicProperties::class));
+    }
+
+    public function testMockReadonlyClassesMustOnlyContainTypedProperties(): void
+    {
+        self::assertSame(ReadonlyClassesMustOnlyContainTypedProperties::class, mock(ReadonlyClassesMustOnlyContainTypedProperties::class));
     }
 }
 
