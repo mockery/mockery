@@ -16,7 +16,7 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
 {
     public function testMockingIteratorAggregateDoesNotImplementIterator()
     {
-        $mock = mock('test\Mockery\ImplementsIteratorAggregate');
+        $mock = mock(ImplementsIteratorAggregate::class);
         $this->assertInstanceOf('IteratorAggregate', $mock);
         $this->assertInstanceOf('Traversable', $mock);
         $this->assertNotInstanceOf('Iterator', $mock);
@@ -24,7 +24,7 @@ class Php80LanguageFeaturesTest extends MockeryTestCase
 
     public function testMockingIteratorDoesNotImplementIterator()
     {
-        $mock = mock('test\Mockery\ImplementsIterator');
+        $mock = mock(ImplementsIterator::class);
         $this->assertInstanceOf('Iterator', $mock);
         $this->assertInstanceOf('Traversable', $mock);
     }
