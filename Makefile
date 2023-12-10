@@ -15,9 +15,9 @@ phpDocumentor.phar:
 	wget https://github.com/phpDocumentor/phpDocumentor/releases/download/v3.3.1/phpDocumentor.phar
 	wget https://github.com/phpDocumentor/phpDocumentor/releases/download/v3.3.1/phpDocumentor.phar.asc
 
-library_files=$(shell find src -name '*.php')
+library_files=$(shell find library -name '*.php')
 docs/api/index.html: vendor/composer/installed.json $(library_files) phpDocumentor.phar
-	docker run -it --rm -v $$PWD:/opt/mockery -w /opt/mockery ghcr.io/ghostwriter/php:8.1-pcov php phpDocumentor.phar run -d src -t docs/api
+	docker run -it --rm -v $$PWD:/opt/mockery -w /opt/mockery ghcr.io/ghostwriter/php:8.1-pcov php phpDocumentor.phar run -d library -t docs/api
 
 .PHONY: test-all
 test-all: test-83 test-82 test-81 test-80 test-74 test-73
@@ -44,4 +44,4 @@ test-82: deps
 
 .PHONY: test-83
 test-83: deps
-	docker run -it --rm -v $$PWD:/opt/mockery -w /opt/mockery ghcr.io/ghostwriter/php:8.3-rc-pcov php vendor/bin/phpunit
+	docker run -it --rm -v $$PWD:/opt/mockery -w /opt/mockery ghcr.io/ghostwriter/php:8.3-pcov php vendor/bin/phpunit
