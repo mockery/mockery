@@ -1,4 +1,35 @@
-# Change Log
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [1.6.7] - 2023-12-09
+
+### Added
+
+- [#1338: Support PHPUnit constraints as matchers](https://github.com/mockery/mockery/pull/1338)
+- [#1336: Add factory methods for `IsEqual` and `IsSame` matchers](https://github.com/mockery/mockery/pull/1336)
+
+### Fixed
+
+- [#1346: Fix test namespaces](https://github.com/mockery/mockery/pull/1346)
+- [#1343: Update documentation default theme and build version](https://github.com/mockery/mockery/pull/1343)
+- [#1329: Prevent `shouldNotReceive` from getting overridden by invocation count methods](https://github.com/mockery/mockery/pull/1329)
+
+### Changed
+
+- [#1351: Update psalm-baseline.xml](https://github.com/mockery/mockery/pull/1351)
+- [#1350: Changelog v1.6.7](https://github.com/mockery/mockery/pull/1350)
+- [#1349: Cleanup](https://github.com/mockery/mockery/pull/1349)
+- [#1348: Update makefile](https://github.com/mockery/mockery/pull/1348)
+- [#1347: Bump phars dependencies](https://github.com/mockery/mockery/pull/1347)
+- [#1344: Disabled travis-ci and sensiolabs webhooks](https://github.com/mockery/mockery/issues/1344)
+- [#1342: Add `.readthedocs.yml` configuration](https://github.com/mockery/mockery/pull/1342)
+- [#1340: docs: Remove misplaced semicolumn from code snippet](https://github.com/mockery/mockery/pull/1340)
 
 ## 1.6.6 (2023-08-08)
 
