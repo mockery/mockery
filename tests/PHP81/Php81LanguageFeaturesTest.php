@@ -1,6 +1,6 @@
 <?php
 
-namespace test\Mockery;
+namespace Mockery\Tests\PHP81;
 
 use DateTime;
 use Mockery;

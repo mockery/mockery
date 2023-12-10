@@ -1,6 +1,6 @@
 <?php
 
-namespace test\Mockery;
+namespace Mockery\Tests\PHP80;
 
 use ArrayIterator;
 use DateTime;
