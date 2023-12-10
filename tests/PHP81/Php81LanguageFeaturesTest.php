@@ -1,10 +1,11 @@
 <?php
 
-namespace test\Mockery;
+namespace Mockery\Tests\PHP81;
 
 use DateTime;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PDO;
 use ReturnTypeWillChange;
 use RuntimeException;
 use Serializable;
@@ -24,7 +25,7 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
      */
     public function canMockClassesThatImplementSerializable()
     {
-        $mock = mock("test\Mockery\ClassThatImplementsSerializable");
+        $mock = mock(ClassThatImplementsSerializable::class);
         $this->assertInstanceOf("Serializable", $mock);
     }
 
@@ -41,9 +42,9 @@ class Php81LanguageFeaturesTest extends MockeryTestCase
      */
     public function it_can_mock_an_internal_class_with_tentative_union_return_types()
     {
-        $mock = Mockery::mock('PDO');
+        $mock = Mockery::mock(PDO::class);
 
-        $this->assertInstanceOf('PDO', $mock);
+        $this->assertInstanceOf(PDO::class, $mock);
 
         $mock->shouldReceive('exec')->once();
 
