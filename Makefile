@@ -44,4 +44,4 @@ test-82: deps
 
 .PHONY: test-83
 test-83: deps
-	docker run -it --rm -v $$PWD:/opt/mockery -w /opt/mockery ghcr.io/ghostwriter/php:8.3-rc-pcov php vendor/bin/phpunit
+	docker run -it --rm -v $$PWD:/opt/mockery -w /opt/mockery ghcr.io/ghostwriter/php:8.3-pcov php vendor/bin/phpunit
