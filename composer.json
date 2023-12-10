@@ -44,15 +44,13 @@
         "security": "https://github.com/mockery/mockery/security/advisories"
     },
     "require": {
-        "php": ">=7.4,<8.3",
+        "php": ">=7.3",
         "lib-pcre": ">=7.0",
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.3",
-        "psalm/plugin-phpunit": "^0.18.4",
-        "symplify/easy-coding-standard": "^11.5.0",
-        "vimeo/psalm": "^5.13.1"
+        "phpunit/phpunit": "^8.5 || ^9.6.10",
+        "symplify/easy-coding-standard": "^12.0.8"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
@@ -62,23 +60,25 @@
             "Mockery\\": "library/Mockery"
         },
         "files": [
-          "library/helpers.php",
-          "library/Mockery.php"
+            "library/helpers.php",
+            "library/Mockery.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "Fixture\\": "tests/Fixture/",
+            "Mockery\\Tests\\Unit\\": "tests/Unit",
             "test\\": "tests/"
         },
         "files": [
+            "fixtures/autoload.php",
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
         ]
     },
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.4.999"
+            "php": "7.3.999"
         },
         "preferred-install": "dist",
         "sort-packages": true
@@ -96,20 +96,22 @@
         ],
         "ecs:check": "ecs check --clear-cache || true",
         "ecs:fix": "ecs check --clear-cache --fix",
-        "phpunit": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure",
-        "phpunit:coverage": "vendor/bin/phpunit --colors=always --testdox --stop-on-failure --coverage-clover=coverage.xml",
-        "psalm": [
-            "@psalm:shepherd",
+        "phive": [
+            ".phive/tools/phive update --force-accept-unsigned",
+            ".phive/tools/phive purge"
+        ],
+        "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
+        "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
+        "psalm": ".phive/tools/psalm --no-diff --no-cache",
+        "psalm:baseline": "@psalm --set-baseline=psalm-baseline.xml",
+        "psalm:dry-run": "@psalm --alter --issues=all --dry-run",
+        "psalm:security": "@psalm --taint-analysis",
+        "psalm:shepherd": "@psalm --stats --shepherd --output-format=github",
+        "test": [
+            "@phpunit --stop-on-defect",
+            "@psalm",
             "@psalm:security",
             "@psalm:dry-run"
-        ],
-        "psalm:baseline": "vendor/bin/psalm --no-diff --no-cache --set-baseline=psalm-baseline.xml",
-        "psalm:dry-run": "vendor/bin/psalm --no-cache  --alter --issues=all --dry-run",
-        "psalm:security": "vendor/bin/psalm --no-diff --no-cache --taint-analysis",
-        "psalm:shepherd": "vendor/bin/psalm --no-diff --no-cache  --shepherd --stats --output-format=github",
-        "test": [
-            "@phpunit",
-            "@psalm"
         ]
     }
 }

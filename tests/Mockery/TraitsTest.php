@@ -23,7 +23,7 @@ namespace test\Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Loader\RequireLoader;
 
-class TraitTest extends MockeryTestCase
+class TraitsTest extends MockeryTestCase
 {
     /** @test */
     public function it_can_create_an_object_for_a_simple_trait()

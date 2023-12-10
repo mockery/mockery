@@ -459,7 +459,7 @@ also works if we expect multiple calls to different methods.
 
     $mock = \Mockery::mock('MyClass');
     // Expectations for the 1st call
-    $mock->shouldReceive('name_of_method');
+    $mock->shouldReceive('name_of_method')
         ->once()
         ->with('arg1')
         ->andReturn($value1)

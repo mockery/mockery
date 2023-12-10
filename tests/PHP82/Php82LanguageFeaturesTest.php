@@ -1,6 +1,6 @@
 <?php
 
-namespace test\Mockery;
+namespace Mockery\Tests\PHP82;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
