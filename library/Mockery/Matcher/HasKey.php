@@ -20,6 +20,10 @@ class HasKey extends MatcherAbstract
      */
     public function match(&$actual)
     {
+        if (!is_array($actual) && !is_object($actual)) {
+            return false;
+        }
+
         return array_key_exists($this->_expected, $actual);
     }
 
