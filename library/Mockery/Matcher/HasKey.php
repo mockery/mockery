@@ -24,7 +24,7 @@ class HasKey extends MatcherAbstract
             return false;
         }
 
-        return array_key_exists($this->_expected, $actual);
+        return array_key_exists($this->_expected, (array)$actual);
     }
 
     /**
