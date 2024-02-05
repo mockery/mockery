@@ -20,6 +20,10 @@ class HasValue extends MatcherAbstract
      */
     public function match(&$actual)
     {
+        if (!is_array($actual) && !is_object($actual)) {
+            return false;
+        }
+
         return in_array($this->_expected, $actual);
     }
 
