@@ -34,7 +34,6 @@ class HasValue extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<HasValue[' . (string) $this->_expected . ']>';
-        return $return;
+        return '<HasValue[' . (string)$this->_expected . ']>';
     }
 }
