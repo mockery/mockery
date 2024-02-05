@@ -2135,7 +2135,6 @@
       <code>MatcherAbstract</code>
     </DeprecatedClass>
     <MixedArgument>
-      <code>$actual</code>
       <code><![CDATA[$this->_expected]]></code>
     </MixedArgument>
   </file>
@@ -2143,9 +2142,6 @@
     <DeprecatedClass>
       <code>MatcherAbstract</code>
     </DeprecatedClass>
-    <MixedArgument>
-      <code>$actual</code>
-    </MixedArgument>
   </file>
   <file src="library/Mockery/Matcher/IsEqual.php">
     <DeprecatedClass>

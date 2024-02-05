@@ -20,7 +20,11 @@ class HasValue extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        return in_array($this->_expected, $actual);
+        if (!is_array($actual) && !$actual instanceof \ArrayAccess) {
+            return false;
+        }
+
+        return in_array($this->_expected, (array)$actual);
     }
 
     /**
@@ -30,7 +34,6 @@ class HasValue extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<HasValue[' . (string) $this->_expected . ']>';
-        return $return;
+        return '<HasValue[' . (string)$this->_expected . ']>';
     }
 }
