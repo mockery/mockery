@@ -24,7 +24,7 @@ class HasValue extends MatcherAbstract
             return false;
         }
 
-        return in_array($this->_expected, $actual);
+        return in_array($this->_expected, (array)$actual);
     }
 
     /**

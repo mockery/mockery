@@ -16,4 +16,32 @@ class HasValueTest extends TestCase
 
         $this->assertFalse($matcher->match($actual));
     }
+
+    /** @test */
+    public function it_matches_an_array()
+    {
+        $matcher = new HasValue(123);
+
+        $actual = [
+            'foo' => 'bar',
+            'dave' => 123,
+            'bar' => 'baz',
+        ];
+
+        $this->assertTrue($matcher->match($actual));
+    }
+
+    /** @test */
+    public function it_matches_an_array_like_object()
+    {
+        $matcher = new HasValue(123);
+
+        $actual = new \ArrayObject([
+            'foo' => 'bar',
+            'dave' => 123,
+            'bar' => 'baz',
+        ]);
+
+        $this->assertTrue($matcher->match($actual));
+    }
 }
