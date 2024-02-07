@@ -18,7 +18,7 @@
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
-namespace tests\Mockery\Matcher;
+namespace test\Mockery\Matcher;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Matcher\Subset;
