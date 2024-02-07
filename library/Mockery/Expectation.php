@@ -623,6 +623,22 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Dump the args supplied by the method call.
+     *
+     * @return self
+     */
+    public function andDump()
+    {
+        $this->_closureQueue = [
+            fn (...$args) => throw new Exception\Dump(
+                'Called ' . \Mockery::formatArgs($this->_name, $args)
+            ),
+        ];
+
+        return clone $this;
+    }
+
+    /**
      * Set Exception class and arguments to that class to be thrown
      *
      * @param string|\Exception $exception

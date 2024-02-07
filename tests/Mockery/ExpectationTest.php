@@ -260,6 +260,34 @@ class ExpectationTest extends MockeryTestCase
         $this->assertNull($this->mock->foo(...$args));
     }
 
+    public function testDumpsCalls()
+    {
+        $this->expectException(Mockery\Exception\Dump::class);
+        $this->expectExceptionMessage("Called foo('bar')");
+        $this->mock->shouldReceive('foo')->andDump();
+        $this->mock->foo('bar');
+    }
+
+    public function testDumperDoesNotBreakOtherListeners()
+    {
+        $this->mock->shouldReceive('foo')->andReturn('f');
+        $this->mock->shouldReceive('bar')->andDump();
+        $this->mock->shouldReceive('baz')->with('b')->andReturn('z');
+
+        $this->assertSame('f', $this->mock->foo());
+        $this->assertSame('z', $this->mock->baz('b'));
+
+        $this->expectException(Mockery\Exception\Dump::class);
+        $this->mock->bar();
+    }
+
+    public function testDumperIgnoresMatchers()
+    {
+        $this->expectException(Mockery\Exception\Dump::class);
+        $this->mock->shouldReceive('foo')->andDump()->with('baz');
+        $this->mock->foo('bar');
+    }
+
     public function testExceptionOnInvalidArgumentIndexValue()
     {
         $this->expectException(\InvalidArgumentException::class);
