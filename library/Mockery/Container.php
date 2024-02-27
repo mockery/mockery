@@ -112,7 +112,7 @@ class Container
         if (count($match) === 1) {
             $res = array_values($match);
 
-            if (count($res) > 0) {
+            if ([] !== $res) {
                 return $res[0];
             }
         }
