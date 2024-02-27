@@ -6,46 +6,46 @@
       <code>$expectation</code>
     </ArgumentTypeCoercion>
     <DeprecatedClass>
-      <code>\Mockery\Matcher\MustBe</code>
-      <code>new \Mockery\Matcher\MustBe($expected)</code>
+      <code>MustBe</code>
+      <code>new MustBe($expected)</code>
     </DeprecatedClass>
     <DeprecatedMethod>
-      <code>\Mockery::builtInTypes()</code>
+      <code>self::builtInTypes()</code>
     </DeprecatedMethod>
     <DocblockTypeContradiction>
-      <code>is_null(self::$_config)</code>
-      <code>is_null(self::$_generator)</code>
-      <code>is_null(self::$_loader)</code>
+      <code>self::$_config === null</code>
+      <code>self::$_generator === null</code>
+      <code>self::$_loader === null</code>
     </DocblockTypeContradiction>
-    <LessSpecificReturnStatement>
-      <code>$mock</code>
-      <code><![CDATA[self::getContainer()->fetchMock($name)]]></code>
-    </LessSpecificReturnStatement>
+    <InvalidNullableReturnType>
+      <code>LegacyMockInterface|MockInterface</code>
+    </InvalidNullableReturnType>
+    <InvalidReturnType>
+      <code>MockInterface|LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
+    </InvalidReturnType>
     <MissingClosureParamType>
       <code>$argument</code>
-      <code>$method</code>
-      <code>$n</code>
-      <code>$nesting</code>
-      <code>$object</code>
     </MissingClosureParamType>
     <MissingClosureReturnType>
       <code><![CDATA[function ($argument) use (&$reference) {]]></code>
-      <code>function ($method) use ($add) {</code>
-      <code>function ($n) use ($mock) {</code>
-      <code>function ($object, $nesting) {</code>
+      <code>static function (object $object, int $nesting) {</code>
+      <code>static function (string $method) use ($add) {</code>
+      <code>static function (string $method) use ($mock) {</code>
     </MissingClosureReturnType>
     <MissingParamType>
       <code>$fqn</code>
       <code>$fqn</code>
-      <code>$fqn</code>
       <code>$reference</code>
-      <code>$type</code>
     </MissingParamType>
     <MissingReturnType>
+      <code>close</code>
       <code>declareClass</code>
       <code>declareInterface</code>
-      <code>declareType</code>
+      <code>globalHelpers</code>
       <code>registerFileForCleanUp</code>
+      <code>resetContainer</code>
       <code>setGenerator</code>
       <code>setLoader</code>
     </MissingReturnType>
@@ -53,15 +53,26 @@
       <code>getMethod</code>
       <code>mock</code>
       <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
+      <code>mock</code>
       <code>mockery_teardown</code>
     </MissingThrowsDocblock>
     <MixedArgument>
+      <code>$args</code>
+      <code>$args</code>
+      <code>$args</code>
+      <code>$args</code>
       <code>$expectations</code>
       <code>$fileName</code>
       <code>$formatter($object, $nesting)</code>
       <code>$fqn</code>
-      <code>$n</code>
-      <code>$nesting</code>
+      <code>$fqn</code>
       <code>$object</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
@@ -74,14 +85,12 @@
       <code>$argument[$key]</code>
       <code>$cleanedProperties[$name]</code>
       <code>$expectations</code>
-      <code>$expectations</code>
       <code>$fileName</code>
       <code>$formattedArguments[]</code>
       <code>$formatter</code>
-      <code>$mock</code>
+      <code>$name</code>
       <code>$name</code>
       <code>$reference</code>
-      <code>$shortName</code>
       <code>$v</code>
       <code>$value</code>
       <code>$value</code>
@@ -91,44 +100,41 @@
       <code>$formatter($object, $nesting)</code>
     </MixedFunctionCall>
     <MixedInferredReturnType>
-      <code>\Mockery\ExpectationInterface</code>
-      <code>\Mockery\Mock</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
+      <code>ExpectationInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
     </MixedInferredReturnType>
     <MixedMethodCall>
-      <code>mockery_getExpectationsFor</code>
+      <code>build</code>
       <code>shouldIgnoreMissing</code>
-      <code>shouldReceive</code>
     </MixedMethodCall>
+    <MixedOperand>
+      <code>$argument</code>
+    </MixedOperand>
     <MixedPropertyFetch>
-      <code><![CDATA[$object->$name]]></code>
+      <code><![CDATA[$object->{$name}]]></code>
     </MixedPropertyFetch>
     <MixedReturnStatement>
       <code>$expectations</code>
       <code>$expectations</code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)]]></code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)]]></code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)]]></code>
-      <code><![CDATA[call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing()]]></code>
+      <code><![CDATA[self::getContainer()->mock(...$args)->shouldIgnoreMissing()]]></code>
     </MixedReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\Mockery\Mock</code>
-    </MoreSpecificReturnType>
     <NoValue>
       <code>$mock</code>
+      <code><![CDATA[return self::getContainer()->mock(...$args);]]></code>
+      <code><![CDATA[return self::getContainer()->mock(...$args);]]></code>
+      <code><![CDATA[return self::getContainer()->mock(...$args);]]></code>
     </NoValue>
     <NullableReturnStatement>
       <code><![CDATA[self::getContainer()->fetchMock($name)]]></code>
     </NullableReturnStatement>
-    <PossiblyInvalidArrayOffset>
-      <code>$mocks[$demeterMockKey]</code>
-    </PossiblyInvalidArrayOffset>
     <PossiblyNullPropertyAssignmentValue>
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
+    <PossiblyNullReference>
+      <code>allows</code>
+      <code>mockery_getExpectationsFor</code>
+    </PossiblyNullReference>
     <PossiblyUndefinedIntArrayOffset>
       <code>$args[0]</code>
     </PossiblyUndefinedIntArrayOffset>
@@ -162,25 +168,26 @@
       <code>type</code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
-      <code>\Mockery\MockInterface|\Mockery\LegacyMockInterface</code>
+      <code>MockInterface|LegacyMockInterface</code>
     </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
     </RedundantConditionGivenDocblockType>
+    <UndefinedInterfaceMethod>
+      <code>allows</code>
+    </UndefinedInterfaceMethod>
     <UnevaluatedCode>
-      <code><![CDATA[$exp->andReturn($mock);]]></code>
+      <code><![CDATA[$expectation->andReturn($mock);]]></code>
       <code>return $mock;</code>
     </UnevaluatedCode>
     <UnnecessaryVarAnnotation>
-      <code>Mockery\Container</code>
+      <code>Container</code>
     </UnnecessaryVarAnnotation>
     <UnresolvableInclude>
-      <code>require $tmpfname</code>
+      <code>require $filename</code>
     </UnresolvableInclude>
     <UnusedVariable>
       <code>$mock</code>
-      <code>$parRefMethod</code>
-      <code>$parRefMethodRetType</code>
     </UnusedVariable>
   </file>
   <file src="library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php">
@@ -517,7 +524,8 @@
       <code>int</code>
     </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
-      <code><![CDATA[count($res) > 0]]></code>
+      <code>[] !== $res</code>
+      <code>[] !== $res</code>
       <code>is_array($arg)</code>
     </RedundantConditionGivenDocblockType>
     <TooManyArguments>
