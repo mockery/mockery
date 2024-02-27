@@ -24,6 +24,7 @@ use Mockery\Loader\Loader;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\Any;
 use Mockery\Matcher\AnyOf;
+use Mockery\Matcher\Closure as MockeryClosure;
 use Mockery\Matcher\Contains;
 use Mockery\Matcher\Ducktype;
 use Mockery\Matcher\HasKey;
@@ -37,7 +38,6 @@ use Mockery\Matcher\NotAnyOf;
 use Mockery\Matcher\Pattern;
 use Mockery\Matcher\Subset;
 use Mockery\Matcher\Type;
-use Mockery\Mock;
 use Mockery\MockInterface;
 use Mockery\Reflector;
 
@@ -143,7 +143,7 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
-     * @return \Mockery\Matcher\Closure
+     * @return MockeryClosure
      */
     public static function capture(&$reference)
     {
@@ -152,7 +152,7 @@ class Mockery
             return true;
         };
 
-        return new \Mockery\Matcher\Closure($closure);
+        return new MockeryClosure($closure);
     }
 
     /**
@@ -297,12 +297,12 @@ class Mockery
      * Lazy loader and getter for
      * the container property.
      *
-     * @return Mockery\Container
+     * @return Container
      */
     public static function getContainer()
     {
         if (self::$_container === null) {
-            self::$_container = new Mockery\Container(self::getGenerator(), self::getLoader());
+            self::$_container = new Container(self::getGenerator(), self::getLoader());
         }
 
         return self::$_container;
@@ -506,13 +506,13 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
-     * @param mixed $closure
+     * @param Closure $closure
      *
-     * @return \Mockery\Matcher\Closure
+     * @return MockeryClosure
      */
     public static function on($closure)
     {
-        return new \Mockery\Matcher\Closure($closure);
+        return new MockeryClosure($closure);
     }
 
     /**
@@ -678,8 +678,9 @@ class Mockery
 
         $methodName = current($methodNames);
 
-        if (! self::getConfiguration()->mockingNonExistentMethodsAllowed()
-            && ! $mock->mockery_isAnonymous()
+        if (
+            ! $mock->mockery_isAnonymous()
+            && ! self::getConfiguration()->mockingNonExistentMethodsAllowed()
             && ! in_array($methodName, $mock->mockery_getMockableMethods(), true)
         ) {
             throw new \Mockery\Exception(
