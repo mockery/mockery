@@ -5,18 +5,28 @@
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
  * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ *
  * @link      https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
 
+use Closure;
+
 /**
- * @method \Mockery\Expectation withArgs(\Closure|array $args)
+ * @method Expectation withArgs(array|Closure $args)
  */
 class HigherOrderMessage
 {
-    private $mock;
+    /**
+     * @var string
+     */
     private $method;
+
+    /**
+     * @var LegacyMockInterface|MockInterface
+     */
+    private $mock;
 
     public function __construct(MockInterface $mock, $method)
     {
@@ -25,7 +35,10 @@ class HigherOrderMessage
     }
 
     /**
-     * @return \Mockery\Expectation
+     * @param string $method
+     * @param array  $args
+     *
+     * @return Expectation|ExpectationInterface|HigherOrderMessage
      */
     public function __call($method, $args)
     {
@@ -34,6 +47,7 @@ class HigherOrderMessage
         }
 
         $expectation = $this->mock->{$this->method}($method);
+
         return $expectation->withArgs($args);
     }
 }
