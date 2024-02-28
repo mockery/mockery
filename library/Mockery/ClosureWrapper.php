@@ -10,7 +10,7 @@
 
 namespace Mockery;
 
-use Mockery\Matcher\Closure;
+use Closure;
 
 /**
  * @internal
@@ -19,13 +19,16 @@ class ClosureWrapper
 {
     private $closure;
 
-    public function __construct(\Closure $closure)
+    public function __construct(Closure $closure)
     {
         $this->closure = $closure;
     }
 
+    /**
+     * @return mixed
+     */
     public function __invoke()
     {
-        return call_user_func_array($this->closure, func_get_args());
+        return ($this->closure)(...func_get_args());
     }
 }
