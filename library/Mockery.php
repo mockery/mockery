@@ -57,7 +57,7 @@ class Mockery
     /**
      * Global container to hold all mocks for the current unit test running.
      *
-     * @var null|Mockery\Container
+     * @var null|Container
      */
     protected static $_container = null;
 
@@ -72,7 +72,7 @@ class Mockery
     protected static $_loader;
 
     /**
-     * @var array
+     * @var list<string>
      */
     private static $_filesToCleanUp = [];
 
@@ -112,7 +112,9 @@ class Mockery
     /**
      * Return instance of ANYOF matcher.
      *
-     * @param array ...$args
+     * @template TAnyOf
+     *
+     * @param TAnyOf ...$args
      *
      * @return AnyOf
      */
@@ -133,6 +135,10 @@ class Mockery
 
     /**
      * Return instance of CLOSURE matcher.
+     *
+     * @template TReference
+     *
+     * @param TReference $reference
      *
      * @return ClosureMatcher
      */
@@ -188,7 +194,7 @@ class Mockery
     }
 
     /**
-     * @param string $fqn
+     * @param class-string $fqn
      *
      * @return void
      */
@@ -198,7 +204,7 @@ class Mockery
     }
 
     /**
-     * @param string $fqn
+     * @param class-string $fqn
      *
      * @return void
      */
@@ -224,9 +230,11 @@ class Mockery
     /**
      * Static fetching of a mock associated with a name or explicit class poser.
      *
-     * @param string $name
+     * @template TMock of object
      *
-     * @return LegacyMockInterface|MockInterface
+     * @param class-string<TMock> $name
+     *
+     * @return (LegacyMockInterface|MockInterface)&TMock
      */
     public static function fetchMock($name)
     {
@@ -413,7 +421,7 @@ class Mockery
      *
      * @param TInstanceMock ...$args
      *
-     * @return LegacyMockInterface|MockInterface
+     * @return (LegacyMockInterface|MockInterface)&TInstanceMock
      */
     public static function instanceMock(...$args)
     {
@@ -463,7 +471,7 @@ class Mockery
      *
      * @param TMock ...$args
      *
-     * @return LegacyMockInterface|MockInterface
+     * @return (LegacyMockInterface|MockInterface)&TMock
      */
     public static function mock(...$args)
     {
@@ -491,7 +499,7 @@ class Mockery
      *
      * @param TNamedMock ...$args
      *
-     * @return LegacyMockInterface|MockInterface
+     * @return (LegacyMockInterface|MockInterface)&TNamedMock
      */
     public static function namedMock(...$args)
     {
@@ -663,7 +671,7 @@ class Mockery
      *
      * @param TSpy ...$args
      *
-     * @return LegacyMockInterface|MockInterface
+     * @return (LegacyMockInterface|MockInterface)&TSpy
      */
     public static function spy(...$args)
     {
