@@ -4,57 +4,69 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Loader;
 
 use Mockery\Generator\MockDefinition;
-use Mockery\Loader\Loader;
+
+use function array_diff;
+use function class_exists;
+use function file_exists;
+use function file_put_contents;
+use function glob;
+use function realpath;
+use function sprintf;
+use function sys_get_temp_dir;
+use function uniqid;
+use function unlink;
+
+use const DIRECTORY_SEPARATOR;
 
 class RequireLoader implements Loader
 {
     /**
      * @var string
      */
-    protected $path;
+    protected $lastPath = '';
 
     /**
      * @var string
      */
-    protected $lastPath = '';
+    protected $path;
 
     public function __construct($path = null)
     {
         $this->path = realpath($path) ?: sys_get_temp_dir();
-
-        register_shutdown_function([$this, '__destruct']);
     }
 
     public function __destruct()
     {
-        $files = array_diff(
-            glob($this->path . DIRECTORY_SEPARATOR . 'Mockery_*.php')?:[],
-            [$this->lastPath]
-        );
+        $files = array_diff(glob($this->path . DIRECTORY_SEPARATOR . 'Mockery_*.php') ?: [], [$this->lastPath]);
 
         foreach ($files as $file) {
             @unlink($file);
         }
     }
 
+    /**
+     * Load the given mock definition
+     *
+     * @return void
+     */
     public function load(MockDefinition $definition)
     {
         if (class_exists($definition->getClassName(), false)) {
             return;
         }
 
-        $this->lastPath = sprintf('%s%s%s.php', $this->path, DIRECTORY_SEPARATOR, uniqid('Mockery_'));
+        $this->lastPath = sprintf('%s%s%s.php', $this->path, DIRECTORY_SEPARATOR, uniqid('Mockery_', false));
 
         file_put_contents($this->lastPath, $definition->getCode());
 
-        if (file_exists($this->lastPath)){
+        if (file_exists($this->lastPath)) {
             require $this->lastPath;
         }
     }
