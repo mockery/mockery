@@ -18,10 +18,10 @@ use ReflectionClass;
 use UnexpectedValueException;
 
 use function class_exists;
-use function mb_strlen;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
+use function strlen;
 use function unserialize;
 
 /**
@@ -39,7 +39,7 @@ final class Instantiator
      *
      * @return TClass
      */
-    public function instantiate(string $className): object
+    public function instantiate($className): object
     {
         return $this->buildFactory($className)();
     }
@@ -97,7 +97,7 @@ final class Instantiator
             };
         }
 
-        $serializedString = sprintf('O:%d:"%s":0:{}', mb_strlen($className), $className);
+        $serializedString = sprintf('O:%d:"%s":0:{}', strlen($className), $className);
 
         $this->attemptInstantiationViaUnSerialization($reflectionClass, $serializedString);
 

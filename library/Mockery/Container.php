@@ -37,10 +37,10 @@ use function is_array;
 use function is_callable;
 use function is_object;
 use function is_string;
-use function mb_strlen;
-use function mb_strpos;
-use function mb_strtolower;
-use function mb_substr;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function substr;
 use function md5;
 use function preg_grep;
 use function preg_match;
@@ -181,7 +181,7 @@ class Container
     public function isValidClassName($className)
     {
         if ($className[0] === '\\') {
-            $className = mb_substr($className, 1); // remove the first backslash
+            $className = substr($className, 1); // remove the first backslash
         }
         // all the namespaces and class name should match the regex
         return array_filter(
@@ -255,7 +255,7 @@ class Container
                         continue;
                     }
 
-                    if (mb_strpos($type, ',') && ! mb_strpos($type, ']')) {
+                    if (strpos($type, ',') && ! strpos($type, ']')) {
                         $interfaces = explode(',', str_replace(' ', '', $type));
 
                         $builder->addTargets($interfaces);
@@ -263,7 +263,7 @@ class Container
                         continue;
                     }
 
-                    if (mb_strpos($type, 'alias:') === 0) {
+                    if (strpos($type, 'alias:') === 0) {
                         $type = str_replace('alias:', '', $type);
 
                         $builder->addTarget('stdClass');
@@ -272,7 +272,7 @@ class Container
                         continue;
                     }
 
-                    if (mb_strpos($type, 'overload:') === 0) {
+                    if (strpos($type, 'overload:') === 0) {
                         $type = str_replace('overload:', '', $type);
 
                         $builder->setInstanceMock(true);
@@ -282,7 +282,7 @@ class Container
                         continue;
                     }
 
-                    if ($type[mb_strlen($type) - 1] === ']') {
+                    if ($type[strlen($type) - 1] === ']') {
                         $parts = explode('[', $type);
 
                         $class = $parts[0];
@@ -298,12 +298,12 @@ class Container
                         $builder->addTarget($class);
 
                         $partialMethods = array_filter(
-                            explode(',', mb_strtolower(rtrim(str_replace(' ', '', $parts[1]), ']')))
+                            explode(',', strtolower(rtrim(str_replace(' ', '', $parts[1]), ']')))
                         );
 
                         foreach ($partialMethods as $partialMethod) {
                             if ($partialMethod[0] === '!') {
-                                $builder->addBlackListedMethod(mb_substr($partialMethod, 1));
+                                $builder->addBlackListedMethod(substr($partialMethod, 1));
 
                                 continue;
                             }

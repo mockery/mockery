@@ -23,8 +23,8 @@ use function array_merge;
 use function class_implements;
 use function get_parent_class;
 use function is_a;
-use function mb_strtolower;
 use function sprintf;
+use function strtolower;
 use function trigger_error;
 
 use const E_USER_DEPRECATED;
@@ -216,8 +216,8 @@ class Configuration
      */
     public function getInternalClassMethodParamMap($class, $method)
     {
-        $class = mb_strtolower($class);
-        $method = mb_strtolower($method);
+        $class = strtolower($class);
+        $method = strtolower($method);
 
         if (
             array_key_exists($class, $this->_internalClassParamMap)
@@ -382,13 +382,13 @@ class Configuration
             );
         }
 
-        $class = mb_strtolower($class);
+        $class = strtolower($class);
 
         if (! array_key_exists($class, $this->_internalClassParamMap)) {
             $this->_internalClassParamMap[$class] = [];
         }
 
-        $this->_internalClassParamMap[$class][mb_strtolower($method)] = $map;
+        $this->_internalClassParamMap[$class][strtolower($method)] = $map;
     }
 
     /**
