@@ -14,7 +14,9 @@ namespace Mockery;
 interface ExpectationInterface
 {
     /**
-     * @param mixed $args
+     * @template TArgs
+     *
+     * @param TArgs ...$args
      *
      * @return self
      */
