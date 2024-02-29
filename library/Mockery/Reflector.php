@@ -38,8 +38,25 @@ use const PHP_VERSION_ID;
  */
 class Reflector
 {
+    /**
+     * List of built-in types.
+     *
+     * @var list<string>
+     */
+    public const BUILTIN_TYPES = ['array', 'bool', 'int', 'float', 'null', 'object', 'string'];
+
+    /**
+     * Iterable.
+     *
+     * @var list<string>
+     */
     private const ITERABLE = ['iterable'];
 
+    /**
+     * Traversable array.
+     *
+     * @var list<string>
+     */
     private const TRAVERSABLE_ARRAY = ['\Traversable', 'array'];
 
     /**
@@ -134,12 +151,8 @@ class Reflector
 
     /**
      * Format the given type as a nullable type.
-     *
-     * @param string $typeHint
-     *
-     * @return string
      */
-    private static function formatNullableType($typeHint)
+    private static function formatNullableType(string $typeHint): string
     {
         if ($typeHint === 'mixed') {
             return $typeHint;
@@ -226,7 +239,7 @@ class Reflector
      *
      * @return list<array{typeHint:string,isPrimitive:bool}>
      */
-    private static function getTypeInformation(ReflectionType $type, ReflectionClass $declaringClass)
+    private static function getTypeInformation(ReflectionType $type, ReflectionClass $declaringClass): array
     {
         // PHP 8 union types and PHP 8.1 intersection types can be recursively processed
         if ($type instanceof ReflectionUnionType || $type instanceof ReflectionIntersectionType) {
@@ -253,11 +266,7 @@ class Reflector
             return [
                 [
                     'typeHint' => $typeHint,
-                    'isPrimitive' => in_array(
-                        $typeHint,
-                        ['array', 'bool', 'int', 'float', 'null', 'object', 'string'],
-                        true
-                    ),
+                    'isPrimitive' => in_array($typeHint, self::BUILTIN_TYPES, true),
                 ],
             ];
         }
