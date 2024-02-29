@@ -12,7 +12,6 @@
 namespace Mockery;
 
 use Mockery;
-use Mockery\CountValidator\Exception as MockeryCountValidatorException;
 use Mockery\Exception\NoMatchingExpectationException;
 
 use function array_pop;
@@ -172,9 +171,10 @@ class ExpectationDirector
     /**
      * Make the given expectation a default for all others assuming it was correctly created last
      *
-     * @throws MockeryCountValidatorException
+     * @throws Exception
      *
      * @return void
+     *
      *
      */
     public function makeExpectationDefault(Expectation $expectation)
@@ -187,15 +187,16 @@ class ExpectationDirector
             return;
         }
 
-        throw new MockeryCountValidatorException('Cannot turn a previously defined expectation into a default');
+        throw new Exception('Cannot turn a previously defined expectation into a default');
     }
 
     /**
      * Verify all expectations of the director
      *
-     * @throws MockeryCountValidatorException
+     * @throws Exception
      *
      * @return void
+     *
      *
      */
     public function verify()
