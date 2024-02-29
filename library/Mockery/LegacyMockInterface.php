@@ -11,6 +11,8 @@
 
 namespace Mockery;
 
+use Throwable;
+
 interface LegacyMockInterface
 {
     /**
@@ -78,7 +80,7 @@ interface LegacyMockInterface
     /**
      * Fetch array of ordered groups
      *
-     * @return array
+     * @return array<string, int>
      */
     public function mockery_getGroups();
 
@@ -164,7 +166,7 @@ interface LegacyMockInterface
     /**
      * Iterate across all expectation directors and validate each
      *
-     * @throws CountValidator\Exception
+     * @throws Throwable
      *
      * @return void
      *
