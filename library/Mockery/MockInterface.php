@@ -18,7 +18,7 @@ interface MockInterface extends LegacyMockInterface
      *
      * @return Expectation|ExpectationInterface|HigherOrderMessage|self
      */
-    public function allows($something = null);
+    public function allows($something = []);
 
     /**
      * @param mixed $something String method name (optional)
