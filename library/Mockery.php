@@ -843,7 +843,7 @@ class Mockery
         $targetCode = '<?php ';
         $shortName = $fqn;
 
-        if (\mb_strpos($fqn, '\\')) {
+        if (\strpos($fqn, '\\')) {
             $parts = \explode('\\', $fqn);
 
             $shortName = \trim(\array_pop($parts));
@@ -933,7 +933,7 @@ class Mockery
                 $argument = '[' . \implode(', ', $sample) . ']';
             }
 
-            return (\mb_strlen($argument) > 1000) ? \mb_substr($argument, 0, 1000) . '...]' : $argument;
+            return (\strlen($argument) > 1000) ? \substr($argument, 0, 1000) . '...]' : $argument;
         }
 
         if (\is_bool($argument)) {

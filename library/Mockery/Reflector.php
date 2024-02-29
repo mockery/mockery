@@ -27,9 +27,9 @@ use function array_merge;
 use function get_debug_type;
 use function implode;
 use function in_array;
-use function mb_strpos;
 use function method_exists;
 use function sprintf;
+use function strpos;
 
 use const PHP_VERSION_ID;
 
@@ -158,7 +158,7 @@ class Reflector
             return $typeHint;
         }
 
-        if (mb_strpos($typeHint, 'null') !== false) {
+        if (strpos($typeHint, 'null') !== false) {
             return $typeHint;
         }
 
@@ -224,7 +224,7 @@ class Reflector
                 '|',
                 array_map(
                     static function (string $type): string {
-                        return mb_strpos($type, '&') === false ? $type : sprintf('(%s)', $type);
+                        return strpos($type, '&') === false ? $type : sprintf('(%s)', $type);
                     },
                     $types
                 )
