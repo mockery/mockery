@@ -39,7 +39,7 @@ final class Instantiator
      *
      * @return TClass
      */
-    public function instantiate(string $className): object
+    public function instantiate($className): object
     {
         return $this->buildFactory($className)();
     }
