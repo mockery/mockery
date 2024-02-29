@@ -88,7 +88,9 @@ class VerificationDirector
     }
 
     /**
-     * @param array $args
+     * @template TArgs
+     *
+     * @param TArgs $args
      *
      * @return self
      */
@@ -106,7 +108,9 @@ class VerificationDirector
     }
 
     /**
-     * @param array $args
+     * @template TArgs
+     *
+     * @param TArgs $args
      *
      * @return self
      */
