@@ -11,6 +11,8 @@
 namespace Mockery\Adapter\Phpunit;
 
 use Mockery;
+use PHPUnit\Framework\Attributes\After;
+use PHPUnit\Framework\Attributes\Before;
 
 /**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified
@@ -62,6 +64,7 @@ trait MockeryPHPUnitIntegration
     /**
      * @before
      */
+    #[Before]
     protected function startMockery()
     {
         $this->mockeryOpen = true;
@@ -70,6 +73,7 @@ trait MockeryPHPUnitIntegration
     /**
      * @after
      */
+    #[After]
     protected function purgeMockeryContainer()
     {
         if ($this->mockeryOpen) {
