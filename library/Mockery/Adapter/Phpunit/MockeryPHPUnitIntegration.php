@@ -4,8 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Adapter\Phpunit;
@@ -13,6 +13,8 @@ namespace Mockery\Adapter\Phpunit;
 use Mockery;
 use PHPUnit\Framework\Attributes\After;
 use PHPUnit\Framework\Attributes\Before;
+
+use function method_exists;
 
 /**
  * Integrates Mockery into PHPUnit. Ensures Mockery expectations are verified
@@ -23,6 +25,30 @@ trait MockeryPHPUnitIntegration
     use MockeryPHPUnitIntegrationAssertPostConditions;
 
     protected $mockeryOpen;
+
+    protected function addMockeryExpectationsToAssertionCount()
+    {
+        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
+    }
+
+    protected function checkMockeryExceptions()
+    {
+        if (! method_exists($this, 'markAsRisky')) {
+            return;
+        }
+
+        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
+            if (! $e->dismissed()) {
+                $this->markAsRisky();
+            }
+        }
+    }
+
+    protected function closeMockery()
+    {
+        Mockery::close();
+        $this->mockeryOpen = false;
+    }
 
     /**
      * Performs assertions shared by all tests of a test case. This method is
@@ -37,39 +63,6 @@ trait MockeryPHPUnitIntegration
         parent::assertPostConditions();
     }
 
-    protected function addMockeryExpectationsToAssertionCount()
-    {
-        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
-    }
-
-    protected function checkMockeryExceptions()
-    {
-        if (!method_exists($this, "markAsRisky")) {
-            return;
-        }
-
-        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
-            if (!$e->dismissed()) {
-                $this->markAsRisky();
-            }
-        }
-    }
-
-    protected function closeMockery()
-    {
-        Mockery::close();
-        $this->mockeryOpen = false;
-    }
-
-    /**
-     * @before
-     */
-    #[Before]
-    protected function startMockery()
-    {
-        $this->mockeryOpen = true;
-    }
-
     /**
      * @after
      */
@@ -80,5 +73,14 @@ trait MockeryPHPUnitIntegration
             // post conditions wasn't called, so test probably failed
             Mockery::close();
         }
+    }
+
+    /**
+     * @before
+     */
+    #[Before]
+    protected function startMockery()
+    {
+        $this->mockeryOpen = true;
     }
 }

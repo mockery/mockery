@@ -40,11 +40,13 @@ class Ducktype extends MatcherAbstract
         if (! is_object($actual)) {
             return false;
         }
+
         foreach ($this->_expected as $method) {
             if (! method_exists($actual, $method)) {
                 return false;
             }
         }
+
         return true;
     }
 }

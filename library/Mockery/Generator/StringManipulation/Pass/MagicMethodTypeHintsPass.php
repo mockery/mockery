@@ -4,23 +4,34 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
-use Mockery\Generator\MockConfiguration;
-use Mockery\Generator\TargetClassInterface;
 use Mockery\Generator\Method;
+use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\Parameter;
+use Mockery\Generator\TargetClassInterface;
+
+use function array_filter;
+use function array_merge;
+use function end;
+use function in_array;
+use function is_array;
+use function preg_match;
+use function preg_match_all;
+use function preg_replace;
+use function rtrim;
+use function sprintf;
 
 class MagicMethodTypeHintsPass implements Pass
 {
     /**
-     * @var array $mockMagicMethods
+     * @var array
      */
-    private $mockMagicMethods = array(
+    private $mockMagicMethods = [
         '__construct',
         '__destruct',
         '__call',
@@ -35,14 +46,15 @@ class MagicMethodTypeHintsPass implements Pass
         '__invoke',
         '__set_state',
         '__clone',
-        '__debugInfo'
-    );
+        '__debugInfo',
+    ];
 
     /**
      * Apply implementation.
      *
      * @param string $code
      * @param MockConfiguration $config
+     *
      * @return string
      */
     public function apply($code, MockConfiguration $config)
@@ -64,17 +76,25 @@ class MagicMethodTypeHintsPass implements Pass
      * passed DefinedTargetClass.
      *
      * @param TargetClassInterface $class
+     *
      * @return array
      */
-    public function getMagicMethods(
-        TargetClassInterface $class = null
-    ) {
-        if (is_null($class)) {
-            return array();
+    public function getMagicMethods(TargetClassInterface $class = null)
+    {
+        if (! $class instanceof TargetClassInterface) {
+            return [];
         }
+
         return array_filter($class->getMethods(), function (Method $method) {
-            return in_array($method->getName(), $this->mockMagicMethods);
+            return in_array($method->getName(), $this->mockMagicMethods, true);
         });
+    }
+
+    protected function renderTypeHint(Parameter $param)
+    {
+        $typeHint = $param->getTypeHint();
+
+        return $typeHint === null ? '' : sprintf('%s ', $typeHint);
     }
 
     /**
@@ -83,93 +103,57 @@ class MagicMethodTypeHintsPass implements Pass
      *
      * @param int $code
      * @param Method $method
+     *
      * @return string
      */
     private function applyMagicTypeHints($code, Method $method)
     {
         if ($this->isMethodWithinCode($code, $method)) {
-            $namedParameters = $this->getOriginalParameters(
-                $code,
-                $method
-            );
+            $namedParameters = $this->getOriginalParameters($code, $method);
             $code = preg_replace(
                 $this->getDeclarationRegex($method->getName()),
                 $this->getMethodDeclaration($method, $namedParameters),
                 $code
             );
         }
+
         return $code;
     }
 
     /**
-     * Checks if the method is declared within code.
+     * Returns a regex string used to match the
+     * declaration of some method.
      *
-     * @param int $code
-     * @param Method $method
-     * @return boolean
-     */
-    private function isMethodWithinCode($code, Method $method)
-    {
-        return preg_match(
-            $this->getDeclarationRegex($method->getName()),
-            $code
-        ) == 1;
-    }
-
-    /**
-     * Returns the method original parameters, as they're
-     * described in the $code string.
+     * @param string $methodName
      *
-     * @param int $code
-     * @param Method $method
-     * @return array
+     * @return string
      */
-    private function getOriginalParameters($code, Method $method)
+    private function getDeclarationRegex($methodName)
     {
-        $matches = [];
-        $parameterMatches = [];
-
-        preg_match(
-            $this->getDeclarationRegex($method->getName()),
-            $code,
-            $matches
-        );
-
-        if (count($matches) > 0) {
-            preg_match_all(
-                '/(?<=\$)(\w+)+/i',
-                $matches[0],
-                $parameterMatches
-            );
-        }
-
-        $groupMatches = end($parameterMatches);
-        $parameterNames = is_array($groupMatches) ? $groupMatches : [$groupMatches];
-
-        return $parameterNames;
+        return sprintf('/public\s+(?:static\s+)?function\s+%s\s*\(.*\)\s*(?=\{)/i', $methodName);
     }
 
     /**
      * Gets the declaration code, as a string, for the passed method.
      *
      * @param Method $method
-     * @param array  $namedParameters
+     * @param array $namedParameters
+     *
      * @return string
      */
-    private function getMethodDeclaration(
-        Method $method,
-        array $namedParameters
-    ) {
+    private function getMethodDeclaration(Method $method, array $namedParameters)
+    {
         $declaration = 'public';
         $declaration .= $method->isStatic() ? ' static' : '';
         $declaration .= ' function ' . $method->getName() . '(';
 
         foreach ($method->getParameters() as $index => $parameter) {
             $declaration .= $this->renderTypeHint($parameter);
-            $name = isset($namedParameters[$index]) ? $namedParameters[$index] : $parameter->getName();
+            $name = $namedParameters[$index] ?? $parameter->getName();
             $declaration .= '$' . $name;
             $declaration .= ',';
         }
+
         $declaration = rtrim($declaration, ',');
         $declaration .= ') ';
 
@@ -181,22 +165,41 @@ class MagicMethodTypeHintsPass implements Pass
         return $declaration;
     }
 
-    protected function renderTypeHint(Parameter $param)
+    /**
+     * Returns the method original parameters, as they're
+     * described in the $code string.
+     *
+     * @param int $code
+     * @param Method $method
+     *
+     * @return array
+     */
+    private function getOriginalParameters($code, Method $method)
     {
-        $typeHint = $param->getTypeHint();
+        $matches = [];
+        $parameterMatches = [];
 
-        return $typeHint === null ? '' : sprintf('%s ', $typeHint);
+        preg_match($this->getDeclarationRegex($method->getName()), $code, $matches);
+
+        if ($matches !== []) {
+            preg_match_all('/(?<=\$)(\w+)+/i', $matches[0], $parameterMatches);
+        }
+
+        $groupMatches = end($parameterMatches);
+
+        return is_array($groupMatches) ? $groupMatches : [$groupMatches];
     }
 
     /**
-     * Returns a regex string used to match the
-     * declaration of some method.
+     * Checks if the method is declared within code.
      *
-     * @param string $methodName
-     * @return string
+     * @param int $code
+     * @param Method $method
+     *
+     * @return boolean
      */
-    private function getDeclarationRegex($methodName)
+    private function isMethodWithinCode($code, Method $method)
     {
-        return "/public\s+(?:static\s+)?function\s+$methodName\s*\(.*\)\s*(?=\{)/i";
+        return preg_match($this->getDeclarationRegex($method->getName()), $code) === 1;
     }
 }

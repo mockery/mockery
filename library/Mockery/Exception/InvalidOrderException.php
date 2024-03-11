@@ -4,34 +4,48 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Exception;
 
-use Mockery;
+use Mockery\Exception;
+use Mockery\LegacyMockInterface;
 
-class InvalidOrderException extends Mockery\Exception
+class InvalidOrderException extends Exception
 {
-    protected $method = null;
+    protected $actual = null;
 
     protected $expected = 0;
 
-    protected $actual = null;
+    protected $method = null;
 
     protected $mockObject = null;
 
-    public function setMock(Mockery\LegacyMockInterface $mock)
+    public function getActualOrder()
     {
-        $this->mockObject = $mock;
-        return $this;
+        return $this->actual;
     }
 
-    public function setMethodName($name)
+    public function getExpectedOrder()
     {
-        $this->method = $name;
-        return $this;
+        return $this->expected;
+    }
+
+    public function getMethodName()
+    {
+        return $this->method;
+    }
+
+    public function getMock()
+    {
+        return $this->mockObject;
+    }
+
+    public function getMockName()
+    {
+        return $this->getMock()->mockery_getName();
     }
 
     public function setActualOrder($count)
@@ -46,28 +60,15 @@ class InvalidOrderException extends Mockery\Exception
         return $this;
     }
 
-    public function getMock()
+    public function setMethodName($name)
     {
-        return $this->mockObject;
+        $this->method = $name;
+        return $this;
     }
 
-    public function getMethodName()
+    public function setMock(LegacyMockInterface $mock)
     {
-        return $this->method;
-    }
-
-    public function getActualOrder()
-    {
-        return $this->actual;
-    }
-
-    public function getExpectedOrder()
-    {
-        return $this->expected;
-    }
-
-    public function getMockName()
-    {
-        return $this->getMock()->mockery_getName();
+        $this->mockObject = $mock;
+        return $this;
     }
 }

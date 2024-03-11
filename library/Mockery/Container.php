@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -33,14 +32,9 @@ use function count;
 use function explode;
 use function get_class;
 use function interface_exists;
-use function is_array;
 use function is_callable;
 use function is_object;
 use function is_string;
-use function strlen;
-use function strpos;
-use function strtolower;
-use function substr;
 use function md5;
 use function preg_grep;
 use function preg_match;
@@ -49,6 +43,10 @@ use function reset;
 use function rtrim;
 use function sprintf;
 use function str_replace;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function substr;
 use function trait_exists;
 
 class Container
@@ -89,7 +87,7 @@ class Container
     /**
      * Store of mock objects
      *
-     * @var array<class-string<LegacyMockInterface|MockInterface>|int,LegacyMockInterface|MockInterface>
+     * @var array<class-string<LegacyMockInterface&MockInterface>|int,LegacyMockInterface&MockInterface>
      */
     protected $_mocks = [];
 
@@ -105,16 +103,20 @@ class Container
 
     public function __construct(Generator $generator = null, LoaderInterface $loader = null, Instantiator $instantiator = null)
     {
-        $this->_generator = $generator ?: Mockery::getDefaultGenerator();
-        $this->_loader = $loader ?: Mockery::getDefaultLoader();
-        $this->instantiator = $instantiator ?: new Instantiator();
+        $this->_generator = $generator instanceof Generator ? $generator : Mockery::getDefaultGenerator();
+        $this->_loader = $loader instanceof LoaderInterface ? $loader : Mockery::getDefaultLoader();
+        $this->instantiator = $instantiator instanceof Instantiator ? $instantiator : new Instantiator();
     }
 
     /**
      * Return a specific remembered mock according to the array index it
      * was stored to in this container instance
      *
-     * @return null|LegacyMockInterface|MockInterface
+     * @template TMock of object
+     *
+     * @param class-string<TMock> $reference
+     *
+     * @return null|(LegacyMockInterface&MockInterface&TMock)
      */
     public function fetchMock($reference)
     {
@@ -139,13 +141,16 @@ class Container
     {
         $keys = array_keys($this->_mocks);
 
-        $match = preg_grep('/__demeter_' . md5($parent) . "_{$method}$/", $keys);
-
-        if ($match !== false && $match !== []) {
-            return array_values($match)[0];
+        $match = preg_grep('/__demeter_' . md5($parent) . sprintf('_%s$/', $method), $keys);
+        if ($match === false) {
+            return null;
         }
 
-        return null;
+        if ($match === []) {
+            return null;
+        }
+
+        return array_values($match)[0];
     }
 
     /**
@@ -157,7 +162,7 @@ class Container
     }
 
     /**
-     * @return array<class-string<LegacyMockInterface|MockInterface>|int,LegacyMockInterface|MockInterface>
+     * @return array<class-string<LegacyMockInterface&MockInterface>|int,LegacyMockInterface&MockInterface>
      */
     public function getMocks()
     {
@@ -183,6 +188,7 @@ class Container
         if ($className[0] === '\\') {
             $className = substr($className, 1); // remove the first backslash
         }
+
         // all the namespaces and class name should match the regex
         return array_filter(
             explode('\\', $className),
@@ -244,7 +250,7 @@ class Container
         $builder->setParameterOverrides($mockeryConfiguration->getInternalClassMethodParamMaps());
         $builder->setConstantsMap($mockeryConfiguration->getConstantsMap());
 
-        while (count($args) > 0) {
+        while ($args !== []) {
             $arg = array_shift($args);
 
             // check for multiple interfaces
@@ -255,7 +261,7 @@ class Container
                         continue;
                     }
 
-                    if (strpos($type, ',') && ! strpos($type, ']')) {
+                    if (strpos($type, ',') && (strpos($type, ']') === 0 || strpos($type, ']') === false)) {
                         $interfaces = explode(',', str_replace(' ', '', $type));
 
                         $builder->addTargets($interfaces);
@@ -291,8 +297,7 @@ class Container
                             ! class_exists($class, true)
                             && ! interface_exists($class, true)
                         ) {
-                            throw new Exception('Can only create a partial mock from'
-                            . ' an existing class or interface');
+                            throw new Exception('Can only create a partial mock from an existing class or interface');
                         }
 
                         $builder->addTarget($class);
@@ -329,7 +334,7 @@ class Container
                     }
 
                     if (! $mockeryConfiguration->mockingNonExistentMethodsAllowed()) {
-                        throw new Exception("Mockery can't find '{$type}' so can't mock it");
+                        throw new Exception(sprintf("Mockery can't find '%s' so can't mock it", $type));
                     }
 
                     $builder->addTarget($type);
@@ -347,24 +352,18 @@ class Container
                 continue;
             }
 
-            if (is_array($arg)) {
-                if ($arg !== [] && array_keys($arg) !== range(0, count($arg) - 1)) {
-                    // if associative array
-                    if (array_key_exists(self::BLOCKS, $arg)) {
-                        $blocks = $arg[self::BLOCKS];
-                    }
-
-                    unset($arg[self::BLOCKS]);
-
-                    $quickDefinitions = $arg;
-                } else {
-                    $constructorArgs = $arg;
+            if ($arg !== [] && array_keys($arg) !== range(0, count($arg) - 1)) {
+                // if associative array
+                if (array_key_exists(self::BLOCKS, $arg)) {
+                    $blocks = $arg[self::BLOCKS];
                 }
 
-                continue;
-            }
+                unset($arg[self::BLOCKS]);
 
-            throw new Exception(sprintf('Unable to parse arguments sent to %s::mock()', static::class));
+                $quickDefinitions = $arg;
+            } else {
+                $constructorArgs = $arg;
+            }
         }
 
         $builder->addBlackListedMethods($blocks);
@@ -389,7 +388,7 @@ class Container
         if (class_exists($className, $attemptAutoload = false)) {
             $rfc = new ReflectionClass($className);
             if (! $rfc->implementsInterface(LegacyMockInterface::class)) {
-                throw new RuntimeException("Could not load mock {$className}, class already exists");
+                throw new RuntimeException(sprintf('Could not load mock %s, class already exists', $className));
             }
         }
 
@@ -433,6 +432,7 @@ class Container
         foreach ($this->_mocks as $mock) {
             $mock->mockery_teardown();
         }
+
         $this->_mocks = [];
     }
 
@@ -457,6 +457,7 @@ class Container
         foreach ($this->_mocks as $mock) {
             $count += $mock->mockery_getExpectationCount();
         }
+
         return $count;
     }
 
@@ -486,7 +487,7 @@ class Container
      * Set ordering for a group
      *
      * @param string $group
-     * @param int    $order
+     * @param int $order
      *
      * @return void
      */
@@ -504,10 +505,10 @@ class Container
     {
         try {
             $this->mockery_verify();
-        } catch (PHPException $e) {
+        } catch (PHPException $phpException) {
             $this->mockery_close();
 
-            throw $e;
+            throw $phpException;
         }
     }
 
@@ -534,7 +535,7 @@ class Container
      * Validate the current mock's ordering
      *
      * @param string $method
-     * @param int    $order
+     * @param int $order
      *
      * @throws Exception
      */
@@ -608,12 +609,12 @@ class Container
     }
 
     /**
-     * @template TMock of LegacyMockInterface&MockInterface&object
+     * @template TMock of object
      *
-     * @param class-string<TMock>   $mockName
+     * @param class-string<TMock> $mockName
      * @param null|array<int,mixed> $constructorArgs
      *
-     * @return TMock
+     * @return LegacyMockInterface&MockInterface&TMock
      */
     protected function _getInstance($mockName, $constructorArgs = null)
     {
@@ -622,9 +623,8 @@ class Container
         }
 
         try {
-            /** @var TMock $instance */
             $instance = $this->instantiator->instantiate($mockName);
-        } catch (PHPException $ex) {
+        } catch (PHPException $phpException) {
             /** @var class-string<TMock> $internalMockName */
             $internalMockName = $mockName . '_Internal';
 
@@ -654,7 +654,7 @@ class Container
 
         if (array_key_exists($name, $this->_namedMocks) && $hash !== $this->_namedMocks[$name]) {
             throw new Exception(
-                "The mock named '{$name}' has been already defined with a different mock configuration"
+                sprintf("The mock named '%s' has been already defined with a different mock configuration", $name)
             );
         }
 

@@ -10,8 +10,6 @@
 
 namespace Mockery\Matcher;
 
-use function call_user_func_array;
-
 class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatcher
 {
     /**
@@ -37,7 +35,6 @@ class MultiArgumentClosure extends MatcherAbstract implements ArgumentListMatche
      */
     public function match(&$actual)
     {
-        $closure = $this->_expected;
-        return call_user_func_array($closure, $actual) === true;
+        return ($this->_expected)(...$actual) === true;
     }
 }

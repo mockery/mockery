@@ -4,25 +4,46 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Exception;
 
-use Mockery;
+use Mockery\Exception;
+use Mockery\LegacyMockInterface;
 
-class NoMatchingExpectationException extends Mockery\Exception
+class NoMatchingExpectationException extends Exception
 {
-    protected $method = null;
+    protected $actual = [];
 
-    protected $actual = array();
+    protected $method = null;
 
     protected $mockObject = null;
 
-    public function setMock(Mockery\LegacyMockInterface $mock)
+    public function getActualArguments()
     {
-        $this->mockObject = $mock;
+        return $this->actual;
+    }
+
+    public function getMethodName()
+    {
+        return $this->method;
+    }
+
+    public function getMock()
+    {
+        return $this->mockObject;
+    }
+
+    public function getMockName()
+    {
+        return $this->getMock()->mockery_getName();
+    }
+
+    public function setActualArguments($count)
+    {
+        $this->actual = $count;
         return $this;
     }
 
@@ -32,29 +53,9 @@ class NoMatchingExpectationException extends Mockery\Exception
         return $this;
     }
 
-    public function setActualArguments($count)
+    public function setMock(LegacyMockInterface $mock)
     {
-        $this->actual = $count;
+        $this->mockObject = $mock;
         return $this;
-    }
-
-    public function getMock()
-    {
-        return $this->mockObject;
-    }
-
-    public function getMethodName()
-    {
-        return $this->method;
-    }
-
-    public function getActualArguments()
-    {
-        return $this->actual;
-    }
-
-    public function getMockName()
-    {
-        return $this->getMock()->mockery_getName();
     }
 }
