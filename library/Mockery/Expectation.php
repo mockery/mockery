@@ -928,22 +928,6 @@ class Expectation implements ExpectationInterface
             return true;
         }
 
-        if (is_string($expected) && is_object($actual)) {
-            $result = $actual instanceof $expected;
-
-            if ($result) {
-                return true;
-            }
-        }
-
-        if (is_object($expected)) {
-            $matcher = Mockery::getConfiguration()->getDefaultMatcher(get_class($expected));
-
-            if ($matcher !== null) {
-                $expected = new $matcher($expected);
-            }
-        }
-
         if ($expected instanceof MatcherInterface) {
             return $expected->match($actual);
         }
@@ -958,7 +942,17 @@ class Expectation implements ExpectationInterface
             return $expected->matches($actual);
         }
 
-        return false;
+        if (is_object($expected)) {
+            $matcher = Mockery::getConfiguration()->getDefaultMatcher(get_class($expected));
+
+            return $matcher === null ? false : $this->_matchArg(new $matcher($expected), $actual);
+        }
+
+        if (is_object($actual) && is_string($expected) && $actual instanceof $expected) {
+            return true;
+        }
+
+        return $expected == $actual;
     }
 
     /**
@@ -971,7 +965,7 @@ class Expectation implements ExpectationInterface
     protected function _matchArgs($args)
     {
         for ($index = 0, $argCount = count($args); $index < $argCount; ++$index) {
-            $param =&$args[$index];
+            $param = &$args[$index];
 
             if (! $this->_matchArg($this->_expectedArgs[$index], $param)) {
                 return false;
