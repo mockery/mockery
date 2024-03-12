@@ -32,12 +32,14 @@ class ClassPass implements Pass
             \Mockery::declareClass($className);
         }
 
-        $code = str_replace(
+        $parts = preg_split("/{/", $code, 2);
+
+        $parts[0] = str_replace(
             "implements MockInterface",
             "extends \\" . $className . " implements MockInterface",
-            $code
+            $parts[0]
         );
 
-        return $code;
+        return $parts[0] . "{" . $parts[1];
     }
 }

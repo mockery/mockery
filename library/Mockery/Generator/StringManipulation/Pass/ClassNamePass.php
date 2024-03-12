@@ -22,18 +22,20 @@ class ClassNamePass implements Pass
 
         $className = $config->getShortName();
 
-        $code = str_replace(
+        $parts = preg_split("/{/", $code, 2);
+
+        $parts[0] = str_replace(
             'namespace Mockery;',
             $namespace ? 'namespace ' . $namespace . ';' : '',
-            $code
+            $parts[0]
         );
 
-        $code = str_replace(
+        $parts[0] = str_replace(
             'class Mock',
             'class ' . $className,
-            $code
+            $parts[0]
         );
 
-        return $code;
+        return $parts[0] . "{" . $parts[1];
     }
 }

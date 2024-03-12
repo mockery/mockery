@@ -20,6 +20,7 @@ use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPass;
+use Mockery\Generator\StringManipulation\Pass\RemoveCommentsFromMockPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
 use Mockery\Generator\StringManipulation\Pass\TraitPass;
@@ -38,6 +39,7 @@ class StringManipulationGenerator implements Generator
     public static function withDefaultPasses()
     {
         return new static([
+            new RemoveCommentsFromMockPass(),
             new CallTypeHintPass(),
             new MagicMethodTypeHintsPass(),
             new ClassPass(),

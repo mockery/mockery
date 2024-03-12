@@ -27,12 +27,14 @@ class InterfacePass implements Pass
             return $code . ", \\" . ltrim($i->getName(), "\\");
         }, "");
 
-        $code = str_replace(
+        $parts = preg_split("/{/", $code, 2);
+
+        $parts[0] = str_replace(
             "implements MockInterface",
             "implements MockInterface" . $interfaces,
-            $code
+            $parts[0]
         );
 
-        return $code;
+        return $parts[0] . "{" . $parts[1];
     }
 }
