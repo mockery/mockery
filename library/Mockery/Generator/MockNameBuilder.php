@@ -4,17 +4,20 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator;
 
+use function implode;
+use function str_replace;
+
 class MockNameBuilder
 {
-    protected static $mockCounter = 0;
-
     protected $parts = [];
+
+    protected static $mockCounter = 0;
 
     public function addPart($part)
     {
@@ -28,7 +31,7 @@ class MockNameBuilder
         $parts = ['Mockery', static::$mockCounter++];
 
         foreach ($this->parts as $part) {
-            $parts[] = str_replace("\\", "_", $part);
+            $parts[] = str_replace('\\', '_', $part);
         }
 
         return implode('_', $parts);

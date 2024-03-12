@@ -39,6 +39,7 @@ class NotAnyOf extends MatcherAbstract
                 return false;
             }
         }
+
         return true;
     }
 }

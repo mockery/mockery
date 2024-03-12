@@ -14,6 +14,7 @@ use ArrayAccess;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 class HasKey extends MatcherAbstract
 {
@@ -24,7 +25,7 @@ class HasKey extends MatcherAbstract
      */
     public function __toString()
     {
-        return "<HasKey[{$this->_expected}]>";
+        return sprintf('<HasKey[%s]>', $this->_expected);
     }
 
     /**

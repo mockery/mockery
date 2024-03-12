@@ -1,3 +1,6 @@
+.PHONY: tests
+tests: test-73 test-83
+
 vendor/composer/installed.json: composer.json
 	composer install
 

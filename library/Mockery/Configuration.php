@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -74,7 +73,6 @@ class Configuration
      *  e.g. ['class' => ['method' => ['param1', 'param2']]]
      *
      * @var array<class-string,array<string,list<string>>>
-     *
      */
     protected $_internalClassParamMap = [];
 
@@ -210,7 +208,7 @@ class Configuration
      * Get the parameter map of an internal PHP class method
      *
      * @param class-string $class
-     * @param string       $method
+     * @param string $method
      *
      * @return null|array
      */
@@ -218,15 +216,15 @@ class Configuration
     {
         $class = strtolower($class);
         $method = strtolower($method);
-
-        if (
-            array_key_exists($class, $this->_internalClassParamMap)
-            && array_key_exists($method, $this->_internalClassParamMap[$class])
-        ) {
-            return $this->_internalClassParamMap[$class][$method];
+        if (! array_key_exists($class, $this->_internalClassParamMap)) {
+            return null;
         }
 
-        return null;
+        if (! array_key_exists($method, $this->_internalClassParamMap[$class])) {
+            return null;
+        }
+
+        return $this->_internalClassParamMap[$class][$method];
     }
 
     /**
@@ -243,7 +241,7 @@ class Configuration
      * Get the object formatter for a class
      *
      * @param class-string $class
-     * @param Closure      $defaultFormatter
+     * @param Closure $defaultFormatter
      *
      * @return Closure
      */
@@ -367,7 +365,7 @@ class Configuration
      * Set a parameter map (array of param signature strings) for the method of an internal PHP class.
      *
      * @param class-string $class
-     * @param string       $method
+     * @param string $method
      * @param list<string> $map
      *
      * @throws LogicException
@@ -395,7 +393,7 @@ class Configuration
      * Set a custom object formatter for a class
      *
      * @param class-string $class
-     * @param Closure      $formatterCallback
+     * @param Closure $formatterCallback
      *
      * @return void
      */

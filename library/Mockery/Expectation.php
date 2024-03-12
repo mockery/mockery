@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -38,7 +37,6 @@ use function current;
 use function func_get_args;
 use function get_class;
 use function in_array;
-use function is_a;
 use function is_array;
 use function is_int;
 use function is_object;
@@ -247,7 +245,7 @@ class Expectation implements ExpectationInterface
             }
 
             throw new OutOfBoundsException(
-                "Cannot return an argument value. No argument exists for the index {$index}"
+                'Cannot return an argument value. No argument exists for the index ' . $index
             );
         };
 
@@ -258,7 +256,6 @@ class Expectation implements ExpectationInterface
 
     /**
      * @return self
-     *
      */
     public function andReturnFalse()
     {
@@ -345,7 +342,7 @@ class Expectation implements ExpectationInterface
      * Register values to be set to a public property each time this expectation occurs
      *
      * @param string $name
-     * @param array  ...$values
+     * @param array ...$values
      *
      * @return self
      */
@@ -360,8 +357,8 @@ class Expectation implements ExpectationInterface
      * Set Exception class and arguments to that class to be thrown
      *
      * @param string|Throwable $exception
-     * @param string           $message
-     * @param int              $code
+     * @param string $message
+     * @param int $code
      *
      * @return self
      */
@@ -551,6 +548,7 @@ class Expectation implements ExpectationInterface
                 return false;
             }
         }
+
         return true;
     }
 
@@ -650,7 +648,7 @@ class Expectation implements ExpectationInterface
      * - set('foo', 'bar')->andReturn('bar')
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return self
      */
@@ -845,6 +843,7 @@ class Expectation implements ExpectationInterface
                     return false;
                 }
             }
+
             return true;
         });
     }
@@ -1005,9 +1004,15 @@ class Expectation implements ExpectationInterface
             $this->_mock->{$name} = $value;
 
             foreach ($mocks as $mock) {
-                if (is_a($mock, $mockClass) && $mock->mockery_isInstance()) {
-                    $mock->{$name} = $value;
+                if (! $mock instanceof $mockClass) {
+                    continue;
                 }
+
+                if (! $mock->mockery_isInstance()) {
+                    continue;
+                }
+
+                $mock->{$name} = $value;
             }
         }
     }

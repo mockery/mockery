@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -137,7 +136,7 @@ interface LegacyMockInterface
      * Set ordering for a group
      *
      * @param string $group
-     * @param int    $order
+     * @param int $order
      *
      * @return void
      */
@@ -154,12 +153,11 @@ interface LegacyMockInterface
      * Validate the current mock's ordering
      *
      * @param string $method
-     * @param int    $order
+     * @param int $order
      *
      * @throws Exception
      *
      * @return void
-     *
      */
     public function mockery_validateOrder($method, $order);
 
@@ -169,7 +167,6 @@ interface LegacyMockInterface
      * @throws Throwable
      *
      * @return void
-     *
      */
     public function mockery_verify();
 
@@ -200,7 +197,7 @@ interface LegacyMockInterface
     public function shouldHaveBeenCalled();
 
     /**
-     * @param string             $method
+     * @param string $method
      * @param null|array|Closure $args
      *
      * @return mixed
@@ -226,7 +223,7 @@ interface LegacyMockInterface
     public function shouldNotHaveBeenCalled(array $args = null);
 
     /**
-     * @param string             $method
+     * @param string $method
      * @param null|array|Closure $args
      *
      * @return mixed

@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -119,7 +118,7 @@ class ExpectationDirector
         }
 
         if ($expectation === null && $this->_defaults !== []) {
-            $expectation = $this->_findExpectationIn($this->_defaults, $args);
+            return $this->_findExpectationIn($this->_defaults, $args);
         }
 
         return $expectation;
@@ -155,6 +154,7 @@ class ExpectationDirector
                 ++$count;
             }
         }
+
         return $count;
     }
 
@@ -174,8 +174,6 @@ class ExpectationDirector
      * @throws Exception
      *
      * @return void
-     *
-     *
      */
     public function makeExpectationDefault(Expectation $expectation)
     {
@@ -196,8 +194,6 @@ class ExpectationDirector
      * @throws Exception
      *
      * @return void
-     *
-     *
      */
     public function verify()
     {
@@ -224,9 +220,15 @@ class ExpectationDirector
     protected function _findExpectationIn(array $expectations, array $args)
     {
         foreach ($expectations as $expectation) {
-            if ($expectation->isEligible() && $expectation->matchArgs($args)) {
-                return $expectation;
+            if (! $expectation->isEligible()) {
+                continue;
             }
+
+            if (! $expectation->matchArgs($args)) {
+                continue;
+            }
+
+            return $expectation;
         }
 
         foreach ($expectations as $expectation) {

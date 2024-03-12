@@ -4,13 +4,15 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
+
+use function str_replace;
 
 class CallTypeHintPass implements Pass
 {
@@ -25,7 +27,7 @@ class CallTypeHintPass implements Pass
         }
 
         if ($config->requiresCallStaticTypeHintRemoval()) {
-            $code = str_replace(
+            return str_replace(
                 'public static function __callStatic($method, array $args)',
                 'public static function __callStatic($method, $args)',
                 $code

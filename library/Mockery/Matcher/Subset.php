@@ -73,6 +73,7 @@ class Subset extends MatcherAbstract
         foreach ($array as $k => $v) {
             $elements[] = $k . '=' . (is_array($v) ? $this->formatArray($v) : (string) $v);
         }
+
         return '[' . implode(', ', $elements) . ']';
     }
 

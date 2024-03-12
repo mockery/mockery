@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -90,7 +89,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Return the parent mock of the first expectation
      *
-     * @return LegacyMockInterface|MockInterface
+     * @return LegacyMockInterface&MockInterface
      */
     public function getMock()
     {
@@ -114,7 +113,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Mockery API alias to getMock
      *
-     * @return LegacyMockInterface|MockInterface
+     * @return LegacyMockInterface&MockInterface
      */
     public function mock()
     {

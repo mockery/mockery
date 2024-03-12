@@ -40,11 +40,7 @@ class Type extends MatcherAbstract
      */
     public function match(&$actual)
     {
-        if ($this->_expected === 'real') {
-            $function = 'is_float';
-        } else {
-            $function = 'is_' . strtolower($this->_expected);
-        }
+        $function = $this->_expected === 'real' ? 'is_float' : 'is_' . strtolower($this->_expected);
 
         if (function_exists($function)) {
             return $function($actual);

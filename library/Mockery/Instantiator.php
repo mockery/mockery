@@ -4,9 +4,8 @@
  * Mockery (https://docs.mockery.io/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- *
- * @link      https://github.com/mockery/mockery for the canonical source repository
+ * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @link https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -51,7 +50,7 @@ final class Instantiator
         ReflectionClass $reflectionClass,
         string $serializedString
     ): void {
-        set_error_handler(static function ($code, $message, $file, $line) use ($reflectionClass, &$error) {
+        set_error_handler(static function ($code, $message, $file, $line) use ($reflectionClass, &$error): void {
             $msg = sprintf(
                 'Could not produce an instance of "%s" via un-serialization, since an error was triggered in file "%s" at line "%d"',
                 $reflectionClass->getName(),
@@ -79,7 +78,7 @@ final class Instantiator
 
         restore_error_handler();
 
-        if ($error) {
+        if ($error instanceof UnexpectedValueException) {
             throw $error;
         }
     }

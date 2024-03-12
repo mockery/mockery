@@ -22,13 +22,12 @@ class Contains extends MatcherAbstract
      */
     public function __toString()
     {
-        $return = '<Contains[';
         $elements = [];
         foreach ($this->_expected as $v) {
             $elements[] = (string) $v;
         }
-        $return .= implode(', ', $elements) . ']>';
-        return $return;
+
+        return '<Contains[' . implode(', ', $elements) . ']>';
     }
 
     /**
@@ -51,10 +50,12 @@ class Contains extends MatcherAbstract
                     break;
                 }
             }
+
             if ($match === false) {
                 return false;
             }
         }
+
         return true;
     }
 }
