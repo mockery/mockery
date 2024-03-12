@@ -237,6 +237,35 @@ class Mock implements MockInterface
         return $lastExpectation;
     }
 
+    public function shouldReceiveExisting(...$methodNames)
+    {
+        return $this->mockery_withMockingNonExistentMethodsAllowed(false, function () use ($methodNames) {
+            return  $this->shouldReceive(...$methodNames);
+        });
+    }
+
+    public function shouldReceiveNonExistent(...$methodNames)
+    {
+        return $this->mockery_withMockingNonExistentMethodsAllowed(true, function () use ($methodNames) {
+            return  $this->shouldReceive(...$methodNames);
+        });
+    }
+
+    private function mockery_withMockingNonExistentMethodsAllowed($flag, \Closure $callback)
+    {
+        $config = \Mockery::getConfiguration();
+        $allowed = $config->mockingNonExistentMethodsAllowed();
+        $config->allowMockingNonExistentMethods($flag);
+
+        try {
+            $result = $callback();
+        } finally {
+            $config->allowMockingNonExistentMethods($allowed);
+        }
+
+        return $result;
+    }
+
     // start method allows
     /**
      * @param mixed $something  String method name or map of method => return
