@@ -536,7 +536,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return this mock, like a fluent interface
      *
-     * @return self
+     * @return self|LegacyMockInterface|MockInterface
      */
     public function andReturnSelf()
     {
