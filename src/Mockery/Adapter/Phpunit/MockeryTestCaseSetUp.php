@@ -22,17 +22,34 @@ declare(strict_types=1);
 
 namespace Mockery\Adapter\Phpunit;
 
+use Mockery\Exception\MockeryExceptionInterface;
+
 trait MockeryTestCaseSetUp
 {
     protected function setUp(): void
     {
         parent::setUp();
+
+        Extension::open();
+
+        $this->registerFailureType(MockeryExceptionInterface::class);
+
         $this->mockeryTestSetUp();
+    }
+
+    protected function assertPostConditions(): void
+    {
+        Extension::verify($this);
+
+        parent::assertPostConditions();
     }
 
     protected function tearDown(): void
     {
         $this->mockeryTestTearDown();
+
+        Extension::reset();
+
         parent::tearDown();
     }
 }

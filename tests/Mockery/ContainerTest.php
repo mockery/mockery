@@ -1419,7 +1419,7 @@ class ContainerTest extends MockeryTestCase
         $this->assertSame($expected, $container->isValidClassName($className));
     }
 
-    public function classNameProvider()
+    public static function classNameProvider()
     {
         return array(
             array(false, ' '), // just a space

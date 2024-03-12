@@ -30,6 +30,7 @@ class MockingAllLowerCasedMethodsTest extends MockeryTestCase
     public function itShouldAllowToCallAllLowerCasedMethodAsCamelCased()
     {
         $mock = mock(ClassWithAllLowerCaseMethod::class);
+
         $mock->shouldReceive('userExpectsCamelCaseMethod')
             ->andReturn('mocked');
 

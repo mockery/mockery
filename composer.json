@@ -34,12 +34,12 @@
         "ext-pcre": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.6",
+        "phpunit/phpunit": "^10.1",
         "psalm/plugin-phpunit": "^0.18",
         "vimeo/psalm": "^5.12"
     },
     "conflict": {
-        "phpunit/phpunit": "<8.0"
+        "phpunit/phpunit": "<10.1"
     },
     "autoload": {
         "psr-4": {

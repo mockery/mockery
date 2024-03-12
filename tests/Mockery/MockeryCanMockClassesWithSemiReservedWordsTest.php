@@ -15,7 +15,7 @@ class MockeryCanMockClassesWithSemiReservedWordsTest extends TestCase
     {
         $mock = m::mock(SemiReservedWordsAsMethods::class);
 
-        $mock->shouldReceive("include")->andReturn("foo");
+        $mock->shouldReceive("include")->andReturn("foo")->once();
 
         $this->assertTrue(method_exists($mock, "include"));
         $this->assertEquals("foo", $mock->include());

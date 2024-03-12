@@ -1,50 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        bootstrap="./tests/Bootstrap.php"
-        convertErrorsToExceptions="true"
-        convertWarningsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertDeprecationsToExceptions="true"
-        colors="true"
-        verbose="true"
-        testdox="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".cache/phpunit"
+         colors="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnIncompleteTests="true"
+         displayDetailsOnSkippedTests="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         testdox="true"
 >
- <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./src/</directory>
-    </include>
-    <exclude>
-      <directory>./src/Mockery/Adapter/Phpunit/Legacy</directory>
-      <file>./src/Mockery/Adapter/Phpunit/TestListener.php</file>
-      <file>./src/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-      <file>./src/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
-    </exclude>
-    <report>
-      <html outputDirectory=".cache/phpunit/coverage-html"/>
-      <clover outputFile=".cache/phpunit/clover.xml"/>
-      <text outputFile=".cache/phpunit/coverage.txt"/>
-    </report>
-  </coverage>
-  <testsuites>
-    <testsuite name="Mockery Test Suite PHP7">
-      <directory suffix="Test.php">./tests</directory>
-      <exclude>./tests/PHP80</exclude>
-      <exclude>./tests/PHP81</exclude>
-      <exclude>./tests/PHP82</exclude>
-    </testsuite>
-    <testsuite name="Mockery Test Suite PHP80">
-      <directory phpVersion="8.0.0-dev" phpVersionOperator="&gt;=">./tests</directory>
-      <exclude>./tests/PHP81</exclude>
-      <exclude>./tests/PHP82</exclude>
-    </testsuite>
-    <testsuite name="Mockery Test Suite PHP81">
-      <directory phpVersion="8.1.0-dev" phpVersionOperator="&gt;=">./tests</directory>
-      <exclude>./tests/PHP82</exclude>
-    </testsuite>
-    <testsuite name="Mockery Test Suite PHP82">
-      <directory phpVersion="8.2.0-dev" phpVersionOperator="&gt;=">./tests</directory>
-    </testsuite>
-  </testsuites>
+    <coverage>
+        <report>
+            <html outputDirectory=".cache/phpunit/coverage-html"/>
+            <clover outputFile=".cache/phpunit/clover.xml"/>
+            <text outputFile=".cache/phpunit/coverage.txt"/>
+        </report>
+    </coverage>
+    <extensions>
+        <bootstrap class="\Mockery\Adapter\Phpunit\Extension"/>
+    </extensions>
+    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+        </include>
+        <exclude>
+            <directory>src/Mockery/Adapter/Phpunit/Legacy</directory>
+            <file>src/Mockery/Adapter/Phpunit/TestListener.php</file>
+            <file>src/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+            <file>src/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+        </exclude>
+    </source>
+    <testsuites>
+        <testsuite name="Mockery Test Suite PHP7">
+            <directory>tests</directory>
+            <exclude>tests/PHP80</exclude>
+            <exclude>tests/PHP81</exclude>
+            <exclude>tests/PHP82</exclude>
+        </testsuite>
+        <testsuite name="Mockery Test Suite PHP80">
+            <directory phpVersion="8.0.0-dev">tests</directory>
+            <exclude>tests/PHP81</exclude>
+            <exclude>tests/PHP82</exclude>
+        </testsuite>
+        <testsuite name="Mockery Test Suite PHP81">
+            <directory phpVersion="8.1.0-dev">tests</directory>
+            <exclude>tests/PHP82</exclude>
+        </testsuite>
+        <testsuite name="Mockery Test Suite PHP82">
+            <directory phpVersion="8.2.0-dev">tests</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
