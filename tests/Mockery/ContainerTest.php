@@ -1380,6 +1380,99 @@ class ContainerTest extends MockeryTestCase
     }
 
     /**
+     * @dataProvider getIteratorTestData
+     * @param string $traversableInterface
+     */
+    public function testStubTraversableWithIterator($traversableInterface)
+    {
+        $arrayItems = [
+            'alpha' => 'apple',
+            'beta' => 'banana',
+            'kappa' => 'cherry'
+        ];
+
+        $mockIterator = stubTraversable($traversableInterface, $arrayItems);
+
+        $count = 0;
+        foreach ($mockIterator as $key => $item) {
+            $this->assertSame($arrayItems[$key], $item);
+            $count++;
+        }
+
+        $this->assertSame(count($arrayItems), $count);
+    }
+
+    /**
+     * @see testStubTraversableWithIterator
+     * @return array
+     */
+    public function getIteratorTestData()
+    {
+        return [
+            [\Iterator::class],
+            [\IteratorAggregate::class],
+            [\ArrayIterator::class],
+        ];
+    }
+
+    /**
+     * @dataProvider getCountableTestData
+     * @param $countableInterface
+     */
+    public function testStubTraversableWithCountable($countableInterface)
+    {
+        $arrayItems = ['apple', 'banana', 'cherry'];
+
+        $mockIterator = stubTraversable($countableInterface, $arrayItems);
+
+        $this->assertCount(count($arrayItems), $mockIterator);
+    }
+
+    /**
+     * @see testStubTraversableWithCountable
+     * @return array
+     */
+    public function getCountableTestData()
+    {
+        return [
+            [\Countable::class],
+            [\ArrayIterator::class]
+        ];
+    }
+
+    /**
+     * @dataProvider getArrayAccessTestData
+     * @param $arrayAccessInterface
+     */
+    public function testStubTraversableWithArrayAccessGetters($arrayAccessInterface)
+    {
+        $arrayItems = [
+            'alpha' => 'apple',
+            'beta' => 'banana',
+            'kappa' => 'cherry'
+        ];
+
+        $mockArrayAccess = stubTraversable($arrayAccessInterface, $arrayItems);
+
+        foreach ($arrayItems as $key => $item) {
+            $this->assertTrue(isset($mockArrayAccess[$key]));
+            $this->assertSame($item, $mockArrayAccess[$key]);
+        }
+    }
+
+    /**
+     * @see testStubTraversableWithArrayAccess
+     * @return array
+     */
+    public function getArrayAccessTestData()
+    {
+        return [
+            [\ArrayAccess::class],
+            [\ArrayIterator::class],
+        ];
+    }
+
+    /**
      * @test
      * @group issue/339
      */

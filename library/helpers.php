@@ -32,6 +32,13 @@ if (!function_exists("namedMock")) {
     }
 }
 
+if (!function_exists("stubTraversable")) {
+    function stubTraversable($class, array $items)
+    {
+        return Mockery::stubTraversable($class, $items);
+    }
+}
+
 if (!function_exists("anyArgs")) {
     function anyArgs()
     {

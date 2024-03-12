@@ -10,6 +10,7 @@
 
 namespace Mockery;
 
+use Mockery\Exception\InvalidArgumentException;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Loader\Loader as LoaderInterface;
@@ -220,6 +221,29 @@ class Container
         }
         $this->rememberMock($mock);
         return $mock;
+    }
+
+    /**
+     * @param string $class
+     * @param array $items
+     * @return Mock
+     * @throws Exception\RuntimeException
+     */
+    public function stubTraversable($class, array $items)
+    {
+        $expectedInterfaces = [\Traversable::class, \ArrayAccess::class, \Countable::class];
+
+        if (!count(array_intersect(class_implements($class), $expectedInterfaces)) && !in_array($class, $expectedInterfaces)) {
+            throw new InvalidArgumentException(
+                'Supplied class does not implement any relevant interfaces to stub.'
+            );
+        }
+
+        $mockIterator = $this->mock($class);
+
+        $this->stubTraversableMethods($mockIterator, $items);
+
+        return $mockIterator;
     }
 
     public function instanceMock()
@@ -521,5 +545,86 @@ class Container
             return !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
         });
         return empty($invalidNames);
+    }
+
+    protected function stubTraversableMethods(MockInterface $mockIterator, array $items)
+    {
+        $arrayIterator = new \ArrayIterator($items);
+
+        if ($mockIterator instanceof \IteratorAggregate) {
+            $this->stubIteratorAggregateMethods($mockIterator, $arrayIterator);
+        }
+
+        if ($mockIterator instanceof \Iterator) {
+            $this->stubIteratorMethods($mockIterator, $arrayIterator);
+        }
+
+        if ($mockIterator instanceof \ArrayAccess) {
+            $this->stubArrayAccessMethods($mockIterator, $arrayIterator);
+        }
+
+        if ($mockIterator instanceof \Countable) {
+            $this->stubCountableMethods($mockIterator, $arrayIterator);
+        }
+    }
+
+    /**
+     * @param \IteratorAggregate|MockInterface $mockIteratorAggregate
+     * @param \ArrayIterator $arrayIterator
+     */
+    protected function stubIteratorAggregateMethods(MockInterface $mockIteratorAggregate, \ArrayIterator $arrayIterator)
+    {
+        $mockIteratorAggregate->shouldReceive('getIterator')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                return $arrayIterator;
+            })->byDefault();
+    }
+
+    /**
+     * @param MockInterface|\Iterator $mockIterator
+     * @param \ArrayIterator $arrayIterator
+     */
+    protected function stubIteratorMethods(MockInterface $mockIterator, \ArrayIterator $arrayIterator)
+    {
+        $mockIterator->shouldReceive('rewind')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                $arrayIterator->rewind();
+            })->byDefault();
+        $mockIterator->shouldReceive('current')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                return $arrayIterator->current();
+            })->byDefault();
+        $mockIterator->shouldReceive('key')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                return $arrayIterator->key();
+            })->byDefault();
+        $mockIterator->shouldReceive('next')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                $arrayIterator->next();
+            })->byDefault();
+        $mockIterator->shouldReceive('valid')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                return $arrayIterator->valid();
+            })->byDefault();
+    }
+
+    protected function stubArrayAccessMethods(MockInterface $mockArrayAccess, \ArrayIterator $arrayIterator)
+    {
+        $mockArrayAccess->shouldReceive('offsetExists')
+            ->andReturnUsing(function ($offset) use ($arrayIterator) {
+                return $arrayIterator->offsetExists($offset);
+            })->byDefault();
+        $mockArrayAccess->shouldReceive('offsetGet')
+            ->andReturnUsing(function ($offset) use ($arrayIterator) {
+                return $arrayIterator->offsetGet($offset);
+            })->byDefault();
+    }
+
+    protected function stubCountableMethods(MockInterface $mockCountable, \ArrayIterator $arrayIterator)
+    {
+        $mockCountable->shouldReceive('count')
+            ->andReturnUsing(function () use ($arrayIterator) {
+                return $arrayIterator->count();
+            })->byDefault();
     }
 }
