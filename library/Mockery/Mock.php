@@ -202,7 +202,7 @@ class Mock implements MockInterface
 
         $this->_mockery_instanceMock = $instanceMock;
 
-        $this->parentClass = get_parent_class($this);
+        $this->_mockery_parentClass = get_parent_class($this);
     }
 
     /**
@@ -644,15 +644,15 @@ class Mock implements MockInterface
             return false;
         }
 
-        if (!$this->parentClass) {
+        if (!$this->_mockery_parentClass) {
             return false;
         }
 
-        if (!method_exists($this->parentClass, '__isset')) {
+        if (!method_exists($this->_mockery_parentClass, '__isset')) {
             return false;
         }
 
-        return call_user_func($this->parentClass . '::__isset', $name);
+        return call_user_func($this->_mockery_parentClass . '::__isset', $name);
     }
 
     public function mockery_getExpectations()
@@ -671,11 +671,11 @@ class Mock implements MockInterface
      */
     public function mockery_callSubjectMethod($name, array $args)
     {
-        if (!method_exists($this, $name) && $this->parentClass && method_exists($this->parentClass, '__call')) {
-            return call_user_func($this->parentClass . '::__call', $name, $args);
+        if (!method_exists($this, $name) && $this->_mockery_parentClass && method_exists($this->_mockery_parentClass, '__call')) {
+            return call_user_func($this->_mockery_parentClass . '::__call', $name, $args);
         }
 
-        return call_user_func_array($this->parentClass . '::' . $name, $args);
+        return call_user_func_array($this->_mockery_parentClass . '::' . $name, $args);
     }
 
     /**
@@ -910,7 +910,7 @@ class Mock implements MockInterface
                 // noop - there is no hasPrototype method
             }
 
-            return call_user_func_array($this->parentClass . '::' . $method, $args);
+            return call_user_func_array($this->_mockery_parentClass . '::' . $method, $args);
         }
 
         $handler = $this->_mockery_findExpectedMethodHandler($method);
@@ -930,13 +930,13 @@ class Mock implements MockInterface
             return $this->_mockery_partial->{$method}(...$args);
         }
 
-        if ($this->_mockery_deferMissing && is_callable($this->parentClass . '::' . $method)
-            && (!$this->hasMethodOverloadingInParentClass() || ($this->parentClass && method_exists($this->parentClass, $method)))) {
-            return call_user_func_array($this->parentClass . '::' . $method, $args);
+        if ($this->_mockery_deferMissing && is_callable($this->_mockery_parentClass . '::' . $method)
+            && (!$this->hasMethodOverloadingInParentClass() || ($this->_mockery_parentClass && method_exists($this->_mockery_parentClass, $method)))) {
+            return call_user_func_array($this->_mockery_parentClass . '::' . $method, $args);
         }
 
-        if ($this->_mockery_deferMissing && $this->parentClass && method_exists($this->parentClass, '__call')) {
-            return call_user_func($this->parentClass . '::__call', $method, $args);
+        if ($this->_mockery_deferMissing && $this->_mockery_parentClass && method_exists($this->_mockery_parentClass, '__call')) {
+            return call_user_func($this->_mockery_parentClass . '::__call', $method, $args);
         }
 
         if ($method === '__toString') {
@@ -946,7 +946,7 @@ class Mock implements MockInterface
             return sprintf('%s#%s', self::class, spl_object_hash($this));
         }
 
-        if ($this->_mockery_ignoreMissing && (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) || is_callable($this->parentClass . '::' . $method))) {
+        if ($this->_mockery_ignoreMissing && (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) || is_callable($this->_mockery_parentClass . '::' . $method))) {
             if ($this->_mockery_defaultReturnValue instanceof Undefined) {
                 return $this->_mockery_defaultReturnValue->{$method}(...$args);
             }
@@ -995,7 +995,7 @@ class Mock implements MockInterface
     private function hasMethodOverloadingInParentClass()
     {
         // if there's __call any name would be callable
-        return is_callable($this->parentClass . '::aFunctionNameThatNoOneWouldEverUseInRealLife12345');
+        return is_callable($this->_mockery_parentClass . '::aFunctionNameThatNoOneWouldEverUseInRealLife12345');
     }
 
     /**
