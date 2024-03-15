@@ -79,7 +79,7 @@ class MagicMethodTypeHintsPass implements Pass
      *
      * @return array
      */
-    public function getMagicMethods(TargetClassInterface $class = null)
+    public function getMagicMethods(?TargetClassInterface $class = null)
     {
         if (! $class instanceof TargetClassInterface) {
             return [];

@@ -101,7 +101,7 @@ class Container
      */
     protected $instantiator;
 
-    public function __construct(Generator $generator = null, LoaderInterface $loader = null, Instantiator $instantiator = null)
+    public function __construct(?Generator $generator = null, ?LoaderInterface $loader = null, ?Instantiator $instantiator = null)
     {
         $this->_generator = $generator instanceof Generator ? $generator : Mockery::getDefaultGenerator();
         $this->_loader = $loader instanceof LoaderInterface ? $loader : Mockery::getDefaultLoader();

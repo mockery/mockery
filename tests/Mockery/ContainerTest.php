@@ -1777,7 +1777,7 @@ class MockeryTest_MockCallableTypeHint
         $baz();
     }
 
-    public function bar(callable $callback = null)
+    public function bar(?callable $callback = null)
     {
         $callback();
     }
@@ -1864,7 +1864,7 @@ class MockeryTest_PartialStatic
 
 class MockeryTest_MethodWithRequiredParamWithDefaultValue
 {
-    public function foo(DateTime $bar = null, $baz)
+    public function foo(?DateTime $bar = null, $baz)
     {
     }
 }
