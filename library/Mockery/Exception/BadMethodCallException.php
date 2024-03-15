@@ -21,10 +21,6 @@ class BadMethodCallException extends \BadMethodCallException implements MockeryE
         $this->dismissed = true;
         // we sometimes stack them
         $previous = $this->getPrevious();
-        if (! $previous instanceof Throwable) {
-            return;
-        }
-
         if (! $previous instanceof self) {
             return;
         }
