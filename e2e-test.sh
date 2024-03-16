@@ -6,17 +6,24 @@ set -e
 #######################################################################################################################
 # This script runs semi end-to-end tests for Mockery.
 #
-# It clones the repositories listed in the `repos` array,
+# It clones the repositories listed in the `projects` array,
 # installs Mockery from the local filesystem,
 # and runs PHPUnit for each PHP version listed in the `php_versions` array.
 #
-# This is useful to test Mockery against different versions of other frameworks.
+# This is useful to test Mockery against different versions of other projects and frameworks.
 #
 #######################################################################################################################
 
-php_versions=("8.2" "8.3")
+php_versions=(
+    "8.2"
+    "8.3"
+)
 
-repos=("laravel/framework")
+projects=(
+    "Brain-WP/BrainMonkey"
+    "filp/whoops"
+    "laravel/framework"
+)
 
 mockery_path="$(pwd)"
 
@@ -28,6 +35,7 @@ mockery_version="dev-$mockery_branch#$mockery_sha"
 
 echo "===> Running e2e tests"
 echo "PHP versions: [ ${php_versions[*]} ]"
+echo "Test Projects: [ ${projects[*]} ]"
 echo " "
 echo "Mockery branch: $mockery_branch"
 echo "Mockery SHA: $mockery_sha"
@@ -40,23 +48,23 @@ echo " "
 mkdir -p "$resources_path" || { echo "Failed to create directory $resources_path"; exit 1; }
 cd "$resources_path" || { echo "Failed to change directory to $resources_path"; exit 1; }
 
-for repo in "${repos[@]}"
+for project in "${projects[@]}"
 do
-    repo_path="$resources_path/$repo"
+    project_path="$resources_path/$project"
 
-    if [ ! -d "$repo_path" ]; then
-        echo "Cloning $repo to $repo_path"
+    if [ ! -d "$project_path" ]; then
+        echo "Cloning $project to $project_path"
 
-        git clone "git@github.com:$repo.git" "$repo_path" --depth=10 || { echo "Failed to clone $repo"; exit 1; }
+        git clone "git@github.com:$project.git" "$project_path" --depth=10 || { echo "Failed to clone $project"; exit 1; }
     else
-        echo "Pulling $repo"
+        echo "Pulling $project"
 
-        git -C "$repo_path" fetch --depth=10 || { echo "Failed to fetch $repo"; exit 1; }
+        git -C "$project_path" fetch --depth=10 || { echo "Failed to fetch $project"; exit 1; }
 
-        git -C "$repo_path" pull || { echo "Failed to pull $repo"; exit 1; }
+        git -C "$project_path" pull || { echo "Failed to pull $project"; exit 1; }
     fi
 
-    cd "$repo_path" || { echo "Failed to change directory to $repo_path"; exit 1; }
+    cd "$project_path" || { echo "Failed to change directory to $project_path"; exit 1; }
 
     echo "Installing Mockery version $mockery_version"
 
@@ -64,7 +72,7 @@ do
     do
         echo "Running PHPUnit for PHP version $php_version"
 
-        docker run -it --rm -v "$mockery_path":/opt/mockery -v "$repo_path":/opt/workspace -w /opt/workspace ghcr.io/ghostwriter/php:"$php_version"-pcov sh -c "composer config repositories.local '{\"type\": \"path\", \"url\": \"/opt/mockery\"}' && composer require 'mockery/mockery:$mockery_version' --with-dependencies --ignore-platform-reqs --dev --no-interaction && php vendor/bin/phpunit" || { echo "Failed to run PHPUnit for $repo PHP version $php_version"; exit 1; }
+        docker run -it --rm -v "$mockery_path":/opt/mockery -v "$project_path":/opt/workspace -w /opt/workspace ghcr.io/ghostwriter/php:"$php_version"-pcov sh -c "composer config repositories.local '{\"type\": \"path\", \"url\": \"/opt/mockery\"}' && composer require 'mockery/mockery:$mockery_version' --with-dependencies --ignore-platform-reqs --no-scripts --no-plugins --dev --no-interaction && php vendor/bin/phpunit" || { echo "Failed to run PHPUnit for $project PHP version $php_version"; exit 1; }
     done
 done
 
