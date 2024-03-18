@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.10] - 2024-03-19
+
+### Added
+
+- [1398: [PHP 8.4] Fixes for implicit nullability deprecation](https://github.com/mockery/mockery/pull/1398)
+
+### Fixed
+
+- [1397: Fix mock method $args parameter type](https://github.com/mockery/mockery/pull/1397)
+- [1396: Fix `1.6.8` release](https://github.com/mockery/mockery/pull/1396)
+
+## [1.6.9] - 2024-03-12
+
+- [1394: Revert v1.6.8 release](https://github.com/mockery/mockery/pull/1394)
+
 ## [1.6.8] - 2024-03-12
 
 - [1393: Changelog v1.6.8](https://github.com/mockery/mockery/pull/1393)
