@@ -27,7 +27,7 @@ class MethodWithParametersWithDefaultValues
     {
     }
 
-    public function bar(string $bar = null)
+    public function bar(?string $bar = null)
     {
     }
 }

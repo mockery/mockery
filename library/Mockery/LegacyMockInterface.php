@@ -107,7 +107,7 @@ interface LegacyMockInterface
      *
      * @return void
      */
-    public function mockery_init(Container $container = null, $partialObject = null);
+    public function mockery_init(?Container $container = null, $partialObject = null);
 
     /**
      * @return bool
@@ -220,7 +220,7 @@ interface LegacyMockInterface
      *
      * @return mixed
      */
-    public function shouldNotHaveBeenCalled(array $args = null);
+    public function shouldNotHaveBeenCalled(?array $args = null);
 
     /**
      * @param string $method
