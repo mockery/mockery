@@ -335,6 +335,7 @@
       <code>allowMockingNonExistentMethods</code>
       <code>disableReflectionCache</code>
       <code>enableReflectionCache</code>
+      <code>getDefaultMatcher</code>
       <code>getInternalClassMethodParamMap</code>
       <code>mockingMethodsUnnecessarilyAllowed</code>
       <code>reflectionCacheEnabled</code>
@@ -791,7 +792,6 @@
       <code>mockery_allocateOrder</code>
       <code>mockery_getGroups</code>
       <code>mockery_setGroup</code>
-      <code>new $matcher($expected)</code>
       <code>validate</code>
     </MixedMethodCall>
     <MixedReturnStatement>

@@ -8,9 +8,10 @@
 /docker export-ignore
 /fixtures export-ignore
 /tests export-ignore
-Makefile export-ignore
 codecov.yml export-ignore
+e2e-test.sh export-ignore
 ecs.php export-ignore
+Makefile export-ignore
 phpunit.xml.dist export-ignore
 psalm-baseline.xml export-ignore
 psalm.xml.dist export-ignore

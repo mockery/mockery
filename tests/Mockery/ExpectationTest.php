@@ -2158,6 +2158,20 @@ class ExpectationTest extends MockeryTestCase
 
         Mockery::close();
     }
+
+    public function testNonObjectEqualsExpectation()
+    {
+        $input = ['club_id' => 1, 'user_id' => 1, 'is_admin' => 1];
+
+        $foo = Mockery::mock();
+
+        $foo->shouldReceive('foo')->with($input)->andReturn('foobar');
+
+        // only sort the input to change the order but not the values.
+        ksort($input);
+
+        self::assertSame('foobar', $foo->foo($input));
+    }
 }
 
 interface IWater
