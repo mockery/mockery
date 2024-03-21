@@ -988,7 +988,7 @@ class Mockery
             $parRefMethodRetType = Reflector::getReturnType($parRefMethod, true);
 
             if ($parRefMethodRetType !== null) {
-                $returnTypes = \explode('|', $parRefMethodRetType) ?: [];
+                $returnTypes = \explode('|', $parRefMethodRetType);
 
                 $filteredReturnTypes = array_filter($returnTypes, static function (string $type): bool {
                     return ! Reflector::isReservedWord($type);

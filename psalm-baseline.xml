@@ -169,7 +169,6 @@
     </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
-      <code><![CDATA[\explode('|', $parRefMethodRetType)]]></code>
     </RedundantConditionGivenDocblockType>
     <UnevaluatedCode>
       <code><![CDATA[$exp->andReturn($mock);]]></code>
