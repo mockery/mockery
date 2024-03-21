@@ -21,8 +21,6 @@ jobs:
         dev: ['8.4']
         stable: ['8.3']
 
-    continue-on-error: ${{ matrix.php == matrix.dev || matrix.dependencies == 'lowest' }}
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -74,3 +72,4 @@ jobs:
 
       - name: Execute PHPUnit
         run: composer phpunit
+        continue-on-error: ${{ matrix.php == matrix.dev || matrix.dependencies == 'lowest' }}
