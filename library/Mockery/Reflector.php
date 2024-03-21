@@ -45,6 +45,13 @@ class Reflector
     public const BUILTIN_TYPES = ['array', 'bool', 'int', 'float', 'null', 'object', 'string'];
 
     /**
+     * List of reserved words.
+     *
+     * @var list<string>
+     */
+    public const RESERVED_WORDS = ['bool', 'true', 'false', 'float', 'int', 'iterable', 'mixed', 'never', 'null', 'object', 'string', 'void'];
+
+    /**
      * Iterable.
      *
      * @var list<string>
@@ -146,6 +153,14 @@ class Reflector
         $type = $param->getType();
 
         return $type instanceof ReflectionNamedType && $type->getName();
+    }
+
+    /**
+     * Determine if the given type is a reserved word.
+     */
+    public static function isReservedWord(string $type): bool
+    {
+        return in_array(strtolower($type), self::RESERVED_WORDS, true);
     }
 
     /**
