@@ -54,7 +54,7 @@ class Configuration
      *
      * e.g. ['class' => ['MY_CONST' => 123, 'OTHER_CONST' => 'foo']]
      *
-     * @var array<class-string,array<string,scalar>>
+     * @var array<class-string,array<string,array<scalar>|scalar>>
      */
     protected $_constantsMap = [];
 
@@ -167,7 +167,7 @@ class Configuration
     /**
      * Get the map of constants to be used in the mock generator
      *
-     * @return array<class-string,array<string,scalar>>
+     * @return array<class-string,array<string,array<scalar>|scalar>>
      */
     public function getConstantsMap()
     {
@@ -324,7 +324,9 @@ class Configuration
     /**
      * Set a map of constants to be used in the mock generator
      *
-     * @param array<class-string,array<string,scalar>> $map e.g. ['MyClass' => ['MY_CONST' => 123, 'OTHER_CONST' => 'foo']]
+     * e.g. ['MyClass' => ['MY_CONST' => 123, 'ARRAY_CONST' => ['foo', 'bar']]]
+     *
+     * @param array<class-string,array<string,array<scalar>|scalar>> $map
      *
      * @return void
      */
