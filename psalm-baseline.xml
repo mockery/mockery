@@ -16,6 +16,9 @@
       <code>self::$_generator === null</code>
       <code>self::$_loader === null</code>
     </DocblockTypeContradiction>
+    <InternalMethod>
+      <code>Reflector::isReservedWord($type)</code>
+    </InternalMethod>
     <InvalidReturnStatement>
       <code>$argument</code>
       <code><![CDATA[$container->getMocks()[$demeterMockKey] ?? null]]></code>
@@ -166,6 +169,7 @@
     </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
+      <code><![CDATA[\explode('|', $parRefMethodRetType)]]></code>
     </RedundantConditionGivenDocblockType>
     <UnevaluatedCode>
       <code><![CDATA[$exp->andReturn($mock);]]></code>
