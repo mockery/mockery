@@ -40,6 +40,33 @@ class ReflectorTest extends MockeryTestCase
         ];
     }
 
+    /**
+     * @dataProvider provideReservedWords
+     */
+    public function testIsReservedWord(string $type): void
+    {
+        self::assertTrue(Reflector::isReservedWord($type));
+    }
+
+    public static function provideReservedWords(): Generator
+    {
+        foreach ([
+                'bool',
+                'false',
+                'float',
+                'int',
+                'iterable',
+                'mixed',
+                'never',
+                'null',
+                'object',
+                'string',
+                'true',
+                'void'
+        ] as $type) {
+            yield $type => [$type];
+        }
+    }
 }
 
 class ParentClass

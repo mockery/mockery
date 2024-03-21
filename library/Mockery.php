@@ -759,7 +759,7 @@ class Mockery
                 $mock = self::getNewDemeterMock($container, $parent, $method, $expectations);
             } else {
                 $demeterMockKey = $container->getKeyOfDemeterMockFor($method, $parent);
-                if ($demeterMockKey) {
+                if ($demeterMockKey !== null) {
                     $mock = self::getExistingDemeterMock($container, $demeterMockKey);
                 }
             }
@@ -987,13 +987,27 @@ class Mockery
             $parRefMethod = $parRef->getMethod($method);
             $parRefMethodRetType = Reflector::getReturnType($parRefMethod, true);
 
-            if ($parRefMethodRetType !== null && $parRefMethodRetType !== 'mixed') {
-                $nameBuilder = new MockNameBuilder();
-                $nameBuilder->addPart('\\' . $newMockName);
-                $mock = self::namedMock($nameBuilder->build(), $parRefMethodRetType);
-                $exp->andReturn($mock);
+            if ($parRefMethodRetType !== null) {
+                $returnTypes = \explode('|', $parRefMethodRetType);
 
-                return $mock;
+                $filteredReturnTypes = array_filter($returnTypes, static function (string $type): bool {
+                    return ! Reflector::isReservedWord($type);
+                });
+
+                if ($filteredReturnTypes !== []) {
+                    $nameBuilder = new MockNameBuilder();
+
+                    $nameBuilder->addPart('\\' . $newMockName);
+
+                    $mock = self::namedMock(
+                        $nameBuilder->build(),
+                        ...$filteredReturnTypes
+                    );
+
+                    $exp->andReturn($mock);
+
+                    return $mock;
+                }
             }
         }
 
