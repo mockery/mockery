@@ -14,7 +14,6 @@ use Mockery\Generator\Method;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\Parameter;
 use Mockery\Generator\TargetClassInterface;
-
 use function array_filter;
 use function array_merge;
 use function end;
@@ -53,7 +52,6 @@ class MagicMethodTypeHintsPass implements Pass
      * Apply implementation.
      *
      * @param string $code
-     * @param MockConfiguration $config
      *
      * @return string
      */
@@ -74,8 +72,6 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Returns the magic methods within the
      * passed DefinedTargetClass.
-     *
-     * @param TargetClassInterface $class
      *
      * @return array
      */
@@ -102,7 +98,6 @@ class MagicMethodTypeHintsPass implements Pass
      * class to the passed code.
      *
      * @param int $code
-     * @param Method $method
      *
      * @return string
      */
@@ -136,7 +131,6 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Gets the declaration code, as a string, for the passed method.
      *
-     * @param Method $method
      * @param array $namedParameters
      *
      * @return string
@@ -170,7 +164,6 @@ class MagicMethodTypeHintsPass implements Pass
      * described in the $code string.
      *
      * @param int $code
-     * @param Method $method
      *
      * @return array
      */
@@ -194,9 +187,8 @@ class MagicMethodTypeHintsPass implements Pass
      * Checks if the method is declared within code.
      *
      * @param int $code
-     * @param Method $method
      *
-     * @return boolean
+     * @return bool
      */
     private function isMethodWithinCode($code, Method $method)
     {

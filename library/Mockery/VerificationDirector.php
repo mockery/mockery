@@ -128,7 +128,7 @@ class VerificationDirector
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return self
      */
@@ -147,7 +147,7 @@ class VerificationDirector
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return self
      */

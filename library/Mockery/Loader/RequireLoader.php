@@ -37,9 +37,16 @@ class RequireLoader implements Loader
      */
     protected $path;
 
+    /**
+     * @param string|null $path
+     */
     public function __construct($path = null)
     {
-        $this->path = realpath($path) ?: sys_get_temp_dir();
+        if ($path === null) {
+            $path = sys_get_temp_dir();
+        }
+
+        $this->path = realpath($path);
     }
 
     public function __destruct()

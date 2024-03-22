@@ -25,30 +25,49 @@ use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPa
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
 use Mockery\Generator\StringManipulation\Pass\TraitPass;
-
 use function file_get_contents;
 
 class StringManipulationGenerator implements Generator
 {
+    /**
+     * @var list<Pass>
+     */
     protected $passes = [];
 
+    /**
+     * @var string
+     */
+    private $code;
+
+    /**
+     * @param list<Pass> $passes
+     */
     public function __construct(array $passes)
     {
         $this->passes = $passes;
+
+        $this->code = file_get_contents(__DIR__ . '/../Mock.php');
     }
 
+    /**
+     * @param  Pass $pass
+     * @return void
+     */
     public function addPass(Pass $pass)
     {
         $this->passes[] = $pass;
     }
 
+    /**
+     * @return MockDefinition
+     */
     public function generate(MockConfiguration $config)
     {
-        $code = file_get_contents(__DIR__ . '/../Mock.php');
         $className = $config->getName() ?: $config->generateName();
 
         $namedConfig = $config->rename($className);
 
+        $code = $this->code;
         foreach ($this->passes as $pass) {
             $code = $pass->apply($code, $namedConfig);
         }

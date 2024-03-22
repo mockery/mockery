@@ -11,15 +11,18 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
-
 use function implode;
 use function str_replace;
 
 class ClassAttributesPass implements Pass
 {
+    /**
+     * @param  string $code
+     * @return string
+     */
     public function apply($code, MockConfiguration $config)
     {
-        $class =  $config->getTargetClass();
+        $class = $config->getTargetClass();
 
         if (! $class) {
             return $code;

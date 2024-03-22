@@ -183,8 +183,8 @@ class Mock implements MockInterface
      */
     public function mockery_init(?Container $container = null, $partialObject = null, $instanceMock = true)
     {
-        if (is_null($container)) {
-            $container = new Container();
+        if (null === $container) {
+            $container = Container::new();
         }
 
         $this->_mockery_container = $container;
@@ -314,7 +314,8 @@ class Mock implements MockInterface
 
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
-     * @param String $method name of the method to be mocked
+     *
+     * @param string $method name of the method to be mocked
      * @return Mock|MockInterface|LegacyMockInterface
      */
     public function shouldAllowMockingMethod($method)

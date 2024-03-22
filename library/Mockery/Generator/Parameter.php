@@ -13,28 +13,42 @@ namespace Mockery\Generator;
 use Mockery\Reflector;
 use ReflectionClass;
 use ReflectionParameter;
-
 use function class_exists;
 
+/**
+ * @mixin ReflectionParameter
+ */
 class Parameter
 {
-    /**
-     * @var ReflectionParameter
-     */
-    private $rfp;
-
     /**
      * @var int
      */
     private static $parameterCounter = 0;
+
+    /**
+     * @var ReflectionParameter
+     */
+    private $rfp;
 
     public function __construct(ReflectionParameter $rfp)
     {
         $this->rfp = $rfp;
     }
 
+    /**
+     * Proxy all method calls to the reflection parameter.
+     *
+     * @template TMixed
+     * @template TResult
+     *
+     * @param string        $method
+     * @param array<TMixed> $args
+     *
+     * @return TResult
+     */
     public function __call($method, array $args)
     {
+        /** @var TResult */
         return $this->rfp->{$method}(...$args);
     }
 
@@ -64,6 +78,7 @@ class Parameter
     public function getName()
     {
         $name = $this->rfp->getName();
+
         if (! $name || $name === '...') {
             return 'arg' . self::$parameterCounter++;
         }

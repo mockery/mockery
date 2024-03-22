@@ -11,11 +11,10 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
-
 use function strrpos;
 use function substr;
 
-class InstanceMockPass
+class InstanceMockPass implements Pass
 {
     public const INSTANCE_MOCK_CODE = <<<MOCK
 
@@ -58,6 +57,10 @@ class InstanceMockPass
     }
 MOCK;
 
+    /**
+     * @param  string $code
+     * @return string
+     */
     public function apply($code, MockConfiguration $config)
     {
         if ($config->isInstanceMock()) {

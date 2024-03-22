@@ -208,7 +208,7 @@ class Configuration
      * Get the parameter map of an internal PHP class method
      *
      * @param class-string $class
-     * @param string $method
+     * @param string       $method
      *
      * @return null|array
      */
@@ -241,7 +241,7 @@ class Configuration
      * Get the object formatter for a class
      *
      * @param class-string $class
-     * @param Closure $defaultFormatter
+     * @param Closure      $defaultFormatter
      *
      * @return Closure
      */
@@ -367,7 +367,7 @@ class Configuration
      * Set a parameter map (array of param signature strings) for the method of an internal PHP class.
      *
      * @param class-string $class
-     * @param string $method
+     * @param string       $method
      * @param list<string> $map
      *
      * @throws LogicException
@@ -395,7 +395,7 @@ class Configuration
      * Set a custom object formatter for a class
      *
      * @param class-string $class
-     * @param Closure $formatterCallback
+     * @param Closure      $formatterCallback
      *
      * @return void
      */

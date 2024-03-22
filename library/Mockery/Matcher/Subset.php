@@ -22,7 +22,7 @@ class Subset extends MatcherAbstract
 
     /**
      * @param array $expected Expected subset of data
-     * @param bool $strict Whether to run a strict or loose comparison
+     * @param bool  $strict   Whether to run a strict or loose comparison
      */
     public function __construct(array $expected, $strict = true)
     {
@@ -38,6 +38,16 @@ class Subset extends MatcherAbstract
     public function __toString()
     {
         return '<Subset' . $this->formatArray($this->expected) . '>';
+    }
+
+    /**
+     * @param array $expected Expected subset of data
+     *
+     * @return Subset
+     */
+    public static function loose(array $expected)
+    {
+        return new static($expected, false);
     }
 
     /**
@@ -63,6 +73,16 @@ class Subset extends MatcherAbstract
     }
 
     /**
+     * @param array $expected Expected subset of data
+     *
+     * @return Subset
+     */
+    public static function strict(array $expected)
+    {
+        return new static($expected, true);
+    }
+
+    /**
      * Recursively format an array into the string representation for this matcher
      *
      * @return string
@@ -75,25 +95,5 @@ class Subset extends MatcherAbstract
         }
 
         return '[' . implode(', ', $elements) . ']';
-    }
-
-    /**
-     * @param array $expected Expected subset of data
-     *
-     * @return Subset
-     */
-    public static function loose(array $expected)
-    {
-        return new static($expected, false);
-    }
-
-    /**
-     * @param array $expected Expected subset of data
-     *
-     * @return Subset
-     */
-    public static function strict(array $expected)
-    {
-        return new static($expected, true);
     }
 }

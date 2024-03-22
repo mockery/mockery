@@ -21,6 +21,7 @@ class AtMost extends CountValidatorAbstract
      *
      * @param int $n
      *
+     * @throws InvalidCountException
      * @return bool
      */
     public function validate($n)
@@ -40,5 +41,7 @@ class AtMost extends CountValidatorAbstract
                 ->setActualCount($n);
             throw $exception;
         }
+
+        return true;
     }
 }

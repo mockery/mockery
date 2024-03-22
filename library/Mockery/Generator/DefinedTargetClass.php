@@ -12,6 +12,7 @@ namespace Mockery\Generator;
 
 use ReflectionAttribute;
 use ReflectionClass;
+use ReflectionMethod;
 
 use function array_map;
 use function array_merge;
@@ -21,21 +22,47 @@ use const PHP_VERSION_ID;
 
 class DefinedTargetClass implements TargetClassInterface
 {
+    /**
+     * @var class-string
+     */
     private $name;
 
+    /**
+     * @var ReflectionClass
+     */
     private $rfc;
 
+    /**
+     * @param ReflectionClass   $rfc
+     * @param class-string|null $alias
+     */
     public function __construct(ReflectionClass $rfc, $alias = null)
     {
         $this->rfc = $rfc;
         $this->name = $alias ?? $rfc->getName();
     }
 
+    /**
+     * @return class-string
+     */
     public function __toString()
     {
-        return $this->getName();
+        return $this->name;
     }
 
+    /**
+     * @param  class-string      $name
+     * @param  class-string|null $alias
+     * @return self
+     */
+    public static function factory($name, $alias = null)
+    {
+        return new self(new ReflectionClass($name), $alias);
+    }
+
+    /**
+     * @return list<class-string>
+     */
     public function getAttributes()
     {
         if (PHP_VERSION_ID < 80000) {
@@ -55,36 +82,59 @@ class DefinedTargetClass implements TargetClassInterface
         );
     }
 
+    /**
+     * @return array<class-string,self>
+     */
     public function getInterfaces()
     {
-        $class = self::class;
-        return array_map(static function ($interface) use ($class) {
-            return new $class($interface);
-        }, $this->rfc->getInterfaces());
+        return array_map(
+            static function (ReflectionClass $interface): self {
+                return new self($interface);
+            },
+            $this->rfc->getInterfaces()
+        );
     }
 
+    /**
+     * @return list<Method>
+     */
     public function getMethods()
     {
-        return array_map(static function ($method) {
-            return new Method($method);
-        }, $this->rfc->getMethods());
+        return array_map(
+            static function (ReflectionMethod $method): Method {
+                return new Method($method);
+            },
+            $this->rfc->getMethods()
+        );
     }
 
+    /**
+     * @return class-string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getNamespaceName()
     {
         return $this->rfc->getNamespaceName();
     }
 
+    /**
+     * @return string
+     */
     public function getShortName()
     {
         return $this->rfc->getShortName();
     }
 
+    /**
+     * @return bool
+     */
     public function hasInternalAncestor()
     {
         if ($this->rfc->isInternal()) {
@@ -103,28 +153,36 @@ class DefinedTargetClass implements TargetClassInterface
         return false;
     }
 
+    /**
+     * @param  class-string $interface
+     * @return bool
+     */
     public function implementsInterface($interface)
     {
         return $this->rfc->implementsInterface($interface);
     }
 
+    /**
+     * @return bool
+     */
     public function inNamespace()
     {
         return $this->rfc->inNamespace();
     }
 
+    /**
+     * @return bool
+     */
     public function isAbstract()
     {
         return $this->rfc->isAbstract();
     }
 
+    /**
+     * @return bool
+     */
     public function isFinal()
     {
         return $this->rfc->isFinal();
-    }
-
-    public static function factory($name, $alias = null)
-    {
-        return new self(new ReflectionClass($name), $alias);
     }
 }

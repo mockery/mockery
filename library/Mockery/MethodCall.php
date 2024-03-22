@@ -24,7 +24,7 @@ class MethodCall
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      */
     public function __construct($method, $args)
     {

@@ -10,6 +10,7 @@
 
 namespace Mockery;
 
+use Closure;
 use Throwable;
 
 interface LegacyMockInterface
@@ -40,7 +41,10 @@ interface LegacyMockInterface
     /**
      * Find an expectation matching the given method and arguments
      *
-     * @param string $method
+     * @template TMixed
+     *
+     * @param string        $method
+     * @param array<TMixed> $args
      *
      * @return null|Expectation
      */
@@ -79,7 +83,7 @@ interface LegacyMockInterface
     /**
      * Fetch array of ordered groups
      *
-     * @return array<string, int>
+     * @return array<string,int>
      */
     public function mockery_getGroups();
 
@@ -136,7 +140,7 @@ interface LegacyMockInterface
      * Set ordering for a group
      *
      * @param string $group
-     * @param int $order
+     * @param int    $order
      *
      * @return void
      */
@@ -153,7 +157,7 @@ interface LegacyMockInterface
      * Validate the current mock's ordering
      *
      * @param string $method
-     * @param int $order
+     * @param int    $order
      *
      * @throws Exception
      *
@@ -173,7 +177,8 @@ interface LegacyMockInterface
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
      *
-     * @param string $method name of the method to be mocked
+     * @param  string $method the method name to be mocked
+     * @return self
      */
     public function shouldAllowMockingMethod($method);
 
@@ -197,10 +202,11 @@ interface LegacyMockInterface
     public function shouldHaveBeenCalled();
 
     /**
-     * @param string $method
-     * @param null|array|Closure $args
+     * @template TMixed
+     * @param string                     $method
+     * @param null|array<TMixed>|Closure $args
      *
-     * @return mixed
+     * @return self
      */
     public function shouldHaveReceived($method, $args = null);
 
@@ -209,24 +215,26 @@ interface LegacyMockInterface
      *
      * @template TReturnValue
      *
-     * @param TReturnValue $returnValue the default return value for calls to missing functions on this mock
+     * @param null|TReturnValue $returnValue the default return value for calls to missing functions on this mock
      *
      * @return self
      */
     public function shouldIgnoreMissing($returnValue = null);
 
     /**
-     * @param null|array $args (optional)
+     * @template TMixed
+     * @param null|array<TMixed> $args (optional)
      *
-     * @return mixed
+     * @return self
      */
     public function shouldNotHaveBeenCalled(?array $args = null);
 
     /**
-     * @param string $method
-     * @param null|array|Closure $args
+     * @template TMixed
+     * @param string                     $method
+     * @param null|array<TMixed>|Closure $args
      *
-     * @return mixed
+     * @return self
      */
     public function shouldNotHaveReceived($method, $args = null);
 

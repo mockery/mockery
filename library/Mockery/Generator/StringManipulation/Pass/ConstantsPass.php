@@ -11,17 +11,19 @@
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
-
 use function array_key_exists;
 use function sprintf;
 use function strrpos;
 use function substr_replace;
 use function var_export;
-
 use const PHP_EOL;
 
 class ConstantsPass implements Pass
 {
+    /**
+     * @param  string $code
+     * @return string
+     */
     public function apply($code, MockConfiguration $config)
     {
         $cm = $config->getConstantsMap();
