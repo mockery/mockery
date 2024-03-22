@@ -33,8 +33,8 @@ class DefinedTargetClass implements TargetClassInterface
     private $rfc;
 
     /**
-     * @param ReflectionClass $rfc
-     * @param class-string|null     $alias
+     * @param ReflectionClass   $rfc
+     * @param class-string|null $alias
      */
     public function __construct(ReflectionClass $rfc, $alias = null)
     {
@@ -51,7 +51,7 @@ class DefinedTargetClass implements TargetClassInterface
     }
 
     /**
-     * @param  class-string $name
+     * @param  class-string      $name
      * @param  class-string|null $alias
      * @return self
      */

@@ -15,7 +15,7 @@ final class MockWithClosureAsLastArgumentTest extends MockeryTestCase
     {
         $mock = Mockery::mock(
             TestInterface::class,
-            static function (LegacyMockInterface|MockInterface $mock): void {
+            static function (LegacyMockInterface $mock): void {
                 $mock->expects('blm')->andReturn('#BlackLivesMatter');
             }
         );

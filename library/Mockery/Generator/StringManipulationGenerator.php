@@ -30,14 +30,14 @@ use function file_get_contents;
 class StringManipulationGenerator implements Generator
 {
     /**
-     * @var string
-     */
-    private $code;
-
-    /**
      * @var list<Pass>
      */
     protected $passes = [];
+
+    /**
+     * @var string
+     */
+    private $code;
 
     /**
      * @param list<Pass> $passes
@@ -50,7 +50,7 @@ class StringManipulationGenerator implements Generator
     }
 
     /**
-     * @param Pass $pass
+     * @param  Pass $pass
      * @return void
      */
     public function addPass(Pass $pass)

@@ -10,12 +10,10 @@
 
 namespace Mockery\Generator;
 
-use ReflectionMethod;
 use function array_pop;
 use function explode;
 use function implode;
 use function ltrim;
-use Mockery\Generator\TargetClassInterface;
 
 class UndefinedTargetClass implements TargetClassInterface
 {

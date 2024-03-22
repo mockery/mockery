@@ -11,7 +11,7 @@
 namespace Mockery\Generator;
 
 use Mockery\Exception;
-use ReflectionMethod;
+use Serializable;
 use function array_filter;
 use function array_keys;
 use function array_map;
@@ -33,8 +33,6 @@ use function serialize;
 use function strpos;
 use function strtolower;
 use function trait_exists;
-use Serializable;
-use Mockery\Generator\TargetClassInterface;
 
 /**
  * This class describes the configuration of mocks and hides away some of the
@@ -47,7 +45,7 @@ class MockConfiguration
      *
      * @var list<Method>
      */
-    protected $allMethods;
+    protected $allMethods = [];
 
     /**
      * Methods that should specifically not be mocked
@@ -81,6 +79,8 @@ class MockConfiguration
 
     /**
      * Param overrides
+     *
+     * @var array<string,mixed>
      */
     protected $parameterOverrides = [];
 
@@ -134,14 +134,14 @@ class MockConfiguration
     protected $whiteListedMethods = [];
 
     /**
-     * @param array<class-string|object> $targets
-     * @param array<string>              $blackListedMethods
-     * @param array<string>              $whiteListedMethods
-     * @param string|null                $name
-     * @param bool                       $instanceMock
-     * @param array<string,mixed>       $parameterOverrides
-     * @param bool                       $mockOriginalDestructor
-     * @param array<string,array<scalar>|scalar>       $constantsMap
+     * @param array<class-string|object>         $targets
+     * @param array<string>                      $blackListedMethods
+     * @param array<string>                      $whiteListedMethods
+     * @param string|null                        $name
+     * @param bool                               $instanceMock
+     * @param array<string,mixed>                $parameterOverrides
+     * @param bool                               $mockOriginalDestructor
+     * @param array<string,array<scalar>|scalar> $constantsMap
      */
     public function __construct(
         array $targets = [],
@@ -172,9 +172,6 @@ class MockConfiguration
     {
         $nameBuilder = new MockNameBuilder();
 
-        /**
-         * @var object|null $targetObject
-         */
         $targetObject = $this->getTargetObject();
         if ($targetObject !== null) {
             $className = get_class($targetObject);
@@ -309,7 +306,9 @@ class MockConfiguration
         return $this->name;
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getNamespaceName()
     {
         $parts = explode('\\', $this->getName());

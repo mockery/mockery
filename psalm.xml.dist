@@ -20,11 +20,13 @@
     <projectFiles>
         <directory name="library"/>
         <ignoreFiles>
-            <directory name="tests"/>
-            <file name="library/Mockery/Mock.php" />
             <directory name="fixtures"/>
+            <directory name="tests"/>
             <directory name="tests/Fixture"/>
             <directory name="vendor"/>
+            <file name="library/Mockery/Mock.php" />
+            <file name="tests/Mockery/ContainerTest.php"/>
+            <file name="tests/Mockery/MockTest.php"/>
         </ignoreFiles>
     </projectFiles>
     <plugins>

@@ -15,7 +15,6 @@ use ReflectionClass;
 use ReflectionParameter;
 use function class_exists;
 
-
 /**
  * @mixin ReflectionParameter
  */

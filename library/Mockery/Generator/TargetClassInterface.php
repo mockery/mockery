@@ -10,10 +10,6 @@
 
 namespace Mockery\Generator;
 
-use ReflectionMethod;
-use Mockery\Generator\TargetClassInterface;
-use Mockery\Generator\Method;
-
 interface TargetClassInterface
 {
     /**
