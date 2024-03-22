@@ -21,6 +21,7 @@ class Exact extends CountValidatorAbstract
      *
      * @param int $n
      *
+     * @throws InvalidCountException
      * @return bool
      */
     public function validate($n)
@@ -43,5 +44,7 @@ class Exact extends CountValidatorAbstract
                 ->setActualCount($n);
             throw $exception;
         }
+
+        return true;
     }
 }

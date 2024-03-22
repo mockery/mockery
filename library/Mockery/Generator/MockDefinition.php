@@ -14,10 +14,20 @@ use InvalidArgumentException;
 
 class MockDefinition
 {
+    /**
+     * @var string
+     */
     protected $code;
 
+    /**
+     * @var MockConfiguration
+     */
     protected $config;
 
+    /**
+     * @param  string                   $code
+     * @throws InvalidArgumentException
+     */
     public function __construct(MockConfiguration $config, $code)
     {
         if (! $config->getName()) {
@@ -28,16 +38,25 @@ class MockDefinition
         $this->code = $code;
     }
 
+    /**
+     * @return string
+     */
     public function getClassName()
     {
         return $this->config->getName();
     }
 
+    /**
+     * @return string
+     */
     public function getCode()
     {
         return $this->code;
     }
 
+    /**
+     * @return MockConfiguration
+     */
     public function getConfig()
     {
         return $this->config;

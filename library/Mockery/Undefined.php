@@ -18,7 +18,7 @@ class Undefined
      * Call capturing to merely return this same object.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return self
      */

@@ -3,6 +3,7 @@
   <file src="library/Mockery.php">
     <ArgumentTypeCoercion>
       <code>$demeterMockKey</code>
+      <code>$newMockName</code>
     </ArgumentTypeCoercion>
     <DeprecatedClass>
       <code>MustBe</code>
@@ -23,13 +24,12 @@
       <code>$argument</code>
       <code><![CDATA[$container->getMocks()[$demeterMockKey] ?? null]]></code>
       <code><![CDATA['...']]></code>
+      <code><![CDATA[self::getContainer()->mock(...$args)->shouldIgnoreMissing()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TInstanceMock]]></code>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TNamedMock]]></code>
+      <code><![CDATA[LegacyMockInterface&MockInterface&TSpy]]></code>
       <code>TArray</code>
+      <code><![CDATA[null|(LegacyMockInterface&MockInterface&TMock)]]></code>
     </InvalidReturnType>
     <MissingClosureParamType>
       <code>$argument</code>
@@ -72,7 +72,6 @@
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code>$args</code>
-      <code>$args</code>
       <code>$formattedArguments</code>
       <code>$k</code>
     </MixedArgumentTypeCoercion>
@@ -99,26 +98,14 @@
     </MixedAssignment>
     <MixedInferredReturnType>
       <code>ExpectationInterface</code>
-      <code><![CDATA[LegacyMockInterface&MockInterface]]></code>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TSpy]]></code>
     </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code>shouldIgnoreMissing</code>
-    </MixedMethodCall>
     <MixedOperand>
       <code>$argument</code>
     </MixedOperand>
     <MixedReturnStatement>
       <code>$expectations</code>
       <code>$expectations</code>
-      <code><![CDATA[self::getContainer()->mock(...$args)->shouldIgnoreMissing()]]></code>
     </MixedReturnStatement>
-    <NoValue>
-      <code>$mock</code>
-      <code><![CDATA[return self::getContainer()->mock(...$args);]]></code>
-      <code><![CDATA[return self::getContainer()->mock(...$args);]]></code>
-      <code><![CDATA[return self::getContainer()->mock(...$args);]]></code>
-    </NoValue>
     <NullableReturnStatement>
       <code>$expectations</code>
     </NullableReturnStatement>
@@ -129,6 +116,10 @@
     <PossiblyNullPropertyAssignmentValue>
       <code>null</code>
     </PossiblyNullPropertyAssignmentValue>
+    <PossiblyNullReference>
+      <code>allows</code>
+      <code>mockery_getExpectationsFor</code>
+    </PossiblyNullReference>
     <PossiblyUndefinedIntArrayOffset>
       <code>$args[0]</code>
     </PossiblyUndefinedIntArrayOffset>
@@ -170,16 +161,9 @@
     <RedundantConditionGivenDocblockType>
       <code>$parentMock !== null</code>
     </RedundantConditionGivenDocblockType>
-    <UnevaluatedCode>
-      <code><![CDATA[$exp->andReturn($mock);]]></code>
-      <code>return $mock;</code>
-    </UnevaluatedCode>
     <UnresolvableInclude>
       <code>require $fileName</code>
     </UnresolvableInclude>
-    <UnusedVariable>
-      <code>$mock</code>
-    </UnusedVariable>
   </file>
   <file src="library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php">
     <InternalMethod>
@@ -363,42 +347,28 @@
   <file src="library/Mockery/Container.php">
     <ArgumentTypeCoercion>
       <code>$constructorArgs</code>
+      <code>$mock</code>
     </ArgumentTypeCoercion>
     <DocblockTypeContradiction>
-      <code>$arg instanceof MockConfigurationBuilder</code>
       <code>$match === false</code>
-      <code>is_object($arg)</code>
+      <code>array_keys($arg) !== range(0, count($arg) - 1)</code>
     </DocblockTypeContradiction>
     <InvalidArgument>
       <code>$keys</code>
-      <code>$quickDefinitions</code>
-      <code>$quickDefinitions</code>
-      <code>$quickDefinitions</code>
-      <code>$quickDefinitions</code>
     </InvalidArgument>
     <InvalidArrayOffset>
       <code>$mocks[$index]</code>
     </InvalidArrayOffset>
-    <InvalidCast>
-      <code>$quickDefinitions</code>
-      <code>$quickDefinitions</code>
-    </InvalidCast>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->_mocks]]></code>
-      <code><![CDATA[$this->_mocks]]></code>
-    </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement>
+      <code><![CDATA[$this->_mocks]]></code>
       <code><![CDATA[$this->_mocks[$reference] ?? null]]></code>
       <code><![CDATA[$this->rememberMock($mock)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>TMock</code>
+      <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
+      <code><![CDATA[array<class-string<LegacyMockInterface&MockInterface&TMock>|int,LegacyMockInterface&MockInterface&TMock>]]></code>
       <code><![CDATA[null|(LegacyMockInterface&MockInterface&TMock)]]></code>
     </InvalidReturnType>
-    <LessSpecificReturnStatement>
-      <code>$instance</code>
-      <code><![CDATA[(new ReflectionClass($mockName))->newInstanceArgs($constructorArgs)]]></code>
-    </LessSpecificReturnStatement>
     <MissingParamType>
       <code>$config</code>
     </MissingParamType>
@@ -414,19 +384,16 @@
             );]]></code>
     </MissingThrowsDocblock>
     <MixedArgument>
-      <code>$blocks</code>
       <code>$className</code>
       <code>$className</code>
       <code>$config</code>
-      <code><![CDATA[$config->getTargetObject()]]></code>
-      <code><![CDATA[$config->getTargetObject()]]></code>
       <code>$def</code>
       <code>$name</code>
       <code>$name</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code>$constructorArgs</code>
-    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code>$arg[self::BLOCKS]</code>
+    </MixedArrayAccess>
     <MixedArrayOffset>
       <code><![CDATA[$this->_namedMocks[$name]]]></code>
     </MixedArrayOffset>
@@ -444,14 +411,19 @@
       <code>LegacyMockInterface|MockInterface</code>
     </MixedInferredReturnType>
     <MixedMethodCall>
+      <code>atLeast</code>
+      <code>byDefault</code>
       <code>getClassName</code>
       <code>getHash</code>
       <code>getName</code>
+      <code>mockery_init</code>
       <code>new $internalMockName()</code>
       <code>once</code>
       <code>setActualOrder</code>
       <code>setExpectedOrder</code>
       <code>setMethodName</code>
+      <code>shouldReceive</code>
+      <code>shouldReceive</code>
     </MixedMethodCall>
     <MixedPropertyTypeCoercion>
       <code><![CDATA[$this->_namedMocks]]></code>
@@ -463,11 +435,12 @@
       <code>$exceptions</code>
       <code><![CDATA[array<Throwable>]]></code>
     </MixedReturnTypeCoercion>
-    <MoreSpecificReturnType>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
-    </MoreSpecificReturnType>
     <NoValue>
-      <code>$expectationClosure</code>
+      <code>$arg</code>
+      <code>$arg</code>
+      <code>$arg</code>
+      <code>$constructorArgs</code>
+      <code>$quickDefinitions</code>
     </NoValue>
     <PossiblyUndefinedIntArrayOffset>
       <code>$parts[1]</code>
@@ -482,25 +455,17 @@
     <PossiblyUnusedReturnValue>
       <code>int</code>
     </PossiblyUnusedReturnValue>
-    <TooManyArguments>
-      <code>mockery_init</code>
-    </TooManyArguments>
-    <TypeDoesNotContainType>
+    <RedundantConditionGivenDocblockType>
       <code><![CDATA[is_callable($finalArg) && is_object($finalArg)]]></code>
+      <code>is_object($arg)</code>
       <code>is_object($finalArg)</code>
+    </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainType>
+      <code>$constructorArgs !== null</code>
     </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
-      <code>atLeast</code>
-      <code>byDefault</code>
       <code>mockery_thrownExceptions</code>
     </UndefinedInterfaceMethod>
-    <UndefinedMagicMethod>
-      <code>atLeast</code>
-      <code>byDefault</code>
-    </UndefinedMagicMethod>
-    <UnusedVariable>
-      <code>$expectationClosure</code>
-    </UnusedVariable>
   </file>
   <file src="library/Mockery/CountValidator/AtLeast.php">
     <InvalidReturnType>
@@ -1920,6 +1885,7 @@
       <code>mockery_getCurrentOrder</code>
       <code>mockery_getGroups</code>
       <code>mockery_getMockableProperties</code>
+      <code>mockery_init</code>
       <code>mockery_setCurrentOrder</code>
       <code>mockery_setExpectationsFor</code>
       <code>mockery_setGroup</code>
@@ -1928,7 +1894,6 @@
       <code>shouldDeferMissing</code>
       <code>shouldHaveBeenCalled</code>
       <code>shouldHaveReceived</code>
-      <code>shouldIgnoreMissing</code>
       <code>shouldNotHaveBeenCalled</code>
       <code>shouldNotHaveReceived</code>
     </PossiblyUnusedMethod>
@@ -2253,20 +2218,5 @@
       <code>withArgs</code>
       <code>withNoArgs</code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="library/helpers.php">
-    <MissingParamType>
-      <code>$args</code>
-      <code>$args</code>
-      <code>$args</code>
-    </MissingParamType>
-    <MissingReturnType>
-      <code>andAnyOtherArgs</code>
-      <code>andAnyOthers</code>
-      <code>anyArgs</code>
-      <code>mock</code>
-      <code>namedMock</code>
-      <code>spy</code>
-    </MissingReturnType>
   </file>
 </files>

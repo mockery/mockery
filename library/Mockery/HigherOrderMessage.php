@@ -35,7 +35,7 @@ class HigherOrderMessage
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return Expectation|ExpectationInterface|HigherOrderMessage
      */
