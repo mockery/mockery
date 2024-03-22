@@ -468,7 +468,7 @@ class Mockery
      *
      * @template TMock
      *
-     * @param array<class-string<TMock>|TMock|array<mixed>> $args
+     * @param array<class-string<TMock>|TMock|Closure|array<mixed>> $args
      *
      * @return LegacyMockInterface&MockInterface&TMock
      */
