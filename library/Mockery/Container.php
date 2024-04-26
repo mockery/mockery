@@ -10,6 +10,7 @@
 
 namespace Mockery;
 
+use Closure;
 use Exception as PHPException;
 use Mockery;
 use Mockery\Exception\InvalidOrderException;
@@ -208,7 +209,7 @@ class Container
      *
      * @template TMock of LegacyMockInterface&MockInterface&object
      *
-     * @param array|string ...$args
+     * @param array|string[]|Closure ...$args
      *
      * @throws ReflectionException|RuntimeException
      *
@@ -261,7 +262,7 @@ class Container
                         continue;
                     }
 
-                    if (strpos($type, ',') && (strpos($type, ']') === 0 || strpos($type, ']') === false)) {
+                    if (strpos($type, ',') && !strpos($type, ']')) {
                         $interfaces = explode(',', str_replace(' ', '', $type));
 
                         $builder->addTargets($interfaces);
@@ -293,10 +294,7 @@ class Container
 
                         $class = $parts[0];
 
-                        if (
-                            ! class_exists($class, true)
-                            && ! interface_exists($class, true)
-                        ) {
+                        if (! class_exists($class, true) && ! interface_exists($class, true)) {
                             throw new Exception('Can only create a partial mock from an existing class or interface');
                         }
 
@@ -319,15 +317,7 @@ class Container
                         continue;
                     }
 
-                    if (! $this->isValidClassName($type)) {
-                        throw new Exception('Class name contains invalid characters');
-                    }
-
-                    if (
-                        class_exists($type, true)
-                        || interface_exists($type, true)
-                        || trait_exists($type, true)
-                    ) {
+                    if (class_exists($type, true) || interface_exists($type, true) || trait_exists($type, true)) {
                         $builder->addTarget($type);
 
                         continue;
@@ -335,6 +325,10 @@ class Container
 
                     if (! $mockeryConfiguration->mockingNonExistentMethodsAllowed()) {
                         throw new Exception(sprintf("Mockery can't find '%s' so can't mock it", $type));
+                    }
+
+                    if (! $this->isValidClassName($type)) {
+                        throw new Exception('Class name contains invalid characters');
                     }
 
                     $builder->addTarget($type);
@@ -352,18 +346,28 @@ class Container
                 continue;
             }
 
-            if ($arg !== [] && array_keys($arg) !== range(0, count($arg) - 1)) {
-                // if associative array
-                if (array_key_exists(self::BLOCKS, $arg)) {
-                    $blocks = $arg[self::BLOCKS];
+            if (is_array($arg)) {
+                if ([] !== $arg && array_keys($arg) !== range(0, count($arg) - 1)) {
+                    // if associative array
+                    if (array_key_exists(self::BLOCKS, $arg)) {
+                        $blocks = $arg[self::BLOCKS];
+                    }
+
+                    unset($arg[self::BLOCKS]);
+
+                    $quickDefinitions = $arg;
+
+                    continue;
                 }
 
-                unset($arg[self::BLOCKS]);
-
-                $quickDefinitions = $arg;
-            } else {
                 $constructorArgs = $arg;
+
+                continue;
             }
+
+            throw new Exception(sprintf(
+                'Unable to parse arguments sent to %s::mock()', get_class($this)
+            ));
         }
 
         $builder->addBlackListedMethods($blocks);
@@ -405,7 +409,7 @@ class Container
             }
         }
 
-        if ($expectationClosure !== null) {
+        if ($expectationClosure instanceof Closure) {
             $expectationClosure($mock);
         }
 
