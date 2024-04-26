@@ -19,6 +19,9 @@
     <InternalMethod>
       <code><![CDATA[Reflector::isReservedWord($type)]]></code>
     </InternalMethod>
+    <InvalidArgument>
+      <code><![CDATA[$newMockName]]></code>
+    </InvalidArgument>
     <InvalidReturnStatement>
       <code><![CDATA[$argument]]></code>
       <code><![CDATA[$container->getMocks()[$demeterMockKey] ?? null]]></code>
@@ -74,8 +77,6 @@
       <code><![CDATA[$value]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
       <code><![CDATA[$formattedArguments]]></code>
       <code><![CDATA[$k]]></code>
     </MixedArgumentTypeCoercion>
@@ -126,6 +127,8 @@
       <code><![CDATA[$expectations]]></code>
     </NullableReturnStatement>
     <PossiblyInvalidArgument>
+      <code><![CDATA[$args]]></code>
+      <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
     </PossiblyInvalidArgument>
@@ -373,7 +376,7 @@
     <DocblockTypeContradiction>
       <code><![CDATA[$arg instanceof MockConfigurationBuilder]]></code>
       <code><![CDATA[$match === false]]></code>
-      <code><![CDATA[is_object($arg)]]></code>
+      <code><![CDATA[is_string($arg)]]></code>
     </DocblockTypeContradiction>
     <InvalidArgument>
       <code><![CDATA[$keys]]></code>
@@ -473,7 +476,7 @@
       <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
     </MoreSpecificReturnType>
     <NoValue>
-      <code><![CDATA[$expectationClosure]]></code>
+      <code><![CDATA[$arg]]></code>
     </NoValue>
     <PossiblyUndefinedIntArrayOffset>
       <code><![CDATA[$parts[1]]]></code>
@@ -488,15 +491,18 @@
     <PossiblyUnusedReturnValue>
       <code><![CDATA[int]]></code>
     </PossiblyUnusedReturnValue>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[is_array($arg)]]></code>
+    </RedundantConditionGivenDocblockType>
     <RiskyTruthyFalsyComparison>
+      <code><![CDATA[!strpos($type, ']')]]></code>
       <code><![CDATA[strpos($type, ',')]]></code>
     </RiskyTruthyFalsyComparison>
     <TooManyArguments>
       <code><![CDATA[mockery_init]]></code>
     </TooManyArguments>
     <TypeDoesNotContainType>
-      <code><![CDATA[is_callable($finalArg) && is_object($finalArg)]]></code>
-      <code><![CDATA[is_object($finalArg)]]></code>
+      <code><![CDATA[$arg === 'null']]></code>
     </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[atLeast]]></code>
@@ -507,9 +513,6 @@
       <code><![CDATA[atLeast]]></code>
       <code><![CDATA[byDefault]]></code>
     </UndefinedMagicMethod>
-    <UnusedVariable>
-      <code><![CDATA[$expectationClosure]]></code>
-    </UnusedVariable>
   </file>
   <file src="library/Mockery/CountValidator/AtLeast.php">
     <InvalidOperand>
