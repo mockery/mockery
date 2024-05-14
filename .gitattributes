@@ -1,17 +1,20 @@
+# Auto detect text files and perform LF normalization
 * text=auto
-
-.editorconfig export-ignore
-.gitattributes export-ignore
-.gitignore export-ignore
+*.md text diff=markdown
+*.sh text eol=lf
+/.editorconfig export-ignore
+/.gitattributes export-ignore
 /.github export-ignore
-/.phive export-ignore
+/.gitignore export-ignore
+/codecov.yml export-ignore
 /docker export-ignore
+/e2e-test.sh export-ignore
+/ecs.php export-ignore
 /fixtures export-ignore
+/Makefile export-ignore
+/phive.xml export-ignore
+/phpunit.xml.dist export-ignore
+/psalm-baseline.xml export-ignore
+/psalm.xml.dist export-ignore
 /tests export-ignore
-codecov.yml export-ignore
-e2e-test.sh export-ignore
-ecs.php export-ignore
-Makefile export-ignore
-phpunit.xml.dist export-ignore
-psalm-baseline.xml export-ignore
-psalm.xml.dist export-ignore
+/tools export-ignore

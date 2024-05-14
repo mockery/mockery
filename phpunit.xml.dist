@@ -12,50 +12,47 @@
 >
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./library/</directory>
+            <directory suffix=".php">library/</directory>
         </include>
         <exclude>
-            <directory>./library/Mockery/Adapter/Phpunit/Legacy</directory>
-            <file>./library/Mockery/Adapter/Phpunit/TestListener.php</file>
-            <file>./library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-            <file>./library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+            <directory>library/Mockery/Adapter/Phpunit/Legacy</directory>
+            <file>library/Mockery/Adapter/Phpunit/TestListener.php</file>
+            <file>library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+            <file>library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
         </exclude>
         <report>
-            <!-- <html outputDirectory=".cache/phpunit/coverage-html"/> -->
+            <html outputDirectory=".cache/phpunit/coverage-html"/>
             <clover outputFile=".cache/phpunit/clover.xml"/>
             <text outputFile=".cache/phpunit/coverage.txt"/>
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="Mockery Test Suite PHP7">
-            <directory suffix="Test.php">./tests</directory>
-            <exclude>./tests/PHP80</exclude>
-            <exclude>./tests/PHP81</exclude>
-            <exclude>./tests/PHP82</exclude>
-            <exclude>./tests/Unit/PHP81</exclude>
-            <exclude>./tests/Unit/PHP82</exclude>
-            <exclude>./tests/Unit/PHP83</exclude>
+        <testsuite name="default">
+            <directory>tests</directory>
+            <exclude>fixtures</exclude>
+            <exclude>tests/Fixture</exclude>
+            <exclude>tests/PHP*</exclude>
+            <exclude>tests/Unit/PHP*</exclude>
+            <exclude>tests/Unit/Regression</exclude>
         </testsuite>
-        <testsuite name="Mockery Test Suite PHP80">
-            <directory phpVersion="8.0.0-dev" phpVersionOperator="&gt;=">./tests</directory>
-            <exclude>./tests/PHP81</exclude>
-            <exclude>./tests/PHP82</exclude>
-            <exclude>./tests/Unit/PHP81</exclude>
-            <exclude>./tests/Unit/PHP82</exclude>
-            <exclude>./tests/Unit/PHP83</exclude>
-        </testsuite>
-        <testsuite name="Mockery Test Suite PHP81">
-            <directory phpVersion="8.1.0-dev" phpVersionOperator="&gt;=">./tests</directory>
-            <exclude>./tests/PHP82</exclude>
-            <exclude>./tests/Unit/PHP82</exclude>
-            <exclude>./tests/Unit/PHP83</exclude>
-        </testsuite>
-        <testsuite name="Mockery Test Suite PHP82">
-            <directory phpVersion="8.2.0-dev" phpVersionOperator="&gt;=">./tests</directory>
-            <exclude>./tests/Unit/PHP83</exclude>
-        </testsuite>
-        <testsuite name="Mockery Test Suite PHP83">
-            <directory phpVersion="8.3.0-dev" phpVersionOperator="&gt;=">./tests</directory>
+        <testsuite name="versioned">
+            <!--<directory phpVersion="7.3.0-dev">tests/Unit/*</directory> -->
+            <!--<directory phpVersion="7.3.0-dev">tests</directory> -->
+            <!--<directory phpVersion="7.4.0-dev">tests/PHP74</directory>-->
+            <!--<directory phpVersion="7.4.0-dev">tests/Unit/PHP74</directory>-->
+            <!--<directory phpVersion="8.0.0-dev">tests/Unit/PHP80</directory>-->
+            <!--<directory phpVersion="8.3.0-dev">tests/PHP83</directory>-->
+            <!--<directory phpVersion="8.4.0-dev">tests/PHP84</directory>-->
+            <!--<directory phpVersion="8.4.0-dev">tests/Unit/PHP84</directory>-->
+            <directory phpVersion="8.0.0-dev">tests/PHP80</directory>
+            <directory phpVersion="8.0.0-dev">tests/Unit/Regression</directory>
+            <directory phpVersion="8.1.0-dev">tests/PHP81</directory>
+            <directory phpVersion="8.1.0-dev">tests/Unit/PHP81</directory>
+            <directory phpVersion="8.2.0-dev">tests/PHP82</directory>
+            <directory phpVersion="8.2.0-dev">tests/Unit/PHP82</directory>
+            <directory phpVersion="8.3.0-dev">tests/Unit/PHP83</directory>
+            <exclude>fixtures</exclude>
+            <exclude>tests/Fixture</exclude>
         </testsuite>
     </testsuites>
 </phpunit>

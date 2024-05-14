@@ -97,16 +97,18 @@
         "ecs:check": "ecs check --clear-cache || true",
         "ecs:fix": "ecs check --clear-cache --fix",
         "phive": [
-            ".phive/tools/phive update --force-accept-unsigned",
-            ".phive/tools/phive purge"
+            "tools/phive update --force-accept-unsigned",
+            "tools/phive purge"
         ],
         "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
         "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
-        "psalm": ".phive/tools/psalm --no-diff --no-cache",
-        "psalm:baseline": "@psalm --set-baseline=psalm-baseline.xml",
-        "psalm:dry-run": "@psalm --alter --issues=all --dry-run",
-        "psalm:security": "@psalm --taint-analysis",
-        "psalm:shepherd": "@psalm --stats --shepherd --output-format=github",
+        "psalm": "tools/psalm --no-cache --show-info=true",
+        "psalm:alter": "tools/psalm --no-cache --alter --allow-backwards-incompatible-changes=false --safe-types",
+        "psalm:baseline": "@psalm --no-diff --set-baseline=psalm-baseline.xml",
+        "psalm:dry-run": "@psalm:alter --issues=all --dry-run",
+        "psalm:fix": "@psalm:alter --issues=UnnecessaryVarAnnotation,MissingPureAnnotation,MissingImmutableAnnotation",
+        "psalm:security": "@psalm --no-diff --taint-analysis",
+        "psalm:shepherd": "@psalm --no-diff --shepherd --stats --output-format=github",
         "test": [
             "@phpunit --stop-on-defect",
             "@psalm",
