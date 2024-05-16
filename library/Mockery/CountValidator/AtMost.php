@@ -41,7 +41,5 @@ class AtMost extends CountValidatorAbstract
                 ->setActualCount($n);
             throw $exception;
         }
-
-        return true;
     }
 }

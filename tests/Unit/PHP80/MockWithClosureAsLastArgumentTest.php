@@ -2,20 +2,23 @@
 
 declare(strict_types=1);
 
-namespace MockeryTests\Unit\Mockery;
+namespace Tests\Unit\PHP80;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockWithClosureAsLastArgumentTest extends MockeryTestCase
 {
     public function testIfClosureIsPassedAsLastArgumentToMockItIsCalledWithMockObject(): void
     {
         $mock = Mockery::mock(
             TestInterface::class,
-            static function (LegacyMockInterface $mock): void {
+            static function (LegacyMockInterface|MockInterface $mock): void {
                 $mock->expects('blm')->andReturn('#BlackLivesMatter');
             }
         );

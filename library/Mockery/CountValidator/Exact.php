@@ -44,7 +44,5 @@ class Exact extends CountValidatorAbstract
                 ->setActualCount($n);
             throw $exception;
         }
-
-        return true;
     }
 }

@@ -54,7 +54,5 @@ class AtLeast extends CountValidatorAbstract
                 ->setActualCount($n);
             throw $exception;
         }
-
-        return true;
     }
 }
