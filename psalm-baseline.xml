@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
+<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
   <file src="library/Mockery.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$demeterMockKey]]></code>
+      <code><![CDATA[$newMockName]]></code>
     </ArgumentTypeCoercion>
     <DeprecatedClass>
       <code><![CDATA[MustBe]]></code>
@@ -19,23 +20,13 @@
     <InternalMethod>
       <code><![CDATA[Reflector::isReservedWord($type)]]></code>
     </InternalMethod>
-    <InvalidArgument>
-      <code><![CDATA[$args]]></code>
-      <code><![CDATA[$newMockName]]></code>
-    </InvalidArgument>
     <InvalidReturnStatement>
       <code><![CDATA[$argument]]></code>
       <code><![CDATA[$container->getMocks()[$demeterMockKey] ?? null]]></code>
       <code><![CDATA['...']]></code>
-      <code><![CDATA[self::getContainer()->mock(...$args)]]></code>
-      <code><![CDATA[self::getContainer()->mock(...$args)]]></code>
-      <code><![CDATA[self::getContainer()->mock(...$args)]]></code>
       <code><![CDATA[self::getContainer()->mock(...$args)->shouldIgnoreMissing()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TInstanceMock]]></code>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TNamedMock]]></code>
       <code><![CDATA[LegacyMockInterface&MockInterface&TSpy]]></code>
       <code><![CDATA[TArray]]></code>
       <code><![CDATA[null|(LegacyMockInterface&MockInterface&TMock)]]></code>
@@ -84,7 +75,6 @@
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$args]]></code>
-      <code><![CDATA[$args]]></code>
       <code><![CDATA[$formattedArguments]]></code>
       <code><![CDATA[$k]]></code>
     </MixedArgumentTypeCoercion>
@@ -123,6 +113,7 @@
       <code><![CDATA[$expectations]]></code>
     </NullableReturnStatement>
     <PossiblyInvalidArgument>
+      <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$name]]></code>
     </PossiblyInvalidArgument>
@@ -373,17 +364,18 @@
       <code><![CDATA['stdClass']]></code>
     </ArgumentTypeCoercion>
     <DocblockTypeContradiction>
-      <code><![CDATA[$arg instanceof MockConfigurationBuilder]]></code>
       <code><![CDATA[$match === false]]></code>
-      <code><![CDATA[is_object($arg)]]></code>
-      <code><![CDATA[is_string($arg)]]></code>
+      <code><![CDATA[array_keys($arg) !== range(0, count($arg) - 1)]]></code>
     </DocblockTypeContradiction>
     <InvalidArgument>
-      <code><![CDATA[$constructorArgs]]></code>
+      <code><![CDATA[$arg]]></code>
     </InvalidArgument>
     <InvalidArrayOffset>
       <code><![CDATA[$mocks[$index]]]></code>
     </InvalidArrayOffset>
+    <InvalidCast>
+      <code><![CDATA[$arg]]></code>
+    </InvalidCast>
     <InvalidReturnStatement>
       <code><![CDATA[$this->rememberMock($mock)]]></code>
     </InvalidReturnStatement>
@@ -417,10 +409,14 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$keys]]></code>
     </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$arg[self::BLOCKS]]]></code>
+    </MixedArrayAccess>
     <MixedArrayOffset>
       <code><![CDATA[$this->_namedMocks[$name]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
+      <code><![CDATA[$blocks]]></code>
       <code><![CDATA[$className]]></code>
       <code><![CDATA[$def]]></code>
       <code><![CDATA[$exception]]></code>
@@ -459,11 +455,10 @@
     <NoValue>
       <code><![CDATA[$arg]]></code>
       <code><![CDATA[$arg]]></code>
-      <code><![CDATA[$expectationClosure]]></code>
+      <code><![CDATA[$arg]]></code>
+      <code><![CDATA[$constructorArgs]]></code>
+      <code><![CDATA[$quickDefinitions]]></code>
     </NoValue>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$blocks]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyUndefinedIntArrayOffset>
       <code><![CDATA[$parts[1]]]></code>
     </PossiblyUndefinedIntArrayOffset>
@@ -485,32 +480,34 @@
       <code><![CDATA[$this->_mocks]]></code>
     </PropertyTypeCoercion>
     <RedundantConditionGivenDocblockType>
-      <code><![CDATA[is_array($arg)]]></code>
+      <code><![CDATA[is_object($arg)]]></code>
     </RedundantConditionGivenDocblockType>
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[!strpos($type, ']')]]></code>
       <code><![CDATA[strpos($type, ',')]]></code>
     </RiskyTruthyFalsyComparison>
     <TypeDoesNotContainType>
-      <code><![CDATA[$arg === 'null']]></code>
-      <code><![CDATA[is_callable($finalArg) && is_object($finalArg)]]></code>
-      <code><![CDATA[is_object($finalArg)]]></code>
+      <code><![CDATA[$constructorArgs !== null]]></code>
+      <code><![CDATA[is_array($arg)]]></code>
     </TypeDoesNotContainType>
-    <UnusedVariable>
-      <code><![CDATA[$expectationClosure]]></code>
-    </UnusedVariable>
   </file>
   <file src="library/Mockery/CountValidator/AtLeast.php">
     <InvalidOperand>
       <code><![CDATA[$n]]></code>
       <code><![CDATA[$this->_limit]]></code>
     </InvalidOperand>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
   </file>
   <file src="library/Mockery/CountValidator/AtMost.php">
     <InvalidOperand>
       <code><![CDATA[$n]]></code>
       <code><![CDATA[$this->_limit]]></code>
     </InvalidOperand>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
   </file>
   <file src="library/Mockery/CountValidator/CountValidatorAbstract.php">
     <PossiblyNullPropertyAssignmentValue>
@@ -532,6 +529,9 @@
       <code><![CDATA[$n]]></code>
       <code><![CDATA[$this->_limit]]></code>
     </InvalidOperand>
+    <InvalidReturnType>
+      <code><![CDATA[bool]]></code>
+    </InvalidReturnType>
     <PossiblyNullOperand>
       <code><![CDATA[$this->_expectation->getExceptionMessage()]]></code>
     </PossiblyNullOperand>
