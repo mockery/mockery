@@ -20,9 +20,9 @@ php_versions=(
 )
 
 projects=(
+    "laravel/framework"
     "Brain-WP/BrainMonkey"
     "filp/whoops"
-    "laravel/framework"
 )
 
 mockery_path="$(pwd)"
@@ -55,13 +55,13 @@ do
     if [ ! -d "$project_path" ]; then
         echo "Cloning $project to $project_path"
 
-        git clone "git@github.com:$project.git" "$project_path" --depth=10 || { echo "Failed to clone $project"; exit 1; }
+        git clone "git@github.com:$project.git" "$project_path" --depth=1 || { echo "Failed to clone $project"; exit 1; }
     else
         echo "Pulling $project"
 
-        git -C "$project_path" fetch --depth=10 || { echo "Failed to fetch $project"; exit 1; }
+        git -C "$project_path" fetch --depth=1 || { echo "Failed to fetch $project"; exit 1; }
 
-        git -C "$project_path" pull || { echo "Failed to pull $project"; exit 1; }
+        git -C "$project_path" pull --rebase --autostash || { echo "Failed to pull $project"; exit 1; }
     fi
 
     cd "$project_path" || { echo "Failed to change directory to $project_path"; exit 1; }
