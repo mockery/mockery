@@ -184,7 +184,7 @@ class Mock implements MockInterface
     public function mockery_init(?Container $container = null, $partialObject = null, $instanceMock = true)
     {
         if (null === $container) {
-            $container = Container::new();
+            $container = new Container();
         }
 
         $this->_mockery_container = $container;
