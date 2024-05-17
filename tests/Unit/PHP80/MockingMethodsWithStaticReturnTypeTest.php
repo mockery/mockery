@@ -7,6 +7,11 @@ namespace Tests\Unit\PHP80;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP80\MethodWithStaticReturnType;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockingMethodsWithStaticReturnTypeTest extends MockeryTestCase
 {
     public function testMockingStaticReturnType(): void
