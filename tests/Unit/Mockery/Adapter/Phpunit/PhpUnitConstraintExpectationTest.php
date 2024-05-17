@@ -9,6 +9,11 @@ use Mockery\Exception;
 use PHPUnit\Framework\Constraint\GreaterThan;
 use PHPUnit\Framework\Constraint\IsIdentical;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class PhpUnitConstraintExpectationTest extends MockeryTestCase
 {
     public function testAnythingConstraintMatchesArgument(): void
