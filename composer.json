@@ -49,8 +49,6 @@
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "ext-pcntl": "*",
-        "ext-pdo": "*",
         "phpunit/phpunit": "^8.5.38 || ^9.6.19",
         "symplify/easy-coding-standard": "^12.1.14"
     },
@@ -68,7 +66,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Unit\\": "tests/Unit"
+            "Tests\\": "tests"
         },
         "files": [
             "tests/Fixture/autoload.php",
@@ -102,6 +100,7 @@
         ],
         "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
         "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
+        "phpunit:migrate": "@phpunit --migrate",
         "psalm": "tools/psalm --no-cache",
         "psalm:alter": "tools/psalm --no-cache --alter --allow-backwards-incompatible-changes=false --safe-types",
         "psalm:baseline": "@psalm --no-diff --set-baseline=psalm-baseline.xml",
