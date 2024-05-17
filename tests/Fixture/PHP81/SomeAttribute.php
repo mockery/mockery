@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Fixture\PHP81;
+namespace PHP81;
+
+use stdClass;
 
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class SomeAttribute
