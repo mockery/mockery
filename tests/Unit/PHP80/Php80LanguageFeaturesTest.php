@@ -19,8 +19,12 @@ use PHP80\ReturnTypeUnionTypeHint;
 use stdClass;
 use Traversable;
 
+use function mock;
+use function spy;
+
 /**
  * @requires PHP 8.0.0-dev
+ * @coversDefaultClass \Mockery
  */
 final class Php80LanguageFeaturesTest extends MockeryTestCase
 {
@@ -28,7 +32,9 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = mock(ArgumentMixedTypeHint::class);
         $object = new stdClass();
-        $mock->allows()->foo($object)->once();
+        $mock->allows()
+            ->foo($object)
+            ->once();
 
         $mock->foo($object);
     }
@@ -44,7 +50,9 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = mock(ArgumentParentTypeHint::class);
         $object = new ArgumentParentTypeHint();
-        $mock->allows()->foo($object)->once();
+        $mock->allows()
+            ->foo($object)
+            ->once();
 
         $mock->foo($object);
     }
@@ -60,7 +68,9 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = mock(ArgumentUnionTypeHint::class);
         $object = new ArgumentUnionTypeHint();
-        $mock->allows()->foo($object)->once();
+        $mock->allows()
+            ->foo($object)
+            ->once();
 
         $mock->foo($object);
     }
@@ -68,7 +78,9 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
     public function testItCanMockAClassWithAUnionArgumentTypeHintIncludingNull(): void
     {
         $mock = mock(ArgumentUnionTypeHintWithNull::class);
-        $mock->allows()->foo(null)->once();
+        $mock->allows()
+            ->foo(null)
+            ->once();
 
         $mock->foo(null);
     }
@@ -77,7 +89,7 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = spy(ReturnTypeUnionTypeHint::class);
 
-        self::assertTrue(is_object($mock->foo()));
+        self::assertIsObject($mock->foo());
     }
 
     public function testMockingIteratorAggregateDoesNotImplementIterator(): void
