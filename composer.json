@@ -49,7 +49,9 @@
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5 || ^9.6.17",
+        "ext-pcntl": "*",
+        "ext-pdo": "*",
+        "phpunit/phpunit": "^8.5.38 || ^9.6.19",
         "symplify/easy-coding-standard": "^12.1.14"
     },
     "conflict": {
@@ -66,12 +68,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Fixture\\": "tests/Fixture/",
-            "Mockery\\Tests\\Unit\\": "tests/Unit",
-            "test\\": "tests/"
+            "Tests\\Unit\\": "tests/Unit"
         },
         "files": [
-            "fixtures/autoload.php",
+            "tests/Fixture/autoload.php",
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
         ]
     },
@@ -86,7 +86,7 @@
     "scripts": {
         "check": [
             "@composer validate",
-            "@ecs",
+            "@psalm:update",
             "@test"
         ],
         "docs": "vendor/bin/phpdoc -d library -t docs/api",
@@ -102,13 +102,14 @@
         ],
         "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
         "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
-        "psalm": "tools/psalm --no-cache --show-info=true",
+        "psalm": "tools/psalm --no-cache",
         "psalm:alter": "tools/psalm --no-cache --alter --allow-backwards-incompatible-changes=false --safe-types",
         "psalm:baseline": "@psalm --no-diff --set-baseline=psalm-baseline.xml",
         "psalm:dry-run": "@psalm:alter --issues=all --dry-run",
         "psalm:fix": "@psalm:alter --issues=UnnecessaryVarAnnotation,MissingPureAnnotation,MissingImmutableAnnotation",
         "psalm:security": "@psalm --no-diff --taint-analysis",
         "psalm:shepherd": "@psalm --no-diff --shepherd --stats --output-format=github",
+        "psalm:update": "@psalm --no-diff --update-baseline=psalm-baseline.xml",
         "test": [
             "@phpunit --stop-on-defect",
             "@psalm",
