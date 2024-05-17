@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery;
+namespace Tests\Unit\Mockery;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -10,6 +10,11 @@ use Mockery\Container;
 use PHP73\MethodWithNullableReturnType;
 use TypeError;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockingNullableMethodsTest extends MockeryTestCase
 {
     /**
@@ -21,7 +26,8 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $double = Mockery::mock(MethodWithNullableReturnType::class);
 
-        $double->shouldReceive('nullableInt')->andReturnNull();
+        $double->shouldReceive('nullableInt')
+            ->andReturnNull();
 
         self::assertNull($double->nullableInt());
     }
@@ -30,7 +36,8 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $double = Mockery::mock(MethodWithNullableReturnType::class);
 
-        $double->shouldReceive('nullableClass')->andReturnNull();
+        $double->shouldReceive('nullableClass')
+            ->andReturnNull();
 
         self::assertNull($double->nullableClass());
     }
@@ -39,7 +46,8 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $double = Mockery::mock(MethodWithNullableReturnType::class);
 
-        $double->shouldReceive('nullableString')->andReturnNull();
+        $double->shouldReceive('nullableString')
+            ->andReturnNull();
 
         self::assertNull($double->nullableString());
     }
@@ -66,7 +74,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nonNullablePrimitive')->andReturn('a string')->once();
+        $mock->shouldReceive('nonNullablePrimitive')
+            ->andReturn('a string')
+            ->once();
         $mock->nonNullablePrimitive();
     }
 
@@ -74,7 +84,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nullableClass')->andReturn(null)->once();
+        $mock->shouldReceive('nullableClass')
+            ->andReturn(null)
+            ->once();
         $mock->nullableClass();
     }
 
@@ -82,7 +94,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nullableSelf')->andReturn(null)->once();
+        $mock->shouldReceive('nullableSelf')
+            ->andReturn(null)
+            ->once();
         $mock->nullableSelf();
     }
 
@@ -90,7 +104,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nullableSelf')->andReturn(new MethodWithNullableReturnType())->once();
+        $mock->shouldReceive('nullableSelf')
+            ->andReturn(new MethodWithNullableReturnType())
+            ->once();
         $mock->nullableSelf();
     }
 
@@ -98,7 +114,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nullableClass')->andReturn(new MethodWithNullableReturnType())->once();
+        $mock->shouldReceive('nullableClass')
+            ->andReturn(new MethodWithNullableReturnType())
+            ->once();
         $mock->nullableClass();
     }
 
@@ -106,7 +124,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nullablePrimitive')->andReturn(null)->once();
+        $mock->shouldReceive('nullablePrimitive')
+            ->andReturn(null)
+            ->once();
         $mock->nullablePrimitive();
     }
 
@@ -114,7 +134,9 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nullablePrimitive')->andReturn('a string')->once();
+        $mock->shouldReceive('nullablePrimitive')
+            ->andReturn('a string')
+            ->once();
         $mock->nullablePrimitive();
     }
 
@@ -132,7 +154,8 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nonNullableClass')->andReturn(null);
+        $mock->shouldReceive('nonNullableClass')
+            ->andReturn(null);
         $this->expectException(TypeError::class);
         $mock->nonNullableClass();
     }
@@ -141,7 +164,8 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nonNullablePrimitive')->andReturn(null);
+        $mock->shouldReceive('nonNullablePrimitive')
+            ->andReturn(null);
         $this->expectException(TypeError::class);
         $mock->nonNullablePrimitive();
     }
@@ -150,7 +174,8 @@ final class MockingNullableMethodsTest extends MockeryTestCase
     {
         $mock = mock(MethodWithNullableReturnType::class);
 
-        $mock->shouldReceive('nonNullableSelf')->andReturn(null);
+        $mock->shouldReceive('nonNullableSelf')
+            ->andReturn(null);
         $this->expectException(TypeError::class);
         $mock->nonNullableSelf();
     }
