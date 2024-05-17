@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7461f4f52898e1e44defc1f52c9ba4e8",
+    "content-hash": "5c5c993d140448164b4b1c75d48b6327",
     "packages": [
         {
             "name": "hamcrest/hamcrest-php",
@@ -1865,10 +1865,7 @@
         "php": ">=7.3",
         "lib-pcre": ">=7.0"
     },
-    "platform-dev": {
-        "ext-pcntl": "*",
-        "ext-pdo": "*"
-    },
+    "platform-dev": [],
     "platform-overrides": {
         "php": "7.3.999"
     },
