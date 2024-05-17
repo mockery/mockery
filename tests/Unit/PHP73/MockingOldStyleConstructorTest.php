@@ -8,6 +8,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use PHP73\OldStyleConstructor;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 class MockingOldStyleConstructorTest extends MockeryTestCase
 {
     public function testMockClassWithOldStyleConstructorAndArguments(): void
