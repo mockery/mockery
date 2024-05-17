@@ -19,7 +19,8 @@ final class TestCase1402Test extends MockeryTestCase
     {
         $banana = Mockery::mock(Service::class, [1])->makePartial();
 
-        $banana->allows('test')->andReturns(2);
+        $banana->allows('test')
+            ->andReturns(2);
 
         self::assertEquals(2, $banana->test());
     }
