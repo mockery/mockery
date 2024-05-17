@@ -7,6 +7,9 @@ namespace Tests\Unit\Mockery\Matcher;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class IsEqualTest extends MockeryTestCase
 {
     use MatcherDataProviderTrait;
