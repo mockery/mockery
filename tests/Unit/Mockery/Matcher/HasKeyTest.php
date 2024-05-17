@@ -8,6 +8,9 @@ use ArrayObject;
 use Mockery\Matcher\HasKey;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class HasKeyTest extends TestCase
 {
     public function testItCanHandleANonArray(): void
