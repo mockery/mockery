@@ -19,6 +19,12 @@ use PHP73\ClassWithProtectedMethod;
 use PHP73\ClassWithToString;
 use PHP73\ExampleClassForTestingNonExistentMethod;
 
+use function method_exists;
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockTest extends MockeryTestCase
 {
     public function testAnonymousMockWorksWithNotAllowingMockingOfNonExistentMethods(): void
@@ -26,7 +32,8 @@ final class MockTest extends MockeryTestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
 
         $m = mock();
-        $m->shouldReceive('test123')->andReturn(true);
+        $m->shouldReceive('test123')
+            ->andReturn(true);
         self::assertTrue($m->test123());
 
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
@@ -56,8 +63,12 @@ final class MockTest extends MockeryTestCase
     public function testExpectationCountWillCountDefaultsIfNotOverriden(): void
     {
         $mock = new Mock();
-        $mock->shouldReceive('doThis')->once()->byDefault();
-        $mock->shouldReceive('doThat')->once()->byDefault();
+        $mock->shouldReceive('doThis')
+            ->once()
+            ->byDefault();
+        $mock->shouldReceive('doThat')
+            ->once()
+            ->byDefault();
 
         self::assertEquals(2, $mock->mockery_getExpectationCount());
     }
@@ -65,8 +76,10 @@ final class MockTest extends MockeryTestCase
     public function testExpectationCountWillCountExpectations(): void
     {
         $mock = new Mock();
-        $mock->shouldReceive('doThis')->once();
-        $mock->shouldReceive('doThat')->once();
+        $mock->shouldReceive('doThis')
+            ->once();
+        $mock->shouldReceive('doThat')
+            ->once();
 
         self::assertEquals(2, $mock->mockery_getExpectationCount());
     }
@@ -74,9 +87,13 @@ final class MockTest extends MockeryTestCase
     public function testExpectationCountWillIgnoreDefaultsIfOverriden(): void
     {
         $mock = new Mock();
-        $mock->shouldReceive('doThis')->once()->byDefault();
-        $mock->shouldReceive('doThis')->twice();
-        $mock->shouldReceive('andThis')->twice();
+        $mock->shouldReceive('doThis')
+            ->once()
+            ->byDefault();
+        $mock->shouldReceive('doThis')
+            ->twice();
+        $mock->shouldReceive('andThis')
+            ->twice();
 
         self::assertEquals(2, $mock->mockery_getExpectationCount());
     }
@@ -107,7 +124,9 @@ final class MockTest extends MockeryTestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = mock(ExampleClassForTestingNonExistentMethod::class);
         $m->shouldAllowMockingMethod('testSomeNonExistentMethod');
-        $m->shouldReceive('testSomeNonExistentMethod')->andReturn(true)->once();
+        $m->shouldReceive('testSomeNonExistentMethod')
+            ->andReturn(true)
+            ->once();
         self::assertTrue($m->testSomeNonExistentMethod());
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
@@ -117,7 +136,8 @@ final class MockTest extends MockeryTestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $m = mock(ClassWithProtectedMethod::class);
         $m->shouldAllowMockingProtectedMethods();
-        $m->shouldReceive('foo')->andReturn(true);
+        $m->shouldReceive('foo')
+            ->andReturn(true);
         self::assertTrue($m->foo());
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
@@ -147,7 +167,8 @@ final class MockTest extends MockeryTestCase
 
         self::assertNull($mock->foo());
 
-        $mock->shouldReceive('bar')->passthru();
+        $mock->shouldReceive('bar')
+            ->passthru();
 
         self::assertSame('bar', $mock->bar());
     }
@@ -165,7 +186,8 @@ final class MockTest extends MockeryTestCase
             'foo' => 'new_foo',
             'nonExistentMethod' => 'result',
         ]);
-        $mock->shouldReceive('bar')->passthru();
+        $mock->shouldReceive('bar')
+            ->passthru();
 
         self::assertSame('new_foo', $mock->foo());
         self::assertSame('bar', $mock->bar());
