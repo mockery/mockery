@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.1/phpunit.xsd"
+    beStrictAboutChangesToGlobalState="true"
+    beStrictAboutCoverageMetadata="true"
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTodoAnnotatedTests="true"
+    bootstrap="./tests/Bootstrap.php"
+    cacheDirectory=".cache/phpunit"
+    cacheResult="false"
+    cacheResultFile=".cache/phpunit/phpunit.result.cache"
+    colors="true"
+    displayDetailsOnIncompleteTests="true"
+    displayDetailsOnSkippedTests="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
+    displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    executionOrder="depends,defects"
+    failOnDeprecation="true"
+    failOnEmptyTestSuite="true"
+    failOnIncomplete="true"
+    failOnNotice="true"
+    failOnRisky="true"
+    failOnSkipped="true"
+    failOnWarning="true"
+    requireCoverageMetadata="true"
+    stopOnFailure="true"
+>
+    <coverage disableCodeCoverageIgnore="true">
+        <report>
+            <html outputDirectory=".cache/phpunit/coverage-html"/>
+            <clover outputFile=".cache/phpunit/clover.xml"/>
+            <text outputFile=".cache/phpunit/coverage.txt"/>
+        </report>
+    </coverage>
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true" >
+        <include>
+            <directory>library</directory>
+        </include>
+        <exclude>
+            <directory>library/Mockery/Adapter/Phpunit/Legacy</directory>
+            <file>library/Mockery/Adapter/Phpunit/TestListener.php</file>
+            <file>library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+            <file>library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+        </exclude>
+    </source>
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests</directory>
+            <exclude>tests/Unit/PHP*</exclude>
+            <exclude>tests/Fixture</exclude>
+        </testsuite>
+        <testsuite name="php">
+            <directory phpVersion="7.3.0-dev">tests/**/**/PHP73</directory>
+            <directory phpVersion="7.3.0-dev">tests/**/PHP73</directory>
+            <directory phpVersion="7.4.0-dev">tests/**/**/PHP74</directory>
+            <directory phpVersion="7.4.0-dev">tests/**/PHP74</directory>
+            <directory phpVersion="8.0.0-dev">tests/**/**/PHP80</directory>
+            <directory phpVersion="8.0.0-dev">tests/**/PHP80</directory>
+            <directory phpVersion="8.1.0-dev">tests/**/**/PHP81</directory>
+            <directory phpVersion="8.1.0-dev">tests/**/PHP81</directory>
+            <directory phpVersion="8.2.0-dev">tests/**/**/PHP82</directory>
+            <directory phpVersion="8.2.0-dev">tests/**/PHP82</directory>
+            <directory phpVersion="8.3.0-dev">tests/**/**/PHP83</directory>
+            <directory phpVersion="8.3.0-dev">tests/**/PHP83</directory>
+            <directory phpVersion="8.4.0-dev">tests/**/**/PHP84</directory>
+            <directory phpVersion="8.4.0-dev">tests/**/PHP84</directory>
+            <exclude>tests/Fixture</exclude>
+        </testsuite>
+    </testsuites>
+</phpunit>
