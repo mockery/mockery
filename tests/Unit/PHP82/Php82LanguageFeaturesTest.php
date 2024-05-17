@@ -24,19 +24,17 @@ use PHP82\TestTwo;
 use ReflectionClass;
 use ReflectionType;
 
+use function mock;
+
 /**
  * @requires PHP 8.2.0-dev
+ * @coversDefaultClass \Mockery
  */
 final class Php82LanguageFeaturesTest extends MockeryTestCase
 {
     public static function parameterContraVarianceDataProvider(): Generator
     {
-        $fixtures = [
-            Sut::class,
-            TestOne::class,
-            TestTwo::class,
-            TestThree::class,
-        ];
+        $fixtures = [Sut::class, TestOne::class, TestTwo::class, TestThree::class];
 
         foreach ($fixtures as $fixture) {
             yield $fixture => [$fixture];
@@ -60,7 +58,8 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = mock(HasReservedWordFalse::class);
 
-        $mock->expects('testFalseMethod')->once();
+        $mock->expects('testFalseMethod')
+            ->once();
 
         self::assertFalse($mock->testFalseMethod());
         self::assertInstanceOf(HasReservedWordFalse::class, $mock);
@@ -70,7 +69,8 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = mock(HasReservedWordTrue::class);
 
-        $mock->expects('testTrueMethod')->once();
+        $mock->expects('testTrueMethod')
+            ->once();
 
         self::assertTrue($mock->testTrueMethod());
         self::assertInstanceOf(HasReservedWordTrue::class, $mock);
@@ -144,10 +144,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame(
-            'iterable|\stdClass|string',
-            Reflector::getTypeHint($refParam)
-        );
+        self::assertSame('iterable|\stdClass|string', Reflector::getTypeHint($refParam));
     }
 
     public function testTypeHintIterableObject(): void
@@ -156,10 +153,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame(
-            'iterable|object',
-            Reflector::getTypeHint($refParam)
-        );
+        self::assertSame('iterable|object', Reflector::getTypeHint($refParam));
     }
 
     public function testTypeHintIterableObjectString(): void
@@ -168,9 +162,6 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame(
-            'iterable|object|string',
-            Reflector::getTypeHint($refParam)
-        );
+        self::assertSame('iterable|object|string', Reflector::getTypeHint($refParam));
     }
 }
