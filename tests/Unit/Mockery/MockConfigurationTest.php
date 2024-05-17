@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Mockery
  *
@@ -14,8 +15,6 @@ declare(strict_types=1);
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
  * @subpackage UnitTests
  * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
@@ -38,9 +37,14 @@ use PHP73\TestTraversableInterface3;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
+use function array_shift;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 class MockConfigurationTest extends TestCase
 {
-    public function testBlackListedMethodsShouldNotBeInListToBeMocked()
+    public function testBlackListedMethodsShouldNotBeInListToBeMocked(): void
     {
         $config = new MockConfiguration([TestSubject::class], ['foo']);
 
@@ -49,7 +53,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals('bar', $methods[0]->getName());
     }
 
-    public function testBlackListsAreCaseInsensitive()
+    public function testBlackListsAreCaseInsensitive(): void
     {
         $config = new MockConfiguration([TestSubject::class], ['FOO']);
 
@@ -58,7 +62,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals('bar', $methods[0]->getName());
     }
 
-    public function testFinalMethodsAreExcluded()
+    public function testFinalMethodsAreExcluded(): void
     {
         $config = new MockConfiguration([ClassWithFinalMethod::class]);
 
@@ -67,7 +71,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals('bar', $methods[0]->getName());
     }
 
-    public function testOnlyWhiteListedMethodsShouldBeInListToBeMocked()
+    public function testOnlyWhiteListedMethodsShouldBeInListToBeMocked(): void
     {
         $config = new MockConfiguration([TestSubject::class], [], ['foo']);
 
@@ -76,7 +80,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals('foo', $methods[0]->getName());
     }
 
-    public function testShouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent()
+    public function testShouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent(): void
     {
         $config = new MockConfiguration([TestTraversableInterface3::class]);
 
@@ -86,7 +90,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals(TestTraversableInterface3::class, $interfaces[1]->getName());
     }
 
-    public function testShouldBringIteratorToHeadOfTargetListIfTraversablePresent()
+    public function testShouldBringIteratorToHeadOfTargetListIfTraversablePresent(): void
     {
         $config = new MockConfiguration([TestTraversableInterface2::class]);
 
@@ -96,14 +100,14 @@ class MockConfigurationTest extends TestCase
         self::assertEquals(TestTraversableInterface2::class, $interfaces[1]->getName());
     }
 
-    public function testShouldIncludeMethodsFromAllTargets()
+    public function testShouldIncludeMethodsFromAllTargets(): void
     {
         $config = new MockConfiguration([TestInterface::class, TestInterface2::class]);
         $methods = $config->getMethodsToMock();
         self::assertCount(2, $methods);
     }
 
-    public function testShouldTargetIteratorAggregateIfTraversableInTargetsTree()
+    public function testShouldTargetIteratorAggregateIfTraversableInTargetsTree(): void
     {
         $config = new MockConfiguration([TestTraversableInterface::class]);
 
@@ -113,7 +117,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals(TestTraversableInterface::class, $interfaces[1]->getName());
     }
 
-    public function testShouldTargetIteratorAggregateIfTryingToMockTraversable()
+    public function testShouldTargetIteratorAggregateIfTryingToMockTraversable(): void
     {
         $config = new MockConfiguration([Traversable::class]);
 
@@ -123,14 +127,14 @@ class MockConfigurationTest extends TestCase
         self::assertEquals(IteratorAggregate::class, $first->getName());
     }
 
-    public function testShouldThrowIfTargetClassIsFinal()
+    public function testShouldThrowIfTargetClassIsFinal(): void
     {
         $this->expectException(Exception::class);
         $config = new MockConfiguration([TestFinal::class]);
         $config->getTargetClass();
     }
 
-    public function testWhiteListsAreCaseInsensitive()
+    public function testWhiteListsAreCaseInsensitive(): void
     {
         $config = new MockConfiguration([TestSubject::class], [], ['FOO']);
 
@@ -139,7 +143,7 @@ class MockConfigurationTest extends TestCase
         self::assertEquals('foo', $methods[0]->getName());
     }
 
-    public function testWhitelistOverRulesBlackList()
+    public function testWhitelistOverRulesBlackList(): void
     {
         $config = new MockConfiguration([TestSubject::class], ['foo'], ['foo']);
 
