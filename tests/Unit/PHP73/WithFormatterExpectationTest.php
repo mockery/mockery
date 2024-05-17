@@ -12,22 +12,17 @@ use PHP73\ClassWithPublicStaticGetter;
 use PHP73\ClassWithPublicStaticProperty;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+
 use function mb_strpos;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class WithFormatterExpectationTest extends TestCase
 {
     public static function formatObjectsDataProvider(): array
     {
-        return [
-            [
-                [null],
-                '',
-            ],
-            [
-                ['a string', 98768, ['a', 'nother', 'array']],
-                '',
-            ],
-        ];
+        return [[[null], ''], [['a string', 98768, ['a', 'nother', 'array']], '']];
     }
 
     /**
@@ -35,10 +30,7 @@ final class WithFormatterExpectationTest extends TestCase
      */
     public function testFormatObjects($args, $expected): void
     {
-        self::assertEquals(
-            $expected,
-            Mockery::formatObjects($args)
-        );
+        self::assertEquals($expected, Mockery::formatObjects($args));
     }
 
     public function testFormatObjectsExcludesStaticGetters(): void
@@ -72,7 +64,8 @@ final class WithFormatterExpectationTest extends TestCase
     public function testFormatObjectsWithMockCalledInGetterDoesNotLeadToRecursion(): void
     {
         $mock = Mockery::mock(stdClass::class);
-        $mock->shouldReceive('doBar')->with('foo');
+        $mock->shouldReceive('doBar')
+            ->with('foo');
         $obj = new ClassWithGetter($mock);
         $this->expectException(NoMatchingExpectationException::class);
         $obj->getFoo();
