@@ -31,6 +31,6 @@ spl_autoload_register(static function (string $class): void {
 
 $rootDir = dirname(__DIR__, 2);
 $loader = require $rootDir . '/vendor/autoload.php';
-//$loader->addPsr4('Tests\\', $rootDir . '/tests');
+$loader->addPsr4('Tests\\', $rootDir . '/tests');
 //$loader->addPsr4('Mockery\\Tests\\', $rootDir . '/tests');
 //$loader->addPsr4('test\\', $rootDir . '/tests');
