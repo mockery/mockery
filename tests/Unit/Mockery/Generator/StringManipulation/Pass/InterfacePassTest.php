@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use PHPUnit\Framework\TestCase;
+
 use function mb_strpos;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class InterfacePassTest extends TestCase
 {
     public const CODE = 'class Mock implements MockInterface';
