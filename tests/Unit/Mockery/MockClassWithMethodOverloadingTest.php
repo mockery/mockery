@@ -9,6 +9,11 @@ use Mockery\Exception\BadMethodCallException;
 use PHP73\TestWithMethodOverloading;
 use PHP73\TestWithMethodOverloadingWithoutCall;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockClassWithMethodOverloadingTest extends MockeryTestCase
 {
     public function testCreateMockForClassWithMethodOverloading(): void
