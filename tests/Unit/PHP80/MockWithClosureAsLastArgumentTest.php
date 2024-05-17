@@ -8,6 +8,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
+use PHP80\PHP80TestInterface;
 
 /**
  * @coversDefaultClass \Mockery
@@ -17,18 +18,14 @@ final class MockWithClosureAsLastArgumentTest extends MockeryTestCase
     public function testIfClosureIsPassedAsLastArgumentToMockItIsCalledWithMockObject(): void
     {
         $mock = Mockery::mock(
-            TestInterface::class,
+            PHP80TestInterface::class,
             static function (LegacyMockInterface|MockInterface $mock): void {
                 $mock->expects('blm')->andReturn('#BlackLivesMatter');
             }
         );
 
-        self::assertInstanceOf(TestInterface::class, $mock);
+        self::assertInstanceOf(PHP80TestInterface::class, $mock);
 
         self::assertSame('#BlackLivesMatter', $mock->blm());
     }
-}
-
-interface TestInterface
-{
 }
