@@ -8,6 +8,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\SimpleTrait;
 use PHP73\TraitWithAbstractMethod;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class TraitsTest extends MockeryTestCase
 {
     public function testItCanCreateAnObjectForASimpleTrait(): void
