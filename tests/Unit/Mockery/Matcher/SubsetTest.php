@@ -7,6 +7,9 @@ namespace Tests\Unit\Mockery\Matcher;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Matcher\Subset;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class SubsetTest extends MockeryTestCase
 {
     public function testItCanRunALooseComparison(): void
