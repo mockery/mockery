@@ -10,16 +10,19 @@ use PHP73\SubclassWithFinalToString;
 use PHP73\TestWithFinalToString;
 use PHP73\TestWithNonFinalToString;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockClassWithFinalToStringTest extends MockeryTestCase
 {
     protected $container;
 
-    protected function mockeryTestSetUp()
+    protected function mockeryTestSetUp(): void
     {
         $this->container = new Container();
     }
 
-    protected function mockeryTestTearDown()
+    protected function mockeryTestTearDown(): void
     {
         $this->container->mockery_close();
     }
