@@ -17,8 +17,7 @@ final class TestCase1414Test extends TestCase
 {
     public function testMockAnonymousClass(): void
     {
-        $class = new class() extends stdClass {
-        };
+        $class = new class () extends stdClass {};
 
         $mock = Mockery::mock($class::class);
 
