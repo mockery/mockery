@@ -11,6 +11,7 @@ use PHP73\ChildClass;
 use PHP73\NullableObject;
 use PHP73\ParentClass;
 use ReflectionClass;
+
 use const PHP_VERSION_ID;
 
 /**
@@ -39,7 +40,6 @@ final class ReflectorTest extends MockeryTestCase
     }
 
     /**
-     * @covers \Mockery\Reflector::getTypeHint
      * @dataProvider typeHintDataProvider
      */
     public function testGetTypeHint(string $class, string $expectedTypeHint): void
@@ -48,10 +48,7 @@ final class ReflectorTest extends MockeryTestCase
         $refMethod = $refClass->getMethods()[0];
         $refParam = $refMethod->getParameters()[0];
 
-        self::assertSame(
-            $expectedTypeHint,
-            Reflector::getTypeHint($refParam)
-        );
+        self::assertSame($expectedTypeHint, Reflector::getTypeHint($refParam));
     }
 
     /**
