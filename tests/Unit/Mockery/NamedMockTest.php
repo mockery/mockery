@@ -11,6 +11,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Stubs\Animal;
 use Stubs\Habitat;
 
+use function uniqid;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class NamedMockTest extends MockeryTestCase
 {
     public function testItCreatesANamedMock(): void
@@ -22,13 +27,9 @@ final class NamedMockTest extends MockeryTestCase
     public function testItCreatesConcreteMethodImplementationWithReturnType(): void
     {
         $cactus = new \Nature\Plant();
-        $gardener = Mockery::namedMock(
-            '\\NewNamespace\\ClassName',
-            Gardener::class,
-            [
-                'water' => true,
-            ]
-        );
+        $gardener = Mockery::namedMock('\\NewNamespace\\ClassName', Gardener::class, [
+            'water' => true,
+        ]);
         self::assertTrue($gardener->water($cactus));
     }
 
@@ -44,12 +45,10 @@ final class NamedMockTest extends MockeryTestCase
 
     public function testItGracefullyHandlesNamespacing(): void
     {
-        $animal = Mockery::namedMock(
-            uniqid(Animal::class, false),
-            Animal::class
-        );
+        $animal = Mockery::namedMock(uniqid(Animal::class, false), Animal::class);
 
-        $animal->shouldReceive('habitat')->andReturn(new Habitat());
+        $animal->shouldReceive('habitat')
+            ->andReturn(new Habitat());
 
         self::assertInstanceOf(Habitat::class, $animal->habitat());
     }
@@ -58,7 +57,9 @@ final class NamedMockTest extends MockeryTestCase
     {
         $mock = Mockery::namedMock('Mockery\Dave7');
         $this->expectException(\Mockery\Exception::class);
-        $this->expectExceptionMessage("The mock named 'Mockery\Dave7' has been already defined with a different mock configuration");
+        $this->expectExceptionMessage(
+            "The mock named 'Mockery\Dave7' has been already defined with a different mock configuration"
+        );
         $mock = Mockery::namedMock('Mockery\Dave7', DateTime::class);
     }
 }
