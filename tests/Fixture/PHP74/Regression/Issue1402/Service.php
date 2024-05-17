@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fixture\PHP74\Regression\Issue1402;
+namespace PHP74\Regression\Issue1402;
 
 class Service {
 
