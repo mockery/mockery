@@ -17,10 +17,16 @@ abstract class MockeryTestCase extends TestCase
     use MockeryPHPUnitIntegration;
     use MockeryTestCaseSetUp;
 
+    /**
+     * @return void
+     */
     protected function mockeryTestSetUp()
     {
     }
 
+    /**
+     * @return void
+     */
     protected function mockeryTestTearDown()
     {
     }
