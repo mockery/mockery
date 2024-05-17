@@ -8,6 +8,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\MethodWithNullableTypedParameter;
 use PHP73\MethodWithParametersWithDefaultValues;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockingMethodsWithNullableParametersTest extends MockeryTestCase
 {
     public function testItCanHandleDefaultParameters(): void
