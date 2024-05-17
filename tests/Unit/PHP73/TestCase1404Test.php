@@ -35,7 +35,8 @@ final class TestCase1404Test extends TestCase
     {
         $dbConnection = Mockery::mock(PDO::class);
 
-        $dbConnection->shouldReceive('query->fetchAll')->andReturn($result);
+        $dbConnection->shouldReceive('query->fetchAll')
+            ->andReturn($result);
 
         self::assertSame($result, $dbConnection->query('sql')->fetchAll());
     }
@@ -47,7 +48,8 @@ final class TestCase1404Test extends TestCase
     {
         $dbConnection = Mockery::mock(PDO::class);
 
-        $dbConnection->expects('query->fetchAll')->andReturn($result);
+        $dbConnection->expects('query->fetchAll')
+            ->andReturn($result);
 
         self::assertSame($result, $dbConnection->query('sql')->fetchAll());
     }
@@ -59,7 +61,8 @@ final class TestCase1404Test extends TestCase
     {
         $dbConnection = Mockery::mock(PDO::class);
 
-        $dbConnection->allows('query->fetchAll')->andReturn($result);
+        $dbConnection->allows('query->fetchAll')
+            ->andReturn($result);
 
         self::assertSame($result, $dbConnection->query('sql')->fetchAll());
     }
