@@ -8,6 +8,9 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\ClassWithConstants;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockingClassConstantsTest extends MockeryTestCase
 {
     public function testItShouldAllowToMockClassConstants(): void
