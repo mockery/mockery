@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassNamePass;
+
 use function mb_strpos;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class ClassNamePassTest extends MockeryTestCase
 {
     public const CODE = 'namespace Mockery; class Mock {}';
