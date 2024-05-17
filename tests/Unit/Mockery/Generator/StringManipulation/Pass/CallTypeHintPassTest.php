@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use PHPUnit\Framework\TestCase;
+
 use function mb_strpos;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class CallTypeHintPassTest extends TestCase
 {
     public const CODE = ' public function __call($method, array $args) {}
