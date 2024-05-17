@@ -11,6 +11,9 @@ use Mockery\Exception\InvalidCountException;
 use Mockery\Expectation;
 use PHPUnit\Framework\TestCase;
 
+use function restore_error_handler;
+use function set_error_handler;
+
 /**
  * @coversDefaultClass Mockery
  * @requires PHP 7.3
@@ -46,7 +49,8 @@ final class TestCase1328Test extends TestCase
 
         $mock = Mockery::mock(DateTime::class);
 
-        $mock->shouldNotReceive('format')->times(0);
+        $mock->shouldNotReceive('format')
+            ->times(0);
 
         $mock->format('Y');
 
@@ -68,7 +72,8 @@ final class TestCase1328Test extends TestCase
 
         $mock = Mockery::mock(DateTime::class);
 
-        $mock->shouldNotReceive('format')->once();
+        $mock->shouldNotReceive('format')
+            ->once();
 
         $mock->format('Y');
 
