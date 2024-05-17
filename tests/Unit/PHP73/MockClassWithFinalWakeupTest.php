@@ -9,16 +9,19 @@ use PHP73\SubclassWithFinalWakeup;
 use PHP73\TestWithFinalWakeup;
 use PHP73\TestWithNonFinalWakeup;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockClassWithFinalWakeupTest extends MockeryTestCase
 {
     protected $container;
 
-    protected function mockeryTestSetUp()
+    protected function mockeryTestSetUp(): void
     {
         $this->container = new \Mockery\Container();
     }
 
-    protected function mockeryTestTearDown()
+    protected function mockeryTestTearDown(): void
     {
         $this->container->mockery_close();
     }
