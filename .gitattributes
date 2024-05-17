@@ -6,11 +6,9 @@
 /.gitattributes export-ignore
 /.github export-ignore
 /.gitignore export-ignore
-/codecov.yml export-ignore
 /docker export-ignore
 /e2e-test.sh export-ignore
 /ecs.php export-ignore
-/fixtures export-ignore
 /Makefile export-ignore
 /phive.xml export-ignore
 /phpunit.xml.dist export-ignore
