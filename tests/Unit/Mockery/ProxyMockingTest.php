@@ -8,6 +8,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
 use PHP73\UnmockableClass;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class ProxyMockingTest extends MockeryTestCase
 {
     public function testFinalClassCannotBeMocked(): void
