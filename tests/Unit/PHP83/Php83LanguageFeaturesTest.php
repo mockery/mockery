@@ -12,8 +12,11 @@ use PHP83\Enums;
 use PHP83\Interfaces;
 use PHP83\Traits;
 
+use function mock;
+
 /**
  * @requires PHP 8.3.0-dev
+ * @coversDefaultClass \Mockery
  */
 final class Php83LanguageFeaturesTest extends MockeryTestCase
 {
