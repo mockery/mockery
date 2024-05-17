@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Generator;
+namespace Tests\Unit\Mockery\Generator;
 
 use ArrayObject;
 use Mockery\Generator\DefinedTargetClass;
@@ -10,6 +10,9 @@ use PHP73\MockeryTest_ClassThatExtendsArrayObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class DefinedTargetClassTest extends TestCase
 {
     public function testItKnowsIfOneOfItsAncestorsIsInternal(): void
