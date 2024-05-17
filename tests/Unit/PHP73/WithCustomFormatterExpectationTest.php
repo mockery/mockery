@@ -13,6 +13,11 @@ use PHP73\InterfaceWithCustomFormatter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
+use function get_class;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class WithCustomFormatterExpectationTest extends TestCase
 {
     protected function setUp(): void
@@ -52,36 +57,18 @@ final class WithCustomFormatterExpectationTest extends TestCase
         return [
             [
                 new ClassWithoutCustomFormatter(),
-                [
-                    'stringProperty',
-                    'numberProperty',
-                    'arrayProperty',
-                ],
-                [
-                    'privateProperty',
-                ],
+                ['stringProperty', 'numberProperty', 'arrayProperty'],
+                ['privateProperty'],
             ],
             [
                 new ClassWithCustomFormatter(),
-                [
-                    'stringProperty',
-                    'gettedProperty',
-                ],
-                [
-                    'numberProperty',
-                    'privateProperty',
-                ],
+                ['stringProperty', 'gettedProperty'],
+                ['numberProperty', 'privateProperty'],
             ],
             [
                 new ClassImplementsWithCustomFormatter(),
-                [
-                    'stringProperty',
-                    'gettedProperty',
-                ],
-                [
-                    'numberProperty',
-                    'privateProperty',
-                ],
+                ['stringProperty', 'gettedProperty'],
+                ['numberProperty', 'privateProperty'],
             ],
         ];
     }
@@ -89,26 +76,11 @@ final class WithCustomFormatterExpectationTest extends TestCase
     public static function getObjectFormatterDataProvider(): array
     {
         return [
-            [
-                new stdClass(),
-                null,
-            ],
-            [
-                new ClassWithoutCustomFormatter(),
-                null,
-            ],
-            [
-                new ClassWithCustomFormatter(),
-                ClassWithCustomFormatter::class,
-            ],
-            [
-                new ClassChildOfWithCustomFormatter(),
-                ClassWithCustomFormatter::class,
-            ],
-            [
-                new ClassImplementsWithCustomFormatter(),
-                InterfaceWithCustomFormatter::class,
-            ],
+            [new stdClass(), null],
+            [new ClassWithoutCustomFormatter(), null],
+            [new ClassWithCustomFormatter(), ClassWithCustomFormatter::class],
+            [new ClassChildOfWithCustomFormatter(), ClassWithCustomFormatter::class],
+            [new ClassImplementsWithCustomFormatter(), InterfaceWithCustomFormatter::class],
         ];
     }
 
@@ -138,9 +110,6 @@ final class WithCustomFormatterExpectationTest extends TestCase
         $formatter = Mockery::getConfiguration()->getObjectFormatter(get_class($object), $defaultFormatter);
         $formatted = $formatter($object, 1);
 
-        self::assertEquals(
-            $expected,
-            $formatted ? $formatted['formatter'] : null
-        );
+        self::assertEquals($expected, $formatted ? $formatted['formatter'] : null);
     }
 }
