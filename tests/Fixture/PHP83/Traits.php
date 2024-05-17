@@ -1,6 +1,8 @@
 <?php
 
-namespace Fixture\PHP83;
+declare(strict_types=1);
+
+namespace PHP83;
 
 trait Traits {
     const string BAR = Enums::FOO;
