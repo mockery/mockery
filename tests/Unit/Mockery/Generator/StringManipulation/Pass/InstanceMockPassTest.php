@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 use PHPUnit\Framework\TestCase;
+
 use function mb_strpos;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class InstanceMockPassTest extends TestCase
 {
     public function testShouldAppendConstructorAndPropertyForInstanceMock(): void
