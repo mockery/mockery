@@ -23,18 +23,19 @@ use PHP81\UsesEnums;
 use RuntimeException;
 use Serializable;
 use TypeError;
+
 use function pcntl_fork;
 use function pcntl_waitpid;
 use function pcntl_wexitstatus;
+use function mock;
+use function spy;
 
 /**
  * @requires PHP 8.1.0-dev
+ * @coversDefaultClass \Mockery
  */
 final class Php81LanguageFeaturesTest extends MockeryTestCase
 {
-    /**
-     * @group issue/339
-     */
     public function testCanMockClassesThatImplementSerializable(): void
     {
         $mock = mock(ClassThatImplementsSerializable::class);
@@ -79,7 +80,8 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
     {
         $mock = Mockery::spy(ArgumentIntersectionTypeHint::class);
         $object = new IntersectionTypeHelperClass();
-        $mock->allows()->foo($object);
+        $mock->allows()
+            ->foo($object);
 
         $mock->foo($object);
 
@@ -114,7 +116,8 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
 
         self::assertInstanceOf(PDO::class, $mock);
 
-        $mock->shouldReceive('exec')->once();
+        $mock->shouldReceive('exec')
+            ->once();
 
         try {
             self::assertSame(0, $mock->exec('select * from foo.bar'));
@@ -126,7 +129,8 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
     public function testItCanParseEnumAsDefaultValueCorrectly(): void
     {
         $mock = Mockery::mock(UsesEnums::class);
-        $mock->shouldReceive('set')->once();
+        $mock->shouldReceive('set')
+            ->once();
         $mock->set();
         self::assertEquals(SimpleEnum::first, $mock->enum); // check that mock did not set internal variable
     }
