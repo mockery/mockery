@@ -17,17 +17,15 @@ use SplFileInfo;
 
 /**
  * Ad-hoc unit tests for various scenarios reported by users
+ * @coversDefaultClass \Mockery
  */
 final class AdhocTest extends MockeryTestCase
 {
     protected $container;
 
-    public function mockeryTestSetUp(): void
+    protected function mockeryTestSetUp(): void
     {
-        $this->container = new Container(
-            Mockery::getDefaultGenerator(),
-            Mockery::getDefaultLoader()
-        );
+        $this->container = new Container(Mockery::getDefaultGenerator(), Mockery::getDefaultLoader());
     }
 
     public function mockeryTestTearDown(): void
