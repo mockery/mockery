@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Adapter\Phpunit;
+namespace Tests\Unit\Mockery\Adapter\Phpunit;
 
 use EmptyTestCase;
 use Mockery;
@@ -13,6 +13,11 @@ use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Blacklist;
 use ReflectionClass;
 
+use function method_exists;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class TestListenerTest extends MockeryTestCase
 {
     protected $container;
@@ -35,13 +40,17 @@ final class TestListenerTest extends MockeryTestCase
         $this->test->setTestResultObject($this->testResult);
         $this->testResult->addListener($this->listener);
 
-        self::assertTrue($this->testResult->wasSuccessful(), 'sanity check: empty test results should be considered successful');
+        self::assertTrue(
+            $this->testResult->wasSuccessful(),
+            'sanity check: empty test results should be considered successful'
+        );
     }
 
     public function testFailureOnMissingClose(): void
     {
         $mock = $this->container->mock();
-        $mock->shouldReceive('bar')->once();
+        $mock->shouldReceive('bar')
+            ->once();
 
         $this->listener->endTest($this->test, 0);
         self::assertFalse($this->testResult->wasSuccessful(), 'expected test result to indicate failure');
@@ -58,17 +67,13 @@ final class TestListenerTest extends MockeryTestCase
 
         if (method_exists(Blacklist::class, 'addDirectory')) {
             self::assertFalse(
-                (new Blacklist())->isBlacklisted(
-                    (new ReflectionClass(Mockery::class))->getFileName()
-                )
+                (new Blacklist())->isBlacklisted((new ReflectionClass(Mockery::class))->getFileName())
             );
 
             $this->listener->startTestSuite($suite);
 
             self::assertTrue(
-                (new Blacklist())->isBlacklisted(
-                    (new ReflectionClass(Mockery::class))->getFileName()
-                )
+                (new Blacklist())->isBlacklisted((new ReflectionClass(Mockery::class))->getFileName())
             );
         } else {
             self::assertArrayNotHasKey(Mockery::class, Blacklist::$blacklistedClassNames);
@@ -80,7 +85,8 @@ final class TestListenerTest extends MockeryTestCase
     public function testSuccessOnClose(): void
     {
         $mock = $this->container->mock();
-        $mock->shouldReceive('bar')->once();
+        $mock->shouldReceive('bar')
+            ->once();
         $mock->bar();
 
         // This is what MockeryPHPUnitIntegration and MockeryTestCase trait
