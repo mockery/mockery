@@ -16,29 +16,28 @@ Each test case should be structured based on the minimum version of php required
 ```text
 tests/
 └── Unit/
-    └── TestCase/
-        ├── README.md
-        ├── PHP73/
-        │   ├── TestCase0000Test.php  
-        │   └── ...
-        ├── PHP74/
-        │   ├── TestCase0000Test.php
-        │   └── ...
-        ├── PHP80/
-        │   ├── TestCase0000Test.php
-        │   └── ...
-        ├── PHP81/
-        │   ├── TestCase0000Test.php
-        │   └── ...
-        ├── PHP82/
-        │   ├── TestCase0000Test.php
-        │   └── ...
-        ├── PHP83/
-        │   ├── TestCase0000Test.php
-        │   └── ...
-        └── PHP84/
-            ├── TestCase0000Test.php
-            └── ...
+    ├── README.md
+    ├── PHP73/
+    │   ├── TestCase0000Test.php  
+    │   └── ...
+    ├── PHP74/
+    │   ├── TestCase0000Test.php
+    │   └── ...
+    ├── PHP80/
+    │   ├── TestCase0000Test.php
+    │   └── ...
+    ├── PHP81/
+    │   ├── TestCase0000Test.php
+    │   └── ...
+    ├── PHP82/
+    │   ├── TestCase0000Test.php
+    │   └── ...
+    ├── PHP83/
+    │   ├── TestCase0000Test.php
+    │   └── ...
+    └── PHP84/
+        ├── TestCase0000Test.php
+        └── ...
 ```
 
 ## Example Test Case
