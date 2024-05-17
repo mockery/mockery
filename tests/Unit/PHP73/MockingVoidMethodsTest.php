@@ -7,6 +7,11 @@ namespace Tests\Unit\PHP73;
 use PHP73\MethodWithVoidReturnType;
 use Tests\Unit\AbstractTestCase;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockingVoidMethodsTest extends AbstractTestCase
 {
     public function testItCanStubAndMockVoidMethods(): void
