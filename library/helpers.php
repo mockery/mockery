@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/)
  *
@@ -17,9 +19,9 @@ if (! \function_exists('mock')) {
     /**
      * @template TMock of object
      *
-     * @param array<class-string<TMock>|TMock|Closure(LegacyMockInterface&MockInterface&TMock):LegacyMockInterface&MockInterface&TMock|array<TMock>> $args
+     * @param TMock|array<class-string<TMock>|TMock|Closure(LegacyMockInterface&MockInterface&TMock):LegacyMockInterface&MockInterface&TMock|array<TMock>> ...$args
      *
-     * @return LegacyMockInterface&MockInterface&TMock
+     * @return (LegacyMockInterface|MockInterface)&TMock
      */
     function mock(...$args)
     {
@@ -31,9 +33,9 @@ if (! \function_exists('spy')) {
     /**
      * @template TSpy of object
      *
-     * @param array<class-string<TSpy>|TSpy|Closure(LegacyMockInterface&MockInterface&TSpy):LegacyMockInterface&MockInterface&TSpy|array<TSpy>> $args
+     * @param TSpy|array<class-string<TSpy>|TSpy|Closure(LegacyMockInterface&MockInterface&TSpy):LegacyMockInterface&MockInterface&TSpy|array<TSpy>> ...$args
      *
-     * @return LegacyMockInterface&MockInterface&TSpy
+     * @return (LegacyMockInterface|MockInterface)&TSpy
      */
     function spy(...$args)
     {
@@ -45,9 +47,9 @@ if (! \function_exists('namedMock')) {
     /**
      * @template TNamedMock of object
      *
-     * @param array<class-string<TNamedMock>|TNamedMock|array<TNamedMock>> $args
+     * @param TNamedMock|array<class-string<TNamedMock>|TNamedMock|array<TNamedMock>> ...$args
      *
-     * @return LegacyMockInterface&MockInterface&TNamedMock
+     * @return (LegacyMockInterface|MockInterface)&TNamedMock
      */
     function namedMock(...$args)
     {
