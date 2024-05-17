@@ -2,20 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassPass;
+
 use function mb_strpos;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class ClassPassTest extends MockeryTestCase
 {
     public const CODE = 'class Mock implements MockInterface {}';
 
     protected $pass;
 
-    public function mockeryTestSetUp()
+    protected function mockeryTestSetUp(): void
     {
         $this->pass = new ClassPass();
     }
