@@ -1,0 +1,150 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * Mockery
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://github.com/padraic/mockery/master/LICENSE
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to padraic@php.net so we can send you a copy immediately.
+ *
+ * @category   Mockery
+ * @package    Mockery
+ * @subpackage UnitTests
+ * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ */
+
+namespace Tests\Unit\Mockery;
+
+use Iterator;
+use IteratorAggregate;
+use Mockery\Exception;
+use Mockery\Generator\MockConfiguration;
+use PHP73\ClassWithFinalMethod;
+use PHP73\TestFinal;
+use PHP73\TestInterface;
+use PHP73\TestInterface2;
+use PHP73\TestSubject;
+use PHP73\TestTraversableInterface;
+use PHP73\TestTraversableInterface2;
+use PHP73\TestTraversableInterface3;
+use PHPUnit\Framework\TestCase;
+use Traversable;
+
+class MockConfigurationTest extends TestCase
+{
+    public function testBlackListedMethodsShouldNotBeInListToBeMocked()
+    {
+        $config = new MockConfiguration([TestSubject::class], ['foo']);
+
+        $methods = $config->getMethodsToMock();
+        self::assertCount(1, $methods);
+        self::assertEquals('bar', $methods[0]->getName());
+    }
+
+    public function testBlackListsAreCaseInsensitive()
+    {
+        $config = new MockConfiguration([TestSubject::class], ['FOO']);
+
+        $methods = $config->getMethodsToMock();
+        self::assertCount(1, $methods);
+        self::assertEquals('bar', $methods[0]->getName());
+    }
+
+    public function testFinalMethodsAreExcluded()
+    {
+        $config = new MockConfiguration([ClassWithFinalMethod::class]);
+
+        $methods = $config->getMethodsToMock();
+        self::assertCount(1, $methods);
+        self::assertEquals('bar', $methods[0]->getName());
+    }
+
+    public function testOnlyWhiteListedMethodsShouldBeInListToBeMocked()
+    {
+        $config = new MockConfiguration([TestSubject::class], [], ['foo']);
+
+        $methods = $config->getMethodsToMock();
+        self::assertCount(1, $methods);
+        self::assertEquals('foo', $methods[0]->getName());
+    }
+
+    public function testShouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent()
+    {
+        $config = new MockConfiguration([TestTraversableInterface3::class]);
+
+        $interfaces = $config->getTargetInterfaces();
+        self::assertCount(2, $interfaces);
+        self::assertEquals(IteratorAggregate::class, $interfaces[0]->getName());
+        self::assertEquals(TestTraversableInterface3::class, $interfaces[1]->getName());
+    }
+
+    public function testShouldBringIteratorToHeadOfTargetListIfTraversablePresent()
+    {
+        $config = new MockConfiguration([TestTraversableInterface2::class]);
+
+        $interfaces = $config->getTargetInterfaces();
+        self::assertCount(2, $interfaces);
+        self::assertEquals(Iterator::class, $interfaces[0]->getName());
+        self::assertEquals(TestTraversableInterface2::class, $interfaces[1]->getName());
+    }
+
+    public function testShouldIncludeMethodsFromAllTargets()
+    {
+        $config = new MockConfiguration([TestInterface::class, TestInterface2::class]);
+        $methods = $config->getMethodsToMock();
+        self::assertCount(2, $methods);
+    }
+
+    public function testShouldTargetIteratorAggregateIfTraversableInTargetsTree()
+    {
+        $config = new MockConfiguration([TestTraversableInterface::class]);
+
+        $interfaces = $config->getTargetInterfaces();
+        self::assertCount(2, $interfaces);
+        self::assertEquals(IteratorAggregate::class, $interfaces[0]->getName());
+        self::assertEquals(TestTraversableInterface::class, $interfaces[1]->getName());
+    }
+
+    public function testShouldTargetIteratorAggregateIfTryingToMockTraversable()
+    {
+        $config = new MockConfiguration([Traversable::class]);
+
+        $interfaces = $config->getTargetInterfaces();
+        self::assertCount(1, $interfaces);
+        $first = array_shift($interfaces);
+        self::assertEquals(IteratorAggregate::class, $first->getName());
+    }
+
+    public function testShouldThrowIfTargetClassIsFinal()
+    {
+        $this->expectException(Exception::class);
+        $config = new MockConfiguration([TestFinal::class]);
+        $config->getTargetClass();
+    }
+
+    public function testWhiteListsAreCaseInsensitive()
+    {
+        $config = new MockConfiguration([TestSubject::class], [], ['FOO']);
+
+        $methods = $config->getMethodsToMock();
+        self::assertCount(1, $methods);
+        self::assertEquals('foo', $methods[0]->getName());
+    }
+
+    public function testWhitelistOverRulesBlackList()
+    {
+        $config = new MockConfiguration([TestSubject::class], ['foo'], ['foo']);
+
+        $methods = $config->getMethodsToMock();
+        self::assertCount(1, $methods);
+        self::assertEquals('foo', $methods[0]->getName());
+    }
+}
