@@ -9,6 +9,12 @@ use Mockery\Exception\BadMethodCallException;
 use PHP73\BaseClassStub;
 use Throwable;
 
+use function mock;
+use function spy;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockeryPHPUnitIntegrationTest extends MockeryTestCase
 {
     public function testItMarksAPassingTestAsRiskyIfWeThrewExceptions(): void
@@ -24,7 +30,8 @@ final class MockeryPHPUnitIntegrationTest extends MockeryTestCase
         $test = spy(BaseClassStub::class)->makePartial();
         $test->finish();
 
-        $test->shouldHaveReceived()->markAsRisky();
+        $test->shouldHaveReceived()
+            ->markAsRisky();
     }
 
     public function testTheUserCanManuallyDismissAnExceptionToAvoidTheRiskyTest(): void
@@ -40,6 +47,7 @@ final class MockeryPHPUnitIntegrationTest extends MockeryTestCase
         $test = spy(BaseClassStub::class)->makePartial();
         $test->finish();
 
-        $test->shouldNotHaveReceived()->markAsRisky();
+        $test->shouldNotHaveReceived()
+            ->markAsRisky();
     }
 }
