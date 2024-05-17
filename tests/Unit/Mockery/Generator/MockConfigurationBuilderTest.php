@@ -9,13 +9,17 @@ use PHP73\ClassWithDebugInfo;
 use PHP73\ClassWithMagicCall;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockConfigurationBuilderTest extends TestCase
 {
     public function testMagicMethodsAreBlackListedByDefault(): void
     {
         $builder = new MockConfigurationBuilder();
         $builder->addTarget(ClassWithMagicCall::class);
-        $methods = $builder->getMockConfiguration()->getMethodsToMock();
+        $methods = $builder->getMockConfiguration()
+            ->getMethodsToMock();
         self::assertCount(1, $methods);
         self::assertEquals('foo', $methods[0]->getName());
     }
@@ -34,7 +38,8 @@ final class MockConfigurationBuilderTest extends TestCase
     {
         $builder = new MockConfigurationBuilder();
         $builder->addTarget(ClassWithDebugInfo::class);
-        $methods = $builder->getMockConfiguration()->getMethodsToMock();
+        $methods = $builder->getMockConfiguration()
+            ->getMethodsToMock();
         self::assertCount(1, $methods);
         self::assertEquals('foo', $methods[0]->getName());
     }
