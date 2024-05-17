@@ -180,12 +180,6 @@
       <code><![CDATA[dismissed]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="library/Mockery/Adapter/Phpunit/MockeryTestCase.php">
-    <MissingReturnType>
-      <code><![CDATA[mockeryTestSetUp]]></code>
-      <code><![CDATA[mockeryTestTearDown]]></code>
-    </MissingReturnType>
-  </file>
   <file src="library/Mockery/Adapter/Phpunit/TestListener.php">
     <DeprecatedInterface>
       <code><![CDATA[TestListener]]></code>
@@ -1673,15 +1667,12 @@
     </PossiblyInvalidArgument>
   </file>
   <file src="tests/Bootstrap.php">
-    <ForbiddenCode>
-      <code><![CDATA[var_dump(func_get_args())]]></code>
-    </ForbiddenCode>
+    <ForbiddenCode/>
     <MissingParamType>
       <code><![CDATA[$path]]></code>
     </MissingParamType>
     <MissingReturnType>
       <code><![CDATA[isAbsolutePath]]></code>
-      <code><![CDATA[vdd]]></code>
     </MissingReturnType>
     <MixedArgument>
       <code><![CDATA[$path]]></code>
@@ -1692,9 +1683,7 @@
     <PossiblyUndefinedIntArrayOffset>
       <code><![CDATA[$trace[1]]]></code>
     </PossiblyUndefinedIntArrayOffset>
-    <RiskyTruthyFalsyComparison>
-      <code><![CDATA[getenv('COMPOSER_VENDOR_DIR')]]></code>
-    </RiskyTruthyFalsyComparison>
+    <RiskyTruthyFalsyComparison/>
     <TypeDoesNotContainType>
       <code><![CDATA[$dev]]></code>
       <code><![CDATA[$dev]]></code>
@@ -1821,34 +1810,12 @@
       <code><![CDATA[self::assertArrayNotHasKey(Mockery::class, Blacklist::$blacklistedClassNames)]]></code>
       <code><![CDATA[self::assertArrayNotHasKey(Mockery::class, Blacklist::$blacklistedClassNames)]]></code>
       <code><![CDATA[self::assertArrayNotHasKey(Mockery::class, Blacklist::$blacklistedClassNames)]]></code>
-      <code><![CDATA[self::assertFalse(
-                (new Blacklist())->isBlacklisted(
-                    (new ReflectionClass(Mockery::class))->getFileName()
-                )
-            )]]></code>
-      <code><![CDATA[self::assertFalse(
-                (new Blacklist())->isBlacklisted(
-                    (new ReflectionClass(Mockery::class))->getFileName()
-                )
-            )]]></code>
       <code><![CDATA[self::assertFalse($this->testResult->wasSuccessful(), 'expected test result to indicate failure')]]></code>
       <code><![CDATA[self::assertFalse($this->testResult->wasSuccessful(), 'expected test result to indicate failure')]]></code>
       <code><![CDATA[self::assertSame(1, Blacklist::$blacklistedClassNames[Mockery::class])]]></code>
       <code><![CDATA[self::assertSame(1, Blacklist::$blacklistedClassNames[Mockery::class])]]></code>
-      <code><![CDATA[self::assertTrue(
-                (new Blacklist())->isBlacklisted(
-                    (new ReflectionClass(Mockery::class))->getFileName()
-                )
-            )]]></code>
-      <code><![CDATA[self::assertTrue(
-                (new Blacklist())->isBlacklisted(
-                    (new ReflectionClass(Mockery::class))->getFileName()
-                )
-            )]]></code>
       <code><![CDATA[self::assertTrue($this->testResult->wasSuccessful(), 'expected test result to indicate success')]]></code>
       <code><![CDATA[self::assertTrue($this->testResult->wasSuccessful(), 'expected test result to indicate success')]]></code>
-      <code><![CDATA[self::assertTrue($this->testResult->wasSuccessful(), 'sanity check: empty test results should be considered successful')]]></code>
-      <code><![CDATA[self::assertTrue($this->testResult->wasSuccessful(), 'sanity check: empty test results should be considered successful')]]></code>
     </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[Blacklist::$blacklistedClassNames]]></code>
@@ -2116,94 +2083,6 @@
       <code><![CDATA['overload:mock2']]></code>
     </ArgumentTypeCoercion>
     <MissingThrowsDocblock>
-      <code><![CDATA[self::assertEquals(
-            'first',
-            $this->mock->levelOne()->levelTwo()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'first',
-            $this->mock->levelOne()->levelTwo()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'second',
-            $this->mock->levelOne()->levelTwo()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'second',
-            $this->mock->levelOne()->levelTwo()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst('parameter')
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst('parameter')
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'something',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getElement()->getSecond('secondParameter')
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getElement()->getSecond('secondParameter')
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getElement()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getElement()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getElement()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getElement()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getOtherElement()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingElse',
-            $this->mock->getOtherElement()->getSecond()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingNew',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            'somethingNew',
-            $this->mock->getElement()->getFirst()
-        )]]></code>
       <code><![CDATA[self::assertEquals($bar, $a->foo()->bar())]]></code>
       <code><![CDATA[self::assertEquals($bar, $a->foo()->bar())]]></code>
       <code><![CDATA[self::assertEquals($qux, $a->foo()->qux())]]></code>
@@ -2420,8 +2299,6 @@
       <code><![CDATA[mock]]></code>
       <code><![CDATA[self::assertEquals("[foo(1, 'bar', object(stdClass), ['Spam' => 'Ham', 'Bar' => 'Baz'])]", (string) $exp)]]></code>
       <code><![CDATA[self::assertEquals("[foo(1, 'bar', object(stdClass), ['Spam' => 'Ham', 'Bar' => 'Baz'])]", (string) $exp)]]></code>
-      <code><![CDATA[self::assertEquals("[foo(['Spam' => 'Ham', 'Bar' => 'Baz', 0 => 'Bar', 1 => 'Baz', 2 => 'Bar', 3 => 'Baz', 4 => 'Bar', 5 => 'Baz', 6 => 'Bar', 7 => 'Baz', 8 => 'Bar', 9 => 'Baz', 10 => 'Bar', 11 => 'Baz', 12 => 'Bar', 13 => 'Baz', 14 => 'Bar', 15 => 'Baz', 16 => 'Bar', 17 => 'Baz', 18 => 'Bar', 19 => 'Baz', 20 => 'Bar', 21 => 'Baz', 22 => 'Bar', 23 => 'Baz', 24 => 'Bar', 25 => 'Baz', 26 => 'Bar', 27 => 'Baz', 28 => 'Bar', 29 => 'Baz', 30 => 'Bar', 31 => 'Baz', 32 => 'Bar', 33 => 'Baz', 34 => 'Bar', 35 => 'Baz', 36 => 'Bar', 37 => 'Baz', 38 => 'Bar', 39 => 'Baz', 40 => 'Bar', 41 => 'Baz', 42 => 'Bar', 43 => 'Baz', 44 => 'Bar', 45 => 'Baz', 46 => 'Baz', 47 => 'Bar', 48 => 'Baz', 49 => 'Bar', 50 => 'Baz', 51 => 'Bar', 52 => 'Baz', 53 => 'Bar', 54 => 'Baz', 55 => 'Bar', 56 => 'Baz', 57 => 'Baz', 58 => 'Bar', 59 => 'Baz', 60 => 'Bar', 61 => 'Baz', 62 => 'Bar', 63 => 'Baz', 64 => 'Bar', 65 => 'Baz', 66 => 'Bar', 67 => 'Baz', 68 => 'Baz', 69 => 'Bar', 70 => 'Baz', 71 => 'Bar', 72 => 'Baz', 73 => 'Bar', 74 => 'Baz', 7...])]", (string) $exp)]]></code>
-      <code><![CDATA[self::assertEquals("[foo(['Spam' => 'Ham', 'Bar' => 'Baz', 0 => 'Bar', 1 => 'Baz', 2 => 'Bar', 3 => 'Baz', 4 => 'Bar', 5 => 'Baz', 6 => 'Bar', 7 => 'Baz', 8 => 'Bar', 9 => 'Baz', 10 => 'Bar', 11 => 'Baz', 12 => 'Bar', 13 => 'Baz', 14 => 'Bar', 15 => 'Baz', 16 => 'Bar', 17 => 'Baz', 18 => 'Bar', 19 => 'Baz', 20 => 'Bar', 21 => 'Baz', 22 => 'Bar', 23 => 'Baz', 24 => 'Bar', 25 => 'Baz', 26 => 'Bar', 27 => 'Baz', 28 => 'Bar', 29 => 'Baz', 30 => 'Bar', 31 => 'Baz', 32 => 'Bar', 33 => 'Baz', 34 => 'Bar', 35 => 'Baz', 36 => 'Bar', 37 => 'Baz', 38 => 'Bar', 39 => 'Baz', 40 => 'Bar', 41 => 'Baz', 42 => 'Bar', 43 => 'Baz', 44 => 'Bar', 45 => 'Baz', 46 => 'Baz', 47 => 'Bar', 48 => 'Baz', 49 => 'Bar', 50 => 'Baz', 51 => 'Bar', 52 => 'Baz', 53 => 'Bar', 54 => 'Baz', 55 => 'Bar', 56 => 'Baz', 57 => 'Baz', 58 => 'Bar', 59 => 'Baz', 60 => 'Bar', 61 => 'Baz', 62 => 'Bar', 63 => 'Baz', 64 => 'Bar', 65 => 'Baz', 66 => 'Bar', 67 => 'Baz', 68 => 'Baz', 69 => 'Bar', 70 => 'Baz', 71 => 'Bar', 72 => 'Baz', 73 => 'Bar', 74 => 'Baz', 7...])]", (string) $exp)]]></code>
       <code><![CDATA[self::assertEquals("{$this->mock}", 'dave')]]></code>
       <code><![CDATA[self::assertEquals("{$this->mock}", 'dave')]]></code>
       <code><![CDATA[self::assertEquals($args[$index], $this->mock->foo(...$args))]]></code>
@@ -2691,12 +2568,6 @@
       <code><![CDATA[self::assertTrue($service->login('user', 'pass'))]]></code>
       <code><![CDATA[self::assertTrue($this->mock->foo())]]></code>
       <code><![CDATA[self::assertTrue($this->mock->foo())]]></code>
-      <code><![CDATA[self::assertTrue(empty($this->mock->bar))]]></code>
-      <code><![CDATA[self::assertTrue(empty($this->mock->bar))]]></code>
-      <code><![CDATA[self::assertTrue(is_string("{$this->mock->g()}"))]]></code>
-      <code><![CDATA[self::assertTrue(is_string("{$this->mock->g()}"))]]></code>
-      <code><![CDATA[self::assertTrue(is_string("{$this->mock}"))]]></code>
-      <code><![CDATA[self::assertTrue(is_string("{$this->mock}"))]]></code>
     </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$this->mock->foo()]]></code>
@@ -3938,10 +3809,6 @@
       <code><![CDATA[$this->mock->bar]]></code>
       <code><![CDATA[$this->mock->bar]]></code>
     </MixedPropertyFetch>
-    <RedundantCondition>
-      <code><![CDATA[is_string("{$this->mock->g()}")]]></code>
-      <code><![CDATA[is_string("{$this->mock}")]]></code>
-    </RedundantCondition>
     <TooManyArguments>
       <code><![CDATA[expectException]]></code>
       <code><![CDATA[expectException]]></code>
@@ -4173,9 +4040,6 @@
     <MissingPropertyType>
       <code><![CDATA[$pass]]></code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code><![CDATA[mockeryTestSetUp]]></code>
-    </MissingReturnType>
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertNotFalse(mb_strpos($code, 'class Mock extends \Testing\TestClass implements MockInterface'))]]></code>
       <code><![CDATA[self::assertNotFalse(mb_strpos($code, 'class Mock extends \Testing\TestClass implements MockInterface'))]]></code>
@@ -4257,10 +4121,6 @@
     <InvalidArgument>
       <code><![CDATA[$className]]></code>
     </InvalidArgument>
-    <MissingReturnType>
-      <code><![CDATA[mockeryTestSetUp]]></code>
-      <code><![CDATA[mockeryTestTearDown]]></code>
-    </MissingReturnType>
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertInstanceOf($className, $double)]]></code>
       <code><![CDATA[self::assertInstanceOf($className, $double)]]></code>
@@ -4290,10 +4150,6 @@
     <MissingPropertyType>
       <code><![CDATA[$mock]]></code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code><![CDATA[mockeryTestSetUp]]></code>
-      <code><![CDATA[mockeryTestTearDown]]></code>
-    </MissingReturnType>
     <MixedMethodCall>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
@@ -4404,10 +4260,6 @@
     <MissingPropertyType>
       <code><![CDATA[$container]]></code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code><![CDATA[mockeryTestSetUp]]></code>
-      <code><![CDATA[mockeryTestTearDown]]></code>
-    </MissingReturnType>
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertEquals(TestWithFinalToString::class . '::__toString', $mock->__toString())]]></code>
       <code><![CDATA[self::assertEquals(TestWithFinalToString::class . '::__toString', $mock->__toString())]]></code>
@@ -4501,20 +4353,6 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/MockConfigurationTest.php">
-    <MissingReturnType>
-      <code><![CDATA[testBlackListedMethodsShouldNotBeInListToBeMocked]]></code>
-      <code><![CDATA[testBlackListsAreCaseInsensitive]]></code>
-      <code><![CDATA[testFinalMethodsAreExcluded]]></code>
-      <code><![CDATA[testOnlyWhiteListedMethodsShouldBeInListToBeMocked]]></code>
-      <code><![CDATA[testShouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent]]></code>
-      <code><![CDATA[testShouldBringIteratorToHeadOfTargetListIfTraversablePresent]]></code>
-      <code><![CDATA[testShouldIncludeMethodsFromAllTargets]]></code>
-      <code><![CDATA[testShouldTargetIteratorAggregateIfTraversableInTargetsTree]]></code>
-      <code><![CDATA[testShouldTargetIteratorAggregateIfTryingToMockTraversable]]></code>
-      <code><![CDATA[testShouldThrowIfTargetClassIsFinal]]></code>
-      <code><![CDATA[testWhiteListsAreCaseInsensitive]]></code>
-      <code><![CDATA[testWhitelistOverRulesBlackList]]></code>
-    </MissingReturnType>
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertCount(1, $interfaces)]]></code>
       <code><![CDATA[self::assertCount(1, $interfaces)]]></code>
@@ -5143,14 +4981,6 @@
       <code><![CDATA[Reflector::isReservedWord($type)]]></code>
     </InternalMethod>
     <MissingThrowsDocblock>
-      <code><![CDATA[self::assertSame(
-            $expectedTypeHint,
-            Reflector::getTypeHint($refParam)
-        )]]></code>
-      <code><![CDATA[self::assertSame(
-            $expectedTypeHint,
-            Reflector::getTypeHint($refParam)
-        )]]></code>
       <code><![CDATA[self::assertTrue(Reflector::isReservedWord($type))]]></code>
       <code><![CDATA[self::assertTrue(Reflector::isReservedWord($type))]]></code>
     </MissingThrowsDocblock>
@@ -5255,33 +5085,10 @@
       <code><![CDATA[TraitsTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP73/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
-    </UnusedClass>
-  </file>
   <file src="tests/Unit/PHP73/MockClassWithFinalWakeupTest.php">
     <MissingPropertyType>
       <code><![CDATA[$container]]></code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code><![CDATA[mockeryTestSetUp]]></code>
-      <code><![CDATA[mockeryTestTearDown]]></code>
-    </MissingReturnType>
     <MissingThrowsDocblock>
       <code><![CDATA[self::assertEquals(TestWithFinalWakeup::class . '::__wakeup', $mock->__wakeup())]]></code>
       <code><![CDATA[self::assertEquals(TestWithFinalWakeup::class . '::__wakeup', $mock->__wakeup())]]></code>
@@ -5415,16 +5222,7 @@
       <code><![CDATA[$shouldContains]]></code>
       <code><![CDATA[$shouldNotContains]]></code>
     </MissingParamType>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertEquals(
-            $expected,
-            $formatted ? $formatted['formatter'] : null
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            $expected,
-            $formatted ? $formatted['formatter'] : null
-        )]]></code>
-    </MissingThrowsDocblock>
+    <MissingThrowsDocblock/>
     <MixedArgument>
       <code><![CDATA[$containString]]></code>
       <code><![CDATA[$containString]]></code>
@@ -5462,14 +5260,6 @@
       <code><![CDATA[$expected]]></code>
     </MissingParamType>
     <MissingThrowsDocblock>
-      <code><![CDATA[self::assertEquals(
-            $expected,
-            Mockery::formatObjects($args)
-        )]]></code>
-      <code><![CDATA[self::assertEquals(
-            $expected,
-            Mockery::formatObjects($args)
-        )]]></code>
       <code><![CDATA[self::assertSame(mb_strpos($string, 'Missing argument 1 for'), false)]]></code>
       <code><![CDATA[self::assertSame(mb_strpos($string, 'Missing argument 1 for'), false)]]></code>
       <code><![CDATA[self::assertSame(mb_strpos($string, 'excludedProperty'), false)]]></code>
@@ -5488,25 +5278,6 @@
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[WithFormatterExpectationTest]]></code>
-    </UnusedClass>
-  </file>
-  <file src="tests/Unit/PHP74/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP74/TestCase1402Test.php">
@@ -5530,25 +5301,6 @@
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[TestCase1402Test]]></code>
-    </UnusedClass>
-  </file>
-  <file src="tests/Unit/PHP80/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP80/MockWithClosureAsLastArgumentTest.php">
@@ -5620,8 +5372,6 @@
       <code><![CDATA[self::assertNotInstanceOf(Iterator::class, $mock)]]></code>
       <code><![CDATA[self::assertNull($mock->foo())]]></code>
       <code><![CDATA[self::assertNull($mock->foo())]]></code>
-      <code><![CDATA[self::assertTrue(is_object($mock->foo()))]]></code>
-      <code><![CDATA[self::assertTrue(is_object($mock->foo()))]]></code>
     </MissingThrowsDocblock>
     <MixedMethodCall>
       <code><![CDATA[foo]]></code>
@@ -5633,10 +5383,7 @@
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
     </MixedMethodCall>
-    <RedundantCondition>
-      <code><![CDATA[assertTrue]]></code>
-      <code><![CDATA[is_object($mock->foo())]]></code>
-    </RedundantCondition>
+    <RedundantCondition/>
     <ReservedWord>
       <code><![CDATA[$mock->foo()]]></code>
     </ReservedWord>
@@ -5658,44 +5405,6 @@
     </MissingThrowsDocblock>
     <UnusedClass>
       <code><![CDATA[TestCase1414Test]]></code>
-    </UnusedClass>
-  </file>
-  <file src="tests/Unit/PHP81/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
-    </UnusedClass>
-  </file>
-  <file src="tests/Unit/PHP82/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP82/Php82LanguageFeaturesTest.php">
@@ -5736,30 +5445,6 @@
       <code><![CDATA[self::assertInstanceOf(ReflectionType::class, $type)]]></code>
       <code><![CDATA[self::assertInstanceOf(ReflectionType::class, $type)]]></code>
       <code><![CDATA[self::assertInstanceOf(ReflectionType::class, $type)]]></code>
-      <code><![CDATA[self::assertSame(
-            'iterable|\stdClass|string',
-            Reflector::getTypeHint($refParam)
-        )]]></code>
-      <code><![CDATA[self::assertSame(
-            'iterable|\stdClass|string',
-            Reflector::getTypeHint($refParam)
-        )]]></code>
-      <code><![CDATA[self::assertSame(
-            'iterable|object',
-            Reflector::getTypeHint($refParam)
-        )]]></code>
-      <code><![CDATA[self::assertSame(
-            'iterable|object',
-            Reflector::getTypeHint($refParam)
-        )]]></code>
-      <code><![CDATA[self::assertSame(
-            'iterable|object|string',
-            Reflector::getTypeHint($refParam)
-        )]]></code>
-      <code><![CDATA[self::assertSame(
-            'iterable|object|string',
-            Reflector::getTypeHint($refParam)
-        )]]></code>
       <code><![CDATA[self::assertSame($expectedType->__toString(), $type->__toString())]]></code>
       <code><![CDATA[self::assertSame($expectedType->__toString(), $type->__toString())]]></code>
       <code><![CDATA[self::assertSame($expectedType->__toString(), $type->__toString())]]></code>
@@ -5819,59 +5504,8 @@
       <code><![CDATA[Php82LanguageFeaturesTest]]></code>
     </UnusedClass>
   </file>
-  <file src="tests/Unit/PHP83/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
-    </UnusedClass>
-  </file>
-  <file src="tests/Unit/PHP84/ExampleTestCase0000Test.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA['ExampleClass']]></code>
-    </ArgumentTypeCoercion>
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-      <code><![CDATA[self::assertTrue($mock->exampleMethod())]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[andReturns]]></code>
-    </MixedMethodCall>
-    <UndefinedClass>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </UndefinedClass>
-    <UnusedClass>
-      <code><![CDATA[ExampleTestCase0000Test]]></code>
-    </UnusedClass>
-  </file>
   <file src="tests/Unit/PHP84/Php84LanguageFeaturesTest.php">
-    <MissingThrowsDocblock>
-      <code><![CDATA[self::assertInstanceOf(
-            stdClass::class,
-            Mockery::mock(stdClass::class)
-        )]]></code>
-      <code><![CDATA[self::assertInstanceOf(
-            stdClass::class,
-            Mockery::mock(stdClass::class)
-        )]]></code>
-      <code><![CDATA[self::assertInstanceOf(
-            stdClass::class,
-            Mockery::mock(stdClass::class)
-        )]]></code>
-    </MissingThrowsDocblock>
+    <MissingThrowsDocblock/>
     <UnusedClass>
       <code><![CDATA[Php84LanguageFeaturesTest]]></code>
     </UnusedClass>
