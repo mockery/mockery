@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Unit\Mockery;
+namespace Tests\Unit\Mockery;
 
-use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use Throwable;
 
+use function mock;
+use function namedMock;
+use function spy;
+use function uniqid;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class GlobalHelpersTest extends MockeryTestCase
 {
-    public function mockeryTestSetUp()
-    {
-        Mockery::globalHelpers();
-    }
-
-    public function mockeryTestTearDown()
-    {
-        Mockery::close();
-    }
-
     public function testMockCreatesAMock(): void
     {
         $double = mock();
