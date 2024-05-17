@@ -31,16 +31,19 @@
 >
     <projectFiles>
         <directory name="library"/>
+        <directory name="tests"/>
         <ignoreFiles>
-            <directory name="fixtures"/>
-            <directory name="tests"/>
             <directory name="tests/Fixture"/>
             <directory name="vendor"/>
             <file name="library/Mockery/Mock.php" />
-            <file name="tests/Mockery/ContainerTest.php"/>
-            <file name="tests/Mockery/MockTest.php"/>
+            <file name="tests/Unit/Mockery/ContainerTest.php"/>
+            <file name="tests/Unit/PHP81/Php81LanguageFeaturesTest.php"/>
+            <file name="tests/Unit/PHP83/Php83LanguageFeaturesTest.php"/>
         </ignoreFiles>
     </projectFiles>
+    <extraFiles>
+        <directory name="tests/Fixture"/>
+    </extraFiles>
     <plugins>
 <!--        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>-->
     </plugins>
