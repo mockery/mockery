@@ -8,6 +8,11 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\TestIncreasedVisibilityChild;
 use PHP73\TestWithProtectedMethods;
 
+use function mock;
+
+/**
+ * @coversDefaultClass \Mockery
+ */
 final class MockingProtectedMethodsTest extends MockeryTestCase
 {
     public function testShouldAllowMockingAbstractProtectedMethods(): void
@@ -16,14 +21,16 @@ final class MockingProtectedMethodsTest extends MockeryTestCase
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
-        $mock->shouldReceive('abstractProtected')->andReturn('abstractProtected');
+        $mock->shouldReceive('abstractProtected')
+            ->andReturn('abstractProtected');
         self::assertEquals('abstractProtected', $mock->foo());
     }
 
     public function testShouldAllowMockingIncreasedVisabilityMethods(): void
     {
         $mock = mock(TestIncreasedVisibilityChild::class);
-        $mock->shouldReceive('foobar')->andReturn('foobar');
+        $mock->shouldReceive('foobar')
+            ->andReturn('foobar');
         self::assertEquals('foobar', $mock->foobar());
     }
 
@@ -32,7 +39,8 @@ final class MockingProtectedMethodsTest extends MockeryTestCase
         $mock = mock(TestWithProtectedMethods::class . '[protectedBar]')
             ->shouldAllowMockingProtectedMethods();
 
-        $mock->shouldReceive('protectedBar')->andReturn('notbar');
+        $mock->shouldReceive('protectedBar')
+            ->andReturn('notbar');
         self::assertEquals('notbar', $mock->bar());
     }
 
@@ -42,7 +50,8 @@ final class MockingProtectedMethodsTest extends MockeryTestCase
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
-        $mock->shouldReceive('protectedBar')->andReturn('notbar');
+        $mock->shouldReceive('protectedBar')
+            ->andReturn('notbar');
         self::assertEquals('notbar', $mock->bar());
     }
 
