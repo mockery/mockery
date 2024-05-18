@@ -885,8 +885,8 @@ class Mockery
                 $name = $publicProperty->getName();
                 try {
                     $cleanedProperties[$name] = self::cleanupNesting($object->{$name}, $nesting);
-                } catch (Exception $exception) {
-                    $cleanedProperties[$name] = $exception->getMessage();
+                } catch (Throwable $throwable) {
+                    $cleanedProperties[$name] = $throwable->getMessage();
                 }
             }
         }
