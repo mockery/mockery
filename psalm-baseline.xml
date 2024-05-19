@@ -5350,6 +5350,21 @@
       <code><![CDATA[WithFormatterExpectationTest]]></code>
     </UnusedClass>
   </file>
+  <file src="tests/Unit/PHP74/TestCase1132Test.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA['TestCase1132']]></code>
+    </ArgumentTypeCoercion>
+    <MixedMethodCall>
+      <code><![CDATA[saveDummy]]></code>
+    </MixedMethodCall>
+    <UndefinedClass>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[TestCase1132Test]]></code>
+    </UnusedClass>
+  </file>
   <file src="tests/Unit/PHP74/TestCase1402Test.php">
     <InvalidArgument>
       <code><![CDATA[[1]]]></code>
