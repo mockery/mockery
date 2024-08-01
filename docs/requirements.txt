@@ -10,7 +10,7 @@ MarkupSafe==2.1.5
 packaging==24.0
 Pygments==2.17.2
 requests==2.32.0
-setuptools==69.2.0
+setuptools==70.0.0
 snowballstemmer==2.2.0
 Sphinx==7.3.7
 sphinx-rtd-theme==2.0.0
