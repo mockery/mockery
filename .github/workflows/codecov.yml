@@ -55,9 +55,13 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
+          directory: ${{ github.workspace }}/.cache/phpunit/
           token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
 
       - name: Upload test results to Codecov
         uses: codecov/test-results-action@v1
         with:
+          directory: ${{ github.workspace }}/.cache/phpunit/
           token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
