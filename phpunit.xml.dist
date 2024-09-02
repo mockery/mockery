@@ -26,6 +26,9 @@
             <text outputFile=".cache/phpunit/coverage.txt"/>
         </report>
     </coverage>
+    <logging>
+        <junit outputFile=".cache/phpunit/junit.xml"/>
+    </logging>
     <testsuites>
         <testsuite name="default">
             <directory>tests</directory>
