@@ -20,9 +20,10 @@ php_versions=(
 )
 
 projects=(
-    "laravel/framework"
-    "Brain-WP/BrainMonkey"
     "filp/whoops"
+    "thephpleague/glide"
+    "10up/wp_mock"
+    "laravel/framework"
 )
 
 mockery_path="$(pwd)"
@@ -44,7 +45,7 @@ echo "Mockery path: $mockery_path"
 echo "Resource path: $resources_path"
 echo " "
 
-
+rm -rf "$resources_path" || { echo "Failed to remove directory $resources_path"; exit 1; }
 mkdir -p "$resources_path" || { echo "Failed to create directory $resources_path"; exit 1; }
 cd "$resources_path" || { echo "Failed to change directory to $resources_path"; exit 1; }
 
@@ -53,7 +54,7 @@ do
     project_path="$resources_path/$project"
 
     if [ ! -d "$project_path" ]; then
-        echo "Cloning $project to $project_path"
+        echo "Cloning $project to $project_path\n\n"
 
         git clone "git@github.com:$project.git" "$project_path" --depth=1 || { echo "Failed to clone $project"; exit 1; }
     else
@@ -72,7 +73,7 @@ do
     do
         echo "Running PHPUnit for PHP version $php_version"
 
-        docker run -it --rm -v "$mockery_path":/opt/mockery -v "$project_path":/opt/workspace -w /opt/workspace ghcr.io/ghostwriter/php:"$php_version"-pcov sh -c "composer config repositories.local '{\"type\": \"path\", \"url\": \"/opt/mockery\"}' && composer require 'mockery/mockery:$mockery_version' --with-dependencies --ignore-platform-reqs --no-scripts --no-plugins --dev --no-interaction && php vendor/bin/phpunit" || { echo "Failed to run PHPUnit for $project PHP version $php_version"; exit 1; }
+        docker run -it --rm -v "$mockery_path":/opt/mockery -v "$project_path":/opt/workspace -w /opt/workspace ghcr.io/ghostwriter/php:"$php_version"-pcov sh -c "composer config repositories.local '{\"type\": \"path\", \"url\": \"/opt/mockery\"}' && composer require 'mockery/mockery:$mockery_version' --with-dependencies --ignore-platform-reqs --no-scripts --no-plugins --dev --no-interaction && php /opt/workspace/vendor/bin/phpunit" || { echo "Failed to run PHPUnit for $project PHP version $php_version"; exit 1; }
     done
 done
 
