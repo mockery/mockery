@@ -38,6 +38,11 @@ if (! \function_exists('anyArgs')) {
 
 if (! \function_exists('get_debug_type')) {
     /**
+     * Copied from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
+     *
+     * @copyright Fabien Potencier
+     * @license https://github.com/symfony/polyfill/blob/1.x/src/Php80/LICENSE
+     *
      * @param mixed $value
      */
     function get_debug_type($value): string
