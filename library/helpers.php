@@ -115,10 +115,9 @@ if (! \function_exists('namedMock')) {
      *
      * @param TMixed ...$args
      *
-     * @return ((LegacyMockInterface&TMixed)|(TMixed&MockInterface))
-     *
      * @throws Throwable
      *
+     * @return ((LegacyMockInterface&TMixed)|(MockInterface&TMixed))
      */
     function namedMock(...$args)
     {
@@ -132,9 +131,9 @@ if (! \function_exists('spy')) {
      *
      * @param TMixed ...$args
      *
-     * @return ((LegacyMockInterface&TMixed)|(TMixed&MockInterface))
-     *
      * @throws Throwable
+     * @return ((LegacyMockInterface&TMixed)|(MockInterface&TMixed))
+     *
      */
     function spy(...$args)
     {
@@ -154,7 +153,7 @@ if (! \function_exists('str_contains')) {
      */
     function str_contains(string $haystack, string $needle): bool
     {
-        return '' === $needle || false !== strpos($haystack, $needle);
+        return $needle === '' || \strpos($haystack, $needle) !== false;
     }
 }
 
@@ -170,17 +169,17 @@ if (! \function_exists('str_ends_with')) {
      */
     function str_ends_with(string $haystack, string $needle): bool
     {
-        if ('' === $needle || $needle === $haystack) {
+        if ($needle === '' || $needle === $haystack) {
             return true;
         }
 
-        if ('' === $haystack) {
+        if ($haystack === '') {
             return false;
         }
 
         $needleLength = \strlen($needle);
 
-        return $needleLength <= \strlen($haystack) && 0 === substr_compare($haystack, $needle, -$needleLength);
+        return $needleLength <= \strlen($haystack) && \substr_compare($haystack, $needle, -$needleLength) === 0;
     }
 }
 
@@ -196,6 +195,6 @@ if (! \function_exists('str_starts_with')) {
      */
     function str_starts_with(string $haystack, string $needle): bool
     {
-        return 0 === strncmp($haystack, $needle, \strlen($needle));
+        return \strncmp($haystack, $needle, \strlen($needle)) === 0;
     }
 }
