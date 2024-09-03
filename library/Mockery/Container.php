@@ -45,12 +45,14 @@ use function reset;
 use function rtrim;
 use function sprintf;
 use function str_contains;
+use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
 use function strlen;
 use function strtolower;
 use function substr;
 use function trait_exists;
+use function trim;
 
 /**
  * Container for mock objects
@@ -194,6 +196,10 @@ class Container
      */
     public function isValidClassName($className)
     {
+        if (trim($className) === '') {
+            return false;
+        }
+
         if ($className[0] === '\\') {
             $className = substr($className, 1); // remove the first backslash
         }
@@ -217,7 +223,7 @@ class Container
      *
      * @template TMock of object
      *
-     * @param (TMock|class-string<TMock>|array<class-string<TMock>|TMock|MockConfigurationBuilder>|(Closure((LegacyMockInterface&TMock)|(MockInterface&TMock)):void)) ...$args
+     * @param (array<class-string<TMock>|MockConfigurationBuilder|TMock>|class-string<TMock>|(Closure((LegacyMockInterface&TMock)|(MockInterface&TMock)):void)|TMock) ...$args
      *
      * @throws Throwable
      *
@@ -257,15 +263,15 @@ class Container
         if ($quickDefinitions !== []) {
             if (
                 Mockery::getConfiguration()
-                       ->getQuickDefinitions()
-                       ->shouldBeCalledAtLeastOnce()
+                    ->getQuickDefinitions()
+                    ->shouldBeCalledAtLeastOnce()
             ) {
                 $mock->shouldReceive($quickDefinitions)
-                     ->atLeast()
-                     ->once();
+                    ->atLeast()
+                    ->once();
             } else {
                 $mock->shouldReceive($quickDefinitions)
-                     ->byDefault();
+                    ->byDefault();
             }
         }
 
@@ -420,9 +426,9 @@ class Container
             );
 
             $exception->setMock($mock)
-                      ->setMethodName($method)
-                      ->setExpectedOrder($order)
-                      ->setActualOrder($this->_currentOrder);
+                ->setMethodName($method)
+                ->setExpectedOrder($order)
+                ->setActualOrder($this->_currentOrder);
 
             throw $exception;
         }
@@ -561,13 +567,14 @@ class Container
     /**
      * @template TMock of object
      *
+     * @throws Throwable
      * @return class-string<TMock>
      *
-     * @throws Throwable
      */
     private function generateMock(MockConfiguration $mockConfiguration): string
     {
-        $mockDefinition = $this->getGenerator()->generate($mockConfiguration);
+        $mockDefinition = $this->getGenerator()
+            ->generate($mockConfiguration);
 
         $className = $mockDefinition->getClassName();
 
@@ -579,7 +586,8 @@ class Container
             }
         }
 
-        $this->getLoader()->load($mockDefinition);
+        $this->getLoader()
+            ->load($mockDefinition);
 
         return $className;
     }
@@ -587,7 +595,7 @@ class Container
     /** @return null|Closure(MockInterface):void */
     private function handleClosure(array &$arguments): ?Closure
     {
-        if (2 > count($arguments)) {
+        if (count($arguments) < 2) {
             return null;
         }
 
@@ -607,8 +615,8 @@ class Container
     {
         $configuration = Mockery::getConfiguration();
         return $this->createBuilder($arguments)
-                    ->setParameterOverrides($configuration->getInternalClassMethodParamMaps())
-                    ->setConstantsMap($configuration->getConstantsMap());
+            ->setParameterOverrides($configuration->getInternalClassMethodParamMaps())
+            ->setConstantsMap($configuration->getConstantsMap());
     }
 
     /**
@@ -620,8 +628,11 @@ class Container
      *
      * @return (TMock&MockInterface)|(TMock&LegacyMockInterface)
      */
-    private function initializeMock(string $className, ?array $constructorArgs, MockConfiguration $mockConfiguration): object
-    {
+    private function initializeMock(
+        string $className,
+        ?array $constructorArgs,
+        MockConfiguration $mockConfiguration
+    ): object {
         $mock = $this->_getInstance($className, $constructorArgs);
         $mock->mockery_init($this, $mockConfiguration->getTargetObject(), $mockConfiguration->isInstanceMock());
         return $mock;
@@ -705,11 +716,11 @@ class Container
             if (str_starts_with($type, 'overload:')) {
                 $builder->addTarget(stdClass::class);
                 $builder->setInstanceMock(true);
-                $builder->setName(substr($type,9));
+                $builder->setName(substr($type, 9));
                 continue;
             }
 
-            if (str_ends_with($type, ']')){
+            if (str_ends_with($type, ']')) {
                 $parts = explode('[', $type);
                 $class = $parts[0];
 
