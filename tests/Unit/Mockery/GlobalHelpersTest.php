@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Matcher\AndAnyOtherArgs;
+use Mockery\Matcher\AnyArgs;
 use Mockery\MockInterface;
 use Throwable;
 
+use function andAnyOtherArgs;
+use function andAnyOthers;
+use function anyArgs;
 use function mock;
 use function namedMock;
 use function spy;
@@ -18,6 +23,30 @@ use function uniqid;
  */
 final class GlobalHelpersTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
+    public function testAndAnyOtherArgs(): void
+    {
+        self::assertInstanceOf(AndAnyOtherArgs::class, andAnyOtherArgs());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testAndAnyOthers(): void
+    {
+        self::assertInstanceOf(AndAnyOtherArgs::class, andAnyOthers());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testAnyArgs(): void
+    {
+        self::assertInstanceOf(AnyArgs::class, AnyArgs());
+    }
+
     public function testMockCreatesAMock(): void
     {
         $double = mock();
