@@ -241,7 +241,7 @@ final class ContainerTest extends MockeryTestCase
             self::markTestSkipped('phpredis not installed');
         }
 
-        mock(Redis::class);
+        self::assertInstanceOf(Redis::class, mock(Redis::class));
     }
 
     public function testCanMockClassesThatDescendFromInternalClasses(): void
@@ -1187,7 +1187,7 @@ final class ContainerTest extends MockeryTestCase
         if (! class_exists('Redis')) {
             self::markTestSkipped('PHPRedis extension required for this test');
         }
-        $m = mock(Redis::class);
+        self::assertInstanceOf(Redis::class, mock(Redis::class));
     }
 
     public function testNamedMockMultipleInterfaces(): void
