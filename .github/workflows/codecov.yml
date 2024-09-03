@@ -50,7 +50,7 @@ jobs:
           ${fullCommand}
 
       - name: Run PHPUnit to collect coverage
-        run: composer phpunit:coverage
+        run: composer phpunit
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
