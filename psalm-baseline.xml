@@ -1642,8 +1642,8 @@
   </file>
   <file src="library/helpers.php">
     <LessSpecificReturnType>
-      <code><![CDATA[((LegacyMockInterface&TMixed)|(TMixed&MockInterface))]]></code>
-      <code><![CDATA[((LegacyMockInterface&TMixed)|(TMixed&MockInterface))]]></code>
+      <code><![CDATA[((LegacyMockInterface&TMixed)|(MockInterface&TMixed))]]></code>
+      <code><![CDATA[((LegacyMockInterface&TMixed)|(MockInterface&TMixed))]]></code>
       <code><![CDATA[LegacyMockInterface|MockInterface]]></code>
     </LessSpecificReturnType>
     <MixedArgumentTypeCoercion>
@@ -1957,6 +1957,29 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/CallableSpyTest.php">
+    <InvalidFunctionCall>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy()]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(123)]]></code>
+      <code><![CDATA[$spy(456)]]></code>
+    </InvalidFunctionCall>
     <MissingClosureParamType>
       <code><![CDATA[$number]]></code>
     </MissingClosureParamType>
@@ -1967,85 +1990,15 @@
       <code><![CDATA[self::assertEquals(124, $spy(123))]]></code>
       <code><![CDATA[self::assertEquals(124, $spy(123))]]></code>
     </MissingThrowsDocblock>
-    <MixedFunctionCall>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(456)]]></code>
-    </MixedFunctionCall>
     <MixedMethodCall>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldHaveBeenCalled]]></code>
-      <code><![CDATA[shouldNotHaveBeenCalled]]></code>
-      <code><![CDATA[shouldNotHaveBeenCalled]]></code>
-      <code><![CDATA[shouldNotHaveBeenCalled]]></code>
-      <code><![CDATA[shouldNotHaveBeenCalled]]></code>
-      <code><![CDATA[shouldNotHaveBeenCalled]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
     </MixedMethodCall>
     <MixedOperand>
       <code><![CDATA[$number]]></code>
     </MixedOperand>
-    <PossiblyInvalidFunctionCall>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy()]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(123)]]></code>
-      <code><![CDATA[$spy(456)]]></code>
-    </PossiblyInvalidFunctionCall>
-    <PossiblyUndefinedMethod>
+    <UndefinedInterfaceMethod>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
@@ -2054,7 +2007,7 @@
       <code><![CDATA[with]]></code>
       <code><![CDATA[with]]></code>
       <code><![CDATA[with]]></code>
-    </PossiblyUndefinedMethod>
+    </UndefinedInterfaceMethod>
     <UnusedClass>
       <code><![CDATA[CallableSpyTest]]></code>
     </UnusedClass>
