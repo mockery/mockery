@@ -14,6 +14,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 final class TestCase1439Test extends MockeryTestCase
 {
+    /** @throws \Throwable */
     public function testDescription(): void
     {
         // Mock the SOAP client
