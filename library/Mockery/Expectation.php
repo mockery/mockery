@@ -559,8 +559,14 @@ class Expectation implements ExpectationInterface
      */
     public function matchArgs(array $args)
     {
-        if ($this->isArgumentListMatcher()) {
-            return $this->_matchArg($this->_expectedArgs[0], $args);
+        if ($this->_expectedArgs !== []) {
+            foreach ($this->_expectedArgs as $expectedArg) {
+                if (!$expectedArg instanceof ArgumentListMatcher) {
+                    continue;
+                }
+
+                return $this->_matchArg($expectedArg, $args);
+            }
         }
 
         $argCount = count($args);
@@ -964,10 +970,10 @@ class Expectation implements ExpectationInterface
      */
     protected function _matchArgs($args)
     {
-        for ($index = 0, $argCount = count($args); $index < $argCount; ++$index) {
+        foreach ($this->_expectedArgs as $index => $expectedArg) {
             $param = &$args[$index];
 
-            if (! $this->_matchArg($this->_expectedArgs[$index], $param)) {
+            if (! $this->_matchArg($expectedArg, $param)) {
                 return false;
             }
         }
@@ -1021,16 +1027,6 @@ class Expectation implements ExpectationInterface
     private function isAndAnyOtherArgumentsMatcher($expectedArg)
     {
         return $expectedArg instanceof AndAnyOtherArgs;
-    }
-
-    /**
-     * Check if the registered expectation is an ArgumentListMatcher
-     *
-     * @return bool
-     */
-    private function isArgumentListMatcher()
-    {
-        return $this->_expectedArgs !== [] && $this->_expectedArgs[0] instanceof ArgumentListMatcher;
     }
 
     /**
