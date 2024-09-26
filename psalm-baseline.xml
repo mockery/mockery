@@ -591,6 +591,9 @@
       <code><![CDATA[times]]></code>
     </MissingThrowsDocblock>
     <MixedArgument>
+      <code><![CDATA[$args]]></code>
+      <code><![CDATA[$args]]></code>
+      <code><![CDATA[$args]]></code>
       <code><![CDATA[$code]]></code>
       <code><![CDATA[$exception]]></code>
       <code><![CDATA[$groups]]></code>
@@ -608,6 +611,7 @@
     </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$arg]]></code>
+      <code><![CDATA[$expectedArg]]></code>
       <code><![CDATA[$expectedArg]]></code>
       <code><![CDATA[$groups]]></code>
       <code><![CDATA[$lastExpectedArgument]]></code>
@@ -663,10 +667,6 @@
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </PossiblyNullPropertyAssignmentValue>
-    <PossiblyUndefinedIntArrayOffset>
-      <code><![CDATA[$this->_expectedArgs[0]]]></code>
-      <code><![CDATA[$this->_expectedArgs[0]]]></code>
-    </PossiblyUndefinedIntArrayOffset>
     <PossiblyUndefinedMethod>
       <code><![CDATA[mockery_isInstance]]></code>
     </PossiblyUndefinedMethod>
@@ -5361,6 +5361,18 @@
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[Php82LanguageFeaturesTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/PHP82/TestCase1439Test.php">
+    <MixedMethodCall>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[withArgs]]></code>
+    </MixedMethodCall>
+    <UndefinedMagicMethod>
+      <code><![CDATA[expects]]></code>
+    </UndefinedMagicMethod>
+    <UnusedClass>
+      <code><![CDATA[TestCase1439Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP84/Php84LanguageFeaturesTest.php">
