@@ -3,6 +3,6 @@
   <phar name="infection" version="^0.29.6" installed="0.29.6" location="./tools/infection" copy="true"/>
   <phar name="phar-io/phive" version="^0.15.3" installed="0.15.3" location="./tools/phive" copy="true"/>
   <phar name="phpdocumentor" version="^3.5.3" installed="3.5.3" location="./tools/phpdocumentor" copy="true"/>
-  <phar name="phpunit" version="^11.2.9" installed="11.2.9" location="./tools/phpunit" copy="true"/>
+  <phar name="phpunit" version="^11.3.6" installed="11.3.6" location="./tools/phpunit" copy="true"/>
   <phar name="psalm" version="^5.26.1" installed="5.26.1" location="./tools/psalm" copy="true"/>
 </phive>
