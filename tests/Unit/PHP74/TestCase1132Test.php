@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\PHP74;
+namespace Tests\Unit\PHP74;
 
 use Mockery;
 use Mockery\Exception\NoMatchingExpectationException;

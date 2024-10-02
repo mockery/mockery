@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mockery\Tests\Unit\PHP83;
+namespace Tests\Unit\PHP83;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
