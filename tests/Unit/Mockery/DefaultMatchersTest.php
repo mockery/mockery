@@ -12,8 +12,6 @@ use PHP73\CustomValueObject;
 use PHP73\CustomValueObjectInterface;
 use PHP73\CustomValueObjectMatcher;
 
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -23,7 +21,7 @@ final class DefaultMatchersTest extends MockeryTestCase
 
     protected function mockeryTestSetUp(): void
     {
-        $this->mock = mock('foo');
+        $this->mock = \mock('foo');
     }
 
     public function mockeryTestTearDown(): void

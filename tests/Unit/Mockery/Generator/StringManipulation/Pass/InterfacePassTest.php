@@ -9,8 +9,6 @@ use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use PHPUnit\Framework\TestCase;
 
-use function mb_strpos;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -35,7 +33,7 @@ final class InterfacePassTest extends TestCase
 
         $code = $pass->apply(self::CODE, $config);
 
-        self::assertNotFalse(mb_strpos($code, 'implements MockInterface, \Dave\Dave, \Paddy\Paddy'));
+        self::assertNotFalse(\mb_strpos($code, 'implements MockInterface, \Dave\Dave, \Paddy\Paddy'));
     }
 
     public function testShouldNotAlterCodeIfNoTargetInterfaces(): void
@@ -47,6 +45,6 @@ final class InterfacePassTest extends TestCase
         ]);
 
         $code = $pass->apply(self::CODE, $config);
-        self::assertEquals(self::CODE, $code);
+        self::assertSame(self::CODE, $code);
     }
 }

@@ -11,8 +11,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Stubs\Animal;
 use Stubs\Habitat;
 
-use function uniqid;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -40,12 +38,12 @@ final class NamedMockTest extends MockeryTestCase
         ]);
 
         self::assertInstanceOf(DateTime::class, $mock);
-        self::assertEquals('dave', $mock->getDave());
+        self::assertSame('dave', $mock->getDave());
     }
 
     public function testItGracefullyHandlesNamespacing(): void
     {
-        $animal = Mockery::namedMock(uniqid(Animal::class, false), Animal::class);
+        $animal = Mockery::namedMock(\uniqid(Animal::class, false), Animal::class);
 
         $animal->shouldReceive('habitat')
             ->andReturn(new Habitat());

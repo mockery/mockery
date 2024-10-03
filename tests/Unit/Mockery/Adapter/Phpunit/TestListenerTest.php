@@ -13,8 +13,6 @@ use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Blacklist;
 use ReflectionClass;
 
-use function method_exists;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -65,7 +63,7 @@ final class TestListenerTest extends MockeryTestCase
     {
         $suite = Mockery::mock(TestSuite::class);
 
-        if (method_exists(Blacklist::class, 'addDirectory')) {
+        if (\method_exists(Blacklist::class, 'addDirectory')) {
             self::assertFalse(
                 (new Blacklist())->isBlacklisted((new ReflectionClass(Mockery::class))->getFileName())
             );

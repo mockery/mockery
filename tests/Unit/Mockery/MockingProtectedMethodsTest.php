@@ -17,42 +17,42 @@ final class MockingProtectedMethodsTest extends MockeryTestCase
 {
     public function testShouldAllowMockingAbstractProtectedMethods(): void
     {
-        $mock = mock(TestWithProtectedMethods::class)
+        $mock = \mock(TestWithProtectedMethods::class)
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive('abstractProtected')
             ->andReturn('abstractProtected');
-        self::assertEquals('abstractProtected', $mock->foo());
+        self::assertSame('abstractProtected', $mock->foo());
     }
 
     public function testShouldAllowMockingIncreasedVisabilityMethods(): void
     {
-        $mock = mock(TestIncreasedVisibilityChild::class);
+        $mock = \mock(TestIncreasedVisibilityChild::class);
         $mock->shouldReceive('foobar')
             ->andReturn('foobar');
-        self::assertEquals('foobar', $mock->foobar());
+        self::assertSame('foobar', $mock->foobar());
     }
 
     public function testShouldAllowMockingProtectedMethodOnDefinitionTimePartial(): void
     {
-        $mock = mock(TestWithProtectedMethods::class . '[protectedBar]')
+        $mock = \mock(TestWithProtectedMethods::class . '[protectedBar]')
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive('protectedBar')
             ->andReturn('notbar');
-        self::assertEquals('notbar', $mock->bar());
+        self::assertSame('notbar', $mock->bar());
     }
 
     public function testShouldAllowMockingProtectedMethods(): void
     {
-        $mock = mock(TestWithProtectedMethods::class)
+        $mock = \mock(TestWithProtectedMethods::class)
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
         $mock->shouldReceive('protectedBar')
             ->andReturn('notbar');
-        self::assertEquals('notbar', $mock->bar());
+        self::assertSame('notbar', $mock->bar());
     }
 
     /**
@@ -61,9 +61,9 @@ final class MockingProtectedMethodsTest extends MockeryTestCase
      */
     public function testShouldAutomaticallyDeferCallsToProtectedMethodsForPartials(): void
     {
-        $mock = mock(TestWithProtectedMethods::class . '[foo]');
+        $mock = \mock(TestWithProtectedMethods::class . '[foo]');
 
-        self::assertEquals('bar', $mock->bar());
+        self::assertSame('bar', $mock->bar());
     }
 
     /**
@@ -72,13 +72,13 @@ final class MockingProtectedMethodsTest extends MockeryTestCase
      */
     public function testShouldAutomaticallyDeferCallsToProtectedMethodsForRuntimePartials(): void
     {
-        $mock = mock(TestWithProtectedMethods::class)->makePartial();
-        self::assertEquals('bar', $mock->bar());
+        $mock = \mock(TestWithProtectedMethods::class)->makePartial();
+        self::assertSame('bar', $mock->bar());
     }
 
     public function testShouldAutomaticallyIgnoreAbstractProtectedMethods(): void
     {
-        $mock = mock(TestWithProtectedMethods::class)->makePartial();
+        $mock = \mock(TestWithProtectedMethods::class)->makePartial();
         self::assertNull($mock->foo());
     }
 }

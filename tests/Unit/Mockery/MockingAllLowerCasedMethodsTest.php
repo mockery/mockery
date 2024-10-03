@@ -8,8 +8,6 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\ClassWithAllLowerCaseMethod;
 
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -21,7 +19,7 @@ final class MockingAllLowerCasedMethodsTest extends MockeryTestCase
 
         $expected = 'mocked';
 
-        $mock = mock(ClassWithAllLowerCaseMethod::class);
+        $mock = \mock(ClassWithAllLowerCaseMethod::class);
 
         $mock->shouldReceive('userExpectsCamelCaseMethod')
             ->andReturn($expected);

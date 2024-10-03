@@ -9,16 +9,13 @@ use Mockery\Generator\MockDefinition;
 use Mockery\Loader\Loader;
 use PHPUnit\Framework\TestCase;
 
-use function class_exists;
-use function uniqid;
-
 abstract class LoaderTestCase extends TestCase
 {
     abstract public function getLoader(): Loader;
 
     public function testLoad(): void
     {
-        $className = uniqid('Mock_', false);
+        $className = \uniqid('Mock_', false);
 
         $config = new MockConfiguration([], [], [], $className);
 
@@ -29,6 +26,6 @@ abstract class LoaderTestCase extends TestCase
         $this->getLoader()
             ->load($definition);
 
-        self::assertTrue(class_exists($className));
+        self::assertTrue(\class_exists($className));
     }
 }

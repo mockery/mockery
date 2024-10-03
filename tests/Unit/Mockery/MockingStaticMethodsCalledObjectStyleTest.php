@@ -8,8 +8,6 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\ClassWithStaticMethods;
 
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -18,7 +16,7 @@ final class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase
     public function testProtectedStaticMethodCalledObjectStyleMockWithNotAllowingMockingOfNonExistentMethods(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(ClassWithStaticMethods::class);
+        $mock = \mock(ClassWithStaticMethods::class);
         $mock->shouldAllowMockingProtectedMethods();
         $mock->shouldReceive('protectedBar')
             ->andReturn(true);
@@ -28,7 +26,7 @@ final class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase
 
     public function testStaticMethodCalledObjectStyleMock(): void
     {
-        $mock = mock(ClassWithStaticMethods::class);
+        $mock = \mock(ClassWithStaticMethods::class);
         $mock->shouldReceive('foo')
             ->andReturn(true);
         self::assertTrue($mock->foo());
@@ -37,7 +35,7 @@ final class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase
     public function testStaticMethodCalledObjectStyleMockWithNotAllowingMockingOfNonExistentMethods(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(ClassWithStaticMethods::class);
+        $mock = \mock(ClassWithStaticMethods::class);
         $mock->shouldReceive('foo')
             ->andReturn(true);
         self::assertTrue($mock->foo());

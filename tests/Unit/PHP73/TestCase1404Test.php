@@ -11,7 +11,7 @@ use PDOStatement;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass Mockery
+ * @coversDefaultClass \Mockery
  * @requires PHP 7.3
  * @see https://github.com/mockery/mockery/issues/1404
  */
@@ -20,7 +20,7 @@ final class TestCase1404Test extends TestCase
     /**
      * @return Generator<string,list<string>>
      */
-    public static function provideResult(): Generator
+    public static function provideResult(): iterable
     {
         yield from [
             'empty' => [[]],

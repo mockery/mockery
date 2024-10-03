@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
-use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
 use Mockery\Generator\UndefinedTargetClass;
-
-use function file_get_contents;
-use function mock;
 
 /**
  * @coversDefaultClass \Mockery
@@ -23,7 +19,7 @@ class ClassAttributesPassTest extends MockeryTestCase
     /**
      * @see testCanApplyClassAttributes
      */
-    public static function providerCanApplyClassAttributes(): Generator
+    public static function provideCanApplyClassAttributesCases(): iterable
     {
         yield 'has no attributes' => [
             'attributes' => [],
@@ -42,23 +38,23 @@ class ClassAttributesPassTest extends MockeryTestCase
     }
 
     /**
-     * @dataProvider providerCanApplyClassAttributes
+     * @dataProvider provideCanApplyClassAttributesCases
      */
     public function testCanApplyClassAttributes(array $attributes, string $expected): void
     {
-        $undefinedTargetClass = mock(UndefinedTargetClass::class);
+        $undefinedTargetClass = \mock(UndefinedTargetClass::class);
         $undefinedTargetClass->expects('getAttributes')
             ->once()
             ->andReturn($attributes);
 
-        $config = mock(MockConfiguration::class);
+        $config = \mock(MockConfiguration::class);
         $config->expects('getTargetClass')
             ->once()
             ->andReturn($undefinedTargetClass);
 
         $pass = new ClassAttributesPass();
 
-        $code = $pass->apply(file_get_contents(__FILE__), $config);
+        $code = $pass->apply(\file_get_contents(__FILE__), $config);
 
         self::assertStringContainsString($expected, $code);
     }

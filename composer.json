@@ -59,9 +59,6 @@
         "psr-4": {
             "Mockery\\": "library/Mockery"
         },
-        "exclude-from-classmap": [
-            "tests/Fixture"
-        ],
         "files": [
             "library/helpers.php",
             "library/Mockery.php"
@@ -69,8 +66,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Unit\\": "tests/Unit"
+            "Tests\\": "tests"
         },
+        "exclude-from-classmap": [
+            "tests/Fixture"
+        ],
         "files": [
             "tests/Fixture/autoload.php",
             "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"

@@ -19,9 +19,6 @@ use PHP80\ReturnTypeUnionTypeHint;
 use stdClass;
 use Traversable;
 
-use function mock;
-use function spy;
-
 /**
  * @requires PHP 8.0.0-dev
  * @coversDefaultClass \Mockery
@@ -30,7 +27,7 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 {
     public function testItCanMockAClassWithAMixedArgumentTypeHint(): void
     {
-        $mock = mock(ArgumentMixedTypeHint::class);
+        $mock = \mock(ArgumentMixedTypeHint::class);
         $object = new stdClass();
         $mock->allows()
             ->foo($object)
@@ -41,14 +38,14 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 
     public function testItCanMockAClassWithAMixedReturnTypeHint(): void
     {
-        $mock = spy(ReturnTypeMixedTypeHint::class);
+        $mock = \spy(ReturnTypeMixedTypeHint::class);
 
         self::assertNull($mock->foo());
     }
 
     public function testItCanMockAClassWithAParentArgumentTypeHint(): void
     {
-        $mock = mock(ArgumentParentTypeHint::class);
+        $mock = \mock(ArgumentParentTypeHint::class);
         $object = new ArgumentParentTypeHint();
         $mock->allows()
             ->foo($object)
@@ -59,14 +56,14 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 
     public function testItCanMockAClassWithAParentReturnTypeHint(): void
     {
-        $mock = spy(ReturnTypeParentTypeHint::class);
+        $mock = \spy(ReturnTypeParentTypeHint::class);
 
         self::assertInstanceOf(stdClass::class, $mock->foo());
     }
 
     public function testItCanMockAClassWithAUnionArgumentTypeHint(): void
     {
-        $mock = mock(ArgumentUnionTypeHint::class);
+        $mock = \mock(ArgumentUnionTypeHint::class);
         $object = new ArgumentUnionTypeHint();
         $mock->allows()
             ->foo($object)
@@ -77,7 +74,7 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 
     public function testItCanMockAClassWithAUnionArgumentTypeHintIncludingNull(): void
     {
-        $mock = mock(ArgumentUnionTypeHintWithNull::class);
+        $mock = \mock(ArgumentUnionTypeHintWithNull::class);
         $mock->allows()
             ->foo(null)
             ->once();
@@ -87,14 +84,14 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 
     public function testItCanMockAClassWithAUnionReturnTypeHint(): void
     {
-        $mock = spy(ReturnTypeUnionTypeHint::class);
+        $mock = \spy(ReturnTypeUnionTypeHint::class);
 
         self::assertIsObject($mock->foo());
     }
 
     public function testMockingIteratorAggregateDoesNotImplementIterator(): void
     {
-        $mock = mock(ImplementsIteratorAggregate::class);
+        $mock = \mock(ImplementsIteratorAggregate::class);
         self::assertInstanceOf(IteratorAggregate::class, $mock);
         self::assertInstanceOf(Traversable::class, $mock);
         self::assertNotInstanceOf(Iterator::class, $mock);
@@ -102,7 +99,7 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 
     public function testMockingIteratorDoesNotImplementIterator(): void
     {
-        $mock = mock(ImplementsIterator::class);
+        $mock = \mock(ImplementsIterator::class);
         self::assertInstanceOf(Iterator::class, $mock);
         self::assertInstanceOf(Traversable::class, $mock);
     }

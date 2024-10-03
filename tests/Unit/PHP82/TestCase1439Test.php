@@ -6,6 +6,8 @@ namespace Tests\Unit\PHP82;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use SoapClient;
+use Throwable;
 
 /**
  * @coversDefaultClass \Mockery\Expectation
@@ -14,11 +16,13 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 final class TestCase1439Test extends MockeryTestCase
 {
-    /** @throws \Throwable */
+    /**
+     * @throws Throwable
+     */
     public function testDescription(): void
     {
         // Mock the SOAP client
-        $soapClientMock = Mockery::mock(\SoapClient::class);
+        $soapClientMock = Mockery::mock(SoapClient::class);
 
         // Method we will be calling
         $methodName = 'testMethod';
@@ -39,7 +43,7 @@ final class TestCase1439Test extends MockeryTestCase
             ->andReturn($expectedResult);
 
         // Simulate the call
-        $response = call_user_func_array([$soapClientMock, $methodName], $params);
+        $response = \call_user_func_array([$soapClientMock, $methodName], $params);
 
         self::assertSame($expectedResult, $response);
     }

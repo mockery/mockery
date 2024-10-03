@@ -10,8 +10,6 @@ use Mockery\Container;
 use PHP73\MethodWithNullableReturnType;
 use TypeError;
 
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -61,7 +59,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowClassToBeSet(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nonNullableClass')
             ->andReturn(new MethodWithNullableReturnType())
@@ -72,7 +70,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowNonNullableTypeToBeSet(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nonNullablePrimitive')
             ->andReturn('a string')
@@ -82,7 +80,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowNullableClassToBeNull(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nullableClass')
             ->andReturn(null)
@@ -92,7 +90,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowNullableSelfToBeNull(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nullableSelf')
             ->andReturn(null)
@@ -102,7 +100,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowNullableSelfToBeSet(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nullableSelf')
             ->andReturn(new MethodWithNullableReturnType())
@@ -112,7 +110,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowNullalbeClassToBeSet(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nullableClass')
             ->andReturn(new MethodWithNullableReturnType())
@@ -122,7 +120,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowPrimitiveNullableToBeNull(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nullablePrimitive')
             ->andReturn(null)
@@ -132,7 +130,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowPrimitiveNullableToBeSet(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nullablePrimitive')
             ->andReturn('a string')
@@ -142,7 +140,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldAllowSelfToBeSet(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nonNullableSelf')
             ->andReturn(new MethodWithNullableReturnType())
@@ -152,7 +150,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldNotAllowClassToBeNull(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nonNullableClass')
             ->andReturn(null);
@@ -162,7 +160,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldNotAllowNonNullToBeNull(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nonNullablePrimitive')
             ->andReturn(null);
@@ -172,7 +170,7 @@ final class MockingNullableMethodsTest extends MockeryTestCase
 
     public function testItShouldNotAllowSelfToBeNull(): void
     {
-        $mock = mock(MethodWithNullableReturnType::class);
+        $mock = \mock(MethodWithNullableReturnType::class);
 
         $mock->shouldReceive('nonNullableSelf')
             ->andReturn(null);

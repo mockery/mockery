@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\PHP82;
 
-use Generator;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Reflector;
@@ -24,15 +23,13 @@ use PHP82\TestTwo;
 use ReflectionClass;
 use ReflectionType;
 
-use function mock;
-
 /**
  * @requires PHP 8.2.0-dev
  * @coversDefaultClass \Mockery
  */
 final class Php82LanguageFeaturesTest extends MockeryTestCase
 {
-    public static function parameterContraVarianceDataProvider(): Generator
+    public static function provideMockParameterDisjunctiveNormalFormTypesCases(): iterable
     {
         $fixtures = [Sut::class, TestOne::class, TestTwo::class, TestThree::class];
 
@@ -41,7 +38,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         }
     }
 
-    public static function returnCoVarianceDataProvider(): Generator
+    public static function provideMockReturnDisjunctiveNormalFormTypesCases(): iterable
     {
         $fixtures = [
             TestReturnCoVarianceOne::class,
@@ -56,7 +53,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     public function testCanMockReservedWordFalse(): void
     {
-        $mock = mock(HasReservedWordFalse::class);
+        $mock = \mock(HasReservedWordFalse::class);
 
         $mock->expects('testFalseMethod')
             ->once();
@@ -67,7 +64,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     public function testCanMockReservedWordTrue(): void
     {
-        $mock = mock(HasReservedWordTrue::class);
+        $mock = \mock(HasReservedWordTrue::class);
 
         $mock->expects('testTrueMethod')
             ->once();
@@ -78,7 +75,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     public function testCanMockUndefinedClasses(): void
     {
-        $class = mock('MockUnDefinedClass');
+        $class = \mock('MockUnDefinedClass');
 
         $class->foo = 'bar';
 
@@ -94,7 +91,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     /**
      * @param class-string $fullyQualifiedClassName
-     * @dataProvider parameterContraVarianceDataProvider
+     * @dataProvider provideMockParameterDisjunctiveNormalFormTypesCases
      */
     public function testMockParameterDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
@@ -104,7 +101,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
             ->getParameters()[0]
             ->getType();
 
-        $mock = mock($fullyQualifiedClassName);
+        $mock = \mock($fullyQualifiedClassName);
 
         $reflectionClass = new ReflectionClass($mock);
         $type = $reflectionClass->getMethod($expectedMethod->getName())
@@ -116,7 +113,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     /**
      * @param class-string $fullyQualifiedClassName
-     * @dataProvider returnCoVarianceDataProvider
+     * @dataProvider provideMockReturnDisjunctiveNormalFormTypesCases
      */
     public function testMockReturnDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
@@ -126,7 +123,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
         self::assertInstanceOf(ReflectionType::class, $expectedType);
 
-        $mock = mock($fullyQualifiedClassName);
+        $mock = \mock($fullyQualifiedClassName);
 
         $reflectionClass = new ReflectionClass($mock);
 

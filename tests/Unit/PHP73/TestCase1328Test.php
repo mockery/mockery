@@ -11,11 +11,8 @@ use Mockery\Exception\InvalidCountException;
 use Mockery\Expectation;
 use PHPUnit\Framework\TestCase;
 
-use function restore_error_handler;
-use function set_error_handler;
-
 /**
- * @coversDefaultClass Mockery
+ * @coversDefaultClass \Mockery
  * @requires PHP 7.3
  * @see https://github.com/mockery/mockery/issues/1328
  */
@@ -36,9 +33,9 @@ final class TestCase1328Test extends TestCase
 
     public function testThrowsInvalidArgumentExceptionForChainingAdditionalInvocationCountMethod(): void
     {
-        set_error_handler(
+        \set_error_handler(
             static function (int $errorCode, string $errorMessage): void {
-                restore_error_handler();
+                \restore_error_handler();
                 throw new InvalidArgumentException($errorMessage, $errorCode);
             },
             E_ALL
@@ -59,9 +56,9 @@ final class TestCase1328Test extends TestCase
 
     public function testThrowsInvalidArgumentExceptionWhenInvocationCountChanges(): void
     {
-        set_error_handler(
+        \set_error_handler(
             static function (int $errorCode, string $errorMessage): void {
-                restore_error_handler();
+                \restore_error_handler();
                 throw new InvalidArgumentException($errorMessage, $errorCode);
             },
             E_ALL

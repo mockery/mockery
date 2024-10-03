@@ -13,8 +13,6 @@ use PHP73\InterfaceWithCustomFormatter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-use function get_class;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -52,7 +50,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
         );
     }
 
-    public static function formatObjectsDataProvider(): array
+    public static function provideFormatObjectsCases(): iterable
     {
         return [
             [
@@ -73,7 +71,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
         ];
     }
 
-    public static function getObjectFormatterDataProvider(): array
+    public static function provideGetObjectFormatterCases(): iterable
     {
         return [
             [new stdClass(), null],
@@ -85,7 +83,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
     }
 
     /**
-     * @dataProvider formatObjectsDataProvider
+     * @dataProvider provideFormatObjectsCases
      */
     public function testFormatObjects($obj, $shouldContains, $shouldNotContains): void
     {
@@ -99,7 +97,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
     }
 
     /**
-     * @dataProvider getObjectFormatterDataProvider
+     * @dataProvider provideGetObjectFormatterCases
      */
     public function testGetObjectFormatter($object, $expected): void
     {
@@ -107,9 +105,9 @@ final class WithCustomFormatterExpectationTest extends TestCase
             return null;
         };
 
-        $formatter = Mockery::getConfiguration()->getObjectFormatter(get_class($object), $defaultFormatter);
+        $formatter = Mockery::getConfiguration()->getObjectFormatter(\get_class($object), $defaultFormatter);
         $formatted = $formatter($object, 1);
 
-        self::assertEquals($expected, $formatted ? $formatted['formatter'] : null);
+        self::assertSame($expected, $formatted ? $formatted['formatter'] : null);
     }
 }

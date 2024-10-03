@@ -35,11 +35,11 @@ final class MockClassWithFinalWakeupTest extends MockeryTestCase
     {
         $mock = $this->container->mock(TestWithFinalWakeup::class);
         self::assertInstanceOf(TestWithFinalWakeup::class, $mock);
-        self::assertEquals(TestWithFinalWakeup::class . '::__wakeup', $mock->__wakeup());
+        self::assertSame(TestWithFinalWakeup::class . '::__wakeup', $mock->__wakeup());
 
         $mock = $this->container->mock(SubclassWithFinalWakeup::class);
         self::assertInstanceOf(SubclassWithFinalWakeup::class, $mock);
-        self::assertEquals(TestWithFinalWakeup::class . '::__wakeup', $mock->__wakeup());
+        self::assertSame(TestWithFinalWakeup::class . '::__wakeup', $mock->__wakeup());
     }
 
     public function testCreateMockForClassWithNonFinalWakeup(): void

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Generator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Reflector;
 use PHP73\ChildClass;
@@ -19,7 +18,18 @@ use const PHP_VERSION_ID;
  */
 final class ReflectorTest extends MockeryTestCase
 {
-    public static function provideReservedWords(): Generator
+    public static function provideGetTypeHintCases(): iterable
+    {
+        $isPHPLessThan8 = PHP_VERSION_ID < 80000;
+
+        yield from [
+            [ParentClass::class, '\\' . ParentClass::class],
+            [ChildClass::class, '\\' . ParentClass::class],
+            NullableObject::class => [NullableObject::class, $isPHPLessThan8 ? '?object' : 'object|null'],
+        ];
+    }
+
+    public static function provideIsReservedWordCases(): iterable
     {
         foreach ([
             'bool',
@@ -40,7 +50,7 @@ final class ReflectorTest extends MockeryTestCase
     }
 
     /**
-     * @dataProvider typeHintDataProvider
+     * @dataProvider provideGetTypeHintCases
      */
     public function testGetTypeHint(string $class, string $expectedTypeHint): void
     {
@@ -52,21 +62,10 @@ final class ReflectorTest extends MockeryTestCase
     }
 
     /**
-     * @dataProvider provideReservedWords
+     * @dataProvider provideIsReservedWordCases
      */
     public function testIsReservedWord(string $type): void
     {
         self::assertTrue(Reflector::isReservedWord($type));
-    }
-
-    public static function typeHintDataProvider(): Generator
-    {
-        $isPHPLessThan8 = PHP_VERSION_ID < 80000;
-
-        yield from [
-            [ParentClass::class, '\\' . ParentClass::class],
-            [ChildClass::class, '\\' . ParentClass::class],
-            NullableObject::class => [NullableObject::class, $isPHPLessThan8 ? '?object' : 'object|null'],
-        ];
     }
 }

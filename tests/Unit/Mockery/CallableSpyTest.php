@@ -7,8 +7,6 @@ namespace Tests\Unit\Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\InvalidCountException;
 
-use function spy;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -16,17 +14,17 @@ final class CallableSpyTest extends MockeryTestCase
 {
     public function testItActsAsPartial(): void
     {
-        $spy = spy(function ($number) {
+        $spy = \spy(function ($number) {
             return $number + 1;
         });
 
-        self::assertEquals(124, $spy(123));
+        self::assertSame(124, $spy(123));
         $spy->shouldHaveBeenCalled();
     }
 
     public function testItCanVerifyItWasCalledANumberOfTimes(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
         $spy();
@@ -37,7 +35,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItCanVerifyItWasCalledANumberOfTimesWithParticularArguments(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy(123);
         $spy(123);
@@ -49,7 +47,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfItWasCalledLessThanTheNumberOfTimesWeExpected(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
 
@@ -60,7 +58,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfItWasCalledLessThanTheNumberOfTimesWeExpectedWithParticularArguments(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
         $spy(123);
@@ -73,7 +71,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfItWasCalledMoreThanTheNumberOfTimesWeExpected(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
         $spy();
@@ -86,7 +84,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfItWasCalledMoreThanTheNumberOfTimesWeExpectedWithParticularArguments(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy(123);
         $spy(123);
@@ -100,7 +98,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfItWasCalledWhenWeExpectedItToNotHaveBeenCalled(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
 
@@ -110,7 +108,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfItWasCalledWithTheArgsWeWereNotExpecting(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy(123);
 
@@ -120,7 +118,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfTheArgumentsDoNotMatch(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy(123);
 
@@ -131,7 +129,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfTheCallableWasNotCalledAtAll(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $this->expectException(InvalidCountException::class);
         $spy->shouldHaveBeenCalled();
@@ -139,7 +137,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItThrowsIfThereWereNoArgumentsButWeExpectedSome(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
 
@@ -150,7 +148,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItVerifiesItWasNotCalledWithSomeParticularArgumentsWhenCalledWithDifferentArgs(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy(456);
 
@@ -159,7 +157,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItVerifiesItWasNotCalledWithSomeParticularArgumentsWhenCalledWithNoArgs(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
 
@@ -168,7 +166,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItVerifiesTheClosureWasCalled(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy();
 
@@ -177,7 +175,7 @@ final class CallableSpyTest extends MockeryTestCase
 
     public function testItVerifiesTheClosureWasNotCalled(): void
     {
-        $spy = spy(function (): void {});
+        $spy = \spy(function (): void {});
 
         $spy->shouldNotHaveBeenCalled();
     }

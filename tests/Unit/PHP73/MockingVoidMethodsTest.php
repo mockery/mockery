@@ -7,8 +7,6 @@ namespace Tests\Unit\PHP73;
 use PHP73\MethodWithVoidReturnType;
 use Tests\Unit\AbstractTestCase;
 
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -16,7 +14,7 @@ final class MockingVoidMethodsTest extends AbstractTestCase
 {
     public function testItCanStubAndMockVoidMethods(): void
     {
-        $mock = mock(MethodWithVoidReturnType::class);
+        $mock = \mock(MethodWithVoidReturnType::class);
 
         $mock->expects('foo');
 
@@ -25,6 +23,6 @@ final class MockingVoidMethodsTest extends AbstractTestCase
 
     public function testItShouldSuccessfullyBuildTheMock(): void
     {
-        self::assertInstanceOf(MethodWithVoidReturnType::class, mock(MethodWithVoidReturnType::class));
+        self::assertInstanceOf(MethodWithVoidReturnType::class, \mock(MethodWithVoidReturnType::class));
     }
 }

@@ -8,8 +8,6 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\InvalidCountException;
 
-use function anyArgs;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -21,7 +19,7 @@ final class SpyTest extends MockeryTestCase
         $spy->foo(123, 456);
 
         $spy->shouldHaveReceived()
-            ->foo(anyArgs());
+            ->foo(\anyArgs());
     }
 
     public function testItIncrementsExpectationCountWhenShouldHaveReceivedIsUsed(): void
@@ -30,14 +28,14 @@ final class SpyTest extends MockeryTestCase
         $spy->myMethod('param1', 'param2');
         $spy->shouldHaveReceived('myMethod')
             ->with('param1', 'param2');
-        self::assertEquals(1, $spy->mockery_getExpectationCount());
+        self::assertSame(1, $spy->mockery_getExpectationCount());
     }
 
     public function testItIncrementsExpectationCountWhenShouldNotHaveReceivedIsUsed(): void
     {
         $spy = Mockery::spy();
         $spy->shouldNotHaveReceived('method');
-        self::assertEquals(1, $spy->mockery_getExpectationCount());
+        self::assertSame(1, $spy->mockery_getExpectationCount());
     }
 
     public function testItVerifiesAMethodWasCalled(): void

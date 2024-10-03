@@ -36,20 +36,13 @@
             <exclude>tests/Fixture</exclude>
         </testsuite>
         <testsuite name="php">
-            <directory phpVersion="7.3.0-dev">tests/**/**/PHP73</directory>
-            <directory phpVersion="7.3.0-dev">tests/**/PHP73</directory>
-            <directory phpVersion="7.4.0-dev">tests/**/**/PHP74</directory>
-            <directory phpVersion="7.4.0-dev">tests/**/PHP74</directory>
-            <directory phpVersion="8.0.0-dev">tests/**/**/PHP80</directory>
-            <directory phpVersion="8.0.0-dev">tests/**/PHP80</directory>
-            <directory phpVersion="8.1.0-dev">tests/**/**/PHP81</directory>
-            <directory phpVersion="8.1.0-dev">tests/**/PHP81</directory>
-            <directory phpVersion="8.2.0-dev">tests/**/**/PHP82</directory>
-            <directory phpVersion="8.2.0-dev">tests/**/PHP82</directory>
-            <directory phpVersion="8.3.0-dev">tests/**/**/PHP83</directory>
-            <directory phpVersion="8.3.0-dev">tests/**/PHP83</directory>
-            <directory phpVersion="8.4.0-dev">tests/**/**/PHP84</directory>
-            <directory phpVersion="8.4.0-dev">tests/**/PHP84</directory>
+            <directory phpVersion="7.3.0-dev">tests/Unit/PHP73</directory>
+            <directory phpVersion="7.4.0-dev">tests/Unit/PHP74</directory>
+            <directory phpVersion="8.0.0-dev">tests/Unit/PHP80</directory>
+            <directory phpVersion="8.1.0-dev">tests/Unit/PHP81</directory>
+            <directory phpVersion="8.2.0-dev">tests/Unit/PHP82</directory>
+            <directory phpVersion="8.3.0-dev">tests/Unit/PHP83</directory>
+            <directory phpVersion="8.4.0-dev">tests/Unit/PHP84</directory>
             <exclude>tests/Fixture</exclude>
         </testsuite>
     </testsuites>

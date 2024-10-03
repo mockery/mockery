@@ -21,7 +21,7 @@ final class MockConfigurationBuilderTest extends TestCase
         $methods = $builder->getMockConfiguration()
             ->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('foo', $methods[0]->getName());
+        self::assertSame('foo', $methods[0]->getName());
     }
 
     public function testReservedWordsAreBlackListedByDefault(): void
@@ -41,6 +41,6 @@ final class MockConfigurationBuilderTest extends TestCase
         $methods = $builder->getMockConfiguration()
             ->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('foo', $methods[0]->getName());
+        self::assertSame('foo', $methods[0]->getName());
     }
 }

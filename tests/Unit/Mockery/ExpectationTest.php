@@ -29,14 +29,6 @@ use PHP73\MockeryTest_SubjectCall1;
 use PHP73\MyService2;
 use stdClass;
 
-use function dirname;
-use function fopen;
-use function get_class;
-use function is_array;
-use function iterator_to_array;
-use function ksort;
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -46,7 +38,7 @@ final class ExpectationTest extends MockeryTestCase
 
     protected function mockeryTestSetUp(): void
     {
-        $this->mock = mock('Foo');
+        $this->mock = \mock('Foo');
     }
 
     public function mockeryTestTearDown(): void
@@ -56,7 +48,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmends(): void
     {
-        $service = mock('MyService');
+        $service = \mock('MyService');
         $service->shouldReceive('login')
             ->with('user', 'pass')
             ->once()
@@ -82,7 +74,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testAnExampleWithSomeExpectationAmendsOnCallCounts(): void
     {
-        $service = mock('MyService');
+        $service = \mock('MyService');
         $service->shouldReceive('login')
             ->with('user', 'pass')
             ->once()
@@ -110,7 +102,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testAnExampleWithSomeExpectationAmendsOnCallCountsPHPUnitTest(): void
     {
         /** @var MockInterface $service */
-        $service = mock(MyService2::class);
+        $service = \mock(MyService2::class);
 
         $service->expects('login')
             ->once()
@@ -158,8 +150,8 @@ final class ExpectationTest extends MockeryTestCase
             ->with('a', Mockery::andAnyOthers())->andReturn('a');
         $this->mock->shouldReceive('foo')
             ->with('b', Mockery::andAnyOthers())->andReturn('b');
-        self::assertEquals('a', $this->mock->foo('a'));
-        self::assertEquals('b', $this->mock->foo('b'));
+        self::assertSame('a', $this->mock->foo('a'));
+        self::assertSame('b', $this->mock->foo('b'));
     }
 
     public function testAndThrowExceptions(): void
@@ -207,7 +199,7 @@ final class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')
             ->andYield(1, 2, 3);
-        self::assertSame([1, 2, 3], iterator_to_array($this->mock->foo()));
+        self::assertSame([1, 2, 3], \iterator_to_array($this->mock->foo()));
     }
 
     /**
@@ -375,7 +367,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testByDefaultOnAMockDoesSquatWithoutExpectations(): void
     {
-        self::assertInstanceOf(MockInterface::class, mock('f')->byDefault());
+        self::assertInstanceOf(MockInterface::class, \mock('f')->byDefault());
     }
 
     public function testByDefaultOperatesFromMockConstruction(): void
@@ -388,9 +380,9 @@ final class ExpectationTest extends MockeryTestCase
         ])->byDefault();
         $mock->shouldReceive('foo')
             ->andReturn('foobar');
-        self::assertEquals('foobar', $mock->foo());
-        self::assertEquals('rbar', $mock->bar());
-        self::assertEquals('rbaz', $mock->baz());
+        self::assertSame('foobar', $mock->foo());
+        self::assertSame('rbar', $mock->bar());
+        self::assertSame('rbaz', $mock->baz());
     }
 
     public function testByDefaultPreventedFromSettingDefaultWhenDefaultingExpectationWasReplaced(): void
@@ -768,8 +760,8 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->andReturn('baz')
             ->twice();
-        self::assertEquals('baz', $this->mock->foo());
-        self::assertEquals('baz', $this->mock->foo());
+        self::assertSame('baz', $this->mock->foo());
+        self::assertSame('baz', $this->mock->foo());
     }
 
     public function testDefaultExpectationsCanBeOrdered(): void
@@ -815,7 +807,7 @@ final class ExpectationTest extends MockeryTestCase
             ->andReturn('newbar')
             ->byDefault();
         $this->mock->foo('test');
-        self::assertEquals('newbar', $this->mock->foo('test'));
+        self::assertSame('newbar', $this->mock->foo('test'));
     }
 
     public function testDefaultExpectationsValidatedInCorrectOrder(): void
@@ -830,8 +822,8 @@ final class ExpectationTest extends MockeryTestCase
             ->once()
             ->andReturn('second')
             ->byDefault();
-        self::assertEquals('first', $this->mock->foo(1));
-        self::assertEquals('second', $this->mock->foo(2));
+        self::assertSame('first', $this->mock->foo(1));
+        self::assertSame('second', $this->mock->foo(2));
     }
 
     public function testDifferentArgumentsAndOrderingsPassWithoutException(): void
@@ -921,7 +913,7 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->globally()
             ->ordered();
-        $mock2 = mock('bar');
+        $mock2 = \mock('bar');
         $mock2->shouldReceive('bar')
             ->globally()
             ->ordered();
@@ -936,7 +928,7 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->ordered()
             ->once();
-        $mock2 = mock('bar');
+        $mock2 = \mock('bar');
         $mock2->shouldReceive('bar')
             ->ordered()
             ->once();
@@ -978,8 +970,8 @@ final class ExpectationTest extends MockeryTestCase
             ->andReturn('green');
         $this->mock->shouldReceive('foo')
             ->andReturn('blue');
-        self::assertEquals('green', $this->mock->foo());
-        self::assertEquals('blue', $this->mock->foo());
+        self::assertSame('green', $this->mock->foo());
+        self::assertSame('blue', $this->mock->foo());
     }
 
     public function testExpectationCastToStringFormatting(): void
@@ -989,7 +981,7 @@ final class ExpectationTest extends MockeryTestCase
                 'Spam' => 'Ham',
                 'Bar' => 'Baz',
             ]);
-        self::assertEquals("[foo(1, 'bar', object(stdClass), ['Spam' => 'Ham', 'Bar' => 'Baz'])]", (string) $exp);
+        self::assertSame("[foo(1, 'bar', object(stdClass), ['Spam' => 'Ham', 'Bar' => 'Baz'])]", (string) $exp);
     }
 
     public function testExpectationFallsBackToDefaultExpectationWhenConcreteExpectationsAreUsedUp(): void
@@ -1003,8 +995,8 @@ final class ExpectationTest extends MockeryTestCase
             ->with(2)
             ->andReturn('baz')
             ->once();
-        self::assertEquals('baz', $this->mock->foo(2));
-        self::assertEquals('bar', $this->mock->foo(1));
+        self::assertSame('baz', $this->mock->foo(2));
+        self::assertSame('bar', $this->mock->foo(1));
     }
 
     public function testExpectationMatchingWithAnyArgsOrderings(): void
@@ -1050,7 +1042,7 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->andReturn('bar')
             ->byDefault();
-        self::assertEquals('bar', $this->mock->foo());
+        self::assertSame('bar', $this->mock->foo());
     }
 
     public function testExpectsAnyArguments(): void
@@ -1286,7 +1278,7 @@ final class ExpectationTest extends MockeryTestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $this->expectException(Exception::class);
         $this->expectExceptionMessage("Mockery can't find 'SomeMadeUpClass' so can't mock it");
-        $mock = mock('SomeMadeUpClass');
+        $mock = \mock('SomeMadeUpClass');
         $mock->shouldReceive('foo');
         Mockery::close();
     }
@@ -1294,7 +1286,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnClasses(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(stdClass::class);
+        $mock = \mock(stdClass::class);
         $this->expectException(Exception::class);
         $mock->shouldReceive('foo');
         Mockery::close();
@@ -1303,7 +1295,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testGlobalConfigMayForbidMockingNonExistentMethodsOnObjects(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(new stdClass());
+        $mock = \mock(new stdClass());
         $this->expectException(Exception::class);
         $mock->shouldReceive('foo');
         Mockery::close();
@@ -1312,7 +1304,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testGlobalConfigQuickDefinitionsConfigurationDefaultExpectation(): void
     {
         Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(false);
-        mock([
+        \mock([
             'foo' => 1,
         ]);
         $this->expectNotToPerformAssertions();
@@ -1322,7 +1314,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testGlobalConfigQuickDefinitionsConfigurationMockAtLeastOnce(): void
     {
         Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(true);
-        mock([
+        \mock([
             'foo' => 1,
         ]);
         $this->expectException(InvalidCountException::class);
@@ -1354,12 +1346,12 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->with(2)
             ->andReturn('infinity');
-        self::assertEquals('first', $this->mock->foo(2));
-        self::assertEquals('second/third', $this->mock->foo(2));
-        self::assertEquals('second/third', $this->mock->foo(2));
-        self::assertEquals('infinity', $this->mock->foo(2));
-        self::assertEquals('infinity', $this->mock->foo(2));
-        self::assertEquals('infinity', $this->mock->foo(2));
+        self::assertSame('first', $this->mock->foo(2));
+        self::assertSame('second/third', $this->mock->foo(2));
+        self::assertSame('second/third', $this->mock->foo(2));
+        self::assertSame('infinity', $this->mock->foo(2));
+        self::assertSame('infinity', $this->mock->foo(2));
+        self::assertSame('infinity', $this->mock->foo(2));
     }
 
     public function testGroupedUngroupedOrderingDoNotOverlap(): void
@@ -1448,11 +1440,11 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testIfCallingMethodWithNoExpectationsHasSpecificExceptionMessage(): void
     {
-        $mock = mock(Mockery_Duck::class);
+        $mock = \mock(Mockery_Duck::class);
 
         $this->expectException(
             BadMethodCallException::class,
-            'Received ' . get_class($mock) .
+            'Received ' . \get_class($mock) .
             '::quack(), ' . 'but no expectations were specified'
         );
 
@@ -1462,11 +1454,11 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testIfExceptionIndicatesAbsenceOfMethodAndExpectationsOnMock(): void
     {
-        $mock = mock(Mockery_Duck::class);
+        $mock = \mock(Mockery_Duck::class);
 
         $this->expectException(
             BadMethodCallException::class,
-            'Method ' . get_class($mock) .
+            'Method ' . \get_class($mock) .
             '::nonExistent() does not exist on this mock object'
         );
 
@@ -1702,7 +1694,7 @@ final class ExpectationTest extends MockeryTestCase
                 'Baz',
                 'End',
             ]);
-        self::assertEquals(
+        self::assertSame(
             "[foo(['Spam' => 'Ham', 'Bar' => 'Baz', 0 => 'Bar', 1 => 'Baz', 2 => 'Bar', 3 => 'Baz', 4 => 'Bar', 5 => 'Baz', 6 => 'Bar', 7 => 'Baz', 8 => 'Bar', 9 => 'Baz', 10 => 'Bar', 11 => 'Baz', 12 => 'Bar', 13 => 'Baz', 14 => 'Bar', 15 => 'Baz', 16 => 'Bar', 17 => 'Baz', 18 => 'Bar', 19 => 'Baz', 20 => 'Bar', 21 => 'Baz', 22 => 'Bar', 23 => 'Baz', 24 => 'Bar', 25 => 'Baz', 26 => 'Bar', 27 => 'Baz', 28 => 'Bar', 29 => 'Baz', 30 => 'Bar', 31 => 'Baz', 32 => 'Bar', 33 => 'Baz', 34 => 'Bar', 35 => 'Baz', 36 => 'Bar', 37 => 'Baz', 38 => 'Bar', 39 => 'Baz', 40 => 'Bar', 41 => 'Baz', 42 => 'Bar', 43 => 'Baz', 44 => 'Bar', 45 => 'Baz', 46 => 'Baz', 47 => 'Bar', 48 => 'Baz', 49 => 'Bar', 50 => 'Baz', 51 => 'Bar', 52 => 'Baz', 53 => 'Bar', 54 => 'Baz', 55 => 'Bar', 56 => 'Baz', 57 => 'Baz', 58 => 'Bar', 59 => 'Baz', 60 => 'Bar', 61 => 'Baz', 62 => 'Bar', 63 => 'Baz', 64 => 'Bar', 65 => 'Baz', 66 => 'Bar', 67 => 'Baz', 68 => 'Baz', 69 => 'Bar', 70 => 'Baz', 71 => 'Bar', 72 => 'Baz', 73 => 'Bar', 74 => 'Baz', 7...])]",
             (string) $exp
         );
@@ -1710,27 +1702,27 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testMakePartialExpectationBasedOnArgs(): void
     {
-        $mock = mock(MockeryTest_SubjectCall1::class)->makePartial();
+        $mock = \mock(MockeryTest_SubjectCall1::class)->makePartial();
 
-        self::assertEquals('bar', $mock->foo());
-        self::assertEquals('bar', $mock->foo('baz'));
-        self::assertEquals('bar', $mock->foo('qux'));
+        self::assertSame('bar', $mock->foo());
+        self::assertSame('bar', $mock->foo('baz'));
+        self::assertSame('bar', $mock->foo('qux'));
 
         $mock->shouldReceive('foo')
             ->with('baz')
             ->twice()
             ->andReturn('123');
-        self::assertEquals('bar', $mock->foo());
-        self::assertEquals('123', $mock->foo('baz'));
-        self::assertEquals('bar', $mock->foo('qux'));
+        self::assertSame('bar', $mock->foo());
+        self::assertSame('123', $mock->foo('baz'));
+        self::assertSame('bar', $mock->foo('qux'));
 
         $mock->shouldReceive('foo')
             ->withNoArgs()
             ->once()
             ->andReturn('456');
-        self::assertEquals('456', $mock->foo());
-        self::assertEquals('123', $mock->foo('baz'));
-        self::assertEquals('bar', $mock->foo('qux'));
+        self::assertSame('456', $mock->foo());
+        self::assertSame('123', $mock->foo('baz'));
+        self::assertSame('bar', $mock->foo('qux'));
     }
 
     public function testMatchPrecedenceBasedOnExpectedCallsFavouringAnyMatch(): void
@@ -1755,13 +1747,13 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testMockShouldNotBeAnonymousWhenImplementingSpecificInterface(): void
     {
-        $waterMock = mock(IWater::class);
+        $waterMock = \mock(IWater::class);
         self::assertFalse($waterMock->mockery_isAnonymous());
     }
 
     public function testMockedMethodsCallableFromWithinOriginalClass(): void
     {
-        $mock = mock(MockeryTest_InterMethod1::class . '[doThird]');
+        $mock = \mock(MockeryTest_InterMethod1::class . '[doThird]');
         $mock->shouldReceive('doThird')
             ->andReturn(true);
         self::assertTrue($mock->doFirst());
@@ -1769,7 +1761,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testMockingDemeterChainsPassesMockeryExpectationToCompositeExpectation(): void
     {
-        $mock = mock(Mockery_Demeterowski::class);
+        $mock = \mock(Mockery_Demeterowski::class);
         $mock->shouldReceive('foo->bar->baz')
             ->andReturn('Spam!');
         $demeter = new Mockery_UseDemeter($mock);
@@ -1778,7 +1770,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testMockingDemeterChainsPassesMockeryExpectationToCompositeExpectationWithArgs(): void
     {
-        $mock = mock(Mockery_Demeterowski::class);
+        $mock = \mock(Mockery_Demeterowski::class);
         $mock->shouldReceive('foo->bar->baz')
             ->andReturn('Spam!');
         $demeter = new Mockery_UseDemeter($mock);
@@ -1789,7 +1781,7 @@ final class ExpectationTest extends MockeryTestCase
     {
         $exp = $this->mock->shouldReceive('foo', 'bar')
             ->with(1);
-        self::assertEquals('[foo(1), bar(1)]', (string) $exp);
+        self::assertSame('[foo(1), bar(1)]', (string) $exp);
     }
 
     public function testMultipleExpectationsWithReturns(): void
@@ -1800,8 +1792,8 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('bar')
             ->with(2)
             ->andReturn(20);
-        self::assertEquals(10, $this->mock->foo(1));
-        self::assertEquals(20, $this->mock->bar(2));
+        self::assertSame(10, $this->mock->foo(1));
+        self::assertSame(20, $this->mock->bar(2));
     }
 
     public function testMustBeConstraintMatchesArgument(): void
@@ -1898,7 +1890,7 @@ final class ExpectationTest extends MockeryTestCase
             ->andReturn('foobar');
 
         // only sort the input to change the order but not the values.
-        ksort($input);
+        \ksort($input);
 
         self::assertSame('foobar', $foo->foo($input));
     }
@@ -2051,7 +2043,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testOnConstraintMatchesArgumentOfTypeArrayClosureEvaluatesToTrue(): void
     {
         $function = function ($arg) {
-            return is_array($arg);
+            return \is_array($arg);
         };
         $this->mock->shouldReceive('foo')
             ->with(Mockery::on($function))->once();
@@ -2072,7 +2064,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testOptionalMockRetrieval(): void
     {
-        $m = mock('f')
+        $m = \mock('f')
             ->shouldReceive('foo')
             ->with(1)
             ->andReturn(3)
@@ -2172,7 +2164,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testPassthruCallMagic(): void
     {
-        $mock = mock(Mockery_Magic::class);
+        $mock = \mock(Mockery_Magic::class);
         $mock->shouldReceive('theAnswer')
             ->once()
             ->passthru();
@@ -2181,11 +2173,11 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testPassthruEnsuresRealMethodCalledForReturnValues(): void
     {
-        $mock = mock(MockeryTest_SubjectCall1::class);
+        $mock = \mock(MockeryTest_SubjectCall1::class);
         $mock->shouldReceive('foo')
             ->once()
             ->passthru();
-        self::assertEquals('bar', $mock->foo());
+        self::assertSame('bar', $mock->foo());
     }
 
     public function testPatternConstraintMatchesArgument(): void
@@ -2244,7 +2236,7 @@ final class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')
             ->with(Mockery::type('resource'))->once();
-        $r = fopen(dirname(__FILE__, 3) . '/Fixture/_files/file.txt', 'rb');
+        $r = \fopen(\dirname(__FILE__, 3) . '/Fixture/_files/file.txt', 'rb');
         $this->mock->foo($r);
     }
 
@@ -2307,7 +2299,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testReturnsNullForMockedExistingClassIfAndReturnNullCalled(): void
     {
-        $mock = mock(MockeryTest_Foo::class);
+        $mock = \mock(MockeryTest_Foo::class);
         $mock->shouldReceive('foo')
             ->andReturn(null);
         self::assertNull($mock->foo());
@@ -2315,7 +2307,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testReturnsNullForMockedExistingClassIfNullIsReturnValue(): void
     {
-        $mock = mock(MockeryTest_Foo::class);
+        $mock = \mock(MockeryTest_Foo::class);
         $mock->shouldReceive('foo')
             ->andReturnNull();
         self::assertNull($mock->foo());
@@ -2350,14 +2342,14 @@ final class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('foo')
             ->andReturn(1);
-        self::assertEquals(1, $this->mock->foo());
+        self::assertSame(1, $this->mock->foo());
     }
 
     public function testReturnsSameValueForAllIfNoArgsExpectationAndSomeGiven(): void
     {
         $this->mock->shouldReceive('foo')
             ->andReturn(1);
-        self::assertEquals(1, $this->mock->foo('foo'));
+        self::assertSame(1, $this->mock->foo('foo'));
     }
 
     public function testReturnsTrueIfTrueIsReturnValue(): void
@@ -2379,7 +2371,7 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->andReturn(1, 2, 3);
         $this->mock->foo('foo');
-        self::assertEquals(2, $this->mock->foo('foo'));
+        self::assertSame(2, $this->mock->foo('foo'));
     }
 
     public function testReturnsValueFromSequenceSequentiallyAndRepeatedlyReturnsFinalValueOnExtraCalls(): void
@@ -2388,8 +2380,8 @@ final class ExpectationTest extends MockeryTestCase
             ->andReturn(1, 2, 3);
         $this->mock->foo('foo');
         $this->mock->foo('foo');
-        self::assertEquals(3, $this->mock->foo('foo'));
-        self::assertEquals(3, $this->mock->foo('foo'));
+        self::assertSame(3, $this->mock->foo('foo'));
+        self::assertSame(3, $this->mock->foo('foo'));
     }
 
     public function testReturnsValueFromSequenceSequentiallyAndRepeatedlyReturnsFinalValueOnExtraCallsWithManyAndReturnCalls(): void
@@ -2399,8 +2391,8 @@ final class ExpectationTest extends MockeryTestCase
             ->andReturn(2, 3);
         $this->mock->foo('foo');
         $this->mock->foo('foo');
-        self::assertEquals(3, $this->mock->foo('foo'));
-        self::assertEquals(3, $this->mock->foo('foo'));
+        self::assertSame(3, $this->mock->foo('foo'));
+        self::assertSame(3, $this->mock->foo('foo'));
     }
 
     public function testReturnsValueOfArgument(): void
@@ -2410,7 +2402,7 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->shouldReceive('foo')
             ->withArgs($args)
             ->andReturnArg($index);
-        self::assertEquals($args[$index], $this->mock->foo(...$args));
+        self::assertSame($args[$index], $this->mock->foo(...$args));
     }
 
     public function testReturnsValueOfClosure(): void
@@ -2420,16 +2412,16 @@ final class ExpectationTest extends MockeryTestCase
             ->andReturnUsing(function ($v) {
                 return $v + 1;
             });
-        self::assertEquals(6, $this->mock->foo(5));
+        self::assertSame(6, $this->mock->foo(5));
     }
 
     public function testReturnsValuesSetAsArray(): void
     {
         $this->mock->shouldReceive('foo')
             ->andReturnValues([1, 2, 3]);
-        self::assertEquals(1, $this->mock->foo());
-        self::assertEquals(2, $this->mock->foo());
-        self::assertEquals(3, $this->mock->foo());
+        self::assertSame(1, $this->mock->foo());
+        self::assertSame(2, $this->mock->foo());
+        self::assertSame(3, $this->mock->foo());
     }
 
     public function testScalarConstraintMatchesArgument(): void
@@ -2461,8 +2453,8 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testSetsPublicPropertiesCorrectlyForDifferentInstancesOfSameClass(): void
     {
-        $mockInstanceOne = mock(MockeryTest_Foo::class);
-        $mockInstanceTwo = mock(MockeryTest_Foo::class);
+        $mockInstanceOne = \mock(MockeryTest_Foo::class);
+        $mockInstanceTwo = \mock(MockeryTest_Foo::class);
 
         $mockInstanceOne->shouldReceive('foo')
             ->andSet('bar', 'baz');
@@ -2473,8 +2465,8 @@ final class ExpectationTest extends MockeryTestCase
         $mockInstanceOne->foo();
         $mockInstanceTwo->foo();
 
-        self::assertEquals('baz', $mockInstanceOne->bar);
-        self::assertEquals('bazz', $mockInstanceTwo->bar);
+        self::assertSame('baz', $mockInstanceOne->bar);
+        self::assertSame('bazz', $mockInstanceTwo->bar);
     }
 
     public function testSetsPublicPropertiesWhenRequested(): void
@@ -2484,11 +2476,11 @@ final class ExpectationTest extends MockeryTestCase
             ->andSet('bar', 'baz', 'bazz', 'bazzz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazzz', $this->mock->bar);
+        self::assertSame('bazzz', $this->mock->bar);
     }
 
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValues(): void
@@ -2498,11 +2490,11 @@ final class ExpectationTest extends MockeryTestCase
             ->andSet('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
     }
 
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesUsingAlias(): void
@@ -2512,11 +2504,11 @@ final class ExpectationTest extends MockeryTestCase
             ->andSet('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
     }
 
     public function testSetsPublicPropertiesWhenRequestedMoreTimesThanSetValuesWithDirectSet(): void
@@ -2526,9 +2518,9 @@ final class ExpectationTest extends MockeryTestCase
             ->andSet('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
         $this->mock->bar = null;
         $this->mock->foo();
         self::assertNull($this->mock->bar);
@@ -2541,9 +2533,9 @@ final class ExpectationTest extends MockeryTestCase
             ->set('bar', 'baz', 'bazz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
         $this->mock->bar = null;
         $this->mock->foo();
         self::assertNull($this->mock->bar);
@@ -2556,11 +2548,11 @@ final class ExpectationTest extends MockeryTestCase
             ->set('bar', 'baz', 'bazz', 'bazzz');
         self::assertEmpty($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazz', $this->mock->bar);
+        self::assertSame('bazz', $this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('bazzz', $this->mock->bar);
+        self::assertSame('bazzz', $this->mock->bar);
     }
 
     public function testSetsPublicPropertyWhenRequested(): void
@@ -2570,7 +2562,7 @@ final class ExpectationTest extends MockeryTestCase
             ->andSet('bar', 'baz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
     }
 
     public function testSetsPublicPropertyWhenRequestedUsingAlias(): void
@@ -2580,7 +2572,7 @@ final class ExpectationTest extends MockeryTestCase
             ->set('bar', 'baz');
         self::assertNull($this->mock->bar);
         $this->mock->foo();
-        self::assertEquals('baz', $this->mock->bar);
+        self::assertSame('baz', $this->mock->bar);
     }
 
     public function testShouldIgnoreMissingAsDefinedProxiesToUndefinedAllowingToString(): void
@@ -2599,7 +2591,7 @@ final class ExpectationTest extends MockeryTestCase
     public function testShouldIgnoreMissingDefaultReturnValue(): void
     {
         $this->mock->shouldIgnoreMissing(1);
-        self::assertEquals(1, $this->mock->a());
+        self::assertSame(1, $this->mock->a());
     }
 
     /**
@@ -2613,7 +2605,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testShouldIgnoreMissingExpectationBasedOnArgs(): void
     {
-        $mock = mock(MyService2::class)->shouldIgnoreMissing();
+        $mock = \mock(MyService2::class)->shouldIgnoreMissing();
         $mock->shouldReceive('hasBookmarksTagged')
             ->with('dave')
             ->once();
@@ -2633,7 +2625,7 @@ final class ExpectationTest extends MockeryTestCase
 
     public function testShouldNotReceiveCanBeAddedToCompositeExpectation(): void
     {
-        $mock = mock('Foo');
+        $mock = \mock('Foo');
         $mock->shouldReceive('a')
             ->once()
             ->andReturn('Spam!')
@@ -2710,7 +2702,7 @@ final class ExpectationTest extends MockeryTestCase
         try {
             $this->mock->foo();
         } catch (OutOfBoundsException $e) {
-            self::assertEquals('foo', $e->getMessage());
+            self::assertSame('foo', $e->getMessage());
         }
     }
 
@@ -2781,7 +2773,7 @@ final class ExpectationTest extends MockeryTestCase
     {
         $this->mock->shouldReceive('__toString')
             ->andReturn('dave');
-        self::assertEquals("{$this->mock}", 'dave');
+        self::assertSame("{$this->mock}", 'dave');
     }
 
     public function testUnorderedCallsIgnoredForOrdering(): void

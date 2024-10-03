@@ -8,10 +8,6 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
 
-use function anything;
-use function greaterThan;
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -21,7 +17,7 @@ final class HamcrestExpectationTest extends MockeryTestCase
 
     protected function mockeryTestSetUp(): void
     {
-        $this->mock = mock('foo');
+        $this->mock = \mock('foo');
     }
 
     public function mockeryTestTearDown(): void
@@ -32,7 +28,7 @@ final class HamcrestExpectationTest extends MockeryTestCase
     public function testAnythingConstraintMatchesArgument(): void
     {
         $this->mock->shouldReceive('foo')
-            ->with(anything())
+            ->with(\anything())
             ->once();
         $this->mock->foo(2);
     }
@@ -40,7 +36,7 @@ final class HamcrestExpectationTest extends MockeryTestCase
     public function testGreaterThanConstraintMatchesArgument(): void
     {
         $this->mock->shouldReceive('foo')
-            ->with(greaterThan(1))
+            ->with(\greaterThan(1))
             ->once();
         $this->mock->foo(2);
     }
@@ -48,7 +44,7 @@ final class HamcrestExpectationTest extends MockeryTestCase
     public function testGreaterThanConstraintNotMatchesArgument(): void
     {
         $this->mock->shouldReceive('foo')
-            ->with(greaterThan(1));
+            ->with(\greaterThan(1));
         $this->expectException(Exception::class);
         $this->mock->foo(1);
         Mockery::close();

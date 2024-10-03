@@ -8,8 +8,6 @@ use Mockery\Generator\MockConfigurationBuilder;
 use Mockery\Generator\StringManipulation\Pass\InstanceMockPass;
 use PHPUnit\Framework\TestCase;
 
-use function mb_strpos;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -23,10 +21,10 @@ final class InstanceMockPassTest extends TestCase
         $pass = new InstanceMockPass();
         $code = $pass->apply('class Dave { }', $config);
 
-        self::assertNotFalse(mb_strpos($code, 'public function __construct'));
+        self::assertNotFalse(\mb_strpos($code, 'public function __construct'));
 
-        self::assertNotFalse(mb_strpos($code, 'protected $_mockery_ignoreVerification'));
+        self::assertNotFalse(\mb_strpos($code, 'protected $_mockery_ignoreVerification'));
 
-        self::assertNotFalse(mb_strpos($code, 'this->_mockery_constructorCalled(func_get_args());'));
+        self::assertNotFalse(\mb_strpos($code, 'this->_mockery_constructorCalled(func_get_args());'));
     }
 }

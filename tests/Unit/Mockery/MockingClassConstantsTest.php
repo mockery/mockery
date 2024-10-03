@@ -27,9 +27,9 @@ final class MockingClassConstantsTest extends MockeryTestCase
 
         $mock = Mockery::mock('overload:' . ClassWithConstants::class);
 
-        self::assertEquals('baz', $mock::FOO);
-        self::assertEquals(2, $mock::X);
-        self::assertEquals([
+        self::assertSame('baz', $mock::FOO);
+        self::assertSame(2, $mock::X);
+        self::assertSame([
             'qux' => 'daz',
         ], $mock::BAZ);
     }

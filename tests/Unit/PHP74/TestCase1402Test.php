@@ -9,7 +9,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP74\Regression\Issue1402\Service;
 
 /**
- * @coversDefaultClass Mockery
+ * @coversDefaultClass \Mockery
  * @requires PHP 7.4
  * @see https://github.com/mockery/mockery/issues/1402
  */
@@ -22,6 +22,6 @@ final class TestCase1402Test extends MockeryTestCase
         $banana->allows('test')
             ->andReturns(2);
 
-        self::assertEquals(2, $banana->test());
+        self::assertSame(2, $banana->test());
     }
 }

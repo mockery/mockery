@@ -9,8 +9,6 @@ use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use PHPUnit\Framework\TestCase;
 
-use function mb_strpos;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -27,7 +25,7 @@ final class CallTypeHintPassTest extends TestCase
             'requiresCallStaticTypeHintRemoval' => true,
         ])->makePartial();
         $code = $pass->apply(self::CODE, $config);
-        self::assertNotFalse(mb_strpos($code, '__callStatic($method, $args)'));
+        self::assertNotFalse(\mb_strpos($code, '__callStatic($method, $args)'));
     }
 
     public function testShouldRemoveCallTypeHintIfRequired(): void
@@ -37,6 +35,6 @@ final class CallTypeHintPassTest extends TestCase
             'requiresCallTypeHintRemoval' => true,
         ])->makePartial();
         $code = $pass->apply(self::CODE, $config);
-        self::assertNotFalse(mb_strpos($code, '__call($method, $args)'));
+        self::assertNotFalse(\mb_strpos($code, '__call($method, $args)'));
     }
 }

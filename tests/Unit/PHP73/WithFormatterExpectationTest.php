@@ -13,24 +13,22 @@ use PHP73\ClassWithPublicStaticProperty;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-use function mb_strpos;
-
 /**
  * @coversDefaultClass \Mockery
  */
 final class WithFormatterExpectationTest extends TestCase
 {
-    public static function formatObjectsDataProvider(): array
+    public static function provideFormatObjectsCases(): iterable
     {
         return [[[null], ''], [['a string', 98768, ['a', 'nother', 'array']], '']];
     }
 
     /**
-     * @dataProvider formatObjectsDataProvider
+     * @dataProvider provideFormatObjectsCases
      */
     public function testFormatObjects($args, $expected): void
     {
-        self::assertEquals($expected, Mockery::formatObjects($args));
+        self::assertSame($expected, Mockery::formatObjects($args));
     }
 
     public function testFormatObjectsExcludesStaticGetters(): void
@@ -38,7 +36,7 @@ final class WithFormatterExpectationTest extends TestCase
         $obj = new ClassWithPublicStaticGetter();
         $string = Mockery::formatObjects([$obj]);
 
-        self::assertSame(mb_strpos($string, 'getExcluded'), false);
+        self::assertSame(\mb_strpos($string, 'getExcluded'), false);
     }
 
     public function testFormatObjectsExcludesStaticProperties(): void
@@ -46,7 +44,7 @@ final class WithFormatterExpectationTest extends TestCase
         $obj = new ClassWithPublicStaticProperty();
         $string = Mockery::formatObjects([$obj]);
 
-        self::assertSame(mb_strpos($string, 'excludedProperty'), false);
+        self::assertSame(\mb_strpos($string, 'excludedProperty'), false);
     }
 
     public function testFormatObjectsShouldNotCallGettersWithParams(): void
@@ -54,7 +52,7 @@ final class WithFormatterExpectationTest extends TestCase
         $obj = new ClassWithGetterWithParam();
         $string = Mockery::formatObjects([$obj]);
 
-        self::assertSame(mb_strpos($string, 'Missing argument 1 for'), false);
+        self::assertSame(\mb_strpos($string, 'Missing argument 1 for'), false);
     }
 
     /**

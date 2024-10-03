@@ -12,8 +12,6 @@ use PHP83\Enums;
 use PHP83\Interfaces;
 use PHP83\Traits;
 
-use function mock;
-
 /**
  * @requires PHP 8.3.0-dev
  * @coversDefaultClass \Mockery
@@ -22,7 +20,7 @@ final class Php83LanguageFeaturesTest extends MockeryTestCase
 {
     public function testCanMockClassTypedClassConstants(): void
     {
-        $mock = mock(Classes::class);
+        $mock = \mock(Classes::class);
 
         self::assertInstanceOf(Classes::class, $mock);
         self::assertSame(Enums::FOO, $mock::BAR);
@@ -30,7 +28,7 @@ final class Php83LanguageFeaturesTest extends MockeryTestCase
 
     public function testCanMockInterfaceTypedClassConstants(): void
     {
-        $mock = mock(Interfaces::class);
+        $mock = \mock(Interfaces::class);
 
         self::assertInstanceOf(Interfaces::class, $mock);
         self::assertSame(Enums::FOO, $mock::BAR);
@@ -38,7 +36,7 @@ final class Php83LanguageFeaturesTest extends MockeryTestCase
 
     public function testCanMockTraitTypedClassConstants(): void
     {
-        $mock = mock(Traits::class);
+        $mock = \mock(Traits::class);
 
         self::assertSame(Enums::FOO, $mock->foo());
         self::assertSame(Enums::FOO, $mock::BAR);
@@ -46,7 +44,7 @@ final class Php83LanguageFeaturesTest extends MockeryTestCase
 
     public function testCanMockWithDynamicClassConstantFetch(): void
     {
-        $mock = mock(ClassName::class);
+        $mock = \mock(ClassName::class);
 
         $constant = 'CONSTANT';
 
@@ -63,6 +61,6 @@ final class Php83LanguageFeaturesTest extends MockeryTestCase
     {
         $this->expectException(Exception::class);
 
-        mock(Enums::class);
+        \mock(Enums::class);
     }
 }

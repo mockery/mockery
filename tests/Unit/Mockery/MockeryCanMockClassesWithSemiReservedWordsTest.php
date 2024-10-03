@@ -8,8 +8,6 @@ use Mockery;
 use PHP73\SemiReservedWordsAsMethods;
 use PHPUnit\Framework\TestCase;
 
-use function method_exists;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -22,7 +20,7 @@ final class MockeryCanMockClassesWithSemiReservedWordsTest extends TestCase
         $mock->shouldReceive('include')
             ->andReturn('foo');
 
-        self::assertTrue(method_exists($mock, 'include'));
-        self::assertEquals('foo', $mock->include());
+        self::assertTrue(\method_exists($mock, 'include'));
+        self::assertSame('foo', $mock->include());
     }
 }

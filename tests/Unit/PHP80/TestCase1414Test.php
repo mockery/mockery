@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 
 /**
- * @coversDefaultClass Mockery
+ * @coversDefaultClass \Mockery
  * @requires PHP 8.0
  * @see https://github.com/mockery/mockery/issues/1414
  */

@@ -10,8 +10,6 @@ use Mockery\Matcher\AnyArgs;
 use Mockery\MockInterface;
 use Throwable;
 
-use function uniqid;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -54,7 +52,7 @@ final class GlobalHelpersTest extends MockeryTestCase
 
     public function testNamedMockCreatesANamedMock(): void
     {
-        $className = uniqid('Class');
+        $className = \uniqid('Class');
 
         $double = \namedMock($className);
 

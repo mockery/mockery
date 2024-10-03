@@ -9,8 +9,6 @@ use Mockery\Generator\StringManipulation\Pass\ConstantsPass;
 use PHP73\ClassWithConstants;
 use PHPUnit\Framework\TestCase;
 
-use function mb_strpos;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -39,6 +37,6 @@ final class ConstantsPassTest extends TestCase
 
         $code = $pass->apply(static::CODE, $config);
 
-        self::assertNotFalse(mb_strpos($code, "const FOO = 'test'"));
+        self::assertNotFalse(\mb_strpos($code, "const FOO = 'test'"));
     }
 }

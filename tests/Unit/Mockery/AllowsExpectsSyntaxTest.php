@@ -20,7 +20,7 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
         $stub = Mockery::mock();
         $stub->allows('foo')
             ->andReturns('bar');
-        self::assertEquals('bar', $stub->foo());
+        self::assertSame('bar', $stub->foo());
     }
 
     public function testAllowsCanTakeAnArrayOfCalls(): void
@@ -31,8 +31,8 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
             'bar' => 'baz',
         ]);
 
-        self::assertEquals('bar', $stub->foo());
-        self::assertEquals('baz', $stub->bar());
+        self::assertSame('bar', $stub->foo());
+        self::assertSame('baz', $stub->bar());
     }
 
     public function testAllowsSetsUpMethodStub(): void
@@ -42,7 +42,7 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
             ->foo(123)
             ->andReturns(456);
 
-        self::assertEquals(456, $stub->foo(123));
+        self::assertSame(456, $stub->foo(123));
     }
 
     public function testCallVerificationCountCanBeOverridenAfterExpects(): void
@@ -76,7 +76,7 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
             ->withAnyArgs()
             ->andReturns(123);
 
-        self::assertEquals(123, $mock->foo(456, 789));
+        self::assertSame(123, $mock->foo(456, 789));
     }
 
     public function testExpectsCanTakeAString(): void
@@ -85,7 +85,7 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
         $mock->expects('foo')
             ->andReturns(123);
 
-        self::assertEquals(123, $mock->foo(456, 789));
+        self::assertSame(123, $mock->foo(456, 789));
     }
 
     public function testExpectsSetsUpExpectationOfOneCall(): void
@@ -105,7 +105,7 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
         $stub->shouldReceive('allows')
             ->andReturn(123);
 
-        self::assertEquals(123, $stub->allows());
+        self::assertSame(123, $stub->allows());
     }
 
     public function testGenerateSkipsExpectsMethodIfAlreadyExists(): void
@@ -115,6 +115,6 @@ final class AllowsExpectsSyntaxTest extends MockeryTestCase
         $stub->shouldReceive('expects')
             ->andReturn(123);
 
-        self::assertEquals(123, $stub->expects());
+        self::assertSame(123, $stub->expects());
     }
 }

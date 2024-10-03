@@ -19,9 +19,6 @@ use PHP73\ClassWithProtectedMethod;
 use PHP73\ClassWithToString;
 use PHP73\ExampleClassForTestingNonExistentMethod;
 
-use function method_exists;
-use function mock;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -31,7 +28,7 @@ final class MockTest extends MockeryTestCase
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
 
-        $m = mock();
+        $m = \mock();
         $m->shouldReceive('test123')
             ->andReturn(true);
         self::assertTrue($m->test123());
@@ -70,7 +67,7 @@ final class MockTest extends MockeryTestCase
             ->once()
             ->byDefault();
 
-        self::assertEquals(2, $mock->mockery_getExpectationCount());
+        self::assertSame(2, $mock->mockery_getExpectationCount());
     }
 
     public function testExpectationCountWillCountExpectations(): void
@@ -81,7 +78,7 @@ final class MockTest extends MockeryTestCase
         $mock->shouldReceive('doThat')
             ->once();
 
-        self::assertEquals(2, $mock->mockery_getExpectationCount());
+        self::assertSame(2, $mock->mockery_getExpectationCount());
     }
 
     public function testExpectationCountWillIgnoreDefaultsIfOverriden(): void
@@ -95,34 +92,34 @@ final class MockTest extends MockeryTestCase
         $mock->shouldReceive('andThis')
             ->twice();
 
-        self::assertEquals(2, $mock->mockery_getExpectationCount());
+        self::assertSame(2, $mock->mockery_getExpectationCount());
     }
 
     public function testMockAddsToString(): void
     {
-        $mock = mock(ClassWithNoToString::class);
-        self::assertTrue(method_exists($mock, '__toString'));
+        $mock = \mock(ClassWithNoToString::class);
+        self::assertTrue(\method_exists($mock, '__toString'));
     }
 
     public function testMockToStringMayBeDeferred(): void
     {
-        $mock = mock(ClassWithToString::class)->makePartial();
-        self::assertEquals('foo', (string) $mock);
+        $mock = \mock(ClassWithToString::class)->makePartial();
+        self::assertSame('foo', (string) $mock);
     }
 
     public function testMockToStringShouldIgnoreMissingAlwaysReturnsString(): void
     {
-        $mock = mock(ClassWithNoToString::class)->shouldIgnoreMissing();
-        self::assertNotEquals('', (string) $mock);
+        $mock = \mock(ClassWithNoToString::class)->shouldIgnoreMissing();
+        self::assertNotSame('', (string) $mock);
 
         $mock->asUndefined();
-        self::assertNotEquals('', (string) $mock);
+        self::assertNotSame('', (string) $mock);
     }
 
     public function testMockWithNotAllowingMockingOfNonExistentMethodsCanBeGivenAdditionalMethodsToMockEvenIfTheyDontExistOnClass(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $m = mock(ExampleClassForTestingNonExistentMethod::class);
+        $m = \mock(ExampleClassForTestingNonExistentMethod::class);
         $m->shouldAllowMockingMethod('testSomeNonExistentMethod');
         $m->shouldReceive('testSomeNonExistentMethod')
             ->andReturn(true)
@@ -134,7 +131,7 @@ final class MockTest extends MockeryTestCase
     public function testProtectedMethodMockWithNotAllowingMockingOfNonExistentMethodsWhenShouldAllowMockingProtectedMethodsIsCalled(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $m = mock(ClassWithProtectedMethod::class);
+        $m = \mock(ClassWithProtectedMethod::class);
         $m->shouldAllowMockingProtectedMethods();
         $m->shouldReceive('foo')
             ->andReturn(true);
@@ -156,14 +153,14 @@ final class MockTest extends MockeryTestCase
 
     public function testShouldIgnoreMissing(): void
     {
-        $mock = mock(ClassWithNoToString::class)->shouldIgnoreMissing();
+        $mock = \mock(ClassWithNoToString::class)->shouldIgnoreMissing();
         self::assertNull($mock->nonExistingMethod());
     }
 
     public function testShouldIgnoreMissingCallingExistentMethods(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
+        $mock = \mock(ClassWithMethods::class)->shouldIgnoreMissing();
 
         self::assertNull($mock->foo());
 
@@ -176,7 +173,7 @@ final class MockTest extends MockeryTestCase
     public function testShouldIgnoreMissingCallingNonExistentMethods(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
-        $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
+        $mock = \mock(ClassWithMethods::class)->shouldIgnoreMissing();
 
         self::assertNull($mock->foo());
         self::assertNull($mock->bar());
@@ -197,7 +194,7 @@ final class MockTest extends MockeryTestCase
     public function testShouldIgnoreMissingCallingNonExistentMethodsUsingGlobalConfiguration(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
+        $mock = \mock(ClassWithMethods::class)->shouldIgnoreMissing();
         $this->expectException(BadMethodCallException::class);
         $mock->nonExistentMethod();
     }
@@ -205,7 +202,7 @@ final class MockTest extends MockeryTestCase
     public function testShouldIgnoreMissingDisallowMockingNonExistentMethodsUsingGlobalConfiguration(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
-        $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
+        $mock = \mock(ClassWithMethods::class)->shouldIgnoreMissing();
         $this->expectException(MockeryException::class);
         $mock->shouldReceive('nonExistentMethod');
     }
@@ -213,6 +210,6 @@ final class MockTest extends MockeryTestCase
     public function testShouldThrowExceptionWithInvalidClassName(): void
     {
         $this->expectException(MockeryException::class);
-        mock('ClassName.CannotContainDot');
+        \mock('ClassName.CannotContainDot');
     }
 }

@@ -37,8 +37,6 @@ use PHP73\TestTraversableInterface3;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
-use function array_shift;
-
 /**
  * @coversDefaultClass \Mockery
  */
@@ -50,7 +48,7 @@ class MockConfigurationTest extends TestCase
 
         $methods = $config->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('bar', $methods[0]->getName());
+        self::assertSame('bar', $methods[0]->getName());
     }
 
     public function testBlackListsAreCaseInsensitive(): void
@@ -59,7 +57,7 @@ class MockConfigurationTest extends TestCase
 
         $methods = $config->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('bar', $methods[0]->getName());
+        self::assertSame('bar', $methods[0]->getName());
     }
 
     public function testFinalMethodsAreExcluded(): void
@@ -68,7 +66,7 @@ class MockConfigurationTest extends TestCase
 
         $methods = $config->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('bar', $methods[0]->getName());
+        self::assertSame('bar', $methods[0]->getName());
     }
 
     public function testOnlyWhiteListedMethodsShouldBeInListToBeMocked(): void
@@ -77,7 +75,7 @@ class MockConfigurationTest extends TestCase
 
         $methods = $config->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('foo', $methods[0]->getName());
+        self::assertSame('foo', $methods[0]->getName());
     }
 
     public function testShouldBringIteratorAggregateToHeadOfTargetListIfTraversablePresent(): void
@@ -86,8 +84,8 @@ class MockConfigurationTest extends TestCase
 
         $interfaces = $config->getTargetInterfaces();
         self::assertCount(2, $interfaces);
-        self::assertEquals(IteratorAggregate::class, $interfaces[0]->getName());
-        self::assertEquals(TestTraversableInterface3::class, $interfaces[1]->getName());
+        self::assertSame(IteratorAggregate::class, $interfaces[0]->getName());
+        self::assertSame(TestTraversableInterface3::class, $interfaces[1]->getName());
     }
 
     public function testShouldBringIteratorToHeadOfTargetListIfTraversablePresent(): void
@@ -96,8 +94,8 @@ class MockConfigurationTest extends TestCase
 
         $interfaces = $config->getTargetInterfaces();
         self::assertCount(2, $interfaces);
-        self::assertEquals(Iterator::class, $interfaces[0]->getName());
-        self::assertEquals(TestTraversableInterface2::class, $interfaces[1]->getName());
+        self::assertSame(Iterator::class, $interfaces[0]->getName());
+        self::assertSame(TestTraversableInterface2::class, $interfaces[1]->getName());
     }
 
     public function testShouldIncludeMethodsFromAllTargets(): void
@@ -113,8 +111,8 @@ class MockConfigurationTest extends TestCase
 
         $interfaces = $config->getTargetInterfaces();
         self::assertCount(2, $interfaces);
-        self::assertEquals(IteratorAggregate::class, $interfaces[0]->getName());
-        self::assertEquals(TestTraversableInterface::class, $interfaces[1]->getName());
+        self::assertSame(IteratorAggregate::class, $interfaces[0]->getName());
+        self::assertSame(TestTraversableInterface::class, $interfaces[1]->getName());
     }
 
     public function testShouldTargetIteratorAggregateIfTryingToMockTraversable(): void
@@ -123,8 +121,8 @@ class MockConfigurationTest extends TestCase
 
         $interfaces = $config->getTargetInterfaces();
         self::assertCount(1, $interfaces);
-        $first = array_shift($interfaces);
-        self::assertEquals(IteratorAggregate::class, $first->getName());
+        $first = \array_shift($interfaces);
+        self::assertSame(IteratorAggregate::class, $first->getName());
     }
 
     public function testShouldThrowIfTargetClassIsFinal(): void
@@ -140,7 +138,7 @@ class MockConfigurationTest extends TestCase
 
         $methods = $config->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('foo', $methods[0]->getName());
+        self::assertSame('foo', $methods[0]->getName());
     }
 
     public function testWhitelistOverRulesBlackList(): void
@@ -149,6 +147,6 @@ class MockConfigurationTest extends TestCase
 
         $methods = $config->getMethodsToMock();
         self::assertCount(1, $methods);
-        self::assertEquals('foo', $methods[0]->getName());
+        self::assertSame('foo', $methods[0]->getName());
     }
 }

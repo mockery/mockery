@@ -10,7 +10,7 @@ use PHP74\DummyClass;
 use Tests\Unit\AbstractTestCase;
 
 /**
- * @coversDefaultClass Mockery
+ * @coversDefaultClass \Mockery
  * @requires PHP 7.4
  * @see https://github.com/mockery/mockery/issues/1132
  */

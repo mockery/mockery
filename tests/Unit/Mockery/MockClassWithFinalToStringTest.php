@@ -36,11 +36,11 @@ final class MockClassWithFinalToStringTest extends MockeryTestCase
     {
         $mock = $this->container->mock(TestWithFinalToString::class);
         self::assertInstanceOf(TestWithFinalToString::class, $mock);
-        self::assertEquals(TestWithFinalToString::class . '::__toString', $mock->__toString());
+        self::assertSame(TestWithFinalToString::class . '::__toString', $mock->__toString());
 
         $mock = $this->container->mock(SubclassWithFinalToString::class);
         self::assertInstanceOf(TestWithFinalToString::class, $mock);
-        self::assertEquals(TestWithFinalToString::class . '::__toString', $mock->__toString());
+        self::assertSame(TestWithFinalToString::class . '::__toString', $mock->__toString());
     }
 
     public function testCreateMockForClassWithNonFinalToString(): void
@@ -49,6 +49,6 @@ final class MockClassWithFinalToStringTest extends MockeryTestCase
         self::assertInstanceOf(TestWithNonFinalToString::class, $mock);
 
         // Make sure __toString is overridden.
-        self::assertNotEquals('bar', $mock->__toString());
+        self::assertNotSame('bar', $mock->__toString());
     }
 }
