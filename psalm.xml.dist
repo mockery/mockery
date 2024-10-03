@@ -27,7 +27,7 @@
     useDocblockPropertyTypes="true"
     usePhpDocMethodsWithoutMagicCall="true"
     usePhpDocPropertiesWithoutMagicCall="true"
-    phpVersion="7.3"
+    phpVersion="8.3"
 >
     <projectFiles>
         <directory name="library"/>
@@ -35,16 +35,10 @@
         <ignoreFiles>
             <directory name="tests/Fixture"/>
             <directory name="vendor"/>
-            <file name="library/Mockery/Mock.php" />
             <file name="tests/Unit/Mockery/ContainerTest.php"/>
-            <file name="tests/Unit/PHP81/Php81LanguageFeaturesTest.php"/>
-            <file name="tests/Unit/PHP83/Php83LanguageFeaturesTest.php"/>
         </ignoreFiles>
     </projectFiles>
     <extraFiles>
         <directory name="tests/Fixture"/>
     </extraFiles>
-    <plugins>
-<!--        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>-->
-    </plugins>
 </psalm>

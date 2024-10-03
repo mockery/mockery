@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
+use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\Casing\ConstantCaseFixer;
 use PhpCsFixer\Fixer\ClassNotation\FinalClassFixer;
@@ -200,7 +202,7 @@ return ECSConfig::configure()
                     LineLengthFixer::class,
                 ])
                 ->withConfiguredRule(
-                    \PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer::class,
+                    GeneralPhpdocAnnotationRemoveFixer::class,
                     [
                         'annotations' => ['small', 'internal', 'coversDefaultClass1', 'coversNothing'],
                     ]
@@ -208,10 +210,12 @@ return ECSConfig::configure()
                 ->withSkip(skip: [
                     __DIR__ . '/library/Mockery/Mock.php',
                     __DIR__ . '/tests/Fixture/*',
+                    PhpUnitTestClassRequiresCoversFixer::class,
+                    PhpUnitInternalClassFixer::class,
                     MethodChainingNewlineFixer::class,
                     GetClassToClassKeywordFixer::class,
                     //        \PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer::class,
-                    PhpCsFixer\Fixer\Strict\StrictComparisonFixer::class => [
+                    StrictComparisonFixer::class => [
                         __DIR__ . '/library/Mockery/Matcher/IsEqual.php',
                         __DIR__ . '/library/Mockery/Matcher/MustBe.php',
                         __DIR__ . '/library/Mockery/Matcher/Subset.php',
