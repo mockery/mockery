@@ -73,7 +73,7 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
         $mock->foo($object);
     }
 
-    public function testItCanMockAClassWithANamedArgumentList()
+    public function testItCanMockAClassWithANamedArgumentList(): void
     {
         $mock = \mock(MultiArgument::class);
 
@@ -93,7 +93,23 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
 
         $mock->foo(bar: 1);
         $mock->foo(1);
+    }
 
+    public function testItCanMockAClassWithANamedArgumentListWithoutDefaultValue(): void
+    {
+        $mock = \mock(MultiArgument::class);
+
+        $mock->expects('bar')->with(bool: true, int: 1, string: '')->times(3);
+
+        $mock->bar(1, '', true);
+
+        $mock->bar(bool: true, int: 1, string: '');
+
+        $mock->bar(string: '', bool: true, int: 1);
+    }
+
+    public function testItCanSpyAClassWithANamedArgumentList(): void
+    {
         $spy = \spy(MultiArgument::class);
 
         $param = ['bar' => 2, 'dol' => '2'];

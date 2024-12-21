@@ -9,4 +9,8 @@ class MultiArgument
     public function foo(int $bar = 0, string $bee = '', string $dol = '')
     {
     }
+
+    public function bar(int $int, string $string, bool $bool)
+    {
+    }
 }

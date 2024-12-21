@@ -10,7 +10,8 @@
 
 namespace Mockery;
 
-use \ReflectionMethod;
+use ReflectionException;
+use ReflectionMethod;
 use Closure;
 use Hamcrest\Matcher;
 use Hamcrest_Matcher;
@@ -1063,18 +1064,29 @@ class Expectation implements ExpectationInterface
             return $this->withNoArgs();
         }
 
-        if (!array_is_list($arguments)) {
+        $reflectionMethod = null;
+        try {
+            $reflectionMethod = new ReflectionMethod($this->getMock(), $this->getName());
+        } catch (ReflectionException $_) {}
+
+        if ($reflectionMethod instanceof ReflectionMethod && !array_is_list($arguments)) {
             $_arguments = [];
-            foreach ((new ReflectionMethod($this->getMock()->mockery_getName(), $this->getName()))->getParameters() as $index => $arg) {
-                if (empty($arguments)) { // Avoid over populating argument list
+            foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
+                if ([] === $arguments) { // Avoid over populating argument list
                     break;
                 }
-                if (array_key_exists($arg->getName(), $arguments)) {
-                    $_arguments[$index] = $arguments[$arg->getName()];
-                    unset($arguments[$arg->getName()]);
+
+                $name = $reflectionParameter->getName();
+                $position = $reflectionParameter->getPosition();
+                if (array_key_exists($name, $arguments)) {
+                    $_arguments[$position] = $arguments[$name];
+                    unset($arguments[$name]);
                     continue;
                 }
-                $_arguments[$index] = $arg->getDefaultValue();
+
+                if ($reflectionParameter->isDefaultValueAvailable()) {
+                    $_arguments[$position] = $reflectionParameter->getDefaultValue();
+                }
             }
             $arguments = $_arguments;
         }

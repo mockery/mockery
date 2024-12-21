@@ -645,6 +645,7 @@
       <code><![CDATA[$groups]]></code>
       <code><![CDATA[$message]]></code>
       <code><![CDATA[$return]]></code>
+      <code><![CDATA[$this->getName()]]></code>
       <code><![CDATA[$values]]></code>
       <code><![CDATA[func_get_args()]]></code>
       <code><![CDATA[func_get_args()]]></code>
@@ -656,6 +657,8 @@
       <code><![CDATA[$groups[$group]]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
+      <code><![CDATA[$_arguments[$position]]]></code>
+      <code><![CDATA[$_arguments[$position]]]></code>
       <code><![CDATA[$arg]]></code>
       <code><![CDATA[$expectedArg]]></code>
       <code><![CDATA[$expectedArg]]></code>
@@ -5844,10 +5847,18 @@ MOCK]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
+      <code><![CDATA[times]]></code>
+      <code><![CDATA[times]]></code>
+      <code><![CDATA[times]]></code>
+      <code><![CDATA[times]]></code>
+      <code><![CDATA[with]]></code>
     </MixedMethodCall>
     <RedundantCondition>
       <code><![CDATA[assertIsObject]]></code>
@@ -5857,6 +5868,18 @@ MOCK]]></code>
       <code><![CDATA[allows]]></code>
       <code><![CDATA[allows]]></code>
       <code><![CDATA[allows]]></code>
+      <code><![CDATA[allows]]></code>
+      <code><![CDATA[allows]]></code>
+      <code><![CDATA[allows]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
+      <code><![CDATA[shouldHaveReceived]]></code>
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[Php80LanguageFeaturesTest]]></code>
