@@ -10,6 +10,8 @@
 
 namespace Mockery;
 
+use ReflectionException;
+use ReflectionMethod;
 use Closure;
 use Hamcrest\Matcher;
 use Hamcrest_Matcher;
@@ -1060,6 +1062,33 @@ class Expectation implements ExpectationInterface
     {
         if ($arguments === []) {
             return $this->withNoArgs();
+        }
+
+        $reflectionMethod = null;
+        try {
+            $reflectionMethod = new ReflectionMethod($this->getMock(), $this->getName());
+        } catch (ReflectionException $_) {}
+
+        if ($reflectionMethod instanceof ReflectionMethod && !array_is_list($arguments)) {
+            $_arguments = [];
+            foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
+                if ([] === $arguments) { // Avoid over populating argument list
+                    break;
+                }
+
+                $name = $reflectionParameter->getName();
+                $position = $reflectionParameter->getPosition();
+                if (array_key_exists($name, $arguments)) {
+                    $_arguments[$position] = $arguments[$name];
+                    unset($arguments[$name]);
+                    continue;
+                }
+
+                if ($reflectionParameter->isDefaultValueAvailable()) {
+                    $_arguments[$position] = $reflectionParameter->getDefaultValue();
+                }
+            }
+            $arguments = $_arguments;
         }
 
         $this->_expectedArgs = $arguments;

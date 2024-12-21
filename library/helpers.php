@@ -198,3 +198,27 @@ if (! \function_exists('str_starts_with')) {
         return \strncmp($haystack, $needle, \strlen($needle)) === 0;
     }
 }
+
+/**
+ * Copied from php.net (https://www.php.net/manual/en/function.array-is-list.php#127044)
+ *
+ * @license https://www.php.net/manual/en/cc.license.php
+ *
+ * @param array $array
+ *
+ * @return bool
+ */
+if (! \function_exists('array_is_list')) {
+
+    function array_is_list(array $array): bool
+    {
+        $i = -1;
+        foreach ($array as $k => $v) {
+            ++$i;
+            if ($k !== $i) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

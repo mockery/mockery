@@ -13,6 +13,7 @@ use PHP80\ArgumentUnionTypeHint;
 use PHP80\ArgumentUnionTypeHintWithNull;
 use PHP80\ImplementsIterator;
 use PHP80\ImplementsIteratorAggregate;
+use PHP80\MultiArgument;
 use PHP80\ReturnTypeMixedTypeHint;
 use PHP80\ReturnTypeParentTypeHint;
 use PHP80\ReturnTypeUnionTypeHint;
@@ -70,6 +71,65 @@ final class Php80LanguageFeaturesTest extends MockeryTestCase
             ->once();
 
         $mock->foo($object);
+    }
+
+    public function testItCanMockAClassWithANamedArgumentList(): void
+    {
+        $mock = \mock(MultiArgument::class);
+
+        $mock->allows()->foo(bar: 1, dol: '1')->times(3);
+
+        $mock->foo(bar: 1, dol: '1');
+        $mock->foo(bar: 1, bee: '', dol: '1');
+        $mock->foo(1, '', '1');
+
+        $mock->allows()->foo(bee: '1')->times(3);
+
+        $mock->foo(bee: '1');
+        $mock->foo(bar: 0, bee: '1');
+        $mock->foo(0, '1');
+
+        $mock->allows()->foo(bar: 1)->times(2);
+
+        $mock->foo(bar: 1);
+        $mock->foo(1);
+    }
+
+    public function testItCanMockAClassWithANamedArgumentListWithoutDefaultValue(): void
+    {
+        $mock = \mock(MultiArgument::class);
+
+        $mock->expects('bar')->with(bool: true, int: 1, string: '')->times(3);
+
+        $mock->bar(1, '', true);
+
+        $mock->bar(bool: true, int: 1, string: '');
+
+        $mock->bar(string: '', bool: true, int: 1);
+    }
+
+    public function testItCanSpyAClassWithANamedArgumentList(): void
+    {
+        $spy = \spy(MultiArgument::class);
+
+        $param = ['bar' => 2, 'dol' => '2'];
+        $spy->foo(...$param);
+
+        $spy->shouldHaveReceived(method: 'foo', args: $param);
+        $spy->shouldHaveReceived(method: 'foo', args: ['bar' => 2, 'bee' => '', 'dol' => '2']);
+        $spy->shouldHaveReceived(method: 'foo', args: [2, '', '2']);
+
+        $param = ['bee' => '2'];
+        $spy->foo(...$param);
+
+        $spy->shouldHaveReceived(method: 'foo', args: $param);
+        $spy->shouldHaveReceived(method: 'foo', args: ['bar' => 0, 'bee' => '2']);
+        $spy->shouldHaveReceived(method: 'foo', args: [0, '2']);
+
+        $param = ['bar' => 2];
+        $spy->foo(...$param);
+        $spy->shouldHaveReceived(method: 'foo', args: $param);
+        $spy->shouldHaveReceived(method: 'foo', args: [2]);
     }
 
     public function testItCanMockAClassWithAUnionArgumentTypeHintIncludingNull(): void
