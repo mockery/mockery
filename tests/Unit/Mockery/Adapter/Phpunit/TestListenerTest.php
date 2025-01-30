@@ -43,7 +43,7 @@ final class TestListenerTest extends MockeryTestCase
     {
         $this->listener->startTestSuite(new TestSuite());
 
-        $mock = Mockery::getContainer()->mock();
+        $mock = Mockery::mock();
         $mock->shouldReceive('bar')
             ->once();
 
@@ -58,8 +58,7 @@ final class TestListenerTest extends MockeryTestCase
 
     public function testSuccessWhenMockIsUsedBeforeStartingTests(): void
     {
-        $container = Mockery::getContainer();
-        $mock = $container->mock();
+        $mock = Mockery::mock();
         $mock->shouldReceive('bar')
             ->once();
 
