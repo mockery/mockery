@@ -80,5 +80,6 @@ class TestListenerTrait
         } else {
             Blacklist::$blacklistedClassNames[Mockery::class] = 1;
         }
+        Mockery::resetContainer();
     }
 }
