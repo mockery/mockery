@@ -795,7 +795,7 @@ class Expectation implements ExpectationInterface
      * @return self
      */
 
-    public function withAndOther(...$args)
+    public function withAndOthers(...$args)
     {
         return $this->withArgs([...$args, new AndAnyOtherArgs()]);
     }
