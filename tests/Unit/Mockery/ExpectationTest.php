@@ -1055,6 +1055,15 @@ final class ExpectationTest extends MockeryTestCase
         $this->mock->foo(1, 'k', new stdClass());
     }
 
+    public function testExpectsAndOthers(): void
+    {
+        $this->mock->shouldReceive('foo')
+            ->withAndOthers(1, 2)
+            ->times(2);
+        $this->mock->foo(1, 2);
+        $this->mock->foo(1, 2, new stdClass(), 'a', 'b', 'c');
+    }
+
     public function testExpectsArgumentMatchingObjectType(): void
     {
         $this->mock->shouldReceive('foo')
