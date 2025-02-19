@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [1453: Misleading, possibly invalid, mock @param phpdoc signature for the variadic param $args](https://github.com/mockery/mockery/issues/1453)
+
 ## [1.6.12] - 2024-05-15
 
 ### Changed
