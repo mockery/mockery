@@ -418,7 +418,7 @@ class Mockery
      *
      * @template TInstanceMock
      *
-     * @param array<class-string<TInstanceMock>|TInstanceMock|array<mixed>> $args
+     * @param class-string<TInstanceMock>|TInstanceMock|array<mixed> ...$args
      *
      * @return LegacyMockInterface&MockInterface&TInstanceMock
      */
@@ -468,7 +468,7 @@ class Mockery
      *
      * @template TMock of object
      *
-     * @param array<class-string<TMock>|TMock|Closure(LegacyMockInterface&MockInterface&TMock):LegacyMockInterface&MockInterface&TMock|array<TMock>> $args
+     * @param class-string<TMock>|TMock|Closure(LegacyMockInterface&MockInterface&TMock):LegacyMockInterface&MockInterface&TMock|array<TMock> ...$args
      *
      * @return LegacyMockInterface&MockInterface&TMock
      */
@@ -496,7 +496,7 @@ class Mockery
      *
      * @template TNamedMock
      *
-     * @param array<class-string<TNamedMock>|TNamedMock|array<mixed>> $args
+     * @param class-string<TNamedMock>|TNamedMock|array<mixed> ...$args
      *
      * @return LegacyMockInterface&MockInterface&TNamedMock
      */
@@ -668,7 +668,7 @@ class Mockery
      *
      * @template TSpy
      *
-     * @param array<class-string<TSpy>|TSpy|Closure(LegacyMockInterface&MockInterface&TSpy):LegacyMockInterface&MockInterface&TSpy|array<TSpy>> $args
+     * @param class-string<TSpy>|TSpy|Closure(LegacyMockInterface&MockInterface&TSpy):LegacyMockInterface&MockInterface&TSpy|array<TSpy> ...$args
      *
      * @return LegacyMockInterface&MockInterface&TSpy
      */
