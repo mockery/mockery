@@ -24,7 +24,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           coverage: none
-          php-version: 8.3
+          php-version: 8.4
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+          tools: psalm:6.7.1
 
       - name: Get composer cache directory
         id: composer-cache
@@ -51,4 +53,4 @@ jobs:
           ${fullCommand}
 
       - name: Run Psalm
-        run: composer psalm:shepherd
+        run: psalm --no-cache --no-diff --output-format=github --shepherd --stats

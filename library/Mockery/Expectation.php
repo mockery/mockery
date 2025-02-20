@@ -788,6 +788,19 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+     * Set expectation that the given arguments are acceptable plus variable other arguments
+     *
+     * @param mixed ...$args
+     *
+     * @return self
+     */
+
+    public function withAndOthers(...$args)
+    {
+        return $this->withArgs(array_merge($args, [new AndAnyOtherArgs()]));
+    }
+
+    /**
      * Set expectation that any arguments are acceptable
      *
      * @return self
