@@ -81,6 +81,7 @@ This stub or mock object will implement the ``MyInterface`` interface.
     Classes marked final, or classes that have methods marked final cannot be
     mocked fully. Mockery supports creating partial mocks for these cases.
     Partial mocks will be explained later in the documentation.
+    For more robust solutions to this issue, see :doc:`final_methods_classes`.
 
 Mockery also supports creating stub or mock objects based on a single existing
 class, which must implement one or more interfaces. We can do this by providing
@@ -287,6 +288,10 @@ marked final since the Proxy is not subject to those limitations. The tradeoff
 should be obvious - a proxied partial will fail any typehint checks for the
 class being mocked since it cannot extend that class.
 
+.. note::
+
+     For more robust solutions for final classes, see :doc:`final_methods_classes`.
+     
 .. _creating-test-doubles-aliasing:
 
 Aliasing

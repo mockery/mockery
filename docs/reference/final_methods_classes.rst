@@ -27,3 +27,11 @@ and meeting expectations.
 
 See the :ref:`creating-test-doubles-partial-test-doubles` chapter, the subsection
 about proxied partial test doubles.
+
+.. note::
+
+    Some packages can bypass the ``final`` keyword at runtime, allowing you to use
+    ``\Mockery::mock()`` without additional configuration. Consider these options:
+    
+    * `dg/bypass-finals <https://github.com/dg/bypass-finals>`_
+    * `nunomaduro/mock-final-classes <https://github.com/nunomaduro/mock-final-classes>`_
