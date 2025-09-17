@@ -717,6 +717,16 @@ class Mock implements MockInterface
          */
     }
 
+    public function __unserialize(array $data)
+    {
+        /**
+         * This does not add __unserialize method support. It's a blind method and any
+         * expected __unserialize work will NOT be performed. It merely cuts off
+         * annoying errors where a __unserialize exists but is not essential when
+         * mocking
+         */
+    }
+
     public function __destruct()
     {
         /**
