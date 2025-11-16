@@ -179,4 +179,15 @@ final class DemeterChainTest extends MockeryTestCase
         self::assertSame('somethingElse', $this->mock->getOtherElement() ->getSecond());
         self::assertSame('something', $this->mock->getElement()->getFirst());
     }
+
+    public function testDemeterChainsOnInterfaceSubjects()
+    {
+        $mock = Mockery::mock(\PHP80\PHP80TestInterface::class);
+        $mock->shouldReceive('do->thing')
+            ->andReturn(null);
+
+        $value = $mock->do()->thing();
+        
+        $this->assertNull($value);
+    }
 }

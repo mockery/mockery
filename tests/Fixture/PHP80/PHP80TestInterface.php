@@ -6,4 +6,7 @@ namespace PHP80;
 
 interface PHP80TestInterface
 {
+    public function do(): static;
+
+    public function thing(): static;
 }
