@@ -13,6 +13,7 @@ use Mockery\CompositeExpectation;
 use Mockery\Configuration;
 use Mockery\Container;
 use Mockery\Exception as MockeryException;
+use Mockery\ExpectationDirector;
 use Mockery\ExpectationInterface;
 use Mockery\Generator\CachingGenerator;
 use Mockery\Generator\Generator;
@@ -670,7 +671,7 @@ class Mockery
      *
      * @param class-string<TSpy>|TSpy|Closure(LegacyMockInterface&MockInterface&TSpy):LegacyMockInterface&MockInterface&TSpy|array<TSpy> ...$args
      *
-     * @return LegacyMockInterface&MockInterface&TSpy
+     * @return (LegacyMockInterface&TSpy)|(MockInterface&TSpy)
      */
     public static function spy(...$args)
     {
@@ -723,8 +724,6 @@ class Mockery
         $container = $mock->mockery_getContainer();
         $methodNames = \explode('->', $arg);
 
-        \reset($methodNames);
-
         if (
             ! $mock->mockery_isAnonymous()
             && ! self::getConfiguration()->mockingNonExistentMethodsAllowed()
@@ -737,37 +736,36 @@ class Mockery
             );
         }
 
-        /** @var Closure $nextExp */
-        $nextExp = static function ($method) use ($add) {
+        $nextExpectation = static function (string $method) use ($add): ExpectationInterface {
             return $add($method);
         };
 
         $parent = \get_class($mock);
 
-        /** @var null|ExpectationInterface $expectations */
-        $expectations = null;
         while (true) {
             $method = \array_shift($methodNames);
+
+            if (empty($methodNames)) {
+                $expectations = $nextExpectation($method);
+                break;
+            }
+
             $expectations = $mock->mockery_getExpectationsFor($method);
 
-            if ($expectations === null || self::noMoreElementsInChain($methodNames)) {
-                $expectations = $nextExp($method);
-                if (self::noMoreElementsInChain($methodNames)) {
-                    break;
-                }
-
-                $mock = self::getNewDemeterMock($container, $parent, $method, $expectations);
-            } else {
+            if ($expectations instanceof ExpectationDirector) {
                 $demeterMockKey = $container->getKeyOfDemeterMockFor($method, $parent);
-                if ($demeterMockKey !== null) {
+                if (\is_string($demeterMockKey)) {
                     $mock = self::getExistingDemeterMock($container, $demeterMockKey);
                 }
+            } else {
+                $expectations = $nextExpectation($method);
+                $mock = self::getNewDemeterMock($container, $parent, $method, $expectations);
             }
 
             $parent .= '->' . $method;
 
-            $nextExp = static function ($n) use ($mock) {
-                return $mock->allows($n);
+            $nextExpectation = static function (string $method) use ($mock) {
+                return $mock->allows($method);
             };
         }
 
@@ -956,7 +954,7 @@ class Mockery
      *
      * @param class-string<TMock> $demeterMockKey
      *
-     * @return null|(LegacyMockInterface&MockInterface&TMock)
+     * @return null|((LegacyMockInterface&TMock)|(MockInterface&TMock))
      */
     private static function getExistingDemeterMock(Container $container, $demeterMockKey)
     {
@@ -972,60 +970,53 @@ class Mockery
      *
      * @return LegacyMockInterface&MockInterface
      */
-    private static function getNewDemeterMock(Container $container, $parent, $method, ExpectationInterface $exp)
+    private static function getNewDemeterMock(Container $container, $parent, $method, ExpectationInterface $expectation)
     {
         $newMockName = 'demeter_' . \md5($parent) . '_' . $method;
+        $parentMock = $expectation->getMock();
 
-        $parRef = null;
+        if (! $parentMock instanceof LegacyMockInterface) {
+            $mock = $container->mock($newMockName);
+            $expectation->andReturn($mock);
 
-        $parentMock = $exp->getMock();
-        if ($parentMock !== null) {
-            $parRef = new ReflectionObject($parentMock);
+            return $mock;
         }
 
-        if ($parRef instanceof ReflectionObject && $parRef->hasMethod($method)) {
-            $parRefMethod = $parRef->getMethod($method);
-            $parRefMethodRetType = Reflector::getReturnType($parRefMethod, true);
+        $parentMockReflectionObject = new ReflectionObject($parentMock);
 
-            if ($parRefMethodRetType !== null) {
-                $returnTypes = \explode('|', $parRefMethodRetType);
+        if (! $parentMockReflectionObject->hasMethod($method)) {
+            $mock = $container->mock($newMockName);
+            $expectation->andReturn($mock);
 
-                $filteredReturnTypes = array_filter($returnTypes, static function (string $type): bool {
-                    return ! Reflector::isReservedWord($type);
-                });
-
-                if ($filteredReturnTypes !== []) {
-                    $nameBuilder = new MockNameBuilder();
-
-                    $nameBuilder->addPart('\\' . $newMockName);
-
-                    $mock = self::namedMock(
-                        $nameBuilder->build(),
-                        ...$filteredReturnTypes
-                    );
-
-                    $exp->andReturn($mock);
-
-                    return $mock;
-                }
-            }
+            return $mock;
         }
 
-        $mock = $container->mock($newMockName);
-        $exp->andReturn($mock);
+        $parRefMethodRetType = Reflector::getReturnType($parentMockReflectionObject->getMethod($method), true);
+        if (! \is_string($parRefMethodRetType)) {
+            $mock = $container->mock($newMockName);
+            $expectation->andReturn($mock);
+            return $mock;
+        }
+
+        if ($parRefMethodRetType === 'self' || $parRefMethodRetType === 'static') {
+            $expectation->andReturn($parentMock);
+            return $parentMock;
+        }
+
+        $nameBuilder = new MockNameBuilder();
+
+        $nameBuilder->addPart('\\' . $newMockName);
+
+        $mock = self::namedMock(
+            $nameBuilder->build(),
+            ...\array_filter(\explode('|', $parRefMethodRetType), static function (string $type): bool {
+                return ! Reflector::isReservedWord($type);
+            })
+        );
+
+        $expectation->andReturn($mock);
 
         return $mock;
-    }
-
-    /**
-     * Checks if the passed array representing a demeter
-     * chain with the method names is empty.
-     *
-     * @return bool
-     */
-    private static function noMoreElementsInChain(array $methodNames)
-    {
-        return $methodNames === [];
     }
 
     /**
