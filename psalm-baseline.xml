@@ -4,6 +4,8 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$demeterMockKey]]></code>
       <code><![CDATA[$newMockName]]></code>
+      <code><![CDATA[$newMockName]]></code>
+      <code><![CDATA[$newMockName]]></code>
     </ArgumentTypeCoercion>
     <ClassMustBeFinal>
       <code><![CDATA[Mockery]]></code>
@@ -25,18 +27,23 @@
     </InternalMethod>
     <InvalidReturnStatement>
       <code><![CDATA[$argument]]></code>
+      <code><![CDATA[$container->getMocks()[$demeterMockKey] ?? null]]></code>
+      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$parentMock]]></code>
       <code><![CDATA['...']]></code>
-      <code><![CDATA[self::getContainer()->mock(...$args)->shouldIgnoreMissing()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code><![CDATA[LegacyMockInterface&MockInterface&TSpy]]></code>
+      <code><![CDATA[ExpectationInterface]]></code>
       <code><![CDATA[TArray]]></code>
+      <code><![CDATA[null|((LegacyMockInterface&TMock)|(MockInterface&TMock))]]></code>
     </InvalidReturnType>
     <LessSpecificReturnStatement>
-      <code><![CDATA[$container->getMocks()[$demeterMockKey] ?? null]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
       <code><![CDATA[$mock]]></code>
       <code><![CDATA[self::getContainer()->fetchMock($name)]]></code>
       <code><![CDATA[self::getContainer()->mock(...$args)]]></code>
+      <code><![CDATA[self::getContainer()->mock(...$args)->shouldIgnoreMissing()]]></code>
     </LessSpecificReturnStatement>
     <LessSpecificReturnType>
       <code><![CDATA[array<string, mixed>]]></code>
@@ -46,16 +53,13 @@
     </MissingClassConstType>
     <MissingClosureParamType>
       <code><![CDATA[$argument]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$n]]></code>
       <code><![CDATA[$nesting]]></code>
       <code><![CDATA[$object]]></code>
     </MissingClosureParamType>
     <MissingClosureReturnType>
       <code><![CDATA[static function ($argument) use (&$reference) {]]></code>
-      <code><![CDATA[static function ($method) use ($add) {]]></code>
-      <code><![CDATA[static function ($n) use ($mock) {]]></code>
       <code><![CDATA[static function ($object, $nesting) {]]></code>
+      <code><![CDATA[static function (string $method) use ($mock) {]]></code>
     </MissingClosureReturnType>
     <MissingReturnType>
       <code><![CDATA[registerFileForCleanUp]]></code>
@@ -64,6 +68,8 @@
     </MissingReturnType>
     <MissingThrowsDocblock>
       <code><![CDATA[getMethod]]></code>
+      <code><![CDATA[mock]]></code>
+      <code><![CDATA[mock]]></code>
       <code><![CDATA[mock]]></code>
       <code><![CDATA[mock]]></code>
       <code><![CDATA[mock]]></code>
@@ -98,6 +104,7 @@
       <code><![CDATA[$argument]]></code>
       <code><![CDATA[$cleanedProperties[$name]]]></code>
       <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$expectations]]></code>
       <code><![CDATA[$formattedArguments[]]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$reference]]></code>
@@ -110,8 +117,7 @@
       <code><![CDATA[$argument]]></code>
     </MixedOperand>
     <MixedReturnStatement>
-      <code><![CDATA[$expectations]]></code>
-      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$add($method)]]></code>
     </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[LegacyMockInterface&MockInterface&TInstanceMock]]></code>
@@ -120,14 +126,11 @@
       <code><![CDATA[self::getContainer()->mock(...$args)]]></code>
     </MixedReturnTypeCoercion>
     <MoreSpecificReturnType>
+      <code><![CDATA[(LegacyMockInterface&TSpy)|(MockInterface&TSpy)]]></code>
       <code><![CDATA[LegacyMockInterface&MockInterface]]></code>
       <code><![CDATA[LegacyMockInterface&MockInterface&TMock]]></code>
       <code><![CDATA[null|(LegacyMockInterface&MockInterface&TFetchMock)]]></code>
-      <code><![CDATA[null|(LegacyMockInterface&MockInterface&TMock)]]></code>
     </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$expectations]]></code>
-    </NullableReturnStatement>
     <PossiblyFalseArgument>
       <code><![CDATA[$fileName]]></code>
       <code><![CDATA[$fileName]]></code>
@@ -138,15 +141,6 @@
     <PossiblyInvalidCast>
       <code><![CDATA[$name]]></code>
     </PossiblyInvalidCast>
-    <PossiblyNullArgument>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$method]]></code>
-    </PossiblyNullOperand>
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[null]]></code>
     </PossiblyNullPropertyAssignmentValue>
@@ -168,9 +162,6 @@
       <code><![CDATA[setContainer]]></code>
       <code><![CDATA[setGenerator]]></code>
     </PossiblyUnusedMethod>
-    <RedundantConditionGivenDocblockType>
-      <code><![CDATA[$parentMock !== null]]></code>
-    </RedundantConditionGivenDocblockType>
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[\strpos($fqn, '\\')]]></code>
     </RiskyTruthyFalsyComparison>
@@ -2389,7 +2380,6 @@ MOCK]]></code>
   <file src="library/helpers.php">
     <LessSpecificReturnType>
       <code><![CDATA[((LegacyMockInterface&TMixed)|(MockInterface&TMixed))]]></code>
-      <code><![CDATA[((LegacyMockInterface&TMixed)|(MockInterface&TMixed))]]></code>
       <code><![CDATA[LegacyMockInterface|MockInterface]]></code>
     </LessSpecificReturnType>
     <MixedArgumentTypeCoercion>
@@ -2812,6 +2802,9 @@ MOCK]]></code>
       <code><![CDATA[public function mockeryTestTearDown(): void]]></code>
     </MissingOverrideAttribute>
     <MissingThrowsDocblock>
+      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing())]]></code>
+      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing())]]></code>
+      <code><![CDATA[self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing())]]></code>
       <code><![CDATA[self::assertInstanceOf(stdClass::class, $result)]]></code>
       <code><![CDATA[self::assertInstanceOf(stdClass::class, $result)]]></code>
       <code><![CDATA[self::assertInstanceOf(stdClass::class, $result)]]></code>
@@ -2920,6 +2913,7 @@ MOCK]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
+      <code><![CDATA[shouldReceive]]></code>
     </UndefinedInterfaceMethod>
     <UndefinedMagicMethod>
       <code><![CDATA[andReturn]]></code>
@@ -5731,6 +5725,21 @@ MOCK]]></code>
       <code><![CDATA[self::assertSame(1, $spy->mockery_getExpectationCount())]]></code>
       <code><![CDATA[self::assertSame(1, $spy->mockery_getExpectationCount())]]></code>
     </MissingThrowsDocblock>
+    <PossiblyUndefinedMethod>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+      <code><![CDATA[myMethod]]></code>
+    </PossiblyUndefinedMethod>
     <TooFewArguments>
       <code><![CDATA[shouldHaveReceived]]></code>
       <code><![CDATA[shouldHaveReceived]]></code>
@@ -5754,19 +5763,6 @@ MOCK]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
-      <code><![CDATA[myMethod]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[with]]></code>
