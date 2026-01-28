@@ -49,7 +49,7 @@
         "hamcrest/hamcrest-php": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5.38 || ^9.6.22",
+        "phpunit/phpunit": "^8.5.52 || ^9.6.34",
         "symplify/easy-coding-standard": "^12.5.8"
     },
     "conflict": {
