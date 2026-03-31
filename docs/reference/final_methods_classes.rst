@@ -9,7 +9,7 @@ classes or methods marked final is hard. The final keyword prevents methods so
 marked from being replaced in subclasses (subclassing is how mock objects can
 inherit the type of the class or object being mocked).
 
-The simplest solution is to implement an interface in your final class and 
+The simplest solution is to implement an interface in your final class and
 typehint against / mock this.
 
 However this may not be possible in some third party libraries.
@@ -27,3 +27,10 @@ and meeting expectations.
 
 See the :ref:`creating-test-doubles-partial-test-doubles` chapter, the subsection
 about proxied partial test doubles.
+
+.. note::
+
+    Some packages can bypass the ``final`` keyword at runtime, allowing you to use
+    ``\Mockery::mock()`` without additional configuration. Consider these options:
+
+    * `dg/bypass-finals <https://github.com/dg/bypass-finals>`_

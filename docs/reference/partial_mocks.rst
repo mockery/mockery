@@ -90,6 +90,10 @@ marked final since the Proxy is not subject to those limitations. The tradeoff
 should be obvious - a proxied partial will fail any typehint checks for the
 class being mocked since it cannot extend that class.
 
+.. note::
+
+     For more robust solutions for final classes, see :doc:`final_methods_classes`.
+
 Special Internal Cases
 ----------------------
 
