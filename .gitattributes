@@ -18,5 +18,4 @@
 /tests export-ignore
 /tools export-ignore
 /composer.lock export-ignore
-/COPYRIGHT.md export-ignore
 /.readthedocs.yml export-ignore
