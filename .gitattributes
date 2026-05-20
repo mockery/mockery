@@ -19,3 +19,4 @@
 /tools export-ignore
 /composer.lock export-ignore
 /.readthedocs.yml export-ignore
+/CONTRIBUTING.md export-ignore
