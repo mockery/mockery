@@ -10,6 +10,7 @@ use PHP83\Classes;
 use PHP83\ClassName;
 use PHP83\Enums;
 use PHP83\Interfaces;
+use PHP83\ReadonlyClass;
 use PHP83\Traits;
 
 /**
@@ -62,5 +63,13 @@ final class Php83LanguageFeaturesTest extends MockeryTestCase
         $this->expectException(Exception::class);
 
         \mock(Enums::class);
+    }
+
+    public function testCanNotMockReadonlyClasses(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('is marked readonly');
+
+        \mock(ReadonlyClass::class);
     }
 }
