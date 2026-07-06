@@ -190,7 +190,8 @@ BODY;
 
         $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
 
-        if (! in_array($method->getReturnType(), ['never', 'void'], true)) {
+        // Returning a value from a constructor is deprecated as of PHP 8.6.
+        if ($method->getName() !== '__construct' && ! in_array($method->getReturnType(), ['never', 'void'], true)) {
             $body .= "return \$ret;\n";
         }
 

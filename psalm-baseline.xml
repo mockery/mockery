@@ -1385,6 +1385,7 @@ MOCK]]></code>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
       <code><![CDATA[getParameterOverrides]]></code>
       <code><![CDATA[getParameterOverrides]]></code>
       <code><![CDATA[getParameters]]></code>
@@ -4892,6 +4893,21 @@ MOCK]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
       <code><![CDATA[InterfacePassTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPassTest.php">
+    <MissingThrowsDocblock>
+      <code><![CDATA[self::assertFalse(\mb_strpos($constructor, 'return $ret;'))]]></code>
+      <code><![CDATA[self::assertFalse(\mb_strpos($constructor, 'return $ret;'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($constructor, '_mockery_handleMethodCall'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($constructor, '_mockery_handleMethodCall'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($constructor, 'public function __construct'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($constructor, 'public function __construct'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($method, 'return $ret;'))]]></code>
+      <code><![CDATA[self::assertNotFalse(\mb_strpos($method, 'return $ret;'))]]></code>
+    </MissingThrowsDocblock>
+    <UnusedClass>
+      <code><![CDATA[MethodDefinitionPassTest]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/GlobalHelpersTest.php">
