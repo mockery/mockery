@@ -16,14 +16,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        php: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
         dependencies: ['lowest','highest','locked']
-        dev: ['8.4']
-        stable: ['8.3']
+        dev: ['8.6']
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
