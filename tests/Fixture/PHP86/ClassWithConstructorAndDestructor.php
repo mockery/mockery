@@ -6,7 +6,11 @@ namespace PHP86;
 
 class ClassWithConstructorAndDestructor
 {
-    public function __construct(public int $number) {}
+    private $number;
+
+    public function __construct(int $number) {
+        $this->number = $number;
+    }
 
     public function __destruct() {}
 
