@@ -6,29 +6,123 @@ namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
-use PHP73\MockeryTest_ClassMultipleConstructorParams;
-use PHPUnit\Framework\TestCase;
+use PHP86\ClassWithConstructorAndDestructor;
+use Tests\Unit\AbstractTestCase;
+use Throwable;
 
 /**
- * @coversDefaultClass \Mockery
+ * @coversDefaultClass \Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass
  */
-final class MethodDefinitionPassTest extends TestCase
+final class MethodDefinitionPassTest extends AbstractTestCase
 {
-    public function testConstructorDoesNotReturnAValue(): void
+    /** @throws Throwable */
+    public function testConstructMethodDoesNotReturnAValue(): void
     {
-        $config = new MockConfiguration([MockeryTest_ClassMultipleConstructorParams::class]);
+        $config = new MockConfiguration([ClassWithConstructorAndDestructor::class]);
+
         $pass = new MethodDefinitionPass();
-        $code = $pass->apply('class Dave { }', $config);
 
-        $constructor = \mb_substr($code, 0, (int) \mb_strpos($code, 'public function dave'));
+        self::assertStringContainsString(
+            implode(
+                "\n",
+                [
+                    'public function __construct(int $number){',
+                    '$argc = func_num_args();',
+                    '$argv = func_get_args();',
+                    '$this->_mockery_handleMethodCall(__FUNCTION__, $argv);',
+                    '}',
+                ]
+            ),
+            $pass->apply('class Example {}', $config)
+        );
+    }
 
-        // Returning a value from a constructor is deprecated as of PHP 8.6.
-        self::assertNotFalse(\mb_strpos($constructor, 'public function __construct'));
-        self::assertNotFalse(\mb_strpos($constructor, '_mockery_handleMethodCall'));
-        self::assertFalse(\mb_strpos($constructor, 'return $ret;'));
+    /** @throws Throwable */
+    public function testDestructMethodDoesNotReturnAValue(): void
+    {
+        $config = new MockConfiguration([ClassWithConstructorAndDestructor::class]);
 
-        // Regular methods still return the handled call value.
-        $method = \mb_substr($code, (int) \mb_strpos($code, 'public function dave'));
-        self::assertNotFalse(\mb_strpos($method, 'return $ret;'));
+        $pass = new MethodDefinitionPass();
+
+        self::assertStringContainsString(
+            implode(
+                "\n",
+                [
+                    'public function __destruct(){',
+                    '$argc = func_num_args();',
+                    '$argv = func_get_args();',
+                    '$this->_mockery_handleMethodCall(__FUNCTION__, $argv);',
+                    '}',
+                ]
+            ),
+            $pass->apply('class Example {}', $config)
+        );
+    }
+
+    /** @throws Throwable */
+    public function testNumberMethodDoesNotReturnAValue(): void
+    {
+        $config = new MockConfiguration([ClassWithConstructorAndDestructor::class]);
+
+        $pass = new MethodDefinitionPass();
+
+        self::assertStringContainsString(
+            implode(
+                "\n",
+                [
+                    'public function number(): int{',
+                    '$argc = func_num_args();',
+                    '$argv = func_get_args();',
+                    '$ret = $this->_mockery_handleMethodCall(__FUNCTION__, $argv);',
+                    'return $ret;',
+                    '}',
+                ]
+            ),
+            $pass->apply('class Example {}', $config)
+        );
+    }
+
+    /** @throws Throwable */
+    public function testNeverMethodDoesNotReturnAValue(): void
+    {
+        $config = new MockConfiguration([ClassWithConstructorAndDestructor::class]);
+
+        $pass = new MethodDefinitionPass();
+
+        self::assertStringContainsString(
+            implode(
+                "\n",
+                [
+                    'public function neverMethod(): never{',
+                    '$argc = func_num_args();',
+                    '$argv = func_get_args();',
+                    '$this->_mockery_handleMethodCall(__FUNCTION__, $argv);',
+                    '}',
+                ]
+            ),
+            $pass->apply('class Example {}', $config)
+        );
+    }
+
+    /** @throws Throwable */
+    public function testVoidMethodDoesNotReturnAValue(): void
+    {
+        $config = new MockConfiguration([ClassWithConstructorAndDestructor::class]);
+
+        $pass = new MethodDefinitionPass();
+
+        self::assertStringContainsString(
+            implode(
+                "\n",
+                [
+                    'public function voidMethod(): void{',
+                    '$argc = func_num_args();',
+                    '$argv = func_get_args();',
+                    '$this->_mockery_handleMethodCall(__FUNCTION__, $argv);',
+                    '}',
+                ]
+            ),
+            $pass->apply('class Example {}', $config)
+        );
     }
 }

@@ -188,13 +188,34 @@ BODY;
             }
         }
 
-        $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
+        if ($this->shouldReturnValue($method)) {
+            $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
 
-        // Returning a value from a constructor is deprecated as of PHP 8.6.
-        if ($method->getName() !== '__construct' && ! in_array($method->getReturnType(), ['never', 'void'], true)) {
             $body .= "return \$ret;\n";
+
+            return $body . "}\n";
         }
 
+        $body .= "{$invoke}(__FUNCTION__, \$argv);\n";
+
         return $body . "}\n";
+    }
+
+    private function shouldReturnValue(Method $method): bool
+    {
+        $returnType = $method->getReturnType();
+        if ($returnType === 'void' || $returnType === 'never') {
+            return false;
+        }
+
+        /**
+         * @see https://wiki.php.net/rfc/deprecate-return-value-from-construct
+         */
+        $methodName = strtolower($method->getName());
+        if ($methodName === '__construct' || $methodName === '__destruct') {
+            return false;
+        }
+
+        return true;
     }
 }
