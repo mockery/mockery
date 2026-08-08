@@ -72,11 +72,13 @@ class MethodDefinitionPass implements Pass
     protected function renderParams(Method $method, $config)
     {
         $class = $method->getDeclaringClass();
+        $className = strtolower($class->getName());
+        $methodName = $method->getName();
         if ($class->isInternal()) {
             $overrides = $config->getParameterOverrides();
 
-            if (isset($overrides[strtolower($class->getName())][$method->getName()])) {
-                return '(' . implode(',', $overrides[strtolower($class->getName())][$method->getName()]) . ')';
+            if (isset($overrides[$className][$methodName])) {
+                return '(' . implode(',', $overrides[$className][$methodName]) . ')';
             }
         }
 
@@ -140,8 +142,9 @@ class MethodDefinitionPass implements Pass
         return $typeHint === null ? '' : sprintf('%s ', $typeHint);
     }
 
-    private function renderMethodBody($method, $config)
+    private function renderMethodBody(Method $method, MockConfiguration $config)
     {
+        $methodName = $method->getName();
         $invoke = $method->isStatic() ? 'static::_mockery_handleStaticMethodCall' : '$this->_mockery_handleMethodCall';
         $body = <<<BODY
 {
@@ -154,10 +157,10 @@ BODY;
         // in case more parameters are passed in than the function definition
         // says - eg varargs.
         $class = $method->getDeclaringClass();
-        $class_name = strtolower($class->getName());
+        $className = strtolower($class->getName());
         $overrides = $config->getParameterOverrides();
-        if (isset($overrides[$class_name][$method->getName()])) {
-            $params = array_values($overrides[$class_name][$method->getName()]);
+        if (isset($overrides[$className][$methodName])) {
+            $params = array_values($overrides[$className][$methodName]);
             $paramCount = count($params);
             for ($i = 0; $i < $paramCount; ++$i) {
                 $param = $params[$i];
@@ -188,12 +191,34 @@ BODY;
             }
         }
 
-        $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
+        if ($this->shouldReturnValue($method)) {
+            $body .= "\$ret = {$invoke}(__FUNCTION__, \$argv);\n";
 
-        if (! in_array($method->getReturnType(), ['never', 'void'], true)) {
             $body .= "return \$ret;\n";
+
+            return $body . "}\n";
         }
 
+        $body .= "{$invoke}(__FUNCTION__, \$argv);\n";
+
         return $body . "}\n";
+    }
+
+    private function shouldReturnValue(Method $method): bool
+    {
+        $returnType = $method->getReturnType();
+        if ($returnType === 'void' || $returnType === 'never') {
+            return false;
+        }
+
+        /**
+         * @see https://wiki.php.net/rfc/deprecate-return-value-from-construct
+         */
+        $methodName = strtolower($method->getName());
+        if ($methodName === '__construct' || $methodName === '__destruct') {
+            return false;
+        }
+
+        return true;
     }
 }

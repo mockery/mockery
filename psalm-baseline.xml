@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.7.1@a2f190972555ea01b0cfcc1913924d6c5fc1a64e">
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
   <file src="library/Mockery.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$demeterMockKey]]></code>
@@ -485,10 +485,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[AtLeast]]></code>
     </ClassMustBeFinal>
-    <InvalidOperand>
-      <code><![CDATA[$n]]></code>
-      <code><![CDATA[$this->_limit]]></code>
-    </InvalidOperand>
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
@@ -501,10 +497,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[AtMost]]></code>
     </ClassMustBeFinal>
-    <InvalidOperand>
-      <code><![CDATA[$n]]></code>
-      <code><![CDATA[$this->_limit]]></code>
-    </InvalidOperand>
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
@@ -535,10 +527,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[Exact]]></code>
     </ClassMustBeFinal>
-    <InvalidOperand>
-      <code><![CDATA[$n]]></code>
-      <code><![CDATA[$this->_limit]]></code>
-    </InvalidOperand>
     <InvalidReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
@@ -622,9 +610,6 @@
     <InvalidArgument>
       <code><![CDATA[$argsOrClosure]]></code>
     </InvalidArgument>
-    <InvalidOperand>
-      <code><![CDATA[$index]]></code>
-    </InvalidOperand>
     <InvalidStringClass>
       <code><![CDATA[new $exception($message, $code, $previous)]]></code>
       <code><![CDATA[new $this->_countValidatorClass($this, $limit)]]></code>
@@ -1024,9 +1009,6 @@
     <PossiblyUndefinedIntArrayOffset>
       <code><![CDATA[$params[1]]]></code>
     </PossiblyUndefinedIntArrayOffset>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[getParameterOverrides]]></code>
-    </PossiblyUnusedMethod>
     <PropertyTypeCoercion>
       <code><![CDATA[$methods]]></code>
     </PropertyTypeCoercion>
@@ -1102,9 +1084,6 @@
     <InvalidArgument>
       <code><![CDATA[false]]></code>
     </InvalidArgument>
-    <InvalidOperand>
-      <code><![CDATA[self::$parameterCounter++]]></code>
-    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[class_exists($typeHint) ? DefinedTargetClass::factory($typeHint, false) : null]]></code>
     </InvalidReturnStatement>
@@ -1330,10 +1309,6 @@ MOCK]]></code>
     <InvalidCast>
       <code><![CDATA[$param]]></code>
     </InvalidCast>
-    <InvalidMethodCall>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[isPassedByReference]]></code>
-    </InvalidMethodCall>
     <MissingOverrideAttribute>
       <code><![CDATA[public function apply($code, MockConfiguration $config)]]></code>
     </MissingOverrideAttribute>
@@ -1341,8 +1316,6 @@ MOCK]]></code>
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$code]]></code>
       <code><![CDATA[$config]]></code>
-      <code><![CDATA[$config]]></code>
-      <code><![CDATA[$method]]></code>
     </MissingParamType>
     <MissingReturnType>
       <code><![CDATA[appendToClass]]></code>
@@ -1354,42 +1327,24 @@ MOCK]]></code>
     <MixedArgument>
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$class]]></code>
-      <code><![CDATA[$class->getName()]]></code>
-      <code><![CDATA[$method->getParameters()]]></code>
-      <code><![CDATA[$overrides[$class_name][$method->getName()]]]></code>
-      <code><![CDATA[$overrides[strtolower($class->getName())][$method->getName()]]]></code>
+      <code><![CDATA[$overrides[$className][$methodName]]]></code>
+      <code><![CDATA[$overrides[$className][$methodName]]]></code>
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$param]]></code>
     </MixedArgumentTypeCoercion>
     <MixedArrayAccess>
-      <code><![CDATA[$overrides[$class_name]]]></code>
-      <code><![CDATA[$overrides[$class_name][$method->getName()]]]></code>
-      <code><![CDATA[$overrides[strtolower($class->getName())]]]></code>
-      <code><![CDATA[$overrides[strtolower($class->getName())][$method->getName()]]]></code>
+      <code><![CDATA[$overrides[$className]]]></code>
+      <code><![CDATA[$overrides[$className][$methodName]]]></code>
     </MixedArrayAccess>
-    <MixedArrayOffset>
-      <code><![CDATA[$overrides[$class_name][$method->getName()]]]></code>
-      <code><![CDATA[$overrides[$class_name][$method->getName()]]]></code>
-    </MixedArrayOffset>
     <MixedAssignment>
-      <code><![CDATA[$class]]></code>
       <code><![CDATA[$code]]></code>
       <code><![CDATA[$defaultValue]]></code>
-      <code><![CDATA[$overrides]]></code>
       <code><![CDATA[$overrides]]></code>
       <code><![CDATA[$paramDef]]></code>
     </MixedAssignment>
     <MixedMethodCall>
-      <code><![CDATA[getDeclaringClass]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
       <code><![CDATA[getParameterOverrides]]></code>
-      <code><![CDATA[getParameterOverrides]]></code>
-      <code><![CDATA[getParameters]]></code>
-      <code><![CDATA[getReturnType]]></code>
-      <code><![CDATA[isStatic]]></code>
     </MixedMethodCall>
     <MixedOperand>
       <code><![CDATA[$code]]></code>
@@ -1407,6 +1362,9 @@ MOCK]]></code>
     <PossiblyUndefinedIntArrayOffset>
       <code><![CDATA[$matches[1]]]></code>
     </PossiblyUndefinedIntArrayOffset>
+    <RedundantFunctionCallGivenDocblockType>
+      <code><![CDATA[array_values]]></code>
+    </RedundantFunctionCallGivenDocblockType>
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[$type]]></code>
     </RiskyTruthyFalsyComparison>
@@ -1915,9 +1873,6 @@ MOCK]]></code>
     <DeprecatedClass>
       <code><![CDATA[MatcherAbstract]]></code>
     </DeprecatedClass>
-    <InvalidOperand>
-      <code><![CDATA[$k]]></code>
-    </InvalidOperand>
     <MissingOverrideAttribute>
       <code><![CDATA[public function match(&$actual)]]></code>
     </MissingOverrideAttribute>
@@ -1994,10 +1949,6 @@ MOCK]]></code>
       <code><![CDATA[$method === null]]></code>
       <code><![CDATA[$method === null]]></code>
     </DocblockTypeContradiction>
-    <InvalidOperand>
-      <code><![CDATA[$order]]></code>
-      <code><![CDATA[$this->_mockery_currentOrder]]></code>
-    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[$director]]></code>
       <code><![CDATA[new HigherOrderMessage($this, 'shouldHaveReceived')]]></code>
@@ -4892,6 +4843,11 @@ MOCK]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
       <code><![CDATA[InterfacePassTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/MethodDefinitionPassTest.php">
+    <UnusedClass>
+      <code><![CDATA[MethodDefinitionPassTest]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/GlobalHelpersTest.php">
