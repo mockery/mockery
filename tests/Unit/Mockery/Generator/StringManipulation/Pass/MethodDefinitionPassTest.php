@@ -82,7 +82,10 @@ final class MethodDefinitionPassTest extends AbstractTestCase
         );
     }
 
-    /** @throws Throwable */
+    /**
+     * @requires PHP 8.1.0-dev
+     * @throws Throwable
+     */
     public function testNeverMethodDoesNotReturnAValue(): void
     {
         $config = new MockConfiguration([ClassWithConstructorAndDestructor::class]);
