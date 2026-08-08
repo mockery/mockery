@@ -62,7 +62,7 @@ jobs:
           verbose: true
 
       - name: Upload test results to Codecov
-        uses: codecov/test-results-action@v1
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
         with:
           directory: ${{ github.workspace }}/.cache/phpunit/
           token: ${{ secrets.CODECOV_TOKEN }}
