@@ -27,7 +27,7 @@
     useDocblockPropertyTypes="true"
     usePhpDocMethodsWithoutMagicCall="true"
     usePhpDocPropertiesWithoutMagicCall="true"
-    phpVersion="8.4"
+    phpVersion="8.5"
 >
     <projectFiles>
         <directory name="library"/>
