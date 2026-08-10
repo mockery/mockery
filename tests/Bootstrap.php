@@ -18,13 +18,20 @@ use Composer\Autoload\ClassLoader;
 \error_reporting(E_ALL);
 
 if (! \function_exists('vdd')) {
+    /**
+     * @throws \Throwable
+     */
     function vdd(): void
     {
         \var_dump(\func_get_args());
 
         $traces = \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 
-        $trace = $traces[1] ?? throw new \RuntimeException('Unable to find debug backtrace');
+        $trace = $traces[1] ?? null;
+
+        if (! \is_array($trace)) {
+            throw new \RuntimeException('Unable to find debug backtrace');
+        }
 
         if (\array_key_exists('file', $trace) && \array_key_exists('line', $trace)) {
             echo \implode(PHP_EOL, [
