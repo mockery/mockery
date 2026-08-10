@@ -156,6 +156,7 @@
     </PossiblyUndefinedMethod>
     <PossiblyUnusedMethod>
       <code><![CDATA[andAnyOtherArgs]]></code>
+      <code><![CDATA[globalHelpers]]></code>
       <code><![CDATA[instanceMock]]></code>
       <code><![CDATA[isBuiltInType]]></code>
       <code><![CDATA[resetContainer]]></code>
@@ -2344,39 +2345,12 @@ MOCK]]></code>
     <LessSpecificReturnType>
       <code><![CDATA[void]]></code>
     </LessSpecificReturnType>
-    <MissingParamType>
-      <code><![CDATA[$path]]></code>
-    </MissingParamType>
-    <MissingReturnType>
-      <code><![CDATA[isAbsolutePath]]></code>
-    </MissingReturnType>
-    <MixedArgument>
-      <code><![CDATA[$path]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$path[0]]]></code>
-    </MixedArrayAccess>
-    <PossiblyFalseOperand>
-      <code><![CDATA[$root]]></code>
-    </PossiblyFalseOperand>
-    <PossiblyUndefinedIntArrayOffset>
-      <code><![CDATA[$trace[1]]]></code>
-    </PossiblyUndefinedIntArrayOffset>
-    <RiskyTruthyFalsyComparison>
-      <code><![CDATA[\getenv('COMPOSER_VENDOR_DIR')]]></code>
-    </RiskyTruthyFalsyComparison>
     <TypeDoesNotContainType>
-      <code><![CDATA[$dev]]></code>
-      <code><![CDATA[$dev]]></code>
+      <code><![CDATA[$debug]]></code>
+      <code><![CDATA[$debug]]></code>
     </TypeDoesNotContainType>
-    <UncaughtThrowInGlobalScope>
-      <code><![CDATA[throw new Exception(
-        'Please run "php composer.phar install" in root directory '
-        . 'to setup unit test dependencies before running the tests'
-    )]]></code>
-    </UncaughtThrowInGlobalScope>
     <UnresolvableInclude>
-      <code><![CDATA[require_once $hamcrestPath]]></code>
+      <code><![CDATA[require \implode(DIRECTORY_SEPARATOR, [$rootDir, 'vendor', 'autoload.php'])]]></code>
     </UnresolvableInclude>
   </file>
   <file src="tests/Unit/AbstractTestCase.php">
@@ -6296,6 +6270,26 @@ MOCK]]></code>
     </MissingThrowsDocblock>
     <UnusedClass>
       <code><![CDATA[Php84LanguageFeaturesTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/PHP85/Php85LanguageFeaturesTest.php">
+    <MissingThrowsDocblock>
+      <code><![CDATA[self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class))]]></code>
+      <code><![CDATA[self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class))]]></code>
+      <code><![CDATA[self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class))]]></code>
+    </MissingThrowsDocblock>
+    <UnusedClass>
+      <code><![CDATA[Php85LanguageFeaturesTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/PHP86/Php86LanguageFeaturesTest.php">
+    <MissingThrowsDocblock>
+      <code><![CDATA[self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class))]]></code>
+      <code><![CDATA[self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class))]]></code>
+      <code><![CDATA[self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class))]]></code>
+    </MissingThrowsDocblock>
+    <UnusedClass>
+      <code><![CDATA[Php86LanguageFeaturesTest]]></code>
     </UnusedClass>
   </file>
 </files>
