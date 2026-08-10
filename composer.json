@@ -45,12 +45,11 @@
     },
     "require": {
         "php": ">=7.3",
-        "lib-pcre": ">=7.0",
-        "hamcrest/hamcrest-php": "^2.0.1"
+        "hamcrest/hamcrest-php": "^2.0 || ^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5.52 || ^9.6.34",
-        "symplify/easy-coding-standard": "^12.5.8"
+        "phpunit/phpunit": "^9.6.35",
+        "symplify/easy-coding-standard": "^13.2.17"
     },
     "conflict": {
         "phpunit/phpunit": "<8.0"
@@ -66,14 +65,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Tests\\Unit\\": "tests/Unit"
         },
+        "files": [
+            "tests/Bootstrap.php"
+        ],
         "exclude-from-classmap": [
             "tests/Fixture"
-        ],
-        "files": [
-            "tests/Fixture/autoload.php",
-            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
         ]
     },
     "config": {
