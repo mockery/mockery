@@ -2,12 +2,14 @@
 <phpunit
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    bootstrap="./tests/Bootstrap.php"
+    bootstrap="vendor/autoload.php"
     cacheResult="false"
+    colors="true"
+    convertDeprecationsToExceptions="true"
+    executionOrder="default"
     forceCoversAnnotation="false"
     stopOnFailure="true"
-    convertDeprecationsToExceptions="true"
-    colors="true"
+    testdox="true"
     verbose="true"
 >
     <coverage processUncoveredFiles="true">
@@ -31,9 +33,8 @@
     </logging>
     <testsuites>
         <testsuite name="default">
-            <directory>tests</directory>
+            <directory>tests/Unit</directory>
             <exclude>tests/Unit/PHP*</exclude>
-            <exclude>tests/Fixture</exclude>
         </testsuite>
         <testsuite name="php">
             <directory phpVersion="7.3.0-dev">tests/Unit/PHP73</directory>
@@ -43,7 +44,8 @@
             <directory phpVersion="8.2.0-dev">tests/Unit/PHP82</directory>
             <directory phpVersion="8.3.0-dev">tests/Unit/PHP83</directory>
             <directory phpVersion="8.4.0-dev">tests/Unit/PHP84</directory>
-            <exclude>tests/Fixture</exclude>
+            <directory phpVersion="8.5.0-dev">tests/Unit/PHP85</directory>
+            <directory phpVersion="8.6.0-dev">tests/Unit/PHP86</directory>
         </testsuite>
     </testsuites>
 </phpunit>
