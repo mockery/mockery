@@ -14,6 +14,7 @@ namespace Tests\Unit\Mockery\Matcher;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Throwable;
 
 /**
@@ -28,6 +29,7 @@ final class IsSameTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('isSameDataProvider')]
     public function testItWorks($expected, $actual): void
     {
         self::assertTrue(Mockery::isSame($expected)->match($actual));

@@ -28,6 +28,8 @@ use PHP82\TestReturnCoVarianceThree;
 use PHP82\TestReturnCoVarianceTwo;
 use PHP82\TestThree;
 use PHP82\TestTwo;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use ReflectionClass;
 use ReflectionType;
 use Throwable;
@@ -39,6 +41,7 @@ use function mock;
  *
  * @coversDefaultClass \Mockery
  */
+#[RequiresPhp('>=8.2.0-dev')]
 final class Php82LanguageFeaturesTest extends MockeryTestCase
 {
     /**
@@ -126,6 +129,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideMockParameterDisjunctiveNormalFormTypesCases')]
     public function testMockParameterDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
         $expectedReflectionClass = new ReflectionClass($fullyQualifiedClassName);
@@ -151,6 +155,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideMockReturnDisjunctiveNormalFormTypesCases')]
     public function testMockReturnDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
         $expectedReflectionClass = new ReflectionClass($fullyQualifiedClassName);

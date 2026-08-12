@@ -17,6 +17,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Adapter\Phpunit\TestListener;
 use Override;
+use PHPUnit\Framework\Attributes\RequiresPhpunit;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Blacklist;
@@ -27,7 +28,10 @@ use function method_exists;
 
 /**
  * @coversDefaultClass \Mockery
+ *
+ * @requires PHPUnit < 10.0
  */
+#[RequiresPhpunit('<10.0')]
 final class TestListenerTest extends MockeryTestCase
 {
     protected $container;
