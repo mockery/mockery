@@ -743,7 +743,6 @@
       <code><![CDATA[array_unique($this->targetTraits)]]></code>
     </InvalidPropertyAssignmentValue>
     <LessSpecificReturnStatement>
-      <code><![CDATA[$this->allMethods = $methods]]></code>
       <code><![CDATA[$this->name]]></code>
       <code><![CDATA[$this->targetInterfaces = array_unique($this->targetInterfaces)]]></code>
       <code><![CDATA[$this->targetTraits]]></code>
@@ -788,7 +787,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[class-string|null]]></code>
       <code><![CDATA[list<Method>]]></code>
-      <code><![CDATA[list<Method>]]></code>
       <code><![CDATA[list<TargetClassInterface>]]></code>
       <code><![CDATA[list<TargetClassInterface>]]></code>
     </MoreSpecificReturnType>
@@ -800,9 +798,11 @@
       <code><![CDATA[$params[1]]]></code>
     </PossiblyUndefinedIntArrayOffset>
     <PropertyTypeCoercion>
-      <code><![CDATA[$methods]]></code>
       <code><![CDATA[array_unique($this->targetInterfaces)]]></code>
     </PropertyTypeCoercion>
+    <RedundantCondition>
+      <code><![CDATA[$newDeclaringClass->isSubclassOf($existingDeclaringClass->getName())]]></code>
+    </RedundantCondition>
   </file>
   <file src="library/Mockery/Generator/MockConfigurationBuilder.php">
     <ClassMustBeFinal>
@@ -4191,6 +4191,11 @@
     </UndefinedMagicMethod>
     <UnusedClass>
       <code><![CDATA[SpyTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/Mockery/TestCase1459Test.php">
+    <UnusedClass>
+      <code><![CDATA[TestCase1459Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/TraitsTest.php">

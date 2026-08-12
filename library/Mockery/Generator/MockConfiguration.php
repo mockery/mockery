@@ -13,6 +13,7 @@ namespace Mockery\Generator;
 use Iterator;
 use IteratorAggregate;
 use Mockery\Exception;
+use ReflectionClass;
 use Serializable;
 
 use function array_filter;
@@ -707,7 +708,9 @@ class MockConfiguration
             $classes[] = $this->getTargetClass();
         }
 
+        /** @var Method[] $methods */
         $methods = [];
+
         foreach ($classes as $class) {
             $methods = array_merge($methods, $class->getMethods());
         }
@@ -720,18 +723,31 @@ class MockConfiguration
             }
         }
 
-        $names = [];
-        $methods = array_filter($methods, static function ($method) use (&$names) {
-            if (in_array($method->getName(), $names, true)) {
-                return false;
+        $unique = [];
+
+        foreach ($methods as $method) {
+            $name = $method->getName();
+
+            if (! isset($unique[$name])) {
+                $unique[$name] = $method;
+
+                continue;
             }
 
-            $names[] = $method->getName();
+            $existing = $unique[$name];
 
-            return true;
-        });
+            /** @var ReflectionClass $existingDeclaringClass */
+            $existingDeclaringClass = $existing->getDeclaringClass();
 
-        return $this->allMethods = $methods;
+            /** @var ReflectionClass $newDeclaringClass */
+            $newDeclaringClass = $method->getDeclaringClass();
+
+            if ($newDeclaringClass->isSubclassOf($existingDeclaringClass->getName())) {
+                $unique[$name] = $method;
+            }
+        }
+
+        return $this->allMethods = array_values($unique);
     }
 
     /**
