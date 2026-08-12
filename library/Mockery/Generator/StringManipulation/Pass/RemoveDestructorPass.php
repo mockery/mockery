@@ -12,6 +12,7 @@ namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Exception;
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\TargetClassInterface;
 use Override;
 
 use function preg_replace;
@@ -30,9 +31,9 @@ class RemoveDestructorPass implements Pass
     #[Override]
     public function apply($code, MockConfiguration $config)
     {
-        $target = $config->getTargetClass();
+        $targetClass = $config->getTargetClass();
 
-        if (! $target) {
+        if (! $targetClass instanceof TargetClassInterface) {
             return $code;
         }
 

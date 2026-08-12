@@ -12,6 +12,7 @@ namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Exception;
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\TargetClassInterface;
 use Override;
 
 use function implode;
@@ -28,14 +29,14 @@ class ClassAttributesPass implements Pass
     #[Override]
     public function apply($code, MockConfiguration $config)
     {
-        $class = $config->getTargetClass();
+        $targetClass = $config->getTargetClass();
 
-        if (! $class) {
+        if (! $targetClass instanceof TargetClassInterface) {
             return $code;
         }
 
         /** @var array<string> $attributes */
-        $attributes = $class->getAttributes();
+        $attributes = $targetClass->getAttributes();
 
         if ([] !== $attributes) {
             return str_replace('#[\AllowDynamicProperties]', '#[' . implode(',', $attributes) . ']', $code);

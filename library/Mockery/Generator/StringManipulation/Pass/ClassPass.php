@@ -13,6 +13,7 @@ namespace Mockery\Generator\StringManipulation\Pass;
 use Mockery;
 use Mockery\Exception;
 use Mockery\Generator\MockConfiguration;
+use Mockery\Generator\TargetClassInterface;
 use Override;
 
 use function class_exists;
@@ -30,17 +31,17 @@ class ClassPass implements Pass
     #[Override]
     public function apply($code, MockConfiguration $config)
     {
-        $target = $config->getTargetClass();
+        $targetClass = $config->getTargetClass();
 
-        if (! $target) {
+        if (! $targetClass instanceof TargetClassInterface) {
             return $code;
         }
 
-        if ($target->isFinal()) {
+        if ($targetClass->isFinal()) {
             return $code;
         }
 
-        $className = ltrim($target->getName(), '\\');
+        $className = ltrim($targetClass->getName(), '\\');
 
         if (! class_exists($className)) {
             /** @var class-string $className */

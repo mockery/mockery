@@ -39,13 +39,13 @@ class RemoveBuiltinMethodsThatAreFinalPass implements Pass
     #[Override]
     public function apply($code, MockConfiguration $config)
     {
-        $target = $config->getTargetClass();
+        $targetClass = $config->getTargetClass();
 
-        if (! $target instanceof TargetClassInterface) {
+        if (! $targetClass instanceof TargetClassInterface) {
             return $code;
         }
 
-        foreach ($target->getMethods() as $method) {
+        foreach ($targetClass->getMethods() as $method) {
             if (! $method->isFinal()) {
                 continue;
             }
