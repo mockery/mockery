@@ -207,7 +207,7 @@ class DefinedTargetClass implements TargetClassInterface
     #[Override]
     public function isReadOnly()
     {
-        if (PHP_VERSION_ID < 80100) {
+        if (PHP_VERSION_ID < 80200) {
             return false;
         }
 
