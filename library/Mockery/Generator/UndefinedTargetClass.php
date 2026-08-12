@@ -157,4 +157,13 @@ class UndefinedTargetClass implements TargetClassInterface
     {
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    #[Override]
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

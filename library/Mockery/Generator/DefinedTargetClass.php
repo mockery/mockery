@@ -200,4 +200,17 @@ class DefinedTargetClass implements TargetClassInterface
     {
         return $this->reflectionClass->isFinal();
     }
+
+    /**
+     * @return bool
+     */
+    #[Override]
+    public function isReadOnly()
+    {
+        if (PHP_VERSION_ID < 80100) {
+            return false;
+        }
+
+        return $this->reflectionClass->isReadOnly();
+    }
 }

@@ -369,10 +369,21 @@ class MockConfiguration
 
             $dtc = DefinedTargetClass::factory($this->targetClassName, $alias);
 
-            if ($this->getTargetObject() === null && $dtc->isFinal()) {
+            $targetObject = $this->getTargetObject();
+            if (null === $targetObject && $dtc->isFinal()) {
                 throw new Exception(
                     'The class ' . $this->targetClassName . ' is marked final and its methods'
                     . ' cannot be replaced. Classes marked final can be passed in'
+                    . ' to \Mockery::mock() as instantiated objects to create a'
+                    . ' partial mock, but only if the mock is not subject to type'
+                    . ' hinting checks.'
+                );
+            }
+
+            if (null === $targetObject && $dtc->isReadOnly()) {
+                throw new Exception(
+                    'The class ' . $this->targetClassName . ' is marked readonly and its methods'
+                    . ' cannot be replaced. Classes marked readonly can be passed in'
                     . ' to \Mockery::mock() as instantiated objects to create a'
                     . ' partial mock, but only if the mock is not subject to type'
                     . ' hinting checks.'

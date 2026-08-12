@@ -99,4 +99,11 @@ interface TargetClassInterface
      * @return bool
      */
     public function isFinal();
+
+    /**
+     * Returns whether the targetClass is readonly.
+     *
+     * @return bool
+     */
+    public function isReadOnly();
 }
