@@ -48,7 +48,7 @@
         "hamcrest/hamcrest-php": "^2.0 || ^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6.35",
+        "phpunit/phpunit": "^9.6.36",
         "symplify/easy-coding-standard": "^13.2.17"
     },
     "conflict": {
@@ -85,10 +85,11 @@
     "scripts": {
         "check": [
             "@composer validate",
-            "@psalm:update",
+            "@psalm:baseline",
             "@test"
         ],
-        "docs": "vendor/bin/phpdoc -d library -t docs/api",
+        "disableProcessTimeout": "Composer\\Config::disableProcessTimeout",
+        "docs": "tools/phpdocumentor -d library -t docs/api",
         "ecs": [
             "@ecs:fix",
             "@ecs:check"
@@ -96,25 +97,31 @@
         "ecs:check": "ecs check --clear-cache || true",
         "ecs:fix": "ecs check --clear-cache --fix",
         "phive": [
+            "@disableProcessTimeout",
             "tools/phive update --force-accept-unsigned",
             "tools/phive purge"
         ],
-        "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
-        "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
-        "phpunit:migrate": "@phpunit --migrate",
-        "psalm": "tools/psalm --no-cache --threads=1",
-        "psalm:alter": "@psalm --no-cache --alter --allow-backwards-incompatible-changes=false --safe-types",
+        "phpunit": [
+            "@xdebug",
+            "@disableProcessTimeout",
+            "vendor/bin/phpunit --do-not-cache-result --colors=always"
+        ],
+        "psalm": [
+            "@disableProcessTimeout",
+            "tools/psalm --no-cache --threads=1"
+        ],
+        "psalm:alter": "@psalm --allow-backwards-incompatible-changes=false --alter --safe-types",
         "psalm:baseline": "@psalm --no-diff --set-baseline=psalm-baseline.xml",
-        "psalm:dry-run": "@psalm:alter --issues=all --dry-run",
+        "psalm:dry-run": "@psalm:alter --dry-run --issues=all",
         "psalm:fix": "@psalm:alter --issues=UnnecessaryVarAnnotation",
         "psalm:security": "@psalm --no-diff --taint-analysis",
-        "psalm:shepherd": "@psalm --no-diff --shepherd --stats --output-format=github",
-        "psalm:update": "@psalm --no-diff --update-baseline=psalm-baseline.xml",
+        "psalm:shepherd": "@psalm --no-diff --output-format=github --shepherd --stats",
         "test": [
-            "@phpunit --stop-on-defect",
-            "@psalm",
+            "@phpunit",
+            "@psalm:baseline",
             "@psalm:security",
             "@psalm:dry-run"
-        ]
+        ],
+        "xdebug": "@putenv XDEBUG_MODE=coverage"
     }
 }
