@@ -1018,7 +1018,7 @@ class Mock implements MockInterface
             // __toString is special because we force its addition to the class API regardless of the
             // original implementation.  Thus, we should always return a string rather than honor
             // _mockery_ignoreMissing and break the API with an error.
-            return sprintf('%s#%s', self::class, spl_object_hash($this));
+            return sprintf('%s#%s', self::class, spl_object_id($this));
         }
 
         if ($this->_mockery_ignoreMissing && (\Mockery::getConfiguration()->mockingNonExistentMethodsAllowed() || (!is_null($this->_mockery_partial) && method_exists($this->_mockery_partial, $method)) || is_callable($this->_mockery_parentClass . '::' . $method))) {

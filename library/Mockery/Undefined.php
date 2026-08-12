@@ -12,7 +12,7 @@ namespace Mockery;
 
 use ReturnTypeWillChange;
 
-use function spl_object_hash;
+use function spl_object_id;
 
 class Undefined
 {
@@ -36,6 +36,6 @@ class Undefined
     #[ReturnTypeWillChange]
     public function __toString()
     {
-        return self::class . ':' . spl_object_hash($this);
+        return self::class . ':' . spl_object_id($this);
     }
 }

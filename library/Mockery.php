@@ -1006,7 +1006,7 @@ class Mockery
 
         $array = [
             'class' => $class,
-            'identity' => '#' . \md5(\spl_object_hash($object))
+            'identity' => '#' . \md5(\spl_object_id($object))
         ];
 
         return \array_merge($array, $formatter($object, $nesting));

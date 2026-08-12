@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\PHP82;
 
-use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
 use PHP82\ReadonlyClass;
