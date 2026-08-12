@@ -29,11 +29,11 @@ jobs:
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
-          php-version: ${{ matrix.php }}
-          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
-          tools: composer:v2
+          coverage: xdebug
           extensions: mongodb, redis
-          coverage: pcov
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
 
       - name: Setup problem matchers for PHP
         run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
