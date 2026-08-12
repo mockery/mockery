@@ -1,0 +1,106 @@
+name: PHPUnit EndToEnd Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+jobs:
+  phpunit:
+    name: PHPUnit ${{ matrix.phpunit }} on PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # phpunit 9.6 >= 7.3
+        # phpunit 10.5 >= 8.1
+        # phpunit 11.5 >=8.2
+        # phpunit 12.5 >=8.3
+        # phpunit 13.3 >=8.4.1
+        dev: ['8.6']
+        php: ['7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
+        phpunit: ['9.6']
+        include:
+          - php: '8.1'
+            phpunit: '10.5'
+          - php: '8.2'
+            phpunit: '10.5'
+          - php: '8.2'
+            phpunit: '11.5'
+          - php: '8.3'
+            phpunit: '10.5'
+          - php: '8.3'
+            phpunit: '11.5'
+          - php: '8.3'
+            phpunit: '12.5'
+          - php: '8.4'
+            phpunit: '10.5'
+          - php: '8.4'
+            phpunit: '11.5'
+          - php: '8.4'
+            phpunit: '12.5'
+          - php: '8.4'
+            phpunit: '13.3'
+          - php: '8.5'
+            phpunit: '10.5'
+          - php: '8.5'
+            phpunit: '11.5'
+          - php: '8.5'
+            phpunit: '12.5'
+          - php: '8.5'
+            phpunit: '13.3'
+          - php: '8.6'
+            phpunit: '10.5'
+          - php: '8.6'
+            phpunit: '11.5'
+          - php: '8.6'
+            phpunit: '12.5'
+          - php: '8.6'
+            phpunit: '13.3'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          coverage: xdebug
+          extensions: mongodb, redis
+          ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+
+      - name: Setup problem matchers for PHP
+        run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+
+      - name: Setup Problem Matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.phpunit }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.phpunit }}-
+
+      - name: Install PHPUnit ${{ matrix.phpunit }}
+        working-directory: ${{ github.workspace }}
+        run: |
+          composer config platform.php ${{ matrix.php }}.999;
+          composer require --dev phpunit/phpunit:^${{ matrix.phpunit }};
+          composer update --no-interaction --no-progress --ansi;
+
+      - name: Execute PHPUnit
+        run: vendor/bin/phpunit --configuration phpunit-${{ matrix.phpunit }}.xml.dist --colors=always --do-not-cache-result
+        continue-on-error: ${{ matrix.php == matrix.dev }}
