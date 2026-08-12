@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
-namespace Tests\Unit\PHP82;
+namespace Tests\Unit\Mockery;
 
 use Iterator;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
