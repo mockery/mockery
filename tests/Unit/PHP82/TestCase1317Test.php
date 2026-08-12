@@ -40,7 +40,15 @@ final class TestCase1317Test extends MockeryTestCase
 
         mock(ReadonlyClass::class);
 
-        self::fail('Mocking readonly classes should throw an exception');
+        self::fail(
+            implode(PHP_EOL, [
+                'Mocking readonly classes should throw an exception, but it did not.',
+                'Class exists: ' . (class_exists(ReadonlyClass::class) ? 'true' : 'false'),
+                'Reflection class is readonly: ' . ((new \ReflectionClass(ReadonlyClass::class))->isReadOnly() ? 'true' : 'false'),
+                'Current PHP version: ' . PHP_VERSION,
+                'Current PHP version ID: ' . PHP_VERSION_ID,
+            ])
+        );
     }
 
     /**
