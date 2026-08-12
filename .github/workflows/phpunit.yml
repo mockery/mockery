@@ -98,8 +98,8 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           composer config platform.php ${{ matrix.php }}.999;
-          composer require --dev phpunit/phpunit:^${{ matrix.phpunit }};
-          composer update --no-interaction --no-progress --ansi;
+          composer require --dev phpunit/phpunit:^${{ matrix.phpunit }} --ansi --no-interaction --prefer-dist --with-all-dependencies;
+          composer update --ansi --no-interaction;
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit --configuration phpunit-${{ matrix.phpunit }}.xml.dist --colors=always --do-not-cache-result
