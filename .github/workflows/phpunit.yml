@@ -10,7 +10,7 @@ on:
 
 jobs:
   phpunit:
-    name: PHPUnit ${{ matrix.phpunit }} on PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} - PHPUnit ${{ matrix.phpunit }}
     runs-on: ubuntu-latest
 
     strategy:
