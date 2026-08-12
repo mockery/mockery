@@ -172,6 +172,8 @@ class MockConfiguration
      * Generate a suitable name based on the config
      *
      * @return class-string
+     *
+     * @throws Exception
      */
     public function generateName()
     {
@@ -243,6 +245,8 @@ class MockConfiguration
      * Lot's of filtering going on, perhaps we could have filter classes to iterate through
      *
      * @return list<Method>
+     *
+     * @throws Exception
      */
     public function getMethodsToMock()
     {
@@ -346,6 +350,8 @@ class MockConfiguration
 
     /**
      * @return null|TargetClassInterface
+     *
+     * @throws Exception
      */
     public function getTargetClass()
     {
@@ -561,6 +567,8 @@ class MockConfiguration
      * we're mocking has also defined it, we need to comply with their interface
      *
      * @return bool
+     *
+     * @throws Exception
      */
     public function requiresCallStaticTypeHintRemoval()
     {
@@ -584,6 +592,8 @@ class MockConfiguration
      * we're mocking has also defined it, we need to comply with their interface
      *
      * @return bool
+     *
+     * @throws Exception
      */
     public function requiresCallTypeHintRemoval()
     {
@@ -681,6 +691,8 @@ class MockConfiguration
 
     /**
      * @return list<Method>
+     *
+     * @throws Exception
      */
     protected function getAllMethods()
     {

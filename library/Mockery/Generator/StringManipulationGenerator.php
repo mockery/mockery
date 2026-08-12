@@ -10,6 +10,7 @@
 
 namespace Mockery\Generator;
 
+use Mockery\Exception;
 use Mockery\Generator\StringManipulation\Pass\AvoidMethodClashPass;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
@@ -61,6 +62,8 @@ class StringManipulationGenerator implements Generator
 
     /**
      * @return MockDefinition
+     *
+     * @throws Exception
      */
     #[Override]
     public function generate(MockConfiguration $config)

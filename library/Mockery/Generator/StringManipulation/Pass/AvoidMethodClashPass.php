@@ -10,6 +10,7 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+use Mockery\Exception;
 use Mockery\Generator\MockConfiguration;
 use Override;
 
@@ -24,6 +25,8 @@ class AvoidMethodClashPass implements Pass
     /**
      * @param  string $code
      * @return string
+     *
+     * @throws Exception
      */
     #[Override]
     public function apply($code, MockConfiguration $config)

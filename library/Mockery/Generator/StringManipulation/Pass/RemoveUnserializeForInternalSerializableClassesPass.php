@@ -10,12 +10,14 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+use Mockery\Exception;
 use Mockery\Generator\MockConfiguration;
 use Override;
 
 use const PHP_VERSION_ID;
 
 use function strrpos;
+
 use function substr;
 
 /**
@@ -33,6 +35,8 @@ class RemoveUnserializeForInternalSerializableClassesPass implements Pass
     /**
      * @param  string $code
      * @return string
+     *
+     * @throws Exception
      */
     #[Override]
     public function apply($code, MockConfiguration $config)

@@ -10,6 +10,7 @@
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
+use Mockery\Exception;
 use Mockery\Generator\Method;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\Parameter;
@@ -29,6 +30,7 @@ use function strpos;
 use function strrpos;
 use function strtolower;
 use function substr;
+
 use function var_export;
 
 class MethodDefinitionPass implements Pass
@@ -36,6 +38,8 @@ class MethodDefinitionPass implements Pass
     /**
      * @param  string $code
      * @return string
+     *
+     * @throws Exception
      */
     #[Override]
     public function apply($code, MockConfiguration $config)

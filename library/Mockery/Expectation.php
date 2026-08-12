@@ -11,8 +11,8 @@
 namespace Mockery;
 
 use Closure;
-use Hamcrest_Matcher;
 use Hamcrest\Matcher;
+use Hamcrest_Matcher;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\CountValidator\AtLeast;
@@ -32,6 +32,8 @@ use ReflectionMethod;
 use ReturnTypeWillChange;
 use Throwable;
 
+use const E_USER_DEPRECATED;
+
 use function array_is_list;
 use function array_key_exists;
 use function array_merge;
@@ -48,9 +50,8 @@ use function is_int;
 use function is_object;
 use function is_string;
 use function sprintf;
-use function trigger_error;
 
-use const E_USER_DEPRECATED;
+use function trigger_error;
 
 class Expectation implements ExpectationInterface
 {

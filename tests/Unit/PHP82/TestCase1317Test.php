@@ -16,10 +16,9 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
 use PHP82\ReadonlyClass;
-use SoapClient;
 use Throwable;
 
-use function call_user_func_array;
+use function mock;
 
 /**
  * @coversDefaultClass \Mockery\Expectation

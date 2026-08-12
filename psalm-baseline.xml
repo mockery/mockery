@@ -769,15 +769,6 @@
       <code><![CDATA[setTargetClassName]]></code>
       <code><![CDATA[setTargetObject]]></code>
     </MissingReturnType>
-    <MissingThrowsDocblock>
-      <code><![CDATA[throw new Exception(
-                    'The class ' . $this->targetClassName . ' is marked final and its methods'
-                    . ' cannot be replaced. Classes marked final can be passed in'
-                    . ' to \Mockery::mock() as instantiated objects to create a'
-                    . ' partial mock, but only if the mock is not subject to type'
-                    . ' hinting checks.'
-                )]]></code>
-    </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$alias]]></code>
       <code><![CDATA[$alias]]></code>
@@ -4526,6 +4517,11 @@
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[Php82LanguageFeaturesTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/PHP82/TestCase1317Test.php">
+    <UnusedClass>
+      <code><![CDATA[TestCase1317Test]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP82/TestCase1439Test.php">
