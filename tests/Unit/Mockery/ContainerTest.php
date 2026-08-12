@@ -315,7 +315,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
-    #[RequiresPhp('<8.1')]
+    #[RequiresPhp('<8.1.0')]
     public function testCanMockClassesThatImplementSerializable(): void
     {
         $mock = mock(MockeryTest_ClassThatImplementsSerializable::class);
@@ -1480,7 +1480,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
-    #[RequiresPhp('<8.0')]
+    #[RequiresPhp('<8.0.0')]
     public function testMockingIteratorAggregateDoesNotImplementIterator(): void
     {
         $mock = mock(MockeryTest_ImplementsIteratorAggregate::class);
@@ -1505,7 +1505,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
-    #[RequiresPhp('<8.0')]
+    #[RequiresPhp('<8.0.0')]
     public function testMockingIteratorDoesNotImplementIterator(): void
     {
         $mock = mock(MockeryTest_ImplementsIterator::class);

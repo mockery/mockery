@@ -31,7 +31,7 @@ use function method_exists;
  *
  * @requires PHPUnit < 10.0
  */
-#[RequiresPhpunit('<10.0')]
+#[RequiresPhpunit('<10.0.0')]
 final class TestListenerTest extends MockeryTestCase
 {
     protected $container;
