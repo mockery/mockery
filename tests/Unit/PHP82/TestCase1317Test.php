@@ -35,23 +35,10 @@ final class TestCase1317Test extends MockeryTestCase
      */
     public function testCanNotMockReadonlyClasses(): void
     {
-        $reflectionClass = new \ReflectionClass(ReadonlyClass::class);
-
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('The class \PHP82\ReadonlyClass is marked readonly');
 
         mock(ReadonlyClass::class);
-
-        self::fail(
-            implode(PHP_EOL, [
-                'Mocking readonly classes should throw an exception, but it did not.',
-                'Class exists: ' . (class_exists(ReadonlyClass::class) ? 'true' : 'false'),
-                'Reflection class is readonly: ' . ($reflectionClass->isReadOnly() ? 'true' : 'false'),
-                'Reflection class location: ' . $reflectionClass->getFileName(),
-                'Current PHP version: ' . PHP_VERSION,
-                'Current PHP version ID: ' . PHP_VERSION_ID,
-            ])
-        );
     }
 
     /**
