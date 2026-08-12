@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="infection" version="^0.34" installed="0.34.2" location="./tools/infection" copy="true"/>
   <phar name="phar-io/phive" version="^0.16" installed="0.16.0" location="./tools/phive" copy="true"/>
   <phar name="phpdocumentor" version="^3.10" installed="3.10.0" location="./tools/phpdocumentor" copy="true"/>
-  <phar name="phpunit" version="^13.3" installed="13.3.0" location="./tools/phpunit" copy="true"/>
   <phar name="psalm" version="^6.16" installed="6.16.1" location="./tools/psalm" copy="true"/>
 </phive>
