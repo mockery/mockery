@@ -8,7 +8,6 @@
     convertDeprecationsToExceptions="true"
     executionOrder="default"
     forceCoversAnnotation="false"
-    stopOnFailure="true"
     testdox="true"
     verbose="true"
 >

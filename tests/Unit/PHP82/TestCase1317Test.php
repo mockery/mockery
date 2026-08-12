@@ -14,6 +14,8 @@ namespace Tests\Unit\PHP82;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
+use Mockery\Generator\DefinedTargetClass;
+use Mockery\Generator\UndefinedTargetClass;
 use PHP82\ReadonlyClass;
 use Throwable;
 
@@ -22,7 +24,7 @@ use function mock;
 /**
  * @coversDefaultClass \Mockery\Expectation
  *
- * @requires PHP 8.2
+ * @requires PHP 8.2.0-dev
  *
  * @see https://github.com/mockery/mockery/issues/1317
  */
@@ -37,5 +39,30 @@ final class TestCase1317Test extends MockeryTestCase
         $this->expectExceptionMessage('The class \PHP82\ReadonlyClass is marked readonly');
 
         mock(ReadonlyClass::class);
+
+        self::fail('Mocking readonly classes should throw an exception');
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testDefinedTargetClassIsReadOnlyReturnsTrueForReadonlyClasses(): void
+    {
+        $definedTargetClass = DefinedTargetClass::factory(ReadonlyClass::class);
+
+        self::assertTrue($definedTargetClass->isReadOnly());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testUndefinedTargetClassIsReadOnlyReturnsFalseForReadonlyClasses(): void
+    {
+        /** @var class-string $className */
+        $className = 'Undefined\\ReadonlyClass';
+
+        $undefinedTargetClass = UndefinedTargetClass::factory($className);
+
+        self::assertFalse($undefinedTargetClass->isReadOnly());
     }
 }

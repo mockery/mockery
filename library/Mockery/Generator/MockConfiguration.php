@@ -373,30 +373,31 @@ class MockConfiguration
                 class_alias($this->targetClassName, $alias);
             }
 
-            $dtc = DefinedTargetClass::factory($this->targetClassName, $alias);
+            $definedTargetClass = DefinedTargetClass::factory($this->targetClassName, $alias);
 
-            $targetObject = $this->getTargetObject();
-            if (null === $targetObject && $dtc->isFinal()) {
-                throw new Exception(
-                    'The class ' . $this->targetClassName . ' is marked final and its methods'
-                    . ' cannot be replaced. Classes marked final can be passed in'
-                    . ' to \Mockery::mock() as instantiated objects to create a'
-                    . ' partial mock, but only if the mock is not subject to type'
-                    . ' hinting checks.'
-                );
+            if ($this->getTargetObject() === null) {
+                if ($definedTargetClass->isFinal()) {
+                    throw new Exception(
+                        'The class ' . $this->targetClassName . ' is marked final and its methods'
+                        . ' cannot be replaced. Classes marked final can be passed in'
+                        . ' to \Mockery::mock() as instantiated objects to create a'
+                        . ' partial mock, but only if the mock is not subject to type'
+                        . ' hinting checks.'
+                    );
+                }
+
+                if ($definedTargetClass->isReadOnly()) {
+                    throw new Exception(
+                        'The class ' . $this->targetClassName . ' is marked readonly and its methods'
+                        . ' cannot be replaced. Classes marked readonly can be passed in'
+                        . ' to \Mockery::mock() as instantiated objects to create a'
+                        . ' partial mock, but only if the mock is not subject to type'
+                        . ' hinting checks.'
+                    );
+                }
             }
 
-            if (null === $targetObject && $dtc->isReadOnly()) {
-                throw new Exception(
-                    'The class ' . $this->targetClassName . ' is marked readonly and its methods'
-                    . ' cannot be replaced. Classes marked readonly can be passed in'
-                    . ' to \Mockery::mock() as instantiated objects to create a'
-                    . ' partial mock, but only if the mock is not subject to type'
-                    . ' hinting checks.'
-                );
-            }
-
-            $this->targetClass = $dtc;
+            $this->targetClass = $definedTargetClass;
         } else {
             $this->targetClass = UndefinedTargetClass::factory($this->targetClassName);
         }
