@@ -92,7 +92,6 @@
       <code><![CDATA[globalHelpers]]></code>
       <code><![CDATA[instanceMock]]></code>
       <code><![CDATA[isBuiltInType]]></code>
-      <code><![CDATA[resetContainer]]></code>
       <code><![CDATA[setContainer]]></code>
       <code><![CDATA[setGenerator]]></code>
     </PossiblyUnusedMethod>
@@ -1947,17 +1946,22 @@
     <DeprecatedClass>
       <code><![CDATA[Blacklist::class]]></code>
       <code><![CDATA[new Blacklist()]]></code>
-      <code><![CDATA[new Blacklist()]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[addListener]]></code>
     </DeprecatedMethod>
     <InternalClass>
       <code><![CDATA[new TestResult()]]></code>
+      <code><![CDATA[new TestSuite()]]></code>
+      <code><![CDATA[new TestSuite()]]></code>
+      <code><![CDATA[new TestSuite()]]></code>
     </InternalClass>
     <InternalMethod>
       <code><![CDATA[addListener]]></code>
       <code><![CDATA[new EmptyTestCase()]]></code>
+      <code><![CDATA[new TestSuite()]]></code>
+      <code><![CDATA[new TestSuite()]]></code>
+      <code><![CDATA[new TestSuite()]]></code>
       <code><![CDATA[setTestResultObject]]></code>
       <code><![CDATA[wasSuccessful]]></code>
     </InternalMethod>
@@ -1970,26 +1974,22 @@
     <MixedArgument>
       <code><![CDATA[Blacklist::$blacklistedClassNames]]></code>
     </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$mock]]></code>
-    </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[addToAssertionCount]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
       <code><![CDATA[endTest]]></code>
       <code><![CDATA[endTest]]></code>
-      <code><![CDATA[mock]]></code>
-      <code><![CDATA[mock]]></code>
-      <code><![CDATA[mockery_getExpectationCount]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
+      <code><![CDATA[endTest]]></code>
+      <code><![CDATA[startTestSuite]]></code>
+      <code><![CDATA[startTestSuite]]></code>
+      <code><![CDATA[startTestSuite]]></code>
+      <code><![CDATA[wasSuccessful]]></code>
       <code><![CDATA[wasSuccessful]]></code>
       <code><![CDATA[wasSuccessful]]></code>
     </MixedMethodCall>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+    </UndefinedInterfaceMethod>
     <UndefinedPropertyFetch>
       <code><![CDATA[Blacklist::$blacklistedClassNames]]></code>
       <code><![CDATA[Blacklist::$blacklistedClassNames]]></code>
