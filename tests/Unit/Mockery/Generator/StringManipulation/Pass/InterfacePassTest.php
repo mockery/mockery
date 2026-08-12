@@ -2,12 +2,23 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use PHPUnit\Framework\TestCase;
+use Throwable;
+
+use function mb_strpos;
 
 /**
  * @coversDefaultClass \Mockery
@@ -16,6 +27,9 @@ final class InterfacePassTest extends TestCase
 {
     public const CODE = 'class Mock implements MockInterface';
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldAddAnyInterfaceNamesToImplementsDefinition(): void
     {
         $pass = new InterfacePass();
@@ -33,9 +47,12 @@ final class InterfacePassTest extends TestCase
 
         $code = $pass->apply(self::CODE, $config);
 
-        self::assertNotFalse(\mb_strpos($code, 'implements MockInterface, \Dave\Dave, \Paddy\Paddy'));
+        self::assertNotFalse(mb_strpos($code, 'implements MockInterface, \Dave\Dave, \Paddy\Paddy'));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldNotAlterCodeIfNoTargetInterfaces(): void
     {
         $pass = new InterfacePass();

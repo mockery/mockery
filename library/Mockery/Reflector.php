@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -19,6 +19,8 @@ use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
 
+use const PHP_VERSION_ID;
+
 use function array_diff;
 use function array_intersect;
 use function array_map;
@@ -29,12 +31,8 @@ use function in_array;
 use function method_exists;
 use function sprintf;
 use function strpos;
+use function strtolower;
 
-use const PHP_VERSION_ID;
-
-/**
- * @internal
- */
 class Reflector
 {
     /**
@@ -49,7 +47,20 @@ class Reflector
      *
      * @var list<string>
      */
-    public const RESERVED_WORDS = ['bool', 'true', 'false', 'float', 'int', 'iterable', 'mixed', 'never', 'null', 'object', 'string', 'void'];
+    public const RESERVED_WORDS = [
+        'bool',
+        'true',
+        'false',
+        'float',
+        'int',
+        'iterable',
+        'mixed',
+        'never',
+        'null',
+        'object',
+        'string',
+        'void'
+    ];
 
     /**
      * Iterable.
@@ -68,9 +79,10 @@ class Reflector
     /**
      * Compute the string representation for the return type.
      *
-     * @param bool $withoutNullable
-     *
+     * @param  bool        $withoutNullable
      * @return null|string
+     *
+     * @throws InvalidArgumentException
      */
     public static function getReturnType(ReflectionMethod $method, $withoutNullable = false)
     {
@@ -126,9 +138,10 @@ class Reflector
     /**
      * Compute the string representation for the paramater type.
      *
-     * @param bool $withoutNullable
-     *
+     * @param  bool        $withoutNullable
      * @return null|string
+     *
+     * @throws InvalidArgumentException
      */
     public static function getTypeHint(ReflectionParameter $param, $withoutNullable = false)
     {
@@ -168,7 +181,7 @@ class Reflector
      */
     private static function formatNullableType(string $typeHint): string
     {
-        if ($typeHint === 'mixed') {
+        if ('mixed' === $typeHint) {
             return $typeHint;
         }
 
@@ -183,6 +196,9 @@ class Reflector
         return sprintf('%s|null', $typeHint);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     private static function getTypeFromReflectionType(ReflectionType $type, ReflectionClass $declaringClass): string
     {
         if ($type instanceof ReflectionNamedType) {
@@ -192,17 +208,17 @@ class Reflector
                 return $typeHint;
             }
 
-            if ($typeHint === 'static') {
+            if ('static' === $typeHint) {
                 return $typeHint;
             }
 
             // 'self' needs to be resolved to the name of the declaring class
-            if ($typeHint === 'self') {
+            if ('self' === $typeHint) {
                 $typeHint = $declaringClass->getName();
             }
 
             // 'parent' needs to be resolved to the name of the parent class
-            if ($typeHint === 'parent') {
+            if ('parent' === $typeHint) {
                 $typeHint = $declaringClass->getParentClass()->getName();
             }
 
@@ -230,7 +246,7 @@ class Reflector
             );
 
             $intersect = array_intersect(self::TRAVERSABLE_ARRAY, $types);
-            if ($intersect === self::TRAVERSABLE_ARRAY) {
+            if (self::TRAVERSABLE_ARRAY === $intersect) {
                 $types = array_merge(self::ITERABLE, array_diff($types, self::TRAVERSABLE_ARRAY));
             }
 
@@ -259,9 +275,9 @@ class Reflector
         if ($type instanceof ReflectionUnionType || $type instanceof ReflectionIntersectionType) {
             $types = [];
 
-            foreach ($type->getTypes() as $innterType) {
-                foreach (self::getTypeInformation($innterType, $declaringClass) as $info) {
-                    if ($info['typeHint'] === 'null' && $info['isPrimitive']) {
+            foreach ($type->getTypes() as $innerType) {
+                foreach (self::getTypeInformation($innerType, $declaringClass) as $info) {
+                    if ('null' === $info['typeHint'] && $info['isPrimitive']) {
                         continue;
                     }
 
@@ -273,6 +289,7 @@ class Reflector
         }
 
         // $type must be an instance of \ReflectionNamedType
+        /** @var ReflectionNamedType $type */
         $typeHint = $type->getName();
 
         // builtins can be returned as is
@@ -286,7 +303,7 @@ class Reflector
         }
 
         // 'static' can be returned as is
-        if ($typeHint === 'static') {
+        if ('static' === $typeHint) {
             return [
                 [
                     'typeHint' => $typeHint,
@@ -296,12 +313,12 @@ class Reflector
         }
 
         // 'self' needs to be resolved to the name of the declaring class
-        if ($typeHint === 'self') {
+        if ('self' === $typeHint) {
             $typeHint = $declaringClass->getName();
         }
 
         // 'parent' needs to be resolved to the name of the parent class
-        if ($typeHint === 'parent') {
+        if ('parent' === $typeHint) {
             $typeHint = $declaringClass->getParentClass()->getName();
         }
 

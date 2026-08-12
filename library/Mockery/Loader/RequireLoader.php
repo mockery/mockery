@@ -1,16 +1,19 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Loader;
 
 use Mockery\Generator\MockDefinition;
+use Override;
+
+use const DIRECTORY_SEPARATOR;
 
 use function array_diff;
 use function class_exists;
@@ -22,8 +25,6 @@ use function sprintf;
 use function sys_get_temp_dir;
 use function uniqid;
 use function unlink;
-
-use const DIRECTORY_SEPARATOR;
 
 class RequireLoader implements Loader
 {
@@ -42,7 +43,7 @@ class RequireLoader implements Loader
      */
     public function __construct($path = null)
     {
-        if ($path === null) {
+        if (null === $path) {
             $path = sys_get_temp_dir();
         }
 
@@ -63,6 +64,7 @@ class RequireLoader implements Loader
      *
      * @return void
      */
+    #[Override]
     public function load(MockDefinition $definition)
     {
         if (class_exists($definition->getClassName(), false)) {

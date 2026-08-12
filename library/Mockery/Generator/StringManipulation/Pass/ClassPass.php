@@ -1,17 +1,19 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery;
 use Mockery\Generator\MockConfiguration;
+use Override;
+
 use function class_exists;
 use function ltrim;
 use function str_replace;
@@ -22,6 +24,7 @@ class ClassPass implements Pass
      * @param  string $code
      * @return string
      */
+    #[Override]
     public function apply($code, MockConfiguration $config)
     {
         $target = $config->getTargetClass();
@@ -37,6 +40,7 @@ class ClassPass implements Pass
         $className = ltrim($target->getName(), '\\');
 
         if (! class_exists($className)) {
+            /** @var class-string $className */
             Mockery::declareClass($className);
         }
 

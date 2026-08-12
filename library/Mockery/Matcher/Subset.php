@@ -1,14 +1,18 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Matcher;
+
+use Override;
+
+use ReturnTypeWillChange;
 
 use function array_replace_recursive;
 use function implode;
@@ -35,14 +39,14 @@ class Subset extends MatcherAbstract
      *
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function __toString()
     {
         return '<Subset' . $this->formatArray($this->expected) . '>';
     }
 
     /**
-     * @param array $expected Expected subset of data
-     *
+     * @param  array  $expected Expected subset of data
      * @return Subset
      */
     public static function loose(array $expected)
@@ -53,12 +57,10 @@ class Subset extends MatcherAbstract
     /**
      * Check if the actual value matches the expected.
      *
-     * @template TMixed
-     *
-     * @param TMixed $actual
-     *
+     * @param  mixed $actual
      * @return bool
      */
+    #[Override]
     public function match(&$actual)
     {
         if (! is_array($actual)) {
@@ -66,15 +68,14 @@ class Subset extends MatcherAbstract
         }
 
         if ($this->strict) {
-            return $actual === array_replace_recursive($actual, $this->expected);
+            return array_replace_recursive($actual, $this->expected) === $actual;
         }
 
-        return $actual == array_replace_recursive($actual, $this->expected);
+        return array_replace_recursive($actual, $this->expected) == $actual;
     }
 
     /**
-     * @param array $expected Expected subset of data
-     *
+     * @param  array  $expected Expected subset of data
      * @return Subset
      */
     public static function strict(array $expected)

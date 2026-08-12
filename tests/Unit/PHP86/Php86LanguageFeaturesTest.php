@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/en/stable/)
  *
@@ -8,22 +10,29 @@
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
-declare(strict_types=1);
-
 namespace Tests\Unit\PHP86;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use stdClass;
+use Throwable;
 
 /**
  * @requires PHP 8.6.0-dev
+ *
  * @coversDefaultClass \Mockery
  */
 final class Php86LanguageFeaturesTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testExample(): void
     {
-        self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class));
+        $mock = Mockery::mock(stdClass::class);
+        $mock->expects('foo')->andReturns('bar')->once();
+
+        self::assertInstanceOf(stdClass::class, $mock);
+        self::assertSame('bar', $mock->foo());
     }
 }

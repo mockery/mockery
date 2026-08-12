@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -13,6 +13,7 @@ namespace Mockery;
 use Closure;
 use Exception as PHPException;
 use Mockery;
+use Mockery\Exception\BadMethodCallException;
 use Mockery\Exception\InvalidOrderException;
 use Mockery\Exception\RuntimeException;
 use Mockery\Generator\Generator;
@@ -48,7 +49,6 @@ use function str_contains;
 use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
-use function strlen;
 use function strtolower;
 use function substr;
 use function trait_exists;
@@ -56,8 +56,6 @@ use function trim;
 
 /**
  * Container for mock objects
- *
- * @template TMockObject of object
  */
 class Container
 {
@@ -97,8 +95,7 @@ class Container
     /**
      * Store of mock objects
      *
-     * @template TMockObject of object
-     * @var array<class-string<(LegacyMockInterface&TMockObject)|(MockInterface&TMockObject)>,(LegacyMockInterface&TMockObject)|(MockInterface&TMockObject)>
+     * @var array<class-string<MockInterface>,MockInterface>
      */
     protected $_mocks = [];
 
@@ -123,11 +120,8 @@ class Container
      * Return a specific remembered mock according to the array index it
      * was stored to in this container instance
      *
-     * @template TFetchMock of object
-     *
-     * @param class-string<TFetchMock> $reference
-     *
-     * @return null|(LegacyMockInterface&TFetchMock)|(MockInterface&TFetchMock)
+     * @param  class-string       $reference
+     * @return null|MockInterface
      */
     public function fetchMock($reference)
     {
@@ -143,21 +137,20 @@ class Container
     }
 
     /**
-     * @param string $method
-     * @param string $parent
-     *
+     * @param  string      $method
+     * @param  string      $parent
      * @return null|string
      */
     public function getKeyOfDemeterMockFor($method, $parent)
     {
         $keys = array_keys($this->_mocks);
 
-        $match = preg_grep('/__demeter_' . md5($parent) . sprintf('_%s$/', $method), $keys);
-        if ($match === false) {
+        $match = preg_grep(sprintf('#__demeter_%s_%s$#', md5($parent), $method), $keys);
+        if (false === $match) {
             return null;
         }
 
-        if ($match === []) {
+        if ([] === $match) {
             return null;
         }
 
@@ -173,7 +166,7 @@ class Container
     }
 
     /**
-     * @return array<class-string<(LegacyMockInterface&TMockObject)|(MockInterface&TMockObject)>,(LegacyMockInterface&TMockObject)|(MockInterface&TMockObject)>
+     * @return array<class-string<MockInterface>,MockInterface>
      */
     public function getMocks()
     {
@@ -183,15 +176,12 @@ class Container
     /**
      * @return void
      */
-    public function instanceMock()
-    {
-    }
+    public function instanceMock() {}
 
     /**
      * see http://php.net/manual/en/language.oop5.basic.php
      *
-     * @param string $className
-     *
+     * @param  string $className
      * @return bool
      */
     public function isValidClassName($className)
@@ -200,17 +190,17 @@ class Container
             return false;
         }
 
-        if ($className[0] === '\\') {
+        if ('\\' === $className[0]) {
             $className = substr($className, 1); // remove the first backslash
         }
 
         // all the namespaces and class name should match the regex
         return array_filter(
-                explode('\\', $className),
-                static function ($name): bool {
-                    return ! preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
-                }
-            ) === [];
+            explode('\\', $className),
+            static function ($name): bool {
+                return ! preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
+            }
+        ) === [];
     }
 
     /**
@@ -221,13 +211,10 @@ class Container
      * names or partials - just so long as it's something that can be mocked.
      * I'll refactor it one day so it's easier to follow.
      *
-     * @template TMock of object
-     *
-     * @param (array<class-string<TMock>|MockConfigurationBuilder|TMock>|class-string<TMock>|(Closure((LegacyMockInterface&TMock)|(MockInterface&TMock)):void)|TMock) ...$args
+     * @param  mixed         ...$args
+     * @return MockInterface
      *
      * @throws Throwable
-     *
-     * @return (LegacyMockInterface&TMock)|(MockInterface&TMock)
      */
     public function mock(...$args)
     {
@@ -242,13 +229,13 @@ class Container
 
         $builder->addBlackListedMethods($blocks);
 
-        if ($constructorArgs !== null) {
+        if (null !== $constructorArgs) {
             $builder->addBlackListedMethod('__construct');
         } else {
             $builder->setMockOriginalDestructor(true);
         }
 
-        if ($partialMethods !== null && $constructorArgs === null) {
+        if (null !== $partialMethods && null === $constructorArgs) {
             $constructorArgs = [];
         }
 
@@ -260,7 +247,7 @@ class Container
 
         $mock = $this->initializeMock($className, $constructorArgs, $mockConfiguration);
 
-        if ($quickDefinitions !== []) {
+        if ([] !== $quickDefinitions) {
             if (
                 Mockery::getConfiguration()
                     ->getQuickDefinitions()
@@ -344,8 +331,7 @@ class Container
     /**
      * Set current ordered number
      *
-     * @param int $order
-     *
+     * @param  int $order
      * @return int The current order number that was set
      */
     public function mockery_setCurrentOrder($order)
@@ -356,9 +342,8 @@ class Container
     /**
      * Set ordering for a group
      *
-     * @param string $group
-     * @param int    $order
-     *
+     * @param  string $group
+     * @param  int    $order
      * @return void
      */
     public function mockery_setGroup($group, $order)
@@ -369,9 +354,9 @@ class Container
     /**
      * Tear down tasks for this container
      *
-     * @throws PHPException
-     *
      * @return void
+     *
+     * @throws PHPException
      */
     public function mockery_teardown()
     {
@@ -387,11 +372,11 @@ class Container
     /**
      * Retrieves all exceptions thrown by mocks
      *
-     * @return array<Throwable>
+     * @return array<BadMethodCallException>
      */
     public function mockery_thrownExceptions()
     {
-        /** @var array<Throwable> $exceptions */
+        /** @var array<BadMethodCallException> $exceptions */
         $exceptions = [];
 
         foreach ($this->_mocks as $mock) {
@@ -406,17 +391,16 @@ class Container
     /**
      * Validate the current mock's ordering
      *
-     * @param string $method
-     * @param int    $order
+     * @param  string $method
+     * @param  int    $order
+     * @return void
      *
      * @throws Exception
-     *
-     * @return void
      */
     public function mockery_validateOrder($method, $order, LegacyMockInterface $mock)
     {
         if ($order < $this->_currentOrder) {
-            $exception = new InvalidOrderException(
+            $invalidOrderException = new InvalidOrderException(
                 sprintf(
                     'Method %s called out of order: expected order %d, was %d',
                     $method,
@@ -425,12 +409,12 @@ class Container
                 )
             );
 
-            $exception->setMock($mock)
+            $invalidOrderException->setMock($mock)
                 ->setMethodName($method)
                 ->setExpectedOrder($order)
                 ->setActualOrder($this->_currentOrder);
 
-            throw $exception;
+            throw $invalidOrderException;
         }
 
         $this->mockery_setCurrentOrder($order);
@@ -451,11 +435,8 @@ class Container
     /**
      * Store a mock and set its container reference
      *
-     * @template TRememberMock
-     *
-     * @param (LegacyMockInterface&TRememberMock)|(MockInterface&TRememberMock) $mock
-     *
-     * @return (LegacyMockInterface&TRememberMock)|(MockInterface&TRememberMock)
+     * @param  MockInterface $mock
+     * @return MockInterface
      */
     public function rememberMock(LegacyMockInterface $mock)
     {
@@ -477,36 +458,35 @@ class Container
      * which is the same as saying retrieve the current mock being programmed where you have yet to call mock()
      * to change it thus why the method name is "self" since it will be used during the programming of the same mock.
      *
-     * @return (LegacyMockInterface&TMockObject)|(MockInterface&TMockObject)
+     * @return MockInterface
      */
     public function self()
     {
         $mocks = array_values($this->_mocks);
         $index = count($mocks) - 1;
+
         return $mocks[$index];
     }
 
     /**
-     * @template TMock of object
-     * @template TMixed
+     * @template TObject of object
      *
-     * @param class-string<TMock> $mockName
-     * @param null|array<TMixed>  $constructorArgs
+     * @param  class-string<TObject> $mockName
+     * @param  null|list<mixed>      $constructorArgs
+     * @return TObject
      *
      * @throws Throwable
-     *
-     * @return TMock
      */
     protected function _getInstance($mockName, $constructorArgs = null)
     {
-        if ($constructorArgs !== null) {
+        if (null !== $constructorArgs) {
             return (new ReflectionClass($mockName))->newInstanceArgs($constructorArgs);
         }
 
         try {
             $instance = $this->instantiator->instantiate($mockName);
         } catch (PHPException $phpException) {
-            /** @var class-string<TMock> $internalMockName */
+            /** @var class-string<TObject> $internalMockName */
             $internalMockName = $mockName . '_Internal';
 
             if (! class_exists($internalMockName)) {
@@ -520,12 +500,12 @@ class Container
             $instance = new $internalMockName();
         }
 
+        /** @var TObject $instance */
         return $instance;
     }
 
     /**
-     * @param MockConfiguration $config
-     *
+     * @param  MockConfiguration $config
      * @return void
      *
      * @throws Throwable
@@ -534,7 +514,7 @@ class Container
     {
         $name = $config->getName();
 
-        if ($name === null) {
+        if (null === $name) {
             return;
         }
 
@@ -565,11 +545,9 @@ class Container
     }
 
     /**
-     * @template TMock of object
+     * @return class-string
      *
      * @throws Throwable
-     * @return class-string<TMock>
-     *
      */
     private function generateMock(MockConfiguration $mockConfiguration): string
     {
@@ -579,9 +557,9 @@ class Container
         $className = $mockDefinition->getClassName();
 
         if (class_exists($className, $attemptAutoload = false)) {
-            $rfc = new ReflectionClass($className);
+            $reflectionClass = new ReflectionClass($className);
 
-            if (! $rfc->implementsInterface(LegacyMockInterface::class)) {
+            if (! $reflectionClass->implementsInterface(LegacyMockInterface::class)) {
                 throw new RuntimeException(sprintf('Could not load mock %s, class already exists', $className));
             }
         }
@@ -592,7 +570,9 @@ class Container
         return $className;
     }
 
-    /** @return null|Closure(MockInterface):void */
+    /**
+     * @return null|Closure(MockInterface):void
+     */
     private function handleClosure(array &$arguments): ?Closure
     {
         if (count($arguments) < 2) {
@@ -614,19 +594,15 @@ class Container
     private function initializeBuilder(array &$arguments): MockConfigurationBuilder
     {
         $configuration = Mockery::getConfiguration();
+
         return $this->createBuilder($arguments)
             ->setParameterOverrides($configuration->getInternalClassMethodParamMaps())
             ->setConstantsMap($configuration->getConstantsMap());
     }
 
     /**
-     * @template TMock of object
-     *
-     * @param class-string<TMock> $className
-     * @param null|array $constructorArgs
-     * @param MockConfiguration $mockConfiguration
-     *
-     * @return (TMock&MockInterface)|(TMock&LegacyMockInterface)
+     * @param class-string     $className
+     * @param null|list<mixed> $constructorArgs
      */
     private function initializeMock(
         string $className,
@@ -635,6 +611,7 @@ class Container
     ): object {
         $mock = $this->_getInstance($className, $constructorArgs);
         $mock->mockery_init($this, $mockConfiguration->getTargetObject(), $mockConfiguration->isInstanceMock());
+
         return $mock;
     }
 
@@ -647,7 +624,7 @@ class Container
         $expectationClosure = $this->handleClosure($arguments);
         $builder = $this->initializeBuilder($arguments);
 
-        while ($arguments !== []) {
+        while ([] !== $arguments) {
             $argument = array_shift($arguments);
 
             if (is_string($argument)) {
@@ -668,7 +645,7 @@ class Container
                 continue;
             }
 
-            throw new Exception(sprintf('Unable to parse arguments sent to %s::mock()', get_class($this)));
+            throw new Exception(sprintf('Unable to parse arguments sent to %s::mock()', static::class));
         }
 
         return [$expectationClosure, $builder, $partialMethods, $quickDefinitions, $constructorArgs, $blocks];
@@ -680,7 +657,7 @@ class Container
         ?array &$constructorArgs,
         array &$blocks
     ): void {
-        if ($argument !== [] && array_keys($argument) !== range(0, count($argument) - 1)) {
+        if ([] !== $argument && array_keys($argument) !== range(0, count($argument) - 1)) {
             if (array_key_exists(self::BLOCKS, $argument)) {
                 $blocks = $argument[self::BLOCKS];
             }
@@ -697,19 +674,22 @@ class Container
         ?array &$partialMethods
     ): void {
         foreach (explode('|', $arguments) as $type) {
-            if ($arguments === 'null') {
+            if ('null' === $arguments) {
                 continue;
             }
 
             if (str_contains($type, ',') && ! str_contains($type, ']')) {
                 $interfaces = explode(',', str_replace(' ', '', $type));
+                /** @var list<class-string> $interfaces */
                 $builder->addTargets($interfaces);
+
                 continue;
             }
 
             if (str_starts_with($type, 'alias:')) {
                 $builder->addTarget(stdClass::class);
                 $builder->setName(substr($type, 6));
+
                 continue;
             }
 
@@ -717,6 +697,7 @@ class Container
                 $builder->addTarget(stdClass::class);
                 $builder->setInstanceMock(true);
                 $builder->setName(substr($type, 9));
+
                 continue;
             }
 
@@ -731,17 +712,19 @@ class Container
                 $builder->addTarget($class);
                 $partialMethods = array_filter(explode(',', strtolower(rtrim(str_replace(' ', '', $parts[1]), ']'))));
                 foreach ($partialMethods as $partialMethod) {
-                    if ($partialMethod[0] === '!') {
+                    if ('!' === $partialMethod[0]) {
                         $builder->addBlackListedMethod(substr($partialMethod, 1));
                     } else {
                         $builder->addWhiteListedMethod($partialMethod);
                     }
                 }
+
                 continue;
             }
 
             if (class_exists($type, true) || interface_exists($type, true) || trait_exists($type, true)) {
                 $builder->addTarget($type);
+
                 continue;
             }
 
@@ -753,7 +736,9 @@ class Container
                 throw new Exception('Class name contains invalid characters');
             }
 
+            /** @var class-string $type */
             $builder->addTarget($type);
+
             break;
         }
     }

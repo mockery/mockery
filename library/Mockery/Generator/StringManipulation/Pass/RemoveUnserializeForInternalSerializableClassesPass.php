@@ -1,19 +1,22 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
 
 use Mockery\Generator\MockConfiguration;
+use Override;
+
+use const PHP_VERSION_ID;
+
 use function strrpos;
 use function substr;
-use const PHP_VERSION_ID;
 
 /**
  * Internal classes can not be instantiated with the newInstanceWithoutArgs
@@ -31,6 +34,7 @@ class RemoveUnserializeForInternalSerializableClassesPass implements Pass
      * @param  string $code
      * @return string
      */
+    #[Override]
     public function apply($code, MockConfiguration $config)
     {
         $target = $config->getTargetClass();
@@ -49,9 +53,15 @@ class RemoveUnserializeForInternalSerializableClassesPass implements Pass
         );
     }
 
+    /**
+     * @param  string $class
+     * @param  string $code
+     * @return string
+     */
     protected function appendToClass($class, $code)
     {
         $lastBrace = strrpos($class, '}');
+
         return substr($class, 0, $lastBrace) . $code . "\n    }\n";
     }
 }

@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\CountValidator;
 
 use Mockery\Expectation;
+use Override;
 
 abstract class CountValidatorAbstract implements CountValidatorInterface
 {
@@ -19,14 +20,14 @@ abstract class CountValidatorAbstract implements CountValidatorInterface
      *
      * @var Expectation
      */
-    protected $_expectation = null;
+    protected $_expectation;
 
     /**
      * Call count limit
      *
      * @var int
      */
-    protected $_limit = null;
+    protected $_limit;
 
     /**
      * Set Expectation object and upper call limit
@@ -42,10 +43,10 @@ abstract class CountValidatorAbstract implements CountValidatorInterface
     /**
      * Checks if the validator can accept an additional nth call
      *
-     * @param int $n
-     *
+     * @param  int  $n
      * @return bool
      */
+    #[Override]
     public function isEligible($n)
     {
         return $n < $this->_limit;
@@ -54,9 +55,9 @@ abstract class CountValidatorAbstract implements CountValidatorInterface
     /**
      * Validate the call count against this validator
      *
-     * @param int $n
-     *
+     * @param  int  $n
      * @return bool
      */
+    #[Override]
     abstract public function validate($n);
 }

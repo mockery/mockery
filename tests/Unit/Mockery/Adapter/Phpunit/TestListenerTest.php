@@ -2,16 +2,28 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery\Adapter\Phpunit;
 
 use EmptyTestCase;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Adapter\Phpunit\TestListener;
+use Override;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Util\Blacklist;
 use ReflectionClass;
+use Throwable;
+
+use function method_exists;
 
 /**
  * @coversDefaultClass \Mockery
@@ -26,6 +38,10 @@ final class TestListenerTest extends MockeryTestCase
 
     protected $testResult;
 
+    /**
+     * @throws Throwable
+     */
+    #[Override]
     protected function mockeryTestSetUp(): void
     {
         // We intentionally test the static container here. That is what the
@@ -44,6 +60,9 @@ final class TestListenerTest extends MockeryTestCase
         );
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testFailureOnMissingClose(): void
     {
         $mock = $this->container->mock();
@@ -59,11 +78,14 @@ final class TestListenerTest extends MockeryTestCase
         Mockery::close();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testMockeryIsAddedToBlacklist(): void
     {
         $suite = Mockery::mock(TestSuite::class);
 
-        if (\method_exists(Blacklist::class, 'addDirectory')) {
+        if (method_exists(Blacklist::class, 'addDirectory')) {
             self::assertFalse(
                 (new Blacklist())->isBlacklisted((new ReflectionClass(Mockery::class))->getFileName())
             );
@@ -80,6 +102,9 @@ final class TestListenerTest extends MockeryTestCase
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testSuccessOnClose(): void
     {
         $mock = $this->container->mock();

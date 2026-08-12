@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Adapter\Phpunit;
@@ -13,6 +13,7 @@ namespace Mockery\Adapter\Phpunit;
 use Mockery;
 use PHPUnit\Framework\Attributes\After;
 use PHPUnit\Framework\Attributes\Before;
+use Throwable;
 
 use function method_exists;
 
@@ -37,13 +38,16 @@ trait MockeryPHPUnitIntegration
             return;
         }
 
-        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $e) {
-            if (! $e->dismissed()) {
+        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $exception) {
+            if (! $exception->dismissed()) {
                 $this->markAsRisky();
             }
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     protected function closeMockery()
     {
         Mockery::close();
@@ -53,6 +57,8 @@ trait MockeryPHPUnitIntegration
     /**
      * Performs assertions shared by all tests of a test case. This method is
      * called before execution of a test ends and before the tearDown method.
+     *
+     * @throws Throwable
      */
     protected function mockeryAssertPostConditions()
     {
@@ -65,6 +71,8 @@ trait MockeryPHPUnitIntegration
 
     /**
      * @after
+     *
+     * @throws Throwable
      */
     #[After]
     protected function purgeMockeryContainer()

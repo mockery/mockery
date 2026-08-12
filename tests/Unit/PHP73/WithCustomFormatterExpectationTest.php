@@ -2,9 +2,18 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\PHP73;
 
 use Mockery;
+use Override;
 use PHP73\ClassChildOfWithCustomFormatter;
 use PHP73\ClassImplementsWithCustomFormatter;
 use PHP73\ClassWithCustomFormatter;
@@ -12,12 +21,16 @@ use PHP73\ClassWithoutCustomFormatter;
 use PHP73\InterfaceWithCustomFormatter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Throwable;
+
+use function get_class;
 
 /**
  * @coversDefaultClass \Mockery
  */
 final class WithCustomFormatterExpectationTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         Mockery::getConfiguration()->setObjectFormatter(
@@ -84,6 +97,8 @@ final class WithCustomFormatterExpectationTest extends TestCase
 
     /**
      * @dataProvider provideFormatObjectsCases
+     *
+     * @throws Throwable
      */
     public function testFormatObjects($obj, $shouldContains, $shouldNotContains): void
     {
@@ -98,6 +113,8 @@ final class WithCustomFormatterExpectationTest extends TestCase
 
     /**
      * @dataProvider provideGetObjectFormatterCases
+     *
+     * @throws Throwable
      */
     public function testGetObjectFormatter($object, $expected): void
     {
@@ -105,7 +122,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
             return null;
         };
 
-        $formatter = Mockery::getConfiguration()->getObjectFormatter(\get_class($object), $defaultFormatter);
+        $formatter = Mockery::getConfiguration()->getObjectFormatter(get_class($object), $defaultFormatter);
         $formatted = $formatter($object, 1);
 
         self::assertSame($expected, $formatted ? $formatted['formatter'] : null);

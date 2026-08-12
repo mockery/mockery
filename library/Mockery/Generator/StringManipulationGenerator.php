@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator;
@@ -25,6 +25,8 @@ use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPa
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
 use Mockery\Generator\StringManipulation\Pass\TraitPass;
+use Override;
+
 use function file_get_contents;
 
 class StringManipulationGenerator implements Generator
@@ -50,7 +52,6 @@ class StringManipulationGenerator implements Generator
     }
 
     /**
-     * @param  Pass $pass
      * @return void
      */
     public function addPass(Pass $pass)
@@ -61,6 +62,7 @@ class StringManipulationGenerator implements Generator
     /**
      * @return MockDefinition
      */
+    #[Override]
     public function generate(MockConfiguration $config)
     {
         $className = $config->getName() ?: $config->generateName();
@@ -68,6 +70,7 @@ class StringManipulationGenerator implements Generator
         $namedConfig = $config->rename($className);
 
         $code = $this->code;
+
         foreach ($this->passes as $pass) {
             $code = $pass->apply($code, $namedConfig);
         }
@@ -78,7 +81,7 @@ class StringManipulationGenerator implements Generator
     /**
      * Creates a new StringManipulationGenerator with the default passes
      *
-     * @return StringManipulationGenerator
+     * @return static
      */
     public static function withDefaultPasses()
     {
