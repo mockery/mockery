@@ -315,6 +315,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[RequiresPhp('<8.1')]
     public function testCanMockClassesThatImplementSerializable(): void
     {
         $mock = mock(MockeryTest_ClassThatImplementsSerializable::class);
