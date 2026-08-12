@@ -2,16 +2,28 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery\Matcher;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Matcher\Subset;
+use Throwable;
 
 /**
  * @coversDefaultClass \Mockery
  */
 final class SubsetTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testItCanRunALooseComparison(): void
     {
         $matcher = Subset::loose([
@@ -27,6 +39,9 @@ final class SubsetTest extends MockeryTestCase
         self::assertTrue($matcher->match($actual));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCorrectlyFormatsNestedArraysIntoAString(): void
     {
         $expected = [
@@ -50,6 +65,9 @@ final class SubsetTest extends MockeryTestCase
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItIsStrictByDefault(): void
     {
         $matcher = new Subset([
@@ -65,6 +83,9 @@ final class SubsetTest extends MockeryTestCase
         self::assertFalse($matcher->match($actual));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItMatchesAShallowSubset(): void
     {
         $matcher = Subset::strict([
@@ -80,6 +101,9 @@ final class SubsetTest extends MockeryTestCase
         self::assertTrue($matcher->match($actual));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItRecursivelyMatches(): void
     {
         $matcher = Subset::strict([
@@ -103,6 +127,9 @@ final class SubsetTest extends MockeryTestCase
         self::assertTrue($matcher->match($actual));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItReturnsFalseIfActualIsNotAnArray(): void
     {
         $matcher = new Subset([

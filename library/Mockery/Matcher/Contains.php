@@ -1,14 +1,18 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Matcher;
+
+use Override;
+
+use ReturnTypeWillChange;
 
 use function array_values;
 use function implode;
@@ -20,11 +24,12 @@ class Contains extends MatcherAbstract
      *
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function __toString()
     {
         $elements = [];
-        foreach ($this->_expected as $v) {
-            $elements[] = (string) $v;
+        foreach ($this->_expected as $expected) {
+            $elements[] = (string) $expected;
         }
 
         return '<Contains[' . implode(', ', $elements) . ']>';
@@ -33,25 +38,26 @@ class Contains extends MatcherAbstract
     /**
      * Check if the actual value matches the expected.
      *
-     * @template TMixed
-     *
-     * @param TMixed $actual
-     *
+     * @param  mixed $actual
      * @return bool
      */
+    #[Override]
     public function match(&$actual)
     {
         $values = array_values($actual);
-        foreach ($this->_expected as $exp) {
+
+        foreach ($this->_expected as $expected) {
             $match = false;
-            foreach ($values as $val) {
-                if ($exp === $val || $exp == $val) {
+
+            foreach ($values as $value) {
+                if ($expected === $value || $expected == $value) {
                     $match = true;
+
                     break;
                 }
             }
 
-            if ($match === false) {
+            if (false === $match) {
                 return false;
             }
         }

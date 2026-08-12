@@ -1,24 +1,27 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator;
 
+use Override;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
 
+use ReturnTypeWillChange;
+
+use const PHP_VERSION_ID;
+
 use function array_map;
 use function array_merge;
 use function array_unique;
-
-use const PHP_VERSION_ID;
 
 class DefinedTargetClass implements TargetClassInterface
 {
@@ -30,21 +33,21 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @var ReflectionClass
      */
-    private $rfc;
+    private $reflectionClass;
 
     /**
-     * @param ReflectionClass   $rfc
      * @param class-string|null $alias
      */
     public function __construct(ReflectionClass $rfc, $alias = null)
     {
-        $this->rfc = $rfc;
+        $this->reflectionClass = $rfc;
         $this->name = $alias ?? $rfc->getName();
     }
 
     /**
      * @return class-string
      */
+    #[ReturnTypeWillChange]
     public function __toString()
     {
         return $this->name;
@@ -55,6 +58,7 @@ class DefinedTargetClass implements TargetClassInterface
      * @param  class-string|null $alias
      * @return self
      */
+    #[Override]
     public static function factory($name, $alias = null)
     {
         return new self(new ReflectionClass($name), $alias);
@@ -63,6 +67,7 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return list<class-string>
      */
+    #[Override]
     public function getAttributes()
     {
         if (PHP_VERSION_ID < 80000) {
@@ -76,7 +81,7 @@ class DefinedTargetClass implements TargetClassInterface
                     static function (ReflectionAttribute $attribute): string {
                         return '\\' . $attribute->getName();
                     },
-                    $this->rfc->getAttributes()
+                    $this->reflectionClass->getAttributes()
                 )
             )
         );
@@ -85,32 +90,35 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return array<class-string,self>
      */
+    #[Override]
     public function getInterfaces()
     {
         return array_map(
             static function (ReflectionClass $interface): self {
                 return new self($interface);
             },
-            $this->rfc->getInterfaces()
+            $this->reflectionClass->getInterfaces()
         );
     }
 
     /**
      * @return list<Method>
      */
+    #[Override]
     public function getMethods()
     {
         return array_map(
             static function (ReflectionMethod $method): Method {
                 return new Method($method);
             },
-            $this->rfc->getMethods()
+            $this->reflectionClass->getMethods()
         );
     }
 
     /**
      * @return class-string
      */
+    #[Override]
     public function getName()
     {
         return $this->name;
@@ -119,29 +127,32 @@ class DefinedTargetClass implements TargetClassInterface
     /**
      * @return string
      */
+    #[Override]
     public function getNamespaceName()
     {
-        return $this->rfc->getNamespaceName();
+        return $this->reflectionClass->getNamespaceName();
     }
 
     /**
      * @return string
      */
+    #[Override]
     public function getShortName()
     {
-        return $this->rfc->getShortName();
+        return $this->reflectionClass->getShortName();
     }
 
     /**
      * @return bool
      */
+    #[Override]
     public function hasInternalAncestor()
     {
-        if ($this->rfc->isInternal()) {
+        if ($this->reflectionClass->isInternal()) {
             return true;
         }
 
-        $child = $this->rfc;
+        $child = $this->reflectionClass;
         while ($parent = $child->getParentClass()) {
             if ($parent->isInternal()) {
                 return true;
@@ -157,32 +168,49 @@ class DefinedTargetClass implements TargetClassInterface
      * @param  class-string $interface
      * @return bool
      */
+    #[Override]
     public function implementsInterface($interface)
     {
-        return $this->rfc->implementsInterface($interface);
+        return $this->reflectionClass->implementsInterface($interface);
     }
 
     /**
      * @return bool
      */
+    #[Override]
     public function inNamespace()
     {
-        return $this->rfc->inNamespace();
+        return $this->reflectionClass->inNamespace();
     }
 
     /**
      * @return bool
      */
+    #[Override]
     public function isAbstract()
     {
-        return $this->rfc->isAbstract();
+        return $this->reflectionClass->isAbstract();
     }
 
     /**
      * @return bool
      */
+    #[Override]
     public function isFinal()
     {
-        return $this->rfc->isFinal();
+        return $this->reflectionClass->isFinal();
+    }
+
+    /**
+     * @return bool
+     */
+    #[Override]
+    public function isReadOnly()
+    {
+        if (PHP_VERSION_ID < 80200) {
+            return false;
+        }
+
+        return $this->reflectionClass->isReadOnly();
     }
 }

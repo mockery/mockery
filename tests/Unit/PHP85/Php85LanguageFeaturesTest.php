@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/en/stable/)
  *
@@ -8,22 +10,41 @@
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
-declare(strict_types=1);
-
 namespace Tests\Unit\PHP85;
 
-use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use stdClass;
+use Throwable;
+
+use function mock;
 
 /**
  * @requires PHP 8.5.0-dev
+ *
  * @coversDefaultClass \Mockery
  */
 final class Php85LanguageFeaturesTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testExample(): void
     {
-        self::assertInstanceOf(stdClass::class, Mockery::mock(stdClass::class));
+        $mock = mock();
+        self::assertSame($mock, $mock->expects('zero')->with(0)->zeroOrMoreTimes()->getMock());
+
+        $mock->expects('false')->andReturnFalse()->once();
+        self::assertFalse($mock->false());
+
+        $mock->expects('foo')->andReturn('foo')->once();
+        self::assertSame('foo', $mock->foo());
+
+        $mock->expects('nullable')->andReturnNull()->once();
+        self::assertNull($mock->nullable());
+
+        $mock->expects('self')->andReturnSelf()->once();
+        self::assertSame($mock, $mock->self());
+
+        $mock->expects('true')->andReturnTrue()->once();
+        self::assertTrue($mock->true());
     }
 }

@@ -9,10 +9,11 @@ on:
 
 jobs:
   run:
-    runs-on: ubuntu-latest
+    name: Codecov
     strategy:
       matrix:
         php: ['8.5']
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -22,10 +23,11 @@ jobs:
       - name: Set up PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
-          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          extensions: mongodb, redis
           ini-values: assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+          php-version: ${{ matrix.php }}
           tools: composer:v2
-          extensions: mongodb, redis-phpredis/phpredis@develop
 
       - name: Get composer cache directory
         id: composer-cache

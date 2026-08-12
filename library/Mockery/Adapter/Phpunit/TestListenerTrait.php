@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Adapter\Phpunit;
@@ -29,7 +29,6 @@ class TestListenerTrait
      * endTest is called after each test and checks if \Mockery::close() has
      * been called, and will let the test fail if it hasn't.
      *
-     * @param Test  $test
      * @param float $time
      */
     public function endTest(Test $test, $time)
@@ -56,19 +55,19 @@ class TestListenerTrait
             return;
         }
 
-        $e = new ExpectationFailedException(
+        $expectationFailedException = new ExpectationFailedException(
             sprintf(
                 "Mockery's expectations have not been verified. Make sure that \Mockery::close() is called at the end of the test. Consider using %s\MockeryPHPUnitIntegration or extending %s\MockeryTestCase.",
                 __NAMESPACE__,
-                __NAMESPACE__
-            )
+                __NAMESPACE__,
+            ),
         );
 
         /** @var \PHPUnit\Framework\TestResult $result */
         $result = $test->getTestResultObject();
 
-        if ($result !== null) {
-            $result->addFailure($test, $e, $time);
+        if (null !== $result) {
+            $result->addFailure($test, $expectationFailedException, $time);
         }
     }
 
@@ -80,5 +79,7 @@ class TestListenerTrait
         } else {
             Blacklist::$blacklistedClassNames[Mockery::class] = 1;
         }
+
+        Mockery::resetContainer();
     }
 }

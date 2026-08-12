@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Exception;
@@ -23,12 +23,12 @@ class NoMatchingExpectationException extends Exception
     /**
      * @var string|null
      */
-    protected $method = null;
+    protected $method;
 
     /**
      * @var LegacyMockInterface|null
      */
-    protected $mockObject = null;
+    protected $mockObject;
 
     /**
      * @return array<mixed>
@@ -61,7 +61,7 @@ class NoMatchingExpectationException extends Exception
     {
         $mock = $this->getMock();
 
-        if ($mock === null) {
+        if (null === $mock) {
             return $mock;
         }
 
@@ -70,33 +70,35 @@ class NoMatchingExpectationException extends Exception
 
     /**
      * @todo Rename param `count` to `args`
-     * @template TMixed
      *
-     * @param  array<TMixed> $count
-     * @return self
+     * @param  array<mixed> $count
+     * @return static
      */
     public function setActualArguments($count)
     {
         $this->actual = $count;
+
         return $this;
     }
 
     /**
      * @param  string $name
-     * @return self
+     * @return static
      */
     public function setMethodName($name)
     {
         $this->method = $name;
+
         return $this;
     }
 
     /**
-     * @return self
+     * @return static
      */
     public function setMock(LegacyMockInterface $mock)
     {
         $this->mockObject = $mock;
+
         return $this;
     }
 }

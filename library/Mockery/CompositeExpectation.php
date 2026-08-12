@@ -1,14 +1,18 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
+
+use Override;
+use ReturnTypeWillChange;
+use RuntimeException;
 
 use function array_map;
 use function current;
@@ -20,15 +24,15 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Stores an array of all expectations for this composite
      *
-     * @var array<ExpectationInterface>
+     * @var array<Expectation>
      */
     protected $_expectations = [];
 
     /**
      * Intercept any expectation calls and direct against all expectations
      *
-     * @param string $method
-     *
+     * @param  string       $method
+     * @param  array<mixed> $args
      * @return self
      */
     public function __call($method, array $args)
@@ -45,9 +49,10 @@ class CompositeExpectation implements ExpectationInterface
      *
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function __toString()
     {
-        $parts = array_map(static function (ExpectationInterface $expectation): string {
+        $parts = array_map(static function (Expectation $expectation): string {
             return (string) $expectation;
         }, $this->_expectations);
 
@@ -57,8 +62,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Add an expectation to the composite
      *
-     * @param ExpectationInterface|HigherOrderMessage $expectation
-     *
+     * @param  Expectation $expectation
      * @return void
      */
     public function add($expectation)
@@ -67,8 +71,10 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
-     * @param mixed ...$args
+     * @param  mixed ...$args
+     * @return self
      */
+    #[Override]
     public function andReturn(...$args)
     {
         return $this->__call(__FUNCTION__, $args);
@@ -77,43 +83,47 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed ...$args
-     *
+     * @param  mixed ...$args
      * @return self
      */
+    #[Override]
     public function andReturns(...$args)
     {
-        return $this->andReturn(...$args);
+        return $this->__call(__FUNCTION__, $args);
     }
 
     /**
      * Return the parent mock of the first expectation
      *
-     * @return LegacyMockInterface&MockInterface
+     * @return MockInterface
+     *
+     * @throws RuntimeException
      */
+    #[Override]
     public function getMock()
     {
-        reset($this->_expectations);
-        $first = current($this->_expectations);
-        return $first->getMock();
+        return $this->firstExpectation()->getMock();
     }
 
     /**
      * Return order number of the first expectation
      *
      * @return int
+     *
+     * @throws RuntimeException
      */
+    #[Override]
     public function getOrderNumber()
     {
-        reset($this->_expectations);
-        $first = current($this->_expectations);
-        return $first->getOrderNumber();
+        return $this->firstExpectation()->getOrderNumber();
     }
 
     /**
      * Mockery API alias to getMock
      *
-     * @return LegacyMockInterface&MockInterface
+     * @return MockInterface
+     *
+     * @throws RuntimeException
      */
     public function mock()
     {
@@ -123,28 +133,45 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Starts a new expectation addition on the first mock which is the primary target outside of a demeter chain
      *
-     * @param mixed ...$args
+     * @param  mixed                                                ...$args
+     * @return ($args is list{} ? HigherOrderMessage : Expectation)
      *
-     * @return Expectation
+     * @throws RuntimeException
      */
     public function shouldNotReceive(...$args)
     {
-        reset($this->_expectations);
-        $first = current($this->_expectations);
-        return $first->getMock()->shouldNotReceive(...$args);
+        return $this->getMock()->shouldNotReceive(...$args);
     }
 
     /**
      * Starts a new expectation addition on the first mock which is the primary target, outside of a demeter chain
      *
-     * @param mixed ...$args
+     * @param  mixed                                                ...$args
+     * @return ($args is list{} ? HigherOrderMessage : Expectation)
      *
-     * @return Expectation
+     * @throws RuntimeException
      */
     public function shouldReceive(...$args)
     {
+        return $this->getMock()->shouldReceive(...$args);
+    }
+
+    /**
+     * Return the first expectation
+     *
+     * @return Expectation
+     *
+     * @throws RuntimeException If no expectations have been added to this composite expectation
+     */
+    private function firstExpectation()
+    {
         reset($this->_expectations);
+
         $first = current($this->_expectations);
-        return $first->getMock()->shouldReceive(...$args);
+        if (false === $first) {
+            throw new RuntimeException('No expectations have been added to this composite expectation');
+        }
+
+        return $first;
     }
 }

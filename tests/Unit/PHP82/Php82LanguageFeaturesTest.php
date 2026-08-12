@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\PHP82;
 
 use Mockery;
@@ -22,13 +30,20 @@ use PHP82\TestThree;
 use PHP82\TestTwo;
 use ReflectionClass;
 use ReflectionType;
+use Throwable;
+
+use function mock;
 
 /**
  * @requires PHP 8.2.0-dev
+ *
  * @coversDefaultClass \Mockery
  */
 final class Php82LanguageFeaturesTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public static function provideMockParameterDisjunctiveNormalFormTypesCases(): iterable
     {
         $fixtures = [Sut::class, TestOne::class, TestTwo::class, TestThree::class];
@@ -38,6 +53,9 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public static function provideMockReturnDisjunctiveNormalFormTypesCases(): iterable
     {
         $fixtures = [
@@ -51,9 +69,12 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testCanMockReservedWordFalse(): void
     {
-        $mock = \mock(HasReservedWordFalse::class);
+        $mock = mock(HasReservedWordFalse::class);
 
         $mock->expects('testFalseMethod')
             ->once();
@@ -62,9 +83,12 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertInstanceOf(HasReservedWordFalse::class, $mock);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testCanMockReservedWordTrue(): void
     {
-        $mock = \mock(HasReservedWordTrue::class);
+        $mock = mock(HasReservedWordTrue::class);
 
         $mock->expects('testTrueMethod')
             ->once();
@@ -73,15 +97,21 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertInstanceOf(HasReservedWordTrue::class, $mock);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testCanMockUndefinedClasses(): void
     {
-        $class = \mock('MockUnDefinedClass');
+        $class = mock('MockUnDefinedClass');
 
         $class->foo = 'bar';
 
         self::assertSame('bar', $class->foo);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAnClassWithNullReturnType(): void
     {
         $mock = Mockery::mock(HasNullReturnType::class);
@@ -91,7 +121,10 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     /**
      * @param class-string $fullyQualifiedClassName
+     *
      * @dataProvider provideMockParameterDisjunctiveNormalFormTypesCases
+     *
+     * @throws Throwable
      */
     public function testMockParameterDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
@@ -101,7 +134,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
             ->getParameters()[0]
             ->getType();
 
-        $mock = \mock($fullyQualifiedClassName);
+        $mock = mock($fullyQualifiedClassName);
 
         $reflectionClass = new ReflectionClass($mock);
         $type = $reflectionClass->getMethod($expectedMethod->getName())
@@ -113,7 +146,10 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
     /**
      * @param class-string $fullyQualifiedClassName
+     *
      * @dataProvider provideMockReturnDisjunctiveNormalFormTypesCases
+     *
+     * @throws Throwable
      */
     public function testMockReturnDisjunctiveNormalFormTypes(string $fullyQualifiedClassName): void
     {
@@ -123,7 +159,7 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
 
         self::assertInstanceOf(ReflectionType::class, $expectedType);
 
-        $mock = \mock($fullyQualifiedClassName);
+        $mock = mock($fullyQualifiedClassName);
 
         $reflectionClass = new ReflectionClass($mock);
 
@@ -135,6 +171,9 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertSame($expectedType->__toString(), $type->__toString());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testTypeHintIIterableStdClassString(): void
     {
         $refClass = new ReflectionClass(IterableStdClassString::class);
@@ -144,6 +183,9 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertSame('iterable|\stdClass|string', Reflector::getTypeHint($refParam));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testTypeHintIterableObject(): void
     {
         $refClass = new ReflectionClass(IterableObject::class);
@@ -153,6 +195,9 @@ final class Php82LanguageFeaturesTest extends MockeryTestCase
         self::assertSame('iterable|object', Reflector::getTypeHint($refParam));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testTypeHintIterableObjectString(): void
     {
         $refClass = new ReflectionClass(IterableObjectString::class);

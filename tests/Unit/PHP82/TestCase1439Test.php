@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\PHP82;
 
 use Mockery;
@@ -9,9 +17,13 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use SoapClient;
 use Throwable;
 
+use function call_user_func_array;
+
 /**
  * @coversDefaultClass \Mockery\Expectation
+ *
  * @requires PHP 8.2
+ *
  * @see https://github.com/mockery/mockery/issues/1439
  */
 final class TestCase1439Test extends MockeryTestCase
@@ -43,7 +55,7 @@ final class TestCase1439Test extends MockeryTestCase
             ->andReturn($expectedResult);
 
         // Simulate the call
-        $response = \call_user_func_array([$soapClientMock, $methodName], $params);
+        $response = call_user_func_array([$soapClientMock, $methodName], $params);
 
         self::assertSame($expectedResult, $response);
     }

@@ -6,6 +6,9 @@
 /.gitattributes export-ignore
 /.github export-ignore
 /.gitignore export-ignore
+/.readthedocs.yml export-ignore
+/composer.lock export-ignore
+/CONTRIBUTING.md export-ignore
 /docker export-ignore
 /docs export-ignore
 /e2e-test.sh export-ignore
@@ -17,5 +20,3 @@
 /psalm.xml.dist export-ignore
 /tests export-ignore
 /tools export-ignore
-/composer.lock export-ignore
-/.readthedocs.yml export-ignore

@@ -2,12 +2,23 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\CallTypeHintPass;
 use PHPUnit\Framework\TestCase;
+use Throwable;
+
+use function mb_strpos;
 
 /**
  * @coversDefaultClass \Mockery
@@ -18,6 +29,9 @@ final class CallTypeHintPassTest extends TestCase
                    public static function __callStatic($method, array $args) {}
     ';
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldRemoveCallStaticTypeHintIfRequired(): void
     {
         $pass = new CallTypeHintPass();
@@ -25,9 +39,12 @@ final class CallTypeHintPassTest extends TestCase
             'requiresCallStaticTypeHintRemoval' => true,
         ])->makePartial();
         $code = $pass->apply(self::CODE, $config);
-        self::assertNotFalse(\mb_strpos($code, '__callStatic($method, $args)'));
+        self::assertNotFalse(mb_strpos($code, '__callStatic($method, $args)'));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldRemoveCallTypeHintIfRequired(): void
     {
         $pass = new CallTypeHintPass();
@@ -35,6 +52,6 @@ final class CallTypeHintPassTest extends TestCase
             'requiresCallTypeHintRemoval' => true,
         ])->makePartial();
         $code = $pass->apply(self::CODE, $config);
-        self::assertNotFalse(\mb_strpos($code, '__call($method, $args)'));
+        self::assertNotFalse(mb_strpos($code, '__call($method, $args)'));
     }
 }

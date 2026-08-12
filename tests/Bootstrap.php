@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Mockery (https://docs.mockery.io/en/stable/)
  *
@@ -8,9 +10,8 @@
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
-declare(strict_types=1);
-
 use Composer\Autoload\ClassLoader;
+use Mockery\Loader\RequireLoader;
 
 /*
  * Set error reporting to the level to which Mockery code must comply.
@@ -19,7 +20,7 @@ use Composer\Autoload\ClassLoader;
 
 if (! \function_exists('vdd')) {
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     function vdd(): void
     {
@@ -30,7 +31,7 @@ if (! \function_exists('vdd')) {
         $trace = $traces[1] ?? null;
 
         if (! \is_array($trace)) {
-            throw new \RuntimeException('Unable to find debug backtrace');
+            throw new RuntimeException('Unable to find debug backtrace');
         }
 
         if (\array_key_exists('file', $trace) && \array_key_exists('line', $trace)) {
@@ -48,7 +49,7 @@ if (! \function_exists('vdd')) {
 (static function (string $rootDir): void {
     $classLoader = require \implode(DIRECTORY_SEPARATOR, [$rootDir, 'vendor', 'autoload.php']);
     if (! $classLoader instanceof ClassLoader) {
-        throw new \RuntimeException('Unable to load ' . ClassLoader::class);
+        throw new RuntimeException('Unable to load ' . ClassLoader::class);
     }
 
     $hamcrestPath = \implode(
@@ -61,12 +62,12 @@ if (! \function_exists('vdd')) {
 
     $testsDir = \implode(DIRECTORY_SEPARATOR, [$rootDir, 'tests']);
     if (! \is_dir($testsDir)) {
-        throw new \RuntimeException('Unable to find tests directory: ' . $testsDir);
+        throw new RuntimeException('Unable to find tests directory: ' . $testsDir);
     }
 
     $fixtureDir = \implode(DIRECTORY_SEPARATOR, [$testsDir, 'Fixture']);
     if (! \is_dir($fixtureDir)) {
-        throw new \RuntimeException('Unable to find fixture directory: ' . $fixtureDir);
+        throw new RuntimeException('Unable to find fixture directory: ' . $fixtureDir);
     }
 
     // Add autoloading for the fixture classes
@@ -86,6 +87,6 @@ if (! \function_exists('vdd')) {
             \mkdir($mocksDirectory, 0777, true);
         }
 
-        \Mockery::setLoader(new \Mockery\Loader\RequireLoader($mocksDirectory));
+        Mockery::setLoader(new RequireLoader($mocksDirectory));
     }
 })(\dirname(__DIR__));

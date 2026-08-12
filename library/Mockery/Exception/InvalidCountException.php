@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Exception;
@@ -20,7 +20,7 @@ class InvalidCountException extends Exception
     /**
      * @var int|null
      */
-    protected $actual = null;
+    protected $actual;
 
     /**
      * @var int
@@ -35,12 +35,12 @@ class InvalidCountException extends Exception
     /**
      * @var string|null
      */
-    protected $method = null;
+    protected $method;
 
     /**
      * @var LegacyMockInterface|null
      */
-    protected $mockObject = null;
+    protected $mockObject;
 
     /**
      * @return int|null
@@ -83,14 +83,15 @@ class InvalidCountException extends Exception
     }
 
     /**
-     * @throws RuntimeException
      * @return string|null
+     *
+     * @throws RuntimeException
      */
     public function getMockName()
     {
         $mock = $this->getMock();
 
-        if ($mock === null) {
+        if (null === $mock) {
             return '';
         }
 
@@ -104,6 +105,7 @@ class InvalidCountException extends Exception
     public function setActualCount($count)
     {
         $this->actual = $count;
+
         return $this;
     }
 
@@ -114,6 +116,7 @@ class InvalidCountException extends Exception
     public function setExpectedCount($count)
     {
         $this->expected = $count;
+
         return $this;
     }
 
@@ -128,6 +131,7 @@ class InvalidCountException extends Exception
         }
 
         $this->expectedComparative = $comp;
+
         return $this;
     }
 
@@ -138,6 +142,7 @@ class InvalidCountException extends Exception
     public function setMethodName($name)
     {
         $this->method = $name;
+
         return $this;
     }
 
@@ -147,6 +152,7 @@ class InvalidCountException extends Exception
     public function setMock(LegacyMockInterface $mock)
     {
         $this->mockObject = $mock;
+
         return $this;
     }
 }

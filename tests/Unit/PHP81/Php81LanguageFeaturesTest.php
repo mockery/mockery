@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\PHP81;
 
 use DateTime;
@@ -22,23 +30,35 @@ use PHP81\SimpleEnum;
 use PHP81\UsesEnums;
 use RuntimeException;
 use Serializable;
+use Throwable;
 use TypeError;
 
 use function mock;
+use function pcntl_fork;
+use function pcntl_waitpid;
+use function pcntl_wexitstatus;
+use function spy;
 
 /**
  * @requires PHP 8.1.0-dev
+ *
  * @coversDefaultClass \Mockery
  */
 final class Php81LanguageFeaturesTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testCanMockClassesThatImplementSerializable(): void
     {
-        $mock = \mock(ClassThatImplementsSerializable::class);
+        $mock = mock(ClassThatImplementsSerializable::class);
 
         self::assertInstanceOf(Serializable::class, $mock);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAClassWithANeverReturningTypeHint(): void
     {
         $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
@@ -49,22 +69,24 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
 
     /**
      * @requires extension pcntl
+     *
+     * @throws Throwable
      */
     public function testItCanMockAClassWithANeverReturningTypeHintWithExit(): void
     {
         $mock = Mockery::mock(NeverReturningTypehintClass::class)->makePartial();
 
-        $pid = \pcntl_fork();
+        $pid = pcntl_fork();
 
-        if ($pid === -1) {
+        if (-1 === $pid) {
             self::markTestSkipped("Couldn't fork for exit test");
 
             return;
         }
 
         if ($pid) {
-            \pcntl_waitpid($pid, $status);
-            self::assertSame(123, \pcntl_wexitstatus($status));
+            pcntl_waitpid($pid, $status);
+            self::assertSame(123, pcntl_wexitstatus($status));
 
             return;
         }
@@ -72,6 +94,9 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
         $mock->exits();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAClassWithAnIntersectionArgumentTypeHint(): void
     {
         $mock = Mockery::spy(ArgumentIntersectionTypeHint::class);
@@ -85,27 +110,39 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
         $mock->foo(Mockery::mock(IntersectionTypeHelper1Interface::class));
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAClassWithReturnTypeWillChangeAttributeAndNoReturnType(): void
     {
-        $mock = \spy(ReturnTypeWillChangeAttributeNoReturnType::class);
+        $mock = spy(ReturnTypeWillChangeAttributeNoReturnType::class);
 
         self::assertNull($mock->getTimestamp());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAClassWithReturnTypeWillChangeAttributeAndWrongReturnType(): void
     {
-        $mock = \spy(ReturnTypeWillChangeAttributeWrongReturnType::class);
+        $mock = spy(ReturnTypeWillChangeAttributeWrongReturnType::class);
 
         self::assertSame(0.0, $mock->getTimestamp());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAnInternalClassWithTentativeReturnTypes(): void
     {
-        $mock = \spy(DateTime::class);
+        $mock = spy(DateTime::class);
 
         self::assertSame(0, $mock->getTimestamp());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanMockAnInternalClassWithTentativeUnionReturnTypes(): void
     {
         $mock = Mockery::mock(PDO::class);
@@ -122,6 +159,9 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
         }
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItCanParseEnumAsDefaultValueCorrectly(): void
     {
         $mock = Mockery::mock(UsesEnums::class);
@@ -131,6 +171,9 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
         self::assertSame(SimpleEnum::first, $mock->enum); // check that mock did not set internal variable
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testMockingClassWithNewInInitializer(): void
     {
         $mock = Mockery::mock(ClassWithNewInInitializer::class);
@@ -138,9 +181,12 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
         self::assertInstanceOf(ClassWithNewInInitializer::class, $mock);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testNewInitializerExpression(): void
     {
-        $class = \mock(MockClass::class)
+        $class = mock(MockClass::class)
             ->expects('test')
             ->with('test')
             ->andReturn('it works')

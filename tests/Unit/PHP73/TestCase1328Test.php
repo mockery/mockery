@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\PHP73;
 
 use DateTime;
@@ -10,14 +18,23 @@ use Mockery;
 use Mockery\Exception\InvalidCountException;
 use Mockery\Expectation;
 use PHPUnit\Framework\TestCase;
+use Throwable;
+
+use function restore_error_handler;
+use function set_error_handler;
 
 /**
  * @coversDefaultClass \Mockery
+ *
  * @requires PHP 7.3
+ *
  * @see https://github.com/mockery/mockery/issues/1328
  */
 final class TestCase1328Test extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testShouldFailWithAnInvocationCountError(): void
     {
         $this->expectException(InvalidCountException::class);
@@ -31,11 +48,15 @@ final class TestCase1328Test extends TestCase
         Mockery::close();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testThrowsInvalidArgumentExceptionForChainingAdditionalInvocationCountMethod(): void
     {
-        \set_error_handler(
+        set_error_handler(
             static function (int $errorCode, string $errorMessage): void {
-                \restore_error_handler();
+                restore_error_handler();
+
                 throw new InvalidArgumentException($errorMessage, $errorCode);
             },
             E_ALL
@@ -54,11 +75,15 @@ final class TestCase1328Test extends TestCase
         Mockery::close();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testThrowsInvalidArgumentExceptionWhenInvocationCountChanges(): void
     {
-        \set_error_handler(
+        set_error_handler(
             static function (int $errorCode, string $errorMessage): void {
-                \restore_error_handler();
+                restore_error_handler();
+
                 throw new InvalidArgumentException($errorMessage, $errorCode);
             },
             E_ALL

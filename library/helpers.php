@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
-use Mockery\LegacyMockInterface;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\AnyArgs;
 use Mockery\MockInterface;
@@ -48,7 +47,7 @@ if (! \function_exists('get_debug_type')) {
     function get_debug_type($value): string
     {
         switch (true) {
-            case $value === null: return 'null';
+            case null === $value: return 'null';
             case \is_bool($value): return 'bool';
             case \is_string($value): return 'string';
             case \is_array($value): return 'array';
@@ -61,7 +60,7 @@ if (! \function_exists('get_debug_type')) {
                     return 'unknown';
                 }
 
-                if ($type === 'Unknown') {
+                if ('Unknown' === $type) {
                     $type = 'closed';
                 }
 
@@ -75,17 +74,17 @@ if (! \function_exists('get_debug_type')) {
         }
 
         $parent = \get_parent_class($class);
-        if ($parent !== false) {
+        if (false !== $parent) {
             return $parent . '@anonymous';
         }
 
         $interfaces = \class_implements($class);
-        if ($interfaces === false) {
+        if (false === $interfaces) {
             return 'class@anonymous';
         }
 
         $parent = \key($interfaces);
-        if ($parent === null) {
+        if (null === $parent) {
             return 'class@anonymous';
         }
 
@@ -95,13 +94,10 @@ if (! \function_exists('get_debug_type')) {
 
 if (! \function_exists('mock')) {
     /**
-     * @template TMixed
-     *
-     * @param TMixed ...$args
+     * @param  mixed         ...$args
+     * @return MockInterface
      *
      * @throws Throwable
-     *
-     * @return LegacyMockInterface|MockInterface
      */
     function mock(...$args)
     {
@@ -111,13 +107,10 @@ if (! \function_exists('mock')) {
 
 if (! \function_exists('namedMock')) {
     /**
-     * @template TMixed
-     *
-     * @param TMixed ...$args
+     * @param  mixed         ...$args
+     * @return MockInterface
      *
      * @throws Throwable
-     *
-     * @return ((LegacyMockInterface&TMixed)|(MockInterface&TMixed))
      */
     function namedMock(...$args)
     {
@@ -127,13 +120,10 @@ if (! \function_exists('namedMock')) {
 
 if (! \function_exists('spy')) {
     /**
-     * @template TMixed
-     *
-     * @param TMixed ...$args
+     * @param  mixed         ...$args
+     * @return MockInterface
      *
      * @throws Throwable
-     * @return ((LegacyMockInterface&TMixed)|(MockInterface&TMixed))
-     *
      */
     function spy(...$args)
     {
@@ -153,13 +143,13 @@ if (! \function_exists('str_contains')) {
      */
     function str_contains(string $haystack, string $needle): bool
     {
-        return $needle === '' || \strpos($haystack, $needle) !== false;
+        return '' === $needle || \strpos($haystack, $needle) !== false;
     }
 }
 
 if (! \function_exists('str_ends_with')) {
     /**
-     * Copied from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
+     * Modified copy from symfony/polyfill (https://github.com/symfony/polyfill/blob/1.x/src/Php80/Php80.php)
      *
      * @copyright Fabien Potencier
      * @license https://github.com/symfony/polyfill/blob/1.x/src/Php80/LICENSE
@@ -169,17 +159,20 @@ if (! \function_exists('str_ends_with')) {
      */
     function str_ends_with(string $haystack, string $needle): bool
     {
-        if ($needle === '' || $needle === $haystack) {
+        if ('' === $needle || $needle === $haystack) {
             return true;
         }
 
-        if ($haystack === '') {
+        if ('' === $haystack) {
             return false;
         }
 
         $needleLength = \strlen($needle);
+        if ($needleLength > \strlen($haystack)) {
+            return false;
+        }
 
-        return $needleLength <= \strlen($haystack) && \substr_compare($haystack, $needle, -$needleLength) === 0;
+        return \substr_compare($haystack, $needle, -$needleLength) === 0;
     }
 }
 
@@ -199,26 +192,23 @@ if (! \function_exists('str_starts_with')) {
     }
 }
 
-/**
- * Copied from php.net (https://www.php.net/manual/en/function.array-is-list.php#127044)
- *
- * @license https://www.php.net/manual/en/cc.license.php
- *
- * @param array $array
- *
- * @return bool
- */
 if (! \function_exists('array_is_list')) {
-
+    /**
+     * Modified copy from https://www.php.net/manual/en/function.array-is-list.php#127044
+     *
+     * @license https://www.php.net/manual/en/cc.license.php
+     *
+     * @param array<mixed> $array
+     */
     function array_is_list(array $array): bool
     {
         $i = -1;
         foreach ($array as $k => $v) {
-            ++$i;
-            if ($k !== $i) {
+            if ($k !== ++$i) {
                 return false;
             }
         }
+
         return true;
     }
 }

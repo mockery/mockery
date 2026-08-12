@@ -2,26 +2,43 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\InvalidCountException;
+use Throwable;
+
+use function anyArgs;
 
 /**
  * @coversDefaultClass \Mockery
  */
 final class SpyTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testAnyArgsCanBeUsedWithAlternativeSyntax(): void
     {
         $spy = Mockery::spy();
         $spy->foo(123, 456);
 
         $spy->shouldHaveReceived()
-            ->foo(\anyArgs());
+            ->foo(anyArgs());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItIncrementsExpectationCountWhenShouldHaveReceivedIsUsed(): void
     {
         $spy = Mockery::spy();
@@ -31,6 +48,9 @@ final class SpyTest extends MockeryTestCase
         self::assertSame(1, $spy->mockery_getExpectationCount());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItIncrementsExpectationCountWhenShouldNotHaveReceivedIsUsed(): void
     {
         $spy = Mockery::spy();
@@ -38,6 +58,9 @@ final class SpyTest extends MockeryTestCase
         self::assertSame(1, $spy->mockery_getExpectationCount());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItVerifiesAMethodWasCalled(): void
     {
         $spy = Mockery::spy();
@@ -48,6 +71,9 @@ final class SpyTest extends MockeryTestCase
         $spy->shouldHaveReceived('someMethodThatWasNotCalled');
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItVerifiesAMethodWasCalledASpecificNumberOfTimes(): void
     {
         $spy = Mockery::spy();
@@ -62,6 +88,9 @@ final class SpyTest extends MockeryTestCase
             ->twice();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItVerifiesAMethodWasCalledWithSpecificArguments(): void
     {
         $spy = Mockery::spy();
@@ -75,6 +104,9 @@ final class SpyTest extends MockeryTestCase
             ->with(123);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItVerifiesAMethodWasNotCalled(): void
     {
         $spy = Mockery::spy();
@@ -85,6 +117,9 @@ final class SpyTest extends MockeryTestCase
         $spy->shouldNotHaveReceived('myMethod');
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testItVerifiesAMethodWasNotCalledWithParticularArguments(): void
     {
         $spy = Mockery::spy();
@@ -96,6 +131,9 @@ final class SpyTest extends MockeryTestCase
         $spy->shouldNotHaveReceived('myMethod', [123, 456]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldHaveReceivedHigherOrderMessageCallAMethodWithCorrectArguments(): void
     {
         $spy = Mockery::spy();
@@ -105,6 +143,9 @@ final class SpyTest extends MockeryTestCase
             ->foo(123);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldHaveReceivedHigherOrderMessageCallAMethodWithIncorrectArgumentsThrowsException(): void
     {
         $spy = Mockery::spy();
@@ -115,6 +156,9 @@ final class SpyTest extends MockeryTestCase
             ->foo(456);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldNotHaveReceivedHigherOrderMessageCallAMethodWithCorrectArgumentsThrowsAnException(): void
     {
         $spy = Mockery::spy();
@@ -125,6 +169,9 @@ final class SpyTest extends MockeryTestCase
             ->foo(123);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testShouldNotHaveReceivedHigherOrderMessageCallAMethodWithIncorrectArguments(): void
     {
         $spy = Mockery::spy();

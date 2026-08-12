@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery;
@@ -17,6 +17,9 @@ use InvalidArgumentException;
 use LogicException;
 use Mockery\Matcher\MatcherInterface;
 
+use const E_USER_DEPRECATED;
+use const PHP_MAJOR_VERSION;
+
 use function array_key_exists;
 use function array_merge;
 use function class_implements;
@@ -25,9 +28,6 @@ use function is_a;
 use function sprintf;
 use function strtolower;
 use function trigger_error;
-
-use const E_USER_DEPRECATED;
-use const PHP_MAJOR_VERSION;
 
 class Configuration
 {
@@ -106,8 +106,7 @@ class Configuration
     /**
      * Set boolean to allow/prevent unnecessary mocking of methods
      *
-     * @param bool $flag
-     *
+     * @param  bool $flag
      * @return void
      *
      * @deprecated since 1.4.0
@@ -125,8 +124,7 @@ class Configuration
     /**
      * Set boolean to allow/prevent mocking of non-existent methods
      *
-     * @param bool $flag
-     *
+     * @param  bool $flag
      * @return void
      */
     public function allowMockingNonExistentMethods($flag = true)
@@ -177,8 +175,7 @@ class Configuration
     /**
      * Get the default matcher for a given class
      *
-     * @param class-string $class
-     *
+     * @param  class-string      $class
      * @return null|class-string
      */
     public function getDefaultMatcher($class)
@@ -191,13 +188,13 @@ class Configuration
             $classes[] = $parentClass;
 
             $parentClass = get_parent_class($parentClass);
-        } while ($parentClass !== false);
+        } while (false !== $parentClass);
 
         $classesAndInterfaces = array_merge($classes, class_implements($class));
 
-        foreach ($classesAndInterfaces as $type) {
-            if (array_key_exists($type, $this->_defaultMatchers)) {
-                return $this->_defaultMatchers[$type];
+        foreach ($classesAndInterfaces as $classAndInterface) {
+            if (array_key_exists($classAndInterface, $this->_defaultMatchers)) {
+                return $this->_defaultMatchers[$classAndInterface];
             }
         }
 
@@ -207,9 +204,8 @@ class Configuration
     /**
      * Get the parameter map of an internal PHP class method
      *
-     * @param class-string $class
-     * @param string       $method
-     *
+     * @param  class-string $class
+     * @param  string       $method
      * @return null|array
      */
     public function getInternalClassMethodParamMap($class, $method)
@@ -240,9 +236,8 @@ class Configuration
     /**
      * Get the object formatter for a class
      *
-     * @param class-string $class
-     * @param Closure      $defaultFormatter
-     *
+     * @param  class-string $class
+     * @param  Closure      $defaultFormatter
      * @return Closure
      */
     public function getObjectFormatter($class, $defaultFormatter)
@@ -253,13 +248,13 @@ class Configuration
             $classes[] = $parentClass;
 
             $parentClass = get_parent_class($parentClass);
-        } while ($parentClass !== false);
+        } while (false !== $parentClass);
 
         $classesAndInterfaces = array_merge($classes, class_implements($class));
 
-        foreach ($classesAndInterfaces as $type) {
-            if (array_key_exists($type, $this->_objectFormatters)) {
-                return $this->_objectFormatters[$type];
+        foreach ($classesAndInterfaces as $classAndInterface) {
+            if (array_key_exists($classAndInterface, $this->_objectFormatters)) {
+                return $this->_objectFormatters[$classAndInterface];
             }
         }
 
@@ -326,8 +321,7 @@ class Configuration
      *
      * e.g. ['MyClass' => ['MY_CONST' => 123, 'ARRAY_CONST' => ['foo', 'bar']]]
      *
-     * @param array<class-string,array<string,array<scalar>|scalar>> $map
-     *
+     * @param  array<class-string,array<string,array<scalar>|scalar>> $map
      * @return void
      */
     public function setConstantsMap(array $map)
@@ -336,12 +330,11 @@ class Configuration
     }
 
     /**
-     * @param class-string $class
-     * @param class-string $matcherClass
+     * @param  class-string $class
+     * @param  class-string $matcherClass
+     * @return void
      *
      * @throws InvalidArgumentException
-     *
-     * @return void
      */
     public function setDefaultMatcher($class, $matcherClass)
     {
@@ -366,19 +359,18 @@ class Configuration
     /**
      * Set a parameter map (array of param signature strings) for the method of an internal PHP class.
      *
-     * @param class-string $class
-     * @param string       $method
-     * @param list<string> $map
+     * @param  class-string $class
+     * @param  string       $method
+     * @param  list<string> $map
+     * @return void
      *
      * @throws LogicException
-     *
-     * @return void
      */
     public function setInternalClassMethodParamMap($class, $method, array $map)
     {
         if (PHP_MAJOR_VERSION > 7) {
             throw new LogicException(
-                'Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.'
+                'Internal class parameter overriding is not available in PHP 8. Incompatible signatures have been reclassified as fatal errors.',
             );
         }
 
@@ -394,9 +386,8 @@ class Configuration
     /**
      * Set a custom object formatter for a class
      *
-     * @param class-string $class
-     * @param Closure      $formatterCallback
-     *
+     * @param  class-string $class
+     * @param  Closure      $formatterCallback
      * @return void
      */
     public function setObjectFormatter($class, $formatterCallback)

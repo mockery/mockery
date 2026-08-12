@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -10,6 +18,7 @@ use PHP73\ChildClass;
 use PHP73\NullableObject;
 use PHP73\ParentClass;
 use ReflectionClass;
+use Throwable;
 
 use const PHP_VERSION_ID;
 
@@ -51,6 +60,8 @@ final class ReflectorTest extends MockeryTestCase
 
     /**
      * @dataProvider provideGetTypeHintCases
+     *
+     * @throws Throwable
      */
     public function testGetTypeHint(string $class, string $expectedTypeHint): void
     {
@@ -63,6 +74,8 @@ final class ReflectorTest extends MockeryTestCase
 
     /**
      * @dataProvider provideIsReservedWordCases
+     *
+     * @throws Throwable
      */
     public function testIsReservedWord(string $type): void
     {

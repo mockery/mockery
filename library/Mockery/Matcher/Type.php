@@ -1,14 +1,18 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Matcher;
+
+use Override;
+
+use ReturnTypeWillChange;
 
 use function class_exists;
 use function function_exists;
@@ -24,6 +28,7 @@ class Type extends MatcherAbstract
      *
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function __toString()
     {
         return '<' . ucfirst($this->_expected) . '>';
@@ -32,15 +37,13 @@ class Type extends MatcherAbstract
     /**
      * Check if the actual value matches the expected.
      *
-     * @template TMixed
-     *
-     * @param TMixed $actual
-     *
+     * @param  mixed $actual
      * @return bool
      */
+    #[Override]
     public function match(&$actual)
     {
-        $function = $this->_expected === 'real' ? 'is_float' : 'is_' . strtolower($this->_expected);
+        $function = 'real' === $this->_expected ? 'is_float' : 'is_' . strtolower($this->_expected);
 
         if (function_exists($function)) {
             return $function($actual);

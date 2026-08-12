@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery;
 
 use mock1;
@@ -9,7 +17,9 @@ use mock2;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Mock;
+use Override;
 use stdClass;
+use Throwable;
 
 /**
  * @coversDefaultClass \Mockery
@@ -21,17 +31,25 @@ final class DemeterChainTest extends MockeryTestCase
      */
     private $mock;
 
+    /**
+     * @throws Throwable
+     */
+    #[Override]
     protected function mockeryTestSetUp(): void
     {
         $this->mock = Mockery::mock()->shouldIgnoreMissing();
     }
 
+    #[Override]
     public function mockeryTestTearDown(): void
     {
         $this->mock->mockery_getContainer()
             ->mockery_close();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testDemeterChain(): void
     {
         $this->mock->shouldReceive('getElement->getFirst')
@@ -43,6 +61,8 @@ final class DemeterChainTest extends MockeryTestCase
 
     /**
      * @requires PHP >=8.0
+     *
+     * @throws Throwable
      */
     public function testDemeterChainsOnInterfaceSubjects(): void
     {
@@ -53,6 +73,9 @@ final class DemeterChainTest extends MockeryTestCase
         self::assertInstanceOf(\PHP80\PHP80TestInterface::class, $mock->do()->thing());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testDemeterChainsWithClassReturnTypeHints(): void
     {
         $a = Mockery::mock(\DemeterChain\A::class);
@@ -65,6 +88,9 @@ final class DemeterChainTest extends MockeryTestCase
         self::assertInstanceOf(stdClass::class, $result);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testManyChains(): void
     {
         $this->mock->shouldReceive('getElements->getFirst')
@@ -81,6 +107,9 @@ final class DemeterChainTest extends MockeryTestCase
             ->getSecond();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testMultiLevelDemeterChain(): void
     {
         $this->mock->shouldReceive('levelOne->levelTwo->getFirst')
@@ -89,10 +118,13 @@ final class DemeterChainTest extends MockeryTestCase
         $this->mock->shouldReceive('levelOne->levelTwo->getSecond')
             ->andReturn('second');
 
-        self::assertSame('second', $this->mock->levelOne() ->levelTwo() ->getSecond());
-        self::assertSame('first', $this->mock->levelOne() ->levelTwo() ->getFirst());
+        self::assertSame('second', $this->mock->levelOne()->levelTwo()->getSecond());
+        self::assertSame('first', $this->mock->levelOne()->levelTwo()->getFirst());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testMultipleDemeterChainsWithClassReturnTypeHints(): void
     {
         $bar = new \DemeterChain\C();
@@ -106,6 +138,9 @@ final class DemeterChainTest extends MockeryTestCase
         self::assertSame($qux, $a->foo()->qux());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testSimilarDemeterChainsOnDifferentClasses(): void
     {
         $mock1 = Mockery::mock('overload:mock1');
@@ -126,6 +161,9 @@ final class DemeterChainTest extends MockeryTestCase
         self::assertSame(4, mock2::select()->some()->other()->data());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testThreeChains(): void
     {
         $this->mock->shouldReceive('getElement->getFirst')
@@ -136,14 +174,17 @@ final class DemeterChainTest extends MockeryTestCase
             ->once()
             ->andReturn('somethingElse');
 
-        self::assertSame('something', $this->mock->getElement() ->getFirst());
-        self::assertSame('somethingElse', $this->mock->getElement() ->getSecond());
+        self::assertSame('something', $this->mock->getElement()->getFirst());
+        self::assertSame('somethingElse', $this->mock->getElement()->getSecond());
         $this->mock->shouldReceive('getElement->getFirst')
             ->once()
             ->andReturn('somethingNew');
-        self::assertSame('somethingNew', $this->mock->getElement() ->getFirst());
+        self::assertSame('somethingNew', $this->mock->getElement()->getFirst());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testTwoChains(): void
     {
         $this->mock->shouldReceive('getElement->getFirst')
@@ -154,12 +195,15 @@ final class DemeterChainTest extends MockeryTestCase
             ->once()
             ->andReturn('somethingElse');
 
-        self::assertSame('something', $this->mock->getElement() ->getFirst());
-        self::assertSame('somethingElse', $this->mock->getElement() ->getSecond());
+        self::assertSame('something', $this->mock->getElement()->getFirst());
+        self::assertSame('somethingElse', $this->mock->getElement()->getSecond());
         $this->mock->mockery_getContainer()
             ->mockery_close();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testTwoChainsWithExpectedParameters(): void
     {
         $this->mock->shouldReceive('getElement->getFirst')
@@ -172,12 +216,15 @@ final class DemeterChainTest extends MockeryTestCase
             ->with('secondParameter')
             ->andReturn('somethingElse');
 
-        self::assertSame('something', $this->mock->getElement() ->getFirst('parameter'));
-        self::assertSame('somethingElse', $this->mock->getElement() ->getSecond('secondParameter'));
+        self::assertSame('something', $this->mock->getElement()->getFirst('parameter'));
+        self::assertSame('somethingElse', $this->mock->getElement()->getSecond('secondParameter'));
         $this->mock->mockery_getContainer()
             ->mockery_close();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testTwoNotRelatedChains(): void
     {
         $this->mock->shouldReceive('getElement->getFirst')
@@ -188,7 +235,7 @@ final class DemeterChainTest extends MockeryTestCase
             ->once()
             ->andReturn('somethingElse');
 
-        self::assertSame('somethingElse', $this->mock->getOtherElement() ->getSecond());
+        self::assertSame('somethingElse', $this->mock->getOtherElement()->getSecond());
         self::assertSame('something', $this->mock->getElement()->getFirst());
     }
 }

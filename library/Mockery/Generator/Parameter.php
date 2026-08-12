@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Mockery (https://docs.mockery.io/)
+ * Mockery (https://docs.mockery.io/en/stable/)
  *
  * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
- * @license https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
- * @link https://github.com/mockery/mockery for the canonical source repository
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
 namespace Mockery\Generator;
@@ -13,6 +13,7 @@ namespace Mockery\Generator;
 use Mockery\Reflector;
 use ReflectionClass;
 use ReflectionParameter;
+
 use function class_exists;
 
 /**
@@ -28,28 +29,23 @@ class Parameter
     /**
      * @var ReflectionParameter
      */
-    private $rfp;
+    private $reflectionParameter;
 
     public function __construct(ReflectionParameter $rfp)
     {
-        $this->rfp = $rfp;
+        $this->reflectionParameter = $rfp;
     }
 
     /**
      * Proxy all method calls to the reflection parameter.
      *
-     * @template TMixed
-     * @template TResult
-     *
-     * @param string        $method
-     * @param array<TMixed> $args
-     *
-     * @return TResult
+     * @param  string       $method
+     * @param  array<mixed> $args
+     * @return mixed
      */
     public function __call($method, array $args)
     {
-        /** @var TResult */
-        return $this->rfp->{$method}(...$args);
+        return $this->reflectionParameter->{$method}(...$args);
     }
 
     /**
@@ -63,7 +59,7 @@ class Parameter
      */
     public function getClass()
     {
-        $typeHint = Reflector::getTypeHint($this->rfp, true);
+        $typeHint = Reflector::getTypeHint($this->reflectionParameter, true);
 
         return class_exists($typeHint) ? DefinedTargetClass::factory($typeHint, false) : null;
     }
@@ -77,9 +73,9 @@ class Parameter
      */
     public function getName()
     {
-        $name = $this->rfp->getName();
+        $name = $this->reflectionParameter->getName();
 
-        if (! $name || $name === '...') {
+        if (! $name || '...' === $name) {
             return 'arg' . self::$parameterCounter++;
         }
 
@@ -93,7 +89,7 @@ class Parameter
      */
     public function getTypeHint()
     {
-        return Reflector::getTypeHint($this->rfp);
+        return Reflector::getTypeHint($this->reflectionParameter);
     }
 
     /**
@@ -105,7 +101,7 @@ class Parameter
      */
     public function getTypeHintAsString()
     {
-        return (string) Reflector::getTypeHint($this->rfp, true);
+        return (string) Reflector::getTypeHint($this->reflectionParameter, true);
     }
 
     /**
@@ -115,7 +111,7 @@ class Parameter
      */
     public function isArray()
     {
-        return Reflector::isArray($this->rfp);
+        return Reflector::isArray($this->reflectionParameter);
     }
 
     /**
@@ -125,6 +121,6 @@ class Parameter
      */
     public function isVariadic()
     {
-        return $this->rfp->isVariadic();
+        return $this->reflectionParameter->isVariadic();
     }
 }

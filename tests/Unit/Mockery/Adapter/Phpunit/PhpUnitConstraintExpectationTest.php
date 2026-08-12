@@ -2,21 +2,35 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\Mockery\Adapter\Phpunit;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
 use PHPUnit\Framework\Constraint\GreaterThan;
 use PHPUnit\Framework\Constraint\IsIdentical;
+use Throwable;
+
+use function mock;
 
 /**
  * @coversDefaultClass \Mockery
  */
 final class PhpUnitConstraintExpectationTest extends MockeryTestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function testAnythingConstraintMatchesArgument(): void
     {
-        $mock = \mock('foo');
+        $mock = mock('foo');
 
         $mock->shouldReceive('foo')
             ->with(new IsIdentical(2))
@@ -25,6 +39,9 @@ final class PhpUnitConstraintExpectationTest extends MockeryTestCase
         $mock->foo(2);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testConstraintExceptionMessage(): void
     {
         self::markTestSkipped('TODO: Constraint exception message');
@@ -36,7 +53,7 @@ final class PhpUnitConstraintExpectationTest extends MockeryTestCase
 
         $greaterThan = new GreaterThan(1);
 
-        $mock = \mock('foo');
+        $mock = mock('foo');
         $mock->shouldReceive('foo')
             ->with($greaterThan);
 
@@ -46,9 +63,12 @@ final class PhpUnitConstraintExpectationTest extends MockeryTestCase
         $mock->foo(1);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testGreaterThanConstraintMatchesArgument(): void
     {
-        $mock = \mock('foo');
+        $mock = mock('foo');
 
         $mock->shouldReceive('foo')
             ->with(new GreaterThan(1))
@@ -57,11 +77,14 @@ final class PhpUnitConstraintExpectationTest extends MockeryTestCase
         $mock->foo(2);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testGreaterThanConstraintNotMatchesArgument(): void
     {
         $greaterThan = new GreaterThan(1);
 
-        $mock = \mock('foo');
+        $mock = mock('foo');
         $mock->shouldReceive('foo')
             ->with($greaterThan);
 

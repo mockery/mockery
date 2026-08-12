@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * Mockery (https://docs.mockery.io/en/stable/)
+ *
+ * @copyright https://github.com/mockery/mockery/blob/HEAD/COPYRIGHT.md
+ * @license   https://github.com/mockery/mockery/blob/HEAD/LICENSE BSD 3-Clause License
+ * @see       https://github.com/mockery/mockery for the canonical source repository
+ */
+
 namespace Tests\Unit\PHP73;
 
 use Generator;
@@ -9,10 +17,13 @@ use Mockery;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * @coversDefaultClass \Mockery
+ *
  * @requires PHP 7.3
+ *
  * @see https://github.com/mockery/mockery/issues/1404
  */
 final class TestCase1404Test extends TestCase
@@ -30,6 +41,8 @@ final class TestCase1404Test extends TestCase
 
     /**
      * @dataProvider provideResult
+     *
+     * @throws Throwable
      */
     public function testDemeterChainsAlternativeSyntax(array $result): void
     {
@@ -43,6 +56,8 @@ final class TestCase1404Test extends TestCase
 
     /**
      * @dataProvider provideResult
+     *
+     * @throws Throwable
      */
     public function testDemeterChainsExpects(array $result): void
     {
@@ -56,6 +71,8 @@ final class TestCase1404Test extends TestCase
 
     /**
      * @dataProvider provideResult
+     *
+     * @throws Throwable
      */
     public function testDetestDemeterChainsAllowsmeterChainsAllows(array $result): void
     {
@@ -69,6 +86,8 @@ final class TestCase1404Test extends TestCase
 
     /**
      * @dataProvider provideResult
+     *
+     * @throws Throwable
      */
     public function testNonDemeterChainsSyntax(array $result): void
     {
