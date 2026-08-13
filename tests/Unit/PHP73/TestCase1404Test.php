@@ -14,9 +14,10 @@ namespace Tests\Unit\PHP73;
 
 use Generator;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PDO;
 use PDOStatement;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Throwable;
 
 /**
@@ -26,7 +27,7 @@ use Throwable;
  *
  * @see https://github.com/mockery/mockery/issues/1404
  */
-final class TestCase1404Test extends TestCase
+final class TestCase1404Test extends MockeryTestCase
 {
     /**
      * @return Generator<string,list<string>>
@@ -44,6 +45,7 @@ final class TestCase1404Test extends TestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideResult')]
     public function testDemeterChainsAlternativeSyntax(array $result): void
     {
         $dbConnection = Mockery::mock(PDO::class);
@@ -59,6 +61,7 @@ final class TestCase1404Test extends TestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideResult')]
     public function testDemeterChainsExpects(array $result): void
     {
         $dbConnection = Mockery::mock(PDO::class);
@@ -74,6 +77,7 @@ final class TestCase1404Test extends TestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideResult')]
     public function testDetestDemeterChainsAllowsmeterChainsAllows(array $result): void
     {
         $dbConnection = Mockery::mock(PDO::class);
@@ -89,6 +93,7 @@ final class TestCase1404Test extends TestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideResult')]
     public function testNonDemeterChainsSyntax(array $result): void
     {
         $dbStatement = Mockery::mock(PDOStatement::class);

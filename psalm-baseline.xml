@@ -272,9 +272,6 @@
     <InvalidArgument>
       <code><![CDATA[$argument]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$mocks[$index]]]></code>
-    </InvalidArrayOffset>
     <InvalidCast>
       <code><![CDATA[$argument]]></code>
     </InvalidCast>
@@ -320,9 +317,6 @@
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
     </MixedMethodCall>
-    <MixedReturnStatement>
-      <code><![CDATA[$mocks[$index]]]></code>
-    </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$exceptions]]></code>
       <code><![CDATA[array<BadMethodCallException>]]></code>
@@ -1986,6 +1980,9 @@
       <code><![CDATA[wasSuccessful]]></code>
       <code><![CDATA[wasSuccessful]]></code>
     </MixedMethodCall>
+    <UndefinedAttributeClass>
+      <code><![CDATA[RequiresPhpunit]]></code>
+    </UndefinedAttributeClass>
     <UndefinedInterfaceMethod>
       <code><![CDATA[bar]]></code>
       <code><![CDATA[bar]]></code>
@@ -3623,6 +3620,9 @@
     <PossiblyFalseArgument>
       <code><![CDATA[file_get_contents(__FILE__)]]></code>
     </PossiblyFalseArgument>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UndefinedMethod>
       <code><![CDATA[expects]]></code>
       <code><![CDATA[expects]]></code>
@@ -3771,6 +3771,9 @@
       <code><![CDATA[$actual]]></code>
       <code><![CDATA[$expected]]></code>
     </MissingParamType>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UnusedClass>
       <code><![CDATA[IsEqualTest]]></code>
     </UnusedClass>
@@ -3780,6 +3783,9 @@
       <code><![CDATA[$actual]]></code>
       <code><![CDATA[$expected]]></code>
     </MissingParamType>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UnusedClass>
       <code><![CDATA[IsSameTest]]></code>
     </UnusedClass>
@@ -3985,12 +3991,6 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/MockingNullableMethodsTest.php">
-    <InternalMethod>
-      <code><![CDATA[new MethodWithNullableReturnType()]]></code>
-      <code><![CDATA[new MethodWithNullableReturnType()]]></code>
-      <code><![CDATA[new MethodWithNullableReturnType()]]></code>
-      <code><![CDATA[new MethodWithNullableReturnType()]]></code>
-    </InternalMethod>
     <MixedMethodCall>
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[andReturn]]></code>
@@ -4150,6 +4150,10 @@
       <code><![CDATA[$refClass->getMethods()[0]]]></code>
       <code><![CDATA[$refMethod->getParameters()[0]]]></code>
     </PossiblyUndefinedIntArrayOffset>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UnusedClass>
       <code><![CDATA[ReflectorTest]]></code>
     </UnusedClass>
@@ -4272,6 +4276,12 @@
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[with]]></code>
     </MixedMethodCall>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UndefinedMethod>
       <code><![CDATA[allows]]></code>
       <code><![CDATA[expects]]></code>
@@ -4323,6 +4333,10 @@
       <code><![CDATA[$object->stringProperty]]></code>
       <code><![CDATA[$object->stringProperty]]></code>
     </MixedPropertyFetch>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UnusedClass>
       <code><![CDATA[WithCustomFormatterExpectationTest]]></code>
     </UnusedClass>
@@ -4344,6 +4358,9 @@
     <MixedMethodCall>
       <code><![CDATA[with]]></code>
     </MixedMethodCall>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UndefinedMethod>
       <code><![CDATA[shouldReceive]]></code>
     </UndefinedMethod>
@@ -4512,6 +4529,11 @@
       <code><![CDATA[assertFalse]]></code>
       <code><![CDATA[assertTrue]]></code>
     </RedundantCondition>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[RequiresPhp]]></code>
+    </UndefinedAttributeClass>
     <UndefinedClass>
       <code><![CDATA[$class->foo]]></code>
       <code><![CDATA[$class->foo]]></code>

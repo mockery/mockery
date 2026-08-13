@@ -17,6 +17,7 @@ use Mockery\Reflector;
 use PHP73\ChildClass;
 use PHP73\NullableObject;
 use PHP73\ParentClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 use Throwable;
 
@@ -63,6 +64,7 @@ final class ReflectorTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideGetTypeHintCases')]
     public function testGetTypeHint(string $class, string $expectedTypeHint): void
     {
         $refClass = new ReflectionClass($class);
@@ -77,6 +79,7 @@ final class ReflectorTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideIsReservedWordCases')]
     public function testIsReservedWord(string $type): void
     {
         self::assertTrue(Reflector::isReservedWord($type));

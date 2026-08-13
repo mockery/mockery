@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\SemiReservedWordsAsMethods;
-use PHPUnit\Framework\TestCase;
 use Throwable;
 
 use function method_exists;
@@ -22,7 +22,7 @@ use function method_exists;
 /**
  * @coversDefaultClass \Mockery
  */
-final class MockeryCanMockClassesWithSemiReservedWordsTest extends TestCase
+final class MockeryCanMockClassesWithSemiReservedWordsTest extends MockeryTestCase
 {
     /**
      * @throws Throwable

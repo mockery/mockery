@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP80;
 
 use Mockery;
-use PHPUnit\Framework\TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use stdClass;
 use Throwable;
 
@@ -24,7 +24,7 @@ use Throwable;
  *
  * @see https://github.com/mockery/mockery/issues/1414
  */
-final class TestCase1414Test extends TestCase
+final class TestCase1414Test extends MockeryTestCase
 {
     /**
      * @throws Throwable

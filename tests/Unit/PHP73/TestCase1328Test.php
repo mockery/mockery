@@ -15,9 +15,9 @@ namespace Tests\Unit\PHP73;
 use DateTime;
 use InvalidArgumentException;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\InvalidCountException;
 use Mockery\Expectation;
-use PHPUnit\Framework\TestCase;
 use Throwable;
 
 use function restore_error_handler;
@@ -30,7 +30,7 @@ use function set_error_handler;
  *
  * @see https://github.com/mockery/mockery/issues/1328
  */
-final class TestCase1328Test extends TestCase
+final class TestCase1328Test extends MockeryTestCase
 {
     /**
      * @throws Throwable

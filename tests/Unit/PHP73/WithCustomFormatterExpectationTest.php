@@ -13,13 +13,14 @@ declare(strict_types=1);
 namespace Tests\Unit\PHP73;
 
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Override;
 use PHP73\ClassChildOfWithCustomFormatter;
 use PHP73\ClassImplementsWithCustomFormatter;
 use PHP73\ClassWithCustomFormatter;
 use PHP73\ClassWithoutCustomFormatter;
 use PHP73\InterfaceWithCustomFormatter;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 use Throwable;
 
@@ -28,10 +29,10 @@ use function get_class;
 /**
  * @coversDefaultClass \Mockery
  */
-final class WithCustomFormatterExpectationTest extends TestCase
+final class WithCustomFormatterExpectationTest extends MockeryTestCase
 {
     #[Override]
-    protected function setUp(): void
+    protected function mockeryTestSetUp()
     {
         Mockery::getConfiguration()->setObjectFormatter(
             ClassWithCustomFormatter::class,
@@ -100,6 +101,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideFormatObjectsCases')]
     public function testFormatObjects($obj, $shouldContains, $shouldNotContains): void
     {
         $string = Mockery::formatObjects([$obj]);
@@ -116,6 +118,7 @@ final class WithCustomFormatterExpectationTest extends TestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideGetObjectFormatterCases')]
     public function testGetObjectFormatter($object, $expected): void
     {
         $defaultFormatter = function ($class, $nesting) {

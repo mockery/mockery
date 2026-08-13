@@ -22,5 +22,7 @@ trait MockeryPHPUnitIntegrationAssertPostConditions
     protected function assertPostConditions(): void
     {
         $this->mockeryAssertPostConditions();
+
+        parent::assertPostConditions();
     }
 }

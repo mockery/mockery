@@ -16,6 +16,7 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\StringManipulation\Pass\ClassAttributesPass;
 use Mockery\Generator\UndefinedTargetClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Throwable;
 
 use function file_get_contents;
@@ -54,6 +55,7 @@ class ClassAttributesPassTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideCanApplyClassAttributesCases')]
     public function testCanApplyClassAttributes(array $attributes, string $expected): void
     {
         $undefinedTargetClass = mock(UndefinedTargetClass::class);

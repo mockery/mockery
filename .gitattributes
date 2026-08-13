@@ -15,6 +15,11 @@
 /ecs.php export-ignore
 /Makefile export-ignore
 /phive.xml export-ignore
+/phpunit-10.5.xml.dist export-ignore
+/phpunit-11.5.xml.dist export-ignore
+/phpunit-12.5.xml.dist export-ignore
+/phpunit-13.3.xml.dist export-ignore
+/phpunit-9.6.xml.dist export-ignore
 /phpunit.xml.dist export-ignore
 /psalm-baseline.xml export-ignore
 /psalm.xml.dist export-ignore

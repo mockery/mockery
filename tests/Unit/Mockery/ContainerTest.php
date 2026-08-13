@@ -94,6 +94,8 @@ use PHP73\MockeryTestIsset_Bar;
 use PHP73\MockeryTestIsset_Foo;
 use PHP73\MockeryTestRef1;
 use PHP81\MockeryTest_ClassThatImplementsSerializable;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Redis;
 use ReflectionClass;
 use Serializable;
@@ -313,6 +315,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[RequiresPhp('<8.1.0')]
     public function testCanMockClassesThatImplementSerializable(): void
     {
         $mock = mock(MockeryTest_ClassThatImplementsSerializable::class);
@@ -1161,6 +1164,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideIsValidClassNameCases')]
     public function testIsValidClassName($expected, $className): void
     {
         self::assertSame($expected, (new Container())->isValidClassName($className));
@@ -1476,6 +1480,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[RequiresPhp('<8.0.0')]
     public function testMockingIteratorAggregateDoesNotImplementIterator(): void
     {
         $mock = mock(MockeryTest_ImplementsIteratorAggregate::class);
@@ -1500,6 +1505,7 @@ final class ContainerTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[RequiresPhp('<8.0.0')]
     public function testMockingIteratorDoesNotImplementIterator(): void
     {
         $mock = mock(MockeryTest_ImplementsIterator::class);
@@ -1929,5 +1935,16 @@ final class ContainerTest extends MockeryTestCase
     public function testWakeupMagicIsNotMockedToAllowSerialisationInstanceHack(): void
     {
         self::assertInstanceOf(DateTime::class, mock(DateTime::class));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testCallingSelfOnContainerWithoutMocksThrowsException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('You have not declared any mocks yet');
+
+        Mockery::getContainer()->self();
     }
 }

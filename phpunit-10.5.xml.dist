@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    cacheDirectory=".cache/phpunit"
+    cacheResult="false"
+    colors="true"
+    executionOrder="default"
+    requireCoverageMetadata="false"
+>
+    <coverage>
+        <report>
+            <html outputDirectory=".cache/phpunit/coverage-html" />
+            <clover outputFile=".cache/phpunit/clover.xml" />
+            <text outputFile=".cache/phpunit/coverage.txt" />
+        </report>
+    </coverage>
+    <logging>
+        <junit outputFile=".cache/phpunit/junit.xml" />
+    </logging>
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests/Unit</directory>
+            <exclude>tests/Unit/PHP*</exclude>
+        </testsuite>
+        <testsuite name="php">
+            <directory phpVersion="7.3.0-dev">tests/Unit/PHP73</directory>
+            <directory phpVersion="7.4.0-dev">tests/Unit/PHP74</directory>
+            <directory phpVersion="8.0.0-dev">tests/Unit/PHP80</directory>
+            <directory phpVersion="8.1.0-dev">tests/Unit/PHP81</directory>
+            <directory phpVersion="8.2.0-dev">tests/Unit/PHP82</directory>
+            <directory phpVersion="8.3.0-dev">tests/Unit/PHP83</directory>
+            <directory phpVersion="8.4.0-dev">tests/Unit/PHP84</directory>
+            <directory phpVersion="8.5.0-dev">tests/Unit/PHP85</directory>
+            <directory phpVersion="8.6.0-dev">tests/Unit/PHP86</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">library</directory>
+        </include>
+        <exclude>
+            <directory>library/Mockery/Adapter/Phpunit/Legacy</directory>
+            <file>library/Mockery/Adapter/Phpunit/TestListener.php</file>
+            <file>library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
+            <file>library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+        </exclude>
+    </source>
+    <extensions>
+        <!-- <bootstrap class="Mockery\Adapter\Phpunit\Extension" /> -->
+    </extensions>
+</phpunit>
