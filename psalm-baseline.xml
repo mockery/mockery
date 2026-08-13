@@ -99,6 +99,41 @@
       <code><![CDATA[require $fileName]]></code>
     </UnresolvableInclude>
   </file>
+  <file src="library/Mockery/Adapter/Phpunit/Extension.php">
+    <UndefinedClass>
+      <code><![CDATA[\PHPUnit\Runner\Extension\Extension]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[Extension]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$configuration]]></code>
+      <code><![CDATA[$facade]]></code>
+      <code><![CDATA[$parameters]]></code>
+    </UnusedParam>
+  </file>
+  <file src="library/Mockery/Adapter/Phpunit/Extension/Subscriber/ApplicationStartedSubscriber.php">
+    <UndefinedClass>
+      <code><![CDATA[StartedSubscriber]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[ApplicationStartedSubscriber]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$event]]></code>
+    </UnusedParam>
+  </file>
+  <file src="library/Mockery/Adapter/Phpunit/Extension/Subscriber/TestFinishedSubscriber.php">
+    <UndefinedClass>
+      <code><![CDATA[FinishedSubscriber]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[TestFinishedSubscriber]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$event]]></code>
+    </UnusedParam>
+  </file>
   <file src="library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php">
     <InternalMethod>
       <code><![CDATA[addToAssertionCount]]></code>
