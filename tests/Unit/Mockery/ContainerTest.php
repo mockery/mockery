@@ -151,6 +151,17 @@ final class ContainerTest extends MockeryTestCase
     }
 
     /**
+     * @throws Throwable
+     */
+    public function testCallingSelfOnContainerWithoutMocksThrowsException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('You have not declared any mocks yet');
+
+        Mockery::getContainer()->self();
+    }
+
+    /**
      * @issue issue/35
      *
      * @throws Throwable
@@ -1935,16 +1946,5 @@ final class ContainerTest extends MockeryTestCase
     public function testWakeupMagicIsNotMockedToAllowSerialisationInstanceHack(): void
     {
         self::assertInstanceOf(DateTime::class, mock(DateTime::class));
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function testCallingSelfOnContainerWithoutMocksThrowsException(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('You have not declared any mocks yet');
-
-        Mockery::getContainer()->self();
     }
 }
