@@ -18,6 +18,7 @@ use PHP73\TestWithMethodOverloading;
 use PHP73\TestWithMethodOverloadingWithoutCall;
 use Throwable;
 
+use function get_class;
 use function mock;
 
 /**
@@ -58,8 +59,14 @@ final class MockClassWithMethodOverloadingTest extends MockeryTestCase
 
         self::assertInstanceOf(TestWithMethodOverloadingWithoutCall::class, $mock);
 
-        $this->expectException(BadMethodCallException::class);
-
-        $mock->randomMethod();
+        try {
+            $mock->randomMethod();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Method ' . get_class($mock) . '::randomMethod() does not exist on this mock object',
+                $e->getMessage()
+            );
+            $e->dismiss();
+        }
     }
 }

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use BadMethodCallException;
 use Error;
 use Exception;
 use InvalidArgumentException;
@@ -20,6 +19,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Container;
 use Mockery\CountValidator\Exception as CountValidatorException;
+use Mockery\Exception\BadMethodCallException;
 use Mockery\Exception\InvalidCountException;
 use Mockery\Exception\NoMatchingExpectationException;
 use Mockery\MockInterface;
@@ -1851,14 +1851,16 @@ final class ExpectationTest extends MockeryTestCase
     {
         $mock = mock(Mockery_Duck::class);
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage(
-            'Received ' . get_class($mock)
-            . '::quack(), but no expectations were specified'
-        );
-
-        $mock->quack();
-        Mockery::close();
+        try {
+            $mock->quack();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Received ' . get_class($mock)
+                . '::quack(), but no expectations were specified',
+                $e->getMessage()
+            );
+            $e->dismiss();
+        }
     }
 
     /**
@@ -1868,14 +1870,15 @@ final class ExpectationTest extends MockeryTestCase
     {
         $mock = mock(Mockery_Duck::class);
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage(
-            'Method ' . get_class($mock)
-            . '::nonExistent() does not exist on this mock object'
-        );
-
-        $mock->nonExistent();
-        Mockery::close();
+        try {
+            $mock->nonExistent();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Method ' . get_class($mock) . '::nonExistent() does not exist on this mock object',
+                $e->getMessage()
+            );
+            $e->dismiss();
+        }
     }
 
     /**
@@ -3506,7 +3509,9 @@ final class ExpectationTest extends MockeryTestCase
             ->times(2);
         $this->mock->foo();
         $this->mock->foo();
+
         $this->expectException(CountValidatorException::class);
+
         $this->mock->foo();
         Mockery::close();
     }

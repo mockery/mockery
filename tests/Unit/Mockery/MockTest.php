@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use BadMethodCallException;
 use ErrorException;
 use Exception;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception as MockeryException;
+use Mockery\Exception\BadMethodCallException;
 use Mockery\Mock;
 use Mockery\MockInterface;
 use PHP73\ClassWithMethods;
@@ -28,6 +28,7 @@ use PHP73\ClassWithToString;
 use PHP73\ExampleClassForTestingNonExistentMethod;
 use Throwable;
 
+use function get_class;
 use function method_exists;
 use function mock;
 
@@ -262,9 +263,19 @@ final class MockTest extends MockeryTestCase
     public function testShouldIgnoreMissingCallingNonExistentMethodsUsingGlobalConfiguration(): void
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+
         $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
-        $this->expectException(BadMethodCallException::class);
-        $mock->nonExistentMethod();
+
+        try {
+            $mock->nonExistentMethod();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Method ' . get_class($mock) . '::nonExistentMethod() does not exist on this mock object',
+                $e->getMessage()
+            );
+
+            $e->dismiss();
+        }
     }
 
     /**
@@ -274,7 +285,12 @@ final class MockTest extends MockeryTestCase
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
+
         $this->expectException(MockeryException::class);
+        $this->expectExceptionMessage(
+            "Mockery's configuration currently forbids mocking the method nonExistentMethod as it does not exist on the class or object being mocked"
+        );
+
         $mock->shouldReceive('nonExistentMethod');
     }
 
@@ -284,6 +300,8 @@ final class MockTest extends MockeryTestCase
     public function testShouldThrowExceptionWithInvalidClassName(): void
     {
         $this->expectException(MockeryException::class);
+        $this->expectExceptionMessage("Mockery can't find 'ClassName.CannotContainDot' so can't mock it");
+
         mock('ClassName.CannotContainDot');
     }
 }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Mockery;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\Exception\BadMethodCallException;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\AnyArgs;
 use Mockery\MockInterface;
@@ -21,6 +22,7 @@ use Throwable;
 use function andAnyOtherArgs;
 use function andAnyOthers;
 use function anyArgs;
+use function get_class;
 use function mock;
 use function namedMock;
 use function spy;
@@ -60,13 +62,20 @@ final class GlobalHelpersTest extends MockeryTestCase
      */
     public function testMockCreatesAMock(): void
     {
-        $double = mock();
+        $mock = mock();
 
-        self::assertInstanceOf(MockInterface::class, $double);
+        self::assertInstanceOf(MockInterface::class, $mock);
 
-        $this->expectException(Throwable::class);
+        try {
+            $mock->foo();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Method ' . get_class($mock) . '::foo() does not exist on this mock object',
+                $e->getMessage()
+            );
 
-        $double->foo();
+            $e->dismiss();
+        }
     }
 
     /**

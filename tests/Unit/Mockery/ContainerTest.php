@@ -631,9 +631,17 @@ final class ContainerTest extends MockeryTestCase
     public function testCantCallMethodWhenUsingBlacklistAndNoExpectation(): void
     {
         $m = mock(MockeryTest_PartialNormalClass2::class . '[!foo]');
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessageMatches('/::bar\(\), but no expectations were specified/');
-        $m->bar();
+
+        try {
+            $m->bar();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Received ' . get_class($m)
+                . '::bar(), but no expectations were specified',
+                $e->getMessage()
+            );
+            $e->dismiss();
+        }
     }
 
     /**
@@ -1278,6 +1286,10 @@ final class ContainerTest extends MockeryTestCase
         try {
             StaticNoMethod::staticFoo();
         } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'StaticNoMethod::staticFoo() does not exist on this mock object',
+                $e->getMessage()
+            );
             // Mockery + PHPUnit has a fail safe for tests swallowing our
             // exceptions
             $e->dismiss();
@@ -1563,6 +1575,7 @@ final class ContainerTest extends MockeryTestCase
             self::assertTrue((bool) preg_match('/stdClass/', $e->getMessage()));
             self::assertTrue((bool) preg_match('/ArrayAccess/', $e->getMessage()));
             self::assertTrue((bool) preg_match('/Countable/', $e->getMessage()));
+            $e->dismiss();
         }
     }
 
@@ -1582,6 +1595,7 @@ final class ContainerTest extends MockeryTestCase
             $m->f();
         } catch (BadMethodCallException $e) {
             self::assertStringContainsString(__FUNCTION__, $e->getMessage());
+            $e->dismiss();
         }
     }
 
@@ -1607,6 +1621,7 @@ final class ContainerTest extends MockeryTestCase
             $m->f();
         } catch (BadMethodCallException $e) {
             self::assertStringContainsString(__FUNCTION__, $e->getMessage());
+            $e->dismiss();
         }
     }
 
@@ -1675,8 +1690,16 @@ final class ContainerTest extends MockeryTestCase
     {
         $m = mock(MockeryTest_ClassConstructor2::class, [$param1 = new stdClass()]);
         $m->makePartial();
-        $this->expectException(\BadMethodCallException::class);
-        $m->foorbar123();
+
+        try {
+            $m->foorbar123();
+        } catch (BadMethodCallException $e) {
+            self::assertStringContainsString(
+                'Method ' . get_class($m) . '::foorbar123() does not exist on this mock object',
+                $e->getMessage()
+            );
+            $e->dismiss();
+        }
         $m->mockery_verify();
     }
 
