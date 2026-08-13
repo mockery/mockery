@@ -99,6 +99,41 @@
       <code><![CDATA[require $fileName]]></code>
     </UnresolvableInclude>
   </file>
+  <file src="library/Mockery/Adapter/Phpunit/Extension.php">
+    <UndefinedClass>
+      <code><![CDATA[\PHPUnit\Runner\Extension\Extension]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[Extension]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$configuration]]></code>
+      <code><![CDATA[$facade]]></code>
+      <code><![CDATA[$parameters]]></code>
+    </UnusedParam>
+  </file>
+  <file src="library/Mockery/Adapter/Phpunit/Extension/Subscriber/TestFinishedSubscriber.php">
+    <UndefinedClass>
+      <code><![CDATA[FinishedSubscriber]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[TestFinishedSubscriber]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$event]]></code>
+    </UnusedParam>
+  </file>
+  <file src="library/Mockery/Adapter/Phpunit/Extension/Subscriber/TestSuiteStartedSubscriber.php">
+    <UndefinedClass>
+      <code><![CDATA[StartedSubscriber]]></code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code><![CDATA[TestSuiteStartedSubscriber]]></code>
+    </UnusedClass>
+    <UnusedParam>
+      <code><![CDATA[$event]]></code>
+    </UnusedParam>
+  </file>
   <file src="library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php">
     <InternalMethod>
       <code><![CDATA[addToAssertionCount]]></code>
@@ -114,6 +149,9 @@
       <code><![CDATA[purgeMockeryContainer]]></code>
       <code><![CDATA[startMockery]]></code>
     </MissingReturnType>
+    <MixedMethodCall>
+      <code><![CDATA[testConsideredRisky]]></code>
+    </MixedMethodCall>
     <PossiblyUnusedMethod>
       <code><![CDATA[purgeMockeryContainer]]></code>
       <code><![CDATA[startMockery]]></code>
@@ -122,6 +160,9 @@
       <code><![CDATA[After]]></code>
       <code><![CDATA[Before]]></code>
     </UndefinedAttributeClass>
+    <UndefinedClass>
+      <code><![CDATA[Facade]]></code>
+    </UndefinedClass>
   </file>
   <file src="library/Mockery/Adapter/Phpunit/TestListener.php">
     <ClassMustBeFinal>
@@ -3873,6 +3914,9 @@
     <InaccessibleMethod>
       <code><![CDATA[foo]]></code>
     </InaccessibleMethod>
+    <MixedArgument>
+      <code><![CDATA[$mock]]></code>
+    </MixedArgument>
     <MixedAssignment>
       <code><![CDATA[$mock]]></code>
       <code><![CDATA[$mock]]></code>

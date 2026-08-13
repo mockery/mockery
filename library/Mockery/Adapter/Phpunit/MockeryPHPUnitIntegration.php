@@ -11,10 +11,12 @@
 namespace Mockery\Adapter\Phpunit;
 
 use Mockery;
+use PHPUnit\Event\Facade;
 use PHPUnit\Framework\Attributes\After;
 use PHPUnit\Framework\Attributes\Before;
 use Throwable;
 
+use function get_class;
 use function method_exists;
 
 /**
@@ -34,13 +36,28 @@ trait MockeryPHPUnitIntegration
 
     protected function checkMockeryExceptions()
     {
-        if (! method_exists($this, 'markAsRisky')) {
+        if (method_exists($this, 'valueObjectForEvents')) {
+            foreach (Mockery::getContainer()->mockery_thrownExceptions() as $exception) {
+                if (! $exception->dismissed()) {
+                    Facade::emitter()->testConsideredRisky(
+                        $this->valueObjectForEvents(),
+                        get_class($exception) . ': '. $exception->getMessage()
+                    );
+
+                    return;
+                }
+            }
+
             return;
         }
 
-        foreach (Mockery::getContainer()->mockery_thrownExceptions() as $exception) {
-            if (! $exception->dismissed()) {
-                $this->markAsRisky();
+        if (method_exists($this, 'markAsRisky')) {
+            foreach (Mockery::getContainer()->mockery_thrownExceptions() as $exception) {
+                if (! $exception->dismissed()) {
+                    $this->markAsRisky();
+
+                    return;
+                }
             }
         }
     }

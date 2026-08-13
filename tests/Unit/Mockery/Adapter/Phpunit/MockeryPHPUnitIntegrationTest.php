@@ -30,19 +30,24 @@ final class MockeryPHPUnitIntegrationTest extends MockeryTestCase
      */
     public function testItMarksAPassingTestAsRiskyIfWeThrewExceptions(): void
     {
+        $e = null;
         $mock = mock();
 
         try {
             $mock->foobar();
-        } catch (Throwable $e) {
+        } catch (BadMethodCallException $e) {
             // exception swallowed...
         }
 
         $test = spy(BaseClassStub::class)->makePartial();
         $test->finish();
 
-        $test->shouldHaveReceived()
-            ->markAsRisky();
+        $test->shouldHaveReceived()->markAsRisky();
+
+        // We can dismiss the exception to avoid the risky test
+        if ($e instanceof BadMethodCallException) {
+            $e->dismiss();
+        }
     }
 
     /**

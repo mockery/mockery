@@ -101,8 +101,17 @@ Now, Mockery provides a PHPUnit listener that makes tests fail if
 ``Mockery::close()`` has not been called. It can help identify tests where
 we've forgotten to include the trait or extend the ``MockeryTestCase``.
 
-If we are using PHPUnit's XML configuration approach, we can include the
-following to load the ``TestListener``:
+If we are using PHPUnit's XML configuration approach, 
+
+for PHPUnit 10 or later, we can include the following to load the Mockery ``Extension``:
+
+.. code-block:: xml
+
+    <extensions>
+        <bootstrap class="Mockery\Adapter\Phpunit\Extension" />
+    </extensions>
+
+for PHPUnit 9 or earlier, we can include the following to load the Mockery ``TestListener``:
 
 .. code-block:: xml
 
