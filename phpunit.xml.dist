@@ -16,10 +16,7 @@
             <directory suffix=".php">library</directory>
         </include>
         <exclude>
-            <directory>library/Mockery/Adapter/Phpunit/Legacy</directory>
-            <file>library/Mockery/Adapter/Phpunit/TestListener.php</file>
-            <file>library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php</file>
-            <file>library/Mockery/Adapter/Phpunit/MockeryTestCaseSetUp.php</file>
+            <directory>library/Mockery/Adapter/Phpunit</directory>
         </exclude>
         <report>
             <html outputDirectory=".cache/phpunit/coverage-html"/>
