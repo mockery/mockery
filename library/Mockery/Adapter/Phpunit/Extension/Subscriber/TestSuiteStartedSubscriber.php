@@ -13,14 +13,14 @@ declare(strict_types=1);
 namespace Mockery\Adapter\Phpunit\Extension\Subscriber;
 
 use Mockery;
-use PHPUnit\Event\Application\Started;
-use PHPUnit\Event\Application\StartedSubscriber;
+use PHPUnit\Event\TestSuite\Started;
+use PHPUnit\Event\TestSuite\StartedSubscriber;
 use PHPUnit\Util\ExcludeList;
 use ReflectionClass;
 
 use function dirname;
 
-final class ApplicationStartedSubscriber implements StartedSubscriber
+final class TestSuiteStartedSubscriber implements StartedSubscriber
 {
     public function notify(Started $event): void
     {

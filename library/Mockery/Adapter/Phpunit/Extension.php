@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Mockery\Adapter\Phpunit;
 
-use Mockery\Adapter\Phpunit\Extension\Subscriber\ApplicationStartedSubscriber;
 use Mockery\Adapter\Phpunit\Extension\Subscriber\TestFinishedSubscriber;
+use Mockery\Adapter\Phpunit\Extension\Subscriber\TestSuiteStartedSubscriber;
 use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
@@ -22,6 +22,6 @@ final class Extension implements \PHPUnit\Runner\Extension\Extension
 {
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
     {
-        $facade->registerSubscribers(new ApplicationStartedSubscriber(), new TestFinishedSubscriber());
+        $facade->registerSubscribers(new TestFinishedSubscriber(), new TestSuiteStartedSubscriber());
     }
 }
