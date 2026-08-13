@@ -272,9 +272,6 @@
     <InvalidArgument>
       <code><![CDATA[$argument]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$mocks[$index]]]></code>
-    </InvalidArrayOffset>
     <InvalidCast>
       <code><![CDATA[$argument]]></code>
     </InvalidCast>
@@ -320,9 +317,6 @@
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
     </MixedMethodCall>
-    <MixedReturnStatement>
-      <code><![CDATA[$mocks[$index]]]></code>
-    </MixedReturnStatement>
     <MixedReturnTypeCoercion>
       <code><![CDATA[$exceptions]]></code>
       <code><![CDATA[array<BadMethodCallException>]]></code>

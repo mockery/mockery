@@ -12,6 +12,7 @@ namespace Mockery;
 
 use Closure;
 use Exception as PHPException;
+use LogicException;
 use Mockery;
 use Mockery\Exception\BadMethodCallException;
 use Mockery\Exception\InvalidOrderException;
@@ -459,10 +460,18 @@ class Container
      * to change it thus why the method name is "self" since it will be used during the programming of the same mock.
      *
      * @return MockInterface
+     *
+     * @throws LogicException
      */
     public function self()
     {
         $mocks = array_values($this->_mocks);
+
+        if ([] === $mocks) {
+            // No mocks have been created yet
+            throw new LogicException('You have not declared any mocks yet');
+        }
+
         $index = count($mocks) - 1;
 
         return $mocks[$index];

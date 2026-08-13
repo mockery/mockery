@@ -65,8 +65,6 @@ trait MockeryPHPUnitIntegration
         $this->addMockeryExpectationsToAssertionCount();
         $this->checkMockeryExceptions();
         $this->closeMockery();
-
-        parent::assertPostConditions();
     }
 
     /**

@@ -1936,4 +1936,15 @@ final class ContainerTest extends MockeryTestCase
     {
         self::assertInstanceOf(DateTime::class, mock(DateTime::class));
     }
+
+    /**
+     * @throws Throwable
+     */
+    public function testCallingSelfOnContainerWithoutMocksThrowsException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('You have not declared any mocks yet');
+
+        Mockery::getContainer()->self();
+    }
 }
