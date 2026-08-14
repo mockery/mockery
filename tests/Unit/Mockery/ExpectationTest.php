@@ -3373,6 +3373,58 @@ final class ExpectationTest extends MockeryTestCase
     /**
      * @throws Throwable
      */
+    public function testShouldNotReceiveWithMultipleMethodsAllGetNeverConstraint(): void
+    {
+        $this->mock->shouldNotReceive('foo', 'bar', 'baz');
+
+        $expectations = $this->mock->mockery_getExpectations();
+        self::assertArrayHasKey('foo', $expectations);
+        self::assertArrayHasKey('bar', $expectations);
+        self::assertArrayHasKey('baz', $expectations);
+
+        $director = $expectations['bar'];
+        foreach ($director->getExpectations() as $expectation) {
+            self::assertTrue($expectation->isCallCountConstrained());
+        }
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testShouldNotReceiveWithMultipleMethodsThrowsOnAnyCall(): void
+    {
+        $mock = mock(stdClass::class);
+        $mock->shouldReceive('foo', 'bar')->byDefault();
+        $mock->shouldNotReceive('foo', 'bar');
+
+        $this->expectException(InvalidCountException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Method foo(<Any Arguments>) from %s should be called%s exactly 0 times but called 1 times.',
+            get_class($mock),
+            "\n"
+        ));
+
+        $mock->foo();
+        $mock->bar();
+
+        Mockery::close();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testShouldNotReceiveWithSingleMethodStillWorks(): void
+    {
+        $this->mock->shouldNotReceive('foo');
+
+        $expectations = $this->mock->mockery_getExpectations();
+        self::assertArrayHasKey('foo', $expectations);
+        self::assertCount(1, $expectations);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function testShouldNotReceiveWithArgumentThrowsExceptionIfMethodCalled(): void
     {
         $this->mock->shouldNotReceive('foo')

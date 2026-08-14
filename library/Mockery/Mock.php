@@ -313,10 +313,14 @@ class Mock implements MockInterface
             return new HigherOrderMessage($this, 'shouldNotReceive');
         }
 
-        $expectation = call_user_func_array(function (string $methodNames) {
-            return $this->shouldReceive($methodNames);
-        }, $methodNames);
-        $expectation->never();
+        /** @var ?Expectation $expectation */
+        $expectation = null;
+
+        foreach ($methodNames as $methodName) {
+            $expectation = $this->shouldReceive($methodName);
+            $expectation->never();
+        }
+
         return $expectation;
     }
 
