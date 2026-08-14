@@ -16,6 +16,7 @@ use DateTime;
 use Hamcrest\Core\IsEqual;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\MockInterface;
 use Override;
 use PHP73\CustomValueObject;
 use PHP73\CustomValueObjectInterface;
@@ -29,18 +30,15 @@ use function mock;
  */
 final class DefaultMatchersTest extends MockeryTestCase
 {
+    /**
+     * @var MockInterface
+     */
     protected $mock;
 
     #[Override]
     protected function mockeryTestSetUp(): void
     {
         $this->mock = mock('foo');
-    }
-
-    #[Override]
-    public function mockeryTestTearDown(): void
-    {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
     /**

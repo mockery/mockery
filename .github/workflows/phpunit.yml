@@ -1,4 +1,4 @@
-name: PHPUnit EndToEnd Tests
+name: EndToEnd
 
 on:
   pull_request:

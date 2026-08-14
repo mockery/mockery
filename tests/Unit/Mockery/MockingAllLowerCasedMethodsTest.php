@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHP73\ClassWithAllLowerCaseMethod;
 use Throwable;
@@ -29,8 +28,6 @@ final class MockingAllLowerCasedMethodsTest extends MockeryTestCase
      */
     public function testItShouldAllowToCallAllLowerCasedMethodAsCamelCased(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
-
         $expected = 'mocked';
 
         $mock = mock(ClassWithAllLowerCaseMethod::class);

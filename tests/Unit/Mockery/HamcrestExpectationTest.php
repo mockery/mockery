@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Mockery;
 
-use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception;
+use Mockery\MockInterface;
 use Override;
 use Throwable;
 
@@ -27,18 +27,15 @@ use function mock;
  */
 final class HamcrestExpectationTest extends MockeryTestCase
 {
+    /**
+     * @var MockInterface
+     */
     protected $mock;
 
     #[Override]
     protected function mockeryTestSetUp(): void
     {
         $this->mock = mock('foo');
-    }
-
-    #[Override]
-    public function mockeryTestTearDown(): void
-    {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
     /**
@@ -72,6 +69,5 @@ final class HamcrestExpectationTest extends MockeryTestCase
             ->with(greaterThan(1));
         $this->expectException(Exception::class);
         $this->mock->foo(1);
-        Mockery::close();
     }
 }
