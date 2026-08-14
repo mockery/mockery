@@ -7,15 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.13] - 2026-08-14
+
+### Added
+
+- [1505: Add PHPUnit extension for Mockery](https://github.com/mockery/mockery/pull/1505)
+- [1451: Add `withAndOthers` expectation shorthand](https://github.com/mockery/mockery/pull/1451)
+
+### Changed
+
+- [1495: Do not return from constructors/destructors](https://github.com/mockery/mockery/pull/1495)
+
 ### Fixed
 
-- [1453: Misleading, possibly invalid, mock @param phpdoc signature for the variadic param $args](https://github.com/mockery/mockery/issues/1453)
+- [1506: Fix `Mock::shouldNotReceive()` ignoring additional arguments](https://github.com/mockery/mockery/pull/1506)
+- [1503: Fix mocking a class with an overridden return type](https://github.com/mockery/mockery/pull/1503)
+- [1502: Fixed Generics DocComments &amp; readonly class mock handling](https://github.com/mockery/mockery/pull/1502)
+- [1474: Mock demeter chains and fluent interface methods with `static` return type](https://github.com/mockery/mockery/pull/1474)
+- [1454: Fixed invalid variadic $args parameters](https://github.com/mockery/mockery/pull/1454)
+- [1450: Phpunit integration test listener false positive](https://github.com/mockery/mockery/pull/1450)
+- [1449: Handle `ReflectionException` when resolving named arguments](https://github.com/mockery/mockery/pull/1449)
+- [1448: &#91;PHP/8.0&#93; Resolve issue with named parameters](https://github.com/mockery/mockery/pull/1448)
+- [1441: Fix Undefined Array Key in Mockery `withArgs` for PHP 8.2](https://github.com/mockery/mockery/pull/1441)
+- [1423: Properly Handle Initialization Errors and Ensure Accurate 'Failed Expectation' Messages](https://github.com/mockery/mockery/pull/1423)
 
 ## [1.6.12] - 2024-05-15
 
 ### Changed
 
-- [1420: Update `psalm-baseline.xml` ](https://github.com/mockery/mockery/pull/1420)
+- [1420: Update `psalm-baseline.xml`](https://github.com/mockery/mockery/pull/1420)
 - [1419: Update e2e-test.sh](https://github.com/mockery/mockery/pull/1419)
 - [1413: Upgrade `phar` tools and `phive.xml` configuration](https://github.com/mockery/mockery/pull/1413)
 
