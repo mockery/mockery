@@ -760,6 +760,7 @@ class Expectation implements ExpectationInterface
      * Verify the current call, i.e. that the given arguments match those
      * of this expectation
      *
+     * @param  array<mixed> $args
      * @return mixed
      *
      * @throws Throwable
@@ -885,8 +886,8 @@ class Expectation implements ExpectationInterface
     /**
      * Setup the ordering tracking on the mock or mock container
      *
-     * @param  string $group
-     * @param  object $ordering
+     * @param  string                  $group
+     * @param  Container|MockInterface $ordering
      * @return int
      */
     protected function _defineOrdered($group, $ordering)
@@ -910,6 +911,7 @@ class Expectation implements ExpectationInterface
     /**
      * Fetch the return value for the matching args
      *
+     * @param  array<mixed> $args
      * @return mixed
      */
     protected function _getReturnValue(array $args)
@@ -1044,18 +1046,18 @@ class Expectation implements ExpectationInterface
     /**
      * Throws an exception if the expectation has been configured to do so
      *
-     * @param  Throwable $return
-     * @return void
+     * @param  mixed|Throwable $return
+     * @return never
      *
      * @throws Throwable
      */
     private function throwAsNecessary($return)
     {
-        if (! $this->_throw) {
+        if (! $return instanceof Throwable) {
             return;
         }
 
-        if (! $return instanceof Throwable) {
+        if (! $this->_throw) {
             return;
         }
 
@@ -1065,6 +1067,7 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments for the expectation passed as an array
      *
+     * @param  array<mixed> $arguments
      * @return self
      */
     private function withArgsInArray(array $arguments)

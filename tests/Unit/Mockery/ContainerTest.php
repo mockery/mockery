@@ -148,6 +148,7 @@ final class ContainerTest extends MockeryTestCase
             Container::BLOCKS => ['method1'],
         ]);
         self::assertSame($m, $m->method1());
+        self::assertSame(1, $m->foo());
     }
 
     /**
@@ -1196,12 +1197,8 @@ final class ContainerTest extends MockeryTestCase
     {
         $var = mock(new MockeryTestIsset_Bar());
         $mock = mock(new MockeryTestIsset_Foo($var));
-        $mock->shouldReceive('bar')
-            ->once();
+        $mock->shouldReceive('bar')->once();
         $mock->bar();
-        Mockery::close();
-
-        self::assertTrue(true);
     }
 
     /**
@@ -1293,7 +1290,6 @@ final class ContainerTest extends MockeryTestCase
             // Mockery + PHPUnit has a fail safe for tests swallowing our
             // exceptions
             $e->dismiss();
-            self::assertTrue($e->dismissed());
 
             return;
         }
@@ -1311,11 +1307,8 @@ final class ContainerTest extends MockeryTestCase
             ->andReturn(false)
             ->getMock();
 
-        $m->get();
-        Mockery::close();
-
         // no idea what this test does, adding this as an assertion...
-        self::assertTrue(true);
+        self::assertSame(false, $m->get());
     }
 
     /**
@@ -1811,12 +1804,13 @@ final class ContainerTest extends MockeryTestCase
         // and then overridden in one test
         $m->shouldReceive('foo')
             ->with('baz')
-            ->once()
-            ->andReturn(2);
+            ->andReturn(2)
+            ->once();
+
         $m->shouldReceive('bar')
             ->with('baz')
-            ->once()
-            ->andReturn(42);
+            ->andReturn(42)
+            ->once();
 
         self::assertSame(2, $m->foo('baz'));
         self::assertSame(42, $m->bar('baz'));
@@ -1828,8 +1822,7 @@ final class ContainerTest extends MockeryTestCase
     public function testSimplestMockCreation(): void
     {
         $m = mock();
-        $m->shouldReceive('foo')
-            ->andReturn('bar');
+        $m->shouldReceive('foo')->andReturn('bar');
         self::assertSame('bar', $m->foo());
     }
 

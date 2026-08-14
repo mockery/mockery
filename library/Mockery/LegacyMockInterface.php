@@ -84,12 +84,12 @@ interface LegacyMockInterface
     public function mockery_getGroups();
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function mockery_getMockableMethods();
 
     /**
-     * @return array
+     * @return array<string,mixed>
      */
     public function mockery_getMockableProperties();
 
@@ -116,16 +116,16 @@ interface LegacyMockInterface
     /**
      * Set current ordered number
      *
-     * @param  int $order
-     * @return int
+     * @param  int  $order
+     * @return void
      */
     public function mockery_setCurrentOrder($order);
 
     /**
      * Return the expectations director for the given method
      *
-     * @param  string                   $method
-     * @return null|ExpectationDirector
+     * @param  string $method
+     * @return void
      */
     public function mockery_setExpectationsFor($method, ExpectationDirector $director);
 

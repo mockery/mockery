@@ -71,8 +71,6 @@ final class TestCase1328Test extends MockeryTestCase
             ->times(0);
 
         $mock->format('Y');
-
-        Mockery::close();
     }
 
     /**
@@ -98,7 +96,5 @@ final class TestCase1328Test extends MockeryTestCase
             ->once();
 
         $mock->format('Y');
-
-        Mockery::close();
     }
 }

@@ -14,6 +14,7 @@ namespace Tests\Unit\Mockery;
 
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Override;
 use PHP73\ClassWithStaticMethods;
 use Throwable;
 
@@ -24,6 +25,12 @@ use function mock;
  */
 final class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase
 {
+    #[Override]
+    public function mockeryTestTearDown(): void
+    {
+        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+    }
+
     /**
      * @throws Throwable
      */
@@ -32,10 +39,8 @@ final class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = mock(ClassWithStaticMethods::class);
         $mock->shouldAllowMockingProtectedMethods();
-        $mock->shouldReceive('protectedBar')
-            ->andReturn(true);
+        $mock->shouldReceive('protectedBar')->andReturn(true);
         self::assertTrue($mock->protectedBar());
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
     /**
@@ -56,9 +61,7 @@ final class MockingStaticMethodsCalledObjectStyleTest extends MockeryTestCase
     {
         Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
         $mock = mock(ClassWithStaticMethods::class);
-        $mock->shouldReceive('foo')
-            ->andReturn(true);
+        $mock->shouldReceive('foo')->andReturn(true);
         self::assertTrue($mock->foo());
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 }

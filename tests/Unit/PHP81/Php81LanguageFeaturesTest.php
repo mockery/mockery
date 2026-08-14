@@ -152,11 +152,7 @@ final class Php81LanguageFeaturesTest extends MockeryTestCase
         $mock->shouldReceive('exec')
             ->once();
 
-        try {
-            self::assertSame(0, $mock->exec('select * from foo.bar'));
-        } finally {
-            Mockery::close();
-        }
+        self::assertSame(0, $mock->exec('select * from foo.bar'));
     }
 
     /**

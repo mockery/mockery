@@ -12,11 +12,13 @@ namespace Mockery;
 
 use Mockery;
 use Mockery\Exception\NoMatchingExpectationException;
+use Throwable;
 
 use const PHP_EOL;
 
 use function array_pop;
 use function array_unshift;
+
 use function end;
 
 class ExpectationDirector
@@ -24,14 +26,14 @@ class ExpectationDirector
     /**
      * Stores an array of all default expectations for this mock
      *
-     * @var list<ExpectationInterface>
+     * @var list<Expectation>
      */
     protected $_defaults = [];
 
     /**
      * Stores an array of all expectations for this mock
      *
-     * @var list<ExpectationInterface>
+     * @var list<Expectation>
      */
     protected $_expectations = [];
 
@@ -77,6 +79,8 @@ class ExpectationDirector
      * Handle a method call being directed by this instance
      *
      * @return mixed
+     *
+     * @throws Throwable
      */
     public function call(array $args)
     {
@@ -105,7 +109,7 @@ class ExpectationDirector
     /**
      * Attempt to locate an expectation matching the provided args
      *
-     * @return mixed
+     * @return null|Expectation
      */
     public function findExpectation(array $args)
     {
@@ -125,7 +129,7 @@ class ExpectationDirector
     /**
      * Return all expectations assigned to this director
      *
-     * @return array<ExpectationInterface>
+     * @return array<Expectation>
      */
     public function getDefaultExpectations()
     {
@@ -159,7 +163,7 @@ class ExpectationDirector
     /**
      * Return all expectations assigned to this director
      *
-     * @return array<ExpectationInterface>
+     * @return array<Expectation>
      */
     public function getExpectations()
     {
@@ -211,8 +215,8 @@ class ExpectationDirector
     /**
      * Search current array of expectations for a match
      *
-     * @param  array<ExpectationInterface> $expectations
-     * @return null|ExpectationInterface
+     * @param  array<Expectation> $expectations
+     * @return null|Expectation
      */
     protected function _findExpectationIn(array $expectations, array $args)
     {

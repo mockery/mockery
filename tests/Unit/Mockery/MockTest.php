@@ -21,6 +21,7 @@ use Mockery\Exception as MockeryException;
 use Mockery\Exception\BadMethodCallException;
 use Mockery\Mock;
 use Mockery\MockInterface;
+use Override;
 use PHP73\ClassWithMethods;
 use PHP73\ClassWithNoToString;
 use PHP73\ClassWithProtectedMethod;
@@ -37,6 +38,12 @@ use function mock;
  */
 final class MockTest extends MockeryTestCase
 {
+    #[Override]
+    public function mockeryTestTearDown(): void
+    {
+        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
+    }
+
     /**
      * @throws Throwable
      */
@@ -48,8 +55,6 @@ final class MockTest extends MockeryTestCase
         $m->shouldReceive('test123')
             ->andReturn(true);
         self::assertTrue($m->test123());
-
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
     /**
@@ -173,7 +178,6 @@ final class MockTest extends MockeryTestCase
             ->andReturn(true)
             ->once();
         self::assertTrue($m->testSomeNonExistentMethod());
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
     /**
@@ -187,7 +191,6 @@ final class MockTest extends MockeryTestCase
         $m->shouldReceive('foo')
             ->andReturn(true);
         self::assertTrue($m->foo());
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
     }
 
     /**
@@ -238,7 +241,6 @@ final class MockTest extends MockeryTestCase
      */
     public function testShouldIgnoreMissingCallingNonExistentMethods(): void
     {
-        Mockery::getConfiguration()->allowMockingNonExistentMethods(true);
         $mock = mock(ClassWithMethods::class)->shouldIgnoreMissing();
 
         self::assertNull($mock->foo());
@@ -300,7 +302,7 @@ final class MockTest extends MockeryTestCase
     public function testShouldThrowExceptionWithInvalidClassName(): void
     {
         $this->expectException(MockeryException::class);
-        $this->expectExceptionMessage("Mockery can't find 'ClassName.CannotContainDot' so can't mock it");
+        $this->expectExceptionMessage('Class name contains invalid characters');
 
         mock('ClassName.CannotContainDot');
     }

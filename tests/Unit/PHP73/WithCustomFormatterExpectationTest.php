@@ -121,7 +121,7 @@ final class WithCustomFormatterExpectationTest extends MockeryTestCase
     #[DataProvider('provideGetObjectFormatterCases')]
     public function testGetObjectFormatter($object, $expected): void
     {
-        $defaultFormatter = function ($class, $nesting) {
+        $defaultFormatter = function ($class, $nesting): ?array {
             return null;
         };
 

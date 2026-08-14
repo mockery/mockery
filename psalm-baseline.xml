@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
   <file src="library/Mockery.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[self::buildDemeterChain($mock, $arg, $add)]]></code>
+      <code><![CDATA[self::buildDemeterChain($mock, $k, $add)->andReturn($v)]]></code>
+    </ArgumentTypeCoercion>
     <ClassMustBeFinal>
       <code><![CDATA[Mockery]]></code>
     </ClassMustBeFinal>
@@ -14,8 +18,17 @@
     <DocblockTypeContradiction>
       <code><![CDATA[$parentMock instanceof LegacyMockInterface]]></code>
     </DocblockTypeContradiction>
+    <InvalidReturnStatement>
+      <code><![CDATA[$expectations]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ExpectationInterface]]></code>
+    </InvalidReturnType>
     <LessSpecificReturnType>
+      <code><![CDATA[ExpectationInterface]]></code>
+      <code><![CDATA[array]]></code>
       <code><![CDATA[array<string, mixed>]]></code>
+      <code><![CDATA[bool]]></code>
     </LessSpecificReturnType>
     <MissingClassConstType>
       <code><![CDATA[BLOCKS = 'Mockery_Forward_Blocks']]></code>
@@ -25,19 +38,12 @@
       <code><![CDATA[$nesting]]></code>
       <code><![CDATA[$object]]></code>
     </MissingClosureParamType>
-    <MissingClosureReturnType>
-      <code><![CDATA[static function ($argument) use (&$reference) {]]></code>
-      <code><![CDATA[static function ($object, $nesting) {]]></code>
-      <code><![CDATA[static function (string $method) use ($add) {]]></code>
-      <code><![CDATA[static function (string $method) use ($mock) {]]></code>
-    </MissingClosureReturnType>
     <MissingReturnType>
       <code><![CDATA[registerFileForCleanUp]]></code>
       <code><![CDATA[setGenerator]]></code>
       <code><![CDATA[setLoader]]></code>
     </MissingReturnType>
     <MixedArgument>
-      <code><![CDATA[$expectations]]></code>
       <code><![CDATA[$formatter($object, $nesting)]]></code>
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$nesting]]></code>
@@ -53,8 +59,6 @@
       <code><![CDATA[$arg]]></code>
       <code><![CDATA[$argument]]></code>
       <code><![CDATA[$cleanedProperties[$name]]]></code>
-      <code><![CDATA[$expectations]]></code>
-      <code><![CDATA[$expectations]]></code>
       <code><![CDATA[$formattedArguments[]]]></code>
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$reference]]></code>
@@ -66,10 +70,6 @@
     <MixedOperand>
       <code><![CDATA[$argument]]></code>
     </MixedOperand>
-    <MixedReturnStatement>
-      <code><![CDATA[$expectations]]></code>
-      <code><![CDATA[$expectations]]></code>
-    </MixedReturnStatement>
     <PossiblyFalseArgument>
       <code><![CDATA[$fileName]]></code>
       <code><![CDATA[$fileName]]></code>
@@ -370,10 +370,7 @@
     </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod>
       <code><![CDATA[instanceMock]]></code>
-      <code><![CDATA[mockery_allocateOrder]]></code>
       <code><![CDATA[mockery_getCurrentOrder]]></code>
-      <code><![CDATA[mockery_getGroups]]></code>
-      <code><![CDATA[mockery_setGroup]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[int]]></code>
@@ -488,6 +485,9 @@
     <InvalidNullableReturnType>
       <code><![CDATA[int]]></code>
     </InvalidNullableReturnType>
+    <InvalidReturnType>
+      <code><![CDATA[never]]></code>
+    </InvalidReturnType>
     <InvalidStringClass>
       <code><![CDATA[new $exception($message, $code, $previous)]]></code>
       <code><![CDATA[new $this->_countValidatorClass($this, $limit)]]></code>
@@ -537,8 +537,6 @@
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
-      <code><![CDATA[$groups]]></code>
-      <code><![CDATA[$return]]></code>
       <code><![CDATA[$this->getName()]]></code>
       <code><![CDATA[$values]]></code>
       <code><![CDATA[func_get_args()]]></code>
@@ -547,9 +545,6 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$firstCorrespondingKey]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess>
-      <code><![CDATA[$groups[$group]]]></code>
-    </MixedArrayAccess>
     <MixedAssignment>
       <code><![CDATA[$_arguments[$position]]]></code>
       <code><![CDATA[$_arguments[$position]]]></code>
@@ -559,10 +554,8 @@
       <code><![CDATA[$countValidator]]></code>
       <code><![CDATA[$expectedArg]]></code>
       <code><![CDATA[$expectedArg]]></code>
-      <code><![CDATA[$groups]]></code>
       <code><![CDATA[$lastExpectedArgument]]></code>
       <code><![CDATA[$newValidators[]]]></code>
-      <code><![CDATA[$result]]></code>
       <code><![CDATA[$return]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$values]]></code>
@@ -576,17 +569,8 @@
     </MixedFunctionCall>
     <MixedMethodCall>
       <code><![CDATA[isEligible]]></code>
-      <code><![CDATA[mockery_allocateOrder]]></code>
-      <code><![CDATA[mockery_allocateOrder]]></code>
-      <code><![CDATA[mockery_getGroups]]></code>
-      <code><![CDATA[mockery_setGroup]]></code>
       <code><![CDATA[validate]]></code>
     </MixedMethodCall>
-    <MixedReturnStatement>
-      <code><![CDATA[$groups[$group]]]></code>
-      <code><![CDATA[$ordering->mockery_allocateOrder()]]></code>
-      <code><![CDATA[$result]]></code>
-    </MixedReturnStatement>
     <NullableReturnStatement>
       <code><![CDATA[$this->_orderNumber]]></code>
     </NullableReturnStatement>
@@ -604,29 +588,18 @@
       <code><![CDATA[array_shift($this->_closureQueue)(...$args)]]></code>
     </PossiblyNullFunctionCall>
     <PossiblyUnusedMethod>
-      <code><![CDATA[andReturnArg]]></code>
-      <code><![CDATA[andReturnUndefined]]></code>
-      <code><![CDATA[andReturnUsing]]></code>
-      <code><![CDATA[andReturnValues]]></code>
-      <code><![CDATA[andThrowExceptions]]></code>
-      <code><![CDATA[andThrows]]></code>
-      <code><![CDATA[andYield]]></code>
-      <code><![CDATA[because]]></code>
+      <code><![CDATA[_setValues]]></code>
       <code><![CDATA[between]]></code>
-      <code><![CDATA[globally]]></code>
-      <code><![CDATA[isCallCountConstrained]]></code>
-      <code><![CDATA[isEligible]]></code>
-      <code><![CDATA[ordered]]></code>
       <code><![CDATA[passthru]]></code>
-      <code><![CDATA[set]]></code>
-      <code><![CDATA[withAndOthers]]></code>
-      <code><![CDATA[withSomeOfArgs]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
       <code><![CDATA[$_returnValue]]></code>
     </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
-      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[self]]></code>
+      <code><![CDATA[self]]></code>
+      <code><![CDATA[self]]></code>
+      <code><![CDATA[self]]></code>
       <code><![CDATA[self]]></code>
       <code><![CDATA[self]]></code>
     </PossiblyUnusedReturnValue>
@@ -645,6 +618,10 @@
       <code><![CDATA[mockery_isInstance]]></code>
       <code><![CDATA[mockery_returnValueForMethod]]></code>
     </UndefinedInterfaceMethod>
+    <UnevaluatedCode>
+      <code><![CDATA[$this->_setValues();]]></code>
+      <code><![CDATA[return $return;]]></code>
+    </UnevaluatedCode>
     <UnusedMethod>
       <code><![CDATA[isAndAnyOtherArgumentsMatcher]]></code>
     </UnusedMethod>
@@ -659,31 +636,12 @@
     <MissingReturnType>
       <code><![CDATA[addExpectation]]></code>
     </MissingReturnType>
-    <MissingThrowsDocblock>
-      <code><![CDATA[throw $noMatchingExpectationException]]></code>
-    </MissingThrowsDocblock>
-    <MixedMethodCall>
-      <code><![CDATA[verifyCall]]></code>
-    </MixedMethodCall>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[call]]></code>
-      <code><![CDATA[getExpectationCount]]></code>
-      <code><![CDATA[verify]]></code>
-    </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
       <code><![CDATA[$_expectedOrder]]></code>
     </PossiblyUnusedProperty>
     <PropertyNotSetInConstructor>
       <code><![CDATA[$_expectedOrder]]></code>
     </PropertyNotSetInConstructor>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[isCallCountConstrained]]></code>
-      <code><![CDATA[isEligible]]></code>
-      <code><![CDATA[matchArgs]]></code>
-      <code><![CDATA[matchArgs]]></code>
-      <code><![CDATA[verify]]></code>
-      <code><![CDATA[verify]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="library/Mockery/ExpectationInterface.php">
     <PossiblyUnusedReturnValue>
@@ -1311,21 +1269,14 @@
   </file>
   <file src="library/Mockery/LegacyMockInterface.php">
     <PossiblyUnusedMethod>
-      <code><![CDATA[mockery_allocateOrder]]></code>
       <code><![CDATA[mockery_findExpectation]]></code>
       <code><![CDATA[mockery_getCurrentOrder]]></code>
-      <code><![CDATA[mockery_getGroups]]></code>
       <code><![CDATA[mockery_getMockableProperties]]></code>
       <code><![CDATA[mockery_init]]></code>
-      <code><![CDATA[mockery_setGroup]]></code>
       <code><![CDATA[shouldAllowMockingMethod]]></code>
       <code><![CDATA[shouldAllowMockingProtectedMethods]]></code>
       <code><![CDATA[shouldDeferMissing]]></code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[int]]></code>
-      <code><![CDATA[null|ExpectationDirector]]></code>
-    </PossiblyUnusedReturnValue>
   </file>
   <file src="library/Mockery/Loader/EvalLoader.php">
     <ClassMustBeFinal>
@@ -1561,26 +1512,19 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/Mock.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-    </ArgumentTypeCoercion>
     <ClassMustBeFinal>
       <code><![CDATA[Mock]]></code>
     </ClassMustBeFinal>
     <InvalidReturnStatement>
       <code><![CDATA[$this->shouldNotHaveReceived('__invoke', $args)]]></code>
     </InvalidReturnStatement>
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[array]]></code>
-    </LessSpecificImplementedReturnType>
-    <MissingClosureParamType>
-      <code><![CDATA[$method]]></code>
-    </MissingClosureParamType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[static::$_mockery_methods]]></code>
+    </LessSpecificReturnStatement>
+    <LessSpecificReturnType>
+      <code><![CDATA[string]]></code>
+    </LessSpecificReturnType>
     <MissingClosureReturnType>
-      <code><![CDATA[static function ($method) {]]></code>
       <code><![CDATA[static function () {]]></code>
     </MissingClosureReturnType>
     <MissingOverrideAttribute>
@@ -1594,11 +1538,6 @@
       <code><![CDATA[$method]]></code>
       <code><![CDATA[$method]]></code>
       <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
     </MissingParamType>
     <MissingPropertyType>
       <code><![CDATA[$_mockery_allowMockingProtectedMethods]]></code>
@@ -1606,19 +1545,11 @@
       <code><![CDATA[$_mockery_receivedMethodCalls]]></code>
     </MissingPropertyType>
     <MissingReturnType>
-      <code><![CDATA[_mockery_constructorCalled]]></code>
-      <code><![CDATA[_mockery_findExpectedMethodHandler]]></code>
       <code><![CDATA[_mockery_getReceivedMethodCalls]]></code>
-      <code><![CDATA[_mockery_handleMethodCall]]></code>
       <code><![CDATA[_mockery_handleStaticMethodCall]]></code>
-      <code><![CDATA[hasMethodOverloadingInParentClass]]></code>
-      <code><![CDATA[mockery_getExpectations]]></code>
-      <code><![CDATA[mockery_getMethod]]></code>
       <code><![CDATA[mockery_isInstance]]></code>
     </MissingReturnType>
     <MissingThrowsDocblock>
-      <code><![CDATA[throw $badMethodCallException]]></code>
-      <code><![CDATA[throw $e]]></code>
       <code><![CDATA[throw new BadMethodCallException(
                 'Static method ' . $associatedRealObject->mockery_getName() . '::' . $method
                 . '() does not exist on this mock object',
@@ -1629,16 +1560,6 @@
     <MixedArgument>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$rm]]></code>
       <code><![CDATA[$this->_mockery_getReceivedMethodCalls()]]></code>
       <code><![CDATA[$this->_mockery_getReceivedMethodCalls()]]></code>
     </MixedArgument>
@@ -1649,73 +1570,28 @@
       <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
       <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
       <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
-      <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
-      <code><![CDATA[$this->_mockery_groups[$group]]]></code>
     </MixedArrayOffset>
     <MixedAssignment>
       <code><![CDATA[$allowMockingProtectedMethods]]></code>
-      <code><![CDATA[$count]]></code>
-      <code><![CDATA[$director]]></code>
-      <code><![CDATA[$expectation]]></code>
-      <code><![CDATA[$expectations]]></code>
-      <code><![CDATA[$handler]]></code>
       <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$mockeryExpectation]]></code>
-      <code><![CDATA[$mockeryExpectation]]></code>
-      <code><![CDATA[$mockeryExpectation]]></code>
-      <code><![CDATA[$prototype]]></code>
       <code><![CDATA[$returnValue]]></code>
-      <code><![CDATA[$rm]]></code>
-      <code><![CDATA[$rm]]></code>
-      <code><![CDATA[$rm]]></code>
     </MixedAssignment>
     <MixedMethodCall>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[call]]></code>
-      <code><![CDATA[findExpectation]]></code>
-      <code><![CDATA[getExpectationCount]]></code>
-      <code><![CDATA[getExpectations]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getName]]></code>
-      <code><![CDATA[getPrototype]]></code>
-      <code><![CDATA[isAbstract]]></code>
-      <code><![CDATA[isAbstract]]></code>
-      <code><![CDATA[isPrivate]]></code>
-      <code><![CDATA[isProtected]]></code>
-      <code><![CDATA[isProtected]]></code>
-      <code><![CDATA[isProtected]]></code>
-      <code><![CDATA[isPublic]]></code>
-      <code><![CDATA[isPublic]]></code>
       <code><![CDATA[push]]></code>
-      <code><![CDATA[verify]]></code>
     </MixedMethodCall>
     <MixedOperand>
-      <code><![CDATA[$count]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
-      <code><![CDATA[$method]]></code>
       <code><![CDATA[$method]]></code>
     </MixedOperand>
+    <MixedPropertyTypeCoercion>
+      <code><![CDATA[$this->_mockery_expectations]]></code>
+    </MixedPropertyTypeCoercion>
     <MixedReturnStatement>
-      <code><![CDATA[$count]]></code>
-      <code><![CDATA[$director->findExpectation($args)]]></code>
       <code><![CDATA[$this->__call('__toString', [])]]></code>
-      <code><![CDATA[$this->_mockery_expectations[$method]]]></code>
+      <code><![CDATA[call_user_func($this->_mockery_parentClass . '::__isset', $name)]]></code>
     </MixedReturnStatement>
-    <MixedReturnTypeCoercion>
-      <code><![CDATA[$this->_mockery_mockableMethods]]></code>
-      <code><![CDATA[string[]]]></code>
-    </MixedReturnTypeCoercion>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<\ReflectionMethod>]]></code>
+    </MoreSpecificReturnType>
     <PossiblyFalseOperand>
       <code><![CDATA[$this->_mockery_parentClass]]></code>
     </PossiblyFalseOperand>
@@ -1723,9 +1599,6 @@
       <code><![CDATA[get_parent_class($this)]]></code>
       <code><![CDATA[get_parent_class($this)]]></code>
     </PossiblyFalsePropertyAssignmentValue>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$methodNames]]></code>
-    </PossiblyInvalidArgument>
     <PossiblyInvalidDocblockTag>
       <code><![CDATA[@var array $args]]></code>
       <code><![CDATA[@var string $method]]></code>
@@ -1760,9 +1633,6 @@
     <PossiblyUnusedProperty>
       <code><![CDATA[$_mockery_name]]></code>
     </PossiblyUnusedProperty>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[ExpectationDirector|null]]></code>
-    </PossiblyUnusedReturnValue>
     <RedundantCondition>
       <code><![CDATA[$i->getName() !== 'Stringable']]></code>
     </RedundantCondition>
@@ -1770,12 +1640,6 @@
       <code><![CDATA[!is_null($this->_mockery_partial)]]></code>
       <code><![CDATA[$this->_mockery_partial !== null]]></code>
     </RedundantConditionGivenDocblockType>
-    <RiskyTruthyFalsyComparison>
-      <code><![CDATA[!$this->_mockery_parentClass]]></code>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-      <code><![CDATA[$this->_mockery_parentClass]]></code>
-    </RiskyTruthyFalsyComparison>
     <TooManyArguments>
       <code><![CDATA[shouldIgnoreMissing]]></code>
       <code><![CDATA[shouldIgnoreMissing]]></code>
@@ -1789,6 +1653,9 @@
     <UndefinedThisPropertyFetch>
       <code><![CDATA[$this->_mockery_ignoreVerification]]></code>
     </UndefinedThisPropertyFetch>
+    <UnusedVariable>
+      <code><![CDATA[$expectation]]></code>
+    </UnusedVariable>
   </file>
   <file src="library/Mockery/QuickDefinitionsConfiguration.php">
     <ClassMustBeFinal>
@@ -2133,23 +2000,17 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/DefaultMatchersTest.php">
-    <MissingPropertyType>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[mock('foo')]]></code>
+    </InvalidPropertyAssignmentValue>
+    <PropertyNotSetInConstructor>
       <code><![CDATA[$mock]]></code>
-    </MissingPropertyType>
-    <MixedMethodCall>
+    </PropertyNotSetInConstructor>
+    <UndefinedInterfaceMethod>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-    </MixedMethodCall>
+    </UndefinedInterfaceMethod>
     <UnusedClass>
       <code><![CDATA[DefaultMatchersTest]]></code>
     </UnusedClass>
@@ -2252,58 +2113,60 @@
       <code><![CDATA[assertSame]]></code>
       <code><![CDATA[assertSame]]></code>
     </DocblockTypeContradiction>
+    <InvalidArgument>
+      <code><![CDATA['baz']]></code>
+      <code><![CDATA['baz']]></code>
+      <code><![CDATA['baz']]></code>
+      <code><![CDATA['baz']]></code>
+      <code><![CDATA['baz']]></code>
+      <code><![CDATA['bazz']]></code>
+      <code><![CDATA['bazz']]></code>
+      <code><![CDATA['bazz']]></code>
+      <code><![CDATA['bazz']]></code>
+      <code><![CDATA['bazzz']]></code>
+      <code><![CDATA['invalid']]></code>
+      <code><![CDATA[1]]></code>
+      <code><![CDATA[1.3]]></code>
+      <code><![CDATA[2]]></code>
+      <code><![CDATA[2]]></code>
+      <code><![CDATA[5]]></code>
+      <code><![CDATA[['NotAnException']]]></code>
+    </InvalidArgument>
+    <InvalidCast>
+      <code><![CDATA[$this->mock]]></code>
+      <code><![CDATA[$this->mock]]></code>
+    </InvalidCast>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[mock('Foo')]]></code>
+    </InvalidPropertyAssignmentValue>
+    <LessSpecificReturnType>
+      <code><![CDATA[string]]></code>
+    </LessSpecificReturnType>
     <MissingClosureParamType>
       <code><![CDATA[$arg]]></code>
-      <code><![CDATA[$arg]]></code>
-      <code><![CDATA[$arg]]></code>
       <code><![CDATA[$argument]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$sum]]></code>
-      <code><![CDATA[$sum]]></code>
-      <code><![CDATA[$sum]]></code>
-      <code><![CDATA[$v]]></code>
     </MissingClosureParamType>
-    <MissingClosureReturnType>
-      <code><![CDATA[function ($arg) {]]></code>
-      <code><![CDATA[function ($arg) {]]></code>
-      <code><![CDATA[function ($arg) {]]></code>
-      <code><![CDATA[function ($odd, $even) {]]></code>
-      <code><![CDATA[function ($odd, $even) {]]></code>
-      <code><![CDATA[function ($odd, $even, $sum = null) {]]></code>
-      <code><![CDATA[function ($odd, $even, $sum = null) {]]></code>
-      <code><![CDATA[function ($odd, $even, $sum = null) {]]></code>
-      <code><![CDATA[function ($v) {]]></code>
-    </MissingClosureReturnType>
-    <MissingPropertyType>
-      <code><![CDATA[$mock]]></code>
-    </MissingPropertyType>
     <MixedArgument>
+      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$expectations]]></code>
       <code><![CDATA[$this->mock->foo()]]></code>
     </MixedArgument>
+    <MixedArrayAccess>
+      <code><![CDATA[$expectations['bar']]]></code>
+    </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$e]]></code>
-      <code><![CDATA[$exp]]></code>
-      <code><![CDATA[$exp]]></code>
-      <code><![CDATA[$exp]]></code>
-      <code><![CDATA[$exp]]></code>
-      <code><![CDATA[$m]]></code>
+      <code><![CDATA[$director]]></code>
+      <code><![CDATA[$expectation]]></code>
+      <code><![CDATA[$expectations]]></code>
+      <code><![CDATA[$expectations]]></code>
       <code><![CDATA[$mock]]></code>
       <code><![CDATA[$mock]]></code>
-      <code><![CDATA[$s]]></code>
     </MixedAssignment>
     <MixedMethodCall>
       <code><![CDATA[a]]></code>
-      <code><![CDATA[a]]></code>
-      <code><![CDATA[a]]></code>
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[andReturn]]></code>
@@ -2320,119 +2183,15 @@
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[andReturn]]></code>
       <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturn]]></code>
-      <code><![CDATA[andReturnArg]]></code>
-      <code><![CDATA[andReturnArg]]></code>
-      <code><![CDATA[andReturnArg]]></code>
-      <code><![CDATA[andReturnArg]]></code>
-      <code><![CDATA[andReturnFalse]]></code>
       <code><![CDATA[andReturnNull]]></code>
       <code><![CDATA[andReturnNull]]></code>
-      <code><![CDATA[andReturnSelf]]></code>
-      <code><![CDATA[andReturnTrue]]></code>
-      <code><![CDATA[andReturnUndefined]]></code>
-      <code><![CDATA[andReturnUsing]]></code>
-      <code><![CDATA[andReturnValues]]></code>
       <code><![CDATA[andSet]]></code>
       <code><![CDATA[andSet]]></code>
-      <code><![CDATA[andSet]]></code>
-      <code><![CDATA[andSet]]></code>
-      <code><![CDATA[andSet]]></code>
-      <code><![CDATA[andSet]]></code>
-      <code><![CDATA[andSet]]></code>
-      <code><![CDATA[andThrow]]></code>
-      <code><![CDATA[andThrow]]></code>
-      <code><![CDATA[andThrow]]></code>
-      <code><![CDATA[andThrow]]></code>
-      <code><![CDATA[andThrow]]></code>
-      <code><![CDATA[andThrow]]></code>
-      <code><![CDATA[andThrowExceptions]]></code>
-      <code><![CDATA[andThrowExceptions]]></code>
-      <code><![CDATA[andThrows]]></code>
-      <code><![CDATA[andYield]]></code>
-      <code><![CDATA[asUndefined]]></code>
-      <code><![CDATA[asUndefined]]></code>
-      <code><![CDATA[asUndefined]]></code>
-      <code><![CDATA[asUndefined]]></code>
       <code><![CDATA[atLeast]]></code>
-      <code><![CDATA[atLeast]]></code>
-      <code><![CDATA[atLeast]]></code>
-      <code><![CDATA[atLeast]]></code>
-      <code><![CDATA[atLeast]]></code>
-      <code><![CDATA[atLeast]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atMost]]></code>
-      <code><![CDATA[atleast]]></code>
-      <code><![CDATA[atleast]]></code>
-      <code><![CDATA[atleast]]></code>
-      <code><![CDATA[atleast]]></code>
       <code><![CDATA[b]]></code>
       <code><![CDATA[b]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[bar]]></code>
-      <code><![CDATA[because]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
-      <code><![CDATA[byDefault]]></code>
       <code><![CDATA[byDefault]]></code>
       <code><![CDATA[c]]></code>
-      <code><![CDATA[expects]]></code>
-      <code><![CDATA[expects]]></code>
-      <code><![CDATA[final]]></code>
-      <code><![CDATA[final]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
@@ -2442,382 +2201,12 @@
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[foo]]></code>
-      <code><![CDATA[g]]></code>
-      <code><![CDATA[g]]></code>
-      <code><![CDATA[g]]></code>
-      <code><![CDATA[g]]></code>
-      <code><![CDATA[getOrderNumber]]></code>
-      <code><![CDATA[getOrderNumber]]></code>
-      <code><![CDATA[getOrderNumber]]></code>
-      <code><![CDATA[getOrderNumber]]></code>
-      <code><![CDATA[globally]]></code>
+      <code><![CDATA[getExpectations]]></code>
       <code><![CDATA[globally]]></code>
       <code><![CDATA[hasBookmarksTagged]]></code>
       <code><![CDATA[hasBookmarksTagged]]></code>
+      <code><![CDATA[isCallCountConstrained]]></code>
       <code><![CDATA[mock]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
-      <code><![CDATA[never]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
@@ -2831,490 +2220,18 @@
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
       <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
-      <code><![CDATA[ordered]]></code>
       <code><![CDATA[ordered]]></code>
       <code><![CDATA[ordered]]></code>
       <code><![CDATA[passthru]]></code>
       <code><![CDATA[passthru]]></code>
-      <code><![CDATA[set]]></code>
-      <code><![CDATA[set]]></code>
-      <code><![CDATA[set]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldIgnoreMissing]]></code>
-      <code><![CDATA[shouldNotReceive]]></code>
-      <code><![CDATA[shouldNotReceive]]></code>
-      <code><![CDATA[shouldNotReceive]]></code>
       <code><![CDATA[shouldNotReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[start]]></code>
-      <code><![CDATA[start]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
-      <code><![CDATA[times]]></code>
       <code><![CDATA[times]]></code>
       <code><![CDATA[times]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
-      <code><![CDATA[twice]]></code>
       <code><![CDATA[with]]></code>
       <code><![CDATA[with]]></code>
       <code><![CDATA[with]]></code>
@@ -3326,194 +2243,9 @@
       <code><![CDATA[with]]></code>
       <code><![CDATA[with]]></code>
       <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[withAndOthers]]></code>
-      <code><![CDATA[withAnyArgs]]></code>
-      <code><![CDATA[withAnyArgs]]></code>
-      <code><![CDATA[withAnyArgs]]></code>
-      <code><![CDATA[withAnyArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
-      <code><![CDATA[withArgs]]></code>
       <code><![CDATA[withNoArgs]]></code>
-      <code><![CDATA[withNoArgs]]></code>
-      <code><![CDATA[withNoArgs]]></code>
-      <code><![CDATA[withNoArgs]]></code>
-      <code><![CDATA[withNoArgs]]></code>
-      <code><![CDATA[withNoArgs]]></code>
-      <code><![CDATA[withSomeOfArgs]]></code>
-      <code><![CDATA[withSomeOfArgs]]></code>
-      <code><![CDATA[withSomeOfArgs]]></code>
-      <code><![CDATA[zeroOrMoreTimes]]></code>
-      <code><![CDATA[zeroOrMoreTimes]]></code>
     </MixedMethodCall>
-    <MixedOperand>
-      <code><![CDATA[$arg]]></code>
-      <code><![CDATA[$arg]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$even]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$odd]]></code>
-      <code><![CDATA[$v]]></code>
-    </MixedOperand>
-    <MixedPropertyAssignment>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-      <code><![CDATA[$this->mock]]></code>
-    </MixedPropertyAssignment>
-    <MixedPropertyFetch>
+    <NoInterfaceProperties>
       <code><![CDATA[$this->mock->bar]]></code>
       <code><![CDATA[$this->mock->bar]]></code>
       <code><![CDATA[$this->mock->bar]]></code>
@@ -3522,11 +2254,24 @@
       <code><![CDATA[$this->mock->bar]]></code>
       <code><![CDATA[$this->mock->bar]]></code>
       <code><![CDATA[$this->mock->bar]]></code>
-    </MixedPropertyFetch>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+      <code><![CDATA[$this->mock->bar]]></code>
+    </NoInterfaceProperties>
     <NoValue>
       <code><![CDATA[$this->mock->bar]]></code>
       <code><![CDATA[$this->mock->bar]]></code>
     </NoValue>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$mock]]></code>
+    </PropertyNotSetInConstructor>
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[assertSame]]></code>
       <code><![CDATA[assertSame]]></code>
@@ -3566,29 +2311,399 @@
       <code><![CDATA[mock('f')]]></code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
+      <code><![CDATA[a]]></code>
+      <code><![CDATA[a]]></code>
       <code><![CDATA[addBookmark]]></code>
       <code><![CDATA[addBookmark]]></code>
       <code><![CDATA[addBookmark]]></code>
+      <code><![CDATA[asUndefined]]></code>
+      <code><![CDATA[asUndefined]]></code>
+      <code><![CDATA[asUndefined]]></code>
+      <code><![CDATA[asUndefined]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[bar]]></code>
       <code><![CDATA[bar]]></code>
       <code><![CDATA[baz]]></code>
+      <code><![CDATA[final]]></code>
+      <code><![CDATA[final]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[foo]]></code>
+      <code><![CDATA[g]]></code>
+      <code><![CDATA[g]]></code>
+      <code><![CDATA[g]]></code>
+      <code><![CDATA[g]]></code>
       <code><![CDATA[hasBookmarksTagged]]></code>
       <code><![CDATA[hasBookmarksTagged]]></code>
       <code><![CDATA[hasBookmarksTagged]]></code>
       <code><![CDATA[login]]></code>
+      <code><![CDATA[mockery_getExpectations]]></code>
+      <code><![CDATA[mockery_getExpectations]]></code>
       <code><![CDATA[mockery_isAnonymous]]></code>
       <code><![CDATA[shouldReceive]]></code>
+      <code><![CDATA[start]]></code>
+      <code><![CDATA[start]]></code>
+      <code><![CDATA[undefined]]></code>
     </UndefinedInterfaceMethod>
     <UndefinedMagicMethod>
+      <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[theAnswer]]></code>
     </UndefinedMagicMethod>
     <UndefinedMethod>
+      <code><![CDATA[bar]]></code>
+      <code><![CDATA[foo]]></code>
       <code><![CDATA[makePartial]]></code>
       <code><![CDATA[nonExistent]]></code>
       <code><![CDATA[shouldIgnoreMissing]]></code>
+      <code><![CDATA[shouldNotReceive]]></code>
+      <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
       <code><![CDATA[shouldReceive]]></code>
@@ -3762,22 +2877,17 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/HamcrestExpectationTest.php">
-    <MissingPropertyType>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[mock('foo')]]></code>
+    </InvalidPropertyAssignmentValue>
+    <PropertyNotSetInConstructor>
       <code><![CDATA[$mock]]></code>
-    </MissingPropertyType>
-    <MixedMethodCall>
+    </PropertyNotSetInConstructor>
+    <UndefinedInterfaceMethod>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[once]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[shouldReceive]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-      <code><![CDATA[with]]></code>
-    </MixedMethodCall>
+    </UndefinedInterfaceMethod>
     <UnusedClass>
       <code><![CDATA[HamcrestExpectationTest]]></code>
     </UnusedClass>
@@ -4338,6 +3448,9 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP73/WithCustomFormatterExpectationTest.php">
+    <LessSpecificReturnType>
+      <code><![CDATA[?array]]></code>
+    </LessSpecificReturnType>
     <MissingClosureParamType>
       <code><![CDATA[$class]]></code>
       <code><![CDATA[$nesting]]></code>
@@ -4346,9 +3459,6 @@
       <code><![CDATA[$object]]></code>
       <code><![CDATA[$object]]></code>
     </MissingClosureParamType>
-    <MissingClosureReturnType>
-      <code><![CDATA[function ($class, $nesting) {]]></code>
-    </MissingClosureReturnType>
     <MissingParamType>
       <code><![CDATA[$expected]]></code>
       <code><![CDATA[$obj]]></code>

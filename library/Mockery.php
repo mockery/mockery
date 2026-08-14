@@ -139,7 +139,7 @@ class Mockery
      */
     public static function capture(&$reference)
     {
-        $closure = static function ($argument) use (&$reference) {
+        $closure = static function ($argument) use (&$reference): bool {
             $reference = $argument;
 
             return true;
@@ -519,10 +519,10 @@ class Mockery
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
      *
-     * @param  MockInterface        $mock
-     * @param  mixed                ...$args
-     * @param  Closure              $add
-     * @return CompositeExpectation
+     * @param  MockInterface                                         $mock
+     * @param  mixed                                                 ...$args
+     * @param  Closure(string):ExpectationInterface                  $add
+     * @return CompositeExpectation|Expectation|ExpectationInterface
      */
     public static function parseShouldReturnArgs(LegacyMockInterface $mock, $args, $add)
     {
@@ -663,10 +663,10 @@ class Mockery
      * Sets up expectations on the members of the CompositeExpectation and
      * builds up any demeter chain that was passed to shouldReceive.
      *
-     * @param  MockInterface $mock
-     * @param  string        $arg
-     * @param  Closure       $add
-     * @return Expectation
+     * @param  MockInterface                        $mock
+     * @param  string                               $arg
+     * @param  Closure(string):ExpectationInterface $add
+     * @return ExpectationInterface
      *
      * @throws Throwable
      */
@@ -677,7 +677,7 @@ class Mockery
 
         self::assertValidDemeterChain($mock, $methodNames);
 
-        $nextExpectation = static function (string $method) use ($add) {
+        $nextExpectation = static function (string $method) use ($add): ExpectationInterface {
             return $add($method);
         };
 
@@ -707,7 +707,7 @@ class Mockery
 
             $parent .= '->' . $method;
 
-            $nextExpectation = static function (string $method) use ($mock) {
+            $nextExpectation = static function (string $method) use ($mock): ExpectationInterface {
                 return $mock->allows($method);
             };
         }
@@ -994,7 +994,7 @@ class Mockery
             return ['...'];
         }
 
-        $defaultFormatter = static function ($object, $nesting) {
+        $defaultFormatter = static function ($object, $nesting): array {
             return [
                 'properties' => self::extractInstancePublicProperties($object, $nesting)
             ];
