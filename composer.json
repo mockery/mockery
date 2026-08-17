@@ -46,7 +46,8 @@
     "require": {
         "php": ">=7.3",
         "hamcrest/hamcrest-php": "^2.0 || ^3.0",
-        "symfony/polyfill-php80": "^1.37"
+        "symfony/polyfill-php80": "^1.37",
+        "symfony/polyfill-php81": "^1.37"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6.36",

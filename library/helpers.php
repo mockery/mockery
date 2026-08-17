@@ -73,24 +73,3 @@ if (! \function_exists('spy')) {
         return Mockery::spy(...$args);
     }
 }
-
-if (! \function_exists('array_is_list')) {
-    /**
-     * Modified copy from https://www.php.net/manual/en/function.array-is-list.php#127044
-     *
-     * @license https://www.php.net/manual/en/cc.license.php
-     *
-     * @param array<mixed> $array
-     */
-    function array_is_list(array $array): bool
-    {
-        $i = -1;
-        foreach ($array as $k => $v) {
-            if ($k !== ++$i) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
