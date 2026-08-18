@@ -977,10 +977,6 @@ class Mock implements MockInterface
      */
     protected function _mockery_constructorCalled(array $args)
     {
-        if (!isset($this->_mockery_expectations['__construct']) /* _mockery_handleMethodCall runs the other checks */) {
-            return;
-        }
-
         $this->_mockery_handleMethodCall('__construct', $args);
     }
 
@@ -1010,15 +1006,24 @@ class Mock implements MockInterface
      */
     protected function _mockery_handleMethodCall($method, array $args)
     {
-        /**
-         * Allow __clone and __construct to be mocked only if an expectations exists otherwise return void
-         */
-        // if (
-        //     array_key_exists($method, ['__clone' => 1, '__construct' => 1]) &&
-        //    !isset($this->_mockery_expectations[$method]) 
-        // ) {
-        //     return;
-        // }
+        static $mockableMagicMethods = [
+            '__construct' => true,
+            '__clone' => true,
+        ];
+
+        if (array_key_exists($method, $mockableMagicMethods) && ! array_key_exists($method, $this->_mockery_expectations)) {
+            /**
+             * Handle calls to magic methods that are not explicitly defined on the mock class.
+             *
+             * This is necessary because magic methods like __construct and __clone can be called on the mock object,
+             * but they may not have corresponding expectations set up.
+             *
+             * If an expectation exists for these methods, it will be handled accordingly;
+             *
+             * otherwise, the call will be ignored to prevent errors.
+             */
+            return;
+        }
 
         $this->_mockery_getReceivedMethodCalls()->push(new MethodCall($method, $args));
 

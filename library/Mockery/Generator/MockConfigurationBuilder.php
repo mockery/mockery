@@ -20,7 +20,6 @@ class MockConfigurationBuilder
     protected $blackListedMethods = [
         '__call',
         '__callStatic',
-        '__clone',
         '__wakeup',
         '__set',
         '__get',
