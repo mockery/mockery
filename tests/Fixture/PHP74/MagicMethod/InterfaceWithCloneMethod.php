@@ -2,7 +2,10 @@
 
 namespace PHP74\MagicMethod;
 
+use ReturnTypeWillChange;
+
 interface InterfaceWithCloneMethod
 {
-    public function __clone(): void;
+    #[ReturnTypeWillChange]
+    public function __clone();
 }
