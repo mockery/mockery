@@ -15,6 +15,7 @@ namespace Tests\Unit;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 use function mock;
+use function sprintf;
 
 abstract class AbstractTestCase extends MockeryTestCase
 {
@@ -29,5 +30,23 @@ abstract class AbstractTestCase extends MockeryTestCase
     public function assertValidMock(string $class): void
     {
         self::assertInstanceOf($class, mock($class));
+    }
+
+    protected function assertInvalidCountExceptionMessage(
+        string $method,
+        string $class,
+        int $expected,
+        int $actual
+    ): void {
+        $this->expectExceptionMessage(
+            sprintf(
+                'Method %s from %s should be called%s exactly %d times but called %d times.',
+                $method,
+                $class,
+                PHP_EOL,
+                $expected,
+                $actual
+            )
+        );
     }
 }

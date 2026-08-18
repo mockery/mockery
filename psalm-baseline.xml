@@ -1560,6 +1560,7 @@
     <MixedArgument>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$method]]></code>
+      <code><![CDATA[$mockableMagicMethods]]></code>
       <code><![CDATA[$this->_mockery_getReceivedMethodCalls()]]></code>
       <code><![CDATA[$this->_mockery_getReceivedMethodCalls()]]></code>
     </MixedArgument>
@@ -2905,6 +2906,20 @@
   <file src="tests/Unit/Mockery/Loader/RequireLoaderTest.php">
     <UnusedClass>
       <code><![CDATA[RequireLoaderTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/Mockery/MagicMethodsTest.php">
+    <MixedMethodCall>
+      <code><![CDATA[andReturnUsing]]></code>
+      <code><![CDATA[twice]]></code>
+      <code><![CDATA[twice]]></code>
+    </MixedMethodCall>
+    <UndefinedMethod>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+    </UndefinedMethod>
+    <UnusedClass>
+      <code><![CDATA[MagicMethodsTest]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/Matcher/HasKeyTest.php">
