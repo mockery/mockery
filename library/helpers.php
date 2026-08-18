@@ -137,9 +137,6 @@ if (! \function_exists('str_contains')) {
      *
      * @copyright Fabien Potencier
      * @license https://github.com/symfony/polyfill/blob/1.x/src/Php80/LICENSE
-     *
-     * @param non-empty-string $haystack
-     * @param non-empty-string $needle
      */
     function str_contains(string $haystack, string $needle): bool
     {
@@ -153,9 +150,6 @@ if (! \function_exists('str_ends_with')) {
      *
      * @copyright Fabien Potencier
      * @license https://github.com/symfony/polyfill/blob/1.x/src/Php80/LICENSE
-     *
-     * @param non-empty-string $haystack
-     * @param non-empty-string $needle
      */
     function str_ends_with(string $haystack, string $needle): bool
     {
@@ -182,9 +176,6 @@ if (! \function_exists('str_starts_with')) {
      *
      * @copyright Fabien Potencier
      * @license https://github.com/symfony/polyfill/blob/1.x/src/Php80/LICENSE
-     *
-     * @param non-empty-string $haystack
-     * @param non-empty-string $needle
      */
     function str_starts_with(string $haystack, string $needle): bool
     {
