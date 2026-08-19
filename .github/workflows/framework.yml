@@ -87,7 +87,7 @@ jobs:
           git rev-parse HEAD
           composer config version "${{ matrix.framework-version }}-dev"
           composer config repositories.local '{"type": "path", "url": "${{ github.workspace }}"}'
-          composer update --no-interaction --no-progress
+          composer require mockery/mockery:"dev-${{ github.ref_name }}#${{ github.sha }}" --no-interaction --no-progress --with-dependencies
 
       - name: Execute tests
         continue-on-error: ${{ matrix.php == matrix.dev }}
