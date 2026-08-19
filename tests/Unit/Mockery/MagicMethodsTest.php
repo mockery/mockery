@@ -15,6 +15,7 @@ namespace Tests\Unit\Mockery;
 use Mockery;
 use Mockery\Exception\InvalidCountException;
 use PHP74\MagicMethod\ClassWithCloneMethod;
+use PHP74\MagicMethod\ClassWithConstructorAndCloneMethod;
 use PHP74\MagicMethod\InterfaceWithCloneMethod;
 use Tests\Unit\AbstractTestCase;
 use Throwable;
@@ -71,5 +72,27 @@ final class MagicMethodsTest extends AbstractTestCase
     {
         $mock = mock(InterfaceWithCloneMethod::class);
         self::assertInstanceOf(InterfaceWithCloneMethod::class, clone $mock);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testPartialMockCallsRealCloneMethodWithoutExpectation(): void
+    {
+        $mock = mock(ClassWithConstructorAndCloneMethod::class)->makePartial();
+        $mock->__construct('value');
+
+        self::assertSame('value cloned', (clone $mock)->value);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testPartialMockCallsRealConstructorWithoutExpectation(): void
+    {
+        $mock = mock(ClassWithConstructorAndCloneMethod::class)->makePartial();
+        $mock->__construct('value');
+
+        self::assertSame('value', $mock->value);
     }
 }
