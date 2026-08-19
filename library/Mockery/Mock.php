@@ -1020,9 +1020,15 @@ class Mock implements MockInterface
              *
              * If an expectation exists for these methods, it will be handled accordingly;
              *
-             * otherwise, the call will be ignored to prevent errors.
+             * otherwise, the call is forwarded to the real method of a partial mock, or ignored to prevent errors.
              */
-            return;
+            $subject = is_null($this->_mockery_partial) && $this->_mockery_deferMissing
+                ? $this->_mockery_parentClass
+                : $this->_mockery_partial;
+
+            if (! $subject || ! method_exists($subject, $method)) {
+                return;
+            }
         }
 
         $this->_mockery_getReceivedMethodCalls()->push(new MethodCall($method, $args));

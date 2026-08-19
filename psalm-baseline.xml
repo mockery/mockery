@@ -1515,6 +1515,9 @@
     <ClassMustBeFinal>
       <code><![CDATA[Mock]]></code>
     </ClassMustBeFinal>
+    <DocblockTypeContradiction>
+      <code><![CDATA[is_null($this->_mockery_partial)]]></code>
+    </DocblockTypeContradiction>
     <InvalidReturnStatement>
       <code><![CDATA[$this->shouldNotHaveReceived('__invoke', $args)]]></code>
     </InvalidReturnStatement>
@@ -2909,14 +2912,33 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/MagicMethodsTest.php">
+    <DirectConstructorCall>
+      <code><![CDATA[$mock->__construct('value')]]></code>
+      <code><![CDATA[$mock->__construct('value')]]></code>
+    </DirectConstructorCall>
+    <MixedAssignment>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+    </MixedAssignment>
+    <MixedClone>
+      <code><![CDATA[clone $mock]]></code>
+    </MixedClone>
     <MixedMethodCall>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[__construct]]></code>
       <code><![CDATA[andReturnUsing]]></code>
       <code><![CDATA[twice]]></code>
       <code><![CDATA[twice]]></code>
     </MixedMethodCall>
+    <MixedPropertyFetch>
+      <code><![CDATA[$mock->value]]></code>
+      <code><![CDATA[(clone $mock)->value]]></code>
+    </MixedPropertyFetch>
     <UndefinedMethod>
       <code><![CDATA[expects]]></code>
       <code><![CDATA[expects]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[MagicMethodsTest]]></code>
