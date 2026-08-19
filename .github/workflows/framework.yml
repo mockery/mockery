@@ -79,10 +79,11 @@ jobs:
           restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.framework-version }}-
 
       - name: Set framework version ${{ matrix.framework-version }}
-        working-directory: ${{ github.workspace }}/framework
+        working-directory: ${{ github.workspace }}
         shell: bash
         run: |
-          git clone https://github.com/laravel/framework.git . --branch="${{ matrix.framework-version }}" --depth=1
+          git clone https://github.com/laravel/framework.git framework --branch="${{ matrix.framework-version }}" --depth=1
+          cd framework
           git rev-parse HEAD
           composer config version "${{ matrix.framework-version }}-dev"
           composer config repositories.local '{"type": "path", "url": "${{ github.workspace }}"}'
