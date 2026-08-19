@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.15] - 2026-08-19
+
+### Fixed
+
+- [1515: Fix partial mocks skipping real `__construct` and `__clone`](https://github.com/mockery/mockery/pull/1515)
+
 ## [1.6.14] - 2026-08-18
 
 ### Changed
