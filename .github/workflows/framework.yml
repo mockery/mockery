@@ -78,6 +78,19 @@ jobs:
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.framework-version }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.framework-version }}-
 
+      - name: Install dependencies
+        working-directory: ${{ github.workspace }}
+        run: |
+          composerCommand="update"
+          composerOptions=("--no-interaction" "--no-progress" "--ansi")
+          # Use `update` if there is no composer.lock file
+          if [ ! -f "composer.lock" ]; then
+            composerCommand="update"
+          fi
+          fullCommand="composer ${composerCommand} ${composerOptions[*]}"
+          echo "Running: ${fullCommand}"
+          ${fullCommand}
+
       - name: Set framework version ${{ matrix.framework-version }}
         continue-on-error: ${{ matrix.php == matrix.dev }}
         working-directory: ${{ github.workspace }}
