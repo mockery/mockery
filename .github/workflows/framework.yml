@@ -10,7 +10,7 @@ on:
 
 jobs:
   phpunit:
-    name: PHP ${{ matrix.php }} / Branch ${{ matrix.framework-version }}
+    name: Branch ${{ matrix.framework-version }} / PHPUnit ${{ matrix.phpunit }} / PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     services:
@@ -39,9 +39,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # See https://github.com/laravel/framework/blob/HEAD/.github/workflows/tests.yml
+        phpunit: ['11.5.50', '12.5.8', '13.0.3']
         framework-version: ['12.x', '13.x']
         php: ['8.3', '8.4', '8.5', '8.6']
         dev: ['8.6']
+        exclude:
+          - php: '8.3'
+            phpunit: '13.0.3'
 
     steps:
       - name: Checkout Code
@@ -102,6 +107,7 @@ jobs:
           composer config version "${{ matrix.framework-version }}-dev"
           composer config repositories.local '{"type": "path", "url": "${{ github.workspace }}"}'
           composer require mockery/mockery:"@dev" --dev --no-interaction --no-progress --with-dependencies
+          composer require phpunit/phpunit:"~${{ matrix.phpunit }}" --dev --no-interaction --no-progress --with-dependencies
 
       - name: Execute tests
         continue-on-error: ${{ matrix.php == matrix.dev }}
