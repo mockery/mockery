@@ -11,6 +11,7 @@
 namespace Tests\Unit\Mockery;
 
 use ArrayObject;
+use Mockery;
 use Mockery\Argument;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\Any;
@@ -101,10 +102,12 @@ final class ArgumentTest extends AbstractTestCase
 
     public function testArgumentMatcher(): void
     {
+        $reference = null;
         self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOtherArgs());
         self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOthers());
         self::assertInstanceOf(Any::class, Argument::any());
         self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'));
+        self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference));
         self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}));
         self::assertInstanceOf(Contains::class, Argument::contains('foo'));
         self::assertInstanceOf(Ducktype::class, Argument::ducktype('foo'));
@@ -123,6 +126,24 @@ final class ArgumentTest extends AbstractTestCase
         self::assertInstanceOf(AnyArgs::class, Argument::anyArgs());
         self::assertInstanceOf(NoArgs::class, Argument::noArgs());
         self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testCapture(): void
+    {
+        $mock = Mockery::mock(stdClass::class);
+
+        $actual = false;
+
+        $expected = true;
+
+        $mock->expects('foo')->with(Argument::capture($actual));
+
+        $mock->foo($expected);
+
+        self::assertSame($expected, $actual);
     }
 
     /**

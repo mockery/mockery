@@ -247,9 +247,6 @@
     <MixedAssignment>
       <code><![CDATA[$reference]]></code>
     </MixedAssignment>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[capture]]></code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="library/Mockery/ClosureWrapper.php">
     <ClassMustBeFinal>
@@ -2016,6 +2013,9 @@
       <code><![CDATA[self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'))]]></code>
       <code><![CDATA[self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'))]]></code>
       <code><![CDATA[self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference))]]></code>
       <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
       <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
       <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
@@ -2068,10 +2068,17 @@
       <code><![CDATA[self::assertInstanceOf(Type::class, Argument::type('string'))]]></code>
       <code><![CDATA[self::assertInstanceOf(Type::class, Argument::type('string'))]]></code>
     </MissingThrowsDocblock>
+    <MixedMethodCall>
+      <code><![CDATA[with]]></code>
+    </MixedMethodCall>
     <UndefinedAttributeClass>
       <code><![CDATA[DataProvider]]></code>
       <code><![CDATA[DataProvider]]></code>
     </UndefinedAttributeClass>
+    <UndefinedMethod>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[foo]]></code>
+    </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[ArgumentTest]]></code>
     </UnusedClass>
