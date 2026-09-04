@@ -233,6 +233,24 @@
       <code><![CDATA[Blacklist::$blacklistedClassNames]]></code>
     </UndefinedPropertyFetch>
   </file>
+  <file src="library/Mockery/Argument.php">
+    <DeprecatedClass>
+      <code><![CDATA[MustBe]]></code>
+      <code><![CDATA[new MustBe($expected)]]></code>
+    </DeprecatedClass>
+    <LessSpecificReturnType>
+      <code><![CDATA[bool]]></code>
+    </LessSpecificReturnType>
+    <MissingClosureParamType>
+      <code><![CDATA[$argument]]></code>
+    </MissingClosureParamType>
+    <MixedAssignment>
+      <code><![CDATA[$reference]]></code>
+    </MixedAssignment>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[capture]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="library/Mockery/ClosureWrapper.php">
     <ClassMustBeFinal>
       <code><![CDATA[ClosureWrapper]]></code>
@@ -1964,6 +1982,98 @@
     </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[AllowsExpectsSyntaxTest]]></code>
+    </UnusedClass>
+  </file>
+  <file src="tests/Unit/Mockery/ArgumentTest.php">
+    <DeprecatedClass>
+      <code><![CDATA[MustBe::class]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[Argument::mustBe('foo')]]></code>
+    </DeprecatedMethod>
+    <InvalidArgument>
+      <code><![CDATA[function () {}]]></code>
+    </InvalidArgument>
+    <MissingParamType>
+      <code><![CDATA[$actual]]></code>
+      <code><![CDATA[$actual]]></code>
+      <code><![CDATA[$expected]]></code>
+      <code><![CDATA[$expected]]></code>
+    </MissingParamType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOtherArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOtherArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOtherArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOthers())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOthers())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AndAnyOtherArgs::class, Argument::andAnyOthers())]]></code>
+      <code><![CDATA[self::assertInstanceOf(Any::class, Argument::any())]]></code>
+      <code><![CDATA[self::assertInstanceOf(Any::class, Argument::any())]]></code>
+      <code><![CDATA[self::assertInstanceOf(Any::class, Argument::any())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AnyArgs::class, Argument::anyArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AnyArgs::class, Argument::anyArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AnyArgs::class, Argument::anyArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Contains::class, Argument::contains('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Contains::class, Argument::contains('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Contains::class, Argument::contains('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Ducktype::class, Argument::ducktype('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Ducktype::class, Argument::ducktype('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Ducktype::class, Argument::ducktype('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(HasKey::class, Argument::hasKey('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(HasKey::class, Argument::hasKey('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(HasKey::class, Argument::hasKey('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(HasValue::class, Argument::hasValue('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(HasValue::class, Argument::hasValue('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(HasValue::class, Argument::hasValue('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(IsEqual::class, Argument::isEqual('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(IsEqual::class, Argument::isEqual('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(IsEqual::class, Argument::isEqual('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(IsSame::class, Argument::isSame('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(IsSame::class, Argument::isSame('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(IsSame::class, Argument::isSame('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MustBe::class, Argument::mustBe('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MustBe::class, Argument::mustBe('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MustBe::class, Argument::mustBe('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(NoArgs::class, Argument::noArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(NoArgs::class, Argument::noArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(NoArgs::class, Argument::noArgs())]]></code>
+      <code><![CDATA[self::assertInstanceOf(Not::class, Argument::not('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Not::class, Argument::not('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Not::class, Argument::not('foo'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(NotAnyOf::class, Argument::notAnyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(NotAnyOf::class, Argument::notAnyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(NotAnyOf::class, Argument::notAnyOf('foo', 'bar'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Pattern::class, Argument::pattern('#foo#'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Pattern::class, Argument::pattern('#foo#'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Pattern::class, Argument::pattern('#foo#'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Subset::class, Argument::subset([
+            'foo' => 'bar',
+        ]))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Subset::class, Argument::subset([
+            'foo' => 'bar',
+        ]))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Subset::class, Argument::subset([
+            'foo' => 'bar',
+        ]))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Type::class, Argument::type('string'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Type::class, Argument::type('string'))]]></code>
+      <code><![CDATA[self::assertInstanceOf(Type::class, Argument::type('string'))]]></code>
+    </MissingThrowsDocblock>
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
+    <UnusedClass>
+      <code><![CDATA[ArgumentTest]]></code>
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/CallableSpyTest.php">
