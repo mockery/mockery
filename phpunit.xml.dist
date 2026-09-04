@@ -5,7 +5,6 @@
     bootstrap="vendor/autoload.php"
     cacheResult="false"
     colors="true"
-    convertDeprecationsToExceptions="true"
     executionOrder="default"
     forceCoversAnnotation="false"
     testdox="true"
