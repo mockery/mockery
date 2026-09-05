@@ -210,12 +210,17 @@ class Mockery
     /**
      * Return instance of DUCKTYPE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::ducktype()` instead.
+     *
      * @param  mixed    ...$args
      * @return Ducktype
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::ducktype()` instead.', '1.6.16')]
     public static function ducktype(...$args)
     {
-        return new Ducktype($args);
+        return Argument::ducktype(...$args);
     }
 
     /**
