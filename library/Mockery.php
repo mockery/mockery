@@ -486,12 +486,17 @@ class Mockery
     /**
      * Return instance of NOT matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::not()` instead.
+     *
      * @param  mixed $expected
      * @return Not
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::not()` instead.', '1.6.16')]
     public static function not($expected)
     {
-        return new Not($expected);
+        return Argument::not($expected);
     }
 
     /**
