@@ -114,12 +114,17 @@ class Mockery
     /**
      * Return instance of ANYOF matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::anyOf()` instead.
+     *
      * @param  mixed ...$args
      * @return AnyOf
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::anyOf()` instead.', '1.6.16')]
     public static function anyOf(...$args)
     {
-        return new AnyOf($args);
+        return Argument::anyOf(...$args);
     }
 
     /**
