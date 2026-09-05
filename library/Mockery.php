@@ -135,18 +135,17 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::capture()` instead.
+     *
      * @param  mixed          $reference
      * @return ClosureMatcher
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::capture()` instead.', '1.6.16')]
     public static function capture(&$reference)
     {
-        $closure = static function ($argument) use (&$reference): bool {
-            $reference = $argument;
-
-            return true;
-        };
-
-        return new ClosureMatcher($closure);
+        return Argument::capture($reference);
     }
 
     /**
