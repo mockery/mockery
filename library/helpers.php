@@ -16,12 +16,6 @@ use Mockery\Matcher\AnyArgs;
 use Mockery\MockInterface;
 
 if (! \function_exists('andAnyOtherArgs')) {
-    /**
-     * @deprecated 1.6.16 Use `\Mockery\Argument::andAnyOtherArgs()` instead.
-     *
-     * @see https://github.com/mockery/mockery/issues/1519
-     */
-    #[\Deprecated('Use `\Mockery\Argument::andAnyOtherArgs()` instead.', '1.6.16')]
     function andAnyOtherArgs(): AndAnyOtherArgs
     {
         return Argument::andAnyOtherArgs();
@@ -29,12 +23,6 @@ if (! \function_exists('andAnyOtherArgs')) {
 }
 
 if (! \function_exists('andAnyOthers')) {
-    /**
-     * @deprecated 1.6.16 Use `\Mockery\Argument::andAnyOthers()` instead.
-     *
-     * @see https://github.com/mockery/mockery/issues/1519
-     */
-    #[\Deprecated('Use `\Mockery\Argument::andAnyOthers()` instead.', '1.6.16')]
     function andAnyOthers(): AndAnyOtherArgs
     {
         return Argument::andAnyOthers();
@@ -42,12 +30,6 @@ if (! \function_exists('andAnyOthers')) {
 }
 
 if (! \function_exists('anyArgs')) {
-    /**
-     * @deprecated 1.6.16 Use `\Mockery\Argument::anyArgs()` instead.
-     *
-     * @see https://github.com/mockery/mockery/issues/1519
-     */
-    #[\Deprecated('Use `\Mockery\Argument::anyArgs()` instead.', '1.6.16')]
     function anyArgs(): AnyArgs
     {
         return Argument::anyArgs();
