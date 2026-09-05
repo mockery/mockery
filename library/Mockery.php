@@ -104,11 +104,16 @@ class Mockery
     /**
      * Return instance of ANY matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::any()` instead.
+     *
      * @return Any
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::any()` instead.', '1.6.16')]
     public static function any()
     {
-        return new Any();
+        return Argument::any();
     }
 
     /**
