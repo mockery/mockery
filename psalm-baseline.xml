@@ -2989,6 +2989,11 @@
     <ArgumentTypeCoercion>
       <code><![CDATA[$className]]></code>
     </ArgumentTypeCoercion>
+    <DeprecatedFunction>
+      <code><![CDATA[andAnyOtherArgs()]]></code>
+      <code><![CDATA[andAnyOthers()]]></code>
+      <code><![CDATA[anyArgs()]]></code>
+    </DeprecatedFunction>
     <UndefinedInterfaceMethod>
       <code><![CDATA[foo]]></code>
       <code><![CDATA[foo]]></code>
@@ -3467,6 +3472,9 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/SpyTest.php">
+    <DeprecatedFunction>
+      <code><![CDATA[anyArgs()]]></code>
+    </DeprecatedFunction>
     <TooFewArguments>
       <code><![CDATA[shouldHaveReceived]]></code>
       <code><![CDATA[shouldHaveReceived]]></code>
