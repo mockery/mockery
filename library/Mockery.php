@@ -455,12 +455,17 @@ class Mockery
     /**
      * Return instance of MUSTBE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::isEqual()` or `Mockery\Argument::isSame()` instead.
+     *
      * @param  mixed  $expected
      * @return MustBe
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::isEqual()` or `Mockery\Argument::isSame()` instead.', '1.6.16')]
     public static function mustBe($expected)
     {
-        return new MustBe($expected);
+        return Argument::mustBe($expected);
     }
 
     /**
