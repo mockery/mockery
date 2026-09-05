@@ -10,9 +10,9 @@
     </ClassMustBeFinal>
     <DeprecatedClass>
       <code><![CDATA[MustBe]]></code>
-      <code><![CDATA[new MustBe($expected)]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
+      <code><![CDATA[Argument::mustBe($expected)]]></code>
       <code><![CDATA[self::builtInTypes()]]></code>
     </DeprecatedMethod>
     <DocblockTypeContradiction>
@@ -28,22 +28,25 @@
       <code><![CDATA[ExpectationInterface]]></code>
       <code><![CDATA[array]]></code>
       <code><![CDATA[array<string, mixed>]]></code>
-      <code><![CDATA[bool]]></code>
     </LessSpecificReturnType>
     <MissingClassConstType>
       <code><![CDATA[BLOCKS = 'Mockery_Forward_Blocks']]></code>
     </MissingClassConstType>
     <MissingClosureParamType>
-      <code><![CDATA[$argument]]></code>
       <code><![CDATA[$nesting]]></code>
       <code><![CDATA[$object]]></code>
     </MissingClosureParamType>
+    <MissingParamType>
+      <code><![CDATA[$args]]></code>
+    </MissingParamType>
     <MissingReturnType>
       <code><![CDATA[registerFileForCleanUp]]></code>
       <code><![CDATA[setGenerator]]></code>
       <code><![CDATA[setLoader]]></code>
     </MissingReturnType>
     <MixedArgument>
+      <code><![CDATA[$expected]]></code>
+      <code><![CDATA[$expected]]></code>
       <code><![CDATA[$formatter($object, $nesting)]]></code>
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$nesting]]></code>
@@ -52,6 +55,7 @@
     </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$args[0]]]></code>
+      <code><![CDATA[$closure]]></code>
       <code><![CDATA[$formattedArguments]]></code>
       <code><![CDATA[$k]]></code>
     </MixedArgumentTypeCoercion>
@@ -61,7 +65,6 @@
       <code><![CDATA[$cleanedProperties[$name]]]></code>
       <code><![CDATA[$formattedArguments[]]]></code>
       <code><![CDATA[$name]]></code>
-      <code><![CDATA[$reference]]></code>
       <code><![CDATA[$v]]></code>
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
@@ -2211,6 +2214,120 @@
       <code><![CDATA['InvalidArgumentException']]></code>
       <code><![CDATA['OutOfBoundsException']]></code>
     </ArgumentTypeCoercion>
+    <DeprecatedMethod>
+      <code><![CDATA[Mockery::andAnyOthers()]]></code>
+      <code><![CDATA[Mockery::andAnyOthers()]]></code>
+      <code><![CDATA[Mockery::andAnyOthers()]]></code>
+      <code><![CDATA[Mockery::andAnyOthers()]]></code>
+      <code><![CDATA[Mockery::any()]]></code>
+      <code><![CDATA[Mockery::any()]]></code>
+      <code><![CDATA[Mockery::any()]]></code>
+      <code><![CDATA[Mockery::any()]]></code>
+      <code><![CDATA[Mockery::anyOf(0, 1, 2)]]></code>
+      <code><![CDATA[Mockery::anyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::anyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::anyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::anyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::capture($temp)]]></code>
+      <code><![CDATA[Mockery::capture($temp)]]></code>
+      <code><![CDATA[Mockery::contains(1, 2)]]></code>
+      <code><![CDATA[Mockery::contains(1, 2)]]></code>
+      <code><![CDATA[Mockery::contains(1, 2)]]></code>
+      <code><![CDATA[Mockery::ducktype('quack', 'swim')]]></code>
+      <code><![CDATA[Mockery::ducktype('quack', 'swim')]]></code>
+      <code><![CDATA[Mockery::ducktype('quack', 'swim')]]></code>
+      <code><![CDATA[Mockery::hasKey('a')]]></code>
+      <code><![CDATA[Mockery::hasKey('c')]]></code>
+      <code><![CDATA[Mockery::hasKey('c')]]></code>
+      <code><![CDATA[Mockery::hasKey('foo')]]></code>
+      <code><![CDATA[Mockery::hasValue(1)]]></code>
+      <code><![CDATA[Mockery::hasValue(1)]]></code>
+      <code><![CDATA[Mockery::hasValue(2)]]></code>
+      <code><![CDATA[Mockery::mustBe($a)]]></code>
+      <code><![CDATA[Mockery::mustBe($a)]]></code>
+      <code><![CDATA[Mockery::mustBe($a)]]></code>
+      <code><![CDATA[Mockery::mustBe(2)]]></code>
+      <code><![CDATA[Mockery::mustBe(2)]]></code>
+      <code><![CDATA[Mockery::mustBe(2)]]></code>
+      <code><![CDATA[Mockery::not(1)]]></code>
+      <code><![CDATA[Mockery::not(2)]]></code>
+      <code><![CDATA[Mockery::not(2)]]></code>
+      <code><![CDATA[Mockery::notAnyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::notAnyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::notAnyOf(1, 2)]]></code>
+      <code><![CDATA[Mockery::on($function)]]></code>
+      <code><![CDATA[Mockery::on($function)]]></code>
+      <code><![CDATA[Mockery::on($function)]]></code>
+      <code><![CDATA[Mockery::on(static function ($argument) use (&$number_of_calls): bool {
+                $number_of_calls++;
+
+                return $number_of_calls <= 3;
+            })]]></code>
+      <code><![CDATA[Mockery::pattern('/^http:/')]]></code>
+      <code><![CDATA[Mockery::pattern('/^http:/')]]></code>
+      <code><![CDATA[Mockery::pattern('/foo.*/')]]></code>
+      <code><![CDATA[Mockery::pattern('/foo.*/')]]></code>
+      <code><![CDATA[Mockery::pattern('/foo.*/')]]></code>
+      <code><![CDATA[Mockery::subset([
+                'a' => 1,
+                'b' => 2,
+            ])]]></code>
+      <code><![CDATA[Mockery::subset([
+                'a' => 1,
+                'b' => 2,
+            ])]]></code>
+      <code><![CDATA[Mockery::subset([
+                'a' => 1,
+                'b' => 2,
+            ])]]></code>
+      <code><![CDATA[Mockery::type('array')]]></code>
+      <code><![CDATA[Mockery::type('array')]]></code>
+      <code><![CDATA[Mockery::type('array')]]></code>
+      <code><![CDATA[Mockery::type('bool')]]></code>
+      <code><![CDATA[Mockery::type('bool')]]></code>
+      <code><![CDATA[Mockery::type('bool')]]></code>
+      <code><![CDATA[Mockery::type('callable')]]></code>
+      <code><![CDATA[Mockery::type('callable')]]></code>
+      <code><![CDATA[Mockery::type('callable')]]></code>
+      <code><![CDATA[Mockery::type('double')]]></code>
+      <code><![CDATA[Mockery::type('double')]]></code>
+      <code><![CDATA[Mockery::type('double')]]></code>
+      <code><![CDATA[Mockery::type('float')]]></code>
+      <code><![CDATA[Mockery::type('float')]]></code>
+      <code><![CDATA[Mockery::type('float')]]></code>
+      <code><![CDATA[Mockery::type('float')]]></code>
+      <code><![CDATA[Mockery::type('float')]]></code>
+      <code><![CDATA[Mockery::type('float')]]></code>
+      <code><![CDATA[Mockery::type('int')]]></code>
+      <code><![CDATA[Mockery::type('int')]]></code>
+      <code><![CDATA[Mockery::type('int')]]></code>
+      <code><![CDATA[Mockery::type('long')]]></code>
+      <code><![CDATA[Mockery::type('long')]]></code>
+      <code><![CDATA[Mockery::type('long')]]></code>
+      <code><![CDATA[Mockery::type('null')]]></code>
+      <code><![CDATA[Mockery::type('null')]]></code>
+      <code><![CDATA[Mockery::type('null')]]></code>
+      <code><![CDATA[Mockery::type('numeric')]]></code>
+      <code><![CDATA[Mockery::type('numeric')]]></code>
+      <code><![CDATA[Mockery::type('numeric')]]></code>
+      <code><![CDATA[Mockery::type('object')]]></code>
+      <code><![CDATA[Mockery::type('object')]]></code>
+      <code><![CDATA[Mockery::type('object`')]]></code>
+      <code><![CDATA[Mockery::type('resource')]]></code>
+      <code><![CDATA[Mockery::type('resource')]]></code>
+      <code><![CDATA[Mockery::type('resource')]]></code>
+      <code><![CDATA[Mockery::type('scalar')]]></code>
+      <code><![CDATA[Mockery::type('scalar')]]></code>
+      <code><![CDATA[Mockery::type('scalar')]]></code>
+      <code><![CDATA[Mockery::type('stdClass')]]></code>
+      <code><![CDATA[Mockery::type('stdClass')]]></code>
+      <code><![CDATA[Mockery::type('stdClass')]]></code>
+      <code><![CDATA[Mockery::type('string')]]></code>
+      <code><![CDATA[Mockery::type('string')]]></code>
+      <code><![CDATA[Mockery::type('string')]]></code>
+      <code><![CDATA[Mockery::type('string')]]></code>
+      <code><![CDATA[Mockery::type('string')]]></code>
+    </DeprecatedMethod>
     <DocblockTypeContradiction>
       <code><![CDATA[assertSame]]></code>
       <code><![CDATA[assertSame]]></code>
@@ -3077,6 +3194,9 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/Matcher/IsEqualTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[Mockery::isEqual($expected)]]></code>
+    </DeprecatedMethod>
     <MissingParamType>
       <code><![CDATA[$actual]]></code>
       <code><![CDATA[$expected]]></code>
@@ -3089,6 +3209,9 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/Matcher/IsSameTest.php">
+    <DeprecatedMethod>
+      <code><![CDATA[Mockery::isSame($expected)]]></code>
+    </DeprecatedMethod>
     <MissingParamType>
       <code><![CDATA[$actual]]></code>
       <code><![CDATA[$expected]]></code>
