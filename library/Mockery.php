@@ -422,11 +422,16 @@ class Mockery
     /**
      * Return instance of IsEqual matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::isEqual()` instead.
+     *
      * @param mixed $expected
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::isEqual()` instead.', '1.6.16')]
     public static function isEqual($expected): IsEqual
     {
-        return new IsEqual($expected);
+        return Argument::isEqual($expected);
     }
 
     /**
