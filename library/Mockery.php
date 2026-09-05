@@ -643,10 +643,13 @@ class Mockery
      *
      * @param  bool   $strict - (Optional) True for strict comparison, false for loose
      * @return Subset
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::subset()` instead.', '1.6.16')]
     public static function subset(array $part, $strict = true)
     {
-        return new Subset($part, $strict);
+        return Argument::subset($part, $strict);
     }
 
     /**
