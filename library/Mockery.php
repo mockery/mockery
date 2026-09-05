@@ -94,11 +94,16 @@ class Mockery
      * An alternative name to `andAnyOtherArgs` so
      * the API stays closer to `any` as well.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::andAnyOthers()` instead.
+     *
      * @return AndAnyOtherArgs
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::andAnyOthers()` instead.', '1.6.16')]
     public static function andAnyOthers()
     {
-        return new AndAnyOtherArgs();
+        return Argument::andAnyOthers();
     }
 
     /**
