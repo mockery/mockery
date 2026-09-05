@@ -549,12 +549,17 @@ class Mockery
     /**
      * Return instance of PATTERN matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::pattern()` instead.
+     *
      * @param  mixed   $expected
      * @return Pattern
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::pattern()` instead.', '1.6.16')]
     public static function pattern($expected)
     {
-        return new Pattern($expected);
+        return Argument::pattern($expected);
     }
 
     /**
