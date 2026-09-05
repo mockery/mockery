@@ -497,12 +497,16 @@ class Mockery
     /**
      * Return instance of NOTANYOF matcher.
      *
-     * @param  mixed    ...$args
+     * @deprecated 1.6.16 Use `Mockery\Argument::notAnyOf()` instead.
+     *
      * @return NotAnyOf
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::notAnyOf()` instead.', '1.6.16')]
     public static function notAnyOf(...$args)
     {
-        return new NotAnyOf($args);
+        return Argument::notAnyOf(...$args);
     }
 
     /**
