@@ -10,28 +10,47 @@ declare(strict_types=1);
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
+use Mockery\Argument;
 use Mockery\Matcher\AndAnyOtherArgs;
 use Mockery\Matcher\AnyArgs;
 use Mockery\MockInterface;
 
 if (! \function_exists('andAnyOtherArgs')) {
+    /**
+     * @deprecated 1.6.16 Use `\Mockery\Argument::andAnyOtherArgs()` instead.
+     *
+     * @see https://github.com/mockery/mockery/issues/1519
+     */
+    #[\Deprecated('Use `\Mockery\Argument::andAnyOtherArgs()` instead.', '1.6.16')]
     function andAnyOtherArgs(): AndAnyOtherArgs
     {
-        return new AndAnyOtherArgs();
+        return Argument::andAnyOtherArgs();
     }
 }
 
 if (! \function_exists('andAnyOthers')) {
+    /**
+     * @deprecated 1.6.16 Use `\Mockery\Argument::andAnyOthers()` instead.
+     *
+     * @see https://github.com/mockery/mockery/issues/1519
+     */
+    #[\Deprecated('Use `\Mockery\Argument::andAnyOthers()` instead.', '1.6.16')]
     function andAnyOthers(): AndAnyOtherArgs
     {
-        return new AndAnyOtherArgs();
+        return Argument::andAnyOthers();
     }
 }
 
 if (! \function_exists('anyArgs')) {
+    /**
+     * @deprecated 1.6.16 Use `\Mockery\Argument::anyArgs()` instead.
+     *
+     * @see https://github.com/mockery/mockery/issues/1519
+     */
+    #[\Deprecated('Use `\Mockery\Argument::anyArgs()` instead.', '1.6.16')]
     function anyArgs(): AnyArgs
     {
-        return new AnyArgs();
+        return Argument::anyArgs();
     }
 }
 
@@ -101,7 +120,7 @@ if (! \function_exists('mock')) {
      */
     function mock(...$args)
     {
-        return Mockery::mock(...$args);
+        return \Mockery::mock(...$args);
     }
 }
 
@@ -114,7 +133,7 @@ if (! \function_exists('namedMock')) {
      */
     function namedMock(...$args)
     {
-        return Mockery::namedMock(...$args);
+        return \Mockery::namedMock(...$args);
     }
 }
 
@@ -127,7 +146,7 @@ if (! \function_exists('spy')) {
      */
     function spy(...$args)
     {
-        return Mockery::spy(...$args);
+        return \Mockery::spy(...$args);
     }
 }
 

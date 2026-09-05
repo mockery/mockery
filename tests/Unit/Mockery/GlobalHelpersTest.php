@@ -29,11 +29,13 @@ use function spy;
 use function uniqid;
 
 /**
- * @coversDefaultClass \Mockery
+ * @covers \Mockery
  */
 final class GlobalHelpersTest extends MockeryTestCase
 {
     /**
+     * @deprecated Remove in Mockery 2.0.
+     *
      * @throws Throwable
      */
     public function testAndAnyOtherArgs(): void
@@ -42,6 +44,8 @@ final class GlobalHelpersTest extends MockeryTestCase
     }
 
     /**
+     * @deprecated Remove in Mockery 2.0.
+     *
      * @throws Throwable
      */
     public function testAndAnyOthers(): void
@@ -50,6 +54,8 @@ final class GlobalHelpersTest extends MockeryTestCase
     }
 
     /**
+     * @deprecated Remove in Mockery 2.0.
+     *
      * @throws Throwable
      */
     public function testAnyArgs(): void
