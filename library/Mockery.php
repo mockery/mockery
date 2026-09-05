@@ -8,6 +8,7 @@
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
+use Mockery\Argument;
 use Mockery\ClosureWrapper;
 use Mockery\CompositeExpectation;
 use Mockery\Configuration;
@@ -653,10 +654,13 @@ class Mockery
      *
      * @param  mixed $expected
      * @return Type
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::type()` instead.', '1.6.16')]
     public static function type($expected)
     {
-        return new Type($expected);
+        return Argument::type($expected);
     }
 
     /**
