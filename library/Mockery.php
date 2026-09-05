@@ -81,11 +81,16 @@ class Mockery
     /**
      * Return instance of AndAnyOtherArgs matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::andAnyOtherArgs()` instead.
+     *
      * @return AndAnyOtherArgs
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::andAnyOtherArgs()` instead.', '1.6.16')]
     public static function andAnyOtherArgs()
     {
-        return new AndAnyOtherArgs();
+        return Argument::andAnyOtherArgs();
     }
 
     /**
