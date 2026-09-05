@@ -387,12 +387,17 @@ class Mockery
     /**
      * Return instance of HASVALUE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::hasValue()` instead.
+     *
      * @param  mixed    $val
      * @return HasValue
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::hasValue()` instead.', '1.6.16')]
     public static function hasValue($val)
     {
-        return new HasValue($val);
+        return Argument::hasValue($val);
     }
 
     /**
