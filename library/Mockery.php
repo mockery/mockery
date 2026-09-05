@@ -376,12 +376,17 @@ class Mockery
     /**
      * Return instance of HASKEY matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::hasKey()` instead.
+     *
      * @param  mixed  $key
      * @return HasKey
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::hasKey()` instead.', '1.6.16')]
     public static function hasKey($key)
     {
-        return new HasKey($key);
+        return Argument::hasKey($key);
     }
 
     /**
