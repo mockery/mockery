@@ -181,12 +181,17 @@ class Mockery
     /**
      * Return instance of CONTAINS matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::contains()` instead.
+     *
      * @param  mixed    ...$args
      * @return Contains
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::contains()` instead.', '1.6.16')]
     public static function contains(...$args)
     {
-        return new Contains($args);
+        return Argument::contains(...$args);
     }
 
     /**
