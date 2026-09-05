@@ -508,12 +508,17 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::on()` instead.
+     *
      * @param  Closure        $closure
      * @return ClosureMatcher
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::on()` instead.', '1.6.16')]
     public static function on($closure)
     {
-        return new ClosureMatcher($closure);
+        return Argument::on($closure);
     }
 
     /**
