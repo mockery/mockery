@@ -25,6 +25,7 @@ use function implode;
 /**
  * @covers \Mockery
  * @covers \Mockery\Generator\StringManipulation\Pass\PropertyHookPass
+ *
  * @requires PHP 8.4.0-dev
  */
 final class PropertyHookPassTest extends AbstractTestCase
@@ -38,6 +39,9 @@ final class PropertyHookPassTest extends AbstractTestCase
      */
     protected $pass;
 
+    /**
+     * @throws Throwable
+     */
     #[Override]
     protected function mockeryTestSetUp(): void
     {

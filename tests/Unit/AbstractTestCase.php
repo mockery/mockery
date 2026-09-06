@@ -45,6 +45,7 @@ abstract class AbstractTestCase extends MockeryTestCase
             $number,
         ));
     }
+
     /**
      * @throws Throwable
      */
