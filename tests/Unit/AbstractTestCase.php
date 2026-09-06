@@ -14,6 +14,8 @@ namespace Tests\Unit;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
+use Throwable;
+
 use function mock;
 use function sprintf;
 
@@ -30,6 +32,18 @@ abstract class AbstractTestCase extends MockeryTestCase
     public function assertValidMock(string $class): void
     {
         self::assertInstanceOf($class, mock($class));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    final public function markIssueSkipped(int $number): void
+    {
+        self::markTestSkipped(sprintf(
+            'Skipped until the underlying issue is resolved. See GitHub issue #%d: https://github.com/mockery/mockery/issues/%d',
+            $number,
+            $number,
+        ));
     }
 
     protected function assertInvalidCountExceptionMessage(

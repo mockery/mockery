@@ -22,6 +22,7 @@ use Mockery\Generator\StringManipulation\Pass\InterfacePass;
 use Mockery\Generator\StringManipulation\Pass\MagicMethodTypeHintsPass;
 use Mockery\Generator\StringManipulation\Pass\MethodDefinitionPass;
 use Mockery\Generator\StringManipulation\Pass\Pass;
+use Mockery\Generator\StringManipulation\Pass\PropertyHookPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveBuiltinMethodsThatAreFinalPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveDestructorPass;
 use Mockery\Generator\StringManipulation\Pass\RemoveUnserializeForInternalSerializableClassesPass;
@@ -84,11 +85,11 @@ class StringManipulationGenerator implements Generator
     /**
      * Creates a new StringManipulationGenerator with the default passes
      *
-     * @return static
+     * @return self
      */
     public static function withDefaultPasses()
     {
-        return new static([
+        return new self([
             new CallTypeHintPass(),
             new MagicMethodTypeHintsPass(),
             new ClassPass(),
@@ -97,6 +98,7 @@ class StringManipulationGenerator implements Generator
             new InstanceMockPass(),
             new InterfacePass(),
             new AvoidMethodClashPass(),
+            new PropertyHookPass(),
             new MethodDefinitionPass(),
             new RemoveUnserializeForInternalSerializableClassesPass(),
             new RemoveBuiltinMethodsThatAreFinalPass(),

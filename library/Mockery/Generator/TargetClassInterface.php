@@ -56,6 +56,13 @@ interface TargetClassInterface
     public function getNamespaceName();
 
     /**
+     * Returns abstract property hooks declared on the targetClass.
+     *
+     * @return list<PropertyHook>
+     */
+    public function getPropertyHooks(): array;
+
+    /**
      * Returns the targetClass's short name.
      *
      * @return string

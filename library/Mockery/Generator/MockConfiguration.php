@@ -254,9 +254,11 @@ class MockConfiguration
         $methods = $this->getAllMethods();
 
         foreach ($methods as $key => $method) {
-            if ($method->isFinal()) {
-                unset($methods[$key]);
+            if (! $method->isFinal()) {
+                continue;
             }
+
+            unset($methods[$key]);
         }
 
         /**
@@ -337,6 +339,32 @@ class MockConfiguration
     public function getParameterOverrides()
     {
         return $this->parameterOverrides;
+    }
+
+    /**
+     * Gets a list of property hooks from all target classes and
+     * interfaces that need to be implemented in the mock.
+     *
+     * @return array<string,PropertyHook>
+     */
+    public function getPropertyHooksToMock(): array
+    {
+        $hooks = [];
+
+        $targetClass = $this->getTargetClass();
+        if ($targetClass instanceof TargetClassInterface) {
+            foreach ($targetClass->getPropertyHooks() as $hook) {
+                $hooks[$hook->getName()] = $hook;
+            }
+        }
+
+        foreach ($this->getTargetInterfaces() as $interface) {
+            foreach ($interface->getPropertyHooks() as $hook) {
+                $hooks[$hook->getName()] = $hook;
+            }
+        }
+
+        return $hooks;
     }
 
     /**
@@ -575,15 +603,17 @@ class MockConfiguration
     public function requiresCallStaticTypeHintRemoval()
     {
         foreach ($this->getAllMethods() as $method) {
-            if ($method->getName() === '__callStatic') {
-                $params = $method->getParameters();
-
-                if (! array_key_exists(1, $params)) {
-                    return false;
-                }
-
-                return ! $params[1]->isArray();
+            if ($method->getName() !== '__callStatic') {
+                continue;
             }
+
+            $params = $method->getParameters();
+
+            if (! array_key_exists(1, $params)) {
+                return false;
+            }
+
+            return ! $params[1]->isArray();
         }
 
         return false;
@@ -600,11 +630,13 @@ class MockConfiguration
     public function requiresCallTypeHintRemoval()
     {
         foreach ($this->getAllMethods() as $method) {
-            if ($method->getName() === '__call') {
-                $params = $method->getParameters();
-
-                return ! $params[1]->isArray();
+            if ($method->getName() !== '__call') {
+                continue;
             }
+
+            $params = $method->getParameters();
+
+            return ! $params[1]->isArray();
         }
 
         return false;
@@ -717,9 +749,11 @@ class MockConfiguration
 
         foreach ($this->getTargetTraits() as $trait) {
             foreach ($trait->getMethods() as $method) {
-                if ($method->isAbstract()) {
-                    $methods[] = $method;
+                if (! $method->isAbstract()) {
+                    continue;
                 }
+
+                $methods[] = $method;
             }
         }
 
