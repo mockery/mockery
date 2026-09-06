@@ -45,6 +45,21 @@ abstract class AbstractTestCase extends MockeryTestCase
             $number,
         ));
     }
+    /**
+     * @throws Throwable
+     */
+    final public function markPHPVersionSkipped(int $version): void
+    {
+        if (PHP_VERSION_ID >= $version) {
+            return;
+        }
+
+        self::markTestSkipped(sprintf(
+            'PHP version %d or higher is required for this test. Current version: %d',
+            $version,
+            PHP_VERSION_ID
+        ));
+    }
 
     protected function assertInvalidCountExceptionMessage(
         string $method,

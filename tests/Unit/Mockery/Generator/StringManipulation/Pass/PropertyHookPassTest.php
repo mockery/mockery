@@ -41,6 +41,10 @@ final class PropertyHookPassTest extends AbstractTestCase
     #[Override]
     protected function mockeryTestSetUp(): void
     {
+        parent::mockeryTestSetUp();
+
+        self::markPHPVersionSkipped(80400);
+
         $this->pass = new PropertyHookPass();
     }
 
