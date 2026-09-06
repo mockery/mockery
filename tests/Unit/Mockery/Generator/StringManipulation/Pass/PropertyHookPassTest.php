@@ -23,7 +23,9 @@ use Throwable;
 use function implode;
 
 /**
- * @coversDefaultClass \Mockery
+ * @covers \Mockery
+ * @covers \Mockery\Generator\StringManipulation\Pass\PropertyHookPass
+ * @requires PHP 8.4.0-dev
  */
 final class PropertyHookPassTest extends AbstractTestCase
 {
