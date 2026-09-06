@@ -75,12 +75,18 @@ final class PropertyHookPass implements Pass
     {
         $indent = '    ';
 
+        $name = $hook->getName();
+        $method = '$' . $name . '::get';
+
         return implode("\n", [
             $indent . $indent . 'get {',
-            $indent . $indent . $indent . sprintf(
-                "return \$this->_mockery_handleMethodCall('\$%s::get', []);",
-                $hook->getName()
+            $indent . $indent . $indent . sprintf("if (isset(\$this->_mockery_expectations['%s'])) {", $method),
+            $indent . $indent . $indent . $indent . sprintf(
+                "return \$this->_mockery_handleMethodCall('%s', []);",
+                $method
             ),
+            $indent . $indent . $indent . '}',
+            $indent . $indent . $indent . sprintf("return \$this->_mockery_handleMethodCall('__get', ['%s']);", $name),
             $indent . $indent . '}',
         ]);
     }
@@ -107,11 +113,21 @@ final class PropertyHookPass implements Pass
     {
         $indent = '    ';
 
+        $name = $hook->getName();
+        $method = '$' . $name . '::set';
+
         return implode("\n", [
             $indent . $indent . 'set {',
+            $indent . $indent . $indent . sprintf("if (isset(\$this->_mockery_expectations['%s'])) {", $method),
+            $indent . $indent . $indent . $indent . sprintf(
+                "\$this->_mockery_handleMethodCall('%s', [\$value]);",
+                $method
+            ),
+            $indent . $indent . $indent . $indent . 'return;',
+            $indent . $indent . $indent . '}',
             $indent . $indent . $indent . sprintf(
-                "\$this->_mockery_handleMethodCall('\$%s::set', [\$value]);",
-                $hook->getName()
+                "\$this->_mockery_handleMethodCall('__set', ['%s', \$value]);",
+                $name
             ),
             $indent . $indent . '}',
         ]);

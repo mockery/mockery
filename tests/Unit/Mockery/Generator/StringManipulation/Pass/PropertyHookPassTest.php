@@ -60,14 +60,17 @@ final class PropertyHookPassTest extends AbstractTestCase
         $mockConfiguration = Mockery::mock(MockConfiguration::class)->makePartial();
 
         $mockConfiguration->expects('getPropertyHooksToMock')->andReturn([
-            new PropertyHook('propertyName', 'public', null, true, false),
+            new PropertyHook('propertyName', 'public', 'int', true, false),
         ]);
 
         self::assertStringContainsString(
             implode("\n", [
-                'public $propertyName {',
+                'public int $propertyName {',
                 '        get {',
-                "            return \$this->_mockery_handleMethodCall('\$propertyName::get', []);",
+                "            if (isset(\$this->_mockery_expectations['\$propertyName::get'])) {",
+                "                return \$this->_mockery_handleMethodCall('\$propertyName::get', []);",
+                '            }',
+                "            return \$this->_mockery_handleMethodCall('__get', ['propertyName']);",
                 '        }',
                 '    }',
             ]),
@@ -90,10 +93,17 @@ final class PropertyHookPassTest extends AbstractTestCase
             implode("\n", [
                 'public $propertyName {',
                 '        get {',
-                "            return \$this->_mockery_handleMethodCall('\$propertyName::get', []);",
+                "            if (isset(\$this->_mockery_expectations['\$propertyName::get'])) {",
+                "                return \$this->_mockery_handleMethodCall('\$propertyName::get', []);",
+                '            }',
+                "            return \$this->_mockery_handleMethodCall('__get', ['propertyName']);",
                 '        }',
                 '        set {',
-                "            \$this->_mockery_handleMethodCall('\$propertyName::set', [\$value]);",
+                "            if (isset(\$this->_mockery_expectations['\$propertyName::set'])) {",
+                "                \$this->_mockery_handleMethodCall('\$propertyName::set', [\$value]);",
+                '                return;',
+                '            }',
+                "            \$this->_mockery_handleMethodCall('__set', ['propertyName', \$value]);",
                 '        }',
                 '    }',
             ]),
@@ -116,10 +126,17 @@ final class PropertyHookPassTest extends AbstractTestCase
             implode("\n", [
                 'public string $propertyName {',
                 '        get {',
-                "            return \$this->_mockery_handleMethodCall('\$propertyName::get', []);",
+                "            if (isset(\$this->_mockery_expectations['\$propertyName::get'])) {",
+                "                return \$this->_mockery_handleMethodCall('\$propertyName::get', []);",
+                '            }',
+                "            return \$this->_mockery_handleMethodCall('__get', ['propertyName']);",
                 '        }',
                 '        set {',
-                "            \$this->_mockery_handleMethodCall('\$propertyName::set', [\$value]);",
+                "            if (isset(\$this->_mockery_expectations['\$propertyName::set'])) {",
+                "                \$this->_mockery_handleMethodCall('\$propertyName::set', [\$value]);",
+                '                return;',
+                '            }',
+                "            \$this->_mockery_handleMethodCall('__set', ['propertyName', \$value]);",
                 '        }',
                 '    }',
             ]),
@@ -142,7 +159,11 @@ final class PropertyHookPassTest extends AbstractTestCase
             implode("\n", [
                 'public $propertyName {',
                 '        set {',
-                "            \$this->_mockery_handleMethodCall('\$propertyName::set', [\$value]);",
+                "            if (isset(\$this->_mockery_expectations['\$propertyName::set'])) {",
+                "                \$this->_mockery_handleMethodCall('\$propertyName::set', [\$value]);",
+                '                return;',
+                '            }',
+                "            \$this->_mockery_handleMethodCall('__set', ['propertyName', \$value]);",
                 '        }',
                 '    }',
             ]),
