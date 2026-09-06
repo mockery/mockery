@@ -86,7 +86,7 @@ final class PropertyHookPass implements Pass
                 $method
             ),
             $indent . $indent . $indent . '}',
-            $indent . $indent . $indent . sprintf("return \$this->_mockery_handleMethodCall('__get', ['%s']);", $name),
+            $indent . $indent . $indent . sprintf("return \$this->%s;", $name),
             $indent . $indent . '}',
         ]);
     }
@@ -126,7 +126,7 @@ final class PropertyHookPass implements Pass
             $indent . $indent . $indent . $indent . 'return;',
             $indent . $indent . $indent . '}',
             $indent . $indent . $indent . sprintf(
-                "\$this->_mockery_handleMethodCall('__set', ['%s', \$value]);",
+                "\$this->%s = \$value;",
                 $name
             ),
             $indent . $indent . '}',
