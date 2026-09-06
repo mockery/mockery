@@ -10,18 +10,22 @@
 
 namespace Mockery\Generator;
 
+use Mockery\Reflector;
 use Override;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionProperty;
 
 use ReturnTypeWillChange;
 
 use const PHP_VERSION_ID;
 
+use function array_key_exists;
 use function array_map;
 use function array_merge;
 use function array_unique;
+use function is_array;
 
 class DefinedTargetClass implements TargetClassInterface
 {
@@ -29,6 +33,11 @@ class DefinedTargetClass implements TargetClassInterface
      * @var class-string
      */
     private $name;
+
+    /**
+     * @var list<PropertyHook>|null
+     */
+    private $propertyHooks;
 
     /**
      * @var ReflectionClass
@@ -131,6 +140,70 @@ class DefinedTargetClass implements TargetClassInterface
     public function getNamespaceName()
     {
         return $this->reflectionClass->getNamespaceName();
+    }
+
+    /**
+     * @return list<PropertyHook>
+     */
+    #[Override]
+    public function getPropertyHooks(): array
+    {
+        if (PHP_VERSION_ID < 80400) {
+            return [];
+        }
+
+        if (is_array($this->propertyHooks)) {
+            return $this->propertyHooks;
+        }
+
+        $this->propertyHooks = $properties = [];
+
+        $reflectionClass = $this->reflectionClass;
+
+        do {
+            foreach ($reflectionClass->getProperties(
+                ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
+            ) as $property) {
+                if ($property->isFinal()) {
+                    continue;
+                }
+
+                $name = $property->getName();
+                if (! array_key_exists($name, $properties)) {
+                    $properties[$name] = $property;
+
+                    continue;
+                }
+
+                $existing = $properties[$name];
+
+                if (
+                    ! $property->getDeclaringClass()->isSubclassOf($existing->getDeclaringClass()->getName())
+                ) {
+                    continue;
+                }
+
+                $properties[$name] = $property;
+            }
+        } while ($reflectionClass = $reflectionClass->getParentClass());
+
+        foreach ($properties as $property) {
+            /** @var array{get?:ReflectionMethod,set?:ReflectionMethod} $reflectionHooks */
+            $reflectionHooks = $property->getHooks();
+            if (empty($reflectionHooks)) {
+                continue;
+            }
+
+            $this->propertyHooks[] = new PropertyHook(
+                $property->getName(),
+                $property->isPublic() ? 'public' : 'protected',
+                Reflector::getPropertyTypeHint($property),
+                array_key_exists('get', $reflectionHooks),
+                array_key_exists('set', $reflectionHooks)
+            );
+        }
+
+        return $this->propertyHooks;
     }
 
     /**

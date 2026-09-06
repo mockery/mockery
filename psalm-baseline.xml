@@ -442,9 +442,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[InvalidArgumentException]]></code>
     </ClassMustBeFinal>
-    <UnusedClass>
-      <code><![CDATA[InvalidArgumentException]]></code>
-    </UnusedClass>
   </file>
   <file src="library/Mockery/Exception/InvalidCountException.php">
     <ClassMustBeFinal>
@@ -775,6 +772,9 @@
       <code><![CDATA[setTargetClassName]]></code>
       <code><![CDATA[setTargetObject]]></code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[getTargetClass]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$alias]]></code>
       <code><![CDATA[$alias]]></code>
@@ -1132,6 +1132,14 @@
       <code><![CDATA[strpos($param, '&') !== false]]></code>
     </TypeDoesNotContainType>
   </file>
+  <file src="library/Mockery/Generator/StringManipulation/Pass/PropertyHookPass.php">
+    <LessSpecificReturnType>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
+    </LessSpecificReturnType>
+  </file>
   <file src="library/Mockery/Generator/StringManipulation/Pass/RemoveBuiltinMethodsThatAreFinalPass.php">
     <ClassMustBeFinal>
       <code><![CDATA[RemoveBuiltinMethodsThatAreFinalPass]]></code>
@@ -1202,24 +1210,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[addPass]]></code>
     </PossiblyUnusedMethod>
-    <UnsafeInstantiation>
-      <code><![CDATA[new static([
-            new CallTypeHintPass(),
-            new MagicMethodTypeHintsPass(),
-            new ClassPass(),
-            new TraitPass(),
-            new ClassNamePass(),
-            new InstanceMockPass(),
-            new InterfacePass(),
-            new AvoidMethodClashPass(),
-            new MethodDefinitionPass(),
-            new RemoveUnserializeForInternalSerializableClassesPass(),
-            new RemoveBuiltinMethodsThatAreFinalPass(),
-            new RemoveDestructorPass(),
-            new ConstantsPass(),
-            new ClassAttributesPass(),
-        ])]]></code>
-    </UnsafeInstantiation>
   </file>
   <file src="library/Mockery/Generator/TargetClassInterface.php">
     <PossiblyUnusedMethod>
@@ -1813,6 +1803,7 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[assertInvalidMock]]></code>
       <code><![CDATA[assertValidMock]]></code>
+      <code><![CDATA[markIssueSkipped]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="tests/Unit/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationTest.php">
@@ -2985,6 +2976,47 @@
       <code><![CDATA[MethodDefinitionPassTest]]></code>
     </UnusedClass>
   </file>
+  <file src="tests/Unit/Mockery/Generator/StringManipulation/Pass/PropertyHookPassTest.php">
+    <MixedArgument>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+      <code><![CDATA[$mockConfiguration]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+    </MixedMethodCall>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$pass]]></code>
+    </PropertyNotSetInConstructor>
+    <UndefinedMethod>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+    </UndefinedMethod>
+    <UnusedClass>
+      <code><![CDATA[PropertyHookPassTest]]></code>
+    </UnusedClass>
+  </file>
   <file src="tests/Unit/Mockery/GlobalHelpersTest.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$className]]></code>
@@ -3877,6 +3909,155 @@
     </UnusedClass>
   </file>
   <file src="tests/Unit/PHP84/Php84LanguageFeaturesTest.php">
+    <MixedAssignment>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+      <code><![CDATA[$mock]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[andReturn]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[getProtectedReadable]]></code>
+      <code><![CDATA[getProtectedReadable]]></code>
+      <code><![CDATA[getProtectedReadable]]></code>
+      <code><![CDATA[getProtectedReadable]]></code>
+      <code><![CDATA[getProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[getProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[getProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[getProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[never]]></code>
+      <code><![CDATA[setProtectedReadable]]></code>
+      <code><![CDATA[setProtectedReadable]]></code>
+      <code><![CDATA[setProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[setProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[setProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[setProtectedReadableAndWriteable]]></code>
+      <code><![CDATA[setProtectedWriteable]]></code>
+      <code><![CDATA[setProtectedWriteable]]></code>
+      <code><![CDATA[setProtectedWriteable]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+      <code><![CDATA[with]]></code>
+    </MixedMethodCall>
+    <RedundantCondition>
+      <code><![CDATA[assertSame]]></code>
+      <code><![CDATA[assertSame]]></code>
+      <code><![CDATA[assertSame]]></code>
+      <code><![CDATA[assertSame]]></code>
+    </RedundantCondition>
+    <TypeDoesNotContainType>
+      <code><![CDATA[assertSame]]></code>
+    </TypeDoesNotContainType>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+    </UndefinedInterfaceMethod>
+    <UndefinedMethod>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[expects]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+      <code><![CDATA[makePartial]]></code>
+    </UndefinedMethod>
     <UnusedClass>
       <code><![CDATA[Php84LanguageFeaturesTest]]></code>
     </UnusedClass>
