@@ -8,6 +8,7 @@
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
+use Mockery\Argument;
 use Mockery\ClosureWrapper;
 use Mockery\CompositeExpectation;
 use Mockery\Configuration;
@@ -80,11 +81,16 @@ class Mockery
     /**
      * Return instance of AndAnyOtherArgs matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::andAnyOtherArgs()` instead.
+     *
      * @return AndAnyOtherArgs
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::andAnyOtherArgs()` instead.', '1.6.16')]
     public static function andAnyOtherArgs()
     {
-        return new AndAnyOtherArgs();
+        return Argument::andAnyOtherArgs();
     }
 
     /**
@@ -93,32 +99,47 @@ class Mockery
      * An alternative name to `andAnyOtherArgs` so
      * the API stays closer to `any` as well.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::andAnyOthers()` instead.
+     *
      * @return AndAnyOtherArgs
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::andAnyOthers()` instead.', '1.6.16')]
     public static function andAnyOthers()
     {
-        return new AndAnyOtherArgs();
+        return Argument::andAnyOthers();
     }
 
     /**
      * Return instance of ANY matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::any()` instead.
+     *
      * @return Any
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::any()` instead.', '1.6.16')]
     public static function any()
     {
-        return new Any();
+        return Argument::any();
     }
 
     /**
      * Return instance of ANYOF matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::anyOf()` instead.
+     *
      * @param  mixed ...$args
      * @return AnyOf
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::anyOf()` instead.', '1.6.16')]
     public static function anyOf(...$args)
     {
-        return new AnyOf($args);
+        return Argument::anyOf(...$args);
     }
 
     /**
@@ -134,18 +155,17 @@ class Mockery
     /**
      * Return instance of CLOSURE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::capture()` instead.
+     *
      * @param  mixed          $reference
      * @return ClosureMatcher
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::capture()` instead.', '1.6.16')]
     public static function capture(&$reference)
     {
-        $closure = static function ($argument) use (&$reference): bool {
-            $reference = $argument;
-
-            return true;
-        };
-
-        return new ClosureMatcher($closure);
+        return Argument::capture($reference);
     }
 
     /**
@@ -180,12 +200,17 @@ class Mockery
     /**
      * Return instance of CONTAINS matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::contains()` instead.
+     *
      * @param  mixed    ...$args
      * @return Contains
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::contains()` instead.', '1.6.16')]
     public static function contains(...$args)
     {
-        return new Contains($args);
+        return Argument::contains(...$args);
     }
 
     /**
@@ -209,12 +234,17 @@ class Mockery
     /**
      * Return instance of DUCKTYPE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::ducktype()` instead.
+     *
      * @param  mixed    ...$args
      * @return Ducktype
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::ducktype()` instead.', '1.6.16')]
     public static function ducktype(...$args)
     {
-        return new Ducktype($args);
+        return Argument::ducktype(...$args);
     }
 
     /**
@@ -375,23 +405,33 @@ class Mockery
     /**
      * Return instance of HASKEY matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::hasKey()` instead.
+     *
      * @param  mixed  $key
      * @return HasKey
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::hasKey()` instead.', '1.6.16')]
     public static function hasKey($key)
     {
-        return new HasKey($key);
+        return Argument::hasKey($key);
     }
 
     /**
      * Return instance of HASVALUE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::hasValue()` instead.
+     *
      * @param  mixed    $val
      * @return HasValue
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::hasValue()` instead.', '1.6.16')]
     public static function hasValue($val)
     {
-        return new HasValue($val);
+        return Argument::hasValue($val);
     }
 
     /**
@@ -421,21 +461,31 @@ class Mockery
     /**
      * Return instance of IsEqual matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::isEqual()` instead.
+     *
      * @param mixed $expected
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::isEqual()` instead.', '1.6.16')]
     public static function isEqual($expected): IsEqual
     {
-        return new IsEqual($expected);
+        return Argument::isEqual($expected);
     }
 
     /**
      * Return instance of IsSame matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::isSame()` instead.
+     *
      * @param mixed $expected
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::isSame()` instead.', '1.6.16')]
     public static function isSame($expected): IsSame
     {
-        return new IsSame($expected);
+        return Argument::isSame($expected);
     }
 
     /**
@@ -454,12 +504,17 @@ class Mockery
     /**
      * Return instance of MUSTBE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::isEqual()` or `Mockery\Argument::isSame()` instead.
+     *
      * @param  mixed  $expected
      * @return MustBe
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::isEqual()` or `Mockery\Argument::isSame()` instead.', '1.6.16')]
     public static function mustBe($expected)
     {
-        return new MustBe($expected);
+        return Argument::mustBe($expected);
     }
 
     /**
@@ -485,34 +540,48 @@ class Mockery
     /**
      * Return instance of NOT matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::not()` instead.
+     *
      * @param  mixed $expected
      * @return Not
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::not()` instead.', '1.6.16')]
     public static function not($expected)
     {
-        return new Not($expected);
+        return Argument::not($expected);
     }
 
     /**
      * Return instance of NOTANYOF matcher.
      *
-     * @param  mixed    ...$args
+     * @deprecated 1.6.16 Use `Mockery\Argument::notAnyOf()` instead.
+     *
      * @return NotAnyOf
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::notAnyOf()` instead.', '1.6.16')]
     public static function notAnyOf(...$args)
     {
-        return new NotAnyOf($args);
+        return Argument::notAnyOf(...$args);
     }
 
     /**
      * Return instance of CLOSURE matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::on()` instead.
+     *
      * @param  Closure        $closure
      * @return ClosureMatcher
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::on()` instead.', '1.6.16')]
     public static function on($closure)
     {
-        return new ClosureMatcher($closure);
+        return Argument::on($closure);
     }
 
     /**
@@ -548,12 +617,17 @@ class Mockery
     /**
      * Return instance of PATTERN matcher.
      *
+     * @deprecated 1.6.16 Use `Mockery\Argument::pattern()` instead.
+     *
      * @param  mixed   $expected
      * @return Pattern
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::pattern()` instead.', '1.6.16')]
     public static function pattern($expected)
     {
-        return new Pattern($expected);
+        return Argument::pattern($expected);
     }
 
     /**
@@ -642,10 +716,13 @@ class Mockery
      *
      * @param  bool   $strict - (Optional) True for strict comparison, false for loose
      * @return Subset
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::subset()` instead.', '1.6.16')]
     public static function subset(array $part, $strict = true)
     {
-        return new Subset($part, $strict);
+        return Argument::subset($part, $strict);
     }
 
     /**
@@ -653,10 +730,13 @@ class Mockery
      *
      * @param  mixed $expected
      * @return Type
+     *
+     * @see https://github.com/mockery/mockery/issues/1520
      */
+    #[Deprecated('Use `Mockery\Argument::type()` instead.', '1.6.16')]
     public static function type($expected)
     {
-        return new Type($expected);
+        return Argument::type($expected);
     }
 
     /**
