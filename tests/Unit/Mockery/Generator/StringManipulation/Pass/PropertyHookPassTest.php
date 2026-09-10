@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @see       https://github.com/mockery/mockery for the canonical source repository
  */
 
-namespace Unit\Mockery\Generator\StringManipulation\Pass;
+namespace Tests\Unit\Mockery\Generator\StringManipulation\Pass;
 
 use Mockery;
 use Mockery\Generator\MockConfiguration;
