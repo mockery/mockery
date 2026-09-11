@@ -219,8 +219,9 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     #[Override]
     public function andReturn(...$args)
@@ -233,8 +234,9 @@ class Expectation implements ExpectationInterface
     /**
      * Sets up a closure to return the nth argument from the expected method call
      *
-     * @param  int  $index
-     * @return self
+     * @param int $index
+     *
+     * @return static
      */
     public function andReturnArg($index)
     {
@@ -260,7 +262,7 @@ class Expectation implements ExpectationInterface
     }
 
     /**
-     * @return self
+     * @return static
      */
     public function andReturnFalse()
     {
@@ -270,7 +272,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return null. This is merely a language construct for Mock describing.
      *
-     * @return self
+     * @return static
      */
     public function andReturnNull()
     {
@@ -280,7 +282,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return this mock, like a fluent interface
      *
-     * @return self
+     * @return static
      */
     public function andReturnSelf()
     {
@@ -288,7 +290,7 @@ class Expectation implements ExpectationInterface
     }
 
     /**
-     * @return self
+     * @return static
      */
     public function andReturnTrue()
     {
@@ -298,7 +300,7 @@ class Expectation implements ExpectationInterface
     /**
      * Return a self-returning black hole object.
      *
-     * @return self
+     * @return static
      */
     public function andReturnUndefined()
     {
@@ -310,8 +312,9 @@ class Expectation implements ExpectationInterface
      * values. The arguments passed to the expected method are passed to the
      * closures as parameters.
      *
-     * @param  callable ...$args
-     * @return self
+     * @param callable ...$args
+     *
+     * @return static
      */
     public function andReturnUsing(...$args)
     {
@@ -323,8 +326,9 @@ class Expectation implements ExpectationInterface
     /**
      * Set a sequential queue of return values with an array
      *
-     * @param  array<mixed> $values
-     * @return self
+     * @param array<mixed> $values
+     *
+     * @return static
      */
     public function andReturnValues(array $values)
     {
@@ -334,8 +338,9 @@ class Expectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     #[Override]
     public function andReturns(...$args)
@@ -346,9 +351,10 @@ class Expectation implements ExpectationInterface
     /**
      * Register values to be set to a public property each time this expectation occurs
      *
-     * @param  string       $name
-     * @param  array<mixed> ...$values
-     * @return self
+     * @param string       $name
+     * @param array<mixed> ...$values
+     *
+     * @return static
      */
     public function andSet($name, ...$values)
     {
@@ -360,10 +366,11 @@ class Expectation implements ExpectationInterface
     /**
      * Set Exception class and arguments to that class to be thrown
      *
-     * @param  string|Throwable $exception
-     * @param  string           $message
-     * @param  int              $code
-     * @return self
+     * @param string|Throwable $exception
+     * @param string           $message
+     * @param int              $code
+     *
+     * @return static
      */
     public function andThrow($exception, $message = '', $code = 0, ?\Exception $previous = null)
     {
@@ -379,8 +386,9 @@ class Expectation implements ExpectationInterface
     /**
      * Set Exception classes to be thrown
      *
-     * @param  array<Throwable> $exceptions
-     * @return self
+     * @param array<Throwable> $exceptions
+     *
+     * @return static
      */
     public function andThrowExceptions(array $exceptions)
     {
@@ -398,10 +406,11 @@ class Expectation implements ExpectationInterface
     /**
      * Set Exception class and arguments to that class to be thrown
      *
-     * @param  string|Throwable $exception
-     * @param  string           $message
-     * @param  int              $code
-     * @return self
+     * @param string|Throwable $exception
+     * @param string           $message
+     * @param int              $code
+     *
+     * @return static
      */
     public function andThrows($exception, $message = '', $code = 0, ?\Exception $previous = null)
     {
@@ -411,8 +420,9 @@ class Expectation implements ExpectationInterface
     /**
      * Sets up a closure that will yield each of the provided args
      *
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     public function andYield(...$args)
     {
@@ -430,7 +440,7 @@ class Expectation implements ExpectationInterface
     /**
      * Sets next count validator to the AtLeast instance
      *
-     * @return self
+     * @return static
      */
     public function atLeast()
     {
@@ -442,7 +452,7 @@ class Expectation implements ExpectationInterface
     /**
      * Sets next count validator to the AtMost instance
      *
-     * @return self
+     * @return static
      */
     public function atMost()
     {
@@ -454,8 +464,9 @@ class Expectation implements ExpectationInterface
     /**
      * Set the exception message
      *
-     * @param  string $message
-     * @return self
+     * @param string $message
+     *
+     * @return static
      */
     public function because($message)
     {
@@ -467,9 +478,10 @@ class Expectation implements ExpectationInterface
     /**
      * Shorthand for setting minimum and maximum constraints on call counts
      *
-     * @param  int  $minimum
-     * @param  int  $maximum
-     * @return self
+     * @param int $minimum
+     * @param int $maximum
+     *
+     * @return static
      */
     public function between($minimum, $maximum)
     {
@@ -479,7 +491,7 @@ class Expectation implements ExpectationInterface
     /**
      * Mark this expectation as being a default
      *
-     * @return self
+     * @return static
      */
     public function byDefault()
     {
@@ -530,7 +542,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates call order should apply globally
      *
-     * @return self
+     * @return static
      */
     public function globally()
     {
@@ -606,7 +618,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation is never expected to be called
      *
-     * @return self
+     * @return static
      */
     public function never()
     {
@@ -616,7 +628,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation is expected exactly once
      *
-     * @return self
+     * @return static
      */
     public function once()
     {
@@ -626,8 +638,9 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation must be called in a specific given order
      *
-     * @param  string $group Name of the ordered group
-     * @return self
+     * @param string $group Name of the ordered group
+     *
+     * @return static
      */
     public function ordered($group = null)
     {
@@ -646,7 +659,7 @@ class Expectation implements ExpectationInterface
      * Flag this expectation as calling the original class method with
      * the provided arguments instead of using a return value queue.
      *
-     * @return self
+     * @return static
      */
     public function passthru()
     {
@@ -665,9 +678,10 @@ class Expectation implements ExpectationInterface
      * Alias to andSet(). Allows the natural English construct
      * - set('foo', 'bar')->andReturn('bar')
      *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return self
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return static
      */
     public function set($name, $value)
     {
@@ -677,8 +691,9 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates the number of times this expectation should occur
      *
-     * @param  int  $limit
-     * @return self
+     * @param int $limit
+     *
+     * @return static
      *
      * @throws InvalidArgumentException
      */
@@ -717,7 +732,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates that this expectation is expected exactly twice
      *
-     * @return self
+     * @return static
      */
     public function twice()
     {
@@ -760,7 +775,8 @@ class Expectation implements ExpectationInterface
      * Verify the current call, i.e. that the given arguments match those
      * of this expectation
      *
-     * @param  array<mixed> $args
+     * @param array<mixed> $args
+     *
      * @return mixed
      *
      * @throws Throwable
@@ -787,8 +803,9 @@ class Expectation implements ExpectationInterface
     /**
      * Expected argument setter for the expectation
      *
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     public function with(...$args)
     {
@@ -798,8 +815,9 @@ class Expectation implements ExpectationInterface
     /**
      * Set expectation that the given arguments are acceptable plus variable other arguments
      *
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     public function withAndOthers(...$args)
     {
@@ -809,7 +827,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set expectation that any arguments are acceptable
      *
-     * @return self
+     * @return static
      */
     public function withAnyArgs()
     {
@@ -822,8 +840,9 @@ class Expectation implements ExpectationInterface
      * Expected arguments for the expectation passed as an array or a closure that matches each passed argument on
      * each function call.
      *
-     * @param  array|Closure $argsOrClosure
-     * @return self
+     * @param array|Closure $argsOrClosure
+     *
+     * @return static
      */
     public function withArgs($argsOrClosure)
     {
@@ -845,7 +864,7 @@ class Expectation implements ExpectationInterface
     /**
      * Set with() as no arguments expected
      *
-     * @return self
+     * @return static
      */
     public function withNoArgs()
     {
@@ -857,8 +876,9 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments should partially match the real arguments
      *
-     * @param  mixed ...$expectedArgs
-     * @return self
+     * @param mixed ...$expectedArgs
+     *
+     * @return static
      */
     public function withSomeOfArgs(...$expectedArgs)
     {
@@ -876,7 +896,7 @@ class Expectation implements ExpectationInterface
     /**
      * Indicates this expectation should occur zero or more times
      *
-     * @return self
+     * @return static
      */
     public function zeroOrMoreTimes()
     {
@@ -886,8 +906,9 @@ class Expectation implements ExpectationInterface
     /**
      * Setup the ordering tracking on the mock or mock container
      *
-     * @param  string                  $group
-     * @param  Container|MockInterface $ordering
+     * @param string                  $group
+     * @param Container|MockInterface $ordering
+     *
      * @return int
      */
     protected function _defineOrdered($group, $ordering)
@@ -911,7 +932,8 @@ class Expectation implements ExpectationInterface
     /**
      * Fetch the return value for the matching args
      *
-     * @param  array<mixed> $args
+     * @param array<mixed> $args
+     *
      * @return mixed
      */
     protected function _getReturnValue(array $args)
@@ -942,8 +964,9 @@ class Expectation implements ExpectationInterface
     /**
      * Check if passed argument matches an argument expectation
      *
-     * @param  mixed $expected
-     * @param  mixed $actual
+     * @param mixed $expected
+     * @param mixed $actual
+     *
      * @return bool
      */
     protected function _matchArg($expected, &$actual)
@@ -982,7 +1005,8 @@ class Expectation implements ExpectationInterface
     /**
      * Check if the passed arguments match the expectations, one by one.
      *
-     * @param  array $args
+     * @param array $args
+     *
      * @return bool
      */
     protected function _matchArgs($args)
@@ -1035,7 +1059,8 @@ class Expectation implements ExpectationInterface
     }
 
     /**
-     * @param  mixed $expectedArg
+     * @param mixed $expectedArg
+     *
      * @return bool
      */
     private function isAndAnyOtherArgumentsMatcher($expectedArg)
@@ -1046,7 +1071,8 @@ class Expectation implements ExpectationInterface
     /**
      * Throws an exception if the expectation has been configured to do so
      *
-     * @param  mixed|Throwable $return
+     * @param mixed|Throwable $return
+     *
      * @return never
      *
      * @throws Throwable
@@ -1067,8 +1093,9 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments for the expectation passed as an array
      *
-     * @param  array<mixed> $arguments
-     * @return self
+     * @param array<mixed> $arguments
+     *
+     * @return static
      */
     private function withArgsInArray(array $arguments)
     {
@@ -1118,7 +1145,7 @@ class Expectation implements ExpectationInterface
     /**
      * Expected arguments have to be matched by the given closure.
      *
-     * @return self
+     * @return static
      */
     private function withArgsMatchedByClosure(Closure $closure)
     {

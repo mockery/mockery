@@ -10,10 +10,10 @@
 
 namespace Mockery;
 
-use Closure;
-
 /**
- * @method Expectation withArgs(array|Closure $args)
+ * @template TMock of \Mockery\MockInterface
+ *
+ * @mixin TMock
  */
 class HigherOrderMessage
 {
@@ -28,6 +28,7 @@ class HigherOrderMessage
     private $mock;
 
     /**
+     * @param TMock  $mock
      * @param string $method
      */
     public function __construct(MockInterface $mock, $method)
@@ -37,16 +38,19 @@ class HigherOrderMessage
     }
 
     /**
-     * @param  string                                              $method
-     * @param  array<mixed>                                        $args
-     * @return Expectation|ExpectationInterface|HigherOrderMessage
+     * @param string      $method
+     * @param list<mixed> $args
+     *
+     * @return Expectation
      */
     public function __call($method, $args)
     {
         if ('shouldNotHaveReceived' === $this->method) {
+            /** @var Expectation */
             return $this->mock->{$this->method}($method, $args);
         }
 
+        /** @var Expectation $expectation */
         $expectation = $this->mock->{$this->method}($method);
 
         return $expectation->withArgs($args);

@@ -12,23 +12,34 @@ namespace Mockery;
 
 use Override;
 
+/**
+ * @template TMock of \Mockery\MockInterface
+ *
+ * @extends HigherOrderMessage<TMock>
+ *
+ * @mixin TMock
+ *
+ * @final
+ */
 class ExpectsHigherOrderMessage extends HigherOrderMessage
 {
+    /**
+     * @param TMock $mock
+     */
     public function __construct(MockInterface $mock)
     {
         parent::__construct($mock, 'shouldReceive');
     }
 
     /**
-     * @param  string                                              $method
-     * @param  list<mixed>                                         $args
-     * @return Expectation|ExpectationInterface|HigherOrderMessage
+     * @param string      $method
+     * @param list<mixed> $args
+     *
+     * @return Expectation
      */
     #[Override]
     public function __call($method, $args)
     {
-        $expectation = parent::__call($method, $args);
-
-        return $expectation->once();
+        return parent::__call($method, $args)->once();
     }
 }

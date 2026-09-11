@@ -254,9 +254,6 @@
     </ClassMustBeFinal>
   </file>
   <file src="library/Mockery/CompositeExpectation.php">
-    <ClassMustBeFinal>
-      <code><![CDATA[CompositeExpectation]]></code>
-    </ClassMustBeFinal>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$args]]></code>
       <code><![CDATA[$args]]></code>
@@ -507,10 +504,6 @@
       <code><![CDATA[new $exception($message, $code, $previous)]]></code>
       <code><![CDATA[new $this->_countValidatorClass($this, $limit)]]></code>
     </InvalidStringClass>
-    <LessSpecificReturnType>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-    </LessSpecificReturnType>
     <MissingClassConstType>
       <code><![CDATA[ERROR_ZERO_INVOCATION = 'shouldNotReceive(), never(), times(0) chaining additional invocation count methods has been deprecated and will throw an exception in a future version of Mockery']]></code>
     </MissingClassConstType>
@@ -611,12 +604,12 @@
       <code><![CDATA[$_returnValue]]></code>
     </PossiblyUnusedProperty>
     <PossiblyUnusedReturnValue>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
-      <code><![CDATA[self]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[$argsOrClosure instanceof Closure]]></code>
@@ -660,25 +653,8 @@
   </file>
   <file src="library/Mockery/ExpectationInterface.php">
     <PossiblyUnusedReturnValue>
-      <code><![CDATA[self]]></code>
+      <code><![CDATA[static]]></code>
     </PossiblyUnusedReturnValue>
-  </file>
-  <file src="library/Mockery/ExpectsHigherOrderMessage.php">
-    <ClassMustBeFinal>
-      <code><![CDATA[ExpectsHigherOrderMessage]]></code>
-    </ClassMustBeFinal>
-    <MixedReturnStatement>
-      <code><![CDATA[$expectation->once()]]></code>
-    </MixedReturnStatement>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$args]]></code>
-    </MoreSpecificImplementedParamType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[once]]></code>
-    </UndefinedInterfaceMethod>
-    <UndefinedMagicMethod>
-      <code><![CDATA[once]]></code>
-    </UndefinedMagicMethod>
   </file>
   <file src="library/Mockery/Generator/CachingGenerator.php">
     <ClassMustBeFinal>
@@ -1235,18 +1211,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$interface]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="library/Mockery/HigherOrderMessage.php">
-    <MixedAssignment>
-      <code><![CDATA[$expectation]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[withArgs]]></code>
-    </MixedMethodCall>
-    <MixedReturnStatement>
-      <code><![CDATA[$expectation->withArgs($args)]]></code>
-      <code><![CDATA[$this->mock->{$this->method}($method, $args)]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="library/Mockery/Instantiator.php">
     <ArgumentTypeCoercion>
