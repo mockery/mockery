@@ -13,14 +13,16 @@ namespace Mockery;
 interface ExpectationInterface
 {
     /**
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     public function andReturn(...$args);
 
     /**
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     public function andReturns(...$args);
 
