@@ -36,7 +36,7 @@ final class WithCustomFormatterExpectationTest extends MockeryTestCase
     {
         Mockery::getConfiguration()->setObjectFormatter(
             ClassWithCustomFormatter::class,
-            function ($object, $nesting) {
+            static function ($object, $nesting) {
                 return [
                     'formatter' => ClassWithCustomFormatter::class,
                     'properties' => [
@@ -50,7 +50,7 @@ final class WithCustomFormatterExpectationTest extends MockeryTestCase
         );
         Mockery::getConfiguration()->setObjectFormatter(
             InterfaceWithCustomFormatter::class,
-            function ($object, $nesting) {
+            static function ($object, $nesting) {
                 return [
                     'formatter' => InterfaceWithCustomFormatter::class,
                     'properties' => [
@@ -121,7 +121,7 @@ final class WithCustomFormatterExpectationTest extends MockeryTestCase
     #[DataProvider('provideGetObjectFormatterCases')]
     public function testGetObjectFormatter($object, $expected): void
     {
-        $defaultFormatter = function ($class, $nesting): ?array {
+        $defaultFormatter = static function ($class, $nesting): ?array {
             return null;
         };
 
