@@ -1931,11 +1931,11 @@ final class ContainerTest extends MockeryTestCase
      */
     public function testThrowsWhenNamedMockUserLandClassExistsAndIsNotMockery(): void
     {
-        $rc = new ReflectionClass($this::class);
+        $rc = new ReflectionClass(ContainerTest::class);
         $builder = new MockConfigurationBuilder();
-        $builder->setName($this::class);
+        $builder->setName(ContainerTest::class);
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Could not load mock ' . ContainerTest::class. ', class already exists (previously declared in ' . __FILE__ . ':' . $rc->getStartLine() . ')');
+        $this->expectExceptionMessage('Could not load mock ' . ContainerTest::class. ', class already exists (previously declared in ' . $rc->getFileName() . ':' . $rc->getStartLine() . ')');
         $mock = mock($builder);
     }
 
