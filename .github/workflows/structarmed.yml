@@ -23,6 +23,7 @@ jobs:
         with:
           php-version: '8.2'
           tools: composer:v2
+          coverage: none
 
       - name: Configure PHP platform and update dependencies
         run: |
