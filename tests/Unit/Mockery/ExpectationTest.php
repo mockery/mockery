@@ -3388,7 +3388,7 @@ final class ExpectationTest extends MockeryTestCase
         $this->expectExceptionMessage(sprintf(
             'Method foo(<Any Arguments>) from %s should be called%s exactly 0 times but called 1 times.',
             get_class($mock),
-            "\n"
+            PHP_EOL,
         ));
 
         $mock->foo();
