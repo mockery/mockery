@@ -569,7 +569,13 @@ class Container
             $reflectionClass = new ReflectionClass($className);
 
             if (! $reflectionClass->implementsInterface(LegacyMockInterface::class)) {
-                throw new RuntimeException(sprintf('Could not load mock %s, class already exists', $className));
+                if ($reflectionClass->isInternal()) {
+                    $definerMessage = "(class is an internal class)";
+                } else {
+                    $definerMessage = sprintf('(previously declared in %s:%d)', $reflectionClass->getFileName(), $reflectionClass->getStartLine());
+                }
+                
+                throw new RuntimeException(sprintf('Could not load mock %s, class already exists %s', $className, $definerMessage));
             }
         }
 
