@@ -102,6 +102,15 @@ class UndefinedTargetClass implements TargetClassInterface
     }
 
     /**
+     * @return list<PropertyHook>
+     */
+    #[Override]
+    public function getPropertyHooks(): array
+    {
+        return [];
+    }
+
+    /**
      * @return string
      */
     #[Override]

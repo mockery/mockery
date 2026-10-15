@@ -16,6 +16,7 @@ use ReflectionIntersectionType;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
+use ReflectionProperty;
 use ReflectionType;
 use ReflectionUnionType;
 
@@ -75,6 +76,28 @@ class Reflector
      * @var list<string>
      */
     private const TRAVERSABLE_ARRAY = ['\Traversable', 'array'];
+
+    /**
+     * Compute the string representation for a property's type declaration.
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function getPropertyTypeHint(ReflectionProperty $property): ?string
+    {
+        if (PHP_VERSION_ID < 70400) {
+            return null;
+        }
+
+        if (! $property->hasType()) {
+            return null;
+        }
+
+        $type = $property->getType();
+
+        $typeHint = self::getTypeFromReflectionType($type, $property->getDeclaringClass());
+
+        return $type->allowsNull() ? self::formatNullableType($typeHint) : $typeHint;
+    }
 
     /**
      * Compute the string representation for the return type.

@@ -14,6 +14,8 @@ namespace Tests\Unit;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
+use Throwable;
+
 use function mock;
 use function sprintf;
 
@@ -30,6 +32,34 @@ abstract class AbstractTestCase extends MockeryTestCase
     public function assertValidMock(string $class): void
     {
         self::assertInstanceOf($class, mock($class));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    final public function markIssueSkipped(int $number): void
+    {
+        self::markTestSkipped(sprintf(
+            'Skipped until the underlying issue is resolved. See GitHub issue #%d: https://github.com/mockery/mockery/issues/%d',
+            $number,
+            $number,
+        ));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    final public function markPHPVersionSkipped(int $version): void
+    {
+        if (PHP_VERSION_ID >= $version) {
+            return;
+        }
+
+        self::markTestSkipped(sprintf(
+            'PHP version %d or higher is required for this test. Current version: %d',
+            $version,
+            PHP_VERSION_ID
+        ));
     }
 
     protected function assertInvalidCountExceptionMessage(
