@@ -1,0 +1,37 @@
+name: StructArmed
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "[0-9]+.[0-9]+.x"
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze architecture
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+          coverage: none
+
+      - name: Configure PHP platform and update dependencies
+        run: |
+          composer config platform.php 8.2
+          composer update --no-interaction --no-progress --ansi
+
+      - name: Install StructArmed
+        run: composer require --dev boundwize/structarmed:^0.19 --no-interaction --no-progress --ansi
+
+      - name: Run StructArmed
+        run: vendor/bin/structarmed analyze
