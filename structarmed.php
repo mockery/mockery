@@ -16,19 +16,30 @@ return Architecture::define()
         'library/Mockery/CountValidator/Exception.php',
     ])
     ->layer('Matcher', 'library/Mockery/Matcher')
-    ->layer('CountValidator', 'library/Mockery/CountValidator', 'library/Mockery/CountValidator/Exception.php')
+    ->layer(
+        'CountValidator',
+        'library/Mockery/CountValidator',
+        // Exclude this file because it belongs to the Exception layer defined above.
+        'library/Mockery/CountValidator/Exception.php'
+    )
     ->layer('Generator', 'library/Mockery/Generator')
     ->layer('Loader', 'library/Mockery/Loader')
     ->layer('Phpunit', 'library/Mockery/Adapter/Phpunit')
-    ->layer('Core', 'library', [
-        'library/Mockery/Exception.php',
-        'library/Mockery/Exception',
-        'library/Mockery/Matcher',
-        'library/Mockery/CountValidator',
-        'library/Mockery/Generator',
-        'library/Mockery/Loader',
-        'library/Mockery/Adapter',
-    ])
+    ->layer(
+        'Core',
+        // All classes in library/ belong to Core,
+        'library',
+        // except these directories/files, which belong to the specific layers defined above.
+        [
+            'library/Mockery/Exception.php',
+            'library/Mockery/Exception',
+            'library/Mockery/Matcher',
+            'library/Mockery/CountValidator',
+            'library/Mockery/Generator',
+            'library/Mockery/Loader',
+            'library/Mockery/Adapter',
+        ]
+    )
     ->ruleset([
         'Exception'      => ['Core'],
         'Matcher'        => [],
