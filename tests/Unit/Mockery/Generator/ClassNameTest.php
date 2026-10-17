@@ -20,6 +20,9 @@ use Throwable;
 
 use function get_class;
 
+/**
+ * @requires PHP 7.4.0-dev
+ */
 final class ClassNameTest extends MockeryTestCase
 {
     /**
