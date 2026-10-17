@@ -14,6 +14,7 @@ namespace Tests\Unit\Mockery\Generator;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Generator\ClassName;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 use Throwable;
 
@@ -64,6 +65,7 @@ final class ClassNameTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideClassNameIsAnonymousClassCases')]
     public function testClassNameIsAnonymousClass(bool $expected, string $className): void
     {
         self::assertSame($expected, ClassName::isAnonymousClass($className));
@@ -74,6 +76,7 @@ final class ClassNameTest extends MockeryTestCase
      *
      * @throws Throwable
      */
+    #[DataProvider('provideClassNameIsClassCases')]
     public function testClassNameIsClass(bool $expected, string $className): void
     {
         self::assertSame($expected, ClassName::isClass($className));
