@@ -62,6 +62,7 @@ use Symplify\CodingStandard\Fixer\Commenting\SingleLineInlineVarDocBlockFixer;
 use Symplify\CodingStandard\Fixer\Commenting\SwitchedTypeAndNameFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
+use Symplify\CodingStandard\Fixer\Spacing\NoBlankLineBetweenImportsFixer;
 use Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
@@ -152,7 +153,6 @@ return ECSConfig::configure()
     ->withConfiguredRule(YodaStyleFixer::class, [
         'always_move_variable' => true
     ])
-    ->withEditorConfig()
     ->withParallel()
     ->withPaths([__FILE__, __DIR__ . '/library', __DIR__ . '/tests'])
     ->withPreparedSets(psr12: true, common: true, cleanCode: true, standaloneLine: true)
@@ -212,5 +212,6 @@ return ECSConfig::configure()
         PhpUnitAttributesFixer::class,
         __DIR__ . '/library/Mockery/Mock.php',
         __DIR__ . '/tests/Fixture/*',
+        NoBlankLineBetweenImportsFixer::class,
     ])
     ->withSpacing(Option::INDENTATION_SPACES, "\n");

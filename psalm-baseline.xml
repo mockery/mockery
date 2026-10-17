@@ -325,12 +325,6 @@
     <DocblockTypeContradiction>
       <code><![CDATA[false === $match]]></code>
     </DocblockTypeContradiction>
-    <InvalidArgument>
-      <code><![CDATA[$argument]]></code>
-    </InvalidArgument>
-    <InvalidCast>
-      <code><![CDATA[$argument]]></code>
-    </InvalidCast>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->_mocks]]></code>
     </InvalidPropertyAssignmentValue>
@@ -385,6 +379,7 @@
     </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod>
       <code><![CDATA[instanceMock]]></code>
+      <code><![CDATA[isValidClassName]]></code>
       <code><![CDATA[mockery_getCurrentOrder]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
@@ -775,6 +770,11 @@
       <code><![CDATA[setTargetClassName]]></code>
       <code><![CDATA[setTargetObject]]></code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[ClassName::validateClassOrAnonymousClass($targetClassName)]]></code>
+      <code><![CDATA[ClassName::validateClassOrAnonymousClass($targetInterface)]]></code>
+      <code><![CDATA[ClassName::validateClassOrAnonymousClass($targetTraitName)]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$alias]]></code>
       <code><![CDATA[$alias]]></code>
@@ -2844,6 +2844,15 @@
     <UnusedClosureParam>
       <code><![CDATA[$argument]]></code>
     </UnusedClosureParam>
+  </file>
+  <file src="tests/Unit/Mockery/Generator/ClassNameTest.php">
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
+    <UnusedClass>
+      <code><![CDATA[ClassNameTest]]></code>
+    </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/Generator/DefinedTargetClassTest.php">
     <InvalidArgument>

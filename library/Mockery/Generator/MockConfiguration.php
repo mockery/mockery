@@ -32,6 +32,7 @@ use function implode;
 use function in_array;
 use function interface_exists;
 use function is_object;
+use function is_string;
 use function md5;
 use function preg_match;
 use function serialize;
@@ -162,7 +163,7 @@ class MockConfiguration
         $this->addTargets($targets);
         $this->blackListedMethods = $blackListedMethods;
         $this->whiteListedMethods = $whiteListedMethods;
-        $this->name = $name;
+        $this->name = is_string($name) ? ClassName::validate($name) : $name;
         $this->instanceMock = $instanceMock;
         $this->parameterOverrides = $parameterOverrides;
         $this->mockOriginalDestructor = $mockOriginalDestructor;
@@ -670,7 +671,7 @@ class MockConfiguration
      */
     protected function addTargetInterfaceName($targetInterface)
     {
-        $this->targetInterfaceNames[] = $targetInterface;
+        $this->targetInterfaceNames[] = ClassName::validateClassOrAnonymousClass($targetInterface);
     }
 
     /**
@@ -678,7 +679,7 @@ class MockConfiguration
      */
     protected function addTargetTraitName($targetTraitName)
     {
-        $this->targetTraitNames[] = $targetTraitName;
+        $this->targetTraitNames[] = ClassName::validateClassOrAnonymousClass($targetTraitName);
     }
 
     /**
@@ -755,7 +756,7 @@ class MockConfiguration
      */
     protected function setTargetClassName($targetClassName)
     {
-        $this->targetClassName = $targetClassName;
+        $this->targetClassName = ClassName::validateClassOrAnonymousClass($targetClassName);
     }
 
     /**
