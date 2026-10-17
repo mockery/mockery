@@ -25,7 +25,7 @@ final class ClassName
     /**
      * @var string
      */
-    private const ANONYMOUS_CLASS_REGEX = '#^\\\\?(?:[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*\\\\)*[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*@anonymous\x00.+:\d+\$\d+$#';
+    private const ANONYMOUS_CLASS_REGEX = '#^\\\\?(?:[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*\\\\)*[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*@anonymous\x00.+:\d+\$.+$#';
 
     /**
      * See http://php.net/manual/en/language.oop5.basic.php
