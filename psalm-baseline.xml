@@ -2846,6 +2846,10 @@
     </UnusedClosureParam>
   </file>
   <file src="tests/Unit/Mockery/Generator/ClassNameTest.php">
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
     <UnusedClass>
       <code><![CDATA[ClassNameTest]]></code>
     </UnusedClass>
