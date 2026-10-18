@@ -19,6 +19,11 @@ use function current;
 use function implode;
 use function reset;
 
+/**
+ * @mixin Expectation
+ *
+ * @final
+ */
 class CompositeExpectation implements ExpectationInterface
 {
     /**
@@ -31,9 +36,10 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Intercept any expectation calls and direct against all expectations
      *
-     * @param  string       $method
-     * @param  array<mixed> $args
-     * @return self
+     * @param string       $method
+     * @param array<mixed> $args
+     *
+     * @return static
      */
     public function __call($method, array $args)
     {
@@ -62,7 +68,8 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Add an expectation to the composite
      *
-     * @param  Expectation $expectation
+     * @param Expectation $expectation
+     *
      * @return void
      */
     public function add($expectation)
@@ -71,8 +78,9 @@ class CompositeExpectation implements ExpectationInterface
     }
 
     /**
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     #[Override]
     public function andReturn(...$args)
@@ -83,8 +91,9 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param  mixed ...$args
-     * @return self
+     * @param mixed ...$args
+     *
+     * @return static
      */
     #[Override]
     public function andReturns(...$args)
@@ -133,7 +142,8 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Starts a new expectation addition on the first mock which is the primary target outside of a demeter chain
      *
-     * @param  mixed                                                ...$args
+     * @param mixed ...$args
+     *
      * @return ($args is list{} ? HigherOrderMessage : Expectation)
      *
      * @throws RuntimeException
@@ -146,7 +156,8 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Starts a new expectation addition on the first mock which is the primary target, outside of a demeter chain
      *
-     * @param  mixed                                                ...$args
+     * @param mixed ...$args
+     *
      * @return ($args is list{} ? HigherOrderMessage : Expectation)
      *
      * @throws RuntimeException

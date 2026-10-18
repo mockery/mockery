@@ -212,7 +212,7 @@ class Mock implements MockInterface
      *
      * @param string|array<string,mixed> ...$methodNames one or many methods that are expected to be called in this mock
      *
-     * @return ($methodNames is list{} ? HigherOrderMessage : Expectation)
+     * @return ($methodNames is list{} ? HigherOrderMessage<static> : Expectation)
      */
     #[\Override]
     public function shouldReceive(...$methodNames)
@@ -264,7 +264,7 @@ class Mock implements MockInterface
     /**
      * @param mixed $something  String method name or map of method => return
      *
-     * @return ($something is string ? Expectation : ($something is list{} ? HigherOrderMessage : static))
+     * @return ($something is string ? Expectation : ($something is list{} ? HigherOrderMessage<static> : static))
      */
     public function allows($something = [])
     {
@@ -288,7 +288,7 @@ class Mock implements MockInterface
     /**
     * @param mixed $something  String method name (optional)
     *
-    * @return ($something is string ? Expectation : ExpectsHigherOrderMessage)
+    * @return ($something is string ? Expectation : ExpectsHigherOrderMessage<static>)
     */
     public function expects($something = null)
     {
@@ -305,7 +305,7 @@ class Mock implements MockInterface
      *
      * @param string|array<string,mixed> ...$methodNames one or many methods that are expected not to be called in this mock
      *
-     * @return ($methodNames is list{} ? HigherOrderMessage : Expectation)
+     * @return ($methodNames is list{} ? HigherOrderMessage<static> : Expectation)
      */
     #[\Override]
     public function shouldNotReceive(...$methodNames)
@@ -436,11 +436,11 @@ class Mock implements MockInterface
 
     /**
      * Capture calls to this mock
-     * 
+     *
      * @param string $method
      * @param array<mixed> $args
      * @return mixed
-     * 
+     *
      * @throws \Throwable
      */
     public function __call($method, array $args)
@@ -455,7 +455,7 @@ class Mock implements MockInterface
 
     /**
      * Forward calls to this magic method to the __call method
-     * 
+     *
      * @throws \Throwable
      *
      * @return string
@@ -480,7 +480,7 @@ class Mock implements MockInterface
         }
 
         if (
-            property_exists($this, '_mockery_ignoreVerification') && 
+            property_exists($this, '_mockery_ignoreVerification') &&
             $this->_mockery_ignoreVerification === true
         ) {
             return;
@@ -867,7 +867,7 @@ class Mock implements MockInterface
     }
 
     /**
-     * @return ($method is null ? HigherOrderMessage : VerificationDirector)
+     * @return ($method is null ? HigherOrderMessage<static> : VerificationDirector)
      */
     #[\Override]
     public function shouldHaveReceived($method = null, $args = null)
@@ -908,7 +908,7 @@ class Mock implements MockInterface
      * @param null|string               $method
      * @param null|array<mixed>|\Closure $args
      *
-     * @return ($method is null ? HigherOrderMessage : void)
+     * @return ($method is null ? HigherOrderMessage<static> : void)
      */
     #[\Override]
     public function shouldNotHaveReceived($method = null, $args = null)
@@ -1001,7 +1001,7 @@ class Mock implements MockInterface
      * @param array<mixed> $args
      *
      * @return mixed
-     * 
+     *
      * @throws \Throwable
      */
     protected function _mockery_handleMethodCall($method, array $args)
@@ -1121,7 +1121,7 @@ class Mock implements MockInterface
      */
     protected function mockery_getMethods()
     {
-        $reflectionCacheEnabled = \Mockery::getConfiguration()->reflectionCacheEnabled();        
+        $reflectionCacheEnabled = \Mockery::getConfiguration()->reflectionCacheEnabled();
         if (static::$_mockery_methods && $reflectionCacheEnabled) {
             return static::$_mockery_methods;
         }

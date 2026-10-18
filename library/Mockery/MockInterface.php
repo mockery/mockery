@@ -13,14 +13,16 @@ namespace Mockery;
 interface MockInterface extends LegacyMockInterface
 {
     /**
-     * @param  mixed                                                                                     $something String method name or map of method => return
-     * @return ($something is string ? Expectation : ($something is list{} ? HigherOrderMessage : self))
+     * @param mixed $something String method name or map of method => return
+     *
+     * @return ($something is string ? Expectation : ($something is list{} ? HigherOrderMessage<static> : self))
      */
     public function allows($something = []);
 
     /**
-     * @param  mixed                                                            $something String method name (optional)
-     * @return ($something is string ? Expectation : ExpectsHigherOrderMessage)
+     * @param mixed $something String method name (optional)
+     *
+     * @return ($something is string ? Expectation : ExpectsHigherOrderMessage<static>)
      */
     public function expects($something = null);
 }
