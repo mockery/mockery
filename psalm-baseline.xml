@@ -322,12 +322,6 @@
     <DocblockTypeContradiction>
       <code><![CDATA[false === $match]]></code>
     </DocblockTypeContradiction>
-    <InvalidArgument>
-      <code><![CDATA[$argument]]></code>
-    </InvalidArgument>
-    <InvalidCast>
-      <code><![CDATA[$argument]]></code>
-    </InvalidCast>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->_mocks]]></code>
     </InvalidPropertyAssignmentValue>
@@ -382,6 +376,7 @@
     </PossiblyUndefinedIntArrayOffset>
     <PossiblyUnusedMethod>
       <code><![CDATA[instanceMock]]></code>
+      <code><![CDATA[isValidClassName]]></code>
       <code><![CDATA[mockery_getCurrentOrder]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
@@ -751,6 +746,11 @@
       <code><![CDATA[setTargetClassName]]></code>
       <code><![CDATA[setTargetObject]]></code>
     </MissingReturnType>
+    <MissingThrowsDocblock>
+      <code><![CDATA[ClassName::validateClassOrAnonymousClass($targetClassName)]]></code>
+      <code><![CDATA[ClassName::validateClassOrAnonymousClass($targetInterface)]]></code>
+      <code><![CDATA[ClassName::validateClassOrAnonymousClass($targetTraitName)]]></code>
+    </MissingThrowsDocblock>
     <MixedArgument>
       <code><![CDATA[$alias]]></code>
       <code><![CDATA[$alias]]></code>
@@ -1953,7 +1953,7 @@
       <code><![CDATA[Argument::mustBe('foo')]]></code>
     </DeprecatedMethod>
     <InvalidArgument>
-      <code><![CDATA[function () {}]]></code>
+      <code><![CDATA[static function () {}]]></code>
     </InvalidArgument>
     <MissingParamType>
       <code><![CDATA[$actual]]></code>
@@ -1980,9 +1980,9 @@
       <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference))]]></code>
       <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference))]]></code>
       <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference))]]></code>
-      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
-      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
-      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(static function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(static function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(ClosureMatcher::class, Argument::on(static function () {}))]]></code>
       <code><![CDATA[self::assertInstanceOf(Contains::class, Argument::contains('foo'))]]></code>
       <code><![CDATA[self::assertInstanceOf(Contains::class, Argument::contains('foo'))]]></code>
       <code><![CDATA[self::assertInstanceOf(Contains::class, Argument::contains('foo'))]]></code>
@@ -2001,9 +2001,9 @@
       <code><![CDATA[self::assertInstanceOf(IsSame::class, Argument::isSame('foo'))]]></code>
       <code><![CDATA[self::assertInstanceOf(IsSame::class, Argument::isSame('foo'))]]></code>
       <code><![CDATA[self::assertInstanceOf(IsSame::class, Argument::isSame('foo'))]]></code>
-      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}))]]></code>
-      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}))]]></code>
-      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(static function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(static function () {}))]]></code>
+      <code><![CDATA[self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(static function () {}))]]></code>
       <code><![CDATA[self::assertInstanceOf(MustBe::class, Argument::mustBe('foo'))]]></code>
       <code><![CDATA[self::assertInstanceOf(MustBe::class, Argument::mustBe('foo'))]]></code>
       <code><![CDATA[self::assertInstanceOf(MustBe::class, Argument::mustBe('foo'))]]></code>
@@ -2075,7 +2075,7 @@
       <code><![CDATA[$number]]></code>
     </MissingClosureParamType>
     <MissingClosureReturnType>
-      <code><![CDATA[function ($number) {]]></code>
+      <code><![CDATA[static function ($number) {]]></code>
     </MissingClosureReturnType>
     <MixedOperand>
       <code><![CDATA[$number]]></code>
@@ -2808,6 +2808,15 @@
     <UnusedClosureParam>
       <code><![CDATA[$argument]]></code>
     </UnusedClosureParam>
+  </file>
+  <file src="tests/Unit/Mockery/Generator/ClassNameTest.php">
+    <UndefinedAttributeClass>
+      <code><![CDATA[DataProvider]]></code>
+      <code><![CDATA[DataProvider]]></code>
+    </UndefinedAttributeClass>
+    <UnusedClass>
+      <code><![CDATA[ClassNameTest]]></code>
+    </UnusedClass>
   </file>
   <file src="tests/Unit/Mockery/Generator/DefinedTargetClassTest.php">
     <InvalidArgument>

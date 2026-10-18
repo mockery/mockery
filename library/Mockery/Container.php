@@ -17,6 +17,7 @@ use Mockery;
 use Mockery\Exception\BadMethodCallException;
 use Mockery\Exception\InvalidOrderException;
 use Mockery\Exception\RuntimeException;
+use Mockery\Generator\ClassName;
 use Mockery\Generator\Generator;
 use Mockery\Generator\MockConfiguration;
 use Mockery\Generator\MockConfigurationBuilder;
@@ -41,7 +42,6 @@ use function is_object;
 use function is_string;
 use function md5;
 use function preg_grep;
-use function preg_match;
 use function range;
 use function reset;
 use function rtrim;
@@ -53,7 +53,6 @@ use function str_starts_with;
 use function strtolower;
 use function substr;
 use function trait_exists;
-use function trim;
 
 /**
  * Container for mock objects
@@ -182,26 +181,15 @@ class Container
     /**
      * see http://php.net/manual/en/language.oop5.basic.php
      *
-     * @param  string $className
+     * @param string $className
+     *
+     * @psalm-assert-if-true class-string $className
+     *
      * @return bool
      */
     public function isValidClassName($className)
     {
-        if (trim($className) === '') {
-            return false;
-        }
-
-        if ('\\' === $className[0]) {
-            $className = substr($className, 1); // remove the first backslash
-        }
-
-        // all the namespaces and class name should match the regex
-        return array_filter(
-            explode('\\', $className),
-            static function ($name): bool {
-                return ! preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
-            }
-        ) === [];
+        return ClassName::isClass($className);
     }
 
     /**
@@ -501,8 +489,8 @@ class Container
             if (! class_exists($internalMockName)) {
                 eval(sprintf(
                     'class %s extends %s { public function __construct() {} }',
-                    $internalMockName,
-                    $mockName
+                    ClassName::validate($internalMockName),
+                    ClassName::validate($mockName)
                 ));
             }
 
@@ -569,7 +557,21 @@ class Container
             $reflectionClass = new ReflectionClass($className);
 
             if (! $reflectionClass->implementsInterface(LegacyMockInterface::class)) {
-                throw new RuntimeException(sprintf('Could not load mock %s, class already exists', $className));
+                if ($reflectionClass->isInternal()) {
+                    $definerMessage = '(class is an internal class)';
+                } else {
+                    $definerMessage = sprintf(
+                        '(previously declared in %s:%d)',
+                        $reflectionClass->getFileName(),
+                        $reflectionClass->getStartLine()
+                    );
+                }
+
+                throw new RuntimeException(sprintf(
+                    'Could not load mock %s, class already exists %s',
+                    $className,
+                    $definerMessage
+                ));
             }
         }
 
@@ -741,12 +743,8 @@ class Container
                 throw new Exception(sprintf("Mockery can't find '%s' so can't mock it", $type));
             }
 
-            if (! $this->isValidClassName($type)) {
-                throw new Exception('Class name contains invalid characters');
-            }
-
             /** @var class-string $type */
-            $builder->addTarget($type);
+            $builder->addTarget(ClassName::validate($type));
 
             break;
         }

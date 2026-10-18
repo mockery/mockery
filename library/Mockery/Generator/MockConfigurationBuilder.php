@@ -11,6 +11,7 @@
 namespace Mockery\Generator;
 
 use function array_diff;
+use function is_string;
 
 class MockConfigurationBuilder
 {
@@ -123,12 +124,12 @@ class MockConfigurationBuilder
     }
 
     /**
-     * @param  class-string $target
+     * @param  class-string|object $target
      * @return self
      */
     public function addTarget($target)
     {
-        $this->targets[] = $target;
+        $this->targets[] = is_string($target) ? ClassName::validateClassOrAnonymousClass($target) : $target;
 
         return $this;
     }
@@ -228,10 +229,12 @@ class MockConfigurationBuilder
 
     /**
      * @param string $name
+     *
+     * @throws \Mockery\Exception If the class name is invalid
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = ClassName::validate($name);
 
         return $this;
     }

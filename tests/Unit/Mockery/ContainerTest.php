@@ -1922,7 +1922,20 @@ final class ContainerTest extends MockeryTestCase
         $builder = new MockConfigurationBuilder();
         $builder->setName('DateTime');
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Could not load mock DateTime, class already exists');
+        $this->expectExceptionMessage('Could not load mock DateTime, class already exists (class is an internal class)');
+        $mock = mock($builder);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testThrowsWhenNamedMockUserLandClassExistsAndIsNotMockery(): void
+    {
+        $rc = new ReflectionClass(ContainerTest::class);
+        $builder = new MockConfigurationBuilder();
+        $builder->setName(ContainerTest::class);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Could not load mock ' . ContainerTest::class. ', class already exists (previously declared in ' . $rc->getFileName() . ':' . $rc->getStartLine() . ')');
         $mock = mock($builder);
     }
 

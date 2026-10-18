@@ -108,7 +108,7 @@ final class ArgumentTest extends AbstractTestCase
         self::assertInstanceOf(Any::class, Argument::any());
         self::assertInstanceOf(AnyOf::class, Argument::anyOf('foo', 'bar'));
         self::assertInstanceOf(ClosureMatcher::class, Argument::capture($reference));
-        self::assertInstanceOf(ClosureMatcher::class, Argument::on(function () {}));
+        self::assertInstanceOf(ClosureMatcher::class, Argument::on(static function () {}));
         self::assertInstanceOf(Contains::class, Argument::contains('foo'));
         self::assertInstanceOf(Ducktype::class, Argument::ducktype('foo'));
         self::assertInstanceOf(HasKey::class, Argument::hasKey('foo'));
@@ -125,7 +125,7 @@ final class ArgumentTest extends AbstractTestCase
         self::assertInstanceOf(Type::class, Argument::type('string'));
         self::assertInstanceOf(AnyArgs::class, Argument::anyArgs());
         self::assertInstanceOf(NoArgs::class, Argument::noArgs());
-        self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(function () {}));
+        self::assertInstanceOf(MultiArgumentClosure::class, Argument::multiArgumentClosure(static function () {}));
     }
 
     /**
